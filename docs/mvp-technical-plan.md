@@ -124,7 +124,7 @@ Use mock LLM and embedding implementations for deterministic automated tests. Ma
 
 Before delivering the implemented MVP, verify the complete upload-to-answer workflow with real embedding and LLM providers. Mock tests alone do not establish real retrieval or answer quality.
 
-For this documentation-only stage, run the standard-library documentation checks with `python3 -m unittest discover -s tests -v`, followed by `git diff --check`. Application tests and live-provider checks apply when the corresponding implementation exists.
+For documentation-only changes, review the content, verify local links, and check formatting with `git diff --check`; automated documentation tests are not required. Application tests and live-provider checks apply when the corresponding implementation exists.
 
 ## Development and Later Iterations
 
