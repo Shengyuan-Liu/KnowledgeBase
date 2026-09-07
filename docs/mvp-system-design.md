@@ -1,5 +1,7 @@
 # MVP System Design Diagram
 
+![MVP system architecture, file ingestion and deletion, RAG question-answering workflow, and evidence rules](mvp-system-design.png)
+
 Open [the editable Excalidraw diagram](mvp-system-design.excalidraw) using **Open** in [Excalidraw](https://excalidraw.com/). Use **Zoom to fit** to see all sections, then zoom in to read or edit individual components.
 
 The diagram describes the planned MVP, not a verified implementation. It is based on the [product design](mvp-product-design.md), [technical plan](mvp-technical-plan.md), and [frontend design](mvp-frontend-design.md).
