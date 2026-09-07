@@ -82,6 +82,8 @@ Do not infer a rule's effective date from its upload time. An empty retrieval re
 
 Use one page with a file sidebar and a primary chat area. Show upload progress and processing states, expandable source excerpts under each answer, and a lightweight debug panel containing retrieved chunks, the retrieval metric and scores, and processing time. Scores must not be presented as correctness probabilities.
 
+The [MVP frontend design](mvp-frontend-design.md) specifies the reference-inspired Library, chat, and Evidence layout, responsive behavior, component responsibilities, and proposed API contracts. Sources remain expandable beneath each answer and are synchronized with the Evidence panel.
+
 Use `fetch` for ordinary API calls and a streamed POST response with the `text/event-stream` content type for chat. Parse SSE frames incrementally because network reads may split an event or contain multiple events. Define typed events for answer deltas, sources, debug information, completion, and errors. A completion event marks a successful answer; a closed connection without it is an interrupted response.
 
 Use React state and reducers for pending, streaming, completed, and failed states. A dedicated global state library is unnecessary for the current scope.
