@@ -1,4 +1,14 @@
+from datetime import datetime
+
 from pydantic import BaseModel
+
+
+class FileInfo(BaseModel):
+    file_id: str
+    file_name: str
+    status: str
+    error_message: str | None
+    created_at: datetime
 
 
 class Chunk(BaseModel):
