@@ -4,6 +4,10 @@
 
 - [Project structure and module management](project-structure.md): the proposed directory tree, module responsibilities, dependency boundaries, development workflow, and implementation order.
 
+## Implemented Components
+
+- [Embedding provider](embeddings.md): OpenAI integration, input and output contracts, local usage, and deterministic tests.
+
 ## MVP Design
 
 All MVP specifications and their diagram assets live in `mvp/`.
