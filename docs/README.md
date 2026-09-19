@@ -9,6 +9,7 @@
 - [Embedding provider](embeddings.md): OpenAI integration, input and output contracts, local usage, and deterministic tests.
 - [Vector database](vectordb.md): Chroma storage, search, file-scoped deletion, and local persistence tests.
 - [Retrieval](retrieval.md): ready-file filtering, question embedding, vector search, and canonical chunk text.
+- [Original text storage](file-store.md): save, read, and delete retained UTF-8 TXT files by file ID.
 
 ## MVP Design
 
