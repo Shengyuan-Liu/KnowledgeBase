@@ -18,3 +18,10 @@ class Chunk(BaseModel):
     index: int
     start_offset: int
     end_offset: int
+
+
+class VectorMatch(BaseModel):
+    """A chunk ID and its distance under the collection's configured metric."""
+
+    chunk_id: str
+    distance: float
