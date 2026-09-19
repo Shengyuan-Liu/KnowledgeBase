@@ -4,27 +4,26 @@
 `EmbeddingClient`. It converts text into vectors; callers handle chunk IDs,
 storage, file status, and retrieval.
 
-- `embed_documents(texts)` returns one vector per text in input order. An empty
-  list returns `[]` without an API request.
+- `embed_documents(texts)` sends a batch to OpenAI and extracts vectors in the
+  returned order.
 - `embed_query(text)` returns one vector using the same model.
 - The default model is `text-embedding-3-small`. Pass another model explicitly
   when constructing the wrapper. Rebuild the vector index when changing models.
-- Inputs are preserved, including whitespace. Empty strings are rejected.
-- Each call sends one batch of at most 2,048 texts. Callers must respect the
-  provider's per-input and total request token limits. There is no automatic
-  batching or truncation.
-- Invalid response counts, indices, dimensions, or nonfinite values raise
-  `ValueError`. SDK exceptions propagate so ingestion can handle failure.
+- Inputs are passed through unchanged, including whitespace and empty inputs.
+- Each call sends one batch. The SDK and API handle input validation and service
+  limits. There is no local validation, automatic batching, or truncation.
+- Vectors are extracted directly without sorting or response checks. SDK
+  exceptions propagate to the caller.
 - The caller creates and closes the SDK client and controls its timeout and
   retry settings. No client or network connection is created at import time.
 
 ## Local Usage
 
-Keep `OPENAI_API_KEY` in the ignored `.env.local` file. `.env.example` contains
+Keep `OPENAI_API_KEY` in the ignored `.env` file. `.env.example` contains
 only the variable name. Load the local file when launching Python:
 
 ```sh
-uv run --env-file .env.local python
+uv run --env-file .env python
 ```
 
 Then run this example in the Python session. It makes two live API requests:
