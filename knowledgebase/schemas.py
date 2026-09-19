@@ -25,3 +25,10 @@ class VectorMatch(BaseModel):
 
     chunk_id: str
     distance: float
+
+
+class RetrievedChunk(BaseModel):
+    """Canonical chunk text and its vector-search distance."""
+
+    chunk: Chunk
+    distance: float

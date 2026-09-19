@@ -53,8 +53,7 @@ KnowledgeBase/
 │       ├── database.py
 │       ├── models.py
 │       ├── repository.py
-│       ├── vector_store.py
-│       ├── chroma.py
+│       ├── vectordb.py
 │       └── file_store.py
 ├── frontend/
 │   ├── package.json
@@ -130,8 +129,7 @@ The function and type names below are suggested contracts, not existing APIs.
 | `storage/database.py` | Configure SQLAlchemy engine and session creation | Engine and session factories |
 | `storage/models.py` | Define SQLAlchemy table mappings | File, chunk, conversation, and message models |
 | `storage/repository.py` | Read and write business records; keep database queries inside the storage boundary | File-state updates, chunk storage, history loading, and message persistence |
-| `storage/vector_store.py` | Define application-facing vector operations and result contracts | `upsert_chunks()`, `search()`, `delete_by_file_id()` |
-| `storage/chroma.py` | Implement the vector interface using Chroma and translate its IDs, filters, metrics, and results | Chroma adapter |
+| `storage/vectordb.py` | Implement vector database operations and translate provider results into application-owned types; currently uses Chroma | `ChromaStore`, `upsert_chunks()`, `search()`, `delete_by_file_id()` |
 | `storage/file_store.py` | Save, read, and delete retained original TXT files using application-owned file IDs | `save_text()`, `read_text()`, `delete_text()` |
 
 Services decide the order of operations and recovery behavior. RAG modules implement individual processing steps. Provider and storage modules encapsulate external calls. Keep configuration explicit so the same service functions can run from API routes, tests, and evaluation scripts.

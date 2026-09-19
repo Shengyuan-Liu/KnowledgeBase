@@ -7,7 +7,7 @@ import chromadb
 import pytest
 
 from knowledgebase.rag.chunking import split_text
-from knowledgebase.storage.chroma import ChromaStore
+from knowledgebase.storage.vectordb import ChromaStore
 
 
 @pytest.fixture
@@ -69,6 +69,24 @@ def test_upsert_updates_existing_vector_without_duplicate(collection, chunks):
     assert store.search([-1.0, 0.0], top_k=1)[0].chunk_id == chunks[0].chunk_id
 
 
+@pytest.mark.parametrize(
+    ("file_ids", "expected_ids"),
+    [
+        (["file-2"], ["file-2:0"]),
+        (["file-1", "file-2"], ["file-1:0", "file-1:1"]),
+    ],
+)
+def test_search_filters_files_before_selecting_nearest_results(
+    collection, chunks, file_ids, expected_ids
+):
+    store = ChromaStore(collection)
+    store.upsert_chunks(chunks, [[1.0, 0.0], [0.8, 0.6], [0.0, 1.0]])
+
+    matches = store.search([1.0, 0.0], top_k=2, file_ids=file_ids)
+
+    assert [match.chunk_id for match in matches] == expected_ids
+
+
 def test_delete_removes_only_the_requested_file(collection, chunks):
     store = ChromaStore(collection)
     store.upsert_chunks(chunks, [[1.0, 0.0], [0.8, 0.6], [0.0, 1.0]])
@@ -88,7 +106,7 @@ def test_vectors_can_be_searched_from_another_process(collection, chunks, tmp_pa
 import json
 import sys
 import chromadb
-from knowledgebase.storage.chroma import ChromaStore
+from knowledgebase.storage.vectordb import ChromaStore
 
 client = chromadb.PersistentClient(path=sys.argv[1])
 collection = client.get_collection("test-chunks", embedding_function=None)

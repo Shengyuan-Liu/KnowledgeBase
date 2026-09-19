@@ -7,7 +7,8 @@
 ## Implemented Components
 
 - [Embedding provider](embeddings.md): OpenAI integration, input and output contracts, local usage, and deterministic tests.
-- [Chroma vector store](chroma.md): vector storage, search, file-scoped deletion, and local persistence tests.
+- [Vector database](vectordb.md): Chroma storage, search, file-scoped deletion, and local persistence tests.
+- [Retrieval](retrieval.md): ready-file filtering, question embedding, vector search, and canonical chunk text.
 
 ## MVP Design
 

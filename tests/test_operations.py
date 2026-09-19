@@ -17,6 +17,7 @@ from knowledgebase.storage.operations import (
     get_file,
     get_files,
     get_chunks,
+    get_chunks_by_ids,
     save_chunks,
     update_file_status,
 )
@@ -44,6 +45,29 @@ def test_create_file_flushes_record_with_defaults(session_factory):
         assert record.status == "processing"
         assert record.error_message is None
         assert isinstance(record.created_at, datetime)
+
+
+def test_get_chunks_by_ids_loads_selected_chunks_across_files(session_factory):
+    first = split_text("First. Second.", "file-1", chunk_size=7, overlap=0)
+    second = split_text("Third.", "file-2")
+    with session_factory.begin() as session:
+        create_file(session, "file-1", "first.txt")
+        create_file(session, "file-2", "second.txt")
+        save_chunks(session, first + second)
+
+    with session_factory() as session:
+        result = get_chunks_by_ids(session, [second[0].chunk_id, first[1].chunk_id])
+
+    assert {chunk.chunk_id: chunk for chunk in result} == {
+        second[0].chunk_id: second[0], first[1].chunk_id: first[1]
+    }
+
+
+def test_get_chunks_by_ids_with_no_ids_returns_no_chunks(session_factory):
+    with session_factory.begin() as session:
+        create_file(session, "file-1", "first.txt")
+        save_chunks(session, split_text("First.", "file-1"))
+        assert get_chunks_by_ids(session, []) == []
 
 
 def test_create_file_persists_when_caller_commits(session_factory):

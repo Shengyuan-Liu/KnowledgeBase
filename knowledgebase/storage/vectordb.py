@@ -1,4 +1,4 @@
-"""Store and search chunk vectors using an existing Chroma collection."""
+"""Vector database integrations for storing and searching chunk vectors."""
 
 from chromadb.api.models.Collection import Collection
 
@@ -22,13 +22,20 @@ class ChromaStore:
         )
 
     def search(
-        self, query_embedding: list[float], top_k: int = 5
+        self,
+        query_embedding: list[float],
+        top_k: int = 5,
+        file_ids: list[str] | None = None,
     ) -> list[VectorMatch]:
-        """Return nearest chunks and raw distances; smaller distances are nearer."""
+        """Return nearest chunks, optionally restricted to nonempty file_ids.
+
+        None searches all files. Smaller raw distances are nearer.
+        """
         result = self._collection.query(
             query_embeddings=[query_embedding],
             n_results=top_k,
             include=["distances"],
+            where={"file_id": {"$in": file_ids}} if file_ids is not None else None,
         )
         return [
             VectorMatch(chunk_id=chunk_id, distance=distance)

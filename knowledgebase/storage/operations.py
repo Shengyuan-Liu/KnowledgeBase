@@ -67,6 +67,15 @@ def get_chunks(session: Session, file_id: str) -> list[Chunk]:
     ]
 
 
+def get_chunks_by_ids(session: Session, chunk_ids: list[str]) -> list[Chunk]:
+    """Load existing chunks by ID; the query does not preserve requested order."""
+    statement = select(ChunkRecord).where(ChunkRecord.chunk_id.in_(chunk_ids))
+    return [
+        Chunk.model_validate(record, from_attributes=True)
+        for record in session.scalars(statement)
+    ]
+
+
 def update_file_status(
     session: Session,
     file_id: str,
