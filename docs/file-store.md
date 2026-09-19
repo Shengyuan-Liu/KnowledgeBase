@@ -1,5 +1,9 @@
 # Original Text Storage
 
+This utility is available for optional original-file retention. The current
+[ingestion workflow](file-ingestion.md) stores text in SQLite chunks and does not
+write a separate TXT copy.
+
 `knowledgebase/storage/file_store.py` provides `FileStore` for retaining original
 TXT content. Construct it with an upload directory; the directory is created if
 needed. Files use application-generated IDs and are named `{file_id}.txt`.

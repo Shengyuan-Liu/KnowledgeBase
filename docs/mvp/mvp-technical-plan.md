@@ -56,14 +56,14 @@ Keep a small vector storage interface for inserting chunks, searching, and delet
 ### File Ingestion and Deletion
 
 1. Validate the extension, UTF-8 encoding, and nonempty text. Return clear errors for unsupported or invalid input.
-2. Assign a stable file ID, retain the original text locally, and create a `processing` record in SQLite.
+2. Assign a stable file ID and create a `processing` record in SQLite. Retain source text in the stored chunks; a separate original TXT copy is optional and is not written by the current ingestion workflow.
 3. Split text into chunks with configurable size and overlap. Preserve stable chunk IDs, file associations, ordering, and source offsets so excerpts can be reconstructed.
 4. Generate embeddings and write the vectors to Chroma. Store canonical chunk text and source metadata in SQLite.
 5. Mark the file `ready` only after all required writes succeed. On failure, mark it `failed` and clean up partial index records.
 
 For small TXT uploads, use an in-process background task and let the frontend poll file status. A durable job queue is unnecessary for this MVP. On backend restart, mark abandoned `processing` records as failed and clean up their partial index entries before retrying.
 
-SQLite determines which files are eligible for retrieval. Only chunks belonging to `ready` files can become answer evidence. During deletion, first make the file ineligible, then remove its vectors, chunks, original text, and file record. Report success only after cleanup completes; failed cleanup must remain retryable. SQLite and Chroma do not share a transaction, so eligibility checks and cleanup tests are required.
+SQLite determines which files are eligible for retrieval. Only chunks belonging to `ready` files can become answer evidence. During deletion, first make the file ineligible, then remove its vectors, chunks, and file record, plus any optional original TXT copy. Report success only after cleanup completes; failed cleanup must remain retryable. SQLite and Chroma do not share a transaction, so eligibility checks and cleanup tests are required.
 
 Retained messages are conversation context only. New answers must retrieve current evidence and must not reuse deleted excerpts as factual support.
 

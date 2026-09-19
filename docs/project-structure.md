@@ -157,9 +157,11 @@ Tests and evaluation runner → Services or individual RAG steps
 
 `services/files.py` owns the workflow from validation through chunking, embedding, persistence, and readiness. Mark a file `ready` only after all required writes succeed. Failed ingestion and abandoned processing work require explicit cleanup and a recoverable failure state.
 
+The implemented [ingestion workflow](file-ingestion.md) preserves source text in SQLite chunks. `FileStore` is optional and is not used to save a second copy during ingestion.
+
 SQLite determines retrieval eligibility. `rag/retrieval.py` must ensure that returned evidence belongs to ready files and resolve canonical text from business storage. Do not assume every Chroma hit is eligible, or let ineligible hits silently consume all available retrieval slots.
 
-Deletion first makes the file ineligible, then removes vectors, chunks, the original file, and the file record. Report success only after cleanup completes. Keep partial failures retryable because SQLite, Chroma, and the filesystem do not share one transaction.
+Deletion first makes the file ineligible, then removes vectors, chunks, and the file record, plus any optional original TXT copy. Report success only after cleanup completes. Keep partial failures retryable because SQLite, Chroma, and the filesystem do not share one transaction.
 
 ### Question Answering
 

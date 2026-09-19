@@ -1,0 +1,52 @@
+"""Ingest TXT content into SQLite and the vector database."""
+
+from pathlib import Path
+from uuid import uuid4
+
+from sqlalchemy.orm import Session, sessionmaker
+
+from knowledgebase.providers.embeddings import EmbeddingClient
+from knowledgebase.rag.chunking import split_text
+from knowledgebase.storage.operations import create_file, save_chunks, update_file_status
+from knowledgebase.storage.vectordb import ChromaStore
+
+
+def ingest_file(
+    file_name: str,
+    content: bytes,
+    session_factory: sessionmaker[Session],
+    embedding_client: EmbeddingClient,
+    vector_store: ChromaStore,
+    chunk_size: int = 256,
+    overlap: int = 64,
+) -> str:
+    """Index a UTF-8 TXT file and return its generated file ID.
+
+    This service owns its transactions. Original text is retained in SQLite
+    chunks, without saving another copy to disk. Processing errors propagate
+    after marking the file failed and cleaning up its vectors.
+    """
+    if Path(file_name).suffix.lower() != ".txt":
+        raise ValueError("Only .txt files are supported.")
+    text = content.decode("utf-8")
+    if not text.strip():
+        raise ValueError("The file must contain nonempty text.")
+
+    file_id = uuid4().hex
+    chunks = split_text(text, file_id, chunk_size=chunk_size, overlap=overlap)
+    with session_factory.begin() as session:
+        create_file(session, file_id, file_name)
+
+    try:
+        embeddings = embedding_client.embed_documents([chunk.text for chunk in chunks])
+        with session_factory.begin() as session:
+            save_chunks(session, chunks)
+            vector_store.upsert_chunks(chunks, embeddings)
+            update_file_status(session, file_id, "ready")
+    except Exception as error:
+        with session_factory.begin() as session:
+            update_file_status(session, file_id, "failed", error_message=str(error))
+        vector_store.delete_by_file_id(file_id)
+        raise
+
+    return file_id
