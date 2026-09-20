@@ -1,0 +1,189 @@
+"""HTTP chat with real SQLite/Chroma and offline provider responses."""
+
+import json
+from types import SimpleNamespace
+from unittest.mock import MagicMock, Mock
+
+from fastapi.testclient import TestClient
+import pytest
+from sqlalchemy import func, select
+
+from knowledgebase.api import app as api_module
+from knowledgebase.providers.embeddings import EmbeddingClient
+from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
+from knowledgebase.storage.models import ConversationRecord, MessageRecord
+from knowledgebase.storage.operations import get_messages
+
+
+@pytest.fixture
+def api(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+    monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+    embeddings = Mock(spec=EmbeddingClient)
+    embeddings.embed_documents.side_effect = lambda texts: [[1.0, 0.0] for _ in texts]
+    embeddings.embed_query.return_value = [1.0, 0.0]
+    sdk = MagicMock()
+    sdk.__enter__.return_value = sdk
+    monkeypatch.setattr(api_module, "OpenAI", Mock(return_value=sdk))
+    monkeypatch.setattr(api_module, "EmbeddingClient", Mock(return_value=embeddings))
+    app = api_module.create_app()
+    with TestClient(app) as client:
+        yield client, app.state.chat_resources, sdk.responses.create
+    sdk.__exit__.assert_called_once()
+
+
+def upload(client):
+    response = client.post("/api/files", files={
+        "file": ("hours.txt", b"The library closes at 5 PM.", "text/plain"),
+    })
+    assert response.status_code == 201
+    return response.json()["file_id"]
+
+
+def test_upload_question_followup_and_persisted_exchange(api):
+    client, resources, generate = api
+    file_id = upload(client)
+    generate.side_effect = [SimpleNamespace(output_text=text) for text in (
+        "The library closes at 5 PM. [1]",
+        "When does the library close?",
+        "At 5 PM. [1]",
+    )]
+    question = "  When does the library close?\n"
+    response = client.post("/api/chat", json={"question": question})
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "application/json"
+    first = response.json()
+    assert first["question"] == first["retrieval_question"] == question
+    assert first["answer"] == "The library closes at 5 PM. [1]"
+    assert first["sources"] == [{
+        "source_id": 1, "file_id": file_id, "file_name": "hours.txt",
+        "chunk_id": f"{file_id}:0", "text": "The library closes at 5 PM.",
+        "distance": pytest.approx(0.0),
+    }]
+    assert first["citation_check"] == {
+        "valid_source_ids": [1], "invalid_source_ids": [], "no_citations": False,
+    }
+
+    response = client.post("/api/chat", json={
+        "question": "What time was that?", "conversation_id": first["conversation_id"],
+    })
+    assert response.status_code == 200
+    second = response.json()
+    assert second["conversation_id"] == first["conversation_id"]
+    assert second["message_id"] > first["message_id"]
+    assert second["answer"] == "At 5 PM. [1]"
+    assert second["retrieval_question"] == "When does the library close?"
+    resources.embeddings.embed_query.assert_called_with(second["retrieval_question"])
+    history = json.loads(generate.call_args_list[1].kwargs["input"][1]["content"])["history"]
+    assert history == [{"role": "user", "content": question},
+                       {"role": "assistant", "content": first["answer"]}]
+    assert all(call.kwargs["model"] == "gpt-4.1-nano" for call in generate.call_args_list)
+    with resources.sessions() as session:
+        messages = get_messages(session, first["conversation_id"])
+    assert [(m.role, m.content) for m in messages] == [
+        ("user", question), ("assistant", first["answer"]),
+        ("user", second["question"]), ("assistant", second["answer"]),
+    ]
+    assert messages[-1].message_id == second["message_id"]
+
+
+@pytest.mark.parametrize("payload", [
+    {}, {"question": ""}, {"question": " \n\t"},
+    {"question": None}, {"question": 42},
+])
+def test_invalid_question_is_422_without_calls_or_records(api, payload):
+    client, resources, generate = api
+    assert client.post("/api/chat", json=payload).status_code == 422
+    generate.assert_not_called()
+    resources.embeddings.embed_query.assert_not_called()
+    with resources.sessions() as session:
+        assert session.scalar(select(func.count()).select_from(ConversationRecord)) == 0
+        assert session.scalar(select(func.count()).select_from(MessageRecord)) == 0
+
+
+def test_unknown_conversation_is_404_without_model_calls(api):
+    client, resources, generate = api
+    response = client.post("/api/chat", json={"question": "Hours?", "conversation_id": "missing"})
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Conversation not found."}
+    generate.assert_not_called()
+    resources.embeddings.embed_query.assert_not_called()
+    with resources.sessions() as session:
+        assert get_messages(session, "missing") == []
+
+
+def test_empty_library_returns_saved_insufficient_evidence_answer(api):
+    client, resources, generate = api
+    response = client.post("/api/chat", json={"question": "Hours?", "conversation_id": None})
+    assert response.status_code == 200
+    result = response.json()
+    assert result["answer"] == INSUFFICIENT_EVIDENCE
+    assert result["sources"] == []
+    assert result["citation_check"] == {
+        "valid_source_ids": [], "invalid_source_ids": [], "no_citations": True,
+    }
+    generate.assert_not_called()
+    resources.embeddings.embed_query.assert_not_called()
+    with resources.sessions() as session:
+        assert [m.content for m in get_messages(session, result["conversation_id"])] == [
+            "Hours?", INSUFFICIENT_EVIDENCE,
+        ]
+
+
+def test_failed_first_answer_is_500_without_new_conversation(api):
+    client, resources, generate = api
+    upload(client)
+    generate.side_effect = ValueError("Private provider diagnostics.")
+    response = client.post("/api/chat", json={"question": "Hours?"})
+    assert response.status_code == 500
+    assert response.json() == {"detail": "Answer processing failed."}
+    with resources.sessions() as session:
+        assert session.scalar(select(func.count()).select_from(ConversationRecord)) == 0
+        assert session.scalar(select(func.count()).select_from(MessageRecord)) == 0
+
+
+@pytest.mark.parametrize("stage", ["resolution", "retrieval", "generation", "saving"])
+def test_failed_followup_is_500_without_partial_exchange(api, monkeypatch, stage):
+    from knowledgebase.services import chat
+
+    client, resources, generate = api
+    upload(client)
+    generate.return_value = SimpleNamespace(output_text="At 5 PM. [1]")
+    first = client.post("/api/chat", json={"question": "Hours?"}).json()
+    failure = RuntimeError("Private failure details.")
+    resolved = SimpleNamespace(output_text="When does the library close?")
+    if stage == "resolution":
+        generate.side_effect = failure
+    elif stage == "retrieval":
+        generate.return_value = resolved
+        resources.embeddings.embed_query.side_effect = failure
+    elif stage == "generation":
+        generate.side_effect = [resolved, failure]
+    else:
+        save_message = chat.save_message
+
+        def fail_assistant(session, conversation_id, role, content):
+            if role == "assistant":
+                raise failure
+            return save_message(session, conversation_id, role, content)
+
+        monkeypatch.setattr(chat, "save_message", fail_assistant)
+    response = client.post("/api/chat", json={
+        "question": "What time?", "conversation_id": first["conversation_id"],
+    })
+    assert response.status_code == 500
+    assert response.json() == {"detail": "Answer processing failed."}
+    with resources.sessions() as session:
+        assert [m.content for m in get_messages(session, first["conversation_id"])] == [
+            "Hours?", first["answer"],
+        ]
+
+
+def test_openapi_describes_json_request_response_and_errors(api):
+    client, _, _ = api
+    schema = client.get("/openapi.json").json()
+    endpoint = schema["paths"]["/api/chat"]["post"]
+    assert endpoint["requestBody"]["content"]["application/json"]["schema"]["$ref"].endswith("/ChatRequest")
+    assert endpoint["responses"]["200"]["content"]["application/json"]["schema"]["$ref"].endswith("/ConversationAnswer")
+    assert {"404", "422", "500"} <= endpoint["responses"].keys()

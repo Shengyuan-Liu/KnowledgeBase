@@ -1,4 +1,4 @@
-"""Create the file-management API and own its application resources."""
+"""Create the knowledge-base API and own its application resources."""
 
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -7,9 +7,11 @@ import chromadb
 from fastapi import FastAPI
 from openai import OpenAI
 
-from knowledgebase.api.files import FileResources, router
+from knowledgebase.api.chat import ChatResources, router as chat_router
+from knowledgebase.api.files import FileResources, router as files_router
 from knowledgebase.config import Settings
 from knowledgebase.providers.embeddings import EmbeddingClient
+from knowledgebase.providers.llm import LLMClient
 from knowledgebase.storage.database import build_engine, build_session_factory, init_db
 from knowledgebase.storage.vectordb import ChromaStore
 
@@ -34,10 +36,18 @@ def create_app(data_dir: Path | None = None) -> FastAPI:
                     embeddings=EmbeddingClient(sdk),
                     store=ChromaStore(collection),
                 )
+                files = app.state.file_resources
+                app.state.chat_resources = ChatResources(
+                    sessions=files.sessions,
+                    embeddings=files.embeddings,
+                    store=files.store,
+                    llm=LLMClient(sdk, model="gpt-4.1-nano"),
+                )
                 yield
         finally:
             engine.dispose()
 
     app = FastAPI(title="KnowledgeBase", lifespan=lifespan)
-    app.include_router(router)
+    app.include_router(files_router)
+    app.include_router(chat_router)
     return app

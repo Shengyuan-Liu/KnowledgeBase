@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class FileInfo(BaseModel):
@@ -59,6 +59,13 @@ class ChatAnswer(BaseModel):
     answer: str
     sources: list[AnswerSource]
     citation_check: CitationCheck
+
+
+class ChatRequest(BaseModel):
+    """A nonblank question and an optional saved conversation to continue."""
+
+    question: str = Field(pattern=r"\S")
+    conversation_id: str | None = None
 
 
 class ConversationAnswer(ChatAnswer):
