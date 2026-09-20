@@ -1,4 +1,4 @@
-.PHONY: test test-live api frontend test-frontend test-browser stop test-stop
+.PHONY: test test-live api frontend test-frontend test-browser test-browser-live stop test-stop
 
 STOP_PORTS ?= 8000 5173 8001 5174 4173
 
@@ -20,6 +20,9 @@ test-frontend:
 
 test-browser:
 	npm --prefix frontend run test:e2e
+
+test-browser-live:
+	npm --prefix frontend run test:live
 
 stop:
 	@list_pids() { \

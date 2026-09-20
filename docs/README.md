@@ -7,6 +7,8 @@
 ## Implemented Components
 
 - [Frontend workspace](frontend.md): file management, streaming chat, citation navigation, conversation restoration, and offline browser acceptance tests.
+- [Real-provider browser acceptance](../evals/browser-runs/20260920T225644765Z-96618e0c/README.md): recorded live workflow and original observations.
+- [Baseline failure audit](../evals/analyses/2026-09-20-baseline-failures.md): nine failed cases, retrieval/answer issues, and judge limitations.
 - [File management API](file-api.md): FastAPI startup, TXT upload/list/delete endpoints, HTTP errors, and lifecycle tests.
 - [Chat API](chat-api.md): complete JSON answers, continued conversations, source and citation fields, HTTP errors, and integration tests.
 - [Streaming chat API](chat-streaming.md): incremental SSE text, request identity, completion, cancellation, and atomic answer persistence.

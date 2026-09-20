@@ -5,6 +5,14 @@ Each run indexes only the 16 TXT documents listed in the [corpus manifest](mater
 into a fresh, isolated index. References and expected answers never enter the answering prompt.
 Generation and grading are separate: use human ratings, an LLM judge, or both as successive reviews.
 
+Recorded inspections:
+
+- [Nine-case baseline failure audit](analyses/2026-09-20-baseline-failures.md):
+  retrieved evidence, answer failures, judge attribution issues, and the next paired
+  chunk-size experiment. This qualitative audit does not replace recorded scores.
+- [Real-provider browser acceptance](browser-runs/20260920T225644765Z-96618e0c/README.md):
+  an isolated synthetic functional workflow, separate from the 25-case RAG baseline.
+
 ## Run a baseline
 
 Run these commands from the repository root. The existing `.env` supplies `OPENAI_API_KEY`.

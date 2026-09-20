@@ -1,0 +1,245 @@
+{
+  "started_at": "2026-09-20T22:56:45.062Z",
+  "git_commit": "e16b892e436f5e1d0990b07ffd0f99041c105ec4",
+  "working_tree_dirty": true,
+  "provider_mode": "real OpenAI, unmodified production application",
+  "configured_answer_model": "gpt-4.1-nano",
+  "configured_embedding_model": "text-embedding-3-small",
+  "scope": "One synthetic browser workflow, not a quality benchmark. No automatic retries.",
+  "fixtures": [
+    {
+      "name": "cedar-library-hours.txt",
+      "text": "Cedar Library visitor guide.\nCedar Library closes at 5 PM Monday through Friday.\nCedar Library closes at 7 PM on Saturday and Sunday.\nVisitors must bring their library card.\nThe quiet room is on the second floor.\n"
+    },
+    {
+      "name": "cedar-garden.txt",
+      "text": "Cedar Garden planting guide.\nPlant basil in well-drained soil. Water the soil when the top layer is dry. Place pots near a sunny window.\nThis document does not describe any library or its opening hours.\n"
+    }
+  ],
+  "steps": [
+    {
+      "name": "upload-ready",
+      "observed_at": "2026-09-20T22:56:46.021Z",
+      "details": {
+        "file_name": "cedar-library-hours.txt"
+      }
+    },
+    {
+      "name": "upload-ready",
+      "observed_at": "2026-09-20T22:56:46.837Z",
+      "details": {
+        "file_name": "cedar-garden.txt"
+      }
+    },
+    {
+      "name": "first-answer-completed",
+      "observed_at": "2026-09-20T22:56:48.201Z",
+      "details": {
+        "conversation_id": "1dfabca1fe8f4efc8a3baa205f9eebcb",
+        "created_at": "2026-09-20T22:56:48.076409",
+        "messages": [
+          {
+            "message_id": 1,
+            "conversation_id": "1dfabca1fe8f4efc8a3baa205f9eebcb",
+            "role": "user",
+            "content": "When does Cedar Library close on weekdays? Reply briefly with a citation.",
+            "created_at": "2026-09-20T22:56:48.077318",
+            "retrieval_question": null,
+            "sources": null,
+            "citation_check": null
+          },
+          {
+            "message_id": 2,
+            "conversation_id": "1dfabca1fe8f4efc8a3baa205f9eebcb",
+            "role": "assistant",
+            "content": "Cedar Library closes at 5 PM on weekdays [1].",
+            "created_at": "2026-09-20T22:56:48.077657",
+            "retrieval_question": "When does Cedar Library close on weekdays? Reply briefly with a citation.",
+            "sources": [
+              {
+                "source_id": 1,
+                "file_id": "93a247119a6f439fa5788fd73a89db02",
+                "file_name": "cedar-library-hours.txt",
+                "chunk_id": "93a247119a6f439fa5788fd73a89db02:0",
+                "text": "Cedar Library visitor guide.\nCedar Library closes at 5 PM Monday through Friday.\nCedar Library closes at 7 PM on Saturday and Sunday.\nVisitors must bring their library card.\nThe quiet room is on the second floor.\n",
+                "distance": 0.2834358215332031,
+                "file_deleted": false
+              },
+              {
+                "source_id": 2,
+                "file_id": "675b0a0a020140eeadd778aea061d1aa",
+                "file_name": "cedar-garden.txt",
+                "chunk_id": "675b0a0a020140eeadd778aea061d1aa:0",
+                "text": "Cedar Garden planting guide.\nPlant basil in well-drained soil. Water the soil when the top layer is dry. Place pots near a sunny window.\nThis document does not describe any library or its opening hours.\n",
+                "distance": 0.586754560470581,
+                "file_deleted": false
+              }
+            ],
+            "citation_check": {
+              "valid_source_ids": [
+                1
+              ],
+              "invalid_source_ids": [],
+              "no_citations": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "citation-opens-original-excerpt",
+      "observed_at": "2026-09-20T22:56:48.251Z"
+    },
+    {
+      "name": "follow-up-completed",
+      "observed_at": "2026-09-20T22:56:50.098Z",
+      "details": {
+        "conversation_id": "1dfabca1fe8f4efc8a3baa205f9eebcb",
+        "created_at": "2026-09-20T22:56:48.076409",
+        "messages": [
+          {
+            "message_id": 1,
+            "conversation_id": "1dfabca1fe8f4efc8a3baa205f9eebcb",
+            "role": "user",
+            "content": "When does Cedar Library close on weekdays? Reply briefly with a citation.",
+            "created_at": "2026-09-20T22:56:48.077318",
+            "retrieval_question": null,
+            "sources": null,
+            "citation_check": null
+          },
+          {
+            "message_id": 2,
+            "conversation_id": "1dfabca1fe8f4efc8a3baa205f9eebcb",
+            "role": "assistant",
+            "content": "Cedar Library closes at 5 PM on weekdays [1].",
+            "created_at": "2026-09-20T22:56:48.077657",
+            "retrieval_question": "When does Cedar Library close on weekdays? Reply briefly with a citation.",
+            "sources": [
+              {
+                "source_id": 1,
+                "file_id": "93a247119a6f439fa5788fd73a89db02",
+                "file_name": "cedar-library-hours.txt",
+                "chunk_id": "93a247119a6f439fa5788fd73a89db02:0",
+                "text": "Cedar Library visitor guide.\nCedar Library closes at 5 PM Monday through Friday.\nCedar Library closes at 7 PM on Saturday and Sunday.\nVisitors must bring their library card.\nThe quiet room is on the second floor.\n",
+                "distance": 0.2834358215332031,
+                "file_deleted": false
+              },
+              {
+                "source_id": 2,
+                "file_id": "675b0a0a020140eeadd778aea061d1aa",
+                "file_name": "cedar-garden.txt",
+                "chunk_id": "675b0a0a020140eeadd778aea061d1aa:0",
+                "text": "Cedar Garden planting guide.\nPlant basil in well-drained soil. Water the soil when the top layer is dry. Place pots near a sunny window.\nThis document does not describe any library or its opening hours.\n",
+                "distance": 0.586754560470581,
+                "file_deleted": false
+              }
+            ],
+            "citation_check": {
+              "valid_source_ids": [
+                1
+              ],
+              "invalid_source_ids": [],
+              "no_citations": false
+            }
+          },
+          {
+            "message_id": 3,
+            "conversation_id": "1dfabca1fe8f4efc8a3baa205f9eebcb",
+            "role": "user",
+            "content": "What about on Saturday?",
+            "created_at": "2026-09-20T22:56:50.067749",
+            "retrieval_question": null,
+            "sources": null,
+            "citation_check": null
+          },
+          {
+            "message_id": 4,
+            "conversation_id": "1dfabca1fe8f4efc8a3baa205f9eebcb",
+            "role": "assistant",
+            "content": "The Saturday hours for Cedar Library are until 7 PM [1].",
+            "created_at": "2026-09-20T22:56:50.068803",
+            "retrieval_question": "What are the Saturday hours for Cedar Library?",
+            "sources": [
+              {
+                "source_id": 1,
+                "file_id": "93a247119a6f439fa5788fd73a89db02",
+                "file_name": "cedar-library-hours.txt",
+                "chunk_id": "93a247119a6f439fa5788fd73a89db02:0",
+                "text": "Cedar Library visitor guide.\nCedar Library closes at 5 PM Monday through Friday.\nCedar Library closes at 7 PM on Saturday and Sunday.\nVisitors must bring their library card.\nThe quiet room is on the second floor.\n",
+                "distance": 0.24455475807189941,
+                "file_deleted": false
+              },
+              {
+                "source_id": 2,
+                "file_id": "675b0a0a020140eeadd778aea061d1aa",
+                "file_name": "cedar-garden.txt",
+                "chunk_id": "675b0a0a020140eeadd778aea061d1aa:0",
+                "text": "Cedar Garden planting guide.\nPlant basil in well-drained soil. Water the soil when the top layer is dry. Place pots near a sunny window.\nThis document does not describe any library or its opening hours.\n",
+                "distance": 0.5273874998092651,
+                "file_deleted": false
+              }
+            ],
+            "citation_check": {
+              "valid_source_ids": [
+                1
+              ],
+              "invalid_source_ids": [],
+              "no_citations": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "refresh-restored-two-turns",
+      "observed_at": "2026-09-20T22:56:50.200Z"
+    },
+    {
+      "name": "cancelled-partial-not-saved",
+      "observed_at": "2026-09-20T22:56:53.590Z",
+      "details": {
+        "visible_before_stop": "Knowledge Base\nAnswering…\nThe Cedar Library visitor guide provides several important details for visitors. It states that the library\nSources (2 retrieved passages)"
+      }
+    },
+    {
+      "name": "delete-retained-historical-evidence",
+      "observed_at": "2026-09-20T22:56:53.839Z"
+    },
+    {
+      "name": "post-deletion-answer",
+      "observed_at": "2026-09-20T22:56:56.672Z",
+      "details": {
+        "message_id": 6,
+        "conversation_id": "1dfabca1fe8f4efc8a3baa205f9eebcb",
+        "role": "assistant",
+        "content": "The provided source [1] does not contain any information about Cedar Library or its opening hours, including closing times on Saturday. Therefore, I cannot determine when Cedar Library closes on Saturday based on the current documents.",
+        "created_at": "2026-09-20T22:56:56.385785",
+        "retrieval_question": "Using only the documents currently in my library, when does Cedar Library close on Saturday?",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "675b0a0a020140eeadd778aea061d1aa",
+            "file_name": "cedar-garden.txt",
+            "chunk_id": "675b0a0a020140eeadd778aea061d1aa:0",
+            "text": "Cedar Garden planting guide.\nPlant basil in well-drained soil. Water the soil when the top layer is dry. Place pots near a sunny window.\nThis document does not describe any library or its opening hours.\n",
+            "distance": 0.5735504627227783,
+            "file_deleted": false
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            1
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        }
+      }
+    },
+    {
+      "name": "finished",
+      "observed_at": "2026-09-20T22:56:56.729Z"
+    }
+  ],
+  "browser_errors": [],
+  "status": "passed"
+}

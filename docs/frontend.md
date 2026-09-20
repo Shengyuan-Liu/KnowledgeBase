@@ -153,3 +153,25 @@ and mobile, deleted-file excerpts, and missing-conversation recovery. Screenshot
 are saved under ignored `frontend/test-results/` directories. These checks establish
 local integration, not live model quality or production deployment. See [Vite setup](https://vite.dev/guide/) and
 [Vitest setup](https://vitest.dev/guide/) for the underlying development tools.
+
+### Opt-in real-provider acceptance
+
+```bash
+make test-browser-live
+```
+
+This separate command uses the existing backend `.env` and makes paid embedding
+and generation calls. It runs one browser workflow with two synthetic TXT files:
+upload, answer, citation navigation, follow-up, refresh, cancellation, deletion,
+and a new question after deletion. It has no automatic retries. Ports 8001/5174
+must be free; it does not reuse or stop running servers on 8000/5173.
+
+Each run creates its own ignored storage under `data/live-browser/` and saves
+fixtures, observations, conversation snapshots, and screenshots under
+`evals/browser-runs/<run-id>/`. It refuses a nonempty initial library. The normal
+`make test-browser` remains offline. TypeScript checks include both test suites.
+
+The [September 20 real-provider acceptance record](../evals/browser-runs/20260920T225644765Z-96618e0c/README.md)
+passed with the production provider clients. Its answer semantics were inspected
+against the synthetic text; it is not a general answer-quality score or a production
+deployment claim.
