@@ -2,7 +2,6 @@
 
 import argparse
 from collections.abc import Callable
-from functools import partial
 from pathlib import Path
 
 import chromadb
@@ -11,15 +10,15 @@ from openai import OpenAI
 from knowledgebase.config import Settings
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient
-from knowledgebase.schemas import ChatAnswer
-from knowledgebase.services.chat import answer_question
+from knowledgebase.schemas import ChatAnswer, ConversationAnswer
+from knowledgebase.services.chat import answer_in_conversation
 from knowledgebase.services.files import ingest_file
 from knowledgebase.storage.database import build_engine, build_session_factory, init_db
 from knowledgebase.storage.vectordb import ChromaStore
 
 
 def run_chat_loop(ask: Callable[[str], ChatAnswer]) -> None:
-    """Read independent questions and display answers with retrieved excerpts."""
+    """Read questions and display answers with retrieved excerpts."""
     print("KnowledgeBase — ask a question, or type exit / quit to leave.")
     while True:
         try:
@@ -34,6 +33,10 @@ def run_chat_loop(ask: Callable[[str], ChatAnswer]) -> None:
             continue
 
         result = ask(question)
+        if isinstance(result, ConversationAnswer):
+            print(f"\nConversation: {result.conversation_id}")
+            if result.retrieval_question != question:
+                print(f"Retrieval question: {result.retrieval_question}")
         print(f"\nAnswer:\n{result.answer}")
         print("\nRetrieved chunks:")
         if not result.sources:
@@ -50,6 +53,7 @@ def cli() -> None:
     parser.add_argument("--data-dir", type=Path, default=Path("data"), help="Local storage directory")
     parser.add_argument("--model", default="gpt-4.1-nano", help="OpenAI answer model")
     parser.add_argument("--top-k", type=int, default=5, help="Maximum retrieved chunks per question")
+    parser.add_argument("--conversation-id", help="Resume a saved conversation in this data directory")
     args = parser.parse_args()
     settings = Settings()
 
@@ -74,16 +78,18 @@ def cli() -> None:
                     path.name, path.read_bytes(), sessions, embeddings, store
                 )
                 print(f"Indexed {path.name} ({file_id})")
-            run_chat_loop(
-                partial(
-                    answer_question,
-                    session_factory=sessions,
-                    embedding_client=embeddings,
-                    vector_store=store,
-                    llm_client=llm,
-                    top_k=args.top_k,
+            conversation_id = args.conversation_id
+
+            def ask(question: str) -> ConversationAnswer:
+                nonlocal conversation_id
+                result = answer_in_conversation(
+                    question, sessions, embeddings, store, llm,
+                    conversation_id=conversation_id, top_k=args.top_k,
                 )
-            )
+                conversation_id = result.conversation_id
+                return result
+
+            run_chat_loop(ask)
     finally:
         engine.dispose()
 

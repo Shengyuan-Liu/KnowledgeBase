@@ -52,6 +52,15 @@ class ChatAnswer(BaseModel):
     sources: list[AnswerSource]
 
 
+class ConversationAnswer(ChatAnswer):
+    """Completed turn with saved identity and the question used for retrieval."""
+
+    conversation_id: str
+    message_id: int
+    question: str
+    retrieval_question: str
+
+
 class ConversationInfo(BaseModel):
     """Saved conversation metadata, independent of the database session."""
 

@@ -20,9 +20,21 @@ uv run python main.py
 
 Each question prints an answer and the retrieved chunks with source numbers,
 filenames, and chunk IDs. The list includes all excerpts supplied to the model,
-including excerpts it did not cite. Questions are independent; previous turns
-are not included in the prompt. Type `exit` or `quit` to leave, or press Ctrl+D
-or Ctrl+C at the question prompt. Blank input is ignored.
+including excerpts it did not cite. Questions in one CLI invocation share a saved
+conversation. Recent history resolves follow-up references before fresh retrieval;
+old messages are not supplied as answer evidence. The CLI prints the conversation
+ID and, when it changes, the question used for retrieval. Type `exit` or `quit` to
+leave, or press Ctrl+D or Ctrl+C at the question prompt. Blank input is ignored.
+
+Each invocation starts a new conversation unless you resume a printed ID from the
+same data directory:
+
+```bash
+uv run python main.py --conversation-id <saved-conversation-id>
+```
+
+Original questions and completed answers are saved together. See the
+[follow-up workflow](docs/conversation-chat.md) for service usage and boundaries.
 
 Local data is stored in `data/knowledgebase.db` and `data/chroma/`, using the
 `knowledgebase-chunks` collection. The default embedding model is
@@ -36,7 +48,9 @@ uv run python main.py --data-dir data --model gpt-4.1-nano --top-k 3
 ```
 
 Indexing and answering with retrieved evidence make real OpenAI API calls.
-An empty knowledge base returns an insufficient-evidence answer with no chunks.
+Follow-up resolution adds one model call when conversation history is nonempty.
+An empty knowledge base returns an insufficient-evidence answer with no chunks;
+history-based resolution may still run, but answer generation does not.
 
 ## Evaluation
 

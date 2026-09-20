@@ -1,7 +1,8 @@
 # Conversation and Message Storage
 
 This module stores conversation metadata and message text for later follow-up
-resolution. It does not yet connect history to the chat service or CLI.
+resolution. The [conversation chat service](conversation-chat.md) connects these
+helpers to follow-up resolution and the CLI.
 
 ## Records and snapshots
 
@@ -73,11 +74,11 @@ table definitions changed, and no data migration is needed for this addition.
 
 ## Scope and verification
 
-Message source snapshots, resolved retrieval questions, streaming status, API
-endpoints, and automatic chat persistence are not implemented by these helpers.
-Follow-up resolution and the chat service will use them in the next step. New
-answers must still retrieve current evidence rather than reuse message text as a
-source, especially after file deletion.
+These helpers store message text; source snapshots, resolved retrieval questions,
+and streaming status are not database fields. The chat service now saves completed
+exchanges through these helpers and returns the resolved question for debugging.
+New answers must retrieve current evidence rather than reuse message text as a
+source, especially after file deletion. HTTP endpoints remain separate work.
 
 `tests/test_conversation_storage.py` uses real temporary SQLite databases to verify
 persistence, timestamp/content preservation, equal-timestamp ordering, latest-N

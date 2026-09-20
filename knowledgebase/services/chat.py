@@ -1,13 +1,22 @@
-"""Coordinate retrieval and generation for one knowledge-base question."""
+"""Coordinate single-turn and conversational knowledge-base answers."""
+
+from uuid import uuid4
 
 from sqlalchemy.orm import Session, sessionmaker
 
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.generation import generate_answer
+from knowledgebase.rag.query import resolve_question
 from knowledgebase.rag.retrieval import retrieve
-from knowledgebase.schemas import AnswerSource, ChatAnswer
-from knowledgebase.storage.operations import get_files
+from knowledgebase.schemas import AnswerSource, ChatAnswer, ConversationAnswer
+from knowledgebase.storage.operations import (
+    create_conversation,
+    get_conversation,
+    get_files,
+    get_messages,
+    save_message,
+)
 from knowledgebase.storage.vectordb import ChromaStore
 
 
@@ -44,3 +53,48 @@ def answer_question(
 
     answer = generate_answer(question, chunks, llm_client)
     return ChatAnswer(answer=answer, sources=sources)
+
+
+def answer_in_conversation(
+    question: str,
+    session_factory: sessionmaker[Session],
+    embedding_client: EmbeddingClient,
+    vector_store: ChromaStore,
+    llm_client: LLMClient,
+    conversation_id: str | None = None,
+    top_k: int = 5,
+    history_limit: int = 10,
+) -> ConversationAnswer:
+    """Resolve a follow-up, retrieve fresh evidence, and save a completed exchange.
+
+    Omit conversation_id to start a new conversation. A supplied ID must exist.
+    Model calls run outside history/write sessions. Only successful exchanges
+    are saved, with the original question and answer in one transaction.
+    """
+    if history_limit < 1:
+        raise ValueError("history_limit must be positive.")
+    history = []
+    if conversation_id is not None:
+        with session_factory() as session:
+            if get_conversation(session, conversation_id) is None:
+                raise LookupError(f"Conversation not found: {conversation_id}")
+            history = get_messages(session, conversation_id, limit=history_limit)
+
+    retrieval_question = resolve_question(question, history, llm_client)
+    result = answer_question(
+        retrieval_question, session_factory, embedding_client, vector_store,
+        llm_client, top_k=top_k,
+    )
+
+    with session_factory.begin() as session:
+        if conversation_id is None:
+            conversation_id = uuid4().hex
+            create_conversation(session, conversation_id)
+        save_message(session, conversation_id, "user", question)
+        message = save_message(session, conversation_id, "assistant", result.answer)
+
+    return ConversationAnswer(
+        answer=result.answer, sources=result.sources,
+        conversation_id=conversation_id, message_id=message.message_id,
+        question=question, retrieval_question=retrieval_question,
+    )

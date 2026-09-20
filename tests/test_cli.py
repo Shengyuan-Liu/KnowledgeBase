@@ -1,3 +1,4 @@
+import re
 import sys
 from unittest.mock import Mock
 
@@ -84,9 +85,11 @@ def test_cli_indexes_and_reuses_local_data(tmp_path, monkeypatch, capsys):
     llm_class.assert_called_once_with(sdk, model="gpt-4.1-nano")
     output = capsys.readouterr().out
     assert "Indexed hours.txt" in output
+    first_conversation_id = re.search(r"Conversation: ([a-f0-9]+)", output).group(1)
     assert "Answer:\nAt 5 PM. [1]" in output
     assert "[1] hours.txt" in output
     assert text in output
+
     assert (tmp_path / "data" / "knowledgebase.db").is_file()
 
     monkeypatch.setattr(sys, "argv", ["main.py", "--top-k", "1"])
@@ -99,3 +102,18 @@ def test_cli_indexes_and_reuses_local_data(tmp_path, monkeypatch, capsys):
     assert "Indexed" not in output
     assert "[1] hours.txt" in output
     assert text in output
+    assert re.search(r"Conversation: ([a-f0-9]+)", output).group(1) != first_conversation_id
+
+    # Resume persisted history, then keep the same conversation within the loop.
+    llm.generate.side_effect = ["When does the café close?", "At 5 PM. [1]"] * 2
+    monkeypatch.setattr(sys, "argv", ["main.py", "--conversation-id", first_conversation_id])
+    monkeypatch.setattr("builtins.input", Mock(side_effect=["When does it close again?", "And its closing time?", "exit"]))
+    cli.cli()
+    output = capsys.readouterr().out
+    assert output.count(f"Conversation: {first_conversation_id}") == 2
+    assert "Retrieval question: When does the café close?" in output
+    embeddings.embed_query.assert_called_with("When does the café close?")
+    assert llm.generate.call_count == 6
+    second_resolution = llm.generate.call_args_list[4].args[0][1]["content"]
+    assert "When does it close again?" in second_resolution
+    assert "What are the hours?" not in second_resolution
