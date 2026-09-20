@@ -1,9 +1,12 @@
 """Isolated real HTTP/storage server for frontend browser tests; no model calls."""
 
 from contextlib import asynccontextmanager
+import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import Mock
+
+import anyio
 
 from knowledgebase.api.app import create_app
 from knowledgebase.api.dependencies import AppResources
@@ -12,18 +15,32 @@ from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.storage.runtime import open_storage
 
 
+async def stream_fixture(messages):
+    """Deterministic deltas with time for the browser to exercise cancellation."""
+    yield "The library "
+    await anyio.sleep(0.4)
+    yield "closes at 5 PM. "
+    await anyio.sleep(0.4)
+    yield "[1]"
+
+
 @asynccontextmanager
 async def lifespan(app):
     with TemporaryDirectory(prefix="knowledgebase-browser-") as directory:
         with open_storage(Path(directory)) as (sessions, store):
             embeddings = Mock(spec=EmbeddingClient)
             embeddings.embed_documents.side_effect = lambda texts: [[1.0, 0.0] for _ in texts]
+            embeddings.embed_query.return_value = [1.0, 0.0]
+            llm = Mock(spec=LLMClient)
+            llm.generate.side_effect = lambda messages: json.loads(messages[-1]["content"])["question"]
+            streaming_llm = Mock(spec=StreamingLLMClient)
+            streaming_llm.stream.side_effect = stream_fixture
             app.state.resources = AppResources(
                 sessions=sessions,
                 store=store,
                 embeddings=embeddings,
-                llm=Mock(spec=LLMClient),
-                streaming_llm=Mock(spec=StreamingLLMClient),
+                llm=llm,
+                streaming_llm=streaming_llm,
             )
             yield
 

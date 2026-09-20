@@ -1,55 +1,62 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "./components/Icon";
 import { LibraryPanel } from "./components/LibraryPanel";
 import { Modal } from "./components/Modal";
+import { EvidencePanel } from "./components/EvidencePanel";
+import { ChatPanel } from "./components/ChatPanel";
 import { useLibrary } from "./hooks/useLibrary";
+import { useChat } from "./hooks/useChat";
 import { useMediaQuery } from "./hooks/useMediaQuery";
 import styles from "./Workspace.module.css";
 
-function EvidencePanel({ onClose }: { onClose?: () => void }) {
-  return (
-    <>
-      <header className={styles.panelHeader}>
-        <div>
-          <h2 id="evidence-title">Evidence</h2>
-          <p>The passages behind an answer</p>
-        </div>
-        {onClose && (
-          <button
-            className={styles.iconButton}
-            onClick={onClose}
-            aria-label="Close evidence"
-          >
-            <Icon name="close" />
-          </button>
-        )}
-      </header>
-      <div className={styles.evidenceEmpty}>
-        <span className={styles.smallIllustration}>
-          <Icon name="quote" size={25} />
-        </span>
-        <h3>Sources will appear here</h3>
-        <p>
-          When chat is connected, explore the original passages behind each
-          answer.
-        </p>
-        <div className={styles.evidenceNote}>
-          <Icon name="file" size={17} />
-          <span>Grounded in your documents</span>
-        </div>
-      </div>
-    </>
-  );
-}
-
 export function Workspace() {
   const library = useLibrary();
+  const chat = useChat();
   const mobile = useMediaQuery("(max-width: 767px)");
   const compact = useMediaQuery("(max-width: 1199px)");
   const [drawer, setDrawer] = useState<"library" | "evidence" | null>(null);
-  const readyCount = library.files.filter(
-    (file) => file.status === "ready",
-  ).length;
+  const [selection, setSelection] = useState<{
+    key: string;
+    sourceId: number | null;
+  } | null>(null);
+  const currentFileIds = new Set(library.files.map((file) => file.file_id));
+  const messages = chat.messages.map((message) => ({
+    ...message,
+    sources:
+      message.sources?.map((source) => ({
+        ...source,
+        file_deleted:
+          source.file_deleted ||
+          (!library.loading &&
+            !library.listError &&
+            !currentFileIds.has(source.file_id)),
+      })) ?? null,
+  }));
+  const latestComplete = messages
+    .filter(
+      (message) =>
+        message.role === "assistant" && message.status === "complete",
+    )
+    .at(-1);
+  useEffect(() => {
+    setSelection(
+      latestComplete ? { key: latestComplete.key, sourceId: null } : null,
+    );
+  }, [latestComplete?.key]);
+  const selected =
+    messages.find((message) => message.key === selection?.key) ??
+    latestComplete;
+  function selectEvidence(key: string, sourceId: number | null) {
+    setSelection({ key, sourceId });
+    if (compact) setDrawer("evidence");
+  }
+  const evidence = (
+    <EvidencePanel
+      message={selected}
+      sourceId={selection?.sourceId ?? null}
+      onClose={compact ? () => setDrawer(null) : undefined}
+    />
+  );
 
   return (
     <div className={styles.shell}>
@@ -90,77 +97,24 @@ export function Workspace() {
       </div>
       <div className={styles.grid}>
         {!mobile && (
-          <aside
-            className={styles.panel}
-            aria-labelledby="library-title"
-          >
+          <aside className={styles.panel} aria-labelledby="library-title">
             <LibraryPanel library={library} />
           </aside>
         )}
         <main className={`${styles.panel} ${styles.chat}`}>
-          <header className={styles.panelHeader}>
-            <div>
-              <h1>Chat</h1>
-              <p>Grounded in your library</p>
-            </div>
-            <span className={styles.stageBadge}>Workspace preview</span>
-          </header>
-          <div className={styles.chatEmpty}>
-            <div className={styles.heroIllustration}>
-              <Icon name="book" size={38} />
-              <span className={styles.quoteAccent}>
-                <Icon name="quote" size={16} />
-              </span>
-            </div>
-            <span className={styles.eyebrow}>YOUR KNOWLEDGE, CONNECTED</span>
-            <h2>
-              Make room for
-              <br />a clearer answer.
-            </h2>
-            <p>
-              Bring your notes, ideas, and reference material together. Your
-              documents are the starting point.
-            </p>
-            <div className={styles.stepCard}>
-              <span className={styles.stepNumber}>01</span>
-              <div>
-                <strong>Start with your library</strong>
-                <p>
-                  {readyCount
-                    ? `${readyCount} ${readyCount === 1 ? "document is" : "documents are"} ready. Add more or manage your files in Library.`
-                    : "Upload a TXT file using the Library panel."}
-                </p>
-              </div>
-              <Icon name="file" size={21} />
-            </div>
-          </div>
-          <div className={styles.composerArea}>
-            <div className={styles.composer}>
-              <textarea
-                aria-label="Ask about your documents"
-                placeholder="Ask about your documents…"
-                disabled
-                rows={2}
-              />
-              <button
-                aria-label="Send question"
-                disabled
-                className={styles.sendButton}
-              >
-                <Icon name="arrow" size={20} />
-              </button>
-            </div>
-            <p>
-              File management is ready. Chat will be connected in the next step.
-            </p>
-          </div>
+          <ChatPanel
+            chat={chat}
+            messages={messages}
+            ready={library.files.some((file) => file.status === "ready")}
+            libraryLoading={library.loading}
+            libraryError={!!library.listError}
+            onSource={(key, source) => selectEvidence(key, source.source_id)}
+            onAnswer={(key) => selectEvidence(key, null)}
+          />
         </main>
         {!compact && (
-          <aside
-            className={styles.panel}
-            aria-labelledby="evidence-title"
-          >
-            <EvidencePanel />
+          <aside className={styles.panel} aria-labelledby="evidence-title">
+            {evidence}
           </aside>
         )}
       </div>
@@ -171,7 +125,7 @@ export function Workspace() {
       )}
       {drawer === "evidence" && compact && (
         <Modal drawer titleId="evidence-title" onClose={() => setDrawer(null)}>
-          <EvidencePanel onClose={() => setDrawer(null)} />
+          {evidence}
         </Modal>
       )}
       <footer className={styles.pageFooter}>

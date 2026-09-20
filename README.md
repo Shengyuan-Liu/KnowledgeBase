@@ -5,12 +5,13 @@ A TXT knowledge base with vector retrieval and source-grounded answers.
 ## Browser Workspace
 
 The frontend provides a responsive Library / Chat / Evidence layout with working
-TXT upload, file search, and confirmed deletion. Chat and Evidence are currently
-placeholders awaiting the next integration step.
+TXT upload, file search, and confirmed deletion. Chat streams answers, supports
+stopping generation, links citations to original excerpts, and restores the current
+saved conversation after refresh.
 
 Install with `npm --prefix frontend ci`, then run `make api` and `make frontend`
 in separate terminals. Open <http://127.0.0.1:5173>. Uploads use the same backend
-credentials and local data as the CLI and make real embedding API calls.
+credentials and local data as the CLI. Uploads and questions make real model API calls.
 See the [frontend guide](docs/frontend.md) for setup, behavior, and browser tests.
 Run `make stop` to release the development, browser-test, and preview ports before
 restarting (8000, 5173, 8001, 5174, and 4173).

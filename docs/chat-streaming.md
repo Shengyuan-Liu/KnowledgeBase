@@ -104,4 +104,6 @@ provider completion/error/EOF handling, connection closure, follow-ups, empty
 retrieval, HTTP errors, stream errors, atomic rollback, and history restoration.
 The ASGI test pauses generation and verifies that HTTP text frames arrive before
 the model finishes, then verifies disconnect cancellation. These tests do not call
-live providers or claim browser/proxy deployment verification.
+live providers. The [frontend browser suite](frontend.md#verification) additionally
+exercises real HTTP/SSE through the local Vite proxy with offline provider fixtures;
+production proxy deployment remains unverified.

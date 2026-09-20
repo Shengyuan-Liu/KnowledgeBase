@@ -6,7 +6,7 @@ The repository contains a working Python backend, interactive CLI, HTTP/SSE API,
 and frozen-corpus evaluation runner. The root `main.py` launches the CLI;
 `knowledgebase/api/app.py` creates the FastAPI application. The React
 [frontend workspace](frontend.md) implements the responsive layout and file
-management. Browser chat, evidence navigation, and conversation restoration remain pending.
+management, streaming chat, evidence navigation, and conversation restoration.
 
 Use the root `knowledgebase/` package without a `src/` wrapper. `pyproject.toml`
 and `uv.lock` manage Python dependencies. The `frontend/` directory owns
@@ -160,8 +160,8 @@ Runtime dependencies exclude notebook tooling. Install it explicitly with
 out of Git; `.env.example` contains placeholders.
 
 Keep the [MVP scope](mvp/mvp-product-design.md): English-only, single-user TXT basic
-RAG. Connect streaming chat and evidence navigation to the existing frontend next,
-then verify the complete integrated workflow. Add functionality and modules when
-current requirements justify them.
+RAG. The browser workflow is verified against the real API with offline provider
+fixtures. Live-provider quality and production hosting need separate verification.
+Add functionality and modules when current requirements justify them.
 Follow [AGENTS.md](../AGENTS.md) for Python ownership, verification, English text,
 and a Git commit for each completed change.
