@@ -32,3 +32,21 @@ class RetrievedChunk(BaseModel):
 
     chunk: Chunk
     distance: float
+
+
+class AnswerSource(BaseModel):
+    """One retrieved excerpt, numbered within the current answer."""
+
+    source_id: int
+    file_id: str
+    file_name: str
+    chunk_id: str
+    text: str
+    distance: float
+
+
+class ChatAnswer(BaseModel):
+    """Answer text and all retrieved sources supplied to the model."""
+
+    answer: str
+    sources: list[AnswerSource]
