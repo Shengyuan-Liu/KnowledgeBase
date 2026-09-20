@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient
+from knowledgebase.rag.citations import validate_citations
 from knowledgebase.rag.generation import generate_answer
 from knowledgebase.rag.query import resolve_question
 from knowledgebase.rag.retrieval import retrieve
@@ -52,7 +53,10 @@ def answer_question(
         ]
 
     answer = generate_answer(question, chunks, llm_client)
-    return ChatAnswer(answer=answer, sources=sources)
+    return ChatAnswer(
+        answer=answer, sources=sources,
+        citation_check=validate_citations(answer, sources),
+    )
 
 
 def answer_in_conversation(
@@ -95,6 +99,7 @@ def answer_in_conversation(
 
     return ConversationAnswer(
         answer=result.answer, sources=result.sources,
+        citation_check=result.citation_check,
         conversation_id=conversation_id, message_id=message.message_id,
         question=question, retrieval_question=retrieval_question,
     )

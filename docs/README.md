@@ -13,6 +13,7 @@
 - [File deletion](file-deletion.md): retrieval exclusion, vector/chunk/file cleanup, transaction boundaries, and explicit retries.
 - [Conversation storage](conversation-storage.md): conversation metadata, ordered message history, recent-message reads, and caller-owned transactions.
 - [Conversation chat](conversation-chat.md): follow-up resolution, fresh retrieval, completed-turn persistence, and CLI resumption.
+- [Citation checks](citations.md): source-number validation, returned diagnostics, and evaluation recording.
 - [Original text storage](file-store.md): optional TXT storage utility; not used by the current ingestion workflow.
 
 ## MVP Design

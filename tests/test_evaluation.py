@@ -215,6 +215,8 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
         summary = ev.summarize(path)
         row = summary["rows"][0]["answer"]
         assert row["answer"] == "A GPA of 3.0. [1]"
+        assert row["citation_check"] == {"valid_source_ids": [1], "invalid_source_ids": [], "no_citations": False}
+        assert summary["citation_checks_recorded"] == 1
         assert len(row["sources"]) == 1
         assert row["sources"][0]["start_offset"] == 0
         assert row["sources"][0]["end_offset"] == len(text)
@@ -224,3 +226,29 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
         prompt = json.dumps(call.kwargs["input"])
         assert "REFERENCE_ONLY" not in prompt
         assert text in prompt
+
+
+def test_citation_diagnostics_preserve_unchecked_history_and_do_not_assign_grades(tmp_path):
+    cases = [case("legacy"), case("invalid"), case("refusal", False)]
+    path = make_run(tmp_path / "run", cases[:1])
+    ev.write_json(path / "cases.json", cases)
+    results = [
+        {**answer(), "answer": "A requirement. [1][5]", "citation_check": {
+            "valid_source_ids": [1], "invalid_source_ids": [5], "no_citations": False}},
+        {"answer": "Insufficient evidence.", "sources": [], "citation_check": {
+            "valid_source_ids": [], "invalid_source_ids": [], "no_citations": True}},
+    ]
+    ev.collect_answers(path, cases[1:], Mock(side_effect=results))
+    recorded = ev.read_jsonl(path / "answers.jsonl")
+    assert "citation_check" not in recorded[0]
+    assert recorded[1]["citation_check"]["invalid_source_ids"] == [5]
+    assert recorded[1]["answer"] == "A requirement. [1][5]"
+    summary = ev.report(path)
+    assert summary["citation_checks_recorded"] == 2
+    assert summary["answers_with_invalid_citation_ids"] == 1
+    assert summary["answers_without_numbered_citations"] == 1
+    assert summary["scored"] == 0
+    assert summary["pass_rate"] is None
+    report = next((path / "reports").glob("*.md")).read_text()
+    assert "Not recorded for this answer." in report
+    assert "Invalid source IDs: [5]" in report

@@ -25,8 +25,8 @@ def generate_answer(
     """Number chunks in retrieval order and return the model's answer text.
 
     Source [n] refers to chunks[n - 1]. Empty retrieval returns an insufficient-
-    evidence response without calling the model. Citation validation belongs
-    to a separate step; this function requests citations through the prompt.
+    evidence response without calling the model. The chat service checks source
+    numbers after generation; this function requests citations through the prompt.
     """
     if not chunks:
         return INSUFFICIENT_EVIDENCE

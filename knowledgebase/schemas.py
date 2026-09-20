@@ -45,11 +45,20 @@ class AnswerSource(BaseModel):
     distance: float
 
 
+class CitationCheck(BaseModel):
+    """Number-to-source matches only; this does not assess factual support."""
+
+    valid_source_ids: list[int]
+    invalid_source_ids: list[int]
+    no_citations: bool
+
+
 class ChatAnswer(BaseModel):
     """Answer text and all retrieved sources supplied to the model."""
 
     answer: str
     sources: list[AnswerSource]
+    citation_check: CitationCheck
 
 
 class ConversationAnswer(ChatAnswer):

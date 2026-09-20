@@ -26,6 +26,10 @@ old messages are not supplied as answer evidence. The CLI prints the conversatio
 ID and, when it changes, the question used for retrieval. Type `exit` or `quit` to
 leave, or press Ctrl+D or Ctrl+C at the question prompt. Blank input is ignored.
 
+Each answer also shows a [citation number check](docs/citations.md): valid source
+IDs, invalid IDs, or no numbered citations. This locates references; it does not
+judge whether an excerpt supports a claim, and it leaves the answer unchanged.
+
 Each invocation starts a new conversation unless you resume a printed ID from the
 same data directory:
 

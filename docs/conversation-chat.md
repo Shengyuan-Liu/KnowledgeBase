@@ -32,10 +32,11 @@ fails, the complete exchange rolls back. Failed/interrupted turns are not yet st
 as separate records. Calls for a single conversation are sequential; this service
 does not coordinate concurrent writers or stream responses.
 
-The returned `ConversationAnswer` includes `answer`, `sources`, `conversation_id`,
+The returned `ConversationAnswer` includes `answer`, `sources`, `citation_check`, `conversation_id`,
 the assistant's `message_id`, original `question`, and `retrieval_question`. Original
 message text is persisted; the resolved question and source list are returned for
-display/debugging and are not yet stored in message rows. No database schema change
+display/debugging and are not yet stored in message rows. [Citation diagnostics](citations.md)
+are also returned without altering the saved answer. No database schema change
 is needed for this service integration.
 
 With configured clients and a session factory:

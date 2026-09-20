@@ -7,7 +7,7 @@ import pytest
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
-from knowledgebase.schemas import ChatAnswer
+from knowledgebase.schemas import ChatAnswer, CitationCheck
 from knowledgebase.services.chat import answer_in_conversation, answer_question
 from knowledgebase.services.files import delete_file, ingest_file
 from knowledgebase.storage.database import build_engine, build_session_factory, init_db
@@ -56,6 +56,7 @@ def test_ingestion_to_answer_keeps_sources_aligned_with_prompt(storage, top_k):
 
     assert isinstance(result, ChatAnswer)
     assert result.answer == "The café closes at 5 PM. [1]\n"
+    assert result.citation_check == CitationCheck(valid_source_ids=[1], invalid_source_ids=[], no_citations=False)
     assert [source.source_id for source in result.sources] == list(range(1, top_k + 1))
     assert [source.file_id for source in result.sources] == [
         second_id, first_id, first_id
@@ -91,7 +92,10 @@ def test_empty_knowledge_base_returns_no_sources_without_model_calls(storage):
 
     result = answer_question("When does the café close?", sessions, embeddings, store, llm)
 
-    assert result == ChatAnswer(answer=INSUFFICIENT_EVIDENCE, sources=[])
+    assert result == ChatAnswer(
+        answer=INSUFFICIENT_EVIDENCE, sources=[],
+        citation_check=CitationCheck(valid_source_ids=[], invalid_source_ids=[], no_citations=True),
+    )
     embeddings.embed_query.assert_not_called()
     llm.generate.assert_not_called()
 
@@ -220,3 +224,17 @@ def test_existing_empty_conversation_needs_no_resolution_call(storage):
     assert result.retrieval_question == "What is available?"
     assert result.answer == INSUFFICIENT_EVIDENCE
     llm.generate.assert_not_called()
+
+
+def test_invalid_citations_are_reported_and_original_conversation_answer_is_saved(storage, conversational_clients):
+    sessions, store = storage
+    embeddings, llm, _ = conversational_clients
+    text = "  It requires 36 credits. [1] An unsupported claim. [5]\n"
+    llm.generate.return_value = text
+    result = answer_in_conversation("How many credits?", sessions, embeddings, store, llm)
+    assert result.answer == text
+    assert result.citation_check == CitationCheck(valid_source_ids=[1], invalid_source_ids=[5], no_citations=False)
+    assert [source.source_id for source in result.sources] == [1]
+    llm.generate.assert_called_once()
+    with sessions() as session:
+        assert get_messages(session, result.conversation_id)[-1].content == text

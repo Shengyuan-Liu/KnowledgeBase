@@ -5,7 +5,7 @@ from unittest.mock import Mock
 import pytest
 
 from knowledgebase import cli
-from knowledgebase.schemas import AnswerSource, ChatAnswer
+from knowledgebase.schemas import AnswerSource, ChatAnswer, CitationCheck
 
 
 def test_loop_prints_answers_and_chunks_for_multiple_questions(monkeypatch, capsys):
@@ -15,6 +15,7 @@ def test_loop_prints_answers_and_chunks_for_multiple_questions(monkeypatch, caps
         side_effect=[
             ChatAnswer(
                 answer="At 5 PM. [1]",
+                citation_check=CitationCheck(valid_source_ids=[1], invalid_source_ids=[], no_citations=False),
                 sources=[AnswerSource(
                     source_id=1,
                     file_id="file-1",
@@ -24,7 +25,8 @@ def test_loop_prints_answers_and_chunks_for_multiple_questions(monkeypatch, caps
                     distance=0.1,
                 )],
             ),
-            ChatAnswer(answer="Opening hours are not provided.", sources=[]),
+            ChatAnswer(answer="Opening hours are not provided.", sources=[],
+                       citation_check=CitationCheck(valid_source_ids=[], invalid_source_ids=[], no_citations=True)),
         ]
     )
 
@@ -39,6 +41,8 @@ def test_loop_prints_answers_and_chunks_for_multiple_questions(monkeypatch, caps
     assert "The café closes at 5 PM.\nOpen on weekdays." in output
     assert "Answer:\nOpening hours are not provided." in output
     assert "Retrieved chunks:\nNone." in output
+    assert "valid source IDs: [1]; invalid source IDs: []" in output
+    assert "Citation check: no numbered citations found." in output
     assert output.endswith("Goodbye.\n")
 
 

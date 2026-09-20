@@ -91,6 +91,12 @@ uv run --locked python -m evals.evaluate run --label "Larger chunks: does more c
 
 ### Automatic diagnostics
 
+- **Citation number checks:** new answers retain `citation_check` with valid/invalid
+  source IDs and a no-citations flag. Reports count checked answers, those with invalid
+  IDs, and those without numbered citations. Legacy answers lacking this field are
+  shown as not recorded. These counts do not judge factual support or automatically
+  fail an answer without citations; the [citation guide](../docs/citations.md) defines
+  the supported syntax and limitations.
 - **Annotated character recall:** for each reference span, compute the fraction covered by the
   union of retrieved chunk offsets from the correct document; average spans within each question,
   then average successful answerable questions. Overlapping chunks do not count twice.

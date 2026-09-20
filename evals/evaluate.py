@@ -343,6 +343,7 @@ def summarize(run_dir):
     complete = metadata["status"] == "completed" and all(r["passed"] is not None for r in rows)
     latencies = sorted(a["latency_seconds"] for a in ok)
     ratings = [r["review"]["rating"] for r in scored]
+    citation_checks = [a["citation_check"] for a in ok if "citation_check" in a]
     dimensions = {}
     for key in ("groundedness", "citation_support", "abstention"):
         values = [r[key] for r in ratings if r[key] is not None]
@@ -363,6 +364,9 @@ def summarize(run_dir):
                         if (group := [r for r in rows if r["case"]["category"] == category])},
         "review_errors": sum(r["status"] == "error" for r in latest.values()), "rows": rows,
         "rating_dimensions": dimensions,
+        "citation_checks_recorded": len(citation_checks),
+        "answers_with_invalid_citation_ids": sum(bool(c["invalid_source_ids"]) for c in citation_checks),
+        "answers_without_numbered_citations": sum(c["no_citations"] for c in citation_checks),
     }
 
 
@@ -393,6 +397,13 @@ def report(run_dir):
             lines.extend(["", case["scoring_notes"]])
         answer, review = row["answer"], row["review"]
         lines.extend(["", "### Actual answer", "", answer.get("answer", answer["status"]) if answer else "Not attempted."])
+        check = (answer or {}).get("citation_check")
+        lines.extend(["", "### Citation number check", ""])
+        if check is None:
+            lines.append("Not recorded for this answer.")
+        else:
+            lines.extend([f"Valid source IDs: {check['valid_source_ids']}. Invalid source IDs: {check['invalid_source_ids']}.", "",
+                          f"No numbered citations: {check['no_citations']}. This check does not establish factual support or determine whether citations are needed."])
         lines.extend(["", "### Review", "", f"Passed: {row['passed']}. Answer-point score: {row['answer_point_score_pct']}%."])
         if review and review["status"] == "ok":
             rating = review["rating"]

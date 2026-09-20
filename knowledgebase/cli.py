@@ -38,6 +38,11 @@ def run_chat_loop(ask: Callable[[str], ChatAnswer]) -> None:
             if result.retrieval_question != question:
                 print(f"Retrieval question: {result.retrieval_question}")
         print(f"\nAnswer:\n{result.answer}")
+        check = result.citation_check
+        if check.no_citations:
+            print("\nCitation check: no numbered citations found.")
+        else:
+            print(f"\nCitation check — valid source IDs: {check.valid_source_ids}; invalid source IDs: {check.invalid_source_ids}")
         print("\nRetrieved chunks:")
         if not result.sources:
             print("None.")
