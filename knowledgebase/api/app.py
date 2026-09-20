@@ -8,6 +8,7 @@ from fastapi import FastAPI
 from openai import OpenAI
 
 from knowledgebase.api.chat import ChatResources, router as chat_router
+from knowledgebase.api.conversations import router as conversations_router
 from knowledgebase.api.files import FileResources, router as files_router
 from knowledgebase.config import Settings
 from knowledgebase.providers.embeddings import EmbeddingClient
@@ -50,4 +51,5 @@ def create_app(data_dir: Path | None = None) -> FastAPI:
     app = FastAPI(title="KnowledgeBase", lifespan=lifespan)
     app.include_router(files_router)
     app.include_router(chat_router)
+    app.include_router(conversations_router)
     return app

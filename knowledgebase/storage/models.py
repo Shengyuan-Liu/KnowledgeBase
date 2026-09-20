@@ -1,6 +1,6 @@
 from datetime import UTC, datetime
 
-from sqlalchemy import CheckConstraint, ForeignKey, Text, UniqueConstraint
+from sqlalchemy import JSON, CheckConstraint, ForeignKey, Text, UniqueConstraint
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -68,3 +68,15 @@ class MessageRecord(Base):
     created_at: Mapped[datetime] = mapped_column(
         default=lambda: datetime.now(UTC).replace(tzinfo=None)
     )
+
+
+class AnswerSnapshotRecord(Base):
+    """Evidence as supplied to one answer, retained independently of live files."""
+
+    __tablename__ = "answer_snapshots"
+
+    message_id: Mapped[int] = mapped_column(ForeignKey("messages.message_id"), primary_key=True)
+    retrieval_question: Mapped[str] = mapped_column(Text)
+    # Source file/chunk IDs are historical values, not foreign keys to live data.
+    sources: Mapped[list[dict]] = mapped_column(JSON)
+    citation_check: Mapped[dict] = mapped_column(JSON)

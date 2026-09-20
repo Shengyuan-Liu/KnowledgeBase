@@ -73,7 +73,9 @@ Submit questions to `POST /api/chat` with a JSON `question` and an optional
 `conversation_id` to continue a saved conversation. The endpoint returns the full
 answer, retrieved sources, citation diagnostics, and saved conversation/message IDs
 as JSON after processing completes. See the [chat API guide](docs/chat-api.md) for
-examples and error codes. Streaming and conversation restoration are not yet exposed.
+examples and error codes. Restore saved messages and their original evidence with
+`GET /api/conversations/{conversation_id}`; see the
+[conversation API guide](docs/conversation-api.md). Streaming is not yet exposed.
 
 ## Evaluation
 

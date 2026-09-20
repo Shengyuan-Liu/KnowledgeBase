@@ -92,3 +92,21 @@ class MessageInfo(BaseModel):
     role: str
     content: str
     created_at: datetime
+
+
+class HistoricalSource(AnswerSource):
+    """A saved excerpt plus the current absence of its original file record."""
+
+    file_deleted: bool
+
+
+class ConversationMessage(MessageInfo):
+    """Display history; null details distinguish unrecorded evidence from none."""
+
+    retrieval_question: str | None = None
+    sources: list[HistoricalSource] | None = None
+    citation_check: CitationCheck | None = None
+
+
+class ConversationDetail(ConversationInfo):
+    messages: list[ConversationMessage]

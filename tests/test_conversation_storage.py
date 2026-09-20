@@ -155,6 +155,6 @@ def test_init_db_adds_conversation_tables_to_existing_file_database(tmp_path):
         with sessions() as reader:
             assert get_file(reader, "keep").file_name == "notes.txt"
             assert get_messages(reader, "chat-1")[0].content == "Persist across connections."
-        assert set(inspect(engine).get_table_names()) == {"files", "chunks", "conversations", "messages"}
+        assert set(inspect(engine).get_table_names()) == {"files", "chunks", "conversations", "messages", "answer_snapshots"}
     finally:
         engine.dispose()

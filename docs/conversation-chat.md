@@ -25,7 +25,8 @@ There are no repair calls or automatic retries at this layer.
    current ready files, and generation receives only that question and retrieved
    excerpts. Old answers are not injected into the generation prompt as evidence.
 4. In one write transaction, create the conversation if new and save the original
-   user question and completed assistant answer. Return only after commit.
+   user question, completed assistant answer, and its evidence snapshot. Return
+   only after commit.
 
 Resolution, retrieval, or generation failures do not append messages. If saving
 fails, the complete exchange rolls back. Failed/interrupted turns are not yet stored
@@ -34,10 +35,10 @@ does not coordinate concurrent writers or stream responses.
 
 The returned `ConversationAnswer` includes `answer`, `sources`, `citation_check`, `conversation_id`,
 the assistant's `message_id`, original `question`, and `retrieval_question`. Original
-message text is persisted; the resolved question and source list are returned for
-display/debugging and are not yet stored in message rows. [Citation diagnostics](citations.md)
-are also returned without altering the saved answer. No database schema change
-is needed for this service integration.
+message text is persisted; the resolved question, source list, and
+[citation diagnostics](citations.md) are stored in `answer_snapshots`, linked to
+the assistant message. The [conversation reading API](conversation-api.md) restores
+these details without retrieving new evidence. The original answer stays unchanged.
 
 With configured clients and a session factory:
 

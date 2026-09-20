@@ -86,10 +86,11 @@ the same SDK client as embeddings, and closes that client on shutdown.
 
 This endpoint currently waits for a complete answer and returns JSON. SSE in the
 [frontend design](mvp/mvp-frontend-design.md#api-and-stream-contract) remains a future
-step. There is no conversation-reading endpoint yet. Source lists, citation
-diagnostics, and resolved questions are returned but are not persisted with message
-text, so restoring historical source cards is not supported yet. Send turns for a
-given conversation sequentially; concurrent turns are not coordinated.
+step. Source lists, citation diagnostics, and resolved questions are saved alongside
+each completed assistant message in the same transaction. Restore them through the
+[conversation reading API](conversation-api.md). Older messages without recorded
+snapshots remain readable with null detail fields. Send turns for a given
+conversation sequentially; concurrent turns are not coordinated.
 
 ## Verification
 

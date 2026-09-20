@@ -16,6 +16,7 @@ from knowledgebase.storage.operations import (
     get_conversation,
     get_files,
     get_messages,
+    save_answer_snapshot,
     save_message,
 )
 from knowledgebase.storage.vectordb import ChromaStore
@@ -73,7 +74,7 @@ def answer_in_conversation(
 
     Omit conversation_id to start a new conversation. A supplied ID must exist.
     Model calls run outside history/write sessions. Only successful exchanges
-    are saved, with the original question and answer in one transaction.
+    are saved, with the original question, answer, and evidence in one transaction.
     """
     if history_limit < 1:
         raise ValueError("history_limit must be positive.")
@@ -96,6 +97,7 @@ def answer_in_conversation(
             create_conversation(session, conversation_id)
         save_message(session, conversation_id, "user", question)
         message = save_message(session, conversation_id, "assistant", result.answer)
+        save_answer_snapshot(session, message.message_id, retrieval_question, result)
 
     return ConversationAnswer(
         answer=result.answer, sources=result.sources,

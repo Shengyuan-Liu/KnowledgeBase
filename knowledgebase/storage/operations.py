@@ -1,8 +1,12 @@
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
-from knowledgebase.schemas import Chunk, ConversationInfo, FileInfo, MessageInfo
+from knowledgebase.schemas import (
+    ChatAnswer, Chunk, ConversationDetail, ConversationInfo, ConversationMessage,
+    FileInfo, HistoricalSource, MessageInfo,
+)
 from knowledgebase.storage.models import (
+    AnswerSnapshotRecord,
     ChunkRecord,
     ConversationRecord,
     FileRecord,
@@ -173,3 +177,54 @@ def get_messages(
         MessageInfo.model_validate(record, from_attributes=True)
         for record in reversed(session.scalars(statement).all())
     ]
+
+
+def save_answer_snapshot(
+    session: Session, message_id: int, retrieval_question: str, answer: ChatAnswer,
+) -> None:
+    """Save completed assistant evidence; the caller owns the exchange transaction."""
+    session.add(AnswerSnapshotRecord(
+        message_id=message_id,
+        retrieval_question=retrieval_question,
+        sources=[source.model_dump(mode="json") for source in answer.sources],
+        citation_check=answer.citation_check.model_dump(mode="json"),
+    ))
+    session.flush()
+
+
+def get_conversation_detail(session: Session, conversation_id: str) -> ConversationDetail | None:
+    """Read ordered display history without retrieving or reconstructing evidence.
+
+    Missing snapshots remain null, including old assistant messages. File deletion
+    is checked against current file records; saved source text stays unchanged.
+    Follow-up resolution continues to use the text-only get_messages function.
+    """
+    conversation = get_conversation(session, conversation_id)
+    if conversation is None:
+        return None
+    rows = session.execute(
+        select(MessageRecord, AnswerSnapshotRecord)
+        .outerjoin(AnswerSnapshotRecord, AnswerSnapshotRecord.message_id == MessageRecord.message_id)
+        .where(MessageRecord.conversation_id == conversation_id)
+        .order_by(MessageRecord.message_id)
+    ).all()
+    file_ids = {
+        source["file_id"]
+        for _, snapshot in rows if snapshot is not None
+        for source in snapshot.sources
+    }
+    existing_ids = set(session.scalars(select(FileRecord.file_id).where(FileRecord.file_id.in_(file_ids))))
+    messages = []
+    for record, snapshot in rows:
+        if snapshot is None:
+            message = ConversationMessage.model_validate(record, from_attributes=True)
+        else:
+            message = ConversationMessage(
+                **MessageInfo.model_validate(record, from_attributes=True).model_dump(),
+                retrieval_question=snapshot.retrieval_question,
+                sources=[HistoricalSource(**source, file_deleted=source["file_id"] not in existing_ids)
+                         for source in snapshot.sources],
+                citation_check=snapshot.citation_check,
+            )
+        messages.append(message)
+    return ConversationDetail(**conversation.model_dump(), messages=messages)

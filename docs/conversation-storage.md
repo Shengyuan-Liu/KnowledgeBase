@@ -6,12 +6,13 @@ helpers to follow-up resolution and the CLI.
 
 ## Records and snapshots
 
-`knowledgebase/storage/models.py` defines two additional tables:
+`knowledgebase/storage/models.py` defines these conversation tables:
 
 | Table | Fields | Purpose |
 | --- | --- | --- |
 | `conversations` | `conversation_id`, `created_at` | Identify a conversation using a caller-supplied string ID |
 | `messages` | `message_id`, `conversation_id`, `role`, `content`, `created_at` | Store user and assistant messages in append order |
+| `answer_snapshots` | `message_id`, `retrieval_question`, `sources`, `citation_check` | Retain each completed assistant answer's evidence and diagnostics |
 
 The database generates integer message IDs. IDs are global across conversations,
 so gaps within one conversation are normal. Sorting by ID preserves append order
@@ -24,6 +25,11 @@ snapshots: they remain usable after a session closes, and changing a snapshot do
 not update a database record. Stored messages are conversation context, not factual
 evidence for new answers.
 
+Answer snapshots use the assistant message ID as a primary/foreign key. Sources
+and citation diagnostics are JSON values. Historical file/chunk IDs inside sources
+are not foreign keys to live records, so deleting source files retains past
+excerpts. No existing message columns are changed.
+
 ## Operations and transaction ownership
 
 The helpers in `knowledgebase/storage/operations.py` use the existing storage
@@ -35,6 +41,8 @@ convention: writes flush but do not commit; the caller owns commit and rollback.
 | `get_conversation(session, conversation_id)` | Return a `ConversationInfo`, or `None` if missing |
 | `save_message(session, conversation_id, role, content)` | Append a message and return its `MessageInfo`, including the generated ID and timestamp |
 | `get_messages(session, conversation_id, limit=None)` | Return all messages, or the latest positive number of messages, in oldest-to-newest append order |
+| `save_answer_snapshot(session, message_id, retrieval_question, answer)` | Store an assistant answer's sources and diagnostics without committing |
+| `get_conversation_detail(session, conversation_id)` | Return ordered display history and saved evidence, or `None` for an unknown conversation |
 
 An empty or unknown conversation returns an empty message list. Use
 `get_conversation` when distinguishing them matters. Limits count individual
@@ -68,17 +76,20 @@ with session_factory() as session:
     history = get_messages(session, conversation_id, limit=10)
 ```
 
-`init_db` creates the two new tables when next called. It also works on a database
-containing only the earlier file/chunk tables and retains their data. No existing
-table definitions changed, and no data migration is needed for this addition.
+`init_db` creates any missing tables, including `answer_snapshots`, when next
+called. It retains data in existing file, chunk, conversation, and message tables.
+Old messages have no snapshot, so their display details remain null; they are not
+backfilled with new retrieval results. No existing table definitions changed.
 
 ## Scope and verification
 
-These helpers store message text; source snapshots, resolved retrieval questions,
-and streaming status are not database fields. The chat service now saves completed
-exchanges through these helpers and returns the resolved question for debugging.
-New answers must retrieve current evidence rather than reuse message text as a
-source, especially after file deletion. HTTP endpoints remain separate work.
+The chat service saves completed exchanges and evidence in one transaction.
+Streaming status is not stored. `get_messages` remains the text-only history used
+for follow-up resolution. `get_conversation_detail` returns `ConversationDetail`
+with saved evidence and a current `file_deleted` flag for each source. A missing
+snapshot has null details; a recorded empty retrieval has an empty source list.
+New answers must retrieve current evidence rather than reuse historical excerpts,
+especially after deletion. See the [conversation API](conversation-api.md).
 
 `tests/test_conversation_storage.py` uses real temporary SQLite databases to verify
 persistence, timestamp/content preservation, equal-timestamp ordering, latest-N
