@@ -7,16 +7,17 @@ This snapshot contains 16 English UTF-8 TXT documents for future upload, chunkin
 - `policies/`: University Student Conduct Policy, effective August 13, 2026.
 - `msds/`: curriculum, program overview, admissions requirements, admissions and general FAQs, admissions ambassadors, tracks, industry concentration, capstone, summer research, financial aid, student resources, career information, and the 2026–2027 degree bulletin.
 - [manifest.json](manifest.json): source URLs, retrieval timestamps, file sizes, and SHA-256 hashes.
-- [Test cases](../../nyu-test-cases.jsonl): 11 answerable questions with source anchors and line numbers, plus one insufficient-evidence case. Paths in these cases are relative to `evals/`.
+- [Test cases](../../nyu-test-cases.jsonl): 25 single-turn questions, including 20 answerable and 5 insufficient-evidence cases. Each answerable case includes verbatim evidence, line ranges, character offsets, and mappings to expected answer points. Paths are relative to `evals/`.
+- [Questions, answer points, and evidence](../../nyu-test-cases.md): a readable companion with all quoted passages, annotation definitions, and scoring guidance.
 
 ## Using the Materials
 
 1. Upload only the TXT files under `policies/` and `msds/`. Start with the conduct policy for a single-document test, then add the MSDS files for retrieval across documents.
 2. Keep the README, manifest, and test cases outside the retrieval index to avoid answer leakage.
 3. Ask the test questions and check retrieved evidence separately from answer correctness. Evidence entries identify sufficient source passages, not an exhaustive list of every valid duplicate source.
-4. Use the insufficient-evidence case to check that the system does not invent a personal schedule.
+4. Use the five insufficient-evidence cases to check that the system does not invent personal schedules, scholarship awards, capstone assignments, an unavailable application deadline, or an exact tuition bill. Their related context passages are not positive retrieval targets.
 
-No RAG runner or Python implementation is added here. The questions are prepared evaluation data; no live retrieval or model-quality evaluation has been run.
+These files contain prepared evaluation data. Expanding the annotations does not run the RAG system or establish its retrieval or answer quality. See the companion document for the distinction between source-span checks and future model evaluation.
 
 ## Extraction and Scope
 
