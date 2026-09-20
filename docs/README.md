@@ -6,6 +6,7 @@
 
 ## Implemented Components
 
+- [File management API](file-api.md): FastAPI startup, TXT upload/list/delete endpoints, HTTP errors, and lifecycle tests.
 - [Embedding provider](embeddings.md): OpenAI integration, input and output contracts, local usage, and deterministic tests.
 - [Vector database](vectordb.md): Chroma storage, search, file-scoped deletion, and local persistence tests.
 - [Retrieval](retrieval.md): ready-file filtering, question embedding, vector search, and canonical chunk text.

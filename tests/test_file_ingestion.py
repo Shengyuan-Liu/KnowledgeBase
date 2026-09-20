@@ -6,7 +6,7 @@ import pytest
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.rag.chunking import split_text
 from knowledgebase.rag.retrieval import retrieve
-from knowledgebase.services.files import ingest_file
+from knowledgebase.services.files import InvalidUploadError, ingest_file
 from knowledgebase.storage.database import build_engine, build_session_factory, init_db
 from knowledgebase.storage.operations import get_chunks, get_file, get_files
 from knowledgebase.storage.vectordb import ChromaStore
@@ -87,10 +87,10 @@ def test_same_filename_gets_distinct_file_ids(storage, embeddings):
 @pytest.mark.parametrize(
     ("name", "content", "error_type"),
     [
-        ("notes.pdf", b"Text.", ValueError),
-        ("notes.txt", b"\xff", UnicodeDecodeError),
-        ("notes.txt", b"", ValueError),
-        ("notes.txt", b" \r\n\t", ValueError),
+        ("notes.pdf", b"Text.", InvalidUploadError),
+        ("notes.txt", b"\xff", InvalidUploadError),
+        ("notes.txt", b"", InvalidUploadError),
+        ("notes.txt", b" \r\n\t", InvalidUploadError),
     ],
 )
 def test_invalid_upload_is_rejected_before_creating_records(

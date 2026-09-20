@@ -17,6 +17,10 @@ from knowledgebase.storage.operations import (
 from knowledgebase.storage.vectordb import ChromaStore
 
 
+class InvalidUploadError(ValueError):
+    """The supplied file is not nonempty UTF-8 TXT content."""
+
+
 def ingest_file(
     file_name: str,
     content: bytes,
@@ -33,10 +37,13 @@ def ingest_file(
     after marking the file failed and cleaning up its vectors.
     """
     if Path(file_name).suffix.lower() != ".txt":
-        raise ValueError("Only .txt files are supported.")
-    text = content.decode("utf-8")
+        raise InvalidUploadError("Only .txt files are supported.")
+    try:
+        text = content.decode("utf-8")
+    except UnicodeDecodeError as error:
+        raise InvalidUploadError("The file must be UTF-8 encoded.") from error
     if not text.strip():
-        raise ValueError("The file must contain nonempty text.")
+        raise InvalidUploadError("The file must contain nonempty text.")
 
     file_id = uuid4().hex
     chunks = split_text(text, file_id, chunk_size=chunk_size, overlap=overlap)

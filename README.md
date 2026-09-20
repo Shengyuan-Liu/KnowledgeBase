@@ -56,6 +56,19 @@ Follow-up resolution adds one model call when conversation history is nonempty.
 An empty knowledge base returns an insufficient-evidence answer with no chunks;
 history-based resolution may still run, but answer generation does not.
 
+## File Management API
+
+With `OPENAI_API_KEY` configured in `.env`, start the local API:
+
+```bash
+make api
+```
+
+Open [interactive API documentation](http://127.0.0.1:8000/docs) after startup.
+Upload, list, and delete TXT files through `/api/files`. Upload waits for indexing
+and returns `201` when ready. API and CLI share `DATA_DIR` from `.env` (default `data`).
+See the [file API guide](docs/file-api.md) for requests and error codes.
+
 ## Evaluation
 
 Run the frozen NYU question set, grade answers with human review or an LLM judge, and

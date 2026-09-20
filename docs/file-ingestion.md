@@ -8,8 +8,8 @@ successful indexing.
 ## Workflow
 
 1. Require a `.txt` extension (case-insensitive), decode UTF-8, and reject empty
-   or whitespace-only content. Validation errors propagate before a file record
-   is created.
+   or whitespace-only content. `InvalidUploadError` (a `ValueError` subclass)
+   propagates before a file record is created, including invalid UTF-8 input.
 2. Generate a file ID and split the unchanged text using `chunk_size` and
    `overlap`, defaulting to 256 and 64 characters.
 3. Create and commit a `processing` file record, preserving its original filename.
@@ -58,8 +58,8 @@ an existing session. With real OpenAI clients, launch Python using
 the provider's request limits apply.
 
 See [embedding setup](embeddings.md), [vector database setup](vectordb.md),
-[retrieval](retrieval.md), and [file deletion](file-deletion.md). Restart recovery
-and HTTP upload routes remain separate implementation steps.
+[retrieval](retrieval.md), [file deletion](file-deletion.md), and the
+[file management API](file-api.md). Restart recovery remains a separate step.
 
 ## Verification
 

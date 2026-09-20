@@ -1,4 +1,7 @@
-.PHONY: test test-live
+.PHONY: test test-live api
+
+api:
+	uv run --locked uvicorn knowledgebase.api.app:create_app --factory --host 127.0.0.1 --port 8000
 
 test:
 	uv run --locked python -m pytest tests/

@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from knowledgebase.config import Settings
 
 
@@ -15,3 +17,12 @@ def test_environment_overrides_dotenv(tmp_path, monkeypatch):
     monkeypatch.setenv("OPENAI_API_KEY", "test-environment-key")
 
     assert Settings().openai_api_key == "test-environment-key"
+
+
+def test_data_directory_defaults_and_dotenv_override(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("DATA_DIR", raising=False)
+    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
+    assert Settings().data_dir == Path("data")
+    (tmp_path / ".env").write_text("DATA_DIR=custom-data\n", encoding="utf-8")
+    assert Settings().data_dir == Path("custom-data")

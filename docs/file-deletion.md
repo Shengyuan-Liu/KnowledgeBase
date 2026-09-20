@@ -45,8 +45,9 @@ cleanup fails. Deleting the last ready file causes subsequent questions to retur
 the existing insufficient-evidence response without embedding or generation calls.
 
 The current ingestion service does not retain a separate original TXT copy, so
-deletion does not use the optional `FileStore` utility. CLI commands, HTTP routes,
-and UI controls for deletion are separate work.
+deletion does not use the optional `FileStore` utility. The
+[HTTP delete route](file-api.md) now calls this service; CLI deletion commands and
+UI controls remain separate work.
 
 ## Verification
 

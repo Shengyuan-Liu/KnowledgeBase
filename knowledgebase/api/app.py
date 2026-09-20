@@ -1,0 +1,43 @@
+"""Create the file-management API and own its application resources."""
+
+from contextlib import asynccontextmanager
+from pathlib import Path
+
+import chromadb
+from fastapi import FastAPI
+from openai import OpenAI
+
+from knowledgebase.api.files import FileResources, router
+from knowledgebase.config import Settings
+from knowledgebase.providers.embeddings import EmbeddingClient
+from knowledgebase.storage.database import build_engine, build_session_factory, init_db
+from knowledgebase.storage.vectordb import ChromaStore
+
+
+def create_app(data_dir: Path | None = None) -> FastAPI:
+    """Build the app; open databases and the provider client only at startup."""
+    @asynccontextmanager
+    async def lifespan(app: FastAPI):
+        settings = Settings()
+        directory = (data_dir if data_dir is not None else settings.data_dir).resolve()
+        directory.mkdir(parents=True, exist_ok=True)
+        engine = build_engine(f"sqlite:///{directory / 'knowledgebase.db'}")
+        try:
+            init_db(engine)
+            collection = chromadb.PersistentClient(path=str(directory / "chroma")).get_or_create_collection(
+                name="knowledgebase-chunks", embedding_function=None,
+                configuration={"hnsw": {"space": "cosine"}},
+            )
+            with OpenAI(api_key=settings.openai_api_key) as sdk:
+                app.state.file_resources = FileResources(
+                    sessions=build_session_factory(engine),
+                    embeddings=EmbeddingClient(sdk),
+                    store=ChromaStore(collection),
+                )
+                yield
+        finally:
+            engine.dispose()
+
+    app = FastAPI(title="KnowledgeBase", lifespan=lifespan)
+    app.include_router(router)
+    return app

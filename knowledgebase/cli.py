@@ -55,12 +55,13 @@ def run_chat_loop(ask: Callable[[str], ChatAnswer]) -> None:
 def cli() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("files", nargs="*", type=Path, help="TXT files to index before chatting")
-    parser.add_argument("--data-dir", type=Path, default=Path("data"), help="Local storage directory")
+    parser.add_argument("--data-dir", type=Path, help="Override the DATA_DIR local storage directory")
     parser.add_argument("--model", default="gpt-4.1-nano", help="OpenAI answer model")
     parser.add_argument("--top-k", type=int, default=5, help="Maximum retrieved chunks per question")
     parser.add_argument("--conversation-id", help="Resume a saved conversation in this data directory")
     args = parser.parse_args()
     settings = Settings()
+    args.data_dir = args.data_dir if args.data_dir is not None else settings.data_dir
 
     args.data_dir.mkdir(parents=True, exist_ok=True)
     database_path = args.data_dir.resolve() / "knowledgebase.db"
