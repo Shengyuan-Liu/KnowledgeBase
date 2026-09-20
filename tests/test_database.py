@@ -26,7 +26,9 @@ def test_build_engine_does_not_create_database_until_used(tmp_path):
         assert not path.exists()
         init_db(engine)
         assert path.exists()
-        assert set(inspect(engine).get_table_names()) == {"files", "chunks"}
+        assert set(inspect(engine).get_table_names()) == {
+            "files", "chunks", "conversations", "messages"
+        }
     finally:
         engine.dispose()
 

@@ -50,3 +50,20 @@ class ChatAnswer(BaseModel):
 
     answer: str
     sources: list[AnswerSource]
+
+
+class ConversationInfo(BaseModel):
+    """Saved conversation metadata, independent of the database session."""
+
+    conversation_id: str
+    created_at: datetime
+
+
+class MessageInfo(BaseModel):
+    """One stored message; history is context, not retrieved evidence."""
+
+    message_id: int
+    conversation_id: str
+    role: str
+    content: str
+    created_at: datetime

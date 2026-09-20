@@ -41,3 +41,30 @@ class ChunkRecord(Base):
     index: Mapped[int]
     start_offset: Mapped[int]
     end_offset: Mapped[int]
+
+
+class ConversationRecord(Base):
+    __tablename__ = "conversations"
+
+    conversation_id: Mapped[str] = mapped_column(primary_key=True)
+    created_at: Mapped[datetime] = mapped_column(
+        default=lambda: datetime.now(UTC).replace(tzinfo=None)
+    )
+
+
+class MessageRecord(Base):
+    __tablename__ = "messages"
+    __table_args__ = (
+        CheckConstraint("role IN ('user', 'assistant')", name="ck_messages_role"),
+    )
+
+    # Database-assigned IDs preserve append order even when timestamps tie.
+    message_id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    conversation_id: Mapped[str] = mapped_column(
+        ForeignKey("conversations.conversation_id"), index=True
+    )
+    role: Mapped[str]
+    content: Mapped[str] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(
+        default=lambda: datetime.now(UTC).replace(tzinfo=None)
+    )

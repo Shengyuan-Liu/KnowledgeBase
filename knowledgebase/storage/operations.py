@@ -1,8 +1,13 @@
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
-from knowledgebase.schemas import Chunk, FileInfo
-from knowledgebase.storage.models import ChunkRecord, FileRecord
+from knowledgebase.schemas import Chunk, ConversationInfo, FileInfo, MessageInfo
+from knowledgebase.storage.models import (
+    ChunkRecord,
+    ConversationRecord,
+    FileRecord,
+    MessageRecord,
+)
 
 
 def create_file(session: Session, file_id: str, file_name: str) -> None:
@@ -116,3 +121,55 @@ def delete_file_record(session: Session, file_id: str) -> None:
         raise LookupError(f"File not found: {file_id}")
     session.delete(record)
     session.flush()
+
+
+def create_conversation(session: Session, conversation_id: str) -> None:
+    """Insert a conversation and flush without committing the caller's work."""
+    session.add(ConversationRecord(conversation_id=conversation_id))
+    session.flush()
+
+
+def get_conversation(session: Session, conversation_id: str) -> ConversationInfo | None:
+    """Return conversation metadata, or None when the ID does not exist."""
+    record = session.get(ConversationRecord, conversation_id)
+    if record is None:
+        return None
+    return ConversationInfo.model_validate(record, from_attributes=True)
+
+
+def save_message(
+    session: Session, conversation_id: str, role: str, content: str
+) -> MessageInfo:
+    """Append a user/assistant message, returning its generated ID and timestamp.
+
+    Flush without committing. The database enforces the conversation foreign key
+    and supported roles. Preserve content unchanged; the caller owns rollback.
+    """
+    record = MessageRecord(conversation_id=conversation_id, role=role, content=content)
+    session.add(record)
+    session.flush()
+    return MessageInfo.model_validate(record, from_attributes=True)
+
+
+def get_messages(
+    session: Session, conversation_id: str, limit: int | None = None
+) -> list[MessageInfo]:
+    """Read one conversation in append order, optionally only its latest messages.
+
+    A positive limit counts individual messages, not complete exchanges. Results
+    still run oldest to newest. Empty and unknown conversations return an empty
+    list; get_conversation distinguishes them. Reads do not commit.
+    """
+    if limit is not None and limit < 1:
+        raise ValueError("limit must be positive or None.")
+    statement = (
+        select(MessageRecord)
+        .where(MessageRecord.conversation_id == conversation_id)
+        .order_by(MessageRecord.message_id.desc())
+    )
+    if limit is not None:
+        statement = statement.limit(limit)
+    return [
+        MessageInfo.model_validate(record, from_attributes=True)
+        for record in reversed(session.scalars(statement).all())
+    ]
