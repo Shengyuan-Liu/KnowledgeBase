@@ -1,6 +1,5 @@
-def main():
-    print("Hello from knowledgebase!")
+from knowledgebase.cli import cli
 
 
 if __name__ == "__main__":
-    main()
+    cli()
