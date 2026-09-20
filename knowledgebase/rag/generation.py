@@ -1,6 +1,7 @@
 """Generate an answer grounded in numbered retrieved excerpts."""
 
 from knowledgebase.providers.llm import LLMClient
+from knowledgebase.rag.context import build_context
 from knowledgebase.schemas import RetrievedChunk
 
 
@@ -30,10 +31,7 @@ def generate_answer(
     if not chunks:
         return INSUFFICIENT_EVIDENCE
 
-    context = "\n\n".join(
-        f"[{number}]\n{item.chunk.text}"
-        for number, item in enumerate(chunks, start=1)
-    )
+    context = build_context(chunks)
     return llm_client.generate(
         [
             {"role": "developer", "content": ANSWER_INSTRUCTIONS},
