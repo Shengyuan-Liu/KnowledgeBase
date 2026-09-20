@@ -79,7 +79,7 @@ Comparisons save a new JSON artifact under `evals/comparisons/`, including confi
 aggregate deltas, and each question's before/after score and pass status. Positive answer-score
 deltas indicate improvement; positive latency deltas indicate slower responses. Rate deltas are
 fractions (0.10 means 10 percentage points). Comparisons suppress deltas when the dataset, corpus,
-rubric, evaluator identity, or reviewed-case coverage differs, or either evaluation is incomplete.
+rubric, evaluator identity, judge protocol, or reviewed-case coverage differs, or either evaluation is incomplete.
 Use the same reviewer ID and judge model consistently; do not reuse a reviewer ID for another person.
 For revised rubrics, start a new evaluation series using the matching evaluator code version.
 
@@ -111,7 +111,7 @@ uv run --locked python -m evals.evaluate run --label "Larger chunks: does more c
 | `cases.json`, `corpus.json` | Exact questions, reference answers, evidence, case notes, and source manifest |
 | `answers.jsonl` | Per-question answers, complete retrieved text and offsets, automatic retrieval scores, latency, or error type |
 | `review-template.json` | Blank human scoring form; no invented scores |
-| `reviews.jsonl` | Append-only reviews, reviewer/method/model, exact judge messages and raw response, scores, reasons, issues, answer hash |
+| `reviews.jsonl` | Append-only reviews, reviewer/method/model, evaluator code revision, judge protocol hash, exact messages and raw response, scores, reasons, issues, answer hash |
 | `reports/` | New timestamped Markdown and JSON snapshots after each run, grading session, or explicit report |
 
 Do not edit original answers or old reviews; append another review instead. Answer hashes prevent

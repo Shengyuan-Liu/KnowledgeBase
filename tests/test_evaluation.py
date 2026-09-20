@@ -126,6 +126,16 @@ def test_judge_records_exact_prompts_raw_outputs_and_parse_failures(tmp_path):
     assert summary["pass_rate"] is None
 
 
+@pytest.mark.parametrize("answerable", [True, False])
+def test_judge_schema_makes_abstention_applicability_explicit(answerable):
+    messages = ev.judge_messages(case(answerable=answerable), answer())
+    payload = json.loads(messages[1]["content"])
+    properties = payload["schema"]["properties"]
+    assert properties["abstention"]["type"] == ("null" if answerable else "integer")
+    assert properties["point_scores"]["minItems"] == properties["point_scores"]["maxItems"] == 1
+    assert "Only answer.sources was available" in messages[0]["content"]
+
+
 def test_changed_answers_cannot_reuse_old_scores(tmp_path):
     path = make_run(tmp_path / "run")
     human_grade(path)
