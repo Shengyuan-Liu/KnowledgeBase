@@ -6,6 +6,7 @@
 
 ## Implemented Components
 
+- [Frontend workspace](frontend.md): responsive panels, real file management, local setup, and offline browser acceptance tests; chat integration is pending.
 - [File management API](file-api.md): FastAPI startup, TXT upload/list/delete endpoints, HTTP errors, and lifecycle tests.
 - [Chat API](chat-api.md): complete JSON answers, continued conversations, source and citation fields, HTTP errors, and integration tests.
 - [Streaming chat API](chat-streaming.md): incremental SSE text, request identity, completion, cancellation, and atomic answer persistence.

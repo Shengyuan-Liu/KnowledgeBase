@@ -2,7 +2,7 @@
 
 ## Purpose and Reference Review
 
-This document defines the frontend to implement with TypeScript, React, Vite, and CSS Modules. It supplements the [MVP product design](mvp-product-design.md) and [MVP technical plan](mvp-technical-plan.md). It is a design specification, not an implemented or visually tested application.
+This document defines the frontend with TypeScript, React, Vite, and CSS Modules. It supplements the [MVP product design](mvp-product-design.md) and [MVP technical plan](mvp-technical-plan.md). It remains the target design; the [frontend guide](../frontend.md) records the implemented responsive shell and file management. Browser chat and evidence integration remain pending.
 
 Two user-selected Chrome tabs were reviewed on September 6, 2026:
 
@@ -157,7 +157,8 @@ Keep file state, conversation state, and presentation state distinct. `activeMes
 
 ### API and Stream Contract
 
-The following backend endpoints are implemented. Frontend integration remains pending;
+The following backend endpoints are implemented. The frontend integrates the file
+endpoints; chat and conversation integration remain pending;
 see the [streaming guide](../chat-streaming.md) for the current event payloads.
 
 | Operation | Contract |

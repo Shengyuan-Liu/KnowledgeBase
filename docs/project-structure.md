@@ -4,11 +4,12 @@
 
 The repository contains a working Python backend, interactive CLI, HTTP/SSE API,
 and frozen-corpus evaluation runner. The root `main.py` launches the CLI;
-`knowledgebase/api/app.py` creates the FastAPI application. The React frontend is
-planned in the [frontend design](mvp/mvp-frontend-design.md) and has not been built.
+`knowledgebase/api/app.py` creates the FastAPI application. The React
+[frontend workspace](frontend.md) implements the responsive layout and file
+management. Browser chat, evidence navigation, and conversation restoration remain pending.
 
 Use the root `knowledgebase/` package without a `src/` wrapper. `pyproject.toml`
-and `uv.lock` manage Python dependencies. A future `frontend/` directory will own
+and `uv.lock` manage Python dependencies. The `frontend/` directory owns
 its TypeScript dependencies and Vite configuration.
 
 ## Implemented Directory Layout
@@ -19,6 +20,13 @@ KnowledgeBase/
 ├── pyproject.toml
 ├── uv.lock
 ├── Makefile
+├── frontend/
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── vite.config.ts
+│   ├── playwright.config.ts
+│   ├── src/                    # React UI, file API client, and component tests
+│   └── e2e/                    # Browser tests against isolated FastAPI storage
 ├── knowledgebase/
 │   ├── cli.py
 │   ├── config.py
@@ -51,6 +59,7 @@ KnowledgeBase/
 │       └── vectordb.py
 ├── tests/
 │   ├── conftest.py
+│   ├── frontend_server.py       # Offline server for browser acceptance tests
 │   └── test_*.py
 ├── evals/
 │   ├── evaluate.py
@@ -151,7 +160,8 @@ Runtime dependencies exclude notebook tooling. Install it explicitly with
 out of Git; `.env.example` contains placeholders.
 
 Keep the [MVP scope](mvp/mvp-product-design.md): English-only, single-user TXT basic
-RAG. Build the planned React/TypeScript/Vite frontend next, then verify the integrated
-workflow. Add functionality and modules when current requirements justify them.
+RAG. Connect streaming chat and evidence navigation to the existing frontend next,
+then verify the complete integrated workflow. Add functionality and modules when
+current requirements justify them.
 Follow [AGENTS.md](../AGENTS.md) for Python ownership, verification, English text,
 and a Git commit for each completed change.

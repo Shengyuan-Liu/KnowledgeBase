@@ -2,6 +2,17 @@
 
 A TXT knowledge base with vector retrieval and source-grounded answers.
 
+## Browser Workspace
+
+The frontend provides a responsive Library / Chat / Evidence layout with working
+TXT upload, file search, and confirmed deletion. Chat and Evidence are currently
+placeholders awaiting the next integration step.
+
+Install with `npm --prefix frontend ci`, then run `make api` and `make frontend`
+in separate terminals. Open <http://127.0.0.1:5173>. Uploads use the same backend
+credentials and local data as the CLI and make real embedding API calls.
+See the [frontend guide](docs/frontend.md) for setup, behavior, and browser tests.
+
 ## Interactive CLI
 
 Run from the repository root with `OPENAI_API_KEY` in `.env`.
