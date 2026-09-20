@@ -31,7 +31,9 @@ There are no repair calls or automatic retries at this layer.
 Resolution, retrieval, or generation failures do not append messages. If saving
 fails, the complete exchange rolls back. Failed/interrupted turns are not yet stored
 as separate records. Calls for a single conversation are sequential; this service
-does not coordinate concurrent writers or stream responses.
+does not coordinate concurrent writers. `answer_in_conversation` returns a complete
+answer; `stream_answer_in_conversation` provides the separate
+[streaming path](chat-streaming.md) with the same evidence and persistence rules.
 
 The returned `ConversationAnswer` includes `answer`, `sources`, `citation_check`, `conversation_id`,
 the assistant's `message_id`, original `question`, and `retrieval_question`. Original

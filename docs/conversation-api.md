@@ -88,8 +88,9 @@ and chunk IDs are historical values without foreign keys to live source records.
 `init_db` creates the new table on startup without changing existing tables or
 discarding data. Existing messages remain readable with null detail fields.
 
-The endpoint returns the entire known conversation. Conversation listing,
-pagination, and SSE are outside this change.
+The endpoint returns the entire known conversation. Conversation listing and
+pagination are not implemented. The [streaming chat endpoint](chat-streaming.md)
+also saves completed exchanges here; interrupted partial text is not stored.
 
 ## Verification
 

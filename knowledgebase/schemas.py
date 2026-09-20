@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -66,6 +67,18 @@ class ChatRequest(BaseModel):
 
     question: str = Field(pattern=r"\S")
     conversation_id: str | None = None
+
+
+class StreamChatRequest(ChatRequest):
+    request_id: str = Field(pattern=r"\S")
+
+
+class ChatStreamEvent(BaseModel):
+    """Application event; HTTP framing belongs to the API layer."""
+
+    event: Literal["start", "sources", "answer_delta", "debug", "complete", "error"]
+    request_id: str
+    data: dict[str, Any]
 
 
 class ConversationAnswer(ChatAnswer):

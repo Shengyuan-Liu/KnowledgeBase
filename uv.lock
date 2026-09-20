@@ -1556,6 +1556,7 @@ name = "knowledgebase"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "anyio" },
     { name = "chromadb" },
     { name = "dotenv" },
     { name = "fastapi" },
@@ -1576,6 +1577,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "anyio", specifier = ">=4.15.1" },
     { name = "chromadb", specifier = ">=1.5.9" },
     { name = "dotenv", specifier = ">=0.9.9" },
     { name = "fastapi", specifier = ">=0.141.1" },

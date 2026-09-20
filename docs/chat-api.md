@@ -84,9 +84,9 @@ history remains intact.
 existing blocking service. `api/app.py` constructs the LLM client at startup using
 the same SDK client as embeddings, and closes that client on shutdown.
 
-This endpoint currently waits for a complete answer and returns JSON. SSE in the
-[frontend design](mvp/mvp-frontend-design.md#api-and-stream-contract) remains a future
-step. Source lists, citation diagnostics, and resolved questions are saved alongside
+This endpoint waits for a complete answer and returns JSON. The separate
+[streaming endpoint](chat-streaming.md), `POST /api/chat/stream`, returns SSE.
+Source lists, citation diagnostics, and resolved questions are saved alongside
 each completed assistant message in the same transaction. Restore them through the
 [conversation reading API](conversation-api.md). Older messages without recorded
 snapshots remain readable with null detail fields. Send turns for a given

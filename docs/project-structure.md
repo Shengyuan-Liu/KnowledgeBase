@@ -179,7 +179,7 @@ Load history
 
 History helps interpret the question but does not supply factual evidence. Handle empty retrieval explicitly. Nonempty results still require evidence-grounded generation and evaluation; source-ID membership alone does not prove answer support.
 
-Stream deltas during generation, then reconcile them with the finalized answer and validated source mappings. Persist failed or interrupted responses with distinct states. Keep the `start`, `answer_delta`, `sources`, `debug`, `complete`, and `error` contracts aligned with the [frontend specification](mvp/mvp-frontend-design.md#api-and-stream-contract).
+Stream deltas during generation, then reconcile them with the finalized answer and validated source mappings. The current [streaming implementation](chat-streaming.md) saves only completed exchanges; failed or interrupted partial text remains client-side. Correlate events with request IDs until completion supplies persistent conversation/message IDs. Keep the `start`, `answer_delta`, `sources`, `debug`, `complete`, and `error` contracts aligned with the [frontend specification](mvp/mvp-frontend-design.md#api-and-stream-contract).
 
 ## Frontend Organization
 

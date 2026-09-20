@@ -157,21 +157,25 @@ Keep file state, conversation state, and presentation state distinct. `activeMes
 
 ### API and Stream Contract
 
-The following paths are proposed frontend/backend contracts and are not existing endpoints:
+The following backend endpoints are implemented. Frontend integration remains pending;
+see the [streaming guide](../chat-streaming.md) for the current event payloads.
 
-| Operation | Proposed contract |
+| Operation | Contract |
 | --- | --- |
 | Load library / poll state | `GET /api/files` |
-| Upload one file | `POST /api/files` with multipart form data; return file ID and processing state |
+| Upload one file | `POST /api/files` with multipart form data; wait for indexing and return a ready file with status 201 |
 | Delete a file | `DELETE /api/files/{fileId}`; report success only after cleanup |
 | Load a known conversation | `GET /api/conversations/{conversationId}` |
-| Submit a question | `POST /api/chat` with question, optional conversation ID, and a client request ID; return SSE |
+| Submit a question | `POST /api/chat/stream` with question, optional conversation ID, and a required client request ID; return SSE |
+| Submit a question without streaming | `POST /api/chat` with question and optional conversation ID; return complete JSON |
 
-The backend assigns a conversation ID on the first question and returns it with the assistant message ID before content events. A saved conversation ID may be retained locally to restore the current conversation after refresh; the backend remains authoritative for messages and sources. If restoration fails, show retry or an explicit option to start fresh. A conversation-management sidebar is outside this MVP.
+Use the client request ID to identify temporary messages during streaming. The backend returns the existing conversation ID, or null for a new conversation, in `start`; persistent conversation and assistant message IDs arrive in `complete` after the exchange is saved. A saved conversation ID may be retained locally to restore the current conversation after refresh; the backend remains authoritative for messages and sources. If restoration fails, show retry or an explicit option to start fresh. A conversation-management sidebar is outside this MVP.
 
-Define a discriminated union for `start`, `answer_delta`, `sources`, `debug`, `complete`, and `error` events. Carry request and message identity so late events from an old request cannot modify another answer. A source record includes source ID, file ID, chunk ID, filename, exact excerpt, and optional location. Keep source records available before activating any inline citation that refers to them; unresolved references remain noninteractive until validated.
+Define a discriminated union for `start`, `answer_delta`, `sources`, `debug`, `complete`, and `error` events. Every event carries `request_id`; discard events that do not belong to the active request. Bind the temporary message to its persisted message ID at completion. A source record includes source ID, file ID, chunk ID, filename, exact excerpt, and cosine distance. Keep source records available before activating any inline citation that refers to them; unresolved references remain noninteractive until validated.
 
 `complete` provides the finalized answer and validated source mappings. Reconcile streamed text with that final result. Treat EOF without completion as interruption. Use a streaming UTF-8 decoder and buffer incomplete SSE frames, including multiple events in one network read. Cancel obsolete requests with AbortController on unmount or conversation changes, and discard late events. Surface non-SSE HTTP errors separately from errors received during a stream. Do not automatically retry the streamed POST.
+
+Interrupted partial text remains local UI state and is not saved. A completed database commit can precede a lost completion event; reload a known conversation before a deliberate retry. Request IDs are correlation values, not idempotency keys.
 
 ## Verification and Acceptance
 

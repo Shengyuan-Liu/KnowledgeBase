@@ -1,16 +1,23 @@
 """Coordinate single-turn and conversational knowledge-base answers."""
 
+from collections.abc import AsyncGenerator
+from contextlib import aclosing
+from time import perf_counter
 from uuid import uuid4
+
+import anyio
 
 from sqlalchemy.orm import Session, sessionmaker
 
 from knowledgebase.providers.embeddings import EmbeddingClient
-from knowledgebase.providers.llm import LLMClient
+from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.rag.citations import validate_citations
-from knowledgebase.rag.generation import generate_answer
+from knowledgebase.rag.generation import generate_answer, stream_answer
 from knowledgebase.rag.query import resolve_question
 from knowledgebase.rag.retrieval import retrieve
-from knowledgebase.schemas import AnswerSource, ChatAnswer, ConversationAnswer
+from knowledgebase.schemas import (
+    AnswerSource, ChatAnswer, ChatStreamEvent, ConversationAnswer, MessageInfo, RetrievedChunk,
+)
 from knowledgebase.storage.operations import (
     create_conversation,
     get_conversation,
@@ -36,6 +43,18 @@ def answer_question(
     include every retrieved excerpt, regardless of which ones the model cites.
     Source IDs are one-based and local to this answer.
     """
+    chunks, sources = _retrieve_evidence(question, session_factory, embedding_client, vector_store, top_k)
+    answer = generate_answer(question, chunks, llm_client)
+    return ChatAnswer(
+        answer=answer, sources=sources,
+        citation_check=validate_citations(answer, sources),
+    )
+
+
+def _retrieve_evidence(
+    question: str, session_factory: sessionmaker[Session], embedding_client: EmbeddingClient,
+    vector_store: ChromaStore, top_k: int,
+) -> tuple[list[RetrievedChunk], list[AnswerSource]]:
     with session_factory() as session:
         chunks = retrieve(
             question, session, embedding_client, vector_store, top_k=top_k
@@ -53,11 +72,7 @@ def answer_question(
             for number, item in enumerate(chunks, start=1)
         ]
 
-    answer = generate_answer(question, chunks, llm_client)
-    return ChatAnswer(
-        answer=answer, sources=sources,
-        citation_check=validate_citations(answer, sources),
-    )
+    return chunks, sources
 
 
 def answer_in_conversation(
@@ -76,21 +91,33 @@ def answer_in_conversation(
     Model calls run outside history/write sessions. Only successful exchanges
     are saved, with the original question, answer, and evidence in one transaction.
     """
-    if history_limit < 1:
-        raise ValueError("history_limit must be positive.")
-    history = []
-    if conversation_id is not None:
-        with session_factory() as session:
-            if get_conversation(session, conversation_id) is None:
-                raise LookupError(f"Conversation not found: {conversation_id}")
-            history = get_messages(session, conversation_id, limit=history_limit)
-
+    history = _load_history(session_factory, conversation_id, history_limit)
     retrieval_question = resolve_question(question, history, llm_client)
     result = answer_question(
         retrieval_question, session_factory, embedding_client, vector_store,
         llm_client, top_k=top_k,
     )
 
+    return _save_exchange(question, retrieval_question, result, session_factory, conversation_id)
+
+
+def _load_history(
+    session_factory: sessionmaker[Session], conversation_id: str | None, history_limit: int,
+) -> list[MessageInfo]:
+    if history_limit < 1:
+        raise ValueError("history_limit must be positive.")
+    if conversation_id is None:
+        return []
+    with session_factory() as session:
+        if get_conversation(session, conversation_id) is None:
+            raise LookupError(f"Conversation not found: {conversation_id}")
+        return get_messages(session, conversation_id, limit=history_limit)
+
+
+def _save_exchange(
+    question: str, retrieval_question: str, result: ChatAnswer,
+    session_factory: sessionmaker[Session], conversation_id: str | None,
+) -> ConversationAnswer:
     with session_factory.begin() as session:
         if conversation_id is None:
             conversation_id = uuid4().hex
@@ -105,3 +132,59 @@ def answer_in_conversation(
         conversation_id=conversation_id, message_id=message.message_id,
         question=question, retrieval_question=retrieval_question,
     )
+
+
+async def stream_answer_in_conversation(
+    question: str,
+    request_id: str,
+    session_factory: sessionmaker[Session],
+    embedding_client: EmbeddingClient,
+    vector_store: ChromaStore,
+    llm_client: LLMClient,
+    streaming_client: StreamingLLMClient,
+    conversation_id: str | None = None,
+    top_k: int = 5,
+    history_limit: int = 10,
+) -> AsyncGenerator[ChatStreamEvent]:
+    """Validate the conversation before streaming; persist only a completed answer.
+
+    Cancellation before saving leaves history unchanged. The final short database
+    transaction is shielded; a disconnect after commit can lose delivery of the
+    completion event, but never stores a partial answer.
+    """
+    history = await anyio.to_thread.run_sync(_load_history, session_factory, conversation_id, history_limit)
+
+    async def events():
+        def event(kind, **data):
+            return ChatStreamEvent(event=kind, request_id=request_id, data=data)
+
+        started = perf_counter()
+        yield event("start", conversation_id=conversation_id)
+        try:
+            retrieval_question = await anyio.to_thread.run_sync(
+                resolve_question, question, history, llm_client, abandon_on_cancel=True,
+            )
+            chunks, sources = await anyio.to_thread.run_sync(
+                _retrieve_evidence, retrieval_question, session_factory, embedding_client,
+                vector_store, top_k, abandon_on_cancel=True,
+            )
+            yield event("sources", sources=[source.model_dump() for source in sources])
+            parts = []
+            async with aclosing(stream_answer(retrieval_question, chunks, streaming_client)) as stream:
+                async for delta in stream:
+                    parts.append(delta)
+                    yield event("answer_delta", delta=delta)
+            answer = "".join(parts)
+            result = ChatAnswer(answer=answer, sources=sources, citation_check=validate_citations(answer, sources))
+            yield event("debug", retrieval_question=retrieval_question, distance_metric="cosine",
+                        elapsed_seconds=perf_counter() - started)
+            # Let a queued disconnect cancel this turn before beginning the commit.
+            await anyio.lowlevel.checkpoint()
+            saved = await anyio.to_thread.run_sync(
+                _save_exchange, question, retrieval_question, result, session_factory, conversation_id,
+            )
+            yield event("complete", **saved.model_dump(mode="json"))
+        except Exception:
+            yield event("error", message="Answer processing failed.")
+
+    return events()

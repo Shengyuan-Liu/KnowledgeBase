@@ -5,14 +5,14 @@ from pathlib import Path
 
 import chromadb
 from fastapi import FastAPI
-from openai import OpenAI
+from openai import AsyncOpenAI, OpenAI
 
 from knowledgebase.api.chat import ChatResources, router as chat_router
 from knowledgebase.api.conversations import router as conversations_router
 from knowledgebase.api.files import FileResources, router as files_router
 from knowledgebase.config import Settings
 from knowledgebase.providers.embeddings import EmbeddingClient
-from knowledgebase.providers.llm import LLMClient
+from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.storage.database import build_engine, build_session_factory, init_db
 from knowledgebase.storage.vectordb import ChromaStore
 
@@ -38,13 +38,15 @@ def create_app(data_dir: Path | None = None) -> FastAPI:
                     store=ChromaStore(collection),
                 )
                 files = app.state.file_resources
-                app.state.chat_resources = ChatResources(
-                    sessions=files.sessions,
-                    embeddings=files.embeddings,
-                    store=files.store,
-                    llm=LLMClient(sdk, model="gpt-4.1-nano"),
-                )
-                yield
+                async with AsyncOpenAI(api_key=settings.openai_api_key) as streaming_sdk:
+                    app.state.chat_resources = ChatResources(
+                        sessions=files.sessions,
+                        embeddings=files.embeddings,
+                        store=files.store,
+                        llm=LLMClient(sdk, model="gpt-4.1-nano"),
+                        streaming_llm=StreamingLLMClient(streaming_sdk, model="gpt-4.1-nano"),
+                    )
+                    yield
         finally:
             engine.dispose()
 

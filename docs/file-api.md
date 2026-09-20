@@ -105,7 +105,8 @@ the file list retains the existing service's recorded error details.
 
 The [chat API](chat-api.md) shares these storage and embedding resources and adds
 an LLM client. Background ingestion, abandoned-processing recovery after a crash,
-streaming, and UI integration remain pending. Do not delete a file currently being indexed
+and UI integration remain pending. [Streaming chat](chat-streaming.md) is available
+through a separate endpoint. Do not delete a file currently being indexed
 through another entry point while the API is running.
 
 The implementation follows FastAPI's official [lifespan](https://fastapi.tiangolo.com/advanced/events/),

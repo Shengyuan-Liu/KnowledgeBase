@@ -8,6 +8,7 @@
 
 - [File management API](file-api.md): FastAPI startup, TXT upload/list/delete endpoints, HTTP errors, and lifecycle tests.
 - [Chat API](chat-api.md): complete JSON answers, continued conversations, source and citation fields, HTTP errors, and integration tests.
+- [Streaming chat API](chat-streaming.md): incremental SSE text, request identity, completion, cancellation, and atomic answer persistence.
 - [Conversation reading API](conversation-api.md): ordered history, saved evidence, legacy message compatibility, and deleted-file markers.
 - [Embedding provider](embeddings.md): OpenAI integration, input and output contracts, local usage, and deterministic tests.
 - [Vector database](vectordb.md): Chroma storage, search, file-scoped deletion, and local persistence tests.

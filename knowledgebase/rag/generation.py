@@ -1,6 +1,11 @@
 """Generate an answer grounded in numbered retrieved excerpts."""
 
-from knowledgebase.providers.llm import LLMClient
+from collections.abc import AsyncGenerator
+from contextlib import aclosing
+
+from openai.types.responses import EasyInputMessageParam
+
+from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.rag.context import build_context
 from knowledgebase.schemas import RetrievedChunk
 
@@ -31,10 +36,24 @@ def generate_answer(
     if not chunks:
         return INSUFFICIENT_EVIDENCE
 
+    return llm_client.generate(_answer_messages(question, chunks))
+
+
+def _answer_messages(question: str, chunks: list[RetrievedChunk]) -> list[EasyInputMessageParam]:
     context = build_context(chunks)
-    return llm_client.generate(
-        [
-            {"role": "developer", "content": ANSWER_INSTRUCTIONS},
-            {"role": "user", "content": f"Question:\n{question}\n\nSources:\n{context}"},
-        ]
-    )
+    return [
+        {"role": "developer", "content": ANSWER_INSTRUCTIONS},
+        {"role": "user", "content": f"Question:\n{question}\n\nSources:\n{context}"},
+    ]
+
+
+async def stream_answer(
+    question: str, chunks: list[RetrievedChunk], llm_client: StreamingLLMClient,
+) -> AsyncGenerator[str]:
+    """Use the same evidence prompt while yielding text as it arrives."""
+    if not chunks:
+        yield INSUFFICIENT_EVIDENCE
+        return
+    async with aclosing(llm_client.stream(_answer_messages(question, chunks))) as stream:
+        async for delta in stream:
+            yield delta

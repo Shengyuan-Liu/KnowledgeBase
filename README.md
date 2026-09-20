@@ -75,7 +75,9 @@ answer, retrieved sources, citation diagnostics, and saved conversation/message 
 as JSON after processing completes. See the [chat API guide](docs/chat-api.md) for
 examples and error codes. Restore saved messages and their original evidence with
 `GET /api/conversations/{conversation_id}`; see the
-[conversation API guide](docs/conversation-api.md). Streaming is not yet exposed.
+[conversation API guide](docs/conversation-api.md). For incremental text, use
+`POST /api/chat/stream` with an additional `request_id`; see the
+[streaming guide](docs/chat-streaming.md) for events, completion, and cancellation.
 
 ## Evaluation
 
