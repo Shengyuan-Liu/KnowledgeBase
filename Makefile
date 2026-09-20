@@ -1,4 +1,6 @@
-.PHONY: test test-live api frontend test-frontend test-browser
+.PHONY: test test-live api frontend test-frontend test-browser stop test-stop
+
+STOP_PORTS ?= 8000 5173 8001 5174 4173
 
 api:
 	uv run --locked uvicorn knowledgebase.api.app:create_app --factory --host 127.0.0.1 --port 8000
@@ -18,3 +20,21 @@ test-frontend:
 
 test-browser:
 	npm --prefix frontend run test:e2e
+
+stop:
+	@list_pids() { \
+		for port in $(STOP_PORTS); do lsof -tiTCP:$$port -sTCP:LISTEN; done 2>/dev/null | sort -u; \
+	}; \
+	pids=$$(list_pids); \
+	if [ -z "$$pids" ]; then echo "Project ports are already free."; exit 0; fi; \
+	echo "Stopping listeners on ports: $(STOP_PORTS)"; \
+	kill $$pids || exit 1; \
+	for attempt in 1 2 3 4 5; do \
+		if [ -z "$$(list_pids)" ]; then echo "Project ports are free."; exit 0; fi; \
+		sleep 1; \
+	done; \
+	echo "Some project ports are still occupied. Check the running processes." >&2; \
+	exit 1
+
+test-stop:
+	node --test tests/test_stop.mjs

@@ -12,6 +12,8 @@ Install with `npm --prefix frontend ci`, then run `make api` and `make frontend`
 in separate terminals. Open <http://127.0.0.1:5173>. Uploads use the same backend
 credentials and local data as the CLI and make real embedding API calls.
 See the [frontend guide](docs/frontend.md) for setup, behavior, and browser tests.
+Run `make stop` to release the development, browser-test, and preview ports before
+restarting (8000, 5173, 8001, 5174, and 4173).
 
 ## Interactive CLI
 

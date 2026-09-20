@@ -40,6 +40,15 @@ This is a development-server setting, not a browser credential. A production
 host must serve the built `frontend/dist/` assets and route `/api` to FastAPI;
 production hosting is not configured by this change.
 
+Run `make stop` before restarting to stop listeners on the development ports
+8000/5173, browser-test ports 8001/5174, and Vite preview port 4173. It sends
+SIGTERM and waits up to five seconds for the ports to become free. If all ports
+are already free, it exits successfully. This command targets listeners by port,
+including any other application using one of these ports. It does not delete data.
+
+`make test-stop` verifies shutdown and repeated execution with temporary listeners
+on dynamically assigned ports, leaving running development servers untouched.
+
 ## File Behavior
 
 - Upload accepts one `.txt` file per request. The backend validates UTF-8 and
