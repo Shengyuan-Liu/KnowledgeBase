@@ -2,7 +2,7 @@
 
 ## Project Organization
 
-- [Project structure and module management](project-structure.md): the proposed directory tree, module responsibilities, dependency boundaries, development workflow, and implementation order.
+- [Project structure and module management](project-structure.md): the implemented directory layout, module responsibilities, shared initialization, and development workflow.
 
 ## Implemented Components
 
@@ -18,7 +18,6 @@
 - [Conversation storage](conversation-storage.md): conversation metadata, ordered message history, recent-message reads, and caller-owned transactions.
 - [Conversation chat](conversation-chat.md): follow-up resolution, fresh retrieval, completed-turn persistence, and CLI resumption.
 - [Citation checks](citations.md): source-number validation, returned diagnostics, and evaluation recording.
-- [Original text storage](file-store.md): optional TXT storage utility; not used by the current ingestion workflow.
 
 ## MVP Design
 

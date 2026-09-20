@@ -5,6 +5,7 @@ from knowledgebase.schemas import Chunk, RetrievedChunk
 def test_context_preserves_retrieval_order_and_source_text():
     chunks = [
         RetrievedChunk(
+            file_name="notes.txt",
             chunk=Chunk(
                 chunk_id=f"chunk-{index}",
                 file_id="file-1",

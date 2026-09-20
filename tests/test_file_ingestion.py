@@ -1,39 +1,11 @@
 from unittest.mock import Mock
 
-import chromadb
 import pytest
 
-from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.rag.chunking import split_text
 from knowledgebase.rag.retrieval import retrieve
 from knowledgebase.services.files import InvalidUploadError, ingest_file
-from knowledgebase.storage.database import build_engine, build_session_factory, init_db
 from knowledgebase.storage.operations import get_chunks, get_file, get_files
-from knowledgebase.storage.vectordb import ChromaStore
-
-
-@pytest.fixture
-def storage(tmp_path):
-    engine = build_engine(f"sqlite:///{tmp_path / 'ingestion.db'}")
-    init_db(engine)
-    client = chromadb.PersistentClient(path=str(tmp_path / "chroma"))
-    collection = client.create_collection(
-        name="ingestion-chunks",
-        embedding_function=None,
-        configuration={"hnsw": {"space": "cosine"}},
-    )
-    try:
-        yield build_session_factory(engine), ChromaStore(collection), collection
-    finally:
-        engine.dispose()
-
-
-@pytest.fixture
-def embeddings():
-    client = Mock(spec=EmbeddingClient)
-    client.embed_documents.side_effect = lambda texts: [[1.0, 0.0] for text in texts]
-    client.embed_query.return_value = [1.0, 0.0]
-    return client
 
 
 def test_ingested_file_is_ready_and_retrievable(storage, embeddings):

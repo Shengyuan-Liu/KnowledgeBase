@@ -1,6 +1,5 @@
 """Persist answer evidence without tying historical excerpts to live files."""
 
-import pytest
 from sqlalchemy import inspect
 
 from knowledgebase.schemas import AnswerSource, ChatAnswer, CitationCheck
@@ -10,16 +9,6 @@ from knowledgebase.storage.operations import (
     create_conversation, get_conversation_detail, get_messages,
     save_answer_snapshot, save_message,
 )
-
-
-@pytest.fixture
-def sessions(tmp_path):
-    engine = build_engine(f"sqlite:///{tmp_path / 'snapshots.db'}")
-    init_db(engine)
-    try:
-        yield build_session_factory(engine)
-    finally:
-        engine.dispose()
 
 
 def make_answer(text="  The café closes at 5 PM. 🙂\r\n"):

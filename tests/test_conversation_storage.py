@@ -18,16 +18,6 @@ from knowledgebase.storage.operations import (
 )
 
 
-@pytest.fixture
-def sessions(tmp_path):
-    engine = build_engine(f"sqlite:///{tmp_path / 'conversations.db'}")
-    init_db(engine)
-    try:
-        yield build_session_factory(engine)
-    finally:
-        engine.dispose()
-
-
 def test_conversation_and_messages_round_trip_as_detached_snapshots(sessions):
     before = datetime.now(UTC).replace(tzinfo=None)
     text = "  The café closes at 5 PM. 🙂\r\n"

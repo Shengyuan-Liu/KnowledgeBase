@@ -33,8 +33,10 @@ for result in results:
     print(result.chunk.file_id, result.chunk.text, result.distance)
 ```
 
-Each result contains a full `Chunk` (including its ID and original text offsets)
-and the raw distance reported by the collection. Smaller distances are nearer;
+Each result contains a full `Chunk` (including its ID and original text offsets),
+the filename from the already loaded file metadata, and the raw distance reported
+by the collection. Answer assembly reuses this filename instead of querying all
+files a second time. Smaller distances are nearer;
 they are not probabilities of answer correctness. No matches returns `[]`.
 
 The caller owns the session and model client. Retrieval does not commit, update

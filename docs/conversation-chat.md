@@ -19,7 +19,7 @@ There are no repair calls or automatic retries at this layer.
 
 1. Load the latest `history_limit` messages from the supplied conversation, oldest
    to newest. The default is 10 individual messages. An unknown ID raises
-   `LookupError` before model calls. Omit the ID to start a fresh conversation.
+   `ConversationNotFoundError` before model calls. Omit the ID to start a fresh conversation.
 2. Resolve the question after closing the history read session.
 3. Call the existing `answer_question` with the resolved question. Retrieval uses
    current ready files, and generation receives only that question and retrieved

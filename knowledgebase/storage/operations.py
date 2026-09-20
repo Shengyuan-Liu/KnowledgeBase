@@ -14,6 +14,10 @@ from knowledgebase.storage.models import (
 )
 
 
+class FileRecordNotFoundError(LookupError):
+    """A requested file record does not exist in business storage."""
+
+
 def create_file(session: Session, file_id: str, file_name: str) -> None:
     """Insert a processing file; the caller owns commit and rollback.
 
@@ -93,13 +97,13 @@ def update_file_status(
 ) -> None:
     """Update status and error details without committing.
 
-    A missing file raises LookupError; an invalid status raises IntegrityError
+    A missing file raises FileRecordNotFoundError; an invalid status raises IntegrityError
     during flush. Omitting error_message clears any previous error. The caller
     decides when ingestion has completed and a file may become ready.
     """
     record = session.get(FileRecord, file_id)
     if record is None:
-        raise LookupError(f"File not found: {file_id}")
+        raise FileRecordNotFoundError(f"File not found: {file_id}")
     record.status = status
     record.error_message = error_message
     session.flush()
@@ -117,12 +121,12 @@ def delete_chunks(session: Session, file_id: str) -> None:
 def delete_file_record(session: Session, file_id: str) -> None:
     """Delete an existing file record after its chunks have been removed.
 
-    A missing file raises LookupError. Flush without committing so the caller
+    A missing file raises FileRecordNotFoundError. Flush without committing so the caller
     can keep chunk and file deletion in the same transaction.
     """
     record = session.get(FileRecord, file_id)
     if record is None:
-        raise LookupError(f"File not found: {file_id}")
+        raise FileRecordNotFoundError(f"File not found: {file_id}")
     session.delete(record)
     session.flush()
 

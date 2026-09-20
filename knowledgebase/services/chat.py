@@ -21,12 +21,15 @@ from knowledgebase.schemas import (
 from knowledgebase.storage.operations import (
     create_conversation,
     get_conversation,
-    get_files,
     get_messages,
     save_answer_snapshot,
     save_message,
 )
 from knowledgebase.storage.vectordb import ChromaStore
+
+
+class ConversationNotFoundError(LookupError):
+    """The requested saved conversation does not exist."""
 
 
 def answer_question(
@@ -59,12 +62,11 @@ def _retrieve_evidence(
         chunks = retrieve(
             question, session, embedding_client, vector_store, top_k=top_k
         )
-        files_by_id = {file.file_id: file for file in get_files(session)}
         sources = [
             AnswerSource(
                 source_id=number,
                 file_id=item.chunk.file_id,
-                file_name=files_by_id[item.chunk.file_id].file_name,
+                file_name=item.file_name,
                 chunk_id=item.chunk.chunk_id,
                 text=item.chunk.text,
                 distance=item.distance,
@@ -110,7 +112,7 @@ def _load_history(
         return []
     with session_factory() as session:
         if get_conversation(session, conversation_id) is None:
-            raise LookupError(f"Conversation not found: {conversation_id}")
+            raise ConversationNotFoundError(f"Conversation not found: {conversation_id}")
         return get_messages(session, conversation_id, limit=history_limit)
 
 

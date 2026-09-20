@@ -3,9 +3,32 @@ import sys
 from unittest.mock import Mock
 
 import pytest
+from fastapi.testclient import TestClient
 
 from knowledgebase import cli
 from knowledgebase.schemas import AnswerSource, ChatAnswer, CitationCheck
+
+
+def test_cli_and_api_share_storage_configuration(configured_app, tmp_path, monkeypatch):
+    app, embeddings, sdk = configured_app
+    path = tmp_path / "notes.txt"
+    path.write_text("The library closes at 5 PM.")
+    monkeypatch.setattr(cli, "OpenAI", Mock(return_value=sdk))
+    monkeypatch.setattr(cli, "EmbeddingClient", Mock(return_value=embeddings))
+    monkeypatch.setattr(sys, "argv", ["main.py", str(path)])
+    monkeypatch.setattr("builtins.input", Mock(return_value="exit"))
+    cli.cli()
+    with TestClient(app) as client:
+        files = client.get("/api/files").json()
+        assert len(files) == 1
+        assert files[0]["file_name"] == "notes.txt"
+        assert files[0]["status"] == "ready"
+        sdk.responses.create.return_value = Mock(output_text="5 PM. [1]")
+        answer = client.post("/api/chat", json={"question": "When does the library close?"})
+        assert answer.status_code == 200
+        assert answer.json()["sources"][0]["file_id"] == files[0]["file_id"]
+    embeddings.embed_documents.assert_called_once()
+    assert sdk.__exit__.call_count == 2
 
 
 def test_loop_prints_answers_and_chunks_for_multiple_questions(monkeypatch, capsys):

@@ -19,6 +19,7 @@ def test_empty_retrieval_returns_insufficient_evidence_without_calling_model():
 def test_numbers_sources_in_retrieval_order_and_preserves_question_and_text():
     chunks = [
         RetrievedChunk(
+            file_name="notes.txt",
             chunk=Chunk(
                 chunk_id="chunk-z",
                 file_id="file-b",
@@ -30,6 +31,7 @@ def test_numbers_sources_in_retrieval_order_and_preserves_question_and_text():
             distance=0.1,
         ),
         RetrievedChunk(
+            file_name="notes.txt",
             chunk=Chunk(
                 chunk_id="chunk-a",
                 file_id="file-a",

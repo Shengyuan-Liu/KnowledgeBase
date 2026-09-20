@@ -2,40 +2,22 @@
 
 import json
 from types import SimpleNamespace
-from unittest.mock import MagicMock, Mock
 
 from fastapi.testclient import TestClient
 import pytest
 from sqlalchemy import func, select
 
 from knowledgebase.api import app as api_module
-from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
 from knowledgebase.storage.models import AnswerSnapshotRecord, ConversationRecord, MessageRecord
 from knowledgebase.storage.operations import create_conversation, get_messages, save_message
 
 
 @pytest.fixture
-def configured_app(tmp_path, monkeypatch):
-    monkeypatch.chdir(tmp_path)
-    monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
-    monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
-    embeddings = Mock(spec=EmbeddingClient)
-    embeddings.embed_documents.side_effect = lambda texts: [[1.0, 0.0] for _ in texts]
-    embeddings.embed_query.return_value = [1.0, 0.0]
-    sdk = MagicMock()
-    sdk.__enter__.return_value = sdk
-    monkeypatch.setattr(api_module, "OpenAI", Mock(return_value=sdk))
-    monkeypatch.setattr(api_module, "EmbeddingClient", Mock(return_value=embeddings))
-    app = api_module.create_app()
-    return app, embeddings, sdk
-
-
-@pytest.fixture
 def api(configured_app):
     app, _, sdk = configured_app
     with TestClient(app) as client:
-        yield client, app.state.chat_resources, sdk.responses.create
+        yield client, app.state.resources, sdk.responses.create
     sdk.__exit__.assert_called_once()
 
 
@@ -137,10 +119,11 @@ def test_empty_library_returns_saved_insufficient_evidence_answer(api):
         ]
 
 
-def test_failed_first_answer_is_500_without_new_conversation(api):
+@pytest.mark.parametrize("error_type", [ValueError, KeyError, IndexError])
+def test_failed_first_answer_is_500_without_new_conversation(api, error_type):
     client, resources, generate = api
     upload(client)
-    generate.side_effect = ValueError("Private provider diagnostics.")
+    generate.side_effect = error_type("Private provider diagnostics.")
     response = client.post("/api/chat", json={"question": "Hours?"})
     assert response.status_code == 500
     assert response.json() == {"detail": "Answer processing failed."}

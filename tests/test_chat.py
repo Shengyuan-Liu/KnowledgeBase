@@ -1,8 +1,8 @@
 import json
 from unittest.mock import Mock
 
-import chromadb
 import pytest
+from sqlalchemy import event
 
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient
@@ -10,30 +10,29 @@ from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
 from knowledgebase.schemas import ChatAnswer, CitationCheck
 from knowledgebase.services.chat import answer_in_conversation, answer_question
 from knowledgebase.services.files import delete_file, ingest_file
-from knowledgebase.storage.database import build_engine, build_session_factory, init_db
-from knowledgebase.storage.vectordb import ChromaStore
 from knowledgebase.storage.operations import create_conversation, get_conversation, get_messages, save_message
 
 
-@pytest.fixture
-def storage(tmp_path):
-    engine = build_engine(f"sqlite:///{tmp_path / 'chat.db'}")
-    init_db(engine)
-    client = chromadb.PersistentClient(path=str(tmp_path / "chroma"))
-    collection = client.create_collection(
-        name="chat-chunks",
-        embedding_function=None,
-        configuration={"hnsw": {"space": "cosine"}},
-    )
-    try:
-        yield build_session_factory(engine), ChromaStore(collection)
-    finally:
-        engine.dispose()
+def test_answer_loads_file_metadata_once(storage, embeddings, engine):
+    sessions, store, _ = storage
+    ingest_file("hours.txt", b"The library closes at 5 PM.", sessions, embeddings, store)
+    file_queries = []
+
+    @event.listens_for(engine, "before_cursor_execute")
+    def record_query(connection, cursor, statement, parameters, context, executemany):
+        if statement.startswith("SELECT") and "FROM files" in statement:
+            file_queries.append(statement)
+
+    llm = Mock(spec=LLMClient)
+    llm.generate.return_value = "5 PM. [1]"
+    result = answer_question("Hours?", sessions, embeddings, store, llm)
+    assert result.sources[0].file_name == "hours.txt"
+    assert len(file_queries) == 1
 
 
 @pytest.mark.parametrize("top_k", [2, 3])
 def test_ingestion_to_answer_keeps_sources_aligned_with_prompt(storage, top_k):
-    sessions, store = storage
+    sessions, store, _ = storage
     embeddings = Mock(spec=EmbeddingClient)
     embeddings.embed_documents.side_effect = [
         [[0.6, 0.8], [0.8, 0.6]],
@@ -86,7 +85,7 @@ def test_ingestion_to_answer_keeps_sources_aligned_with_prompt(storage, top_k):
 
 
 def test_empty_knowledge_base_returns_no_sources_without_model_calls(storage):
-    sessions, store = storage
+    sessions, store, _ = storage
     embeddings = Mock(spec=EmbeddingClient)
     llm = Mock(spec=LLMClient)
 
@@ -102,7 +101,7 @@ def test_empty_knowledge_base_returns_no_sources_without_model_calls(storage):
 
 @pytest.fixture
 def conversational_clients(storage):
-    sessions, store = storage
+    sessions, store, _ = storage
     embeddings = Mock(spec=EmbeddingClient)
     embeddings.embed_documents.side_effect = lambda texts: [[1.0, 0.0] for _ in texts]
     embeddings.embed_query.return_value = [1.0, 0.0]
@@ -111,7 +110,7 @@ def conversational_clients(storage):
 
 
 def test_followup_uses_resolved_question_and_saves_original_exchange(storage, conversational_clients):
-    sessions, store = storage
+    sessions, store, _ = storage
     embeddings, llm, file_id = conversational_clients
     llm.generate.side_effect = ["NYU MSDS is a master's program. [1]",
                                 "How many credits does NYU MSDS require?", "It requires 36 credits. [1]"]
@@ -142,7 +141,7 @@ def test_followup_uses_resolved_question_and_saves_original_exchange(storage, co
 
 
 def test_only_current_conversation_recent_history_is_sent(storage, conversational_clients):
-    sessions, store = storage
+    sessions, store, _ = storage
     embeddings, llm, _ = conversational_clients
     with sessions.begin() as session:
         for conversation_id in ("one", "two"):
@@ -161,7 +160,7 @@ def test_only_current_conversation_recent_history_is_sent(storage, conversationa
 
 
 def test_followup_after_deletion_cannot_answer_from_saved_history(storage, conversational_clients):
-    sessions, store = storage
+    sessions, store, _ = storage
     embeddings, llm, file_id = conversational_clients
     llm.generate.return_value = "It requires 36 credits. [1]"
     first = answer_in_conversation("How many credits does NYU MSDS require?", sessions, embeddings, store, llm)
@@ -177,7 +176,7 @@ def test_followup_after_deletion_cannot_answer_from_saved_history(storage, conve
 
 
 def test_missing_conversation_rejected_without_calls_or_saved_messages(storage, conversational_clients):
-    sessions, store = storage
+    sessions, store, _ = storage
     embeddings, llm, _ = conversational_clients
     with pytest.raises(LookupError, match="missing"):
         answer_in_conversation("Question?", sessions, embeddings, store, llm, conversation_id="missing")
@@ -191,7 +190,7 @@ def test_missing_conversation_rejected_without_calls_or_saved_messages(storage, 
 def test_failed_followup_leaves_previous_history_unchanged(storage, conversational_clients, monkeypatch, failure_stage):
     from knowledgebase.services import chat
 
-    sessions, store = storage
+    sessions, store, _ = storage
     embeddings, llm, _ = conversational_clients
     with sessions.begin() as session:
         create_conversation(session, "one")
@@ -214,7 +213,7 @@ def test_failed_followup_leaves_previous_history_unchanged(storage, conversation
 
 
 def test_existing_empty_conversation_needs_no_resolution_call(storage):
-    sessions, store = storage
+    sessions, store, _ = storage
     with sessions.begin() as session:
         create_conversation(session, "empty")
     embeddings = Mock(spec=EmbeddingClient)
@@ -227,7 +226,7 @@ def test_existing_empty_conversation_needs_no_resolution_call(storage):
 
 
 def test_invalid_citations_are_reported_and_original_conversation_answer_is_saved(storage, conversational_clients):
-    sessions, store = storage
+    sessions, store, _ = storage
     embeddings, llm, _ = conversational_clients
     text = "  It requires 36 credits. [1] An unsupported claim. [5]\n"
     llm.generate.return_value = text

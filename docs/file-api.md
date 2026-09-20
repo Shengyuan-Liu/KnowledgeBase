@@ -94,12 +94,14 @@ the file list retains the existing service's recorded error details.
 
 ## Structure and lifecycle
 
-- `knowledgebase/api/app.py` creates the application. Its lifespan opens SQLite,
+- `knowledgebase/api/app.py` creates the application. Its lifespan uses the same
+  `storage.runtime.open_storage` helper as the CLI to open SQLite,
   initializes tables, opens the persistent Chroma collection, and creates the
   shared OpenAI embedding client. It closes the SDK client and disposes the SQL
   engine on shutdown. Importing the module does not initialize storage or read keys.
 - `knowledgebase/api/files.py` defines the three routes and their dependency on
-  `FileResources`, which groups the session factory, embeddings, and vector store.
+  shared `AppResources` from `api/dependencies.py`. All routes use the same
+  session factory, embeddings, and vector store.
   Routes use synchronous handlers for the existing blocking services; each request
   owns its read sessions, while mutation transactions remain service-owned.
 

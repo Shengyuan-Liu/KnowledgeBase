@@ -3,21 +3,10 @@ import subprocess
 import sys
 from pathlib import Path
 
-import chromadb
 import pytest
 
 from knowledgebase.rag.chunking import split_text
 from knowledgebase.storage.vectordb import ChromaStore
-
-
-@pytest.fixture
-def collection(tmp_path):
-    client = chromadb.PersistentClient(path=str(tmp_path / "chroma"))
-    return client.create_collection(
-        name="test-chunks",
-        embedding_function=None,
-        configuration={"hnsw": {"space": "cosine"}},
-    )
 
 
 @pytest.fixture

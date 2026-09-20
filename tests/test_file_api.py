@@ -1,40 +1,20 @@
 """HTTP file workflows with real SQLite/Chroma and offline embeddings."""
 
-from unittest.mock import MagicMock, Mock
+from unittest.mock import Mock
 
 from fastapi.testclient import TestClient
 import pytest
 
 from knowledgebase.api import app as api_module
-from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.rag.retrieval import retrieve
 from knowledgebase.storage.operations import get_chunks, get_file
-
-
-@pytest.fixture
-def configured_app(tmp_path, monkeypatch):
-    monkeypatch.chdir(tmp_path)
-    monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
-    monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
-    embeddings = Mock(spec=EmbeddingClient)
-    embeddings.embed_documents.side_effect = lambda texts: [[1.0, 0.0] for _ in texts]
-    embeddings.embed_query.return_value = [1.0, 0.0]
-    sdk = MagicMock()
-    sdk.__enter__.return_value = sdk
-    sdk_factory = Mock(return_value=sdk)
-    monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
-    monkeypatch.setattr(api_module, "EmbeddingClient", Mock(return_value=embeddings))
-    app = api_module.create_app()
-    assert not (tmp_path / "data").exists()
-    sdk_factory.assert_not_called()
-    return app, embeddings, sdk
 
 
 @pytest.fixture
 def api(configured_app):
     app, embeddings, sdk = configured_app
     with TestClient(app) as client:
-        yield client, app.state.file_resources, embeddings
+        yield client, app.state.resources, embeddings
     sdk.__exit__.assert_called_once()
 
 
@@ -123,12 +103,13 @@ def test_processing_is_visible_and_cannot_be_deleted_during_upload(api):
     assert response.json()["status"] == "ready"
 
 
-def test_delete_failure_is_500_and_retry_cleans_the_file(api):
+@pytest.mark.parametrize("error_type", [RuntimeError, KeyError])
+def test_delete_failure_is_500_and_retry_cleans_the_file(api, error_type):
     client, resources, embeddings = api
     file_id = upload(client).json()["file_id"]
     store = resources.store
     failing_store = Mock(wraps=store)
-    failing_store.delete_by_file_id.side_effect = RuntimeError("Deletion failed.")
+    failing_store.delete_by_file_id.side_effect = error_type("Deletion failed.")
     resources.store = failing_store
     response = client.delete(f"/api/files/{file_id}")
     assert response.status_code == 500

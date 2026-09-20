@@ -23,7 +23,7 @@ the vectors may already be gone. In both cases, explicitly call `delete_file` wi
 the same ID again: removing already absent vectors is safe. The pending message
 remains until the file record is removed. There are no automatic retries.
 
-A missing file raises `LookupError` before touching Chroma, including a repeated
+A missing file raises `FileRecordNotFoundError` before touching Chroma, including a repeated
 request after successful deletion. Other file IDs remain unchanged, even if they
 have the same filename. A failed ingestion record with no chunks/vectors can also
 be deleted.
@@ -45,7 +45,7 @@ cleanup fails. Deleting the last ready file causes subsequent questions to retur
 the existing insufficient-evidence response without embedding or generation calls.
 
 The current ingestion service does not retain a separate original TXT copy, so
-deletion does not use the optional `FileStore` utility. The
+deletion only needs to clean up SQLite and Chroma. The
 [HTTP delete route](file-api.md) now calls this service; CLI deletion commands and
 UI controls remain separate work.
 

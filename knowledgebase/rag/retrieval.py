@@ -20,19 +20,21 @@ def retrieve(
     No ready files means no evidence and no embedding request. The caller owns
     the database session and model client; this function does not commit.
     """
-    ready_file_ids = [
-        file.file_id for file in get_files(session) if file.status == "ready"
-    ]
-    if not ready_file_ids:
+    ready_files = {file.file_id: file for file in get_files(session) if file.status == "ready"}
+    if not ready_files:
         return []
 
     query_embedding = embedding_client.embed_query(question)
     matches = vector_store.search(
-        query_embedding, top_k=top_k, file_ids=ready_file_ids
+        query_embedding, top_k=top_k, file_ids=list(ready_files)
     )
     chunks = get_chunks_by_ids(session, [match.chunk_id for match in matches])
     chunks_by_id = {chunk.chunk_id: chunk for chunk in chunks}
     return [
-        RetrievedChunk(chunk=chunks_by_id[match.chunk_id], distance=match.distance)
+        RetrievedChunk(
+            chunk=chunks_by_id[match.chunk_id],
+            file_name=ready_files[chunks_by_id[match.chunk_id].file_id].file_name,
+            distance=match.distance,
+        )
         for match in matches
     ]

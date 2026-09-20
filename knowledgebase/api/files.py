@@ -1,30 +1,13 @@
 """Translate file-management HTTP requests into existing service calls."""
 
-from dataclasses import dataclass
-from typing import Annotated
+from fastapi import APIRouter, HTTPException, Response, UploadFile
 
-from fastapi import APIRouter, Depends, HTTPException, Request, Response, UploadFile
-from sqlalchemy.orm import Session, sessionmaker
-
-from knowledgebase.providers.embeddings import EmbeddingClient
+from knowledgebase.api.dependencies import Resources
 from knowledgebase.schemas import FileInfo
 from knowledgebase.services.files import InvalidUploadError, delete_file, ingest_file
-from knowledgebase.storage.operations import get_file, get_files
-from knowledgebase.storage.vectordb import ChromaStore
+from knowledgebase.storage.operations import FileRecordNotFoundError, get_file, get_files
 
 
-@dataclass
-class FileResources:
-    sessions: sessionmaker[Session]
-    embeddings: EmbeddingClient
-    store: ChromaStore
-
-
-def get_file_resources(request: Request) -> FileResources:
-    return request.app.state.file_resources
-
-
-Resources = Annotated[FileResources, Depends(get_file_resources)]
 router = APIRouter(prefix="/api/files", tags=["files"])
 
 
@@ -67,7 +50,7 @@ def remove_file(file_id: str, resources: Resources):
             raise HTTPException(status_code=409, detail="The file is still processing. Wait before deleting it.")
     try:
         delete_file(file_id, resources.sessions, resources.store)
-    except LookupError as error:
+    except FileRecordNotFoundError as error:
         raise HTTPException(status_code=404, detail="File not found.") from error
     except Exception as error:
         raise HTTPException(status_code=500, detail="File deletion failed. Retry deletion to finish cleanup.") from error

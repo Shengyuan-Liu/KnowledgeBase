@@ -32,6 +32,7 @@ class RetrievedChunk(BaseModel):
     """Canonical chunk text and its vector-search distance."""
 
     chunk: Chunk
+    file_name: str
     distance: float
 
 

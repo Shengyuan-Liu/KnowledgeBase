@@ -1,7 +1,7 @@
 """Check incremental HTTP delivery, cancellation, and atomic stream persistence."""
 
 import json
-from unittest.mock import MagicMock, Mock
+from unittest.mock import Mock
 
 import anyio
 from fastapi.testclient import TestClient
@@ -9,17 +9,11 @@ import pytest
 from sqlalchemy import func, select
 
 from knowledgebase.api import app as api_module
-from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
 from knowledgebase.storage.models import AnswerSnapshotRecord, ConversationRecord, MessageRecord
 from knowledgebase.storage.operations import get_conversation_detail
 from knowledgebase.services.files import ingest_file
-
-
-@pytest.fixture
-def anyio_backend():
-    return "asyncio"
 
 
 class TextStream:
@@ -44,23 +38,14 @@ class TextStream:
 
 
 @pytest.fixture
-def configured_app(tmp_path, monkeypatch):
-    monkeypatch.chdir(tmp_path)
-    monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
-    monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
-    embeddings = Mock(spec=EmbeddingClient)
-    embeddings.embed_documents.side_effect = lambda texts: [[1.0, 0.0] for _ in texts]
-    embeddings.embed_query.return_value = [1.0, 0.0]
-    sdk = MagicMock()
-    sdk.__enter__.return_value = sdk
+def streaming_app(configured_app, monkeypatch):
+    app, _, _ = configured_app
     llm = Mock(spec=LLMClient)
     llm.generate.return_value = "When does the café close?"
     streamer = TextStream()
-    monkeypatch.setattr(api_module, "OpenAI", Mock(return_value=sdk))
     monkeypatch.setattr(api_module, "LLMClient", Mock(return_value=llm))
-    monkeypatch.setattr(api_module, "EmbeddingClient", Mock(return_value=embeddings))
     monkeypatch.setattr(api_module, "StreamingLLMClient", Mock(return_value=streamer))
-    return api_module.create_app(), streamer
+    return app, streamer
 
 
 def ingest(resources):
@@ -83,10 +68,10 @@ def assert_no_turn(resources):
             assert session.scalar(select(func.count()).select_from(record)) == 0
 
 
-def test_stream_sources_deltas_complete_and_followup_match_saved_history(configured_app):
-    app, streamer = configured_app
+def test_stream_sources_deltas_complete_and_followup_match_saved_history(streaming_app):
+    app, streamer = streaming_app
     with TestClient(app) as client:
-        resources = app.state.chat_resources
+        resources = app.state.resources
         file_id = ingest(resources)
         response = client.post("/api/chat/stream", json={"question": "  Hours?\n", "request_id": "one"})
         assert response.status_code == 200
@@ -122,8 +107,8 @@ def test_stream_sources_deltas_complete_and_followup_match_saved_history(configu
         assert len(client.get(f"/api/conversations/{complete['conversation_id']}").json()["messages"]) == 4
 
 
-def test_stream_empty_library_and_pre_stream_http_errors(configured_app):
-    app, streamer = configured_app
+def test_stream_empty_library_and_pre_stream_http_errors(streaming_app):
+    app, streamer = streaming_app
     with TestClient(app) as client:
         for payload in ({"question": "", "request_id": "one"}, {"question": "Hours?"},
                         {"question": "Hours?", "request_id": "  "}):
@@ -138,19 +123,19 @@ def test_stream_empty_library_and_pre_stream_http_errors(configured_app):
         assert complete["answer"] == INSUFFICIENT_EVIDENCE
         assert complete["sources"] == []
         assert streamer.messages is None
-        app.state.chat_resources.llm.generate.assert_not_called()
-        app.state.chat_resources.embeddings.embed_query.assert_not_called()
+        app.state.resources.llm.generate.assert_not_called()
+        app.state.resources.embeddings.embed_query.assert_not_called()
         schema = client.get("/openapi.json").json()
         assert "text/event-stream" in schema["paths"]["/api/chat/stream"]["post"]["responses"]["200"]["content"]
 
 
 @pytest.mark.parametrize("stage", ["generation", "retrieval", "saving"])
-def test_stream_failure_emits_error_without_complete_or_partial_records(configured_app, monkeypatch, stage):
+def test_stream_failure_emits_error_without_complete_or_partial_records(streaming_app, monkeypatch, stage):
     from knowledgebase.services import chat
 
-    app, streamer = configured_app
+    app, streamer = streaming_app
     with TestClient(app) as client:
-        resources = app.state.chat_resources
+        resources = app.state.resources
         ingest(resources)
         if stage == "generation":
             streamer.failure = True
@@ -192,8 +177,8 @@ async def asgi_stream(app, send, disconnect):
 
 @pytest.mark.anyio
 @pytest.mark.parametrize("ending", ["complete", "disconnect", "send_error"])
-async def test_http_delivers_deltas_before_model_finishes_and_cancels_on_disconnect(configured_app, ending):
-    app, streamer = configured_app
+async def test_http_delivers_deltas_before_model_finishes_and_cancels_on_disconnect(streaming_app, ending):
+    app, streamer = streaming_app
     streamer.gate = anyio.Event()
     seen_delta, disconnect, finished = anyio.Event(), anyio.Event(), anyio.Event()
     messages = []
@@ -212,7 +197,7 @@ async def test_http_delivers_deltas_before_model_finishes_and_cancels_on_disconn
             finished.set()
 
     async with app.router.lifespan_context(app):
-        resources = app.state.chat_resources
+        resources = app.state.resources
         ingest(resources)
         with anyio.fail_after(5):
             async with anyio.create_task_group() as tasks:
@@ -239,10 +224,10 @@ async def test_http_delivers_deltas_before_model_finishes_and_cancels_on_disconn
             assert detail.messages[-1].content == "".join(streamer.deltas)
 
 
-def test_failed_followup_keeps_existing_exchange_and_does_not_start_answer_stream(configured_app):
-    app, streamer = configured_app
+def test_failed_followup_keeps_existing_exchange_and_does_not_start_answer_stream(streaming_app):
+    app, streamer = streaming_app
     with TestClient(app) as client:
-        resources = app.state.chat_resources
+        resources = app.state.resources
         ingest(resources)
         response = client.post("/api/chat/stream", json={"question": "Hours?", "request_id": "first"})
         first = frames(response.text)[-1][1]
@@ -256,3 +241,16 @@ def test_failed_followup_keeps_existing_exchange_and_does_not_start_answer_strea
         assert [kind for kind, _ in frames(failed.text)] == ["start", "error"]
         assert client.get(path).json() == history
         assert streamer.messages is None
+
+
+def test_internal_lookup_failure_during_stream_setup_is_500(streaming_app, monkeypatch):
+    from knowledgebase.services import chat
+
+    app, _ = streaming_app
+    monkeypatch.setattr(chat, "get_conversation", Mock(side_effect=KeyError("Internal lookup failed.")))
+    with TestClient(app) as client:
+        response = client.post("/api/chat/stream", json={
+            "question": "Hours?", "request_id": "failure", "conversation_id": "one",
+        })
+        assert response.status_code == 500
+        assert response.json() == {"detail": "Stream setup failed."}

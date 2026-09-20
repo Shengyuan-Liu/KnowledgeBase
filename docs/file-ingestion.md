@@ -18,7 +18,7 @@ successful indexing.
    ready transition share one SQLite transaction.
 
 Original text is retained in SQLite chunks with source offsets. This workflow
-does not save a separate TXT copy or use `FileStore`. Each upload gets a new ID,
+does not save a separate TXT copy. Each upload gets a new ID,
 including uploads with the same filename.
 
 If embedding or final persistence fails, the chunk transaction rolls back.

@@ -11,11 +11,6 @@ import pytest
 from knowledgebase.providers.llm import StreamingLLMClient
 
 
-@pytest.fixture
-def anyio_backend():
-    return "asyncio"
-
-
 class EventBody(httpx2.AsyncByteStream):
     def __init__(self, terminal):
         self.terminal = terminal

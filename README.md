@@ -85,6 +85,11 @@ Run the frozen NYU question set, grade answers with human review or an LLM judge
 compare recorded experiments using the [evaluation guide](evals/README.md).
 Every run retains questions, answers, retrieved evidence, settings, and scoring details.
 
+## Development dependencies
+
+Notebook tools are optional. Install them with `uv sync --group notebooks` when
+needed; API, CLI, evaluation, and tests do not require Jupyter.
+
 ## Tests
 
 ```bash

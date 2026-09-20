@@ -2,40 +2,14 @@
 
 from unittest.mock import Mock
 
-import chromadb
 import pytest
 
-from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
 from knowledgebase.rag.retrieval import retrieve
 from knowledgebase.services.chat import answer_question
 from knowledgebase.services.files import delete_file, ingest_file
-from knowledgebase.storage.database import build_engine, build_session_factory, init_db
 from knowledgebase.storage.operations import create_file, get_chunks, get_file, get_files, update_file_status
-from knowledgebase.storage.vectordb import ChromaStore
-
-
-@pytest.fixture
-def storage(tmp_path):
-    engine = build_engine(f"sqlite:///{tmp_path / 'deletion.db'}")
-    init_db(engine)
-    collection = chromadb.PersistentClient(path=str(tmp_path / "chroma")).create_collection(
-        name="deletion-chunks", embedding_function=None,
-        configuration={"hnsw": {"space": "cosine"}},
-    )
-    try:
-        yield build_session_factory(engine), ChromaStore(collection), collection
-    finally:
-        engine.dispose()
-
-
-@pytest.fixture
-def embeddings():
-    client = Mock(spec=EmbeddingClient)
-    client.embed_documents.side_effect = lambda texts: [[1.0, 0.0] for text in texts]
-    client.embed_query.return_value = [1.0, 0.0]
-    return client
 
 
 def test_delete_removes_only_target_and_new_answers_use_remaining_file(storage, embeddings):

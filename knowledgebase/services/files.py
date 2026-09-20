@@ -75,7 +75,7 @@ def delete_file(
     Commit the non-ready state before touching Chroma. If either cleanup step
     fails, propagate the error and retain the failed file for another explicit
     deletion attempt. Chunk and file deletion share a SQLite transaction.
-    A missing file raises LookupError before touching the vector store.
+    A missing file raises FileRecordNotFoundError before touching the vector store.
     """
     with session_factory.begin() as session:
         update_file_status(

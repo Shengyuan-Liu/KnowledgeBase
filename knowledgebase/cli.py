@@ -4,7 +4,6 @@ import argparse
 from collections.abc import Callable
 from pathlib import Path
 
-import chromadb
 from openai import OpenAI
 
 from knowledgebase.config import Settings
@@ -13,8 +12,7 @@ from knowledgebase.providers.llm import LLMClient
 from knowledgebase.schemas import ChatAnswer, ConversationAnswer
 from knowledgebase.services.chat import answer_in_conversation
 from knowledgebase.services.files import ingest_file
-from knowledgebase.storage.database import build_engine, build_session_factory, init_db
-from knowledgebase.storage.vectordb import ChromaStore
+from knowledgebase.storage.runtime import open_storage
 
 
 def run_chat_loop(ask: Callable[[str], ChatAnswer]) -> None:
@@ -63,19 +61,7 @@ def cli() -> None:
     settings = Settings()
     args.data_dir = args.data_dir if args.data_dir is not None else settings.data_dir
 
-    args.data_dir.mkdir(parents=True, exist_ok=True)
-    database_path = args.data_dir.resolve() / "knowledgebase.db"
-    engine = build_engine(f"sqlite:///{database_path}")
-    try:
-        init_db(engine)
-        sessions = build_session_factory(engine)
-        chroma = chromadb.PersistentClient(path=str(args.data_dir / "chroma"))
-        collection = chroma.get_or_create_collection(
-            name="knowledgebase-chunks",
-            embedding_function=None,
-            configuration={"hnsw": {"space": "cosine"}},
-        )
-        store = ChromaStore(collection)
+    with open_storage(args.data_dir) as (sessions, store):
         with OpenAI(api_key=settings.openai_api_key) as sdk:
             embeddings = EmbeddingClient(sdk)
             llm = LLMClient(sdk, model=args.model)
@@ -96,8 +82,6 @@ def cli() -> None:
                 return result
 
             run_chat_loop(ask)
-    finally:
-        engine.dispose()
 
 
 if __name__ == "__main__":

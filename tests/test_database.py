@@ -10,15 +10,6 @@ from knowledgebase.storage.database import (
 from knowledgebase.storage.models import ChunkRecord, FileRecord
 
 
-@pytest.fixture
-def engine(tmp_path):
-    engine = build_engine(f"sqlite:///{tmp_path / 'knowledgebase.db'}")
-    try:
-        yield engine
-    finally:
-        engine.dispose()
-
-
 def test_build_engine_does_not_create_database_until_used(tmp_path):
     path = tmp_path / "knowledgebase.db"
     engine = build_engine(f"sqlite:///{path}")

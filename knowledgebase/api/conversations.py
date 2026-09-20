@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter, HTTPException
 
-from knowledgebase.api.chat import Resources
+from knowledgebase.api.dependencies import Resources
 from knowledgebase.schemas import ConversationDetail
 from knowledgebase.storage.operations import get_conversation_detail
 
