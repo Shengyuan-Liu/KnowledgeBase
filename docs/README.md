@@ -10,6 +10,7 @@
 - [Vector database](vectordb.md): Chroma storage, search, file-scoped deletion, and local persistence tests.
 - [Retrieval](retrieval.md): ready-file filtering, question embedding, vector search, and canonical chunk text.
 - [File ingestion](file-ingestion.md): TXT validation, chunking, indexing, file states, and failure cleanup.
+- [File deletion](file-deletion.md): retrieval exclusion, vector/chunk/file cleanup, transaction boundaries, and explicit retries.
 - [Original text storage](file-store.md): optional TXT storage utility; not used by the current ingestion workflow.
 
 ## MVP Design

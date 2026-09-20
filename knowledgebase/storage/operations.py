@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
 from knowledgebase.schemas import Chunk, FileInfo
@@ -93,4 +93,26 @@ def update_file_status(
         raise LookupError(f"File not found: {file_id}")
     record.status = status
     record.error_message = error_message
+    session.flush()
+
+
+def delete_chunks(session: Session, file_id: str) -> None:
+    """Delete a file's chunks; the caller owns commit and rollback.
+
+    No matching chunks is a no-op, including after an earlier cleanup attempt.
+    """
+    session.execute(delete(ChunkRecord).where(ChunkRecord.file_id == file_id))
+    session.flush()
+
+
+def delete_file_record(session: Session, file_id: str) -> None:
+    """Delete an existing file record after its chunks have been removed.
+
+    A missing file raises LookupError. Flush without committing so the caller
+    can keep chunk and file deletion in the same transaction.
+    """
+    record = session.get(FileRecord, file_id)
+    if record is None:
+        raise LookupError(f"File not found: {file_id}")
+    session.delete(record)
     session.flush()

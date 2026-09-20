@@ -14,6 +14,8 @@ from knowledgebase.storage.models import FileRecord
 from knowledgebase.schemas import Chunk, FileInfo
 from knowledgebase.storage.operations import (
     create_file,
+    delete_chunks,
+    delete_file_record,
     get_file,
     get_files,
     get_chunks,
@@ -270,3 +272,42 @@ def test_chunk_writes_and_status_updates_share_callers_transaction(session_facto
     with session_factory() as reader:
         assert get_chunks(reader, "file-1") == []
         assert get_file(reader, "file-1").status == "processing"
+
+
+@pytest.mark.parametrize("commit", [True, False])
+def test_deletion_obeys_callers_transaction_and_preserves_other_files(session_factory, commit):
+    first = split_text("First. Second.", "file-1", chunk_size=7, overlap=0)
+    second = split_text("Keep.", "file-2")
+    with session_factory.begin() as session:
+        create_file(session, "file-1", "notes.txt")
+        create_file(session, "file-2", "notes.txt")
+        save_chunks(session, first + second)
+
+    with session_factory() as session:
+        delete_chunks(session, "file-1")
+        assert get_chunks(session, "file-1") == []
+        assert get_file(session, "file-1") is not None
+        delete_file_record(session, "file-1")
+        assert get_file(session, "file-1") is None
+        if commit:
+            session.commit()
+        else:
+            session.rollback()
+
+    with session_factory() as reader:
+        assert get_chunks(reader, "file-1") == ([] if commit else first)
+        assert (get_file(reader, "file-1") is None) == commit
+        assert get_chunks(reader, "file-2") == second
+        assert get_file(reader, "file-2").file_name == "notes.txt"
+
+
+def test_delete_chunks_is_repeatable_and_missing_file_record_raises(session_factory):
+    with session_factory.begin() as session:
+        create_file(session, "file-1", "notes.txt")
+        save_chunks(session, split_text("Notes.", "file-1"))
+        delete_chunks(session, "file-1")
+        delete_chunks(session, "file-1")
+        delete_chunks(session, "missing")
+        delete_file_record(session, "file-1")
+        with pytest.raises(LookupError, match="missing"):
+            delete_file_record(session, "missing")

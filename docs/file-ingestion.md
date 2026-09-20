@@ -57,9 +57,9 @@ an existing session. With real OpenAI clients, launch Python using
 `uv run --env-file .env python`. Each document embedding call contains all chunks;
 the provider's request limits apply.
 
-See [embedding setup](embeddings.md), [vector database setup](vectordb.md), and
-[retrieval](retrieval.md). Deletion workflows, restart recovery, and HTTP upload
-routes remain separate implementation steps.
+See [embedding setup](embeddings.md), [vector database setup](vectordb.md),
+[retrieval](retrieval.md), and [file deletion](file-deletion.md). Restart recovery
+and HTTP upload routes remain separate implementation steps.
 
 ## Verification
 

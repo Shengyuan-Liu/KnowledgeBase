@@ -1,4 +1,4 @@
-"""Ingest TXT content into SQLite and the vector database."""
+"""Ingest and delete TXT content across SQLite and the vector database."""
 
 from pathlib import Path
 from uuid import uuid4
@@ -7,7 +7,13 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.rag.chunking import split_text
-from knowledgebase.storage.operations import create_file, save_chunks, update_file_status
+from knowledgebase.storage.operations import (
+    create_file,
+    delete_chunks,
+    delete_file_record,
+    save_chunks,
+    update_file_status,
+)
 from knowledgebase.storage.vectordb import ChromaStore
 
 
@@ -50,3 +56,28 @@ def ingest_file(
         raise
 
     return file_id
+
+
+def delete_file(
+    file_id: str,
+    session_factory: sessionmaker[Session],
+    vector_store: ChromaStore,
+) -> None:
+    """Exclude a file from new retrievals, then remove its vectors and records.
+
+    Commit the non-ready state before touching Chroma. If either cleanup step
+    fails, propagate the error and retain the failed file for another explicit
+    deletion attempt. Chunk and file deletion share a SQLite transaction.
+    A missing file raises LookupError before touching the vector store.
+    """
+    with session_factory.begin() as session:
+        update_file_status(
+            session, file_id, "failed",
+            error_message="Deletion pending. Retry deletion to finish cleanup.",
+        )
+
+    vector_store.delete_by_file_id(file_id)
+
+    with session_factory.begin() as session:
+        delete_chunks(session, file_id)
+        delete_file_record(session, file_id)
