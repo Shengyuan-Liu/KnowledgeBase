@@ -1,0 +1,59 @@
+{
+  "run_id": "20260920T165211Z-da6c23f3",
+  "label": "Baseline: default chunking and top-k",
+  "started_at": "2026-09-20T16:52:11.714221+00:00",
+  "status": "completed",
+  "git": {
+    "commit": "0493949b602055249d0099c433dc4d466e88861a",
+    "dirty": false,
+    "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "implementation_sha256": {
+      "evals/__init__.py": "19f4827ad5cf13373087b01b81f0759fe69da33490b9a49be26ee2159823b889",
+      "evals/evaluate.py": "a39b0b5460123011e94109faad61878b592570822cfc8f93e113b5f945094cbd",
+      "knowledgebase/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "knowledgebase/cli.py": "35f47f5167718a41f9fa7b7f52f060f7dbee49cfae67cd0b312800f57a753eb8",
+      "knowledgebase/config.py": "2b24e7a1b14c3173ad2006633215b4e9694ba51d162201d167c0d35c51e01166",
+      "knowledgebase/providers/__init__.py": "b251cd6fde07ea42f25226c76644d8921aed56fd12e0c5d6dbdf3dd972768f05",
+      "knowledgebase/providers/embeddings.py": "787afccdbd67dc6911d9dbe32776aa2356171876368e2071a16b2ad0fb5e7e7d",
+      "knowledgebase/providers/llm.py": "7c2947502b1af5a778d7a20b65fee34e1f9156d4c66252d4224576ae4632b243",
+      "knowledgebase/rag/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "knowledgebase/rag/chunking.py": "a32b9726c9a70d74982fe3bd44617702b15b56805801c404f20c854456f592cc",
+      "knowledgebase/rag/context.py": "467b7c456fc9590cdc0c9799cf92b034f7b27b3bc015283af28e67efb01b323b",
+      "knowledgebase/rag/generation.py": "6963c1a9ba6773f97c6c93745f3fecf6eb4f9218f4e80f23f0bac69f44ee660b",
+      "knowledgebase/rag/retrieval.py": "04f1f69206f8a82ce2e4ff3724df9e9b366c75c19279360bfb29c2b32a5504ff",
+      "knowledgebase/schemas.py": "096ff9c63077092c1eff9c5cd2d844bfae78e859ee3fb034e89d01ca5b8aeaed",
+      "knowledgebase/services/__init__.py": "5651ac6f97850be849d3f9998be3a81ea8795655374d865328ab078b7b66e6dd",
+      "knowledgebase/services/chat.py": "be2d63a64caeb9aac99fff7cc164d2179538736cf44035e6155ca71ea4a52c08",
+      "knowledgebase/services/files.py": "5fb1702406112bcd37f6cf7ccfd8ad2164e83b0f0a34253e594381094a42b8d0",
+      "knowledgebase/storage/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "knowledgebase/storage/database.py": "4a694c675130a2a81ebf8d4ad4432d90b26bc7a460e41a63dc68b3fcec05989f",
+      "knowledgebase/storage/file_store.py": "7358a91d30fc3538be694b4cf46490e3cdbaf34545c2a1831729a1b7b892877f",
+      "knowledgebase/storage/models.py": "dc688f6e125cfc9b6ead31a163cb1e282355ee112d97296bb19a98b7d2f80315",
+      "knowledgebase/storage/operations.py": "ec2bdb28c6a1f1360b05d1f97a11e99691cb77250544b8c4bedee6623cbc1229",
+      "knowledgebase/storage/vectordb.py": "12c5f087dae12debab3d1bdf34b5adcee86c83aff5eaa294dba0ab07831a211a",
+      "uv.lock": "b3dffae6b96ce51239407ca55c5779ca4ec233c83bc6a406b8db8543200fe9a9"
+    }
+  },
+  "rubric": {
+    "version": "1",
+    "point_scores": "One score per expected answer point: 0 missing/wrong, 1 partial, 2 complete and correct. Accept equivalent wording.",
+    "groundedness": "0 major unsupported/contradictory claims, 1 minor unsupported claims, 2 all factual claims supported by retrieved text (or a justified statement of missing evidence).",
+    "citation_support": "0 absent/invalid citations for factual claims, 1 incomplete or partly unsupported citations, 2 all substantive factual claims have supporting inline citations. Null only when the answer makes no factual claims requiring citations.",
+    "abstention": "For unanswerable cases: 0 invents the requested specifics, 1 vague or incomplete acknowledgment, 2 explicitly acknowledges missing information without inventing specifics. Null for answerable cases.",
+    "notes": "Explain scores using specific answer text, missing points, retrieved source numbers, and unsupported claims. For a perfect answer, describe what was verified.",
+    "issues": "List concrete failures, or an empty list if none. Distinguish retrieval misses, incomplete/wrong answers, unsupported claims, citation errors, and failed abstention.",
+    "pass": "Every point score and groundedness must be 2, and every applicable citation_support/abstention score must be 2."
+  },
+  "cases_sha256": "67aa9f666e005ff14b07ef48970bed033b923c3e9bc0685beb49a623771f95b0",
+  "corpus_sha256": "27dfb0ef17e65cffd4bc09a5bb6b0a662b8ac420d9a95d6430e7f710bbdc4a9b",
+  "config": {
+    "model": "gpt-4.1-nano",
+    "embedding_model": "text-embedding-3-small",
+    "chunk_size": 256,
+    "overlap": 64,
+    "top_k": 5,
+    "distance": "cosine",
+    "question_order": "dataset order"
+  },
+  "finished_at": "2026-09-20T16:52:59.924266+00:00"
+}
