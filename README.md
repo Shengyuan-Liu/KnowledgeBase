@@ -38,6 +38,12 @@ uv run python main.py --data-dir data --model gpt-4.1-nano --top-k 3
 Indexing and answering with retrieved evidence make real OpenAI API calls.
 An empty knowledge base returns an insufficient-evidence answer with no chunks.
 
+## Evaluation
+
+Run the frozen NYU question set, grade answers with human review or an LLM judge, and
+compare recorded experiments using the [evaluation guide](evals/README.md).
+Every run retains questions, answers, retrieved evidence, settings, and scoring details.
+
 ## Tests
 
 ```bash
