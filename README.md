@@ -77,14 +77,17 @@ Original questions and completed answers are saved together. See the
 
 Local data is stored in `data/knowledgebase.db` and `data/chroma/`, using the
 `knowledgebase-chunks` collection. The default embedding model is
-`text-embedding-3-small`; the default answer and follow-up model is `gpt-4.1-mini`.
+`text-embedding-3-small`; the default answer and follow-up model is `gpt-4.1`.
 Set `ANSWER_MODEL` in `.env` to change it for both API and CLI.
+New uploads use 2048-character chunks with 256-character overlap and top-k 5 retrieval.
+Existing uploads retain their original chunks. To use the new chunking with an old
+file, re-upload its original TXT and delete the old copy through the library.
 Passing a file again indexes a new copy. To reuse existing data, omit file paths.
 
 Optional settings:
 
 ```bash
-uv run python main.py --data-dir data --model gpt-4.1-mini --top-k 3
+uv run python main.py --data-dir data --model gpt-4.1 --top-k 3
 ```
 
 Indexing and answering with retrieved evidence make real OpenAI API calls.

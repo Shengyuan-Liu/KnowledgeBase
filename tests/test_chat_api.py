@@ -66,7 +66,7 @@ def test_upload_question_followup_and_persisted_exchange(api):
     history = json.loads(generate.call_args_list[1].kwargs["input"][1]["content"])["history"]
     assert history == [{"role": "user", "content": question},
                        {"role": "assistant", "content": first["answer"]}]
-    assert all(call.kwargs["model"] == "gpt-4.1-mini" for call in generate.call_args_list)
+    assert all(call.kwargs["model"] == "gpt-4.1" for call in generate.call_args_list)
     with resources.sessions() as session:
         messages = get_messages(session, first["conversation_id"])
     assert [(m.role, m.content) for m in messages] == [

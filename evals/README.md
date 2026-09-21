@@ -31,8 +31,8 @@ uv run --locked python -m evals.evaluate run --label "Baseline: default chunking
 ```
 
 The command prints a unique directory such as `evals/runs/<run-id>/`. Replace `<run-id>` below
-with that directory's name. Defaults match the current application: `gpt-4.1-nano`,
-`text-embedding-3-small`, 256-character chunks, 64-character overlap, cosine distance, and top-k 5.
+with that directory's name. Defaults match the application release settings (use `--model` explicitly if `ANSWER_MODEL` was changed locally): `gpt-4.1`,
+`text-embedding-3-small`, 2048-character chunks, 256-character overlap, cosine distance, and top-k 5.
 Override them with `--model`, `--embedding-model`, `--chunk-size`, `--overlap`, and `--top-k`.
 `--cases` accepts an alternative JSONL in the same format, grounded in the same NYU manifest.
 

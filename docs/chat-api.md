@@ -2,7 +2,7 @@
 
 Start the local API with `make api`, using `OPENAI_API_KEY` in `.env`. File upload
 and chat share the same SQLite database, Chroma collection, and embedding client.
-The API uses `gpt-4.1-nano`, retrieves up to five chunks, and uses up to ten recent
+The API uses `gpt-4.1` by default (`ANSWER_MODEL` in `.env`), retrieves up to five chunks, and uses up to ten recent
 messages to resolve follow-ups, matching the current service defaults.
 
 ## Submit a question

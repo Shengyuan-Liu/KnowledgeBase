@@ -12,4 +12,4 @@ class Settings(BaseSettings):
 
     openai_api_key: str
     data_dir: Path = Path("data")
-    answer_model: str = "gpt-4.1-mini"
+    answer_model: str = "gpt-4.1"

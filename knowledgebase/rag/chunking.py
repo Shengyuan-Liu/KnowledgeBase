@@ -1,8 +1,12 @@
 from knowledgebase.schemas import Chunk
 
 
+DEFAULT_CHUNK_SIZE = 2048
+DEFAULT_OVERLAP = 256
+
+
 def split_text(
-    text: str, file_id: str, chunk_size: int = 256, overlap: int = 64
+    text: str, file_id: str, chunk_size: int = DEFAULT_CHUNK_SIZE, overlap: int = DEFAULT_OVERLAP
 ) -> list[Chunk]:
     """Split text into overlapping chunks with end-exclusive character offsets.
 

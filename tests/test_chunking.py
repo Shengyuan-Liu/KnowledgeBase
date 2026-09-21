@@ -63,11 +63,11 @@ def test_chunk_ids_are_repeatable_and_distinct_between_files():
 
 
 def test_default_settings_cover_the_document_with_overlap():
-    text = "a" * 300
+    text = "a" * 2300
 
     chunks = split_text(text, "file-1")
 
     assert [(chunk.start_offset, chunk.end_offset) for chunk in chunks] == [
-        (0, 256), (192, 300)
+        (0, 2048), (1792, 2300)
     ]
     assert all(chunk.text == text[chunk.start_offset:chunk.end_offset] for chunk in chunks)

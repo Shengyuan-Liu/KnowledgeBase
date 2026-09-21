@@ -32,6 +32,6 @@ def test_answer_model_defaults_and_environment_override(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     monkeypatch.setenv("OPENAI_API_KEY", "test-key")
     monkeypatch.delenv("ANSWER_MODEL", raising=False)
-    assert Settings().answer_model == "gpt-4.1-mini"
+    assert Settings().answer_model == "gpt-4.1"
     monkeypatch.setenv("ANSWER_MODEL", "test-model")
     assert Settings().answer_model == "test-model"

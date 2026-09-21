@@ -11,7 +11,7 @@ successful indexing.
    or whitespace-only content. `InvalidUploadError` (a `ValueError` subclass)
    propagates before a file record is created, including invalid UTF-8 input.
 2. Generate a file ID and split the unchanged text using `chunk_size` and
-   `overlap`, defaulting to 256 and 64 characters.
+   `overlap`, defaulting to 2048 and 256 characters.
 3. Create and commit a `processing` file record, preserving its original filename.
 4. Embed the chunk texts in one provider call.
 5. Save chunks, write vectors, and mark the file `ready`. Chunk writes and the

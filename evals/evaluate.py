@@ -11,6 +11,8 @@ import subprocess
 import time
 from uuid import uuid4
 
+from knowledgebase.rag.chunking import DEFAULT_CHUNK_SIZE, DEFAULT_OVERLAP
+
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing import Annotated, Literal
 
@@ -611,10 +613,10 @@ def main():
     runner = sub.add_parser("run", help="Index the frozen corpus and record actual system answers (uses API).")
     runner.add_argument("--label", required=True, help="Experiment hypothesis or baseline name")
     runner.add_argument("--cases", type=Path, default=EVALS / "nyu-test-cases.jsonl")
-    runner.add_argument("--model", default="gpt-4.1-nano")
+    runner.add_argument("--model", default="gpt-4.1")
     runner.add_argument("--embedding-model", default="text-embedding-3-small")
-    runner.add_argument("--chunk-size", type=int, default=256)
-    runner.add_argument("--overlap", type=int, default=64)
+    runner.add_argument("--chunk-size", type=int, default=DEFAULT_CHUNK_SIZE)
+    runner.add_argument("--overlap", type=int, default=DEFAULT_OVERLAP)
     runner.add_argument("--top-k", type=int, default=5)
     grader = sub.add_parser("grade", help="Append human or LLM reviews; preserve earlier ratings.")
     grader.add_argument("run_dir", type=Path)
