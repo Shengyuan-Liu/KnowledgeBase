@@ -1,5 +1,11 @@
 # Recorded RAG evaluations
 
+Additional prepared benchmark: [DeepSeek API documentation evaluation](deepseek/README.md)
+contains 89 Markdown/TXT sources, 320 single-turn questions, 12 multi-turn
+conversations and separate HTTP performance tooling. It has not yet been run
+against a live model. The NYU-specific Python commands below continue to use
+the NYU corpus.
+
 Evaluate the actual `answer_question` service on the [25 frozen NYU cases](nyu-test-cases.md).
 Each run indexes only the 16 TXT documents listed in the [corpus manifest](materials/nyu/manifest.json)
 into a fresh, isolated index. References and expected answers never enter the answering prompt.

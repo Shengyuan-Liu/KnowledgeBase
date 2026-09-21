@@ -1,0 +1,36 @@
+# FIM Completion (Beta)
+
+Source: https://api-docs.deepseek.com/guides/fim_completion
+Captured: 2026-09-21T19:37:17.152Z
+
+In [FIM (Fill In the Middle) completion](https://api-docs.deepseek.com/api/create-completion), users can provide a prefix and a suffix (optional), and the model will complete the content in between. FIM is commonly used for content completion、code completion.
+
+## Notice
+
+1.  The max tokens of FIM completion is 4K.
+2.  The user needs to set `base_url=https://api.deepseek.com/beta` to enable the Beta feature.
+
+## Sample Code
+
+Below is a complete Python code example for FIM completion. In this example, we provide the beginning and the end of a function to calculate the Fibonacci sequence, allowing the model to complete the content in the middle.
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    api_key="<your api key>",
+    base_url="https://api.deepseek.com/beta",
+)
+
+response = client.completions.create(
+    model="deepseek-flash",
+    prompt="def fib(a):",
+    suffix="    return fib(a-1) + fib(a-2)",
+    max_tokens=128
+)
+print(response.choices[0].text)
+```
+
+## Integration With Continue
+
+[Continue](https://continue.dev/) is a VSCode plugin that supports code completion. You can refer to [this document](https://github.com/deepseek-ai/awesome-deepseek-integration/blob/main/docs/continue/README_cn.md) to configure Continue for using the code completion feature.

@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "corpus_id": "deepseek-docs-2026-09-21",
+  "latency_cases": 42,
+  "conversation_scenarios": 12,
+  "conversation_turns": 36,
+  "workloads": [
+    {
+      "id": "quality-dev",
+      "cases": "dev.jsonl",
+      "repeat": 1,
+      "concurrency": 1,
+      "purpose": "Development diagnosis by category; human-grade each successful answer."
+    },
+    {
+      "id": "quality-frozen-test",
+      "cases": "test.jsonl",
+      "repeat": 1,
+      "concurrency": 1,
+      "purpose": "Reserved family split. Do not tune on these answers; public-doc/model pretraining overlap is not excluded."
+    },
+    {
+      "id": "latency-first-pass",
+      "cases": "latency-cases.jsonl",
+      "repeat": 1,
+      "concurrency": 1,
+      "purpose": "First pass after a fresh app process and completed ingestion; provider cache state is unknown."
+    },
+    {
+      "id": "latency-repeat",
+      "cases": "latency-cases.jsonl",
+      "repeat": 5,
+      "concurrency": 1,
+      "purpose": "Repeated-question timings in the same running instance, fresh conversation for every request."
+    },
+    {
+      "id": "load-2",
+      "cases": "latency-cases.jsonl",
+      "repeat": 3,
+      "concurrency": 2,
+      "purpose": "Two independent conversations in flight. Compare throughput, tails, failures, and correctness with concurrency 1."
+    },
+    {
+      "id": "load-4",
+      "cases": "latency-cases.jsonl",
+      "repeat": 3,
+      "concurrency": 4,
+      "purpose": "Four independent conversations in flight; diagnostic stress, not a production capacity claim."
+    },
+    {
+      "id": "multi-turn",
+      "cases": "conversations.jsonl",
+      "repeat": 1,
+      "concurrency": 1,
+      "purpose": "36 turns across 12 isolated conversations; turns within a conversation are sequential."
+    }
+  ],
+  "required_run_metadata": [
+    "corpus and cases hashes",
+    "app code revision",
+    "answer, embedding and resolver model identifiers",
+    "chunk size and overlap",
+    "top_k",
+    "history limit",
+    "machine and network",
+    "run start/end",
+    "cache-state description",
+    "timeout",
+    "concurrency",
+    "repeat",
+    "reviewer"
+  ],
+  "never_infer": [
+    "accuracy from retrieval distance",
+    "provider cache hits from low latency",
+    "cost or model tokens from character counts",
+    "server retrieval duration from client sources-ready time"
+  ]
+}

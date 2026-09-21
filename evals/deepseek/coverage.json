@@ -1,0 +1,808 @@
+{
+  "corpus_id": "deepseek-docs-2026-09-21",
+  "total_cases": 320,
+  "by_category": {
+    "historical": 19,
+    "keyword": 147,
+    "multi_document": 12,
+    "numeric": 7,
+    "semantic": 109,
+    "source_conflict": 6,
+    "unanswerable": 20
+  },
+  "by_split": {
+    "dev": 271,
+    "test": 49
+  },
+  "by_difficulty": {
+    "hard": 38,
+    "medium": 282
+  },
+  "answerable": 300,
+  "unanswerable": 20,
+  "documents": [
+    {
+      "document_id": "api_samples/chat_curl",
+      "case_ids": [
+        "ds-sample-curl-auth"
+      ]
+    },
+    {
+      "document_id": "api_samples/chat_nodejs",
+      "case_ids": [
+        "ds-sample-node-result"
+      ]
+    },
+    {
+      "document_id": "api_samples/chat_python",
+      "case_ids": [
+        "ds-sample-python-result"
+      ]
+    },
+    {
+      "document_id": "api_samples/thinking_mode_api_example_non_streaming",
+      "case_ids": [
+        "ds-sample-nonstream-cot"
+      ]
+    },
+    {
+      "document_id": "api_samples/thinking_mode_api_example_streaming",
+      "case_ids": [
+        "ds-sample-stream-cot"
+      ]
+    },
+    {
+      "document_id": "api_samples/thinking_mode_api_example_tool_call",
+      "case_ids": [
+        "ds-sample-tool-stop"
+      ]
+    },
+    {
+      "document_id": "api_samples/thinking_mode_api_example_tool_call_output",
+      "case_ids": [
+        "ds-sample-output-date",
+        "ds-opaque-call-date",
+        "ds-opaque-call-hangzhou",
+        "ds-opaque-call-guangzhou"
+      ]
+    },
+    {
+      "document_id": "api/create-chat-completion",
+      "case_ids": [
+        "ds-chat-stop-limit-semantic",
+        "ds-chat-stop-limit-keyword",
+        "ds-chat-logprob-semantic",
+        "ds-chat-logprob-keyword",
+        "ds-chat-usage-chunk-semantic",
+        "ds-chat-usage-chunk-keyword",
+        "ds-chat-finish-reasons-semantic",
+        "ds-chat-finish-reasons-keyword",
+        "ds-chat-length-reason-semantic",
+        "ds-chat-length-reason-keyword",
+        "ds-cross-stream-protocol",
+        "ds-unanswerable-server-region"
+      ]
+    },
+    {
+      "document_id": "api/create-completion",
+      "case_ids": [
+        "ds-fim-echo",
+        "ds-fim-logprobs"
+      ]
+    },
+    {
+      "document_id": "api/create-file",
+      "case_ids": [
+        "ds-file-expiry-result-semantic",
+        "ds-file-expiry-result-keyword",
+        "ds-keyword-file-prefix"
+      ]
+    },
+    {
+      "document_id": "api/create-response",
+      "case_ids": [
+        "ds-responses-required-input",
+        "ds-responses-developer"
+      ]
+    },
+    {
+      "document_id": "api/deepseek-api",
+      "case_ids": [
+        "ds-unanswerable-embedding-endpoint"
+      ]
+    },
+    {
+      "document_id": "api/delete-file",
+      "case_ids": [
+        "ds-file-delete-semantic",
+        "ds-file-delete-keyword",
+        "ds-unanswerable-deleted-restoration"
+      ]
+    },
+    {
+      "document_id": "api/get-user-balance",
+      "case_ids": [
+        "ds-balance-api-semantic",
+        "ds-balance-api-keyword",
+        "ds-balance-total-semantic",
+        "ds-balance-total-keyword",
+        "ds-cross-key-leak-balance",
+        "ds-unanswerable-personal-balance"
+      ]
+    },
+    {
+      "document_id": "api/list-files",
+      "case_ids": [
+        "ds-file-pagination-semantic",
+        "ds-file-pagination-keyword",
+        "ds-file-list-size-semantic",
+        "ds-file-list-size-keyword",
+        "ds-file-pagination-marker-semantic",
+        "ds-file-pagination-marker-keyword"
+      ]
+    },
+    {
+      "document_id": "api/list-models",
+      "case_ids": [
+        "ds-models-list-semantic",
+        "ds-models-list-keyword"
+      ]
+    },
+    {
+      "document_id": "api/retrieve-file",
+      "case_ids": [
+        "ds-file-retrieve-semantic",
+        "ds-file-retrieve-keyword",
+        "ds-unanswerable-private-file"
+      ]
+    },
+    {
+      "document_id": "faq",
+      "case_ids": [
+        "ds-faq-destination"
+      ]
+    },
+    {
+      "document_id": "faq-api/balance-error",
+      "case_ids": [
+        "ds-faq-balance-error"
+      ]
+    },
+    {
+      "document_id": "faq-api/balance-validity",
+      "case_ids": [
+        "ds-faq-balance-validity",
+        "ds-cross-pay-refund"
+      ]
+    },
+    {
+      "document_id": "faq-api/cooperation-agreement",
+      "case_ids": [
+        "ds-faq-cooperation-agreement"
+      ]
+    },
+    {
+      "document_id": "faq-api/invoice-details",
+      "case_ids": [
+        "ds-faq-invoice-details"
+      ]
+    },
+    {
+      "document_id": "faq-api/invoice-request",
+      "case_ids": [
+        "ds-faq-invoice-request"
+      ]
+    },
+    {
+      "document_id": "faq-api/keep-alive",
+      "case_ids": [
+        "ds-faq-keep-alive"
+      ]
+    },
+    {
+      "document_id": "faq-api/key-revoke",
+      "case_ids": [
+        "ds-faq-key-revoke",
+        "ds-cross-key-leak-balance"
+      ]
+    },
+    {
+      "document_id": "faq-api/key-usage",
+      "case_ids": [
+        "ds-faq-key-usage",
+        "ds-unanswerable-key-transaction",
+        "ds-keyword-csv-amount"
+      ]
+    },
+    {
+      "document_id": "faq-api/rate-limits",
+      "case_ids": [
+        "ds-faq-rate-limits"
+      ]
+    },
+    {
+      "document_id": "faq-api/refund-policy",
+      "case_ids": [
+        "ds-faq-refund-policy",
+        "ds-cross-pay-refund",
+        "ds-unanswerable-refund-arrival",
+        "ds-unanswerable-refund-approved"
+      ]
+    },
+    {
+      "document_id": "faq-api/top-up",
+      "case_ids": [
+        "ds-faq-top-up"
+      ]
+    },
+    {
+      "document_id": "faq-api/verification-change",
+      "case_ids": [
+        "ds-faq-verification-change"
+      ]
+    },
+    {
+      "document_id": "faq-api/verification-failure",
+      "case_ids": [
+        "ds-faq-verification-failure"
+      ]
+    },
+    {
+      "document_id": "faq-api/verification-name",
+      "case_ids": [
+        "ds-faq-verification-name"
+      ]
+    },
+    {
+      "document_id": "faq-api/verification-types",
+      "case_ids": [
+        "ds-faq-verification-types"
+      ]
+    },
+    {
+      "document_id": "faq-api/verification-update",
+      "case_ids": [
+        "ds-faq-verification-update"
+      ]
+    },
+    {
+      "document_id": "guides/anthropic_api",
+      "case_ids": [
+        "ds-anthropic-model-map-semantic",
+        "ds-anthropic-model-map-keyword",
+        "ds-anthropic-effort-semantic",
+        "ds-anthropic-effort-keyword",
+        "ds-anthropic-metadata-semantic",
+        "ds-anthropic-metadata-keyword",
+        "ds-cross-api-user-id"
+      ]
+    },
+    {
+      "document_id": "guides/chat_prefix_completion",
+      "case_ids": [
+        "ds-prefix-setup-semantic",
+        "ds-prefix-setup-keyword",
+        "ds-cross-fim-prefix"
+      ]
+    },
+    {
+      "document_id": "guides/coding_agents",
+      "case_ids": [
+        "ds-coding-guide-opencode"
+      ]
+    },
+    {
+      "document_id": "guides/comparison_testing",
+      "case_ids": [
+        "ds-terminus-expiry-semantic",
+        "ds-terminus-expiry-keyword"
+      ]
+    },
+    {
+      "document_id": "guides/files_api",
+      "case_ids": [
+        "ds-file-upload-semantic",
+        "ds-file-upload-keyword",
+        "ds-file-upload-limit-semantic",
+        "ds-file-upload-limit-keyword",
+        "ds-file-expiry-semantic",
+        "ds-file-expiry-keyword",
+        "ds-file-inline-exclusive-semantic",
+        "ds-file-inline-exclusive-keyword",
+        "ds-file-ownership-semantic",
+        "ds-file-ownership-keyword",
+        "ds-anthropic-file-path-semantic",
+        "ds-anthropic-file-path-keyword",
+        "ds-file-list-family-semantic",
+        "ds-file-list-family-keyword",
+        "ds-file-metadata-family-semantic",
+        "ds-file-metadata-family-keyword",
+        "ds-file-storage-limits-semantic",
+        "ds-file-storage-limits-keyword",
+        "ds-cross-files-big-image"
+      ]
+    },
+    {
+      "document_id": "guides/fim_completion",
+      "case_ids": [
+        "ds-fim-purpose-semantic",
+        "ds-fim-purpose-keyword",
+        "ds-fim-limit-semantic",
+        "ds-fim-limit-keyword",
+        "ds-cross-fim-prefix",
+        "ds-cross-fim-thinking"
+      ]
+    },
+    {
+      "document_id": "guides/json_mode",
+      "case_ids": [
+        "ds-json-setup-semantic",
+        "ds-json-setup-keyword",
+        "ds-json-truncation-semantic",
+        "ds-json-truncation-keyword",
+        "ds-cross-json-strict"
+      ]
+    },
+    {
+      "document_id": "guides/kv_cache",
+      "case_ids": [
+        "ds-cache-default-semantic",
+        "ds-cache-default-keyword",
+        "ds-cache-full-unit-semantic",
+        "ds-cache-full-unit-keyword",
+        "ds-cache-abac-semantic",
+        "ds-cache-abac-keyword",
+        "ds-cache-counters-semantic",
+        "ds-cache-counters-keyword",
+        "ds-cache-randomness-semantic",
+        "ds-cache-randomness-keyword",
+        "ds-cache-lifetime-semantic",
+        "ds-cache-lifetime-keyword",
+        "ds-cross-cache-billing",
+        "ds-cross-cache-isolation",
+        "ds-unanswerable-cache-clock"
+      ]
+    },
+    {
+      "document_id": "guides/multi_round_chat",
+      "case_ids": [
+        "ds-stateless-chat-semantic",
+        "ds-stateless-chat-keyword",
+        "ds-cross-history-stream"
+      ]
+    },
+    {
+      "document_id": "guides/responses_api",
+      "case_ids": [
+        "ds-responses-stream-end-semantic",
+        "ds-responses-stream-end-keyword",
+        "ds-responses-sequence-semantic",
+        "ds-responses-sequence-keyword",
+        "ds-responses-image-exclusive-semantic",
+        "ds-responses-image-exclusive-keyword",
+        "ds-responses-image-roles-semantic",
+        "ds-responses-image-roles-keyword",
+        "ds-responses-state-semantic",
+        "ds-responses-state-keyword",
+        "ds-responses-ignored-semantic",
+        "ds-responses-ignored-keyword",
+        "ds-responses-truncation-semantic",
+        "ds-responses-truncation-keyword",
+        "ds-responses-patch-semantic",
+        "ds-responses-patch-keyword",
+        "ds-responses-parallel-semantic",
+        "ds-responses-parallel-keyword",
+        "ds-responses-verbosity-semantic",
+        "ds-responses-verbosity-keyword",
+        "ds-cross-stream-protocol"
+      ]
+    },
+    {
+      "document_id": "guides/thinking_mode",
+      "case_ids": [
+        "ds-thinking-default-semantic",
+        "ds-thinking-default-keyword",
+        "ds-effort-mapping-semantic",
+        "ds-effort-mapping-keyword",
+        "ds-thinking-sdk-semantic",
+        "ds-thinking-sdk-keyword",
+        "ds-ignored-sampling-semantic",
+        "ds-ignored-sampling-keyword",
+        "ds-top-p-semantic",
+        "ds-top-p-keyword",
+        "ds-cot-without-tools-semantic",
+        "ds-cot-without-tools-keyword",
+        "ds-cot-with-tools-semantic",
+        "ds-cot-with-tools-keyword",
+        "ds-cross-copilot-cot",
+        "ds-conflict-effort-xhigh"
+      ]
+    },
+    {
+      "document_id": "guides/tool_calls",
+      "case_ids": [
+        "ds-tools-execution-semantic",
+        "ds-tools-execution-keyword",
+        "ds-tool-insertion-semantic",
+        "ds-tool-insertion-keyword",
+        "ds-strict-enable-semantic",
+        "ds-strict-enable-keyword",
+        "ds-strict-object-semantic",
+        "ds-strict-object-keyword",
+        "ds-strict-string-semantic",
+        "ds-strict-string-keyword",
+        "ds-strict-array-semantic",
+        "ds-strict-array-keyword",
+        "ds-strict-ref-semantic",
+        "ds-strict-ref-keyword",
+        "ds-cross-json-strict",
+        "ds-unanswerable-schema-secret"
+      ]
+    },
+    {
+      "document_id": "guides/vision",
+      "case_ids": [
+        "ds-vision-detection-semantic",
+        "ds-vision-detection-keyword",
+        "ds-vision-url-semantic",
+        "ds-vision-url-keyword",
+        "ds-vision-reuse-semantic",
+        "ds-vision-reuse-keyword",
+        "ds-vision-detail-semantic",
+        "ds-vision-detail-keyword",
+        "ds-vision-token-cap-semantic",
+        "ds-vision-token-cap-keyword",
+        "ds-vision-batch-limits-semantic",
+        "ds-vision-batch-limits-keyword",
+        "ds-vision-dimension-semantic",
+        "ds-vision-dimension-keyword",
+        "ds-cross-files-big-image",
+        "ds-conflict-image-tokens",
+        "ds-unanswerable-ocr-accuracy"
+      ]
+    },
+    {
+      "document_id": "index",
+      "case_ids": [
+        "ds-base-url-semantic",
+        "ds-base-url-keyword",
+        "ds-retired-aliases-semantic",
+        "ds-retired-aliases-keyword",
+        "ds-cross-history-stream",
+        "ds-unanswerable-personal-key",
+        "ds-unanswerable-weights-secret",
+        "ds-unanswerable-benchmark-our-app"
+      ]
+    },
+    {
+      "document_id": "news/news0725",
+      "case_ids": [
+        "ds-history-news0725"
+      ]
+    },
+    {
+      "document_id": "news/news0802",
+      "case_ids": [
+        "ds-history-news0802",
+        "ds-conflict-concurrency"
+      ]
+    },
+    {
+      "document_id": "news/news0905",
+      "case_ids": [
+        "ds-history-news0905"
+      ]
+    },
+    {
+      "document_id": "news/news1120",
+      "case_ids": [
+        "ds-history-news1120"
+      ]
+    },
+    {
+      "document_id": "news/news1210",
+      "case_ids": [
+        "ds-history-news1210"
+      ]
+    },
+    {
+      "document_id": "news/news1226",
+      "case_ids": [
+        "ds-history-news1226"
+      ]
+    },
+    {
+      "document_id": "news/news250115",
+      "case_ids": [
+        "ds-history-news250115"
+      ]
+    },
+    {
+      "document_id": "news/news250120",
+      "case_ids": [
+        "ds-history-news250120"
+      ]
+    },
+    {
+      "document_id": "news/news250325",
+      "case_ids": [
+        "ds-history-news250325"
+      ]
+    },
+    {
+      "document_id": "news/news250528",
+      "case_ids": [
+        "ds-history-news250528"
+      ]
+    },
+    {
+      "document_id": "news/news250821",
+      "case_ids": [
+        "ds-history-news250821",
+        "ds-conflict-offpeak"
+      ]
+    },
+    {
+      "document_id": "news/news250922",
+      "case_ids": [
+        "ds-history-news250922"
+      ]
+    },
+    {
+      "document_id": "news/news250929",
+      "case_ids": [
+        "ds-history-news250929"
+      ]
+    },
+    {
+      "document_id": "news/news251201",
+      "case_ids": [
+        "ds-news-route-anomaly"
+      ]
+    },
+    {
+      "document_id": "news/news260424",
+      "case_ids": [
+        "ds-history-news260424"
+      ]
+    },
+    {
+      "document_id": "news/news260813",
+      "case_ids": [
+        "ds-history-news260813"
+      ]
+    },
+    {
+      "document_id": "news/news260821",
+      "case_ids": [
+        "ds-history-news260821",
+        "ds-conflict-image-tokens"
+      ]
+    },
+    {
+      "document_id": "news/news260910",
+      "case_ids": [
+        "ds-history-news260910",
+        "ds-conflict-pro-routing",
+        "ds-unanswerable-pro-launch"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/astrbot",
+      "case_ids": [
+        "ds-integration-detail-1",
+        "ds-integration-detail-2"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/claude_code",
+      "case_ids": [
+        "ds-integration-detail-3",
+        "ds-integration-detail-4"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/codex",
+      "case_ids": [
+        "ds-integration-detail-5",
+        "ds-integration-detail-6"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/copilot_cli",
+      "case_ids": [
+        "ds-integration-detail-7",
+        "ds-integration-detail-8",
+        "ds-integration-detail-9",
+        "ds-cross-copilot-cot"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/crush",
+      "case_ids": [
+        "ds-integration-detail-10",
+        "ds-integration-detail-11"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/deepcode",
+      "case_ids": [
+        "ds-integration-detail-12",
+        "ds-integration-detail-13"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/github_copilot",
+      "case_ids": [
+        "ds-integration-detail-14",
+        "ds-integration-detail-15"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/hermes",
+      "case_ids": [
+        "ds-integration-exact-1"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/kilo_code",
+      "case_ids": [
+        "ds-integration-exact-6",
+        "ds-integration-exact-7"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/langcli",
+      "case_ids": [
+        "ds-integration-exact-8",
+        "ds-integration-exact-9"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/nanobot",
+      "case_ids": [
+        "ds-integration-exact-2",
+        "ds-integration-exact-3"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/oh_my_pi",
+      "case_ids": [
+        "ds-integration-detail-16",
+        "ds-integration-detail-17",
+        "ds-conflict-effort-xhigh",
+        "ds-keyword-compat-spelling"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/openclaw",
+      "case_ids": [
+        "ds-integration-detail-18",
+        "ds-integration-detail-19"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/opencode",
+      "case_ids": [
+        "ds-integration-exact-4",
+        "ds-integration-exact-5"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/pi_mono",
+      "case_ids": [
+        "ds-integration-detail-20",
+        "ds-integration-detail-21"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/qoder",
+      "case_ids": [
+        "ds-integration-detail-22",
+        "ds-integration-detail-23"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/reasonix",
+      "case_ids": [
+        "ds-integration-detail-24",
+        "ds-integration-detail-25"
+      ]
+    },
+    {
+      "document_id": "quick_start/agent_integrations/workbuddy",
+      "case_ids": [
+        "ds-integration-detail-26",
+        "ds-integration-detail-27"
+      ]
+    },
+    {
+      "document_id": "quick_start/error_codes",
+      "case_ids": [
+        "ds-error-400-semantic",
+        "ds-error-400-keyword",
+        "ds-error-401-semantic",
+        "ds-error-401-keyword",
+        "ds-error-402-semantic",
+        "ds-error-402-keyword",
+        "ds-error-422-semantic",
+        "ds-error-422-keyword",
+        "ds-error-429-semantic",
+        "ds-error-429-keyword",
+        "ds-error-500-semantic",
+        "ds-error-500-keyword",
+        "ds-error-503-semantic",
+        "ds-error-503-keyword",
+        "ds-unanswerable-uptime"
+      ]
+    },
+    {
+      "document_id": "quick_start/pricing",
+      "case_ids": [
+        "ds-prices-units-semantic",
+        "ds-prices-units-keyword",
+        "ds-model-versions-semantic",
+        "ds-model-versions-keyword",
+        "ds-context-output-semantic",
+        "ds-context-output-keyword",
+        "ds-peak-hours-semantic",
+        "ds-peak-hours-keyword",
+        "ds-balance-priority-semantic",
+        "ds-balance-priority-keyword",
+        "ds-price-cache-hit-offpeak",
+        "ds-price-cache-hit-peak",
+        "ds-price-cache-miss-offpeak",
+        "ds-price-cache-miss-peak",
+        "ds-price-output-offpeak",
+        "ds-price-output-peak",
+        "ds-price-arithmetic-flash",
+        "ds-cross-fim-thinking",
+        "ds-cross-cache-billing",
+        "ds-conflict-pro-routing",
+        "ds-conflict-offpeak",
+        "ds-unanswerable-future-pricing"
+      ]
+    },
+    {
+      "document_id": "quick_start/rate_limit",
+      "case_ids": [
+        "ds-concurrency-account-semantic",
+        "ds-concurrency-account-keyword",
+        "ds-concurrency-values-semantic",
+        "ds-concurrency-values-keyword",
+        "ds-concurrency-expansion-semantic",
+        "ds-concurrency-expansion-keyword",
+        "ds-user-isolation-semantic",
+        "ds-user-isolation-keyword",
+        "ds-user-id-format-semantic",
+        "ds-user-id-format-keyword",
+        "ds-keepalive-semantic",
+        "ds-keepalive-keyword",
+        "ds-cross-cache-isolation",
+        "ds-cross-api-user-id",
+        "ds-conflict-concurrency",
+        "ds-unanswerable-latency-guarantee",
+        "ds-unanswerable-quota-approved",
+        "ds-keyword-regex-length"
+      ]
+    },
+    {
+      "document_id": "quick_start/token_usage",
+      "case_ids": [
+        "ds-text-token-estimate-semantic",
+        "ds-text-token-estimate-keyword",
+        "ds-tokenizer-download-semantic",
+        "ds-tokenizer-download-keyword",
+        "ds-unanswerable-token-exact"
+      ]
+    },
+    {
+      "document_id": "updates",
+      "case_ids": [
+        "ds-conflict-pro-routing",
+        "ds-updates-pro",
+        "ds-updates-hle-footnote"
+      ]
+    }
+  ]
+}

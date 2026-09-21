@@ -1,0 +1,20 @@
+{
+  "name": "knowledgebase-deepseek-eval-tools",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "capture": "node capture.mjs",
+    "build": "node build-cases.mjs",
+    "test": "node --test *.test.mjs",
+    "validate": "node validate.mjs"
+  },
+  "dependencies": {
+    "acorn": "8.17.0",
+    "cheerio": "1.2.0",
+    "turndown": "7.2.4",
+    "turndown-plugin-gfm": "1.0.2"
+  }
+}
