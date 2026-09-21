@@ -137,3 +137,15 @@ def test_restart_reuses_data_and_openapi_describes_file_contract(configured_app)
         assert client.delete(f"/api/files/{file['file_id']}").status_code == 204
     assert sdk.__exit__.call_count == 2
     embeddings.embed_documents.assert_called_once()
+
+
+def test_built_workspace_and_api_share_one_origin(configured_app, tmp_path):
+    frontend = tmp_path / "built-ui"
+    frontend.mkdir()
+    (frontend / "index.html").write_text("<title>Knowledge Base</title>")
+    with TestClient(api_module.create_app(frontend_dir=frontend)) as client:
+        response = client.get("/")
+        assert response.status_code == 200 and "Knowledge Base" in response.text
+        assert response.headers["content-type"].startswith("text/html")
+        assert client.get("/api/files").json() == []
+        assert client.get("/api/unknown").status_code == 404

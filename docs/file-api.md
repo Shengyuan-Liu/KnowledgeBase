@@ -106,8 +106,10 @@ the file list retains the existing service's recorded error details.
   owns its read sessions, while mutation transactions remain service-owned.
 
 The [chat API](chat-api.md) shares these storage and embedding resources and adds
-an LLM client. Background ingestion, abandoned-processing recovery after a crash,
-and UI integration remain pending. [Streaming chat](chat-streaming.md) is available
+an LLM client. Uploads wait for indexing, the UI is integrated, and startup recovers interrupted
+processing records. Recovery first marks them failed, then cleans partial vectors
+and chunks. Failed cleanup remains visible and can be retried through deletion.
+A process lock allows one API or CLI owner per data directory. [Streaming chat](chat-streaming.md) is available
 through a separate endpoint. Do not delete a file currently being indexed
 through another entry point while the API is running.
 

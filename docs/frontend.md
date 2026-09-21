@@ -39,7 +39,7 @@ backend's retrieval, follow-up resolution, and answer generation providers.
 For a different local backend, set `KNOWLEDGEBASE_API_PROXY` when starting Vite.
 This is a development-server setting, not a browser credential. A production
 host must serve the built `frontend/dist/` assets and route `/api` to FastAPI;
-production hosting is not configured by this change.
+`make app` builds and serves both locally through FastAPI at port 8000. Public hosting and authentication are outside this release.
 
 Run `make stop` before restarting to stop listeners on the development ports
 8000/5173, browser-test ports 8001/5174, and Vite preview port 4173. It sends
@@ -161,10 +161,11 @@ make test-browser-live
 ```
 
 This separate command uses the existing backend `.env` and makes paid embedding
-and generation calls. It runs one browser workflow with two synthetic TXT files:
+and generation calls. It runs one browser workflow with six synthetic TXT files:
 upload, answer, citation navigation, follow-up, refresh, cancellation, deletion,
-and a new question after deletion. It has no automatic retries. Ports 8001/5174
-must be free; it does not reuse or stop running servers on 8000/5173.
+a new question after deletion, study concepts, year-specific printer instructions,
+a fee follow-up, conflicting same-year notices, and an unknown personal balance. It has no automatic retries. Port 8001 must be free. The live test builds the interface and serves it through
+FastAPI at the same origin; it does not reuse or stop servers on 8000/5173.
 
 Each run creates its own ignored storage under `data/live-browser/` and saves
 fixtures, observations, conversation snapshots, and screenshots under

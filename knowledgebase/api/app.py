@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from openai import AsyncOpenAI, OpenAI
 
 from knowledgebase.api.chat import router as chat_router
@@ -16,7 +17,7 @@ from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.storage.runtime import open_storage
 
 
-def create_app(data_dir: Path | None = None) -> FastAPI:
+def create_app(data_dir: Path | None = None, frontend_dir: Path | None = None) -> FastAPI:
     """Build the app; open databases and the provider client only at startup."""
     @asynccontextmanager
     async def lifespan(app: FastAPI):
@@ -38,4 +39,7 @@ def create_app(data_dir: Path | None = None) -> FastAPI:
     app.include_router(files_router)
     app.include_router(chat_router)
     app.include_router(conversations_router)
+    frontend = frontend_dir if frontend_dir is not None else Path(__file__).resolve().parents[2] / "frontend/dist"
+    if frontend.is_dir():
+        app.mount("/", StaticFiles(directory=frontend, html=True), name="workspace")
     return app

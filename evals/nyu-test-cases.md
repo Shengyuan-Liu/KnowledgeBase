@@ -4,6 +4,15 @@ This is a review copy of [nyu-test-cases.jsonl](nyu-test-cases.jsonl): **25 sing
 
 All evidence below is copied verbatim from the local TXT snapshot. Corpus text is unchanged. Original sources and snapshot hashes are in the [manifest](materials/nyu/manifest.json).
 
+## Revision 2: aligned question scope
+
+This revision makes the requested scope explicit for policy coverage, off-campus
+conditions, degree-plan caveats, and waiver materials. The CPT question no longer
+supplies its expected timing facts. Tuition scoring no longer requires an unasked
+external-link mention; summer scoring accepts a direct answer to the summer question.
+Historical run snapshots remain unchanged. Results are not directly comparable to
+revision 1 because the question/scoring input hash changed.
+
 ## Annotation format
 
 - `id`: stable case identifier; `category`: the main evaluation behavior.
@@ -59,7 +68,7 @@ All evidence below is copied verbatim from the local TXT snapshot. Corpus text i
 
 ## 1. policy-scope
 
-**Question:** Which NYU students and organizations are covered by the conduct policy?
+**Question:** Which NYU student levels and organizations are covered by the conduct policy, and which schools and locations does it cover?
 
 **Answerable:** Yes
 
@@ -133,7 +142,7 @@ This includes, but is not limited to: communicating or acting under the guise, n
 
 ## 4. policy-off-campus
 
-**Question:** Can NYU address conduct outside the university context?
+**Question:** Can NYU take disciplinary action for conduct outside the University context, and under what conditions?
 
 **Answerable:** Yes
 
@@ -159,7 +168,7 @@ Notwithstanding, the University may take student disciplinary action for conduct
 
 ## 5. msds-credits
 
-**Question:** How many credits does the MSDS require, and how is the sample plan distributed across semesters?
+**Question:** How many credits does the MSDS require, how are they distributed across the sample plan semesters, and can the actual plan vary with course availability?
 
 **Answerable:** Yes
 
@@ -280,7 +289,7 @@ MSDS students can apply up to 6 credits of independent study (DS-GA 1010) to the
 
 ## 8. msds-waiver
 
-**Question:** Which required Data Science course may be waived, according to the general FAQ?
+**Question:** Which required Data Science course may be waived, and what materials must be submitted for review according to the general FAQ?
 
 **Answerable:** Yes
 
@@ -594,7 +603,7 @@ Students may change tracks until the end of their second semester.
 2. Evening scheduling is not guaranteed; working students need flexibility to take required daytime courses.
 3. Continuous enrollment is required every fall and spring semester, but not in summer.
 
-**Scoring notes:** The 6-credit suggestion is a recommendation, not a universal enrollment maximum.
+**Scoring notes:** The 6-credit suggestion is a recommendation, not a universal enrollment maximum. For the summer point, explicitly stating that continuous enrollment does not apply in summer is sufficient; naming both fall and spring is optional.
 
 ### Supporting evidence 1
 
@@ -719,7 +728,7 @@ Supersedes: University Student Conduct Policy (August 15, 2025)
 
 ## 20. msds-cpt-source-context
 
-**Question:** The admissions FAQ discusses CPT after the first year, but the Industry Concentration requires an internship within the first year. How do the saved pages describe these different contexts?
+**Question:** How do the admissions FAQ and Industry Concentration page describe internship timing, and what advice does the concentration page give international students?
 
 **Answerable:** Yes
 
@@ -927,7 +936,7 @@ Agentic AI Framework for Commercial Use Cases with MCP Compliance
 **Expected answer points:**
 
 1. State that the saved corpus does not provide the tuition rates and mandatory fees needed to calculate that dollar total.
-2. Do not treat 36 credits as a dollar amount or fabricate a per-credit rate; the FAQ directs readers to an external tuition-and-fees page.
+2. Do not fabricate a dollar total or per-credit rate, or infer universal tuition coverage from the existence of limited scholarships.
 
 **Why no supported answer exists:** The FAQ gives the 36-credit requirement and a link, but the linked tuition-and-fees page is not part of this snapshot.
 

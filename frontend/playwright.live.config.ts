@@ -14,7 +14,7 @@ export default defineConfig({
   expect: { timeout: 60_000 },
   outputDir: resolve("test-results/live", runId),
   use: {
-    baseURL: "http://127.0.0.1:5174",
+    baseURL: "http://127.0.0.1:8001",
     headless: true,
     viewport: { width: 1440, height: 900 },
   },
@@ -25,12 +25,6 @@ export default defineConfig({
       cwd: "..",
       env: { DATA_DIR: resolve("../data/live-browser", runId) },
       url: "http://127.0.0.1:8001/api/files",
-      reuseExistingServer: false,
-    },
-    {
-      command: "npm run dev -- --port 5174",
-      env: { KNOWLEDGEBASE_API_PROXY: "http://127.0.0.1:8001" },
-      url: "http://127.0.0.1:5174",
       reuseExistingServer: false,
     },
   ],

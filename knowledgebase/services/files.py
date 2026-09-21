@@ -11,6 +11,7 @@ from knowledgebase.storage.operations import (
     create_file,
     delete_chunks,
     delete_file_record,
+    get_files,
     save_chunks,
     update_file_status,
 )
@@ -19,6 +20,28 @@ from knowledgebase.storage.vectordb import ChromaStore
 
 class InvalidUploadError(ValueError):
     """The supplied file is not nonempty UTF-8 TXT content."""
+
+
+def recover_interrupted_files(
+    session_factory: sessionmaker[Session], vector_store: ChromaStore,
+) -> None:
+    """Recover abandoned uploads while the caller exclusively owns the data directory."""
+    with session_factory() as session:
+        interrupted = [file for file in get_files(session) if file.status == "processing"]
+    for file in interrupted:
+        # Commit eligibility first so interrupted cleanup remains safe and deletable.
+        with session_factory.begin() as session:
+            update_file_status(session, file.file_id, "failed",
+                               "Indexing was interrupted. Cleanup pending; delete this file to finish cleanup.")
+        try:
+            vector_store.delete_by_file_id(file.file_id)
+            with session_factory.begin() as session:
+                delete_chunks(session, file.file_id)
+                update_file_status(session, file.file_id, "failed",
+                                   "Indexing was interrupted. Re-upload the original TXT file and delete this failed record.")
+        except Exception:
+            # The retained failed record exposes cleanup failure and supports normal deletion retry.
+            continue
 
 
 def ingest_file(

@@ -1,6 +1,10 @@
-.PHONY: test test-live api frontend test-frontend test-browser test-browser-live stop test-stop
+.PHONY: app test test-live api frontend test-frontend test-browser test-browser-live stop test-stop
 
 STOP_PORTS ?= 8000 5173 8001 5174 4173
+
+app:
+	npm --prefix frontend run build
+	uv run --locked uvicorn knowledgebase.api.app:create_app --factory --host 127.0.0.1 --port 8000
 
 api:
 	uv run --locked uvicorn knowledgebase.api.app:create_app --factory --host 127.0.0.1 --port 8000

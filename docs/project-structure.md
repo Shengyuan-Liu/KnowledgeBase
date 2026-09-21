@@ -165,3 +165,7 @@ fixtures. Live-provider quality and production hosting need separate verificatio
 Add functionality and modules when current requirements justify them.
 Follow [AGENTS.md](../AGENTS.md) for Python ownership, verification, English text,
 and a Git commit for each completed change.
+
+The local release can be started with `make app`, which serves the built UI and API
+from one origin. Storage startup uses one process owner per data directory and
+recovers interrupted uploads; see the [file API guide](file-api.md).

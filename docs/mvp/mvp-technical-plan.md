@@ -2,7 +2,7 @@
 
 ## Scope and Decisions
 
-This plan implements the [MVP product design](mvp-product-design.md): a single-user knowledge base for uploading UTF-8 TXT files and asking questions with supporting source excerpts. It describes the intended implementation; the application has not yet been built.
+This plan implements the [MVP product design](mvp-product-design.md): a single-user knowledge base for uploading UTF-8 TXT files and asking questions with supporting source excerpts. The local MVP is implemented. The root README describes startup; the linked module guides document behavior and limitations.
 
 Use a dedicated React frontend and a Python backend. Keep ingestion, retrieval, model calls, and storage separate enough to test independently and replace individual components later.
 
@@ -61,7 +61,7 @@ Keep a small vector storage interface for inserting chunks, searching, and delet
 4. Generate embeddings and write the vectors to Chroma. Store canonical chunk text and source metadata in SQLite.
 5. Mark the file `ready` only after all required writes succeed. On failure, mark it `failed` and clean up partial index records.
 
-For small TXT uploads, use an in-process background task and let the frontend poll file status. A durable job queue is unnecessary for this MVP. On backend restart, mark abandoned `processing` records as failed and clean up their partial index entries before retrying.
+Small TXT uploads are indexed synchronously within their request; the UI displays pending state and polls any processing records. Startup marks abandoned `processing` records failed and cleans partial vectors/chunks. A failed record remains deletable even if cleanup fails. A process lock prevents startup recovery from touching another live process's uploads; only one API or CLI instance may own a data directory. Re-uploading creates a new record. Background jobs are not required for this local MVP.
 
 SQLite determines which files are eligible for retrieval. Only chunks belonging to `ready` files can become answer evidence. During deletion, first make the file ineligible, then remove its vectors, chunks, and file record, plus any optional original TXT copy. Report success only after cleanup completes; failed cleanup must remain retryable. SQLite and Chroma do not share a transaction, so eligibility checks and cleanup tests are required.
 
@@ -130,6 +130,6 @@ For documentation-only changes, review the content, verify local links, and chec
 
 ## Development and Later Iterations
 
-During development, run Vite and FastAPI separately and proxy API requests through Vite. Keep SQLite, Chroma persistence, and uploaded source files in local data directories outside version control. For an initial hosted deployment, use one backend instance with persistent storage and serve the frontend and API under one origin. Multiple backend instances require a separate storage and job-execution review.
+During development, run Vite and FastAPI separately and proxy API requests through Vite. Keep SQLite, Chroma persistence, and uploaded source files in local data directories outside version control. `make app` builds the frontend and serves its assets and API under one local origin. For a hosted deployment, use one backend instance with persistent storage and review access control before exposing the server. Multiple backend instances require a separate storage and job-execution review.
 
 Follow the product roadmap: Markdown and PDF parsing in V2, hybrid retrieval and reranking in V3, and need-driven agent capabilities in V4. OCR, knowledge graphs, long-term user memory, study planning, automatic web updates, and multi-user permissions remain outside the MVP.

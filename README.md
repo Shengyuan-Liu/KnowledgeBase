@@ -2,19 +2,40 @@
 
 A TXT knowledge base with vector retrieval and source-grounded answers.
 
-## Browser Workspace
+## Run the local MVP
 
-The frontend provides a responsive Library / Chat / Evidence layout with working
-TXT upload, file search, and confirmed deletion. Chat streams answers, supports
-stopping generation, links citations to original excerpts, and restores the current
-saved conversation after refresh.
+Requirements: macOS or Linux, Python 3.13+, uv, and a Node.js version supported by
+the locked frontend dependencies (Node 22.12+). Run commands from this directory.
 
-Install with `npm --prefix frontend ci`, then run `make api` and `make frontend`
-in separate terminals. Open <http://127.0.0.1:5173>. Uploads use the same backend
-credentials and local data as the CLI. Uploads and questions make real model API calls.
-See the [frontend guide](docs/frontend.md) for setup, behavior, and browser tests.
-Run `make stop` to release the development, browser-test, and preview ports before
-restarting (8000, 5173, 8001, 5174, and 4173).
+```bash
+uv sync --locked
+npm --prefix frontend ci
+# Create the local configuration only if it does not already exist.
+test -f .env || cp .env.example .env
+```
+
+Set `OPENAI_API_KEY` in `.env`, then start the complete application:
+
+```bash
+make app
+```
+
+Open <http://127.0.0.1:8000>. This builds the React interface and serves it together
+with the API from one local process. Upload a UTF-8 TXT file, wait for Ready, ask a
+question, and click its source citation to inspect the original text. Follow-up
+questions share the current conversation; refresh restores completed messages.
+Uploads and questions use real model APIs and incur provider charges.
+
+Local data persists under `data/`. Stop with Ctrl+C or `make stop`; neither removes
+saved data. On restart, interrupted uploads become Failed and their partial index
+is cleaned. Re-upload the original TXT and delete the failed record. If cleanup is
+still pending, Delete retries it. Ready files and completed conversations survive.
+Only one API or CLI process may own the same data directory; use another `DATA_DIR`
+for separate instances. The MVP is local and single-user, without authentication.
+
+For frontend development, use `make api` and `make frontend` in separate terminals,
+then open <http://127.0.0.1:5173>. Do not run `make app` and `make api` concurrently
+against the same data. See the [frontend guide](docs/frontend.md) for details.
 
 ## Interactive CLI
 

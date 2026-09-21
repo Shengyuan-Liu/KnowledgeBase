@@ -59,6 +59,15 @@ def test_frozen_dataset_and_all_reference_spans_are_valid():
     assert all(name.endswith(".txt") for name in documents)
 
 
+def test_revised_questions_explicitly_request_scored_details():
+    cases, _, _ = ev.load_inputs(ev.EVALS / "nyu-test-cases.jsonl")
+    indexed = {c["id"]: c for c in cases}
+    assert "what materials" in indexed["msds-waiver"]["question"]
+    assert "course availability" in indexed["msds-credits"]["question"]
+    assert "after the first year" not in indexed["msds-cpt-source-context"]["question"]
+    assert "external" not in indexed["missing-exact-tuition-bill"]["expected_answer_points"][1]
+
+
 def test_coverage_unions_overlapping_chunks_and_excludes_wrong_files():
     sources = [{"file_name": "notes.txt", "start_offset": 9, "end_offset": 16},
                {"file_name": "notes.txt", "start_offset": 14, "end_offset": 18},

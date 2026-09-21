@@ -15,6 +15,13 @@ const fixtures = [
   },
 ];
 
+const acceptanceFixtures = [
+  { name: "learning-notes.txt", text: "Study notes: vector retrieval.\nAn embedding represents text as a numeric vector. Vector retrieval compares a question vector with document vectors to find related passages. Similarity does not prove that a passage supports an answer.\n" },
+  { name: "maple-printer-2025.txt", text: "Maple printer guide, academic year 2025.\nTo print, sign in to the Maple print portal, upload a PDF, and release the job using your student card. Black-and-white printing costs 0.08 USD per page in 2025.\n" },
+  { name: "maple-printer-2026-a.txt", text: "Maple printer notice A, academic year 2026.\nBlack-and-white printing costs 0.10 USD per page in 2026. This notice does not establish priority over other notices.\n" },
+  { name: "maple-printer-2026-b.txt", text: "Maple printer notice B, academic year 2026.\nBlack-and-white printing costs 0.20 USD per page in 2026. This notice does not establish priority over other notices.\n" },
+];
+
 test("live provider browser acceptance in an isolated library", async ({
   page,
   request,
@@ -39,7 +46,7 @@ test("live provider browser acceptance in an isolated library", async ({
     configured_embedding_model: "text-embedding-3-small",
     scope:
       "One synthetic browser workflow, not a quality benchmark. No automatic retries.",
-    fixtures,
+    fixtures: [...fixtures, ...acceptanceFixtures],
     steps,
     browser_errors: browserErrors,
     status: "running",
@@ -179,6 +186,26 @@ test("live provider browser acceptance in an isolated library", async ({
       path: join(directory, "after-deletion.png"),
       fullPage: true,
     });
+    for (const fixture of acceptanceFixtures) {
+      await page.getByLabel("Choose TXT file").setInputFiles({
+        name: fixture.name, mimeType: "text/plain", buffer: Buffer.from(fixture.text),
+      });
+      await expect(page.getByText(`${fixture.name} is ready.`)).toBeVisible();
+      record("acceptance-upload-ready", { file_name: fixture.name });
+    }
+    const scenarios = [
+      "According to my study notes, what is an embedding, how does vector retrieval use it, and does similarity prove answer support?",
+      "How do I use the Maple printer in academic year 2025?",
+      "How much does it cost per black-and-white page that year?",
+      "The two Maple printer notices for 2026 list different prices. What does each say, and can these sources establish which price applies?",
+      "What is the exact remaining balance of my personal Maple printing account?",
+    ];
+    for (const [index, question] of scenarios.entries()) {
+      await ask(question, index + 4);
+      record("mvp-answer", (await history()).messages.at(-1));
+    }
+    await writeFile(join(directory, "mvp-conversation.json"), JSON.stringify(await history(), null, 2) + "\n");
+    await page.screenshot({ path: join(directory, "mvp-acceptance.png"), fullPage: true });
     expect(browserErrors).toEqual([]);
     report.status = "passed";
   } catch (error) {
