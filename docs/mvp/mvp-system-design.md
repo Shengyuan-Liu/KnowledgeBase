@@ -2,25 +2,22 @@
 
 ![Implemented KnowledgeBase components, ingestion and retrieval, question answering, file lifecycle, data storage, frontend streaming, and runtime](mvp-system-design.png)
 
-Open [the editable Excalidraw diagram](mvp-system-design.excalidraw) using **Open** in [Excalidraw](https://excalidraw.com/). Use **Zoom to fit** for orientation, then zoom into one numbered section. The [SVG preview](mvp-system-design.svg) stays sharp at any zoom; the PNG is 5000 × 3420 pixels.
+Open [the editable Excalidraw diagram](mvp-system-design.excalidraw) using **Open** in [Excalidraw](https://excalidraw.com/). Use **Zoom to fit** for orientation, then zoom into one numbered section. The [SVG preview](mvp-system-design.svg) stays sharp at any zoom; the PNG is 3840 × 3310 pixels.
 
-This map describes the implemented local MVP at commit `abd2e47`, reviewed on September 21, 2026 (UTC). It continues the original Chrome ingestion/retrieval sketch, preserving its 79 drawing elements in section 02. The surrounding sections explain the running application rather than future architecture. The diagram contains 40 component and workflow cards, with 260 editable elements overall.
+This map describes the implemented local MVP at commit `abd2e47`, reviewed on September 21, 2026 (UTC). It continues the original Chrome ingestion/retrieval sketch, preserving its 79 drawing elements in section 02. The surrounding sections explain the running application rather than future architecture. The diagram uses browser, server, document, gear, cloud, database, and decision symbols to distinguish component roles. It contains 300 editable elements.
 
 ## Reading the map
 
-| Section | What it explains |
+| View | What it explains |
 | --- | --- |
-| 01 — System at a glance | React workspace → FastAPI routes → Python services → provider adapters → external OpenAI APIs, plus local storage and entry points. |
-| 02 — Ingestion + retrieval data | Original TXT → chunks → embeddings → Chroma; query → vector search → chunk IDs → SQLite text. |
-| 03 — One question → one saved answer | Original question, recent history, reference resolution, eligible retrieval, prompt construction, generation, citation checks, and atomic persistence before completion. |
-| 04 — File lifecycle | Synchronous upload, processing and ready states, failed indexing, deletion, and restart recovery. |
-| 05 — What is stored where? | SQLite tables and relationships, evidence snapshots, Chroma metadata, and retention of original text as chunks. |
-| 06 — Frontend + stream contract | UI components and hooks, API clients, SSE events, source inspection, Stop, history restoration, and interrupted requests. |
-| 07 — Startup, CLI + evaluation | Configuration, resource ownership, one data-directory owner, local servers, CLI, evaluation, and evidence limits. |
+| 01 — The system | Three distinct areas: the React browser, the single FastAPI backend, and external model APIs. Inside them, document and question paths connect recognizable component symbols. |
+| 02 — Inside ingestion & retrieval | The preserved original sketch shows chunks, embeddings, vector lookup, and canonical text retrieval. |
+| 03 — How an answer comes back | A sequence diagram separates browser, backend, model, and database, showing streaming followed by persistence and completion. |
+| 04 — Run & maintain | A terminal and state diagram summarize startup commands, recovery, evaluation, and file lifecycle. |
 
-Read section 01 first. Follow 02 and 04 for an uploaded document, then 03 and 06 for a question. Use 05 to understand persistence and 07 to understand how the application starts and is checked.
+Start at the browser in section 01 and follow the arrows from left to right. Orange arrows follow uploaded text through indexing; blue arrows follow a question through retrieval and answer generation. Dashed return arrows carry results back. The green SQLite and Chroma cylinders distinguish durable storage from computation. Cloud outlines mark the external provider boundary.
 
-Blue denotes browser/API/retrieval components; orange denotes ingestion and orchestration; green denotes durable state; purple denotes model calls and streaming; red denotes failure or deletion. Solid arrows show primary request/data direction. Dashed arrows show returned data. Storage reads return through the same adapters. Boxes inside the local application represent modules, not separately deployed servers.
+The browser illustration places LibraryPanel, ChatPanel/AnswerText, and EvidencePanel in their actual workspace roles. A server rack represents FastAPI; document icons represent text and evidence; the gear represents chunking; a magnifying glass represents retrieval; the diamond represents citation checks. Backend symbols are modules within one Python process, not separately deployed servers. The detailed source map below supplements the compact visual labels.
 
 ## Implementation references
 
@@ -42,7 +39,7 @@ A successful answer is committed before the stream emits `complete`. An early EO
 
 ## Editing and regeneration
 
-The Excalidraw file is editable directly. The checked-in [layout generator](diagram/build-system-design.mjs) also produces the Excalidraw file, SVG, and component bounds from a readable layout definition. Its [original sketch data](diagram/original-ingestion-layout.json) preserves the observed geometry and text of the initial Chrome diagram.
+The Excalidraw file is editable directly. The checked-in [layout generator](diagram/build-system-design.mjs) also produces the Excalidraw file and SVG from a readable layout definition. Its [original sketch data](diagram/original-ingestion-layout.json) preserves the observed geometry and text of the initial Chrome diagram.
 
 To regenerate the documentation artifacts from the repository root:
 
