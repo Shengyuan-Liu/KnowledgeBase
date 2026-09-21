@@ -2,6 +2,10 @@
 
 A TXT knowledge base with vector retrieval and source-grounded answers.
 
+The next version is defined in the [v1 design documents](docs/v1/README.md).
+Markdown and advanced retrieval are planned there; the instructions below describe
+the current TXT MVP.
+
 ## Run the local MVP
 
 Requirements: macOS or Linux, Python 3.13+, uv, and a Node.js version supported by

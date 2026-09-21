@@ -1,5 +1,13 @@
 # Documentation
 
+## v1 Design
+
+The [v1 design set](v1/README.md) defines the planned next version: TXT/Markdown,
+structure-aware and parent-child chunking, BM25/vector retrieval with RRF and
+reranking, and an evaluated semantic-chunking option. It includes product,
+technical, frontend, system, and evaluation plans. These are specifications,
+not implementation or quality results.
+
 ## Project Organization
 
 - [Project structure and module management](project-structure.md): the implemented directory layout, module responsibilities, shared initialization, and development workflow.

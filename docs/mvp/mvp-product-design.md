@@ -63,6 +63,10 @@ Deliver a complete workflow: upload materials → build an index → ask questio
 
 ## Future Iterations
 
+The roadmap below is historical. The [v1 design](../v1/README.md) supersedes this
+ordering and combines Markdown, improved chunking, hybrid retrieval, and reranking
+in the next version. PDF and agent capabilities remain outside v1.
+
 - V2: Support Markdown and PDF, with improved parsing and source location references.
 - V3: Add hybrid search, reranking, and other retrieval improvements; compare them against basic RAG using the fixed evaluation set.
 - V4: Introduce agent capabilities such as question decomposition and multi-step retrieval based on actual needs.
