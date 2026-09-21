@@ -26,6 +26,13 @@ def answer():
     ]}
 
 
+def assessment():
+    return {"points": [{"answer_quotes": ["A requirement."], "reason": "The answer states the requirement.", "score": 2}],
+            "claims": [{"answer_quote": "A requirement. [1]", "sources": [{"source_id": 1, "quote": "A requirement."}],
+                        "reason": "Source [1] supports this sentence.", "groundedness": 2, "citation_support": 2}],
+            "abstention": {"verdict": "not_applicable", "answer_quotes": [], "reason": "Answerable question."}}
+
+
 def make_run(path, cases=None, status="completed"):
     path.mkdir()
     cases = cases or [case()]
@@ -112,7 +119,7 @@ def test_invalid_human_import_does_not_append_partial_scores(tmp_path, changes):
 
 def test_judge_records_exact_prompts_raw_outputs_and_parse_failures(tmp_path):
     path = make_run(tmp_path / "run", [case(), case("two")])
-    judge = Mock(side_effect=[json.dumps(rating()), "not JSON"])
+    judge = Mock(side_effect=[json.dumps(assessment()), "not JSON"])
     summary = ev.grade(path, "test-judge", judge=judge, model="fake-offline-model")
     events = ev.read_jsonl(path / "reviews.jsonl")
     assert events[0]["messages"] == judge.call_args_list[0].args[0]
@@ -121,9 +128,14 @@ def test_judge_records_exact_prompts_raw_outputs_and_parse_failures(tmp_path):
     assert payload["answer"]["sources"][0]["text"] == "A requirement."
     assert events[1]["raw_response"] == "not JSON"
     assert events[1]["error_type"] == "JSONDecodeError"
+    assert events[0]["assessment"] == assessment()
+    assert events[0]["judge_protocol_version"] == 2
     assert summary["scored"] == 1
     assert summary["review_errors"] == 1
     assert summary["pass_rate"] is None
+    rendered = next((path / "reports").glob("*.md")).read_text()
+    assert "### Judge evidence" in rendered
+    assert "Point 1 (2/2), answer quotes:" in rendered
 
 
 @pytest.mark.parametrize("answerable", [True, False])
@@ -131,8 +143,9 @@ def test_judge_schema_makes_abstention_applicability_explicit(answerable):
     messages = ev.judge_messages(case(answerable=answerable), answer())
     payload = json.loads(messages[1]["content"])
     properties = payload["schema"]["properties"]
-    assert properties["abstention"]["type"] == ("null" if answerable else "integer")
-    assert properties["point_scores"]["minItems"] == properties["point_scores"]["maxItems"] == 1
+    verdicts = payload["schema"]["$defs"]["AbstentionAssessment"]["properties"]["verdict"]["enum"]
+    assert ("not_applicable" in verdicts) == answerable
+    assert properties["points"]["minItems"] == properties["points"]["maxItems"] == 1
     assert "Only answer.sources was available" in messages[0]["content"]
 
 
@@ -171,7 +184,7 @@ def test_comparison_rejects_incomplete_and_different_judges(tmp_path, monkeypatc
     before, after = make_run(tmp_path / "before"), make_run(tmp_path / "after")
     human_grade(before)
     assert not ev.compare(before, after)["comparable"]
-    ev.grade(after, "different-reviewer", judge=lambda messages: json.dumps(rating()), model="fake-model")
+    ev.grade(after, "different-reviewer", judge=lambda messages: json.dumps(assessment()), model="fake-model")
     assert not ev.compare(before, after)["comparable"]
 
 
@@ -252,3 +265,115 @@ def test_citation_diagnostics_preserve_unchecked_history_and_do_not_assign_grade
     report = next((path / "reports").glob("*.md")).read_text()
     assert "Not recorded for this answer." in report
     assert "Invalid source IDs: [5]" in report
+
+
+def recorded_case(case_id, candidate=True):
+    run_id = "20260920T235545Z-199abacb" if candidate else "20260920T235448Z-2d9f6276"
+    path = ev.EVALS / "runs" / run_id
+    data_case = next(c for c in json.loads((path / "cases.json").read_text()) if c["id"] == case_id)
+    recorded = next(a for a in ev.read_jsonl(path / "answers.jsonl") if a["case_id"] == case_id)
+    return data_case, recorded
+
+
+def test_judge_context_excludes_gold_excerpts_metrics_and_old_ratings():
+    data_case, recorded = recorded_case("msds-online")
+    recorded["previous_rating"] = rating()
+    payload = json.loads(ev.judge_messages(data_case, recorded)[1]["content"])
+    assert set(payload["case"]) == {"id", "question", "answerable", "expected_answer_points", "scoring_notes"}
+    assert set(payload["answer"]) == {"answer", "sources"}
+    assert all(set(s) == {"source_id", "file_name", "text"} for s in payload["answer"]["sources"])
+    assert payload["case"]["expected_answer_points"] == data_case["expected_answer_points"]
+
+
+@pytest.mark.parametrize("quotes", [[], ["Submit transcripts and syllabi for review."]])
+def test_missing_waiver_instructions_cannot_receive_credit_without_answer_evidence(quotes):
+    data_case, recorded = recorded_case("msds-waiver")
+    value = assessment()
+    value["points"] = [
+        {"answer_quotes": ["DS-GA 1002"], "reason": "Names the course.", "score": 2},
+        {"answer_quotes": quotes, "reason": "Incorrectly credits omitted instructions.", "score": 2}]
+    with pytest.raises(ev.JudgeEvidenceError):
+        ev.validate_assessment(data_case, recorded, value)
+
+
+def test_gold_only_online_statement_cannot_be_used_as_retrieved_evidence():
+    data_case, recorded = recorded_case("msds-online")
+    value = assessment()
+    value["points"] = [{"answer_quotes": [], "reason": "Does not answer online availability.", "score": 0}]
+    value["claims"] = [{"answer_quote": recorded["answer"],
+                        "sources": [{"source_id": 1, "quote": "No, we do not have an online program."}],
+                        "reason": "Erroneously treats a gold reference as retrieved.", "groundedness": 0, "citation_support": 0}]
+    with pytest.raises(ev.JudgeEvidenceError, match="exact nonempty substring"):
+        ev.validate_assessment(data_case, recorded, value)
+    value["claims"] = []
+    result, _ = ev.validate_assessment(data_case, recorded, value)
+    assert result["point_scores"] == [0]
+    assert result["groundedness"] == result["citation_support"] == 2
+    assert result["abstention"] is None
+
+
+def test_single_sentence_end_citation_can_support_both_gpa_facts():
+    data_case, recorded = recorded_case("msds-gpa", candidate=False)
+    value = assessment()
+    value["points"] = [
+        {"answer_quotes": ["minimum GPA of 3.0 each semester"], "reason": "GPA is stated.", "score": 2},
+        {"answer_quotes": ["at least 66% of their attempted credits"], "reason": "Completion is stated.", "score": 2}]
+    value["claims"] = [{"answer_quote": recorded["answer"], "sources": [{"source_id": 3,
+        "quote": "students must maintain a minimum GPA of 3.0 and must successfully complete 66% of credits attempted."}],
+        "reason": "One sentence-end citation supports both facts.", "groundedness": 2, "citation_support": 2}]
+    result, _ = ev.validate_assessment(data_case, recorded, value)
+    assert result["point_scores"] == [2, 2]
+    assert result["citation_support"] == 2
+
+
+@pytest.mark.parametrize("case_id,verdict,expected", [
+    ("missing-personal-capstone-team", "explicit_missing_information", 2),
+    ("missing-exact-tuition-bill", "invented_specifics", 0),
+])
+def test_observed_refusal_classifications_map_to_scores_without_an_independent_grade(case_id, verdict, expected):
+    data_case, recorded = recorded_case(case_id)
+    value = assessment()
+    value["points"] = [{"answer_quotes": [], "reason": "Fixture tests abstention mapping only.", "score": 0}
+                       for _ in data_case["expected_answer_points"]]
+    value["claims"] = []
+    value["abstention"] = {"verdict": verdict, "answer_quotes": [recorded["answer"]],
+                           "reason": "Acknowledges missing personal information." if expected == 2 else "Invents a zero-dollar bill."}
+    result, _ = ev.validate_assessment(data_case, recorded, value)
+    assert result["abstention"] == expected
+
+
+def test_invalid_judge_evidence_is_pending_and_preserves_the_previous_review(tmp_path):
+    path = make_run(tmp_path / "run")
+    human_grade(path)
+    old = (path / "reviews.jsonl").read_bytes()
+    bad = assessment()
+    bad["points"][0]["answer_quotes"] = ["An instruction the answer never gave."]
+    result = ev.grade(path, "test-judge", judge=lambda messages: json.dumps(bad), model="fake-model")
+    assert (path / "reviews.jsonl").read_bytes().startswith(old)
+    event = ev.read_jsonl(path / "reviews.jsonl")[-1]
+    assert event["raw_response"] == json.dumps(bad)
+    assert event["error_type"] == "JudgeEvidenceError" and "validation_error" in event
+    assert result["scored"] == 0 and result["pass_rate"] is None
+
+
+@pytest.mark.parametrize("change", [
+    {"sources": [{"source_id": 99, "quote": "A requirement."}]},
+    {"sources": [], "groundedness": 2},
+    {"groundedness": 0, "citation_support": 2},
+])
+def test_factual_support_cannot_be_credited_without_matching_source_evidence(change):
+    value = assessment()
+    value["claims"][0].update(change)
+    with pytest.raises(ev.JudgeEvidenceError):
+        ev.validate_assessment(case(), answer(), value)
+
+
+def test_comparison_rejects_different_protocols_even_with_the_same_reviewer(tmp_path, monkeypatch):
+    monkeypatch.setattr(ev, "EVALS", tmp_path)
+    before, after = make_run(tmp_path / "before"), make_run(tmp_path / "after")
+    judge = lambda messages: json.dumps(assessment())
+    ev.grade(before, "same-reviewer", judge=judge, model="fake-model")
+    monkeypatch.setattr(ev, "JUDGE_PROTOCOL_VERSION", 3)
+    ev.grade(after, "same-reviewer", judge=judge, model="fake-model")
+    result = ev.compare(before, after)
+    assert not result["comparable"] and result["deltas"] == {}

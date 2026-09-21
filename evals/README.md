@@ -35,6 +35,48 @@ Override them with `--model`, `--embedding-model`, `--chunk-size`, `--overlap`, 
 
 ## Grade answers
 
+### Judge protocol 2
+
+New LLM reviews use evidence-backed assessments and preserve the existing scoring
+rubric. The protocol version and hash distinguish them from historical reviews.
+The judge receives the question, expected answer points and scoring notes for
+correctness, plus the actual answer and retrieved excerpts for support. Gold
+excerpts, retrieval metrics, previous scores and run settings are excluded from
+the judge input to reduce reference/retrieval confusion.
+
+- Each expected point receives a score, brief explanation and exact answer quotes.
+  Positive credit without an answer quote, or a quote absent from the answer, makes
+  the review invalid. Facts merely present in context do not count as answered.
+- Each substantive factual claim receives an answer quote, exact source quotes,
+  groundedness and citation-support scores. Source IDs and quoted substrings are
+  checked against that answer's retrieval. A single sentence-end citation may
+  support multiple facts. Omissions affect correctness, not citation completeness
+  for facts that were actually stated.
+- Groundedness and citation support are the minimum of the claim assessments.
+  A supported factual claim needs retrieved evidence; citation credit cannot exceed
+  factual support. A pure evidence-bound refusal has no factual claims and receives
+  grounding 2; citation support is 2 for answerable cases and null for unanswerable
+  cases. Correctness can still be 0 for an answerable question.
+- The judge classifies abstention as `not_applicable`, `invented_specifics`,
+  `incomplete_acknowledgment`, or `explicit_missing_information`. The evaluator
+  maps these to null, 0, 1, or 2 respectively. It does not request an independent
+  abstention number that could disagree with the classification.
+
+These checks establish quote provenance and consistent aggregation, **not semantic
+entailment or complete claim coverage**. A judge can still select an irrelevant
+but real quote, overlook a claim, or misclassify a refusal. The frozen development
+examples below are regression cases, not independent human calibration. Human
+review remains necessary before making quality claims, consistent with
+[OpenAI's evaluation guidance](https://developers.openai.com/api/docs/guides/evaluation-best-practices).
+
+Invalid reviews retain their exact prompt, raw response, error type, and safe
+evidence-validation reason when available. They remain pending; no score repair,
+automatic retry, or fallback to a previous valid rating occurs. Regrade both arms
+under one protocol before comparing. Earlier review rows and report snapshots are
+retained; a changed protocol is an evaluation change, not a RAG improvement.
+
+### Human or LLM grading
+
 For human grading, read the generated Markdown report, copy `review-template.json` to
 `human-scores.json`, and replace its null/empty fields with your ratings. Include only cases you
 have actually assessed and whose answer status is `ok`. Import a partial file to save progress:
@@ -128,7 +170,7 @@ uv run --locked python -m evals.evaluate run --label "Larger chunks: does more c
 | `cases.json`, `corpus.json` | Exact questions, reference answers, evidence, case notes, and source manifest |
 | `answers.jsonl` | Per-question answers, complete retrieved text and offsets, automatic retrieval scores, latency, or error type |
 | `review-template.json` | Blank human scoring form; no invented scores |
-| `reviews.jsonl` | Append-only reviews, reviewer/method/model, evaluator code revision, judge protocol hash, exact messages and raw response, scores, reasons, issues, answer hash |
+| `reviews.jsonl` | Append-only reviews, reviewer/method/model, evaluator code revision, judge protocol version/hash, exact messages and raw response, validated assessments, derived scores, reasons, issues, answer hash |
 | `reports/` | New timestamped Markdown and JSON snapshots after each run, grading session, or explicit report |
 
 Do not edit original answers or old reviews; append another review instead. Answer hashes prevent
