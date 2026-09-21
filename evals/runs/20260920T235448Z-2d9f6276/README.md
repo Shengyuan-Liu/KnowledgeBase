@@ -1,5 +1,10 @@
 # Paired chunk-size control: 256 characters
 
+Latest follow-up: [judge validation and regrading](../../analyses/2026-09-21-judge-calibration.md).
+Protocol 3 has 14/25 checked reviews and 11 pending; no full pass rate is
+available. See the [new report](reports/20260921T001453Z-be4922ab.md).
+The original notes and report links below describe the first grading round only.
+
 This is the control in the [256-versus-512 experiment](../../analyses/2026-09-20-chunk-size-256-vs-512.md).
 It uses the 25-case development set and 16 frozen TXT documents, not a held-out test.
 
@@ -7,7 +12,7 @@ It uses the 25-case development set and 16 frozen TXT documents, not a held-out 
 - [Machine-readable graded snapshot](reports/20260920T235745Z-c2674e8d.json)
 - [Run settings and code provenance](run.json)
 - [Original answers and retrieved sources](answers.jsonl)
-- [Single-round LLM reviews, exact prompts and raw responses](reviews.jsonl)
+- [Append-only LLM reviews, exact prompts and raw responses](reviews.jsonl)
 - [Frozen cases and reference evidence](cases.json)
 - [Frozen corpus manifest](corpus.json)
 

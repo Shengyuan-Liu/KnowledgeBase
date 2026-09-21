@@ -7,6 +7,9 @@ Generation and grading are separate: use human ratings, an LLM judge, or both as
 
 Recorded inspections:
 
+- [Judge evidence validation and regrading](analyses/2026-09-21-judge-calibration.md):
+  protocol 3 checked 27/50 reviews; 23 remain pending. Semantic judge errors remain,
+  so the new comparison suppresses quality deltas.
 - [Paired 256-versus-512 chunk-size experiment](analyses/2026-09-20-chunk-size-256-vs-512.md):
   fresh controls, retrieval gains and regressions, and judge discrepancies. The
   observed results do not justify changing the application default.
