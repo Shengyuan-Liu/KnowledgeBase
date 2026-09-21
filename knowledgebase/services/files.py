@@ -6,7 +6,8 @@ from uuid import uuid4
 from sqlalchemy.orm import Session, sessionmaker
 
 from knowledgebase.providers.embeddings import EmbeddingClient
-from knowledgebase.rag.chunking import DEFAULT_CHUNK_SIZE, DEFAULT_OVERLAP, split_text
+from knowledgebase.config import DEFAULT_CHUNK_SIZE, DEFAULT_OVERLAP
+from knowledgebase.rag.chunking import split_text
 from knowledgebase.storage.operations import (
     create_file,
     delete_chunks,

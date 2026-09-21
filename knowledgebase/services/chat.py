@@ -9,6 +9,7 @@ import anyio
 
 from sqlalchemy.orm import Session, sessionmaker
 
+from knowledgebase.config import DEFAULT_TOP_K, DEFAULT_HISTORY_LIMIT
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.rag.citations import validate_citations
@@ -38,7 +39,7 @@ def answer_question(
     embedding_client: EmbeddingClient,
     vector_store: ChromaStore,
     llm_client: LLMClient,
-    top_k: int = 5,
+    top_k: int = DEFAULT_TOP_K,
     *, retrieval_question: str | None = None,
 ) -> ChatAnswer:
     """Return an answer and sources in the same order used by the prompt.
@@ -85,8 +86,9 @@ def answer_in_conversation(
     vector_store: ChromaStore,
     llm_client: LLMClient,
     conversation_id: str | None = None,
-    top_k: int = 5,
-    history_limit: int = 10,
+    top_k: int = DEFAULT_TOP_K,
+    history_limit: int = DEFAULT_HISTORY_LIMIT,
+    *, resolver_client: LLMClient | None = None,
 ) -> ConversationAnswer:
     """Resolve a follow-up, retrieve fresh evidence, and save a completed exchange.
 
@@ -95,7 +97,7 @@ def answer_in_conversation(
     are saved, with the original question, answer, and evidence in one transaction.
     """
     history = _load_history(session_factory, conversation_id, history_limit)
-    retrieval_question = resolve_question(question, history, llm_client)
+    retrieval_question = resolve_question(question, history, resolver_client or llm_client)
     result = answer_question(
         question, session_factory, embedding_client, vector_store,
         llm_client, top_k=top_k, retrieval_question=retrieval_question,
@@ -146,8 +148,9 @@ async def stream_answer_in_conversation(
     llm_client: LLMClient,
     streaming_client: StreamingLLMClient,
     conversation_id: str | None = None,
-    top_k: int = 5,
-    history_limit: int = 10,
+    top_k: int = DEFAULT_TOP_K,
+    history_limit: int = DEFAULT_HISTORY_LIMIT,
+    *, resolver_client: LLMClient | None = None,
 ) -> AsyncGenerator[ChatStreamEvent]:
     """Validate the conversation before streaming; persist only a completed answer.
 
@@ -165,7 +168,7 @@ async def stream_answer_in_conversation(
         yield event("start", conversation_id=conversation_id)
         try:
             retrieval_question = await anyio.to_thread.run_sync(
-                resolve_question, question, history, llm_client, abandon_on_cancel=True,
+                resolve_question, question, history, resolver_client or llm_client, abandon_on_cancel=True,
             )
             chunks, sources = await anyio.to_thread.run_sync(
                 _retrieve_evidence, retrieval_question, session_factory, embedding_client,

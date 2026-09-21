@@ -55,19 +55,29 @@ def cli() -> None:
     parser.add_argument("files", nargs="*", type=Path, help="TXT files to index before chatting")
     parser.add_argument("--data-dir", type=Path, help="Override the DATA_DIR local storage directory")
     parser.add_argument("--model", default=None, help="Override the configured answer model")
-    parser.add_argument("--top-k", type=int, default=5, help="Maximum retrieved chunks per question")
+    parser.add_argument("--top-k", type=int, help="Maximum retrieved chunks per question")
     parser.add_argument("--conversation-id", help="Resume a saved conversation in this data directory")
     args = parser.parse_args()
-    settings = Settings()
+    overrides = {}
+    if args.model is not None:
+        overrides["answer_model"] = args.model
+    if args.top_k is not None:
+        overrides["retrieval_top_k"] = args.top_k
+    settings = Settings(**overrides)
     args.data_dir = args.data_dir if args.data_dir is not None else settings.data_dir
 
     with open_storage(args.data_dir) as (sessions, store):
-        with OpenAI(api_key=settings.openai_api_key) as sdk:
-            embeddings = EmbeddingClient(sdk)
-            llm = LLMClient(sdk, model=args.model or settings.answer_model)
+        with OpenAI(
+            api_key=settings.openai_api_key, base_url=settings.openai_base_url,
+            timeout=settings.openai_timeout_seconds, max_retries=settings.openai_max_retries,
+        ) as sdk:
+            embeddings = EmbeddingClient(sdk, model=settings.embedding_model)
+            llm = LLMClient(sdk, model=settings.answer_model)
+            resolver = LLMClient(sdk, model=settings.resolver_model) if settings.resolver_model else None
             for path in args.files:
                 file_id = ingest_file(
-                    path.name, path.read_bytes(), sessions, embeddings, store
+                    path.name, path.read_bytes(), sessions, embeddings, store,
+                    chunk_size=settings.chunk_size, overlap=settings.chunk_overlap,
                 )
                 print(f"Indexed {path.name} ({file_id})")
             conversation_id = args.conversation_id
@@ -76,7 +86,8 @@ def cli() -> None:
                 nonlocal conversation_id
                 result = answer_in_conversation(
                     question, sessions, embeddings, store, llm,
-                    conversation_id=conversation_id, top_k=args.top_k,
+                    conversation_id=conversation_id, top_k=settings.retrieval_top_k,
+                    history_limit=settings.history_limit, resolver_client=resolver,
                 )
                 conversation_id = result.conversation_id
                 return result

@@ -103,3 +103,6 @@ Tests use temporary SQLite/Chroma storage and offline provider responses. They
 cover upload-to-answer integration, continued conversations, saved original text,
 source and citation fields, request validation, missing conversations, empty
 retrieval, failure rollback, and the OpenAPI contract. They make no live API calls.
+
+Model, retrieval and history defaults are configurable through `ANSWER_MODEL`,
+`RESOLVER_MODEL`, `RETRIEVAL_TOP_K`, and `HISTORY_LIMIT`; see [runtime configuration](configuration.md).

@@ -108,8 +108,9 @@ There is no retained upload directory: canonical source text lives in SQLite chu
 | `evals/evaluate.py` | Record isolated experiments, grade answers, and produce auditable reports/comparisons |
 
 The evaluation runner intentionally owns a fresh index for each run, with its own
-collection name, model settings, and timeout policy. It does not open the user's
-API/CLI library.
+collection name and evaluation timeout/retry policy. Model, chunking, and retrieval
+defaults come from the same [Settings and `.env`](configuration.md) as the API/CLI;
+explicit experiment flags override them. It does not open the user's API/CLI library.
 
 ## Dependency and Data Boundaries
 

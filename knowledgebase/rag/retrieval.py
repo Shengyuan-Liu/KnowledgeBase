@@ -2,6 +2,7 @@
 
 from sqlalchemy.orm import Session
 
+from knowledgebase.config import DEFAULT_TOP_K
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.schemas import RetrievedChunk
 from knowledgebase.storage.vectordb import ChromaStore
@@ -13,7 +14,7 @@ def retrieve(
     session: Session,
     embedding_client: EmbeddingClient,
     vector_store: ChromaStore,
-    top_k: int = 5,
+    top_k: int = DEFAULT_TOP_K,
 ) -> list[RetrievedChunk]:
     """Search ready files and load their original text in vector-search order.
 

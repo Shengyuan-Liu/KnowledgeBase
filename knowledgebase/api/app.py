@@ -23,12 +23,18 @@ def create_app(data_dir: Path | None = None, frontend_dir: Path | None = None) -
     async def lifespan(app: FastAPI):
         settings = Settings()
         directory = data_dir if data_dir is not None else settings.data_dir
+        sdk_options = dict(
+            api_key=settings.openai_api_key, base_url=settings.openai_base_url,
+            timeout=settings.openai_timeout_seconds, max_retries=settings.openai_max_retries,
+        )
         with open_storage(directory) as (sessions, store):
-            with OpenAI(api_key=settings.openai_api_key) as sdk:
-                async with AsyncOpenAI(api_key=settings.openai_api_key) as streaming_sdk:
+            with OpenAI(**sdk_options) as sdk:
+                async with AsyncOpenAI(**sdk_options) as streaming_sdk:
                     app.state.resources = AppResources(
+                        settings=settings,
+                        resolver_llm=LLMClient(sdk, model=settings.resolver_model) if settings.resolver_model else None,
                         sessions=sessions,
-                        embeddings=EmbeddingClient(sdk),
+                        embeddings=EmbeddingClient(sdk, model=settings.embedding_model),
                         store=store,
                         llm=LLMClient(sdk, model=settings.answer_model),
                         streaming_llm=StreamingLLMClient(streaming_sdk, model=settings.answer_model),

@@ -6,6 +6,7 @@ from typing import Annotated
 from fastapi import Depends, Request
 from sqlalchemy.orm import Session, sessionmaker
 
+from knowledgebase.config import Settings
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.storage.vectordb import ChromaStore
@@ -18,6 +19,8 @@ class AppResources:
     store: ChromaStore
     llm: LLMClient
     streaming_llm: StreamingLLMClient
+    settings: Settings
+    resolver_llm: LLMClient | None = None
 
 
 def get_resources(request: Request) -> AppResources:

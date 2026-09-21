@@ -17,10 +17,11 @@ def test_generate_with_real_openai_api():
     settings = Settings()
     with OpenAI(
         api_key=settings.openai_api_key,
-        max_retries=0,
-        timeout=30.0,
+        base_url=settings.openai_base_url,
+        max_retries=settings.eval_max_retries,
+        timeout=settings.eval_timeout_seconds,
     ) as sdk:
-        answer = LLMClient(sdk, model="gpt-4.1-nano").generate(
+        answer = LLMClient(sdk, model=settings.answer_model).generate(
             [{"role": "user", "content": "Reply with exactly: API_OK"}]
         )
 

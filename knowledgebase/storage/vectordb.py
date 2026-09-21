@@ -2,6 +2,7 @@
 
 from chromadb.api.models.Collection import Collection
 
+from knowledgebase.config import DEFAULT_TOP_K
 from knowledgebase.schemas import Chunk, VectorMatch
 
 
@@ -24,7 +25,7 @@ class ChromaStore:
     def search(
         self,
         query_embedding: list[float],
-        top_k: int = 5,
+        top_k: int = DEFAULT_TOP_K,
         file_ids: list[str] | None = None,
     ) -> list[VectorMatch]:
         """Return nearest chunks, optionally restricted to nonempty file_ids.

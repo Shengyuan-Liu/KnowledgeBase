@@ -35,7 +35,7 @@ uv run --locked python -m evals.evaluate run --label "Baseline: default chunking
 ```
 
 The command prints a unique directory such as `evals/runs/<run-id>/`. Replace `<run-id>` below
-with that directory's name. Defaults match the application release settings (use `--model` explicitly if `ANSWER_MODEL` was changed locally): `gpt-4.1`,
+with that directory's name. Defaults come from the same [Settings and `.env`](../docs/configuration.md) as the API/CLI. Built-in defaults are: `gpt-4.1`,
 `text-embedding-3-small`, 2048-character chunks, 256-character overlap, cosine distance, and top-k 5.
 Override them with `--model`, `--embedding-model`, `--chunk-size`, `--overlap`, and `--top-k`.
 `--cases` accepts an alternative JSONL in the same format, grounded in the same NYU manifest.
@@ -95,7 +95,8 @@ have actually assessed and whose answer status is `ok`. Import a partial file to
 uv run --locked python -m evals.evaluate grade evals/runs/<run-id> --reviewer Lucas --scores evals/runs/<run-id>/human-scores.json
 ```
 
-Alternatively, use an LLM judge:
+Alternatively, explicitly select an LLM judge. `--judge-model` without a value uses
+`JUDGE_MODEL` from `.env`; supplying a model overrides it for this invocation:
 
 ```bash
 uv run --locked python -m evals.evaluate grade evals/runs/<run-id> --reviewer gpt-4.1-mini-v1 --judge-model gpt-4.1-mini
@@ -186,7 +187,7 @@ uv run --locked python -m evals.evaluate run --label "Larger chunks: does more c
 Do not edit original answers or old reviews; append another review instead. Answer hashes prevent
 reusing a rating after the recorded answer changes. These are ordinary Git-tracked artifacts, not
 a tamper-proof database. Keep commits for meaningful runs and inspect the dirty flag. Local SQLite
-and Chroma indexes live in ignored `data/evals/<run-id>/`; they are not evaluation evidence.
+and Chroma indexes live under `<DATA_DIR>/evals/<run-id>/` (default ignored `data/evals/<run-id>/`); they are not evaluation evidence.
 Completed questions survive a later interruption. A failed ingestion or interrupted run retains its
 status and completed records; start a new run to retry. Exceptions retain their type, not potentially
 secret provider messages. The harness records neither token usage nor monetary cost because the

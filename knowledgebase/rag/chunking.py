@@ -1,8 +1,5 @@
+from knowledgebase.config import DEFAULT_CHUNK_SIZE, DEFAULT_OVERLAP
 from knowledgebase.schemas import Chunk
-
-
-DEFAULT_CHUNK_SIZE = 2048
-DEFAULT_OVERLAP = 256
 
 
 def split_text(

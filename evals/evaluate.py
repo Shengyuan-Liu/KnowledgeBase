@@ -11,8 +11,6 @@ import subprocess
 import time
 from uuid import uuid4
 
-from knowledgebase.rag.chunking import DEFAULT_CHUNK_SIZE, DEFAULT_OVERLAP
-
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing import Annotated, Literal
 
@@ -237,8 +235,14 @@ def collect_answers(run_dir, cases, ask):
 
 
 def run(args):
-    if args.top_k < 1 or args.chunk_size < 1 or not 0 <= args.overlap < args.chunk_size:
-        raise ValueError("Require top-k > 0 and 0 <= overlap < chunk-size.")
+    from knowledgebase.config import Settings
+
+    fields = {"model": "answer_model", "embedding_model": "embedding_model",
+              "chunk_size": "chunk_size", "overlap": "chunk_overlap", "top_k": "retrieval_top_k"}
+    settings = Settings(**{field: getattr(args, name) for name, field in fields.items()
+                           if getattr(args, name) is not None})
+    for name, field in fields.items():
+        setattr(args, name, getattr(settings, field))
     cases, manifest, documents = load_inputs(args.cases)
     revision = git_state()
     run_dir = EVALS / "runs" / identifier()
@@ -250,7 +254,8 @@ def run(args):
         "corpus_sha256": digest(json.dumps(manifest, sort_keys=True).encode()),
         "config": {"model": args.model, "embedding_model": args.embedding_model,
                    "chunk_size": args.chunk_size, "overlap": args.overlap, "top_k": args.top_k,
-                   "distance": "cosine", "question_order": "dataset order"},
+                   "distance": "cosine", "question_order": "dataset order",
+                   "timeout_seconds": settings.eval_timeout_seconds, "max_retries": settings.eval_max_retries},
     }
     write_json(run_dir / "run.json", metadata)
     write_json(run_dir / "cases.json", cases)
@@ -265,7 +270,6 @@ def run(args):
     try:
         import chromadb
         from openai import OpenAI
-        from knowledgebase.config import Settings
         from knowledgebase.providers.embeddings import EmbeddingClient
         from knowledgebase.providers.llm import LLMClient
         from knowledgebase.services.chat import answer_question
@@ -275,7 +279,7 @@ def run(args):
         from knowledgebase.storage.vectordb import ChromaStore
 
         # Every run gets a fresh index of only the manifest's TXT documents.
-        work_dir = ROOT / "data/evals" / run_dir.name
+        work_dir = settings.data_dir / "evals" / run_dir.name
         work_dir.mkdir(parents=True)
         engine = build_engine(f"sqlite:///{work_dir / 'knowledgebase.db'}")
         init_db(engine)
@@ -284,7 +288,8 @@ def run(args):
             "evaluation", embedding_function=None, configuration={"hnsw": {"space": "cosine"}}
         )
         store = ChromaStore(collection)
-        with OpenAI(api_key=Settings().openai_api_key, timeout=60, max_retries=0) as sdk:
+        with OpenAI(api_key=settings.openai_api_key, base_url=settings.openai_base_url,
+                    timeout=settings.eval_timeout_seconds, max_retries=settings.eval_max_retries) as sdk:
             embeddings = EmbeddingClient(sdk, model=args.embedding_model)
             llm = LLMClient(sdk, model=args.model)
             for name, content in documents.items():
@@ -613,17 +618,17 @@ def main():
     runner = sub.add_parser("run", help="Index the frozen corpus and record actual system answers (uses API).")
     runner.add_argument("--label", required=True, help="Experiment hypothesis or baseline name")
     runner.add_argument("--cases", type=Path, default=EVALS / "nyu-test-cases.jsonl")
-    runner.add_argument("--model", default="gpt-4.1")
-    runner.add_argument("--embedding-model", default="text-embedding-3-small")
-    runner.add_argument("--chunk-size", type=int, default=DEFAULT_CHUNK_SIZE)
-    runner.add_argument("--overlap", type=int, default=DEFAULT_OVERLAP)
-    runner.add_argument("--top-k", type=int, default=5)
+    runner.add_argument("--model", help="Override ANSWER_MODEL")
+    runner.add_argument("--embedding-model", help="Override EMBEDDING_MODEL")
+    runner.add_argument("--chunk-size", type=int, help="Override CHUNK_SIZE")
+    runner.add_argument("--overlap", type=int, help="Override CHUNK_OVERLAP")
+    runner.add_argument("--top-k", type=int, help="Override RETRIEVAL_TOP_K")
     grader = sub.add_parser("grade", help="Append human or LLM reviews; preserve earlier ratings.")
     grader.add_argument("run_dir", type=Path)
     grader.add_argument("--reviewer", required=True)
     mode = grader.add_mutually_exclusive_group(required=True)
     mode.add_argument("--scores", type=Path, help="Completed review-template JSON, optionally a subset")
-    mode.add_argument("--judge-model", help="Use an LLM judge (uses API)")
+    mode.add_argument("--judge-model", nargs="?", const="", help="Use an LLM judge; omit its value to use JUDGE_MODEL (uses API)")
     reporter = sub.add_parser("report")
     reporter.add_argument("run_dir", type=Path)
     comparison = sub.add_parser("compare")
@@ -639,9 +644,12 @@ def main():
         else:
             from openai import OpenAI
             from knowledgebase.config import Settings
-            with OpenAI(api_key=Settings().openai_api_key, timeout=60, max_retries=0) as sdk:
+            settings = Settings()
+            model = args.judge_model or settings.judge_model
+            with OpenAI(api_key=settings.openai_api_key, base_url=settings.openai_base_url,
+                        timeout=settings.eval_timeout_seconds, max_retries=settings.eval_max_retries) as sdk:
                 grade(args.run_dir, args.reviewer,
-                      judge=lambda messages: request_judgment(sdk, args.judge_model, messages), model=args.judge_model)
+                      judge=lambda messages: request_judgment(sdk, model, messages), model=model)
     elif args.command == "report":
         report(args.run_dir)
     elif args.command == "compare":

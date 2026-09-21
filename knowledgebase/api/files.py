@@ -27,6 +27,7 @@ def upload_file(file: UploadFile, resources: Resources):
         file_id = ingest_file(
             file.filename or "", file.file.read(), resources.sessions,
             resources.embeddings, resources.store,
+            chunk_size=resources.settings.chunk_size, overlap=resources.settings.chunk_overlap,
         )
     except InvalidUploadError as error:
         raise HTTPException(status_code=400, detail=str(error)) from error

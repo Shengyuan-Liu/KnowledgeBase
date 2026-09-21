@@ -24,6 +24,8 @@ def chat(body: ChatRequest, resources: Resources):
             body.question, resources.sessions, resources.embeddings,
             resources.store, resources.llm,
             conversation_id=body.conversation_id,
+            top_k=resources.settings.retrieval_top_k, history_limit=resources.settings.history_limit,
+            resolver_client=resources.resolver_llm,
         )
     except ConversationNotFoundError as error:
         raise HTTPException(status_code=404, detail="Conversation not found.") from error
@@ -41,6 +43,8 @@ async def stream_chat(body: StreamChatRequest, resources: Resources):
             body.question, body.request_id, resources.sessions, resources.embeddings,
             resources.store, resources.llm, resources.streaming_llm,
             conversation_id=body.conversation_id,
+            top_k=resources.settings.retrieval_top_k, history_limit=resources.settings.history_limit,
+            resolver_client=resources.resolver_llm,
         )
     except ConversationNotFoundError as error:
         raise HTTPException(status_code=404, detail="Conversation not found.") from error

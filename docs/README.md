@@ -6,6 +6,8 @@
 
 ## Implemented Components
 
+- [Runtime configuration](configuration.md): shared `.env` settings, precedence, model selection, and reindexing requirements.
+
 - [MVP release evaluation](../evals/analyses/2026-09-21-mvp-release.md): final application verification and known quality limits.
 
 - [Frontend workspace](frontend.md): file management, streaming chat, citation navigation, conversation restoration, and offline browser acceptance tests.

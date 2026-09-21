@@ -1,0 +1,115 @@
+"""Non-default settings must reach real upload, retrieval, and chat workflows."""
+
+import json
+import sys
+from unittest.mock import MagicMock, Mock
+
+from fastapi.testclient import TestClient
+import pytest
+
+from knowledgebase import cli
+from knowledgebase.api import app as api_module
+from knowledgebase.schemas import CitationCheck, ConversationAnswer
+
+
+@pytest.mark.parametrize("streaming", [False, True])
+def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app, tmp_path, monkeypatch, streaming):
+    app, embeddings, sdk = configured_app
+    (tmp_path / ".env").write_text(
+        "ANSWER_MODEL=custom-answer\nEMBEDDING_MODEL=custom-embedding\nRESOLVER_MODEL=custom-resolver\n"
+        "CHUNK_SIZE=12\nCHUNK_OVERLAP=3\nRETRIEVAL_TOP_K=2\nHISTORY_LIMIT=1\n"
+        "OPENAI_BASE_URL=https://provider.test/v1\nOPENAI_TIMEOUT_SECONDS=42\nOPENAI_MAX_RETRIES=1\n"
+    )
+    sdk.responses.create.side_effect = lambda **kw: Mock(
+        output_text="Resolved question" if kw["model"] == "custom-resolver" else "Answer. [1]"
+    )
+    async_sdk = MagicMock()
+    async_sdk.__aenter__.return_value = async_sdk
+    async_factory = Mock(return_value=async_sdk)
+    monkeypatch.setattr(api_module, "AsyncOpenAI", async_factory)
+    streamer = Mock()
+
+    async def stream(messages):
+        yield "Answer. [1]"
+
+    streamer.stream = stream
+    streaming_factory = Mock(return_value=streamer)
+    monkeypatch.setattr(api_module, "StreamingLLMClient", streaming_factory)
+    with TestClient(app) as client:
+        uploaded = client.post("/api/files", files={"file": ("notes.txt", b"abcdefghijklmnopqrstuvwxyz0123456789")})
+        assert uploaded.status_code == 201
+        embeddings.embed_documents.assert_called_once_with([
+            "abcdefghijkl", "jklmnopqrstu", "stuvwxyz0123", "123456789",
+        ])
+
+        def ask(question, conversation_id=None):
+            body = {"question": question, "conversation_id": conversation_id}
+            if streaming:
+                response = client.post("/api/chat/stream", json={**body, "request_id": question})
+                assert response.status_code == 200
+                frames = response.text.strip().split("\n\n")
+                assert frames[-1].startswith("event: complete\n")
+                return json.loads(frames[-1].split("\ndata: ")[1])
+            response = client.post("/api/chat", json=body)
+            assert response.status_code == 200
+            return response.json()
+
+        first = ask("First question")
+        assert len(first["sources"]) == 2
+        second = ask("Follow-up", first["conversation_id"])
+        assert len(second["sources"]) == 2
+        assert second["retrieval_question"] == "Resolved question"
+        calls = sdk.responses.create.call_args_list
+        resolver = [c for c in calls if c.kwargs["model"] == "custom-resolver"]
+        assert len(resolver) == 1
+        assert json.loads(resolver[0].kwargs["input"][1]["content"])["history"] == [
+            {"role": "assistant", "content": "Answer. [1]"},
+        ]
+        assert [c.kwargs["model"] for c in calls] == (
+            ["custom-resolver"] if streaming else ["custom-answer", "custom-resolver", "custom-answer"]
+        )
+        api_module.EmbeddingClient.assert_called_once_with(sdk, model="custom-embedding")
+        streaming_factory.assert_called_once_with(async_sdk, model="custom-answer")
+        expected = dict(api_key="offline-test-key", base_url="https://provider.test/v1", timeout=42, max_retries=1)
+        api_module.OpenAI.assert_called_once_with(**expected)
+        async_factory.assert_called_once_with(**expected)
+
+
+@pytest.mark.parametrize("override", [False, True])
+def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkeypatch, override):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("OPENAI_API_KEY", "offline-test")
+    (tmp_path / ".env").write_text(
+        "ANSWER_MODEL=file-answer\nEMBEDDING_MODEL=file-embedding\nRESOLVER_MODEL=file-resolver\n"
+        "CHUNK_SIZE=12\nCHUNK_OVERLAP=3\nRETRIEVAL_TOP_K=2\nHISTORY_LIMIT=1\n"
+    )
+    source = tmp_path / "notes.txt"
+    source.write_text("Example text")
+    sdk = MagicMock()
+    sdk.__enter__.return_value = sdk
+    monkeypatch.setattr(cli, "OpenAI", Mock(return_value=sdk))
+    embeddings = Mock()
+    monkeypatch.setattr(cli, "EmbeddingClient", Mock(return_value=embeddings))
+    llm, resolver = Mock(), Mock()
+    llm_factory = Mock(side_effect=[llm, resolver])
+    monkeypatch.setattr(cli, "LLMClient", llm_factory)
+    ingest = Mock(return_value="file")
+    monkeypatch.setattr(cli, "ingest_file", ingest)
+    answer = Mock(return_value=ConversationAnswer(
+        answer="Answer", sources=[], citation_check=CitationCheck(valid_source_ids=[], invalid_source_ids=[], no_citations=True),
+        conversation_id="conversation", message_id=1, question="Question", retrieval_question="Question",
+    ))
+    monkeypatch.setattr(cli, "answer_in_conversation", answer)
+    monkeypatch.setattr(cli, "run_chat_loop", lambda ask: ask("Question"))
+    argv = ["main.py", str(source)]
+    if override:
+        argv += ["--model", "argument-answer", "--top-k", "4"]
+    monkeypatch.setattr(sys, "argv", argv)
+    cli.cli()
+    assert llm_factory.call_args_list[0].kwargs["model"] == ("argument-answer" if override else "file-answer")
+    assert llm_factory.call_args_list[1].kwargs["model"] == "file-resolver"
+    cli.EmbeddingClient.assert_called_once_with(sdk, model="file-embedding")
+    assert ingest.call_args.kwargs == {"chunk_size": 12, "overlap": 3}
+    assert answer.call_args.kwargs == {
+        "conversation_id": None, "top_k": 4 if override else 2, "history_limit": 1, "resolver_client": resolver,
+    }

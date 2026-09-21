@@ -2,12 +2,14 @@
 
 from openai import OpenAI
 
+from knowledgebase.config import DEFAULT_EMBEDDING_MODEL
+
 
 class EmbeddingClient:
     """Use one model for documents and queries; the caller owns the SDK client."""
 
     def __init__(
-        self, client: OpenAI, model: str = "text-embedding-3-small"
+        self, client: OpenAI, model: str = DEFAULT_EMBEDDING_MODEL
     ) -> None:
         self._client = client
         self._model = model

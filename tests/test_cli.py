@@ -108,7 +108,7 @@ def test_cli_indexes_and_reuses_local_data(tmp_path, monkeypatch, capsys):
     cli.cli()
 
     embeddings.embed_documents.assert_called_once_with([text])
-    sdk_class.assert_called_once_with(api_key="test-only-key")
+    sdk_class.assert_called_once_with(api_key="test-only-key", base_url=None, timeout=600, max_retries=2)
     llm_class.assert_called_once_with(sdk, model="test-configured-model")
     output = capsys.readouterr().out
     assert "Indexed hours.txt" in output

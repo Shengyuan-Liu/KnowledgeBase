@@ -1,6 +1,7 @@
 """Offline evaluation accounting, evidence coverage, and audit-trail tests."""
 
 import json
+from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import Mock
 
@@ -206,14 +207,21 @@ def test_interruption_preserves_completed_questions(tmp_path):
     assert [r["case_id"] for r in ev.read_jsonl(path / "answers.jsonl")] == ["one"]
 
 
-def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_path, monkeypatch):
+@pytest.mark.parametrize("explicit_options", [False, True])
+def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_path, monkeypatch, explicit_options):
     import openai
-    from knowledgebase import config
 
     monkeypatch.setattr(ev, "ROOT", tmp_path)
     monkeypatch.setattr(ev, "EVALS", tmp_path / "evals")
     monkeypatch.setattr(ev, "git_state", lambda: {"commit": "test", "dirty": False})
-    monkeypatch.setattr(config, "Settings", lambda: SimpleNamespace(openai_api_key="offline-test"))
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("OPENAI_API_KEY", "offline-test")
+    monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+    (tmp_path / ".env").write_text(
+        "ANSWER_MODEL=env-generator\nEMBEDDING_MODEL=env-embeddings\n"
+        "CHUNK_SIZE=64\nCHUNK_OVERLAP=8\nRETRIEVAL_TOP_K=2\n"
+        "EVAL_TIMEOUT_SECONDS=17\nEVAL_MAX_RETRIES=1\n"
+    )
     data_case = case()
     data_case["expected_answer_points"] = ["REFERENCE_ONLY_DO_NOT_SEND_TO_GENERATOR"]
     text = "The requirement is a GPA of 3.0."
@@ -231,10 +239,22 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
     cases_path.write_text(json.dumps(data_case) + "\n")
     args = SimpleNamespace(cases=cases_path, label="Offline fixture", top_k=5, chunk_size=256,
                            overlap=64, model="offline-generator", embedding_model="offline-embeddings")
+    if not explicit_options:
+        for name in ("model", "embedding_model", "chunk_size", "overlap", "top_k"):
+            setattr(args, name, None)
     first, second = ev.run(args), ev.run(args)
     assert first != second
     for path in (first, second):
         summary = ev.summarize(path)
+        recorded = summary["run"]["config"]
+        assert recorded["model"] == ("offline-generator" if explicit_options else "env-generator")
+        assert recorded["embedding_model"] == ("offline-embeddings" if explicit_options else "env-embeddings")
+        assert recorded["chunk_size"] == (256 if explicit_options else 64)
+        assert recorded["overlap"] == (64 if explicit_options else 8)
+        assert recorded["top_k"] == (5 if explicit_options else 2)
+        assert recorded["timeout_seconds"] == 17
+        assert recorded["max_retries"] == 1
+        assert (tmp_path / "data" / "evals" / path.name / "knowledgebase.db").exists()
         row = summary["rows"][0]["answer"]
         assert row["answer"] == "A GPA of 3.0. [1]"
         assert row["citation_check"] == {"valid_source_ids": [1], "invalid_source_ids": [], "no_citations": False}
@@ -244,7 +264,12 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
         assert row["sources"][0]["end_offset"] == len(text)
         assert summary["annotated_char_recall"] == 1
         assert summary["pass_rate"] is None
+    for call in sdk.embeddings.create.call_args_list:
+        assert call.kwargs["model"] == args.embedding_model
+    assert all(call.kwargs["timeout"] == 17 and call.kwargs["max_retries"] == 1
+               for call in openai.OpenAI.call_args_list)
     for call in sdk.responses.create.call_args_list:
+        assert call.kwargs["model"] == args.model
         prompt = json.dumps(call.kwargs["input"])
         assert "REFERENCE_ONLY" not in prompt
         assert text in prompt
@@ -400,3 +425,48 @@ def test_live_judge_requests_strict_schema_and_does_not_repair_raw_output():
     assert format_spec["schema"] == json.loads(messages[1]["content"])["schema"]
     assert format_spec["schema"]["additionalProperties"] is False
     assert "issues" not in format_spec["schema"]["properties"]
+
+
+@pytest.mark.parametrize("model_arg", [[], ["explicit-judge"]])
+def test_grading_uses_configured_judge_unless_explicitly_overridden(tmp_path, monkeypatch, model_arg):
+    import sys
+    import openai
+    from unittest.mock import MagicMock
+
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("OPENAI_API_KEY", "offline-test")
+    (tmp_path / ".env").write_text("JUDGE_MODEL=env-judge\nEVAL_TIMEOUT_SECONDS=17\nEVAL_MAX_RETRIES=1\n")
+    sdk = MagicMock()
+    sdk.__enter__.return_value = sdk
+    sdk.responses.create.return_value = SimpleNamespace(output_text="{}")
+    sdk_factory = Mock(return_value=sdk)
+    monkeypatch.setattr(openai, "OpenAI", sdk_factory)
+    recorded = {}
+
+    def grade(run_dir, reviewer, *, judge, model):
+        recorded["model"] = model
+        judge(ev.judge_messages(case(), answer()))
+
+    monkeypatch.setattr(ev, "grade", grade)
+    monkeypatch.setattr(sys, "argv", ["evaluate", "grade", "run", "--reviewer", "test", "--judge-model", *model_arg])
+    ev.main()
+    expected = model_arg[0] if model_arg else "env-judge"
+    assert recorded["model"] == expected
+    assert sdk.responses.create.call_args.kwargs["model"] == expected
+    sdk_factory.assert_called_once_with(api_key="offline-test", base_url=None, timeout=17, max_retries=1)
+
+
+def test_offline_eval_commands_do_not_require_settings_or_credentials(tmp_path, monkeypatch):
+    import sys
+    from knowledgebase import config
+
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    settings = Mock(side_effect=AssertionError("Offline reports must not read credentials"))
+    monkeypatch.setattr(config, "Settings", settings)
+    reporter = Mock()
+    monkeypatch.setattr(ev, "report", reporter)
+    monkeypatch.setattr(sys, "argv", ["evaluate", "report", "saved-run"])
+    ev.main()
+    reporter.assert_called_once_with(Path("saved-run"))
+    settings.assert_not_called()

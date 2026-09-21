@@ -7,8 +7,9 @@ storage, file status, and retrieval.
 - `embed_documents(texts)` sends a batch to OpenAI and extracts vectors in the
   returned order.
 - `embed_query(text)` returns one vector using the same model.
-- The default model is `text-embedding-3-small`. Pass another model explicitly
-  when constructing the wrapper. Rebuild the vector index when changing models.
+- The default model is `text-embedding-3-small`. API/CLI/evaluations pass
+  `EMBEDDING_MODEL` from [runtime configuration](configuration.md). Direct Python
+  callers pass their chosen model explicitly. Use a fresh index when changing models.
 - Inputs are passed through unchanged, including whitespace and empty inputs.
 - Each call sends one batch. The SDK and API handle input validation and service
   limits. There is no local validation, automatic batching, or truncation.
@@ -19,11 +20,11 @@ storage, file status, and retrieval.
 
 ## Local Usage
 
-Keep `OPENAI_API_KEY` in the ignored `.env` file. `.env.example` contains
-only the variable name. Load the local file when launching Python:
+Keep `OPENAI_API_KEY` and the model settings in the ignored `.env` file.
+`.env.example` lists all available settings. Start Python from the repository root:
 
 ```sh
-uv run --env-file .env python
+uv run --locked python
 ```
 
 Then run this example in the Python session. It makes two live API requests:
@@ -31,10 +32,17 @@ Then run this example in the Python session. It makes two live API requests:
 ```python
 from openai import OpenAI
 
+from knowledgebase.config import Settings
 from knowledgebase.providers.embeddings import EmbeddingClient
 
-with OpenAI(timeout=30.0, max_retries=2) as sdk:
-    embeddings = EmbeddingClient(sdk)
+settings = Settings()
+with OpenAI(
+    api_key=settings.openai_api_key,
+    base_url=settings.openai_base_url,
+    timeout=settings.openai_timeout_seconds,
+    max_retries=settings.openai_max_retries,
+) as sdk:
+    embeddings = EmbeddingClient(sdk, model=settings.embedding_model)
     vectors = embeddings.embed_documents(["A library stores books."])
     query = embeddings.embed_query("Where can I find books?")
     print(len(vectors), len(vectors[0]), len(query))

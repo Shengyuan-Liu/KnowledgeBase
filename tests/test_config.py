@@ -35,3 +35,54 @@ def test_answer_model_defaults_and_environment_override(tmp_path, monkeypatch):
     assert Settings().answer_model == "gpt-4.1"
     monkeypatch.setenv("ANSWER_MODEL", "test-model")
     assert Settings().answer_model == "test-model"
+
+
+def test_all_runtime_options_and_override_precedence(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    values = {
+        "OPENAI_API_KEY": "test-secret", "OPENAI_BASE_URL": "https://provider.test/v1",
+        "OPENAI_TIMEOUT_SECONDS": "42", "OPENAI_MAX_RETRIES": "1", "DATA_DIR": "custom-data",
+        "ANSWER_MODEL": "file-answer", "EMBEDDING_MODEL": "file-embedding",
+        "RESOLVER_MODEL": "file-resolver", "CHUNK_SIZE": "100", "CHUNK_OVERLAP": "20",
+        "RETRIEVAL_TOP_K": "3", "HISTORY_LIMIT": "4", "EVAL_TIMEOUT_SECONDS": "12",
+        "EVAL_MAX_RETRIES": "0", "JUDGE_MODEL": "file-judge",
+    }
+    for key in values:
+        monkeypatch.delenv(key, raising=False)
+    (tmp_path / ".env").write_text("\n".join(f"{k}={v}" for k, v in values.items()))
+    settings = Settings()
+    for key, value in values.items():
+        assert str(getattr(settings, key.lower())) == (str(float(value)) if "TIMEOUT" in key else value)
+    monkeypatch.setenv("ANSWER_MODEL", "environment-answer")
+    assert Settings().answer_model == "environment-answer"
+    assert Settings(answer_model="argument-answer").answer_model == "argument-answer"
+    assert "test-secret" not in repr(settings)
+
+
+def test_blank_optional_settings_use_defaults(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
+    for key in ("RESOLVER_MODEL", "OPENAI_BASE_URL", "CHUNK_SIZE", "CHUNK_OVERLAP"):
+        monkeypatch.delenv(key, raising=False)
+    (tmp_path / ".env").write_text("RESOLVER_MODEL=\nOPENAI_BASE_URL=\nCHUNK_SIZE=\nCHUNK_OVERLAP=\n")
+    settings = Settings()
+    assert settings.resolver_model is None
+    assert settings.openai_base_url is None
+    assert settings.chunk_size == 2048
+    assert settings.chunk_overlap == 256
+
+
+def test_invalid_tuning_values_fail_before_startup_without_exposing_key(tmp_path, monkeypatch):
+    import pytest
+    from pydantic import ValidationError
+
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("OPENAI_API_KEY", "must-not-appear-in-errors")
+    for invalid in (
+        {"chunk_size": 0}, {"chunk_overlap": -1}, {"chunk_size": 16, "chunk_overlap": 16},
+        {"retrieval_top_k": 0}, {"history_limit": 0}, {"openai_timeout_seconds": 0},
+        {"openai_max_retries": -1}, {"eval_timeout_seconds": 0}, {"eval_max_retries": -1},
+    ):
+        with pytest.raises(ValidationError) as error:
+            Settings(**invalid)
+        assert "must-not-appear-in-errors" not in str(error.value)

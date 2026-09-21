@@ -75,14 +75,23 @@ uv run python main.py --conversation-id <saved-conversation-id>
 Original questions and completed answers are saved together. See the
 [follow-up workflow](docs/conversation-chat.md) for service usage and boundaries.
 
-Local data is stored in `data/knowledgebase.db` and `data/chroma/`, using the
-`knowledgebase-chunks` collection. The default embedding model is
-`text-embedding-3-small`; the default answer and follow-up model is `gpt-4.1`.
-Set `ANSWER_MODEL` in `.env` to change it for both API and CLI.
-New uploads use 2048-character chunks with 256-character overlap and top-k 5 retrieval.
-Existing uploads retain their original chunks. To use the new chunking with an old
-file, re-upload its original TXT and delete the old copy through the library.
-Passing a file again indexes a new copy. To reuse existing data, omit file paths.
+Local data is stored under `DATA_DIR` (default `data/`), with SQLite in
+`knowledgebase.db` and Chroma in `chroma/`. The vector collection is `knowledgebase-chunks`.
+
+All backend tuning lives in `.env`, with defaults in `knowledgebase/config.py` and a
+complete template in `.env.example`. See the [configuration guide](docs/configuration.md)
+for every setting and its precedence. The API, CLI and evaluation runner use the
+same model, chunking and retrieval configuration.
+
+Defaults are `gpt-4.1` for answers and follow-up resolution,
+`text-embedding-3-small` for embeddings, 2048-character chunks, 256-character overlap,
+and top-k 5. Set `RESOLVER_MODEL` to choose a separate follow-up model; blank follows
+`ANSWER_MODEL`. Restart the application after changing `.env`.
+
+Chunking changes affect new uploads only. Changing the embedding model requires
+reindexing the original TXT files into a new `DATA_DIR`; do not reuse incompatible
+vectors. Existing files and conversation history remain in the previous directory.
+Passing a file to the CLI again indexes a new copy. To reuse existing data, omit file paths.
 
 Optional settings:
 
@@ -140,7 +149,8 @@ needed; API, CLI, evaluation, and tests do not require Jupyter.
 make test
 ```
 
-To explicitly send one real generation request using `.env` credentials:
+To explicitly send one real generation request using the `.env` credentials and
+`ANSWER_MODEL` (with the evaluation timeout/retry settings):
 
 ```bash
 make test-live

@@ -8,6 +8,7 @@ from unittest.mock import Mock
 
 import anyio
 
+from knowledgebase.config import Settings
 from knowledgebase.api.app import create_app
 from knowledgebase.api.dependencies import AppResources
 from knowledgebase.providers.embeddings import EmbeddingClient
@@ -36,6 +37,7 @@ async def lifespan(app):
             streaming_llm = Mock(spec=StreamingLLMClient)
             streaming_llm.stream.side_effect = stream_fixture
             app.state.resources = AppResources(
+                settings=Settings(_env_file=None, openai_api_key="offline-browser-test"),
                 sessions=sessions,
                 store=store,
                 embeddings=embeddings,
