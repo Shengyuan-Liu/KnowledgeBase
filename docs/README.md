@@ -6,6 +6,8 @@
 
 ## Implemented Components
 
+- [MVP release evaluation](../evals/analyses/2026-09-21-mvp-release.md): final application verification and known quality limits.
+
 - [Frontend workspace](frontend.md): file management, streaming chat, citation navigation, conversation restoration, and offline browser acceptance tests.
 - [Real-provider browser acceptance](../evals/browser-runs/20260920T225644765Z-96618e0c/README.md): recorded live workflow and original observations.
 - [Baseline failure audit](../evals/analyses/2026-09-20-baseline-failures.md): nine failed cases, retrieval/answer issues, and judge limitations.

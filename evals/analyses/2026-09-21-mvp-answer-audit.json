@@ -1,0 +1,188 @@
+{
+  "run_id": "20260921T004017Z-5e4ee17d",
+  "reviewer": "Codex coding assistant",
+  "method": "qualitative developer-model inspection; not human review or calibrated rubric grading",
+  "scope": "All 25 answers compared with expected points and relevant retrieved evidence. No issue identified is not a correctness guarantee.",
+  "independent_semantic_pass_rate": null,
+  "findings": {
+    "needs_revision": 6,
+    "no_issue_identified": 19
+  },
+  "cases": [
+    {
+      "case_id": "policy-scope",
+      "outcome": "Needs revision",
+      "notes": "Sources [1][2] describe enforcement-procedure exceptions; the answer broadens them into exceptions to policy coverage, despite [3] covering all locations.",
+      "answer_text_sha256": "79a942da65ec5fbaebd7ddcb42352b1e38006cf133eccfed091461cbbff8d8bd",
+      "record_sha256": "2b25fd8861c43a6400a46ee2c004e9ef3fcc24ded57ba995d9093ac9ed5f7d85"
+    },
+    {
+      "case_id": "policy-fire",
+      "outcome": "No issue identified",
+      "notes": "Immediate evacuation is explicitly supported by [2].",
+      "answer_text_sha256": "e3f015848a76c48112ce11d7b7d77d12f7d2e0f46cb3c5ad8b6c35d438f08946",
+      "record_sha256": "d0d98e104d3c1155b73de606e9dc62ae66f54820d5dae3d1ce9f0924eb2e44df"
+    },
+    {
+      "case_id": "policy-ai-impersonation",
+      "outcome": "No issue identified",
+      "notes": "The consent restriction and AI impersonation prohibition match [1].",
+      "answer_text_sha256": "ba4fbb962c39d4b8fe770f5c75c1bdfdba17b4e8fbfdedae2c2661a17e4ff509",
+      "record_sha256": "b962420727224d72515824965374cb001ae44ba8a448f2e082bae5660286953d"
+    },
+    {
+      "case_id": "policy-off-campus",
+      "outcome": "No issue identified",
+      "notes": "Both substantial disruption and threats to health/safety/security appear in [1].",
+      "answer_text_sha256": "31282975f19046098d1eb5510755a99382a0dd66706ec7a979580e1a8e81f136",
+      "record_sha256": "63390b4ac7e038093bf47554455a603b260ad917556eef6d0fe215ac73a09d9e"
+    },
+    {
+      "case_id": "msds-credits",
+      "outcome": "No issue identified",
+      "notes": "[1] supports four times nine credits and the availability caveat; the answer labels the 36-credit inference from the sample plan.",
+      "answer_text_sha256": "d193247f013143a26135bf11af522db626e82301036a9511564550f632586dbd",
+      "record_sha256": "53a1ac276012bd6473bb2276dccf8ee71630a72ec2b7e46c6bd7d013ed98ab0c"
+    },
+    {
+      "case_id": "msds-gpa",
+      "outcome": "Needs revision",
+      "notes": "Misses 3.0 GPA and 66% completion. It fabricates a quotation about probation/dismissal and attributes it to [4], which is a list of links.",
+      "answer_text_sha256": "521105e41501df92fceca26403e9fee577d3dad216986b36ad10ac237d33ae02",
+      "record_sha256": "3177339980bd2ca77b0153476f753794b9b31ffc9209250f578cb38334802a05"
+    },
+    {
+      "case_id": "msds-independent-study",
+      "outcome": "No issue identified",
+      "notes": "Six-credit limit and DS-GA 1010 match [2].",
+      "answer_text_sha256": "1128183ceb5f651245a062bee24ee8667a722d6b5371b43a4099ff17c25d2e0c",
+      "record_sha256": "ca5a215170a2eaf0c038e4347102612abcfd73aa795547890293396e4111cb9d"
+    },
+    {
+      "case_id": "msds-waiver",
+      "outcome": "No issue identified",
+      "notes": "Only DS-GA 1002; transcripts, highlighted courses/grades, translated syllabi and optional website are present in [1].",
+      "answer_text_sha256": "aeb8a5d7a0f509fb13021d135c9586eb3b7608483eb70eab39de9f9c934dbec2",
+      "record_sha256": "fa3fd670125b7c680d5940d195eb4f5f59e96c9ce9eb635c544afb18f9dcbc29"
+    },
+    {
+      "case_id": "msds-industry",
+      "outcome": "No issue identified",
+      "notes": "[1][2] support first-year practical training, mandatory internship, and two Big Data/NLP electives worth six credits.",
+      "answer_text_sha256": "15db869e1f28acd4a4a7fb200f3cc45c3288e14baf2eef5b420ffac461e5537c",
+      "record_sha256": "b4910de433ac587cae831e1b8966c3eacbed3479346c82445f3c9714dce4c8b3"
+    },
+    {
+      "case_id": "msds-research",
+      "outcome": "No issue identified",
+      "notes": "[1] explicitly excludes external participants.",
+      "answer_text_sha256": "57f8abc55261d0d8ffe331b25cfe6d565433c0c66a66d0fbea045039f6bcfddf",
+      "record_sha256": "9527d73e1a7ba9951cb069ef1805229641928451c66e3a0276af7571953d3d9b"
+    },
+    {
+      "case_id": "msds-online",
+      "outcome": "Needs revision",
+      "notes": "Refuses because the relevant FAQ passage was not retrieved; the frozen corpus does contain \u201cNo, we do not have an online program.\u201d",
+      "answer_text_sha256": "862c11290cb9aa81722305d240175bf099a80a33d9924cb5db6d75b7af364bc4",
+      "record_sha256": "d731b5c611f7ffc089e9d65368c9f527aa3b94e76a3489802628ca048240efc5"
+    },
+    {
+      "case_id": "missing-personal-schedule",
+      "outcome": "Needs revision",
+      "notes": "Correctly refuses the personal timetable, but adds first-semester/course-search background without numbered citations.",
+      "answer_text_sha256": "edaf90077122f4ca46083e10440d0c7f20eb3878433d5586c3706a5bf36e2351",
+      "record_sha256": "9ef424f1dfff10031da8c76a30f4c7ae1a197b440048b954f5a18fe03ac2b0b2"
+    },
+    {
+      "case_id": "msds-admissions-prerequisites",
+      "outcome": "No issue identified",
+      "notes": "[1] supports mathematics, CS-101, the additional course choice, and Python/R experience without a fixed language requirement.",
+      "answer_text_sha256": "dd25c9d437dc95b4240eb8f2d713b663dff7c113510a0807a5c52b09da2beaad",
+      "record_sha256": "76a9131228fd950d90321a65c47a75d4b5e2612a8db538e8cfa6cccc5a882f05"
+    },
+    {
+      "case_id": "msds-gre-submission",
+      "outcome": "No issue identified",
+      "notes": "[1][4][5] support optional GRE, unofficial PDF destination and separate official score submission.",
+      "answer_text_sha256": "ece514051c7a30d440af7edd2850355cb7b0f7d29193ddfe98eaf1ee7467b1ca",
+      "record_sha256": "4e250ccc5c63b4f077eb32ea1ce6cad34c9aa5f304ce0bfe24390355cc08aa30"
+    },
+    {
+      "case_id": "msds-tracks-change",
+      "outcome": "No issue identified",
+      "notes": "[2] names both tracks and the second-semester deadline.",
+      "answer_text_sha256": "487a5fa230cab013b4c2b98fdffa3c9530f2d44f74afdce523f9b9e8591d63a2",
+      "record_sha256": "aa1dbb461cd79ef893f2988fafea8e1c00b2e264cac85458406e05c4606c2682"
+    },
+    {
+      "case_id": "msds-working-enrollment",
+      "outcome": "No issue identified",
+      "notes": "Retrieved FAQ excerpts support six or fewer credits for full-time workers, no evening guarantee and the summer exception.",
+      "answer_text_sha256": "527670d1568a9e2c8af4dc03c2f891058b9aac014ab5a687c9111aa46f35b8cb",
+      "record_sha256": "9aa7848487313c5ca7159f41b4f507af4c473b06c33c0727041d39328f164f71"
+    },
+    {
+      "case_id": "msds-pathbreaker-fall2027",
+      "outcome": "No issue identified",
+      "notes": "[1] states two awards, 36 points of tuition/fees and automatic consideration.",
+      "answer_text_sha256": "698b416db4e4ff7d4d5890b34e3102cf3a69a5bc39f566e1ed49882072ca9aac",
+      "record_sha256": "c04bfdd1b12696f870bfc45dd6125b1897f06b0d5d91b11bb0904632139d7dfa"
+    },
+    {
+      "case_id": "msds-capstone-fall2026-deadline",
+      "outcome": "No issue identified",
+      "notes": "[2] includes August 16, 2026, closed submissions and the September 7 snapshot date.",
+      "answer_text_sha256": "925d2d57cd4ceddb36c76a3cc0aba8b9cee49374753c2f10f47f99641c573958",
+      "record_sha256": "9b0413316b242fab2b7b6dc135b76ca2a8fae3c872e8352f4e2eaa35fd16c576"
+    },
+    {
+      "case_id": "policy-effective-date",
+      "outcome": "No issue identified",
+      "notes": "[1][2] distinguish August 13, 2026 from the superseded August 15, 2025 policy.",
+      "answer_text_sha256": "7e3f46d22191131d065bb88f061d437cd275455a4f37d3bf027a41304522cee3",
+      "record_sha256": "43331c1dd7ce8ba4ac530b88766b3220afa8fbf0217333c5553dc78255474566"
+    },
+    {
+      "case_id": "msds-cpt-source-context",
+      "outcome": "Needs revision",
+      "notes": "Retrieves first-year concentration details but misses the FAQ's after-first-year passage; incorrectly generalizes missing retrieval into \u201cthe admissions FAQ does not specify.\u201d",
+      "answer_text_sha256": "f67e357ff213b107dd7ce63f17c297954cb693e8cacf8b51bc30676ead4e6d54",
+      "record_sha256": "bb9f4a3b08088e22a6a13d4ba6de15e88869d0b122dac1d1b2be1db4c1b12349"
+    },
+    {
+      "case_id": "msds-career-advising",
+      "outcome": "No issue identified",
+      "notes": "[1][2] support the advising topics and Wasserman collaboration.",
+      "answer_text_sha256": "4fb904b4ce207cefdcb3669a6e6985c0d97ce0aa5b10fc182d75b8f5c1ac1d46",
+      "record_sha256": "621dcc24dae8ee1502f0a1dd4f721666a89abfeaabb7bdf17c0e8cbbd086006b"
+    },
+    {
+      "case_id": "missing-fall2027-application-deadline",
+      "outcome": "No issue identified",
+      "notes": "Refuses exact date/time/time zone; [2] says application details are coming soon.",
+      "answer_text_sha256": "a2a9d09e179a2d7f95706fa33e2d9948cd0c353048c7a20f8f2b8d28205f3fcc",
+      "record_sha256": "e0e187473e2fbd878550885e8d9f33ca297e15ab9505d176c698e572bf2c4977"
+    },
+    {
+      "case_id": "missing-personal-scholarship-award",
+      "outcome": "No issue identified",
+      "notes": "Separates limited/general scholarships from the user's unknown award status and amount.",
+      "answer_text_sha256": "7e1cf6ed51e064873686f574fb321002625d01d6a0e3348a4195771f12893f83",
+      "record_sha256": "8566f3f15eb1a0c075d2946169cad3e324589d36a30bab21671629ec5516f206"
+    },
+    {
+      "case_id": "missing-personal-capstone-team",
+      "outcome": "Needs revision",
+      "notes": "Correctly refuses personal assignment but describes past project material as upcoming/future Fall 2026 themes without that support in cited [1].",
+      "answer_text_sha256": "40c7884b6b812d8b8455145e1b8d2f4d86a4a6b2479656b516344b8435d021c4",
+      "record_sha256": "d1ecdd9e06175459e5bd4f3feaa63df061dd0197b54dc0489b19833eb6673ce8"
+    },
+    {
+      "case_id": "missing-exact-tuition-bill",
+      "outcome": "No issue identified",
+      "notes": "Refuses a dollar total; keeps scholarship coverage separate from a universal tuition entitlement.",
+      "answer_text_sha256": "bd962468b2686a1b263d259fc91c0ec5f50a670009eafe4cd21321c38c6d3e13",
+      "record_sha256": "bcf357a56edb8da76444ab031c5f45e3725feefe389833c4baaa367fb3a8e7a5"
+    }
+  ]
+}

@@ -120,6 +120,11 @@ examples and error codes. Restore saved messages and their original evidence wit
 
 ## Evaluation
 
+See the [MVP release evaluation](evals/analyses/2026-09-21-mvp-release.md) for
+verified functionality, real-provider results, all-case inspection and known answer
+quality limitations. The local MVP is functional; independent semantic accuracy
+has not been established.
+
 Run the frozen NYU question set, grade answers with human review or an LLM judge, and
 compare recorded experiments using the [evaluation guide](evals/README.md).
 Every run retains questions, answers, retrieved evidence, settings, and scoring details.

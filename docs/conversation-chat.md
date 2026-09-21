@@ -21,9 +21,11 @@ There are no repair calls or automatic retries at this layer.
    to newest. The default is 10 individual messages. An unknown ID raises
    `ConversationNotFoundError` before model calls. Omit the ID to start a fresh conversation.
 2. Resolve the question after closing the history read session.
-3. Call the existing `answer_question` with the resolved question. Retrieval uses
-   current ready files, and generation receives only that question and retrieved
-   excerpts. Old answers are not injected into the generation prompt as evidence.
+3. Retrieve current ready files with the resolved question. Generation always
+   receives the original question, plus the resolved wording as a reference-resolution
+   hint explicitly marked as non-evidence, and fresh retrieved excerpts. Old answers
+   are not injected into the generation prompt as evidence. A bad rewrite therefore
+   cannot replace or drop the original requested parts.
 4. In one write transaction, create the conversation if new and save the original
    user question, completed assistant answer, and its evidence snapshot. Return
    only after commit.

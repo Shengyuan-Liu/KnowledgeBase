@@ -7,12 +7,16 @@ Generation and grading are separate: use human ratings, an LLM judge, or both as
 
 Recorded inspections:
 
+- [Local MVP release evaluation](analyses/2026-09-21-mvp-release.md): final real-provider
+  acceptance, 25-case diagnostics, all-case Codex inspection and explicit quality limits.
+
 - [Judge evidence validation and regrading](analyses/2026-09-21-judge-calibration.md):
   protocol 3 checked 27/50 reviews; 23 remain pending. Semantic judge errors remain,
   so the new comparison suppresses quality deltas.
 - [Paired 256-versus-512 chunk-size experiment](analyses/2026-09-20-chunk-size-256-vs-512.md):
   fresh controls, retrieval gains and regressions, and judge discrepancies. The
-  observed results do not justify changing the application default.
+  results alone did not justify changing the then-current application default; see
+  the later release evaluation for the newly selected settings.
 - [Nine-case baseline failure audit](analyses/2026-09-20-baseline-failures.md):
   retrieved evidence, answer failures, judge attribution issues, and the next paired
   chunk-size experiment. This qualitative audit does not replace recorded scores.
