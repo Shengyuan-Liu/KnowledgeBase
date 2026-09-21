@@ -7,6 +7,9 @@ Generation and grading are separate: use human ratings, an LLM judge, or both as
 
 Recorded inspections:
 
+- [Paired 256-versus-512 chunk-size experiment](analyses/2026-09-20-chunk-size-256-vs-512.md):
+  fresh controls, retrieval gains and regressions, and judge discrepancies. The
+  observed results do not justify changing the application default.
 - [Nine-case baseline failure audit](analyses/2026-09-20-baseline-failures.md):
   retrieved evidence, answer failures, judge attribution issues, and the next paired
   chunk-size experiment. This qualitative audit does not replace recorded scores.

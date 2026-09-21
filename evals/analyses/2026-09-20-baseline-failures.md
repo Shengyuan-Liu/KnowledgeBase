@@ -1,5 +1,8 @@
 # Baseline failure audit: September 20, 2026
 
+Follow-up: the proposed [paired 256-versus-512 experiment](2026-09-20-chunk-size-256-vs-512.md)
+has now been recorded. This audit retains its original baseline evidence and scores.
+
 ## Scope and evidence
 
 This is a Codex qualitative audit of the nine cases marked failed in the latest
