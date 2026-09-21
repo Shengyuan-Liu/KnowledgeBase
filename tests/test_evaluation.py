@@ -129,7 +129,7 @@ def test_judge_records_exact_prompts_raw_outputs_and_parse_failures(tmp_path):
     assert events[1]["raw_response"] == "not JSON"
     assert events[1]["error_type"] == "JSONDecodeError"
     assert events[0]["assessment"] == assessment()
-    assert events[0]["judge_protocol_version"] == 2
+    assert events[0]["judge_protocol_version"] == 3
     assert summary["scored"] == 1
     assert summary["review_errors"] == 1
     assert summary["pass_rate"] is None
@@ -373,7 +373,21 @@ def test_comparison_rejects_different_protocols_even_with_the_same_reviewer(tmp_
     before, after = make_run(tmp_path / "before"), make_run(tmp_path / "after")
     judge = lambda messages: json.dumps(assessment())
     ev.grade(before, "same-reviewer", judge=judge, model="fake-model")
-    monkeypatch.setattr(ev, "JUDGE_PROTOCOL_VERSION", 3)
+    monkeypatch.setattr(ev, "JUDGE_PROTOCOL_VERSION", 4)
     ev.grade(after, "same-reviewer", judge=judge, model="fake-model")
     result = ev.compare(before, after)
     assert not result["comparable"] and result["deltas"] == {}
+
+
+def test_live_judge_requests_strict_schema_and_does_not_repair_raw_output():
+    client = Mock()
+    client.responses.create.return_value = SimpleNamespace(output_text='{"unexpected": "retained"}')
+    messages = ev.judge_messages(case(), answer())
+    assert ev.request_judgment(client, "fake-model", messages) == '{"unexpected": "retained"}'
+    kwargs = client.responses.create.call_args.kwargs
+    assert kwargs["model"] == "fake-model" and kwargs["input"] == messages
+    format_spec = kwargs["text"]["format"]
+    assert format_spec["type"] == "json_schema" and format_spec["strict"] is True
+    assert format_spec["schema"] == json.loads(messages[1]["content"])["schema"]
+    assert format_spec["schema"]["additionalProperties"] is False
+    assert "issues" not in format_spec["schema"]["properties"]

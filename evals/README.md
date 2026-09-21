@@ -35,10 +35,13 @@ Override them with `--model`, `--embedding-model`, `--chunk-size`, `--overlap`, 
 
 ## Grade answers
 
-### Judge protocol 2
+### Judge protocol 3
 
 New LLM reviews use evidence-backed assessments and preserve the existing scoring
 rubric. The protocol version and hash distinguish them from historical reviews.
+Protocol 3 uses the API's [strict structured output format](https://developers.openai.com/api/docs/guides/structured-outputs)
+after protocol 2's prompt-only output produced repeated schema-invalid responses.
+The protocol 2 attempts remain in the logs. Strict output constrains shape, not truth.
 The judge receives the question, expected answer points and scoring notes for
 correctness, plus the actual answer and retrieved excerpts for support. Gold
 excerpts, retrieval metrics, previous scores and run settings are excluded from
