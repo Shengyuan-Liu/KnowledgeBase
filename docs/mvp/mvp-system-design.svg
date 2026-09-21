@@ -1,0 +1,264 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="5000" height="3420" viewBox="0 0 5000 3420">
+<rect width="5000" height="3420" fill="#f8fafc"/>
+<defs><marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="context-stroke" stroke-width="1.4"/></marker></defs>
+<text x="60" y="80" font-family="Arial, sans-serif" font-size="52" fill="#243247"><tspan x="60" dy="0">KNOWLEDGEBASE  /  HOW THE LOCAL MVP WORKS</tspan></text>
+<text x="62" y="125" font-family="Arial, sans-serif" font-size="25" fill="#68758a"><tspan x="62" dy="0">Implemented system • English UTF-8 TXT • Single user • Read 01 first, then follow the numbered workflows • Updated 2026-09-21</tspan></text>
+<rect x="60" y="160" width="4880" height="800" rx="16" stroke="#ccd5e1" stroke-width="1" fill="#ffffff"/>
+<text x="88" y="218" font-family="Arial, sans-serif" font-size="36" fill="#2563a6"><tspan x="88" dy="0">01  SYSTEM AT A GLANCE</tspan></text>
+<text x="88" y="258" font-family="Arial, sans-serif" font-size="23" fill="#68758a"><tspan x="88" dy="0">Solid arrows: requests / data flow. Dashed arrows: returned data / stream. Boxes inside the local app are modules, not separate servers.</tspan></text>
+<rect x="100" y="320" width="700" height="300" rx="16" stroke="#2563a6" stroke-width="2" fill="#edf5ff"/>
+<text x="122" y="366" font-family="Arial, sans-serif" font-size="29" fill="#2563a6"><tspan x="122" dy="0">Browser / React workspace</tspan></text>
+<text x="122" y="409" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="122" dy="0">LibraryPanel: upload, list, delete</tspan><tspan x="122" dy="31.200000000000003">ChatPanel + AnswerText: ask and cite</tspan><tspan x="122" dy="31.200000000000003">EvidencePanel: inspect original text</tspan><tspan x="122" dy="31.200000000000003">useLibrary / useChat: UI state</tspan><tspan x="122" dy="31.200000000000003">Responsive layout + modal drawers</tspan></text>
+<rect x="1010" y="320" width="700" height="300" rx="16" stroke="#2563a6" stroke-width="2" fill="#edf5ff"/>
+<text x="1032" y="366" font-family="Arial, sans-serif" font-size="29" fill="#2563a6"><tspan x="1032" dy="0">FastAPI / HTTP boundary</tspan></text>
+<text x="1032" y="409" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="1032" dy="0">GET + POST /api/files</tspan><tspan x="1032" dy="31.200000000000003">DELETE /api/files/{file_id}</tspan><tspan x="1032" dy="31.200000000000003">POST /api/chat or /api/chat/stream</tspan><tspan x="1032" dy="31.200000000000003">GET /api/conversations/{id}</tspan><tspan x="1032" dy="31.200000000000003">Pydantic request / response schemas</tspan></text>
+<rect x="1920" y="320" width="790" height="300" rx="16" stroke="#ad6525" stroke-width="2" fill="#fff6e8"/>
+<text x="1942" y="366" font-family="Arial, sans-serif" font-size="29" fill="#ad6525"><tspan x="1942" dy="0">Python application services</tspan></text>
+<text x="1942" y="409" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="1942" dy="0">files.py: ingest, delete, recover</tspan><tspan x="1942" dy="31.200000000000003">chat.py: coordinate each answer</tspan><tspan x="1942" dy="31.200000000000003">RAG modules: resolve → retrieve →</tspan><tspan x="1942" dy="31.200000000000003">context → generate → citation check</tspan><tspan x="1942" dy="31.200000000000003">Own transaction and completion rules</tspan></text>
+<rect x="2920" y="320" width="850" height="300" rx="16" stroke="#7653a6" stroke-width="2" fill="#f3effb"/>
+<text x="2942" y="366" font-family="Arial, sans-serif" font-size="29" fill="#7653a6"><tspan x="2942" dy="0">Provider adapters</tspan></text>
+<text x="2942" y="409" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="2942" dy="0">EmbeddingClient: text / query → vector</tspan><tspan x="2942" dy="31.200000000000003">LLMClient: rewrite or full answer</tspan><tspan x="2942" dy="31.200000000000003">StreamingLLMClient: answer deltas</tspan><tspan x="2942" dy="31.200000000000003">OpenAI SDK clients owned by lifespan</tspan><tspan x="2942" dy="31.200000000000003">Only backend reads the API key</tspan></text>
+<rect x="4010" y="320" width="880" height="300" rx="16" stroke="#7653a6" stroke-width="2" fill="#f3effb"/>
+<text x="4032" y="366" font-family="Arial, sans-serif" font-size="29" fill="#7653a6"><tspan x="4032" dy="0">External / OpenAI APIs</tspan></text>
+<text x="4032" y="409" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="4032" dy="0">Embedding: text-embedding-3-small</tspan><tspan x="4032" dy="31.200000000000003">Answer + resolver: gpt-4.1 (default)</tspan><tspan x="4032" dy="31.200000000000003">ANSWER_MODEL can override it</tspan><tspan x="4032" dy="31.200000000000003">Document text / questions / excerpts</tspan><tspan x="4032" dy="31.200000000000003">leave this machine for provider calls</tspan></text>
+<polyline points="800,410 1010,410" stroke="#2563a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="838" y="392" font-family="Arial, sans-serif" font-size="22" fill="#2563a6"><tspan x="838" dy="0">HTTP</tspan></text>
+<polyline points="1710,410 1920,410" stroke="#ad6525" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="1730" y="392" font-family="Arial, sans-serif" font-size="22" fill="#ad6525"><tspan x="1730" dy="0">service calls</tspan></text>
+<polyline points="2710,410 2920,410" stroke="#7653a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="2725" y="392" font-family="Arial, sans-serif" font-size="22" fill="#7653a6"><tspan x="2725" dy="0">model calls</tspan></text>
+<polyline points="3770,410 4010,410" stroke="#7653a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="3822" y="392" font-family="Arial, sans-serif" font-size="22" fill="#7653a6"><tspan x="3822" dy="0">HTTPS</tspan></text>
+<polyline points="1010,560 800,560" stroke="#2563a6" stroke-width="2" fill="none" stroke-linejoin="round" stroke-dasharray="10 7" marker-end="url(#head)"/>
+<text x="822" y="607" font-family="Arial, sans-serif" font-size="22" fill="#2563a6"><tspan x="822" dy="0">JSON / SSE</tspan></text>
+<rect x="100" y="750" width="700" height="150" rx="16" stroke="#243247" stroke-width="2" fill="#f5f7fa"/>
+<text x="122" y="796" font-family="Arial, sans-serif" font-size="29" fill="#243247"><tspan x="122" dy="0">Browser persistence</tspan></text>
+<text x="122" y="837" font-family="Arial, sans-serif" font-size="22" fill="#243247"><tspan x="122" dy="0">localStorage: conversation ID only</tspan><tspan x="122" dy="28.6">Saved messages come from the API.</tspan></text>
+<rect x="1010" y="750" width="700" height="150" rx="16" stroke="#243247" stroke-width="2" fill="#f5f7fa"/>
+<text x="1032" y="796" font-family="Arial, sans-serif" font-size="29" fill="#243247"><tspan x="1032" dy="0">One local server</tspan></text>
+<text x="1032" y="837" font-family="Arial, sans-serif" font-size="22" fill="#243247"><tspan x="1032" dy="0">make app → built UI + API on :8000</tspan><tspan x="1032" dy="28.6">GET / serves frontend/dist.</tspan></text>
+<rect x="1920" y="750" width="1830" height="150" rx="16" stroke="#237b59" stroke-width="2" fill="#eaf7f0"/>
+<text x="1942" y="796" font-family="Arial, sans-serif" font-size="29" fill="#237b59"><tspan x="1942" dy="0">Local durable storage / shared storage adapters</tspan></text>
+<text x="1942" y="839" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="1942" dy="0">SQLAlchemy + SQLite: file states, canonical text, messages and evidence snapshots.</tspan><tspan x="1942" dy="31.200000000000003">Chroma: searchable vectors + chunk/file IDs. The two stores do not share a transaction.</tspan></text>
+<polyline points="2310,620 2310,750" stroke="#237b59" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="2340" y="686" font-family="Arial, sans-serif" font-size="22" fill="#237b59"><tspan x="2340" dy="0">read / write</tspan></text>
+<rect x="4010" y="750" width="880" height="150" rx="16" stroke="#243247" stroke-width="2" fill="#f5f7fa"/>
+<text x="4032" y="796" font-family="Arial, sans-serif" font-size="29" fill="#243247"><tspan x="4032" dy="0">Other entry points</tspan></text>
+<text x="4032" y="837" font-family="Arial, sans-serif" font-size="22" fill="#243247"><tspan x="4032" dy="0">CLI and evaluation runner use the</tspan><tspan x="4032" dy="28.6">same Python services (see 07).</tspan></text>
+<rect x="60" y="1010" width="1580" height="1120" rx="16" stroke="#ccd5e1" stroke-width="1" fill="#ffffff"/>
+<text x="88" y="1068" font-family="Arial, sans-serif" font-size="36" fill="#ad6525"><tspan x="88" dy="0">02  INGESTION + RETRIEVAL DATA</tspan></text>
+<text x="88" y="1108" font-family="Arial, sans-serif" font-size="23" fill="#68758a"><tspan x="88" dy="0">Original Chrome sketch retained; service timing and failure rules are expanded in 04.</tspan></text>
+<text x="100" y="1188" font-family="Arial, sans-serif" font-size="38" fill="#243247"><tspan x="100" dy="0">KnowledgeBase System Design</tspan></text>
+<text x="102" y="1224" font-family="Arial, sans-serif" font-size="22" fill="#68758a"><tspan x="102" dy="0">TXT ingestion &amp; semantic retrieval</tspan></text>
+<text x="100" y="1294" font-family="Arial, sans-serif" font-size="18" fill="#ad6525"><tspan x="100" dy="0">INGESTION</tspan></text>
+<rect x="110" y="1392" width="146" height="154" rx="16" stroke="#243247" stroke-width="2" fill="#fff6e8"/>
+<text x="127" y="1447" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="127" dy="0">Raw TXT</tspan><tspan x="127" dy="31.200000000000003">documents</tspan></text>
+<text x="135" y="1528" font-family="Arial, sans-serif" font-size="18" fill="#68758a"><tspan x="135" dy="0">File</tspan></text>
+<text x="394" y="1364" font-family="Arial, sans-serif" font-size="26" fill="#243247"><tspan x="394" dy="0">Chunks</tspan></text>
+<rect x="390" y="1389" width="153" height="39" rx="16" stroke="#243247" stroke-width="2" fill="#fff6e8"/>
+<text x="406" y="1415" font-family="Arial, sans-serif" font-size="19" fill="#243247"><tspan x="406" dy="0">chunk 1</tspan></text>
+<rect x="390" y="1443" width="153" height="39" rx="16" stroke="#243247" stroke-width="2" fill="#fff6e8"/>
+<text x="406" y="1469" font-family="Arial, sans-serif" font-size="19" fill="#243247"><tspan x="406" dy="0">chunk 2</tspan></text>
+<rect x="390" y="1497" width="153" height="39" rx="16" stroke="#243247" stroke-width="2" fill="#fff6e8"/>
+<text x="406" y="1523" font-family="Arial, sans-serif" font-size="19" fill="#243247"><tspan x="406" dy="0">chunk 3</tspan></text>
+<text x="386" y="1581" font-family="Arial, sans-serif" font-size="18" fill="#68758a"><tspan x="386" dy="0">text + chunk_id</tspan></text>
+<polyline points="773.19,1395.99 773.5500000000001,1501.27 773.21,1513.26 778.75,1518.44 798.0500000000001,1522.82 830.6700000000001,1524.18 861.84,1522.01 878.4000000000001,1516.79 880.73,1512.4 881.0600000000001,1502.75 880.8000000000001,1404.82 880.22,1395.57 873.2900000000001,1390.4 858.7,1387.4 825.44,1384.89 798.7800000000001,1386.39 777.8100000000001,1391.48 773.1300000000001,1395.93 773.19,1395.99" stroke="#243247" stroke-width="1" fill="#dbe9f8" stroke-linejoin="round"  />
+<polyline points="773.93,1475.96 776.78,1480.74 789.05,1484.75 805.39,1487.18 830.9799999999999,1487.4 860.8399999999999,1485.8500000000001 878.28,1480.23 881.9699999999999,1475.41" stroke="#243247" stroke-width="1" fill="none" stroke-linejoin="round"  />
+<polyline points="772.48,1435.41 775.33,1440.19 787.6,1444.2 803.94,1446.63 829.53,1446.8500000000001 859.39,1445.3000000000002 876.83,1439.68 880.52,1434.8600000000001" stroke="#243247" stroke-width="1" fill="none" stroke-linejoin="round"  />
+<ellipse cx="824.62" cy="1396.845" rx="53.62" ry="10.845" stroke="#243247" stroke-width="1" fill="#dbe9f8"/>
+<ellipse cx="829.95" cy="1428.8" rx="7.86" ry="8.53" stroke="#243247" stroke-width="1" fill="#dbe9f8"/>
+<ellipse cx="830.44" cy="1465.5" rx="7.86" ry="8.53" stroke="#243247" stroke-width="1" fill="#dbe9f8"/>
+<ellipse cx="831.35" cy="1505.78" rx="7.86" ry="8.53" stroke="#243247" stroke-width="1" fill="#dbe9f8"/>
+<text x="747" y="1364" font-family="Arial, sans-serif" font-size="26" fill="#243247"><tspan x="747" dy="0">Relational DB</tspan></text>
+<text x="789" y="1572" font-family="Arial, sans-serif" font-size="24" fill="#2563a6"><tspan x="789" dy="0">SQLite</tspan></text>
+<text x="723" y="1607" font-family="Arial, sans-serif" font-size="19" fill="#68758a"><tspan x="723" dy="0">files: id, name, status</tspan><tspan x="723" dy="24.7">chunks: id, file_id, text</tspan></text>
+<polyline points="266,1460 376,1460" stroke="#b6762e" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="274" y="1443" font-family="Arial, sans-serif" font-size="18" fill="#ad6525"><tspan x="274" dy="0">chunking</tspan></text>
+<polyline points="558,1457 751,1457" stroke="#b6762e" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="580" y="1443" font-family="Arial, sans-serif" font-size="19" fill="#ad6525"><tspan x="580" dy="0">store chunks</tspan></text>
+<polyline points="183,1377 183,1315 690,1315 690,1400 753,1400" stroke="#b6762e" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="413" y="1306" font-family="Arial, sans-serif" font-size="20" fill="#ad6525"><tspan x="413" dy="0">store file metadata</tspan></text>
+<rect x="1235" y="1299" width="137" height="111" rx="16" stroke="#243247" stroke-width="2" fill="#eef4fb"/>
+<rect x="1222" y="1311" width="137" height="111" rx="16" stroke="#243247" stroke-width="2" fill="#eef4fb"/>
+<rect x="1209" y="1323" width="137" height="111" rx="16" stroke="#243247" stroke-width="2" fill="#eef4fb"/>
+<text x="1229" y="1378" font-family="Arial, sans-serif" font-size="25" fill="#243247"><tspan x="1229" dy="0">File list</tspan></text>
+<polyline points="897,1377 1193,1377" stroke="#6e8199" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="1005" y="1362" font-family="Arial, sans-serif" font-size="20" fill="#68758a"><tspan x="1005" dy="0">list files</tspan></text>
+<text x="358" y="1703" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="358" dy="0">Chunk embeddings</tspan></text>
+<rect x="390" y="1725" width="153" height="34" rx="16" stroke="#243247" stroke-width="2" fill="#f0f5ff"/>
+<text x="409" y="1749" font-family="Arial, sans-serif" font-size="20" fill="#2563a6"><tspan x="409" dy="0">[0.2, ...]</tspan></text>
+<rect x="390" y="1772" width="153" height="34" rx="16" stroke="#243247" stroke-width="2" fill="#f0f5ff"/>
+<text x="409" y="1796" font-family="Arial, sans-serif" font-size="20" fill="#2563a6"><tspan x="409" dy="0">[0.2, ...]</tspan></text>
+<rect x="390" y="1819" width="153" height="34" rx="16" stroke="#243247" stroke-width="2" fill="#f0f5ff"/>
+<text x="409" y="1843" font-family="Arial, sans-serif" font-size="20" fill="#2563a6"><tspan x="409" dy="0">[0.2, ...]</tspan></text>
+<polyline points="466,1590 466,1665" stroke="#b6762e" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="487" y="1640" font-family="Arial, sans-serif" font-size="20" fill="#ad6525"><tspan x="487" dy="0">embedding</tspan></text>
+<polyline points="773.19,1740.99 773.5500000000001,1846.27 773.21,1858.26 778.75,1863.44 798.0500000000001,1867.82 830.6700000000001,1869.18 861.84,1867.01 878.4000000000001,1861.79 880.73,1857.4 881.0600000000001,1847.75 880.8000000000001,1749.82 880.22,1740.57 873.2900000000001,1735.4 858.7,1732.4 825.44,1729.89 798.7800000000001,1731.39 777.8100000000001,1736.48 773.1300000000001,1740.93 773.19,1740.99" stroke="#243247" stroke-width="1" fill="#d9eaf7" stroke-linejoin="round"  />
+<polyline points="773.93,1820.96 776.78,1825.74 789.05,1829.75 805.39,1832.18 830.9799999999999,1832.4 860.8399999999999,1830.8500000000001 878.28,1825.23 881.9699999999999,1820.41" stroke="#243247" stroke-width="1" fill="none" stroke-linejoin="round"  />
+<polyline points="772.48,1780.4099999999999 775.33,1785.1899999999998 787.6,1789.1999999999998 803.94,1791.6299999999999 829.53,1791.85 859.39,1790.3 876.83,1784.6799999999998 880.52,1779.86" stroke="#243247" stroke-width="1" fill="none" stroke-linejoin="round"  />
+<ellipse cx="824.62" cy="1741.845" rx="53.62" ry="10.845" stroke="#243247" stroke-width="1" fill="#d9eaf7"/>
+<ellipse cx="829.95" cy="1773.8" rx="7.86" ry="8.53" stroke="#243247" stroke-width="1" fill="#d9eaf7"/>
+<ellipse cx="830.44" cy="1810.5" rx="7.86" ry="8.53" stroke="#243247" stroke-width="1" fill="#d9eaf7"/>
+<ellipse cx="831.35" cy="1850.78" rx="7.86" ry="8.53" stroke="#243247" stroke-width="1" fill="#d9eaf7"/>
+<text x="747" y="1709" font-family="Arial, sans-serif" font-size="26" fill="#243247"><tspan x="747" dy="0">Vector DB</tspan></text>
+<text x="781" y="1914" font-family="Arial, sans-serif" font-size="24" fill="#2563a6"><tspan x="781" dy="0">Chroma</tspan></text>
+<text x="720" y="1950" font-family="Arial, sans-serif" font-size="19" fill="#68758a"><tspan x="720" dy="0">embedding + chunk_id</tspan><tspan x="720" dy="24.7">+ file_id</tspan></text>
+<polyline points="560,1788 751,1788" stroke="#b6762e" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="581" y="1774" font-family="Arial, sans-serif" font-size="19" fill="#ad6525"><tspan x="581" dy="0">store vectors</tspan></text>
+<rect x="1054" y="1727" width="208" height="111" rx="16" stroke="#2563a6" stroke-width="2" fill="#edf5ff"/>
+<text x="1075" y="1769" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="1075" dy="0">Top-k matches</tspan></text>
+<text x="1068" y="1807" font-family="Arial, sans-serif" font-size="19" fill="#68758a"><tspan x="1068" dy="0">chunk_id + distance</tspan></text>
+<polyline points="898,1788 1039,1788" stroke="#2563a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="948" y="1775" font-family="Arial, sans-serif" font-size="20" fill="#2563a6"><tspan x="948" dy="0">Top-k</tspan></text>
+<rect x="1354" y="1544" width="203" height="120" rx="16" stroke="#2563a6" stroke-width="2" fill="#edf5ff"/>
+<text x="1373" y="1587" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="1373" dy="0">Top-k chunks</tspan></text>
+<text x="1377" y="1624" font-family="Arial, sans-serif" font-size="19" fill="#68758a"><tspan x="1377" dy="0">text + file name</tspan></text>
+<polyline points="1158,1713 1158,1515 901,1515" stroke="#2563a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="957" y="1497" font-family="Arial, sans-serif" font-size="20" fill="#2563a6"><tspan x="957" dy="0">retrieve by chunk_id</tspan></text>
+<polyline points="898,1473 1446,1473 1446,1528" stroke="#2563a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="1192" y="1508" font-family="Arial, sans-serif" font-size="19" fill="#2563a6"><tspan x="1192" dy="0">return matched chunks</tspan></text>
+<rect x="1079" y="1984" width="158" height="57" rx="16" stroke="#2563a6" stroke-width="2" fill="#edf5ff"/>
+<text x="1124" y="2023" font-family="Arial, sans-serif" font-size="25" fill="#243247"><tspan x="1124" dy="0">Query</tspan></text>
+<rect x="1079" y="1885" width="158" height="42" rx="16" stroke="#2563a6" stroke-width="2" fill="#edf5ff"/>
+<text x="1114" y="1912" font-family="Arial, sans-serif" font-size="22" fill="#2563a6"><tspan x="1114" dy="0">[0.1, ...]</tspan></text>
+<polyline points="1158,1973 1158,1940" stroke="#2563a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="1255" y="1963" font-family="Arial, sans-serif" font-size="20" fill="#2563a6"><tspan x="1255" dy="0">embedding</tspan></text>
+<polyline points="1065,1906 962,1906 896,1839" stroke="#2563a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="966" y="1941" font-family="Arial, sans-serif" font-size="20" fill="#2563a6"><tspan x="966" dy="0">search</tspan></text>
+<text x="1361" y="1753" font-family="Arial, sans-serif" font-size="18" fill="#2563a6"><tspan x="1361" dy="0">RETRIEVAL</tspan></text>
+<text x="1347" y="1791" font-family="Arial, sans-serif" font-size="18" fill="#68758a"><tspan x="1347" dy="0">Query and chunks use</tspan><tspan x="1347" dy="23.400000000000002">the same embedding model.</tspan></text>
+<text x="100" y="2082" font-family="Arial, sans-serif" font-size="22" fill="#ad6525"><tspan x="100" dy="0">Defaults: 2048 characters / 256 overlap • cosine search • top-k 5 • only ready files</tspan></text>
+<rect x="1690" y="1010" width="1600" height="1120" rx="16" stroke="#ccd5e1" stroke-width="1" fill="#ffffff"/>
+<text x="1718" y="1068" font-family="Arial, sans-serif" font-size="36" fill="#2563a6"><tspan x="1718" dy="0">03  ONE QUESTION → ONE SAVED ANSWER</tspan></text>
+<text x="1718" y="1108" font-family="Arial, sans-serif" font-size="23" fill="#68758a"><tspan x="1718" dy="0">Follow the numbered arrows. History resolves references; it is not factual evidence.</tspan></text>
+<rect x="1730" y="1160" width="700" height="165" rx="16" stroke="#2563a6" stroke-width="2" fill="#edf5ff"/>
+<text x="1752" y="1206" font-family="Arial, sans-serif" font-size="29" fill="#2563a6"><tspan x="1752" dy="0">1  Receive original question</tspan></text>
+<text x="1752" y="1249" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="1752" dy="0">question + conversation_id (optional)</tspan><tspan x="1752" dy="31.200000000000003">request_id correlates streamed events</tspan></text>
+<rect x="2545" y="1160" width="700" height="165" rx="16" stroke="#237b59" stroke-width="2" fill="#eaf7f0"/>
+<text x="2567" y="1206" font-family="Arial, sans-serif" font-size="29" fill="#237b59"><tspan x="2567" dy="0">2  Load recent history</tspan></text>
+<text x="2567" y="1249" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="2567" dy="0">At most 10 messages from SQLite.</tspan><tspan x="2567" dy="31.200000000000003">No history? Use original question.</tspan></text>
+<rect x="2545" y="1405" width="700" height="165" rx="16" stroke="#7653a6" stroke-width="2" fill="#f3effb"/>
+<text x="2567" y="1451" font-family="Arial, sans-serif" font-size="29" fill="#7653a6"><tspan x="2567" dy="0">3  Resolve references</tspan></text>
+<text x="2567" y="1494" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="2567" dy="0">query.py + LLMClient</tspan><tspan x="2567" dy="31.200000000000003">&quot;that year&quot; → standalone retrieval query</tspan></text>
+<rect x="1730" y="1405" width="700" height="165" rx="16" stroke="#2563a6" stroke-width="2" fill="#edf5ff"/>
+<text x="1752" y="1451" font-family="Arial, sans-serif" font-size="29" fill="#2563a6"><tspan x="1752" dy="0">4  Retrieve current evidence</tspan></text>
+<text x="1752" y="1494" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="1752" dy="0">Embed query → Chroma top-k IDs</tspan><tspan x="1752" dy="31.200000000000003">SQLite supplies ready-file chunk text</tspan></text>
+<rect x="1730" y="1650" width="700" height="165" rx="16" stroke="#ad6525" stroke-width="2" fill="#fff6e8"/>
+<text x="1752" y="1696" font-family="Arial, sans-serif" font-size="29" fill="#ad6525"><tspan x="1752" dy="0">5  Build the answer prompt</tspan></text>
+<text x="1752" y="1739" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="1752" dy="0">Original question + non-evidence hint</tspan><tspan x="1752" dy="31.200000000000003">context.py numbers excerpts [1]...[k]</tspan></text>
+<rect x="2545" y="1650" width="700" height="165" rx="16" stroke="#7653a6" stroke-width="2" fill="#f3effb"/>
+<text x="2567" y="1696" font-family="Arial, sans-serif" font-size="29" fill="#7653a6"><tspan x="2567" dy="0">6  Generate and stream</tspan></text>
+<text x="2567" y="1739" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="2567" dy="0">generation.py + StreamingLLMClient</tspan><tspan x="2567" dy="31.200000000000003">Use excerpts; identify missing facts</tspan></text>
+<rect x="2545" y="1895" width="700" height="165" rx="16" stroke="#ad6525" stroke-width="2" fill="#fff6e8"/>
+<text x="2567" y="1941" font-family="Arial, sans-serif" font-size="29" fill="#ad6525"><tspan x="2567" dy="0">7  Check citation numbers</tspan></text>
+<text x="2567" y="1984" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="2567" dy="0">citations.py: known vs invalid IDs</tspan><tspan x="2567" dy="31.200000000000003">This does NOT verify claim support.</tspan></text>
+<rect x="1730" y="1895" width="700" height="165" rx="16" stroke="#237b59" stroke-width="2" fill="#eaf7f0"/>
+<text x="1752" y="1941" font-family="Arial, sans-serif" font-size="29" fill="#237b59"><tspan x="1752" dy="0">8  Save, then complete</tspan></text>
+<text x="1752" y="1984" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="1752" dy="0">One SQLite transaction: user + answer</tspan><tspan x="1752" dy="31.200000000000003">+ snapshot; emit complete after commit</tspan></text>
+<polyline points="2430,1240 2545,1240" stroke="#2563a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<polyline points="2895,1325 2895,1405" stroke="#2563a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<polyline points="2545,1485 2430,1485" stroke="#2563a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<polyline points="2080,1570 2080,1650" stroke="#2563a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<polyline points="2430,1730 2545,1730" stroke="#2563a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<polyline points="2895,1815 2895,1895" stroke="#2563a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<polyline points="2545,1975 2430,1975" stroke="#2563a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<rect x="3340" y="1010" width="1600" height="1120" rx="16" stroke="#ccd5e1" stroke-width="1" fill="#ffffff"/>
+<text x="3368" y="1068" font-family="Arial, sans-serif" font-size="36" fill="#ad6525"><tspan x="3368" dy="0">04  FILE LIFECYCLE</tspan></text>
+<text x="3368" y="1108" font-family="Arial, sans-serif" font-size="23" fill="#68758a"><tspan x="3368" dy="0">Upload waits for indexing; there is no background queue or worker.</tspan></text>
+<rect x="3380" y="1160" width="440" height="220" rx="16" stroke="#ad6525" stroke-width="2" fill="#fff6e8"/>
+<text x="3402" y="1206" font-family="Arial, sans-serif" font-size="29" fill="#ad6525"><tspan x="3402" dy="0">1  Validate TXT</tspan></text>
+<text x="3402" y="1249" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="3402" dy="0">UTF-8, nonempty .txt</tspan><tspan x="3402" dy="31.200000000000003">Generate file ID.</tspan><tspan x="3402" dy="31.200000000000003">split_text preserves</tspan><tspan x="3402" dy="31.200000000000003">text + source offsets.</tspan></text>
+<rect x="3890" y="1160" width="440" height="220" rx="16" stroke="#ad6525" stroke-width="2" fill="#fff6e8"/>
+<text x="3912" y="1206" font-family="Arial, sans-serif" font-size="29" fill="#ad6525"><tspan x="3912" dy="0">2  Processing</tspan></text>
+<text x="3912" y="1249" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="3912" dy="0">Commit file metadata</tspan><tspan x="3912" dy="31.200000000000003">with processing state.</tspan><tspan x="3912" dy="31.200000000000003">Embed all chunks.</tspan></text>
+<rect x="4400" y="1160" width="500" height="220" rx="16" stroke="#237b59" stroke-width="2" fill="#eaf7f0"/>
+<text x="4422" y="1206" font-family="Arial, sans-serif" font-size="29" fill="#237b59"><tspan x="4422" dy="0">3  Ready</tspan></text>
+<text x="4422" y="1249" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="4422" dy="0">Save chunks, upsert vectors,</tspan><tspan x="4422" dy="31.200000000000003">mark ready and commit.</tspan><tspan x="4422" dy="31.200000000000003">Return HTTP 201.</tspan></text>
+<polyline points="3820,1260 3890,1260" stroke="#ad6525" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<polyline points="4330,1260 4400,1260" stroke="#ad6525" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<rect x="3380" y="1450" width="1520" height="155" rx="16" stroke="#b44646" stroke-width="2" fill="#fff0ef"/>
+<text x="3402" y="1496" font-family="Arial, sans-serif" font-size="29" fill="#b44646"><tspan x="3402" dy="0">Failure during indexing</tspan></text>
+<text x="3402" y="1539" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="3402" dy="0">Mark Failed and attempt vector cleanup. Failed files cannot enter retrieval.</tspan><tspan x="3402" dy="31.200000000000003">A failed upload can be deleted; re-upload the original TXT to retry indexing.</tspan></text>
+<polyline points="4110,1380 4110,1450" stroke="#b44646" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="4140" y="1424" font-family="Arial, sans-serif" font-size="22" fill="#b44646"><tspan x="4140" dy="0">error</tspan></text>
+<rect x="3380" y="1680" width="715" height="185" rx="16" stroke="#b44646" stroke-width="2" fill="#fff0ef"/>
+<text x="3402" y="1726" font-family="Arial, sans-serif" font-size="29" fill="#b44646"><tspan x="3402" dy="0">Delete: exclude first</tspan></text>
+<text x="3402" y="1769" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="3402" dy="0">Commit non-ready / deletion-pending</tspan><tspan x="3402" dy="31.200000000000003">state before touching the vector index.</tspan><tspan x="3402" dy="31.200000000000003">HTTP 409 while upload is processing.</tspan></text>
+<rect x="4185" y="1680" width="715" height="185" rx="16" stroke="#b44646" stroke-width="2" fill="#fff0ef"/>
+<text x="4207" y="1726" font-family="Arial, sans-serif" font-size="29" fill="#b44646"><tspan x="4207" dy="0">Then remove indexed content</tspan></text>
+<text x="4207" y="1769" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="4207" dy="0">Delete Chroma vectors → SQLite chunks</tspan><tspan x="4207" dy="31.200000000000003">and file record. On failure, retain a</tspan><tspan x="4207" dy="31.200000000000003">failed record so Delete can retry.</tspan></text>
+<polyline points="4095,1770 4185,1770" stroke="#b44646" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<rect x="3380" y="1940" width="1520" height="140" rx="16" stroke="#237b59" stroke-width="2" fill="#eaf7f0"/>
+<text x="3402" y="1986" font-family="Arial, sans-serif" font-size="29" fill="#237b59"><tspan x="3402" dy="0">Restart recovery / exclusive owner</tspan></text>
+<text x="3402" y="2028" font-family="Arial, sans-serif" font-size="23" fill="#243247"><tspan x="3402" dy="0">Acquire DATA_DIR/.owner.lock before recovery. Abandoned processing → failed → cleanup.</tspan><tspan x="3402" dy="29.900000000000002">Ready files survive. If cleanup is interrupted, the failed record remains deletable.</tspan></text>
+<rect x="60" y="2190" width="1580" height="1040" rx="16" stroke="#ccd5e1" stroke-width="1" fill="#ffffff"/>
+<text x="88" y="2248" font-family="Arial, sans-serif" font-size="36" fill="#237b59"><tspan x="88" dy="0">05  WHAT IS STORED WHERE?</tspan></text>
+<text x="88" y="2288" font-family="Arial, sans-serif" font-size="23" fill="#68758a"><tspan x="88" dy="0">SQLite is the source of truth. Chroma supplies search candidates.</tspan></text>
+<rect x="100" y="2340" width="640" height="160" rx="16" stroke="#237b59" stroke-width="2" fill="#eaf7f0"/>
+<text x="122" y="2386" font-family="Arial, sans-serif" font-size="29" fill="#237b59"><tspan x="122" dy="0">files</tspan></text>
+<text x="122" y="2428" font-family="Arial, sans-serif" font-size="23" fill="#243247"><tspan x="122" dy="0">PK file_id; name, status, error, time</tspan><tspan x="122" dy="29.900000000000002">ready / processing / failed</tspan></text>
+<rect x="920" y="2340" width="680" height="160" rx="16" stroke="#237b59" stroke-width="2" fill="#eaf7f0"/>
+<text x="942" y="2386" font-family="Arial, sans-serif" font-size="29" fill="#237b59"><tspan x="942" dy="0">chunks</tspan></text>
+<text x="942" y="2428" font-family="Arial, sans-serif" font-size="23" fill="#243247"><tspan x="942" dy="0">PK chunk_id; FK file_id; original text</tspan><tspan x="942" dy="29.900000000000002">index, start_offset, end_offset</tspan></text>
+<polyline points="740,2410 920,2410" stroke="#237b59" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="770" y="2392" font-family="Arial, sans-serif" font-size="22" fill="#237b59"><tspan x="770" dy="0">1 : many</tspan></text>
+<rect x="100" y="2600" width="640" height="160" rx="16" stroke="#237b59" stroke-width="2" fill="#eaf7f0"/>
+<text x="122" y="2646" font-family="Arial, sans-serif" font-size="29" fill="#237b59"><tspan x="122" dy="0">conversations</tspan></text>
+<text x="122" y="2688" font-family="Arial, sans-serif" font-size="23" fill="#243247"><tspan x="122" dy="0">PK conversation_id; created_at</tspan><tspan x="122" dy="29.900000000000002">Parent of ordered chat messages</tspan></text>
+<rect x="920" y="2600" width="680" height="160" rx="16" stroke="#237b59" stroke-width="2" fill="#eaf7f0"/>
+<text x="942" y="2646" font-family="Arial, sans-serif" font-size="29" fill="#237b59"><tspan x="942" dy="0">messages</tspan></text>
+<text x="942" y="2688" font-family="Arial, sans-serif" font-size="23" fill="#243247"><tspan x="942" dy="0">PK message_id; FK conversation_id</tspan><tspan x="942" dy="29.900000000000002">role, content, created_at</tspan></text>
+<polyline points="740,2670 920,2670" stroke="#237b59" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="770" y="2652" font-family="Arial, sans-serif" font-size="22" fill="#237b59"><tspan x="770" dy="0">1 : many</tspan></text>
+<rect x="920" y="2870" width="680" height="205" rx="16" stroke="#237b59" stroke-width="2" fill="#eaf7f0"/>
+<text x="942" y="2916" font-family="Arial, sans-serif" font-size="29" fill="#237b59"><tspan x="942" dy="0">answer_snapshots</tspan></text>
+<text x="942" y="2958" font-family="Arial, sans-serif" font-size="23" fill="#243247"><tspan x="942" dy="0">PK / FK assistant message_id</tspan><tspan x="942" dy="29.900000000000002">retrieval_question; sources JSON</tspan><tspan x="942" dy="29.900000000000002">citation_check JSON</tspan><tspan x="942" dy="29.900000000000002">Copied excerpts survive source deletion.</tspan></text>
+<polyline points="1260,2760 1260,2870" stroke="#237b59" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="1288" y="2814" font-family="Arial, sans-serif" font-size="22" fill="#237b59"><tspan x="1288" dy="0">assistant 1 : 1</tspan></text>
+<rect x="100" y="2870" width="640" height="205" rx="16" stroke="#2563a6" stroke-width="2" fill="#edf5ff"/>
+<text x="122" y="2916" font-family="Arial, sans-serif" font-size="29" fill="#2563a6"><tspan x="122" dy="0">Chroma / persistent index</tspan></text>
+<text x="122" y="2958" font-family="Arial, sans-serif" font-size="23" fill="#243247"><tspan x="122" dy="0">collection: knowledgebase-chunks</tspan><tspan x="122" dy="29.900000000000002">vector + chunk_id + file_id</tspan><tspan x="122" dy="29.900000000000002">Filter by eligible file IDs.</tspan><tspan x="122" dy="29.900000000000002">No automatic embedding function.</tspan></text>
+<text x="100" y="3143" font-family="Arial, sans-serif" font-size="23" fill="#68758a"><tspan x="100" dy="0">database.py / models.py / operations.py / vectordb.py • Original TXT is retained as chunks, not a second disk copy.</tspan></text>
+<rect x="1690" y="2190" width="1600" height="1040" rx="16" stroke="#ccd5e1" stroke-width="1" fill="#ffffff"/>
+<text x="1718" y="2248" font-family="Arial, sans-serif" font-size="36" fill="#2563a6"><tspan x="1718" dy="0">06  FRONTEND + STREAM CONTRACT</tspan></text>
+<text x="1718" y="2288" font-family="Arial, sans-serif" font-size="23" fill="#68758a"><tspan x="1718" dy="0">Workspace.tsx composes the library, chat, evidence pane and responsive drawers.</tspan></text>
+<rect x="1730" y="2340" width="700" height="190" rx="16" stroke="#2563a6" stroke-width="2" fill="#edf5ff"/>
+<text x="1752" y="2386" font-family="Arial, sans-serif" font-size="29" fill="#2563a6"><tspan x="1752" dy="0">Library state / useLibrary</tspan></text>
+<text x="1752" y="2429" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="1752" dy="0">api/files.ts + api/client.ts</tspan><tspan x="1752" dy="31.200000000000003">Upload progress, file list, deletion</tspan><tspan x="1752" dy="31.200000000000003">Ready state enables asking questions.</tspan></text>
+<rect x="2545" y="2340" width="700" height="190" rx="16" stroke="#2563a6" stroke-width="2" fill="#edf5ff"/>
+<text x="2567" y="2386" font-family="Arial, sans-serif" font-size="29" fill="#2563a6"><tspan x="2567" dy="0">Chat state / useChat + reducer</tspan></text>
+<text x="2567" y="2429" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="2567" dy="0">api/chat.ts parses fetch response SSE</tspan><tspan x="2567" dy="31.200000000000003">AbortController supports Stop.</tspan><tspan x="2567" dy="31.200000000000003">request_id ignores stale events.</tspan></text>
+<rect x="1730" y="2610" width="1515" height="155" rx="16" stroke="#7653a6" stroke-width="2" fill="#f3effb"/>
+<text x="1752" y="2656" font-family="Arial, sans-serif" font-size="29" fill="#7653a6"><tspan x="1752" dy="0">SSE events / api/streaming.py</tspan></text>
+<text x="1752" y="2700" font-family="Arial, sans-serif" font-size="25" fill="#243247"><tspan x="1752" dy="0">start → sources → answer_delta (many) → debug → complete</tspan><tspan x="1752" dy="32.5">Errors produce error. EOF without complete means interrupted, not successful.</tspan></text>
+<polyline points="2895,2530 2895,2610" stroke="#7653a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="2930" y="2572" font-family="Arial, sans-serif" font-size="22" fill="#7653a6"><tspan x="2930" dy="0">decode events</tspan></text>
+<rect x="1730" y="2840" width="700" height="190" rx="16" stroke="#2563a6" stroke-width="2" fill="#edf5ff"/>
+<text x="1752" y="2886" font-family="Arial, sans-serif" font-size="29" fill="#2563a6"><tspan x="1752" dy="0">Display + source inspection</tspan></text>
+<text x="1752" y="2929" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="1752" dy="0">ChatPanel → AnswerText citations</tspan><tspan x="1752" dy="31.200000000000003">EvidencePanel selects source_id</tspan><tspan x="1752" dy="31.200000000000003">Historical excerpts show deleted flags.</tspan></text>
+<rect x="2545" y="2840" width="700" height="190" rx="16" stroke="#2563a6" stroke-width="2" fill="#edf5ff"/>
+<text x="2567" y="2886" font-family="Arial, sans-serif" font-size="29" fill="#2563a6"><tspan x="2567" dy="0">Completion + cancellation</tspan></text>
+<text x="2567" y="2929" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="2567" dy="0">Complete stores conversation ID locally.</tspan><tspan x="2567" dy="31.200000000000003">Refresh GETs saved history.</tspan><tspan x="2567" dy="31.200000000000003">Stop leaves partial text only in UI.</tspan></text>
+<polyline points="2080,2765 2080,2840" stroke="#2563a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<polyline points="2895,2765 2895,2840" stroke="#2563a6" stroke-width="2" fill="none" stroke-linejoin="round"  marker-end="url(#head)"/>
+<text x="1730" y="3092" font-family="Arial, sans-serif" font-size="22" fill="#68758a"><tspan x="1730" dy="0">Commit boundary: a disconnect after commit can lose complete delivery. Existing conversations reload before retry.</tspan><tspan x="1730" dy="28.6">UI helpers: Modal / Icon / useMediaQuery / CSS Modules / tokens.css. Shared API types: types.ts + schemas.py.</tspan></text>
+<rect x="3340" y="2190" width="1600" height="1040" rx="16" stroke="#ccd5e1" stroke-width="1" fill="#ffffff"/>
+<text x="3368" y="2248" font-family="Arial, sans-serif" font-size="36" fill="#7653a6"><tspan x="3368" dy="0">07  STARTUP, CLI + EVALUATION</tspan></text>
+<text x="3368" y="2288" font-family="Arial, sans-serif" font-size="23" fill="#68758a"><tspan x="3368" dy="0">The runtime owns clients and storage; evaluation measures the same service path.</tspan></text>
+<rect x="3380" y="2340" width="715" height="210" rx="16" stroke="#237b59" stroke-width="2" fill="#eaf7f0"/>
+<text x="3402" y="2386" font-family="Arial, sans-serif" font-size="29" fill="#237b59"><tspan x="3402" dy="0">Startup / app.py + runtime.py</tspan></text>
+<text x="3402" y="2428" font-family="Arial, sans-serif" font-size="23" fill="#243247"><tspan x="3402" dy="0">Settings reads .env (never committed).</tspan><tspan x="3402" dy="29.900000000000002">Lock data directory → init SQLite</tspan><tspan x="3402" dy="29.900000000000002">→ open Chroma → recover uploads</tspan><tspan x="3402" dy="29.900000000000002">→ create SDK clients + AppResources</tspan></text>
+<rect x="4185" y="2340" width="715" height="210" rx="16" stroke="#243247" stroke-width="2" fill="#f5f7fa"/>
+<text x="4207" y="2386" font-family="Arial, sans-serif" font-size="29" fill="#243247"><tspan x="4207" dy="0">Local development</tspan></text>
+<text x="4207" y="2428" font-family="Arial, sans-serif" font-size="23" fill="#243247"><tspan x="4207" dy="0">make app: UI + API on 127.0.0.1:8000</tspan><tspan x="4207" dy="29.900000000000002">make frontend: Vite on :5173</tspan><tspan x="4207" dy="29.900000000000002">Dev proxy forwards /api to :8000.</tspan><tspan x="4207" dy="29.900000000000002">make stop: release configured ports</tspan></text>
+<rect x="3380" y="2630" width="715" height="185" rx="16" stroke="#ad6525" stroke-width="2" fill="#fff6e8"/>
+<text x="3402" y="2676" font-family="Arial, sans-serif" font-size="29" fill="#ad6525"><tspan x="3402" dy="0">CLI / main.py → cli.py</tspan></text>
+<text x="3402" y="2719" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="3402" dy="0">Index TXT → interactive questions</tspan><tspan x="3402" dy="31.200000000000003">Uses the same services and storage.</tspan><tspan x="3402" dy="31.200000000000003">One owner per DATA_DIR.</tspan></text>
+<rect x="4185" y="2630" width="715" height="185" rx="16" stroke="#7653a6" stroke-width="2" fill="#f3effb"/>
+<text x="4207" y="2676" font-family="Arial, sans-serif" font-size="29" fill="#7653a6"><tspan x="4207" dy="0">Evaluation / evals/evaluate.py</tspan></text>
+<text x="4207" y="2719" font-family="Arial, sans-serif" font-size="24" fill="#243247"><tspan x="4207" dy="0">Frozen corpus + cases → fresh index</tspan><tspan x="4207" dy="31.200000000000003">answer_question → raw answers,</tspan><tspan x="4207" dy="31.200000000000003">retrieved text, settings and timings</tspan></text>
+<rect x="3380" y="2890" width="1520" height="210" rx="16" stroke="#243247" stroke-width="2" fill="#f5f7fa"/>
+<text x="3402" y="2936" font-family="Arial, sans-serif" font-size="29" fill="#243247"><tspan x="3402" dy="0">Verification and evidence boundaries</tspan></text>
+<text x="3402" y="2978" font-family="Arial, sans-serif" font-size="23" fill="#243247"><tspan x="3402" dy="0">pytest + Vitest + Playwright: behavior and integration. Real-provider runs: observed answers.</tspan><tspan x="3402" dy="29.900000000000002">Separate retrieval coverage, grounding, citations and abstention; valid IDs are not truth.</tspan><tspan x="3402" dy="29.900000000000002">25-case release: 6 qualitative issues remain. See the release report for full evidence.</tspan><tspan x="3402" dy="29.900000000000002">Scope: local, single-user TXT/basic RAG; no authentication, PDF parser or hosted service.</tspan></text>
+<text x="60" y="3344" font-family="Arial, sans-serif" font-size="24" fill="#68758a"><tspan x="60" dy="0">SOURCE MAP  knowledgebase/{api,services,rag,providers,storage} + frontend/src + evals  |  Implementation: abd2e47  |  Original Chrome sketch continued, not replaced by a different design.</tspan></text>
+</svg>
