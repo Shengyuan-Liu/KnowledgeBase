@@ -39,6 +39,7 @@ def answer_question(
     vector_store: ChromaStore,
     llm_client: LLMClient,
     top_k: int = 5,
+    *, retrieval_question: str | None = None,
 ) -> ChatAnswer:
     """Return an answer and sources in the same order used by the prompt.
 
@@ -46,8 +47,8 @@ def answer_question(
     include every retrieved excerpt, regardless of which ones the model cites.
     Source IDs are one-based and local to this answer.
     """
-    chunks, sources = _retrieve_evidence(question, session_factory, embedding_client, vector_store, top_k)
-    answer = generate_answer(question, chunks, llm_client)
+    chunks, sources = _retrieve_evidence(retrieval_question or question, session_factory, embedding_client, vector_store, top_k)
+    answer = generate_answer(question, chunks, llm_client, retrieval_question=retrieval_question)
     return ChatAnswer(
         answer=answer, sources=sources,
         citation_check=validate_citations(answer, sources),
@@ -96,8 +97,8 @@ def answer_in_conversation(
     history = _load_history(session_factory, conversation_id, history_limit)
     retrieval_question = resolve_question(question, history, llm_client)
     result = answer_question(
-        retrieval_question, session_factory, embedding_client, vector_store,
-        llm_client, top_k=top_k,
+        question, session_factory, embedding_client, vector_store,
+        llm_client, top_k=top_k, retrieval_question=retrieval_question,
     )
 
     return _save_exchange(question, retrieval_question, result, session_factory, conversation_id)
@@ -172,7 +173,7 @@ async def stream_answer_in_conversation(
             )
             yield event("sources", sources=[source.model_dump() for source in sources])
             parts = []
-            async with aclosing(stream_answer(retrieval_question, chunks, streaming_client)) as stream:
+            async with aclosing(stream_answer(question, chunks, streaming_client, retrieval_question=retrieval_question)) as stream:
                 async for delta in stream:
                     parts.append(delta)
                     yield event("answer_delta", delta=delta)

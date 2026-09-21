@@ -84,7 +84,7 @@ def test_loop_exits_without_asking_model(monkeypatch, capsys, stop):
 def test_cli_indexes_and_reuses_local_data(tmp_path, monkeypatch, capsys):
     monkeypatch.chdir(tmp_path)
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
-    (tmp_path / ".env").write_text("OPENAI_API_KEY=test-only-key\n", encoding="utf-8")
+    (tmp_path / ".env").write_text("OPENAI_API_KEY=test-only-key\nANSWER_MODEL=test-configured-model\n", encoding="utf-8")
     path = tmp_path / "hours.txt"
     text = "The café closes at 5 PM."
     path.write_text(text, encoding="utf-8")
@@ -109,7 +109,7 @@ def test_cli_indexes_and_reuses_local_data(tmp_path, monkeypatch, capsys):
 
     embeddings.embed_documents.assert_called_once_with([text])
     sdk_class.assert_called_once_with(api_key="test-only-key")
-    llm_class.assert_called_once_with(sdk, model="gpt-4.1-nano")
+    llm_class.assert_called_once_with(sdk, model="test-configured-model")
     output = capsys.readouterr().out
     assert "Indexed hours.txt" in output
     first_conversation_id = re.search(r"Conversation: ([a-f0-9]+)", output).group(1)

@@ -29,7 +29,7 @@ Existing data may be discarded when replacing a database. Data migration tooling
 | Frontend tests | Vitest + React Testing Library | Test file states, chat interactions, sources, and streaming errors |
 | Evaluation | A small Python runner and fixed dataset | Compare retrieval quality, answer support, and latency |
 
-Choose the exact LLM and embedding provider during implementation. Keep credentials on the backend. Record model identifiers and relevant settings in evaluation results. Use one consistent embedding configuration for both documents and queries within an index; changing the embedding model requires rebuilding that index.
+The implementation uses OpenAI `gpt-4.1-mini` for answers and reference resolution, configurable with `ANSWER_MODEL`, and `text-embedding-3-small` for embeddings. Keep credentials on the backend. Record model identifiers and relevant settings in evaluation results. Use one consistent embedding configuration for both documents and queries within an index; changing the embedding model requires rebuilding that index.
 
 ## Application Structure
 

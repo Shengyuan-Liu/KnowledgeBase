@@ -54,7 +54,7 @@ def cli() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("files", nargs="*", type=Path, help="TXT files to index before chatting")
     parser.add_argument("--data-dir", type=Path, help="Override the DATA_DIR local storage directory")
-    parser.add_argument("--model", default="gpt-4.1-nano", help="OpenAI answer model")
+    parser.add_argument("--model", default=None, help="Override the configured answer model")
     parser.add_argument("--top-k", type=int, default=5, help="Maximum retrieved chunks per question")
     parser.add_argument("--conversation-id", help="Resume a saved conversation in this data directory")
     args = parser.parse_args()
@@ -64,7 +64,7 @@ def cli() -> None:
     with open_storage(args.data_dir) as (sessions, store):
         with OpenAI(api_key=settings.openai_api_key) as sdk:
             embeddings = EmbeddingClient(sdk)
-            llm = LLMClient(sdk, model=args.model)
+            llm = LLMClient(sdk, model=args.model or settings.answer_model)
             for path in args.files:
                 file_id = ingest_file(
                     path.name, path.read_bytes(), sessions, embeddings, store

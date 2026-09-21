@@ -130,7 +130,8 @@ def test_followup_uses_resolved_question_and_saves_original_exchange(storage, co
     assert resolver_payload["history"] == [
         {"role": "user", "content": first.question}, {"role": "assistant", "content": first.answer}]
     generation = llm.generate.call_args_list[2].args[0][1]["content"]
-    assert f"Question:\n{second.retrieval_question}" in generation
+    assert f"Question:\n{question}" in generation
+    assert f"Conversation interpretation (not evidence):\n{second.retrieval_question}" in generation
     assert first.answer not in generation
     with sessions() as session:
         assert get_conversation(session, first.conversation_id) is not None
@@ -237,3 +238,19 @@ def test_invalid_citations_are_reported_and_original_conversation_answer_is_save
     llm.generate.assert_called_once()
     with sessions() as session:
         assert get_messages(session, result.conversation_id)[-1].content == text
+
+
+def test_resolver_answer_cannot_replace_the_original_question(storage, conversational_clients):
+    sessions, store, _ = storage
+    embeddings, llm, _ = conversational_clients
+    llm.generate.return_value = "A master's program. [1]"
+    first = answer_in_conversation("What is NYU MSDS?", sessions, embeddings, store, llm)
+    question = "Which courses can be waived, and what materials are required?"
+    bad_rewrite = "There is no information about course waivers."
+    llm.generate.side_effect = [bad_rewrite, "The sources do not describe waivers."]
+    answer_in_conversation(question, sessions, embeddings, store, llm,
+                           conversation_id=first.conversation_id)
+    prompt = llm.generate.call_args.args[0]
+    assert prompt[1]["content"].startswith(f"Question:\n{question}\n")
+    assert f"Conversation interpretation (not evidence):\n{bad_rewrite}" in prompt[1]["content"]
+    assert "original question defines what to answer" in prompt[0]["content"]

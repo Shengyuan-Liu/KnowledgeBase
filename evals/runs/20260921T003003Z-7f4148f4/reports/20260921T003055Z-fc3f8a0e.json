@@ -1,0 +1,2867 @@
+{
+  "run": {
+    "run_id": "20260921T003003Z-7f4148f4",
+    "label": "MVP release: aligned revision-2 questions and evidence-bound answer prompt",
+    "started_at": "2026-09-21T00:30:03.035789+00:00",
+    "status": "completed",
+    "git": {
+      "commit": "278c4ce77b9f479b01d3bdf7b59594d9420b6dd0",
+      "dirty": false,
+      "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "implementation_sha256": {
+        "evals/__init__.py": "19f4827ad5cf13373087b01b81f0759fe69da33490b9a49be26ee2159823b889",
+        "evals/evaluate.py": "352ca0771b9a1629a79f61c2519b0b2a93312cabddb907c74ba8f2ad7a546171",
+        "knowledgebase/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "knowledgebase/api/__init__.py": "7dc7eab42c3d7348a4ec1da96d6de0f739044ae91333929c50098367afbd56b7",
+        "knowledgebase/api/app.py": "12d94a0d42d78ab8dacdce491d72d7b7467d055df7619c6c7847649dd9ff58ea",
+        "knowledgebase/api/chat.py": "8ad7b0ef7aa400f0e284b519425add8e0578b7713fba225da7f55ebd46a953df",
+        "knowledgebase/api/conversations.py": "81fafa9a30c5a87caaef103c9f61fd23fdf2a92d68851292e5629a4cc2965b17",
+        "knowledgebase/api/dependencies.py": "46d94e58c9cfe85077ae3ec51be9f969e2be2c08e875b1a2fe265be405878ac4",
+        "knowledgebase/api/files.py": "1ac8f011c4f1ba26777175ae015ede350e896925623677f647ce0abd2de8f069",
+        "knowledgebase/api/streaming.py": "f2cc5359c037d7480d890ad249dcb844c5f8e4fbdb187cae50fac378ea6058e6",
+        "knowledgebase/cli.py": "9408eb330fc93a88f87d45647d2e5929ffaa91f6f0374ec0582de8a69fd00cf1",
+        "knowledgebase/config.py": "4238119a115648a6c44ef28b368c9894096095b0d84630f5984a7412b935461c",
+        "knowledgebase/providers/__init__.py": "b251cd6fde07ea42f25226c76644d8921aed56fd12e0c5d6dbdf3dd972768f05",
+        "knowledgebase/providers/embeddings.py": "787afccdbd67dc6911d9dbe32776aa2356171876368e2071a16b2ad0fb5e7e7d",
+        "knowledgebase/providers/llm.py": "b374459cbf6f27cb9497d35ead820a73b14c19ecb0bd0651a68642a09fef41b9",
+        "knowledgebase/rag/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "knowledgebase/rag/chunking.py": "a32b9726c9a70d74982fe3bd44617702b15b56805801c404f20c854456f592cc",
+        "knowledgebase/rag/citations.py": "5497481dae8b562f4ee03b1b56abd1734bd531ea5cf6dea0b7ad68854148b460",
+        "knowledgebase/rag/context.py": "467b7c456fc9590cdc0c9799cf92b034f7b27b3bc015283af28e67efb01b323b",
+        "knowledgebase/rag/generation.py": "5e262bc1b0d78ed9a9c87b9921381cf04f54bf5ad2a2051c3babb8904bfa0c18",
+        "knowledgebase/rag/query.py": "c105c417e92bb082aef226ec4ea16858d88a636533a4d38400821c127b2dc2f6",
+        "knowledgebase/rag/retrieval.py": "513e0dffe67130723831eeac8027d223291db3fda77d3f3bb182fd6de2a42b8d",
+        "knowledgebase/schemas.py": "b3ae5438948d09fc73160e5aedd736bdb344ad454256424724bfd095a31d0f9f",
+        "knowledgebase/services/__init__.py": "5651ac6f97850be849d3f9998be3a81ea8795655374d865328ab078b7b66e6dd",
+        "knowledgebase/services/chat.py": "945de6604ae674188abe404c9068e2b2e2b357fadec62b4f91b939a923a748c1",
+        "knowledgebase/services/files.py": "ee68e565c944ae848c9ce3a45a741bde5df597294d17ac53e27085165bb89274",
+        "knowledgebase/storage/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "knowledgebase/storage/database.py": "4a694c675130a2a81ebf8d4ad4432d90b26bc7a460e41a63dc68b3fcec05989f",
+        "knowledgebase/storage/models.py": "1a6d20181e3648aa581dc47b033aab1025abce1c3c6a731af5a3324f04c9be41",
+        "knowledgebase/storage/operations.py": "d09a4db9a22479571b27fd37b4368344507584897e9a7aa799bd957db392a671",
+        "knowledgebase/storage/runtime.py": "84e33b6107faa2688bf6c2fc3a3790a6889b0792966e667a9c35376d454b3523",
+        "knowledgebase/storage/vectordb.py": "12c5f087dae12debab3d1bdf34b5adcee86c83aff5eaa294dba0ab07831a211a",
+        "uv.lock": "e753636c3eb0fb090089eb6b1f557cd44a94a42f0c4f6a095049c6ba2ff655d8"
+      }
+    },
+    "rubric": {
+      "version": "1",
+      "point_scores": "One score per expected answer point: 0 missing/wrong, 1 partial, 2 complete and correct. Accept equivalent wording.",
+      "groundedness": "0 major unsupported/contradictory claims, 1 minor unsupported claims, 2 all factual claims supported by retrieved text (or a justified statement of missing evidence).",
+      "citation_support": "0 absent/invalid citations for factual claims, 1 incomplete or partly unsupported citations, 2 all substantive factual claims have supporting inline citations. Null only when the answer makes no factual claims requiring citations.",
+      "abstention": "For unanswerable cases: 0 invents the requested specifics, 1 vague or incomplete acknowledgment, 2 explicitly acknowledges missing information without inventing specifics. Null for answerable cases.",
+      "notes": "Explain scores using specific answer text, missing points, retrieved source numbers, and unsupported claims. For a perfect answer, describe what was verified.",
+      "issues": "List concrete failures, or an empty list if none. Distinguish retrieval misses, incomplete/wrong answers, unsupported claims, citation errors, and failed abstention.",
+      "pass": "Every point score and groundedness must be 2, and every applicable citation_support/abstention score must be 2."
+    },
+    "cases_sha256": "6cb19938311684458447a0cafd05bc3e152331190b4ebf495257deb140c31628",
+    "corpus_sha256": "27dfb0ef17e65cffd4bc09a5bb6b0a662b8ac420d9a95d6430e7f710bbdc4a9b",
+    "config": {
+      "model": "gpt-4.1-nano",
+      "embedding_model": "text-embedding-3-small",
+      "chunk_size": 256,
+      "overlap": 64,
+      "top_k": 5,
+      "distance": "cosine",
+      "question_order": "dataset order"
+    },
+    "finished_at": "2026-09-21T00:30:55.328502+00:00"
+  },
+  "case_count": 25,
+  "attempted": 25,
+  "successful": 25,
+  "errors": 0,
+  "scored": 0,
+  "fully_evaluated": false,
+  "answer_point_score_pct": null,
+  "pass_rate": null,
+  "annotated_char_recall": 0.5447027458813142,
+  "full_evidence_recall": 0.44166666666666665,
+  "latency_p50_seconds": 1.2730559590272605,
+  "latency_p95_seconds": 2.695623334031552,
+  "by_category": {
+    "factual": {
+      "n": 7,
+      "scored": 0,
+      "passed": 0
+    },
+    "multi_document": {
+      "n": 1,
+      "scored": 0,
+      "passed": 0
+    },
+    "multi_evidence": {
+      "n": 8,
+      "scored": 0,
+      "passed": 0
+    },
+    "source_comparison": {
+      "n": 1,
+      "scored": 0,
+      "passed": 0
+    },
+    "temporal": {
+      "n": 3,
+      "scored": 0,
+      "passed": 0
+    },
+    "unanswerable": {
+      "n": 5,
+      "scored": 0,
+      "passed": 0
+    }
+  },
+  "review_errors": 0,
+  "rows": [
+    {
+      "case": {
+        "id": "policy-scope",
+        "question": "Which NYU student levels and organizations are covered by the conduct policy, and which schools and locations does it cover?",
+        "answerable": true,
+        "expected_answer_points": [
+          "The policy covers undergraduate and graduate students and Student Organizations at NYU.",
+          "It applies across all NYU schools and locations, including Study Away Sites and Portal Campuses."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "anchor": "I. STATEMENT OF POLICY",
+            "line": 26,
+            "end_line": 26,
+            "start_offset": 1591,
+            "end_offset": 1827,
+            "quote": "The standards of non-academic misconduct set forth in this policy are applicable to all undergraduate and graduate students and Student Organizations at NYU, in all schools and locations, including Study Away Sites, and Portal Campuses.",
+            "supports_answer_points": [
+              1,
+              2
+            ]
+          }
+        ],
+        "category": "factual",
+        "corpus_id": "nyu-public-2026-09-07"
+      },
+      "answer": {
+        "case_id": "policy-scope",
+        "status": "ok",
+        "answer": "**Student levels and organizations covered by the conduct policy:**\n\n- All NYU students, including those acting in official and unofficial capacities, are covered by the policy.\n- Student organizations are also covered, and both individual members and organizations may be held accountable for violations of the policy [1][2].\n\n**Schools and locations covered by the conduct policy:**\n\n- The policy applies broadly across NYU, including all university schools and locations, such as the Center for Student Life and all university clubs, school-based clubs, etc. Nothing precludes NYU from addressing misconduct within any part of the university community [4].\n\n**Additional notes:**\n\n- Alleged violations by individual students are resolved under NYU Student Conduct Procedures [3].\n- The policy is applicable across the entire university, encompassing all schools and campus locations, although specific details on geographic coverage are not explicitly listed in the sources provided.\n\n**Summary:**\nThe conduct policy covers all NYU students (at all levels) and student organizations (including clubs and university-based groups). It applies across all NYU schools and locations, including the Center for Student Life and other campus-based entities [1][2][4].",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:3",
+            "text": "University Student Conduct Policy (August 15, 2025)\nIssuing Authority: Vice President of Student Engagement and Dean of Students Responsible Officer: Office of Student Conduct and Community Standards\n\nI. STATEMENT OF POLICY\n\nNew York University (“NYU” or t",
+            "distance": 0.27251672744750977,
+            "start_offset": 576,
+            "end_offset": 832
+          },
+          {
+            "source_id": 2,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:70",
+            "text": "ion III above. Whether acting in an official or unofficial capacity, Student Organizations and individuals within those organizations may be held accountable for violations of this policy.\n\nThe opportunity to participate in a student organization at NYU mu",
+            "distance": 0.289869487285614,
+            "start_offset": 13440,
+            "end_offset": 13696
+          },
+          {
+            "source_id": 3,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:74",
+            "text": "s, and the University Student Conduct Policy.\n\nVI. ENFORCEMENT\n\nAlleged violations of this policy by individual students shall be resolved under the NYU Student Conduct Procedures, except for the student populations noted as defined below:\n\n● Students enro",
+            "distance": 0.29805833101272583,
+            "start_offset": 14208,
+            "end_offset": 14464
+          },
+          {
+            "source_id": 4,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:78",
+            "text": "e. Center for Student Life All-University clubs, school-based clubs, etc.). Nothing in this policy or any related procedures precludes NYU from addressing responsibility for alleged misconduct from individuals, organizations, or both, within its discretion",
+            "distance": 0.3077816963195801,
+            "start_offset": 14976,
+            "end_offset": 15232
+          },
+          {
+            "source_id": 5,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:0",
+            "text": "Title: University Student Conduct Policy\nSource: https://www.nyu.edu/about/policies-guidelines-compliance/policies-and-guidelines/university-student-conduct-policy.html\nRetrieved at (UTC): 2026-09-07T03:24:22.416Z\nLanguage: English\n\nUniversity Student Cond",
+            "distance": 0.3166547417640686,
+            "start_offset": 0,
+            "end_offset": 256
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            1,
+            2,
+            4,
+            3
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 0.0,
+          "full_evidence_recall": 0.0
+        },
+        "latency_seconds": 2.695623334031552,
+        "recorded_at": "2026-09-21T00:30:17.545281+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "policy-fire",
+        "question": "What should a student do when a fire alarm sounds?",
+        "answerable": true,
+        "expected_answer_points": [
+          "Immediately exit the facility or building when a fire alarm or other emergency notification sounds."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "anchor": "G. FIRE SAFETY",
+            "line": 106,
+            "end_line": 106,
+            "start_offset": 7937,
+            "end_offset": 8060,
+            "quote": "4. Failing to immediately exit any facility or building when a fire alarm or other emergency notification has been sounded.",
+            "supports_answer_points": [
+              1
+            ]
+          }
+        ],
+        "category": "factual",
+        "corpus_id": "nyu-public-2026-09-07",
+        "scoring_notes": "The source states prohibited conduct negatively: failing to exit immediately. A correct answer expresses the corresponding required action."
+      },
+      "answer": {
+        "case_id": "policy-fire",
+        "status": "ok",
+        "answer": "When a fire alarm sounds, a student should immediately exit the facility or building, as failing to do so is considered a violation [1].",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:41",
+            "text": "fighting equipment, smoke/heat detectors, or sprinkler systems.\n\n4. Failing to immediately exit any facility or building when a fire alarm or other emergency notification has been sounded.\n\nH. GLOBAL SITE POLICIES\n\n1. Engaging in behavior as prohibited by ",
+            "distance": 0.5527418255805969,
+            "start_offset": 7872,
+            "end_offset": 8128
+          },
+          {
+            "source_id": 2,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:40",
+            "text": "Creating or maintaining an unauthorized fire or fire hazard.\n\n3. Tampering with or misuse of emergency or fire safety equipment, including emergency call devices, fire alarms, fire exits, firefighting equipment, smoke/heat detectors, or sprinkler systems.\n",
+            "distance": 0.6508418321609497,
+            "start_offset": 7680,
+            "end_offset": 7936
+          },
+          {
+            "source_id": 3,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:19",
+            "text": " behavior(s) that, by virtue of their intensity, repetitiveness, or otherwise, endanger or compromise the health, safety, or security of oneself, another person, or the general University community.\n\nThis includes, but is not limited to: threatening, torme",
+            "distance": 0.683459997177124,
+            "start_offset": 3648,
+            "end_offset": 3904
+          },
+          {
+            "source_id": 4,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:36",
+            "text": ". FAILURE TO COMPLY\n\n1. Failure to comply promptly with the reasonable request or instruction of a university employee or agent acting in an official capacity\n\nThis includes but is not limited to: refusing to provide identification, refusing to dispose of ",
+            "distance": 0.6985950469970703,
+            "start_offset": 6912,
+            "end_offset": 7168
+          },
+          {
+            "source_id": 5,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:67",
+            "text": "sity may take student disciplinary action for conduct occurring outside the University context, which substantially disrupts the regular operation of the University or threatens the health, safety, or security of one or more members of the University commu",
+            "distance": 0.6999419927597046,
+            "start_offset": 12864,
+            "end_offset": 13120
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            1
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 1.0,
+          "full_evidence_recall": 1.0
+        },
+        "latency_seconds": 1.0534950830042362,
+        "recorded_at": "2026-09-21T00:30:18.599143+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "policy-ai-impersonation",
+        "question": "Does the conduct policy prohibit using generative AI to impersonate another NYU community member without consent?",
+        "answerable": true,
+        "expected_answer_points": [
+          "Yes. The policy explicitly includes using generative AI to impersonate another NYU community member without their consent."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "anchor": "L. MISREPRESENTATION",
+            "line": 132,
+            "end_line": 134,
+            "start_offset": 9270,
+            "end_offset": 9762,
+            "quote": "2. Assuming or facilitating the use of another person's identity, role, or access through deception or without proper authorization.\n\nThis includes, but is not limited to: communicating or acting under the guise, name, identification, access, email address, signature, or indicia of another; communicating under the rubric of an organization, entity, or unit without authorization; use of generative AI to impersonate the identity of another member of the NYU community without their consent.",
+            "supports_answer_points": [
+              1
+            ]
+          }
+        ],
+        "category": "factual",
+        "corpus_id": "nyu-public-2026-09-07"
+      },
+      "answer": {
+        "case_id": "policy-ai-impersonation",
+        "status": "ok",
+        "answer": "Yes, the conduct policy prohibits using generative AI to impersonate the identity of another NYU community member without their consent, as indicated in source [1].",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:50",
+            "text": "rganization, entity, or unit without authorization; use of generative AI to impersonate the identity of another member of the NYU community without their consent.\n\n3. Knowingly providing false information, submitting false or altered documents, or making a",
+            "distance": 0.2706916332244873,
+            "start_offset": 9600,
+            "end_offset": 9856
+          },
+          {
+            "source_id": 2,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:46",
+            "text": "the NYU Policy on Responsible Use of NYU Computers and Data.\n\n2. Engaging in conduct as prohibited under the NYU Policy on Appropriate Use of Email.\n\nL. MISREPRESENTATION 1. Making, possessing, submitting, or using any falsifi ed, fabricated, forged, mater",
+            "distance": 0.3682529330253601,
+            "start_offset": 8832,
+            "end_offset": 9088
+          },
+          {
+            "source_id": 3,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:100",
+            "text": "ps://www.nyu.edu/about/policies-guidelines-compliance/policies-and-guidelines/hazing-policy.html\nPolicy on Responsible Use of NYU Computers and Data — https://www.nyu.edu/about/policies-guidelines-compliance/policies-and-guidelines/responsible-use-of-nyu-c",
+            "distance": 0.394542396068573,
+            "start_offset": 19200,
+            "end_offset": 19456
+          },
+          {
+            "source_id": 4,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:63",
+            "text": "\n2. Engaging in conduct as prohibited under the NYU Policy on Theatrical Use of Simulated Firearms and other Weapons.\n\nT. VIOLATIONS OF OTHER POLICIES\n\n1. Engaging in behavior as prohibited under other established NYU policies not otherwise cited above.\n\n2",
+            "distance": 0.3980034589767456,
+            "start_offset": 12096,
+            "end_offset": 12352
+          },
+          {
+            "source_id": 5,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:73",
+            "text": ". Students are expressly prohibited from independently investigating and adjudicating allegations covered under the NYU Sexual Misconduct Policy, Non-Discrimination and Anti-Harassment Policies, and the University Student Conduct Policy.\n\nVI. ENFORCEMENT\n\n",
+            "distance": 0.4164656400680542,
+            "start_offset": 14016,
+            "end_offset": 14272
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            1
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 0.32926829268292684,
+          "full_evidence_recall": 0.0
+        },
+        "latency_seconds": 0.8758015829953365,
+        "recorded_at": "2026-09-21T00:30:19.475180+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "policy-off-campus",
+        "question": "Can NYU take disciplinary action for conduct outside the University context, and under what conditions?",
+        "answerable": true,
+        "expected_answer_points": [
+          "Yes. NYU may take disciplinary action for conduct outside the University context that substantially disrupts regular University operations.",
+          "Threatening the health, safety, or security of one or more University community members is another stated basis for action."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "anchor": "IV. CONDUCT OUTSIDE THE UNIVERSITY CONTEXT",
+            "line": 184,
+            "end_line": 184,
+            "start_offset": 12837,
+            "end_offset": 13125,
+            "quote": "Notwithstanding, the University may take student disciplinary action for conduct occurring outside the University context, which substantially disrupts the regular operation of the University or threatens the health, safety, or security of one or more members of the University community.",
+            "supports_answer_points": [
+              1,
+              2
+            ]
+          }
+        ],
+        "category": "factual",
+        "corpus_id": "nyu-public-2026-09-07",
+        "scoring_notes": "These are alternative conditions; do not require both conditions to be satisfied."
+      },
+      "answer": {
+        "case_id": "policy-off-campus",
+        "status": "ok",
+        "answer": "Based on the provided sources, NYU can take disciplinary action for conduct outside the University context under specific conditions. According to source [3], \"the University may take student disciplinary action for conduct occurring\" outside the University, but the sentence is incomplete. However, this indicates that disciplinary action is possible for conduct outside the university, but may be subject to certain limitations or conditions not specified here.\n\nAdditionally, the general principle suggested by source [3] is that conduct outside the university should \"generally be subject only to the consequences of the applicable authority and/or public opinion,\" implying that NYU's disciplinary action outside the context is not always automatic and may depend on circumstances, but the precise conditions are not detailed in this excerpt.\n\nIn conclusion, NYU **can** take disciplinary action for conduct outside the University, but **likely only under certain conditions**—which are not fully detailed in the sources provided.",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:64",
+            "text": "der other established NYU policies not otherwise cited above.\n\n2. Failure to abide by any University policy or governmental orders issued concerning public health.\n\nIV. CONDUCT OUTSIDE THE UNIVERSITY CONTEXT\n\nThe University shall not use its powers to inte",
+            "distance": 0.27095913887023926,
+            "start_offset": 12288,
+            "end_offset": 12544
+          },
+          {
+            "source_id": 2,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:73",
+            "text": ". Students are expressly prohibited from independently investigating and adjudicating allegations covered under the NYU Sexual Misconduct Policy, Non-Discrimination and Anti-Harassment Policies, and the University Student Conduct Policy.\n\nVI. ENFORCEMENT\n\n",
+            "distance": 0.3011900782585144,
+            "start_offset": 14016,
+            "end_offset": 14272
+          },
+          {
+            "source_id": 3,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:66",
+            "text": " or outside the context of a University program or activity, should generally be subject only to the consequences of the applicable authority and/or public opinion. Notwithstanding, the University may take student disciplinary action for conduct occurring ",
+            "distance": 0.3033176064491272,
+            "start_offset": 12672,
+            "end_offset": 12928
+          },
+          {
+            "source_id": 4,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:3",
+            "text": "University Student Conduct Policy (August 15, 2025)\nIssuing Authority: Vice President of Student Engagement and Dean of Students Responsible Officer: Office of Student Conduct and Community Standards\n\nI. STATEMENT OF POLICY\n\nNew York University (“NYU” or t",
+            "distance": 0.3085337281227112,
+            "start_offset": 576,
+            "end_offset": 832
+          },
+          {
+            "source_id": 5,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:28",
+            "text": ". DISCRIMINATION AND HARASSMENT\n\n1. Engaging in behavior prohibited under the NYU Non-Discrimination and Anti-Harassment Policy for Students or for Employees.\n\nE. DISRUPTIVE CONDUCT\n\n1. Engaging in behavior that substantially disrupts or interferes with Un",
+            "distance": 0.32421308755874634,
+            "start_offset": 5376,
+            "end_offset": 5632
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            3
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 0.3159722222222222,
+          "full_evidence_recall": 0.0
+        },
+        "latency_seconds": 2.2678280420368537,
+        "recorded_at": "2026-09-21T00:30:21.743768+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "msds-credits",
+        "question": "How many credits does the MSDS require, how are they distributed across the sample plan semesters, and can the actual plan vary with course availability?",
+        "answerable": true,
+        "expected_answer_points": [
+          "The MSDS requires 36 credits in total.",
+          "The sample plan has four semesters, with 9 credits in each semester.",
+          "The sample plan is a guide; the actual plan may vary with course availability."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/msds/curriculum.txt",
+            "anchor": "Master’s in Data Science: Curriculum",
+            "line": 12,
+            "end_line": 12,
+            "start_offset": 424,
+            "end_offset": 494,
+            "quote": "The curriculum for the MS in Data Science (MSDS) degree is 36 credits.",
+            "supports_answer_points": [
+              1
+            ]
+          },
+          {
+            "file": "materials/nyu/msds/curriculum.txt",
+            "anchor": "4 Semester Course Plan",
+            "line": 77,
+            "end_line": 100,
+            "start_offset": 4557,
+            "end_offset": 5227,
+            "quote": "YEAR 1 – FALL\nCourse Title\tCredits\nDS-GA-1001 Intro to Data Science\t3\nDS-GA 1002 Probability and Statistics for Data Science\t3\nGeneral Elective or Track Course\t3\nTOTAL CREDITS\t9\nYEAR 1 – SPRING\nCourse Title\tCredits\nDS-GA-1003 Machine Learning\t3\nDS-GA-1004 Big Data\t3\nGeneral Elective or Track Course\t3\nTOTAL CREDITS\t9\nYEAR 2 – FALL\nCourse Title\tCredits\nData Science Elective (see list in required courses section)\t3\nDS-GA-1006 Capstone Project in Data Science\t3\nGeneral Elective or Track Course\t3\nTOTAL CREDITS\t9\nYEAR 2 – SPRING\nCourse Title\tCredits\nGeneral Elective or Track Course\t3\nGeneral Elective or Track Course\t3\nGeneral Elective or Track Course\t3\nTOTAL CREDITS\t9",
+            "supports_answer_points": [
+              2
+            ]
+          },
+          {
+            "file": "materials/nyu/msds/curriculum.txt",
+            "anchor": "4 Semester Course Plan",
+            "line": 75,
+            "end_line": 75,
+            "start_offset": 4426,
+            "end_offset": 4555,
+            "quote": "This is just a guide to help plan out courses for the degree. Your actual course plan may vary based on when courses are offered.",
+            "supports_answer_points": [
+              3
+            ]
+          }
+        ],
+        "category": "multi_evidence",
+        "corpus_id": "nyu-public-2026-09-07"
+      },
+      "answer": {
+        "case_id": "msds-credits",
+        "status": "ok",
+        "answer": "The sources provided do not specify the exact number of credits required for the MSDS degree or how those credits are distributed across the sample plan semesters. They do mention that MSDS students can apply up to 6 credits of independent study (DS-GA 1010) toward the degree [1], but the total required credits and the detailed distribution per semester are not provided.\n\nRegarding the variation of the actual plan with course availability, the sources note that students should consult the department or program to verify course options and prerequisites, and that elective courses may have restrictions. This implies that the actual plan can vary depending on course availability and restrictions [3][4]. However, precise details about how much flexibility students have or how the plan may vary are not explicitly stated.\n\n**In summary:**\n- The total number of credits required for the MSDS degree is not specified in the provided sources.\n- The distribution across semesters is not detailed and may be subject to change.\n- The actual plan can vary depending on course availability and restrictions, with students advised to consult specific departments or the course curriculum page for more details.",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:24",
+            "text": "ny independent study (DS-GA 1010) credits can I apply to the MSDS degree?\n\nMSDS students can apply up to 6 credits of independent study (DS-GA 1010) to the MSDS degree.\n\nCan I take a course pass/fail and count it towards the MSDS degree?\n\nOnly 1 elective (",
+            "distance": 0.34187984466552734,
+            "start_offset": 4608,
+            "end_offset": 4864
+          },
+          {
+            "source_id": 2,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:23",
+            "text": "ormation\n– Course syllabus\n– Relevance of the course to your MSDS degree and goals\n– If available, course website\nIf you have any questions, please contact Tina Lam (tina.lam@nyu.edu).\n\nHow many independent study (DS-GA 1010) credits can I apply to the MSD",
+            "distance": 0.3923671245574951,
+            "start_offset": 4416,
+            "end_offset": 4672
+          },
+          {
+            "source_id": 3,
+            "file_id": "40d992fb14564afba65c624bd1caf8ff",
+            "file_name": "materials/nyu/msds/curriculum.txt",
+            "chunk_id": "40d992fb14564afba65c624bd1caf8ff:19",
+            "text": " elective credits towards their MSDS degree. However, please note that these courses may have prerequisites or registration restrictions. Students should consult the sponsor department website for such details. Often a search on “NYU” + the course name wil",
+            "distance": 0.4053100347518921,
+            "start_offset": 3648,
+            "end_offset": 3904
+          },
+          {
+            "source_id": 4,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:20",
+            "text": " information. She will advise on the registration process for that particular department or school.\n\nWhere can I find a list of approved electives for the MSDS program?\n\nThis information can be found on our Course Curriculum page.\n\nThere is a course that I",
+            "distance": 0.4097471833229065,
+            "start_offset": 3840,
+            "end_offset": 4096
+          },
+          {
+            "source_id": 5,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:26",
+            "text": "e MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail.\n\nI will be ready to graduate at the end of this semester. What sh",
+            "distance": 0.4194391369819641,
+            "start_offset": 4992,
+            "end_offset": 5248
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            1,
+            3,
+            4
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 0.0,
+          "full_evidence_recall": 0.0
+        },
+        "latency_seconds": 4.275062082975637,
+        "recorded_at": "2026-09-21T00:30:26.019463+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "msds-gpa",
+        "question": "What academic progress requirements does the general FAQ specify?",
+        "answerable": true,
+        "expected_answer_points": [
+          "Maintain a minimum GPA of 3.0 each semester.",
+          "Successfully complete 66% of attempted credits."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "anchor": "Is there a minimum GPA for the program?",
+            "line": 43,
+            "end_line": 43,
+            "start_offset": 2417,
+            "end_offset": 2537,
+            "quote": "Yes, each semester, students must maintain a minimum GPA of 3.0 and must successfully complete 66% of credits attempted.",
+            "supports_answer_points": [
+              1,
+              2
+            ]
+          }
+        ],
+        "category": "multi_evidence",
+        "corpus_id": "nyu-public-2026-09-07"
+      },
+      "answer": {
+        "case_id": "msds-gpa",
+        "status": "ok",
+        "answer": "The general FAQ specifies that students must maintain a minimum GPA of 3.0 each semester and successfully complete at least 66% of the credits attempted [3].",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "34cfc3d04c0445d5ae6b977bf81bc153",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "chunk_id": "34cfc3d04c0445d5ae6b977bf81bc153:73",
+            "text": "ection — https://gsas.nyu.edu/admissions/gsas-application-resource-center/faqs/testing-requirements.html\nGSAS Admissions FAQ section — https://gsas.nyu.edu/admissions/gsas-application-resource-center/faqs/testing-requirements.html#2\nGSAS Admissions FAQs — ",
+            "distance": 0.48382455110549927,
+            "start_offset": 14016,
+            "end_offset": 14272
+          },
+          {
+            "source_id": 2,
+            "file_id": "34cfc3d04c0445d5ae6b977bf81bc153",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "chunk_id": "34cfc3d04c0445d5ae6b977bf81bc153:71",
+            "text": "s/\nGSAS Admissions FAQs — https://gsas.nyu.edu/admissions/gsas-application-resource-center/faqs/academic-transcripts.html\nthe Admissions Requirements page — https://cds.nyu.edu/admissions-requirements/\nFAQ section — https://gsas.nyu.edu/admissions/gsas-app",
+            "distance": 0.4949907660484314,
+            "start_offset": 13632,
+            "end_offset": 13888
+          },
+          {
+            "source_id": 3,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:12",
+            "text": " to catch up if you fall behind. Use your resources and ask questions!\n\nIs there a minimum GPA for the program?\n\nYes, each semester, students must maintain a minimum GPA of 3.0 and must successfully complete 66% of credits attempted.\n\nWhere can I find the ",
+            "distance": 0.4957355260848999,
+            "start_offset": 2304,
+            "end_offset": 2560
+          },
+          {
+            "source_id": 4,
+            "file_id": "34cfc3d04c0445d5ae6b977bf81bc153",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "chunk_id": "34cfc3d04c0445d5ae6b977bf81bc153:70",
+            "text": "S Admissions FAQ — https://gsas.nyu.edu/admissions/gsas-application-resource-center/nyu-gsas-general-application-policies.html#4\nAdmissions Requirements — https://cds.nyu.edu/masters-admissions/\nGSAS Admissions FAQs — https://gsas.nyu.edu/admissions/gsas-a",
+            "distance": 0.4972080588340759,
+            "start_offset": 13440,
+            "end_offset": 13696
+          },
+          {
+            "source_id": 5,
+            "file_id": "ec24de3df49b407ba6b75ffccc90b2e4",
+            "file_name": "materials/nyu/msds/data-science-ms-bulletin.txt",
+            "chunk_id": "ec24de3df49b407ba6b75ffccc90b2e4:8",
+            "text": "he Graduate School of Arts and Science (GSAS) are required to submit the general application requirements, which include:\n\nAcademic Transcripts\nTest Scores (if required)\nApplicant Statements\nRésumé or Curriculum Vitae\nLetters of Recommendation, and\nA non-r",
+            "distance": 0.509121835231781,
+            "start_offset": 1536,
+            "end_offset": 1792
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            3
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 1.0,
+          "full_evidence_recall": 1.0
+        },
+        "latency_seconds": 0.881908375013154,
+        "recorded_at": "2026-09-21T00:30:26.902123+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "msds-independent-study",
+        "question": "How many independent study credits may count toward the MSDS?",
+        "answerable": true,
+        "expected_answer_points": [
+          "Up to 6 credits of independent study, DS-GA 1010, may count toward the MSDS degree."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "anchor": "How many independent study (DS-GA 1010) credits can I apply to the MSDS degree?",
+            "line": 85,
+            "end_line": 85,
+            "start_offset": 4683,
+            "end_offset": 4776,
+            "quote": "MSDS students can apply up to 6 credits of independent study (DS-GA 1010) to the MSDS degree.",
+            "supports_answer_points": [
+              1
+            ]
+          }
+        ],
+        "category": "factual",
+        "corpus_id": "nyu-public-2026-09-07"
+      },
+      "answer": {
+        "case_id": "msds-independent-study",
+        "status": "ok",
+        "answer": "Students in the MSDS program can apply up to 6 credits of independent study (DS-GA 1010) toward the degree [1].",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:24",
+            "text": "ny independent study (DS-GA 1010) credits can I apply to the MSDS degree?\n\nMSDS students can apply up to 6 credits of independent study (DS-GA 1010) to the MSDS degree.\n\nCan I take a course pass/fail and count it towards the MSDS degree?\n\nOnly 1 elective (",
+            "distance": 0.19523805379867554,
+            "start_offset": 4608,
+            "end_offset": 4864
+          },
+          {
+            "source_id": 2,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:25",
+            "text": "ss/fail and count it towards the MSDS degree?\n\nOnly 1 elective (this does not include the “One Data Science Elective” requirement) and DS-GA 1009 can be taken as pass/fail and count towards the MSDS degree. Students in the Industry Concentration can use th",
+            "distance": 0.3565834164619446,
+            "start_offset": 4800,
+            "end_offset": 5056
+          },
+          {
+            "source_id": 3,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:23",
+            "text": "ormation\n– Course syllabus\n– Relevance of the course to your MSDS degree and goals\n– If available, course website\nIf you have any questions, please contact Tina Lam (tina.lam@nyu.edu).\n\nHow many independent study (DS-GA 1010) credits can I apply to the MSD",
+            "distance": 0.3645656108856201,
+            "start_offset": 4416,
+            "end_offset": 4672
+          },
+          {
+            "source_id": 4,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:26",
+            "text": "e MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail.\n\nI will be ready to graduate at the end of this semester. What sh",
+            "distance": 0.4006348252296448,
+            "start_offset": 4992,
+            "end_offset": 5248
+          },
+          {
+            "source_id": 5,
+            "file_id": "40d992fb14564afba65c624bd1caf8ff",
+            "file_name": "materials/nyu/msds/curriculum.txt",
+            "chunk_id": "40d992fb14564afba65c624bd1caf8ff:19",
+            "text": " elective credits towards their MSDS degree. However, please note that these courses may have prerequisites or registration restrictions. Students should consult the sponsor department website for such details. Often a search on “NYU” + the course name wil",
+            "distance": 0.40564489364624023,
+            "start_offset": 3648,
+            "end_offset": 3904
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            1
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 1.0,
+          "full_evidence_recall": 1.0
+        },
+        "latency_seconds": 1.3174260000232607,
+        "recorded_at": "2026-09-21T00:30:28.219973+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "msds-waiver",
+        "question": "Which required Data Science course may be waived, and what materials must be submitted for review according to the general FAQ?",
+        "answerable": true,
+        "expected_answer_points": [
+          "Only DS-GA 1002 among the required Data Science courses may be waived.",
+          "Submit undergraduate or graduate transcripts, highlighting the relevant courses and grades, and the relevant course syllabi for review; transcripts and syllabi must be translated."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "anchor": "What is the process for waiving required data science courses?",
+            "line": 51,
+            "end_line": 51,
+            "start_offset": 2718,
+            "end_offset": 2935,
+            "quote": "Of the required Data Science courses, only DS-GA 1002 may be waived. Incoming new students will receive information about the waiver process, but generally the following information needs to be submitted and reviewed:",
+            "supports_answer_points": [
+              1
+            ]
+          },
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "anchor": "What is the process for waiving required data science courses?",
+            "line": 52,
+            "end_line": 54,
+            "start_offset": 2936,
+            "end_offset": 3263,
+            "quote": "– Undergraduate or Graduate Transcripts (must be translated);\n– The course(s) that you will be using to waive the required course should be highlighted. The grade(s) you received in the course(s) should be highlighted as well;\n– Syllabi of the course(s) that you will be using to waive the required course (Must be translated);",
+            "supports_answer_points": [
+              2
+            ]
+          }
+        ],
+        "category": "multi_evidence",
+        "corpus_id": "nyu-public-2026-09-07",
+        "scoring_notes": "A course website is optional if available; do not describe it as mandatory."
+      },
+      "answer": {
+        "case_id": "msds-waiver",
+        "status": "ok",
+        "answer": "The required Data Science course that may be waived is DS-GA 1002. To request a waiver, incoming new students need to submit the following materials for review:\n\n- Undergraduate or Graduate Transcripts (must be translated),\n- The course(s) used to waive the required course should be highlighted, along with the grade(s) received in those courses [1], [4].",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:14",
+            "text": "quired data science courses?\n\nOf the required Data Science courses, only DS-GA 1002 may be waived. Incoming new students will receive information about the waiver process, but generally the following information needs to be submitted and reviewed:\n– Underg",
+            "distance": 0.2575475573539734,
+            "start_offset": 2688,
+            "end_offset": 2944
+          },
+          {
+            "source_id": 2,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:13",
+            "text": "sfully complete 66% of credits attempted.\n\nWhere can I find the MS in Data Science curriculum?\n\nThis information can be found on our Course Curriculum page.\n\nWhat is the process for waiving required data science courses?\n\nOf the required Data Science cours",
+            "distance": 0.3271287679672241,
+            "start_offset": 2496,
+            "end_offset": 2752
+          },
+          {
+            "source_id": 3,
+            "file_id": "34cfc3d04c0445d5ae6b977bf81bc153",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "chunk_id": "34cfc3d04c0445d5ae6b977bf81bc153:1",
+            "text": " Data Science: FAQ (Admissions)\n\nOn this page: Admissions • Applications • Standardized Testing • Financial • Miscellaneous\n\nBelow you will find a list of frequently asked questions about CDS’ Master’s in Data Science Admissions process. For general FAQs a",
+            "distance": 0.41503822803497314,
+            "start_offset": 192,
+            "end_offset": 448
+          },
+          {
+            "source_id": 4,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:15",
+            "text": "llowing information needs to be submitted and reviewed:\n– Undergraduate or Graduate Transcripts (must be translated);\n– The course(s) that you will be using to waive the required course should be highlighted. The grade(s) you received in the course(s) shou",
+            "distance": 0.4337766170501709,
+            "start_offset": 2880,
+            "end_offset": 3136
+          },
+          {
+            "source_id": 5,
+            "file_id": "34cfc3d04c0445d5ae6b977bf81bc153",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "chunk_id": "34cfc3d04c0445d5ae6b977bf81bc153:63",
+            "text": "saved separately):\nMS Program FAQ page — https://cds.nyu.edu/masters-in-data-science-faq-general/\nMaster’s Admissions Requirements page — https://cds.nyu.edu/admissions/masters-in-data-science-admissions-req/admissions-requirements/\nPhD Overview page — htt",
+            "distance": 0.4472905397415161,
+            "start_offset": 12096,
+            "end_offset": 12352
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            1,
+            4
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 0.8058103975535168,
+          "full_evidence_recall": 0.5
+        },
+        "latency_seconds": 1.136641042015981,
+        "recorded_at": "2026-09-21T00:30:29.357328+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "msds-industry",
+        "question": "What additional coursework and practical experience does the Industry Concentration require?",
+        "answerable": true,
+        "expected_answer_points": [
+          "Take DS-GA 1009 Practical Training for Data Science within the first year, worth 3 credits.",
+          "Take two electives in Big Data or Natural Language Processing, totaling 6 credits.",
+          "Complete a mandatory internship within the first year of study."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt",
+            "anchor": "Required Courses",
+            "line": 16,
+            "end_line": 16,
+            "start_offset": 1223,
+            "end_offset": 1346,
+            "quote": "DS-GA 1009: Practical Training for Data Science within the first year of the program (3 credits in fall, spring, or summer)",
+            "supports_answer_points": [
+              1
+            ]
+          },
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt",
+            "anchor": "Required Courses",
+            "line": 17,
+            "end_line": 17,
+            "start_offset": 1347,
+            "end_offset": 1463,
+            "quote": "2 electives within the Big Data or Natural Language Processing subject areas (6 credits, see below for more details)",
+            "supports_answer_points": [
+              2
+            ]
+          },
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt",
+            "anchor": "Master’s in Data Science: Industry Concentration",
+            "line": 10,
+            "end_line": 10,
+            "start_offset": 642,
+            "end_offset": 789,
+            "quote": "It requires more industry-targeted coursework and a Practical Training experience, including a mandatory internship within the first year of study.",
+            "supports_answer_points": [
+              3
+            ]
+          }
+        ],
+        "category": "multi_evidence",
+        "corpus_id": "nyu-public-2026-09-07"
+      },
+      "answer": {
+        "case_id": "msds-industry",
+        "status": "ok",
+        "answer": "The Industry Concentration requires additional coursework and practical experience, including:\n\n- Specific industry-targeted coursework as part of the 36-credit requirement [1], [3], [4], [5].\n- A mandatory Practical Training experience, which includes a practical training course (DS-GA 1009) taken within the first year of the program [1], [4].\n- An internship during the first year of study is also required as part of the Practical Training experience [2].\n- Elective courses related to the Industry Concentration, with students able to use their elective allowance for Industry Concentration electives [4], [5].\n\nMissing from the sources: The exact list of additional coursework beyond the practical training and electives is not specified.",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "ec24de3df49b407ba6b75ffccc90b2e4",
+            "file_name": "materials/nyu/msds/data-science-ms-bulletin.txt",
+            "chunk_id": "ec24de3df49b407ba6b75ffccc90b2e4:21",
+            "text": "ustry during the degree program. It requires more industry-targeted coursework and a Practical Training experience. Students in the concentration are required to take the courses below for the degree as a part of the 36 credit requirement.\n\nConcentration R",
+            "distance": 0.2083302140235901,
+            "start_offset": 4032,
+            "end_offset": 4288
+          },
+          {
+            "source_id": 2,
+            "file_id": "052fdb5d99de4e4d9af9564f6f2ed5ee",
+            "file_name": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt",
+            "chunk_id": "052fdb5d99de4e4d9af9564f6f2ed5ee:3",
+            "text": "oursework to industry-related projects during the degree program. It requires more industry-targeted coursework and a Practical Training experience, including a mandatory internship within the first year of study. International students should consult NYU’",
+            "distance": 0.4092608094215393,
+            "start_offset": 576,
+            "end_offset": 832
+          },
+          {
+            "source_id": 3,
+            "file_id": "ec24de3df49b407ba6b75ffccc90b2e4",
+            "file_name": "materials/nyu/msds/data-science-ms-bulletin.txt",
+            "chunk_id": "ec24de3df49b407ba6b75ffccc90b2e4:19",
+            "text": "s for Data Science II\nOther Elective Credits\t18\nTotal Credits\t36\nIndustry Concentration\n\nStudents have the opportunity to pursue a specialization through the Industry Concentration. This concentration is specifically targeted to respond to the needs and in",
+            "distance": 0.4111446142196655,
+            "start_offset": 3648,
+            "end_offset": 3904
+          },
+          {
+            "source_id": 4,
+            "file_id": "ec24de3df49b407ba6b75ffccc90b2e4",
+            "file_name": "materials/nyu/msds/data-science-ms-bulletin.txt",
+            "chunk_id": "ec24de3df49b407ba6b75ffccc90b2e4:22",
+            "text": " degree as a part of the 36 credit requirement.\n\nConcentration Requirements\nCourse List\nCourse\tTitle\tCredits\nRequired Course\nDS-GA 1009\tPractical Training for Data Science (taken within the first year of the program)\t3\nConcentration Electives\nSelect two el",
+            "distance": 0.4144343137741089,
+            "start_offset": 4224,
+            "end_offset": 4480
+          },
+          {
+            "source_id": 5,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:26",
+            "text": "e MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail.\n\nI will be ready to graduate at the end of this semester. What sh",
+            "distance": 0.4192187786102295,
+            "start_offset": 4992,
+            "end_offset": 5248
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            1,
+            3,
+            4,
+            5,
+            2
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 0.3333333333333333,
+          "full_evidence_recall": 0.3333333333333333
+        },
+        "latency_seconds": 2.168210999981966,
+        "recorded_at": "2026-09-21T00:30:31.525919+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "msds-research",
+        "question": "Can a student outside CDS MSDS participate in the Summer Research Initiative?",
+        "answerable": true,
+        "expected_answer_points": [
+          "No. The Summer Research Initiative is restricted to enrolled CDS MSDS students; students outside that program are not eligible."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-summer-research-initiative.txt",
+            "anchor": "Summer Research Initiative for Master’s Students",
+            "line": 12,
+            "end_line": 12,
+            "start_offset": 1086,
+            "end_offset": 1236,
+            "quote": "This initiative is not open to students outside the CDS MS in Data Science program, and external student participation is not considered at this time.",
+            "supports_answer_points": [
+              1
+            ]
+          }
+        ],
+        "category": "factual",
+        "corpus_id": "nyu-public-2026-09-07"
+      },
+      "answer": {
+        "case_id": "msds-research",
+        "status": "ok",
+        "answer": "No, a student outside the CDS MS in Data Science (MSDS) program cannot participate in the Summer Research Initiative. The initiative is designed exclusively for students enrolled in the CDS MS in Data Science program, and external student participation is not considered at this time [1], [2], [4], [5].",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "5d1fba2395244f2f94fa5ef9d8a90d2a",
+            "file_name": "materials/nyu/msds/masters-in-data-science-summer-research-initiative.txt",
+            "chunk_id": "5d1fba2395244f2f94fa5ef9d8a90d2a:1",
+            "text": "nglish\n\nSummer Research Initiative for Master’s Students\n\nThe Center for Data Science’s (CDS) Summer Research Initiative, developed as part of the Data Science and Software Services (DS3) initiative, is designed exclusively for students enrolled in the CDS",
+            "distance": 0.3332361578941345,
+            "start_offset": 192,
+            "end_offset": 448
+          },
+          {
+            "source_id": 2,
+            "file_id": "5d1fba2395244f2f94fa5ef9d8a90d2a",
+            "file_name": "materials/nyu/msds/masters-in-data-science-summer-research-initiative.txt",
+            "chunk_id": "5d1fba2395244f2f94fa5ef9d8a90d2a:2",
+            "text": "iative, is designed exclusively for students enrolled in the CDS MS in Data Science program. Its purpose is to introduce CDS MS students to research projects across NYU and to connect them with faculty and researchers across the university.\n\nCDS MS student",
+            "distance": 0.3733917474746704,
+            "start_offset": 384,
+            "end_offset": 640
+          },
+          {
+            "source_id": 3,
+            "file_id": "5d1fba2395244f2f94fa5ef9d8a90d2a",
+            "file_name": "materials/nyu/msds/masters-in-data-science-summer-research-initiative.txt",
+            "chunk_id": "5d1fba2395244f2f94fa5ef9d8a90d2a:0",
+            "text": "Title: Summer Research Initiative for Master’s Students\nSource: https://cds.nyu.edu/masters-in-data-science-summer-research-initiative/\nRetrieved at (UTC): 2026-09-07T03:25:15.940Z\nLanguage: English\n\nSummer Research Initiative for Master’s Students\n\nThe Ce",
+            "distance": 0.37343692779541016,
+            "start_offset": 0,
+            "end_offset": 256
+          },
+          {
+            "source_id": 4,
+            "file_id": "5d1fba2395244f2f94fa5ef9d8a90d2a",
+            "file_name": "materials/nyu/msds/masters-in-data-science-summer-research-initiative.txt",
+            "chunk_id": "5d1fba2395244f2f94fa5ef9d8a90d2a:6",
+            "text": " Science program, and external student participation is not considered at this time.\n\nCDS is a world-class institute for data science research, and its MS students are trained in graduate-level probability, statistics, machine learning, big data, and infer",
+            "distance": 0.390178918838501,
+            "start_offset": 1152,
+            "end_offset": 1408
+          },
+          {
+            "source_id": 5,
+            "file_id": "5d1fba2395244f2f94fa5ef9d8a90d2a",
+            "file_name": "materials/nyu/msds/masters-in-data-science-summer-research-initiative.txt",
+            "chunk_id": "5d1fba2395244f2f94fa5ef9d8a90d2a:5",
+            "text": " project fair each spring, where invited researchers meet and discuss open projects directly with interested CDS MS students. This initiative is not open to students outside the CDS MS in Data Science program, and external student participation is not cons",
+            "distance": 0.4015386700630188,
+            "start_offset": 960,
+            "end_offset": 1216
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            1,
+            2,
+            4,
+            5
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 1.0,
+          "full_evidence_recall": 1.0
+        },
+        "latency_seconds": 1.2523300420143642,
+        "recorded_at": "2026-09-21T00:30:32.778758+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "msds-online",
+        "question": "Is the MSDS offered online?",
+        "answerable": true,
+        "expected_answer_points": [
+          "No. The admissions FAQ states that there is no online program."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "anchor": "Is the degree offered online?",
+            "line": 21,
+            "end_line": 23,
+            "start_offset": 777,
+            "end_offset": 845,
+            "quote": "Is the degree offered online?\n\nNo, we do not have an online program.",
+            "supports_answer_points": [
+              1
+            ]
+          }
+        ],
+        "category": "factual",
+        "corpus_id": "nyu-public-2026-09-07"
+      },
+      "answer": {
+        "case_id": "msds-online",
+        "status": "ok",
+        "answer": "The sources do not provide information regarding whether the MSDS is offered online.",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:20",
+            "text": " information. She will advise on the registration process for that particular department or school.\n\nWhere can I find a list of approved electives for the MSDS program?\n\nThis information can be found on our Course Curriculum page.\n\nThere is a course that I",
+            "distance": 0.4549179673194885,
+            "start_offset": 3840,
+            "end_offset": 4096
+          },
+          {
+            "source_id": 2,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:21",
+            "text": "e found on our Course Curriculum page.\n\nThere is a course that I would like to take as an elective for the MSDS program, but it is not on the pre-approved elective list. What should I do?\n\n(Here is the link to the Pre-Approved elective list for reference.)",
+            "distance": 0.49629634618759155,
+            "start_offset": 4032,
+            "end_offset": 4288
+          },
+          {
+            "source_id": 3,
+            "file_id": "40d992fb14564afba65c624bd1caf8ff",
+            "file_name": "materials/nyu/msds/curriculum.txt",
+            "chunk_id": "40d992fb14564afba65c624bd1caf8ff:5",
+            "text": "real-world settings, mirroring what you might encounter in the industry, academia, or government.\n\nThe MSDS offers students the opportunity to pursue the Industry Concentration, which enables them to apply the knowledge and skills obtained in their coursew",
+            "distance": 0.497689425945282,
+            "start_offset": 960,
+            "end_offset": 1216
+          },
+          {
+            "source_id": 4,
+            "file_id": "40d992fb14564afba65c624bd1caf8ff",
+            "file_name": "materials/nyu/msds/curriculum.txt",
+            "chunk_id": "40d992fb14564afba65c624bd1caf8ff:21",
+            "text": " please complete the Elective Request for DS Students Google form. You will be asked for the below information.\n\nCourse information\nCourse syllabus\nThe relevance of course to your MSDS degree and goals\nThe course website (if available)\n\nIf you have any que",
+            "distance": 0.5154222249984741,
+            "start_offset": 4032,
+            "end_offset": 4288
+          },
+          {
+            "source_id": 5,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:26",
+            "text": "e MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail.\n\nI will be ready to graduate at the end of this semester. What sh",
+            "distance": 0.5193862915039062,
+            "start_offset": 4992,
+            "end_offset": 5248
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [],
+          "invalid_source_ids": [],
+          "no_citations": true
+        },
+        "retrieval": {
+          "annotated_char_recall": 0.0,
+          "full_evidence_recall": 0.0
+        },
+        "latency_seconds": 1.0540908749680966,
+        "recorded_at": "2026-09-21T00:30:33.833619+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "missing-personal-schedule",
+        "question": "What room and exact start time is my first MSDS class next Monday?",
+        "answerable": false,
+        "expected_answer_points": [
+          "State that the supplied corpus does not establish the student-specific timetable, classroom, or exact meeting time.",
+          "Do not invent a classroom or start time, or infer a personal timetable from the sample semester plan."
+        ],
+        "evidence": [],
+        "category": "unanswerable",
+        "corpus_id": "nyu-public-2026-09-07",
+        "scoring_notes": "A generic curriculum plan does not establish an individual class schedule.",
+        "unanswerable_reason": "The snapshot contains public program information and a sample plan, not the user’s enrolled class schedule.",
+        "context_evidence": [
+          {
+            "file": "materials/nyu/msds/curriculum.txt",
+            "anchor": "4 Semester Course Plan",
+            "line": 75,
+            "end_line": 75,
+            "start_offset": 4426,
+            "end_offset": 4555,
+            "quote": "This is just a guide to help plan out courses for the degree. Your actual course plan may vary based on when courses are offered.",
+            "supports_answer_points": []
+          }
+        ]
+      },
+      "answer": {
+        "case_id": "missing-personal-schedule",
+        "status": "ok",
+        "answer": "The sources provided do not specify the room or exact start time of your first MSDS class next Monday.",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:20",
+            "text": " information. She will advise on the registration process for that particular department or school.\n\nWhere can I find a list of approved electives for the MSDS program?\n\nThis information can be found on our Course Curriculum page.\n\nThere is a course that I",
+            "distance": 0.45979011058807373,
+            "start_offset": 3840,
+            "end_offset": 4096
+          },
+          {
+            "source_id": 2,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:23",
+            "text": "ormation\n– Course syllabus\n– Relevance of the course to your MSDS degree and goals\n– If available, course website\nIf you have any questions, please contact Tina Lam (tina.lam@nyu.edu).\n\nHow many independent study (DS-GA 1010) credits can I apply to the MSD",
+            "distance": 0.4887687563896179,
+            "start_offset": 4416,
+            "end_offset": 4672
+          },
+          {
+            "source_id": 3,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:26",
+            "text": "e MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail.\n\nI will be ready to graduate at the end of this semester. What sh",
+            "distance": 0.5208724737167358,
+            "start_offset": 4992,
+            "end_offset": 5248
+          },
+          {
+            "source_id": 4,
+            "file_id": "40d992fb14564afba65c624bd1caf8ff",
+            "file_name": "materials/nyu/msds/curriculum.txt",
+            "chunk_id": "40d992fb14564afba65c624bd1caf8ff:21",
+            "text": " please complete the Elective Request for DS Students Google form. You will be asked for the below information.\n\nCourse information\nCourse syllabus\nThe relevance of course to your MSDS degree and goals\nThe course website (if available)\n\nIf you have any que",
+            "distance": 0.5437235832214355,
+            "start_offset": 4032,
+            "end_offset": 4288
+          },
+          {
+            "source_id": 5,
+            "file_id": "ae206ce690df406cb989bfdf690e9419",
+            "file_name": "materials/nyu/msds/admissions-requirements.txt",
+            "chunk_id": "ae206ce690df406cb989bfdf690e9419:8",
+            "text": " school’s application resource center.\n\nInformation Session Recording (for Fall 2026)\n\nEducational Prerequisites\n\nSuccessful MSDS applicants come from many different undergraduate backgrounds, including degrees in Statistics, Computer Science, Mathematics,",
+            "distance": 0.544569730758667,
+            "start_offset": 1536,
+            "end_offset": 1792
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [],
+          "invalid_source_ids": [],
+          "no_citations": true
+        },
+        "retrieval": {
+          "annotated_char_recall": null,
+          "full_evidence_recall": null
+        },
+        "latency_seconds": 0.8902556669781916,
+        "recorded_at": "2026-09-21T00:30:34.724297+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "msds-admissions-prerequisites",
+        "question": "What prerequisite subjects are required for MSDS admission, and what programming background is generally expected?",
+        "answerable": true,
+        "category": "multi_evidence",
+        "corpus_id": "nyu-public-2026-09-07",
+        "expected_answer_points": [
+          "Calculus I and Linear Algebra are required, or their equivalents.",
+          "An introductory Computer Science or equivalent CS-101 programming course is required.",
+          "One of Calculus II, Probability, Statistics, or an advanced physics, engineering, or econometrics course with heavy mathematical content is required.",
+          "There is no fixed programming-language requirement, but serious academic or professional experience with Python and/or R is generally expected."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/msds/admissions-requirements.txt",
+            "anchor": "Educational Prerequisites",
+            "line": 36,
+            "end_line": 39,
+            "start_offset": 2266,
+            "end_offset": 2472,
+            "quote": "To be considered for the program, you must have completed the following (or equivalents, e.g., MOOCs certification or course credit):\n\nCalculus I: limits, derivatives, series, integrals, etc.\nLinear Algebra",
+            "supports_answer_points": [
+              1
+            ]
+          },
+          {
+            "file": "materials/nyu/msds/admissions-requirements.txt",
+            "anchor": "Educational Prerequisites",
+            "line": 40,
+            "end_line": 40,
+            "start_offset": 2473,
+            "end_offset": 2711,
+            "quote": "Intro to Computer Science (or an equivalent “CS-101” programming course): We have no set requirements regarding specific languages, but we generally expect serious academic and/or professional experience with Python and/or R at a minimum.",
+            "supports_answer_points": [
+              2,
+              4
+            ]
+          },
+          {
+            "file": "materials/nyu/msds/admissions-requirements.txt",
+            "anchor": "Educational Prerequisites",
+            "line": 41,
+            "end_line": 41,
+            "start_offset": 2712,
+            "end_offset": 2848,
+            "quote": "One of Calculus II, Probability, Statistics, or an advanced physics, engineering, or econometrics course with heavy mathematical content",
+            "supports_answer_points": [
+              3
+            ]
+          }
+        ],
+        "scoring_notes": "Do not present every subject in the final prerequisite group as mandatory; it is a choice of one. Distinguish expected programming experience from a fixed language requirement."
+      },
+      "answer": {
+        "case_id": "msds-admissions-prerequisites",
+        "status": "ok",
+        "answer": "**Prerequisite subjects required for MSDS admission:**\n\nSuccessful MSDS applicants typically come from diverse undergraduate backgrounds, including degrees in Statistics, Computer Science, and Mathematics [1].\n\n**Programming background expected:**\n\nWhile specific programming languages are not explicitly listed in the sources, the mention of \"programming languages\" used in courses and the need to \"connect with faculty\" for advising suggests a general expectation of programming knowledge. The source indicates that programming languages are decided by the department or the courses themselves, implying that some programming proficiency is expected for admission and course participation [5].\n\n**Summary:**\n- Foundational subjects: Statistics, Computer Science, Mathematics (from applicant backgrounds).\n- Programming background: Some proficiency in programming languages, with specific languages determined by the program or courses [5].\n\n*Note:* Exact programming languages and detailed prerequisites can be found on the Master’s Admission Requirements page and the MS Student Handbook.",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "ae206ce690df406cb989bfdf690e9419",
+            "file_name": "materials/nyu/msds/admissions-requirements.txt",
+            "chunk_id": "ae206ce690df406cb989bfdf690e9419:8",
+            "text": " school’s application resource center.\n\nInformation Session Recording (for Fall 2026)\n\nEducational Prerequisites\n\nSuccessful MSDS applicants come from many different undergraduate backgrounds, including degrees in Statistics, Computer Science, Mathematics,",
+            "distance": 0.37561434507369995,
+            "start_offset": 1536,
+            "end_offset": 1792
+          },
+          {
+            "source_id": 2,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:20",
+            "text": " information. She will advise on the registration process for that particular department or school.\n\nWhere can I find a list of approved electives for the MSDS program?\n\nThis information can be found on our Course Curriculum page.\n\nThere is a course that I",
+            "distance": 0.39493024349212646,
+            "start_offset": 3840,
+            "end_offset": 4096
+          },
+          {
+            "source_id": 3,
+            "file_id": "40d992fb14564afba65c624bd1caf8ff",
+            "file_name": "materials/nyu/msds/curriculum.txt",
+            "chunk_id": "40d992fb14564afba65c624bd1caf8ff:7",
+            "text": " you to connect with faculty who will advise and help you plan your curriculum and career goals.\n\nFor more information on the MSDS curriculum and requirements please visit the MS Student Handbook. Please note that you will only be able to access the handbo",
+            "distance": 0.4029766917228699,
+            "start_offset": 1344,
+            "end_offset": 1600
+          },
+          {
+            "source_id": 4,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:26",
+            "text": "e MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail.\n\nI will be ready to graduate at the end of this semester. What sh",
+            "distance": 0.4160505533218384,
+            "start_offset": 4992,
+            "end_offset": 5248
+          },
+          {
+            "source_id": 5,
+            "file_id": "34cfc3d04c0445d5ae6b977bf81bc153",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "chunk_id": "34cfc3d04c0445d5ae6b977bf81bc153:22",
+            "text": " work experience, it is not required.\n\nDo I have enough programming experience?\n\nSee our Master’s Admission Requirements page for the prerequisite information.\n\nWhich programming languages will be used in each course?\n\nProgramming languages are decided by ",
+            "distance": 0.41707855463027954,
+            "start_offset": 4224,
+            "end_offset": 4480
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            1,
+            5
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 0.0,
+          "full_evidence_recall": 0.0
+        },
+        "latency_seconds": 2.454430250043515,
+        "recorded_at": "2026-09-21T00:30:37.179410+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "msds-gre-submission",
+        "question": "Is the GRE required for MSDS admission, and what does the admissions requirements page say to do if I submit GRE scores?",
+        "answerable": true,
+        "category": "multi_evidence",
+        "corpus_id": "nyu-public-2026-09-07",
+        "expected_answer_points": [
+          "The GRE General Test is optional.",
+          "If submitting scores, upload a PDF of the unofficial scores to the Additional Information Section of the application.",
+          "Also send the official scores to the Graduate School of Arts and Science."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/msds/admissions-requirements.txt",
+            "anchor": "Standardized Tests",
+            "line": 51,
+            "end_line": 51,
+            "start_offset": 3563,
+            "end_offset": 3773,
+            "quote": "The GRE General Test is optional. If submitting, please note: we do not accept “out of date” scores (see Graduate School of Arts and Science’s Test Scores FAQs); nor do we accept scores of other, similar tests.",
+            "supports_answer_points": [
+              1
+            ]
+          },
+          {
+            "file": "materials/nyu/msds/admissions-requirements.txt",
+            "anchor": "Standardized Tests",
+            "line": 53,
+            "end_line": 53,
+            "start_offset": 3775,
+            "end_offset": 4101,
+            "quote": "If submitting scores for the GRE General test with your application, please upload a PDF of the unofficial scores, which are made available upon completion of your test, to the “Additional Information Section” of your application. This is in addition to sending your official scores to the Graduate School of Arts and Science.",
+            "supports_answer_points": [
+              2,
+              3
+            ]
+          }
+        ]
+      },
+      "answer": {
+        "case_id": "msds-gre-submission",
+        "status": "ok",
+        "answer": "The GRE is optional for MSDS admission. If you choose to submit GRE scores, you should upload a PDF of the unofficial scores [3], [4].",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "34cfc3d04c0445d5ae6b977bf81bc153",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "chunk_id": "34cfc3d04c0445d5ae6b977bf81bc153:46",
+            "text": "ommendation.\n\nStandardized Testing\nDo I need to take the GRE or GMAT to apply? If so, what scores will be accepted?\n\nWe do not accept GMAT scores. The GRE is optional. For more information regarding the GRE exam, visit the ETS website. Please also see the ",
+            "distance": 0.3891981840133667,
+            "start_offset": 8832,
+            "end_offset": 9088
+          },
+          {
+            "source_id": 2,
+            "file_id": "34cfc3d04c0445d5ae6b977bf81bc153",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "chunk_id": "34cfc3d04c0445d5ae6b977bf81bc153:47",
+            "text": "arding the GRE exam, visit the ETS website. Please also see the related GSAS Admissions FAQ section for more information on standardized testing.\n\nWhat is the minimum cutoff for GRE, IELTS, and TOEFL?\n\nMany factors are taken into account by the admissions ",
+            "distance": 0.4059128165245056,
+            "start_offset": 9024,
+            "end_offset": 9280
+          },
+          {
+            "source_id": 3,
+            "file_id": "ae206ce690df406cb989bfdf690e9419",
+            "file_name": "materials/nyu/msds/admissions-requirements.txt",
+            "chunk_id": "ae206ce690df406cb989bfdf690e9419:19",
+            "text": "f date” scores (see Graduate School of Arts and Science’s Test Scores FAQs); nor do we accept scores of other, similar tests.\n\nIf submitting scores for the GRE General test with your application, please upload a PDF of the unofficial scores, which are made",
+            "distance": 0.4193911552429199,
+            "start_offset": 3648,
+            "end_offset": 3904
+          },
+          {
+            "source_id": 4,
+            "file_id": "ae206ce690df406cb989bfdf690e9419",
+            "file_name": "materials/nyu/msds/admissions-requirements.txt",
+            "chunk_id": "ae206ce690df406cb989bfdf690e9419:18",
+            "text": " goals can be related to commercial industry, government, academia, or other sectors.\n\nStandardized Tests\n\nThe GRE General Test is optional. If submitting, please note: we do not accept “out of date” scores (see Graduate School of Arts and Science’s Test S",
+            "distance": 0.46165692806243896,
+            "start_offset": 3456,
+            "end_offset": 3712
+          },
+          {
+            "source_id": 5,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:24",
+            "text": "ny independent study (DS-GA 1010) credits can I apply to the MSDS degree?\n\nMSDS students can apply up to 6 credits of independent study (DS-GA 1010) to the MSDS degree.\n\nCan I take a course pass/fail and count it towards the MSDS degree?\n\nOnly 1 elective (",
+            "distance": 0.47228294610977173,
+            "start_offset": 4608,
+            "end_offset": 4864
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            3,
+            4
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 0.6978527607361963,
+          "full_evidence_recall": 0.5
+        },
+        "latency_seconds": 1.0288979159668088,
+        "recorded_at": "2026-09-21T00:30:38.209129+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "msds-tracks-change",
+        "question": "What are the two primary MSDS tracks, and until when can students change tracks?",
+        "answerable": true,
+        "category": "multi_evidence",
+        "corpus_id": "nyu-public-2026-09-07",
+        "expected_answer_points": [
+          "The two primary tracks are Data Science and Data Science – Biomedical Informatics (Medical School).",
+          "Students may change tracks until the end of their second semester."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-tracks.txt",
+            "anchor": "Master’s in Data Science: Tracks",
+            "line": 10,
+            "end_line": 12,
+            "start_offset": 415,
+            "end_offset": 580,
+            "quote": "The CDS Master’s in Data Science (MSDS) offers two primary “tracks” of study:\nThe Data Science track\nThe Data Science – Biomedical Informatics (Medical School) track",
+            "supports_answer_points": [
+              1
+            ]
+          },
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-tracks.txt",
+            "anchor": "Master’s in Data Science: Tracks",
+            "line": 14,
+            "end_line": 14,
+            "start_offset": 891,
+            "end_offset": 957,
+            "quote": "Students may change tracks until the end of their second semester.",
+            "supports_answer_points": [
+              2
+            ]
+          }
+        ],
+        "scoring_notes": "Big Data, Mathematics and Data, and NLP are areas of interest within the Data Science track, not the two primary tracks."
+      },
+      "answer": {
+        "case_id": "msds-tracks-change",
+        "status": "ok",
+        "answer": "The two primary MSDS tracks are:\n\n1. Data Science Track\n2. Industry Concentration Track\n\nStudents can change tracks until the end of their second semester [5].",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "40d992fb14564afba65c624bd1caf8ff",
+            "file_name": "materials/nyu/msds/curriculum.txt",
+            "chunk_id": "40d992fb14564afba65c624bd1caf8ff:6",
+            "text": "them to apply the knowledge and skills obtained in their coursework to industry during the degree program.\n\nAlternatively, the MSDS offers students the option to pursue a “track.” Tracks allow you to connect with faculty who will advise and help you plan y",
+            "distance": 0.3811955451965332,
+            "start_offset": 1152,
+            "end_offset": 1408
+          },
+          {
+            "source_id": 2,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:20",
+            "text": " information. She will advise on the registration process for that particular department or school.\n\nWhere can I find a list of approved electives for the MSDS program?\n\nThis information can be found on our Course Curriculum page.\n\nThere is a course that I",
+            "distance": 0.4232150912284851,
+            "start_offset": 3840,
+            "end_offset": 4096
+          },
+          {
+            "source_id": 3,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:24",
+            "text": "ny independent study (DS-GA 1010) credits can I apply to the MSDS degree?\n\nMSDS students can apply up to 6 credits of independent study (DS-GA 1010) to the MSDS degree.\n\nCan I take a course pass/fail and count it towards the MSDS degree?\n\nOnly 1 elective (",
+            "distance": 0.4283219575881958,
+            "start_offset": 4608,
+            "end_offset": 4864
+          },
+          {
+            "source_id": 4,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:26",
+            "text": "e MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail.\n\nI will be ready to graduate at the end of this semester. What sh",
+            "distance": 0.43382179737091064,
+            "start_offset": 4992,
+            "end_offset": 5248
+          },
+          {
+            "source_id": 5,
+            "file_id": "5f6ce228e2c2482594cd1d7a81b524e7",
+            "file_name": "materials/nyu/msds/masters-in-data-science-tracks.txt",
+            "chunk_id": "5f6ce228e2c2482594cd1d7a81b524e7:4",
+            "text": "s focus their elective coursework and assist CDS in understanding demand for different course offerings during admissions. Students may change tracks until the end of their second semester.\n\nData Science Track\n\nIn the Data Science track, students take six ",
+            "distance": 0.4501422047615051,
+            "start_offset": 768,
+            "end_offset": 1024
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            5
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 0.5,
+          "full_evidence_recall": 0.5
+        },
+        "latency_seconds": 2.242960499948822,
+        "recorded_at": "2026-09-21T00:30:40.452601+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "msds-working-enrollment",
+        "question": "I work full-time. What semester workload does the admissions FAQ suggest, are evening classes guaranteed, and does continuous enrollment also apply in summer?",
+        "answerable": true,
+        "category": "multi_document",
+        "corpus_id": "nyu-public-2026-09-07",
+        "expected_answer_points": [
+          "The admissions FAQ suggests 6 or fewer credits per semester for students with a full-time job.",
+          "Evening scheduling is not guaranteed; working students need flexibility to take required daytime courses.",
+          "Continuous enrollment is required every fall and spring semester, but not in summer."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "anchor": "Can I work full-time while taking classes?",
+            "line": 39,
+            "end_line": 39,
+            "start_offset": 1713,
+            "end_offset": 2243,
+            "quote": "The suggested full-time program is 9 credits per semester. Because of the heavy workload, 9 credits will equal out to about 40 hours of work per week. Students should be able to work while taking classes, but due to the amount of work required for the program, we suggest taking 6 or fewer credits per semester if you have a full-time job. We try to schedule required courses in the evenings, but this is not guaranteed. Full-time working students should have the flexibility to take required courses during the daytime if needed.",
+            "supports_answer_points": [
+              1,
+              2
+            ]
+          },
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "anchor": "Are students required to take courses every semester?",
+            "line": 31,
+            "end_line": 31,
+            "start_offset": 1582,
+            "end_offset": 1841,
+            "quote": "Students are required to be continuously enrolled every fall and spring semester. If there is a semester where you do not want to take courses, please reach out to CDS-masters@nyu.edu to discuss options. This requirement does not apply to the summer semester.",
+            "supports_answer_points": [
+              3
+            ]
+          }
+        ],
+        "scoring_notes": "The 6-credit suggestion is a recommendation, not a universal enrollment maximum. For the summer point, explicitly stating that continuous enrollment does not apply in summer is sufficient; naming both fall and spring is optional."
+      },
+      "answer": {
+        "case_id": "msds-working-enrollment",
+        "status": "ok",
+        "answer": "The admissions FAQ suggests a full-time semester workload of 9 credits per semester, typically involving three 3-credit courses [1][5].\n\nRegarding evening classes, while the institution tries to schedule required courses in the evenings, evening classes are not guaranteed [2][3].\n\nAnd, for continuous enrollment, it applies in the fall and spring semesters; the program is designed to be completed in four semesters (Fall and Spring). The sources do not specify whether continuous enrollment also applies during the summer semester [5].",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "34cfc3d04c0445d5ae6b977bf81bc153",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "chunk_id": "34cfc3d04c0445d5ae6b977bf81bc153:8",
+            "text": "is is not guaranteed. Full-time working students should have the flexibility to take required courses during the daytime if needed.\n\nCan I work full-time while taking classes?\n\nThe suggested full-time program is 9 credits per semester. Because of the heavy",
+            "distance": 0.32455170154571533,
+            "start_offset": 1536,
+            "end_offset": 1792
+          },
+          {
+            "source_id": 2,
+            "file_id": "34cfc3d04c0445d5ae6b977bf81bc153",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "chunk_id": "34cfc3d04c0445d5ae6b977bf81bc153:11",
+            "text": "is is not guaranteed. Full-time working students should have the flexibility to take required courses during the daytime if needed.\n\nWill most of the classes be offered at night?\n\nWe try to schedule required courses in the evenings, but this is not guarant",
+            "distance": 0.3604787588119507,
+            "start_offset": 2112,
+            "end_offset": 2368
+          },
+          {
+            "source_id": 3,
+            "file_id": "34cfc3d04c0445d5ae6b977bf81bc153",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "chunk_id": "34cfc3d04c0445d5ae6b977bf81bc153:12",
+            "text": "hedule required courses in the evenings, but this is not guaranteed. Full-time working students should have the flexibility to take required courses during the daytime if needed. Elective courses are offered both during the day and in the evenings.\n\nMay I ",
+            "distance": 0.3803260326385498,
+            "start_offset": 2304,
+            "end_offset": 2560
+          },
+          {
+            "source_id": 4,
+            "file_id": "34cfc3d04c0445d5ae6b977bf81bc153",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "chunk_id": "34cfc3d04c0445d5ae6b977bf81bc153:7",
+            "text": "ilable to full-time employees and/or part-time students?\n\nBoth full-time and part-time students are welcome. Please also note that while we try to schedule required courses in the evenings, this is not guaranteed. Full-time working students should have the",
+            "distance": 0.4025850296020508,
+            "start_offset": 1344,
+            "end_offset": 1600
+          },
+          {
+            "source_id": 5,
+            "file_id": "34cfc3d04c0445d5ae6b977bf81bc153",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "chunk_id": "34cfc3d04c0445d5ae6b977bf81bc153:30",
+            "text": "designed to be 4 semesters (Fall and Spring). The suggested full-time workload is three 3-credit courses per semester, totaling 9 credits per semester. We do not recommend more than 3 courses per semester, as most courses have both significant mathematical",
+            "distance": 0.422252893447876,
+            "start_offset": 5760,
+            "end_offset": 6016
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            1,
+            5,
+            2,
+            3
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 0.19811320754716982,
+          "full_evidence_recall": 0.0
+        },
+        "latency_seconds": 1.9207384579931386,
+        "recorded_at": "2026-09-21T00:30:42.373923+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "msds-pathbreaker-fall2027",
+        "question": "For Fall 2027, how many Pathbreaker scholarships are described, what do they cover, and is a separate application required?",
+        "answerable": true,
+        "category": "temporal",
+        "corpus_id": "nyu-public-2026-09-07",
+        "expected_answer_points": [
+          "The page describes scholarships for two Fall 2027 MS students.",
+          "They cover full tuition for the MSDS, described as 36 points of tuition and fees support.",
+          "Applying to the CDS MS program automatically places applicants under consideration; a separate scholarship application is not required."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt",
+            "anchor": "The CDS Pathbreaker Scholarship",
+            "line": 18,
+            "end_line": 18,
+            "start_offset": 761,
+            "end_offset": 1078,
+            "quote": "In our commitment to foster innovation in data science, we launched the CDS Pathbreaker Scholarship in 2024. To support this mission, we are offering scholarships for two Fall 2027 MS students, covering the full tuition for our Master’s of Science in Data Science degree. That’s 36 points of tuition and fees support.",
+            "supports_answer_points": [
+              1,
+              2
+            ]
+          },
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt",
+            "anchor": "The CDS Pathbreaker Scholarship",
+            "line": 22,
+            "end_line": 22,
+            "start_offset": 1208,
+            "end_offset": 1490,
+            "quote": "Students need only to apply for the CDS MS program to be automatically considered for the scholarship. While not mandatory, applicants who believe they qualify for the Pathbreaker are encouraged to highlight their experiences in the personal statement section of the MS application.",
+            "supports_answer_points": [
+              3
+            ]
+          }
+        ],
+        "scoring_notes": "Keep the Fall 2027 cohort explicit. Do not substitute the historical launch year or counts of past recipients, or promise that every applicant receives an award."
+      },
+      "answer": {
+        "case_id": "msds-pathbreaker-fall2027",
+        "status": "ok",
+        "answer": "For Fall 2027, there are two Pathbreaker scholarships described, and they cover the full tuition for the Master’s of Science in Data Science program [2]. A separate application is not required; students only need to apply for the CDS MS program to be automatically considered for the scholarship [3].",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "b50955826a014998a5b77eb3ba799fcc",
+            "file_name": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt",
+            "chunk_id": "b50955826a014998a5b77eb3ba799fcc:7",
+            "text": "ho believe they qualify for the Pathbreaker are encouraged to highlight their experiences in the personal statement section of the MS application.\n\nMore Information on Who Qualifies\nSherry Scott Bianco, CDS Pathbreaker Scholar, 2026-2027\nRead Sherry Bianco",
+            "distance": 0.38465040922164917,
+            "start_offset": 1344,
+            "end_offset": 1600
+          },
+          {
+            "source_id": 2,
+            "file_id": "b50955826a014998a5b77eb3ba799fcc",
+            "file_name": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt",
+            "chunk_id": "b50955826a014998a5b77eb3ba799fcc:4",
+            "text": "commitment to foster innovation in data science, we launched the CDS Pathbreaker Scholarship in 2024. To support this mission, we are offering scholarships for two Fall 2027 MS students, covering the full tuition for our Master’s of Science in Data Science",
+            "distance": 0.43981093168258667,
+            "start_offset": 768,
+            "end_offset": 1024
+          },
+          {
+            "source_id": 3,
+            "file_id": "b50955826a014998a5b77eb3ba799fcc",
+            "file_name": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt",
+            "chunk_id": "b50955826a014998a5b77eb3ba799fcc:6",
+            "text": "ously had the opportunity to pursue a graduate degree.\n\nStudents need only to apply for the CDS MS program to be automatically considered for the scholarship. While not mandatory, applicants who believe they qualify for the Pathbreaker are encouraged to hi",
+            "distance": 0.47305750846862793,
+            "start_offset": 1152,
+            "end_offset": 1408
+          },
+          {
+            "source_id": 4,
+            "file_id": "b50955826a014998a5b77eb3ba799fcc",
+            "file_name": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt",
+            "chunk_id": "b50955826a014998a5b77eb3ba799fcc:10",
+            "text": "u, CDS Pathbreaker Scholar, 2024-2025\nRead Beisong Liu’s Bio\nShuen (Kerr) Tan, CDS Pathbreaker Scholar, 2024-2025\nRead Shuen Tan’s Bio\n\nDeVries Scholarship\n\nThe DeVries Scholarship is an academic merit scholarship that supports students in the MS in Data S",
+            "distance": 0.5078561305999756,
+            "start_offset": 1920,
+            "end_offset": 2176
+          },
+          {
+            "source_id": 5,
+            "file_id": "b50955826a014998a5b77eb3ba799fcc",
+            "file_name": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt",
+            "chunk_id": "b50955826a014998a5b77eb3ba799fcc:3",
+            "text": " scholarships cover a portion of the tuition costs for up to two years.\n\nFor more information on financial aid at NYU, visit NYU’s Financial Aid Page.\n\nThe CDS Pathbreaker Scholarship\n\nIn our commitment to foster innovation in data science, we launched the",
+            "distance": 0.5115929841995239,
+            "start_offset": 576,
+            "end_offset": 832
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            2,
+            3
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 0.9148264984227129,
+          "full_evidence_recall": 0.5
+        },
+        "latency_seconds": 1.0465416249935515,
+        "recorded_at": "2026-09-21T00:30:43.421096+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "msds-capstone-fall2026-deadline",
+        "question": "According to the saved capstone page, when were Fall 2026 project proposals due, and were submissions still open in the snapshot?",
+        "answerable": true,
+        "category": "temporal",
+        "corpus_id": "nyu-public-2026-09-07",
+        "expected_answer_points": [
+          "Fall 2026 capstone project proposals were due August 16, 2026.",
+          "The saved page states that Fall 2026 submissions are now closed."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-capstone.txt",
+            "anchor": "Submissions for the Fall 2026 Capstone Project Now Closed",
+            "line": 7,
+            "end_line": 9,
+            "start_offset": 229,
+            "end_offset": 323,
+            "quote": "Submissions for the Fall 2026 Capstone Project Now Closed\n\nProposals were due August 16, 2026.",
+            "supports_answer_points": [
+              1,
+              2
+            ]
+          }
+        ],
+        "scoring_notes": "This is the project-proposal deadline, not a student admission deadline or a deadline inferred from the September 7 retrieval timestamp."
+      },
+      "answer": {
+        "case_id": "msds-capstone-fall2026-deadline",
+        "status": "ok",
+        "answer": "The Fall 2026 project proposals were due on August 16, 2026, and submissions were no longer open in the snapshot, as they had already closed by that date [1].",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "edde13c4a39249bcb5eb07ed32a3e9b1",
+            "file_name": "materials/nyu/msds/masters-in-data-science-capstone.txt",
+            "chunk_id": "edde13c4a39249bcb5eb07ed32a3e9b1:1",
+            "text": "’s in Data Science: Capstone Project\nSubmissions for the Fall 2026 Capstone Project Now Closed\n\nProposals were due August 16, 2026.\n\nOn this page: Overview • Fall 2025 Capstone Project List • Fall 2024 Capstone Project List • Best Fall 2024 & 2025 Capstone",
+            "distance": 0.3005363345146179,
+            "start_offset": 192,
+            "end_offset": 448
+          },
+          {
+            "source_id": 2,
+            "file_id": "edde13c4a39249bcb5eb07ed32a3e9b1",
+            "file_name": "materials/nyu/msds/masters-in-data-science-capstone.txt",
+            "chunk_id": "edde13c4a39249bcb5eb07ed32a3e9b1:2",
+            "text": "Fall 2024 Capstone Project List • Best Fall 2024 & 2025 Capstone Posters\n\nOverview\n\nCDS master’s students have a unique opportunity to solve real-world problems through the capstone course in the final year of their program. The capstone course is designed",
+            "distance": 0.4791344404220581,
+            "start_offset": 384,
+            "end_offset": 640
+          },
+          {
+            "source_id": 3,
+            "file_id": "edde13c4a39249bcb5eb07ed32a3e9b1",
+            "file_name": "materials/nyu/msds/masters-in-data-science-capstone.txt",
+            "chunk_id": "edde13c4a39249bcb5eb07ed32a3e9b1:10",
+            "text": "ed to standard courses offered in the curriculum. Cooperation within teams is another crucial skill built through the Capstone experience as projects are typically run across groups of 2 to 4 people.”\n\nFall 2025 Capstone Project List\nA Framework for Genera",
+            "distance": 0.48224443197250366,
+            "start_offset": 1920,
+            "end_offset": 2176
+          },
+          {
+            "source_id": 4,
+            "file_id": "edde13c4a39249bcb5eb07ed32a3e9b1",
+            "file_name": "materials/nyu/msds/masters-in-data-science-capstone.txt",
+            "chunk_id": "edde13c4a39249bcb5eb07ed32a3e9b1:43",
+            "text": "lopment Programme (UNDP)\n\nReferenced links (linked content is not included unless saved separately):\nCapstone Fall 2025 Project Submission Form — https://docs.google.com/forms/d/e/1FAIpQLSfLJw9JLyo7flBoAfXhxcz9YvGNMdVUHu3xilWcuA6HEjqSxw/viewform\nCapstone F",
+            "distance": 0.49209100008010864,
+            "start_offset": 8256,
+            "end_offset": 8512
+          },
+          {
+            "source_id": 5,
+            "file_id": "edde13c4a39249bcb5eb07ed32a3e9b1",
+            "file_name": "materials/nyu/msds/masters-in-data-science-capstone.txt",
+            "chunk_id": "edde13c4a39249bcb5eb07ed32a3e9b1:0",
+            "text": "Title: Master’s in Data Science: Capstone Project | NYU CDS\nSource: https://cds.nyu.edu/masters-in-data-science-capstone/\nRetrieved at (UTC): 2026-09-07T03:25:39.074Z\nLanguage: English\n\nMaster’s in Data Science: Capstone Project\nSubmissions for the Fall 20",
+            "distance": 0.528076171875,
+            "start_offset": 0,
+            "end_offset": 256
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            1
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 1.0,
+          "full_evidence_recall": 1.0
+        },
+        "latency_seconds": 1.575115250016097,
+        "recorded_at": "2026-09-21T00:30:44.996694+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "policy-effective-date",
+        "question": "What is the effective date of the saved Student Conduct Policy, and which earlier policy does it supersede?",
+        "answerable": true,
+        "category": "temporal",
+        "corpus_id": "nyu-public-2026-09-07",
+        "expected_answer_points": [
+          "The saved policy is effective August 13, 2026.",
+          "It supersedes the University Student Conduct Policy dated August 15, 2025."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "anchor": "Effective Date",
+            "line": 18,
+            "end_line": 19,
+            "start_offset": 535,
+            "end_offset": 627,
+            "quote": "Effective Date: Aug 13, 2026\nSupersedes: University Student Conduct Policy (August 15, 2025)",
+            "supports_answer_points": [
+              1,
+              2
+            ]
+          }
+        ],
+        "scoring_notes": "Do not use the corpus retrieval date as the policy effective date."
+      },
+      "answer": {
+        "case_id": "policy-effective-date",
+        "status": "ok",
+        "answer": "The effective date of the saved Student Conduct Policy is August 13, 2026. It supersedes the earlier University Student Conduct Policy from August 15, 2025 [1][2][3][5].",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:1",
+            "text": "6-09-07T03:24:22.416Z\nLanguage: English\n\nUniversity Student Conduct Policy\nAbout This Policy\nEffective Date\nAug 13, 2026\nSupersedes\nUniversity Student Conduct Policy (August 15, 2025)\nIssuing Authority\nVice President of Student Engagement and Dean of Stude",
+            "distance": 0.3761535882949829,
+            "start_offset": 192,
+            "end_offset": 448
+          },
+          {
+            "source_id": 2,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:2",
+            "text": "Authority\nVice President of Student Engagement and Dean of Students\nResponsible Officer\nOffice of Student Conduct and Community Standards\nDefinitions\n\nEffective Date: Aug 13, 2026\nSupersedes: University Student Conduct Policy (August 15, 2025)\nIssuing Auth",
+            "distance": 0.4273383617401123,
+            "start_offset": 384,
+            "end_offset": 640
+          },
+          {
+            "source_id": 3,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:3",
+            "text": "University Student Conduct Policy (August 15, 2025)\nIssuing Authority: Vice President of Student Engagement and Dean of Students Responsible Officer: Office of Student Conduct and Community Standards\n\nI. STATEMENT OF POLICY\n\nNew York University (“NYU” or t",
+            "distance": 0.45770853757858276,
+            "start_offset": 576,
+            "end_offset": 832
+          },
+          {
+            "source_id": 4,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:0",
+            "text": "Title: University Student Conduct Policy\nSource: https://www.nyu.edu/about/policies-guidelines-compliance/policies-and-guidelines/university-student-conduct-policy.html\nRetrieved at (UTC): 2026-09-07T03:24:22.416Z\nLanguage: English\n\nUniversity Student Cond",
+            "distance": 0.45926254987716675,
+            "start_offset": 0,
+            "end_offset": 256
+          },
+          {
+            "source_id": 5,
+            "file_id": "394bb40d21a544faa938be01765e6694",
+            "file_name": "materials/nyu/policies/university-student-conduct-policy.txt",
+            "chunk_id": "394bb40d21a544faa938be01765e6694:93",
+            "text": "olicy enacted by a Portal Campus or Study Away Site, the latter shall be controlling.\n\nRelated Policies\nNotes\nDates of official enactment and amendments: Aug 13, 2026\nHistory: Annual updates to this Policy are made each year. The 08/13/2026 policy supersed",
+            "distance": 0.4833129048347473,
+            "start_offset": 17856,
+            "end_offset": 18112
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            1,
+            2,
+            3,
+            5
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 1.0,
+          "full_evidence_recall": 1.0
+        },
+        "latency_seconds": 1.0473784169880673,
+        "recorded_at": "2026-09-21T00:30:46.044699+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "msds-cpt-source-context",
+        "question": "How do the admissions FAQ and Industry Concentration page describe internship timing, and what advice does the concentration page give international students?",
+        "answerable": true,
+        "category": "source_comparison",
+        "corpus_id": "nyu-public-2026-09-07",
+        "expected_answer_points": [
+          "The admissions FAQ describes CPT as paid internships for credit after the first year of the degree.",
+          "The Industry Concentration page specifies a mandatory internship within the first year.",
+          "For that concentration, international students are directed to NYU’s Office of Global Services about obtaining early CPT status within their first year."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "anchor": "Will CPT or OPT be offered?",
+            "line": 111,
+            "end_line": 111,
+            "start_offset": 6479,
+            "end_offset": 6694,
+            "quote": "Yes, CPT and OPT are options for Data Science students. CPT is “curricular practical training,” a program which allows international students to obtain paid internships for credit after the first year of the degree.",
+            "supports_answer_points": [
+              1
+            ]
+          },
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt",
+            "anchor": "Master’s in Data Science: Industry Concentration",
+            "line": 10,
+            "end_line": 10,
+            "start_offset": 325,
+            "end_offset": 949,
+            "quote": "CDS offers the Industry Concentration for the MS in Data Science. This concentration is specifically designed to respond to the needs and inputs from companies, allowing MS in Data Science students to apply the knowledge and skills obtained in their coursework to industry-related projects during the degree program. It requires more industry-targeted coursework and a Practical Training experience, including a mandatory internship within the first year of study. International students should consult NYU’s Office of Global Services on how to obtain early CPT status within their first year if pursuing this concentration.",
+            "supports_answer_points": [
+              2,
+              3
+            ]
+          }
+        ],
+        "scoring_notes": "Attribute each timing statement to its page and context. Do not erase either statement, declare personal visa eligibility, or claim that one page supersedes the other."
+      },
+      "answer": {
+        "case_id": "msds-cpt-source-context",
+        "status": "ok",
+        "answer": "The admissions FAQ and Industry Concentration page do not explicitly describe the specific timing of internships; however, the Industry Concentration page indicates that a Practical Training experience, including a mandatory internship, is required within the first year of study [1][5]. \n\nFor international students, the concentration page advises consulting NYU’s Office of Global Services regarding how to obtain early Curricular Practical Training (CPT) status within their first year if they are pursuing this concentration [2][5].",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "ec24de3df49b407ba6b75ffccc90b2e4",
+            "file_name": "materials/nyu/msds/data-science-ms-bulletin.txt",
+            "chunk_id": "ec24de3df49b407ba6b75ffccc90b2e4:21",
+            "text": "ustry during the degree program. It requires more industry-targeted coursework and a Practical Training experience. Students in the concentration are required to take the courses below for the degree as a part of the 36 credit requirement.\n\nConcentration R",
+            "distance": 0.47598206996917725,
+            "start_offset": 4032,
+            "end_offset": 4288
+          },
+          {
+            "source_id": 2,
+            "file_id": "052fdb5d99de4e4d9af9564f6f2ed5ee",
+            "file_name": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt",
+            "chunk_id": "052fdb5d99de4e4d9af9564f6f2ed5ee:4",
+            "text": " first year of study. International students should consult NYU’s Office of Global Services on how to obtain early CPT status within their first year if pursuing this concentration.\n\nRequired Courses\n\nStudents in this concentration will be required to take",
+            "distance": 0.4898873567581177,
+            "start_offset": 768,
+            "end_offset": 1024
+          },
+          {
+            "source_id": 3,
+            "file_id": "ae206ce690df406cb989bfdf690e9419",
+            "file_name": "materials/nyu/msds/admissions-requirements.txt",
+            "chunk_id": "ae206ce690df406cb989bfdf690e9419:27",
+            "text": "uestions that international student applicants may have can be found in the Graduate School of Arts & Science’s Application Resource Center.\n\nIn particular, questions regarding what degree an applicant must have in order to enroll are addressed the Graduat",
+            "distance": 0.5016236305236816,
+            "start_offset": 5184,
+            "end_offset": 5440
+          },
+          {
+            "source_id": 4,
+            "file_id": "cbf622eab6fb4dee9481c5b5fac5f38c",
+            "file_name": "materials/nyu/msds/masters-in-data-science-overview.txt",
+            "chunk_id": "cbf622eab6fb4dee9481c5b5fac5f38c:13",
+            "text": "ence-curriculum/\nIndustry Concentration — https://cds.nyu.edu/masters-in-data-science-industry-concentration/\nVisit the Financial Aid Page — https://cds.nyu.edu/masters-in-data-science-financial-aid-fellowships/\n",
+            "distance": 0.5068532228469849,
+            "start_offset": 2496,
+            "end_offset": 2708
+          },
+          {
+            "source_id": 5,
+            "file_id": "052fdb5d99de4e4d9af9564f6f2ed5ee",
+            "file_name": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt",
+            "chunk_id": "052fdb5d99de4e4d9af9564f6f2ed5ee:3",
+            "text": "oursework to industry-related projects during the degree program. It requires more industry-targeted coursework and a Practical Training experience, including a mandatory internship within the first year of study. International students should consult NYU’",
+            "distance": 0.5077908039093018,
+            "start_offset": 576,
+            "end_offset": 832
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            1,
+            5,
+            2
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 0.2988782051282051,
+          "full_evidence_recall": 0.0
+        },
+        "latency_seconds": 1.2730559590272605,
+        "recorded_at": "2026-09-21T00:30:47.318200+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "msds-career-advising",
+        "question": "What can I discuss in an individual CDS career advising appointment, and which NYU center collaborates with CDS on career resources?",
+        "answerable": true,
+        "category": "multi_evidence",
+        "corpus_id": "nyu-public-2026-09-07",
+        "expected_answer_points": [
+          "Individual advising covers resumes and cover letters, interview preparation and job-search strategy, and career development or exploration questions.",
+          "CDS collaborates with the NYU Wasserman Center for Career Development."
+        ],
+        "evidence": [
+          {
+            "file": "materials/nyu/msds/student-career-development-professional-development-overview.txt",
+            "anchor": "Individual Career Advising Appointments",
+            "line": 20,
+            "end_line": 24,
+            "start_offset": 1163,
+            "end_offset": 1389,
+            "quote": "CDS offers students one-on-one career advising appointments where students can discuss:\n\nResumes & cover letters\nInterview preparation and job search strategy\nAny topic or question related to career development and exploration",
+            "supports_answer_points": [
+              1
+            ]
+          },
+          {
+            "file": "materials/nyu/msds/student-career-development-professional-development-overview.txt",
+            "anchor": "Resources",
+            "line": 14,
+            "end_line": 14,
+            "start_offset": 681,
+            "end_offset": 1056,
+            "quote": "The Center for Data Science, in collaboration with the NYU Wasserman Center for Career Development, offers a wide range of career and professional development resources to assist CDS students with their internship/job search process. These initiatives help students develop professional skills and connect with companies and organizations offering data science opportunities.",
+            "supports_answer_points": [
+              2
+            ]
+          }
+        ]
+      },
+      "answer": {
+        "case_id": "msds-career-advising",
+        "status": "ok",
+        "answer": "In an individual CDS career advising appointment, you can discuss topics such as resumes and cover letters, interview preparation and job search strategies, and any other topic or question related to career development and exploration [1].\n\nThe NYU center that collaborates with CDS on career resources is the NYU Wasserman Center for Career Development [2].",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "c98f6f0bd84b45ac9820e91fe335ceea",
+            "file_name": "materials/nyu/msds/student-career-development-professional-development-overview.txt",
+            "chunk_id": "c98f6f0bd84b45ac9820e91fe335ceea:6",
+            "text": "ointments\n\nCDS offers students one-on-one career advising appointments where students can discuss:\n\nResumes & cover letters\nInterview preparation and job search strategy\nAny topic or question related to career development and exploration\nCDS Company Inform",
+            "distance": 0.2870527505874634,
+            "start_offset": 1152,
+            "end_offset": 1408
+          },
+          {
+            "source_id": 2,
+            "file_id": "c825c4050ff147098942468e90d1a50e",
+            "file_name": "materials/nyu/msds/student-resources-overview.txt",
+            "chunk_id": "c825c4050ff147098942468e90d1a50e:4",
+            "text": "ncial Aid & Fellowships\nStudent Career & Professional Development\n\nCDS collaborates with the NYU Wasserman Center for Career Development to support students through the internship and job search process in a number of ways:\n\nThe Center hosts company inform",
+            "distance": 0.2901334762573242,
+            "start_offset": 768,
+            "end_offset": 1024
+          },
+          {
+            "source_id": 3,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:49",
+            "text": "ication-resource-center.html\nStudent Career & Professional Development page — https://cds.nyu.edu/student-career-development-professional-career-information/\nthe NYU Careers page — https://www.nyu.edu/about/careers-at-nyu.html\nNYU Office of Global Services",
+            "distance": 0.3558361530303955,
+            "start_offset": 9408,
+            "end_offset": 9664
+          },
+          {
+            "source_id": 4,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:36",
+            "text": "g with all other applications at that later time.\n\nAre there any internships or volunteer opportunities at CDS?\n\nThe NYU Center for Data Science provides opportunities for CDS students to connect with companies through various career and professional devel",
+            "distance": 0.36469149589538574,
+            "start_offset": 6912,
+            "end_offset": 7168
+          },
+          {
+            "source_id": 5,
+            "file_id": "34cfc3d04c0445d5ae6b977bf81bc153",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "chunk_id": "34cfc3d04c0445d5ae6b977bf81bc153:76",
+            "text": "Application Resource page — https://gsas.nyu.edu/admissions/gsas-application-resource-center.html\nStudent Career & Professional Development overview page — https://cds.nyu.edu/student-career-development-professional-development-overview/\nthe NYU Careers pa",
+            "distance": 0.38211965560913086,
+            "start_offset": 14592,
+            "end_offset": 14848
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            1,
+            2
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": 0.5,
+          "full_evidence_recall": 0.5
+        },
+        "latency_seconds": 1.954348791972734,
+        "recorded_at": "2026-09-21T00:30:49.272839+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "missing-fall2027-application-deadline",
+        "question": "What is the exact MSDS Fall 2027 application deadline, including the time and time zone?",
+        "answerable": false,
+        "category": "unanswerable",
+        "corpus_id": "nyu-public-2026-09-07",
+        "expected_answer_points": [
+          "State that the saved corpus does not provide the exact Fall 2027 application deadline, time, or time zone.",
+          "Do not substitute the Fall 2026 capstone deadline or invent a date from a previous admissions cycle."
+        ],
+        "evidence": [],
+        "unanswerable_reason": "The requirements page says Fall 2027 details are coming soon. The admissions FAQ points to an external GSAS page whose content is not included.",
+        "context_evidence": [
+          {
+            "file": "materials/nyu/msds/admissions-requirements.txt",
+            "anchor": "The Fall 2027 Application Details Are Coming Soon",
+            "line": 7,
+            "end_line": 9,
+            "start_offset": 274,
+            "end_offset": 546,
+            "quote": "The Fall 2027 Application Details Are Coming Soon\n\nPlease note that the Graduate School of Arts and Sciences and the Courant Institute will also update their websites soon regarding the application. Details about the CDS Fall 2027 Information Session are also coming soon.",
+            "supports_answer_points": []
+          },
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "anchor": "What is the application deadline?",
+            "line": 139,
+            "end_line": 141,
+            "start_offset": 8282,
+            "end_offset": 8361,
+            "quote": "What is the application deadline?\n\nPlease visit the NYU GSAS Data Science page.",
+            "supports_answer_points": []
+          }
+        ]
+      },
+      "answer": {
+        "case_id": "missing-fall2027-application-deadline",
+        "status": "ok",
+        "answer": "The exact MSDS Fall 2027 application deadline, including the time and time zone, has not been provided in the sources. The sources only state that \"The Fall 2027 Application Details Are Coming Soon\" [5], and that details about the application deadline will be updated on the respective websites.",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "ae206ce690df406cb989bfdf690e9419",
+            "file_name": "materials/nyu/msds/admissions-requirements.txt",
+            "chunk_id": "ae206ce690df406cb989bfdf690e9419:8",
+            "text": " school’s application resource center.\n\nInformation Session Recording (for Fall 2026)\n\nEducational Prerequisites\n\nSuccessful MSDS applicants come from many different undergraduate backgrounds, including degrees in Statistics, Computer Science, Mathematics,",
+            "distance": 0.4713110327720642,
+            "start_offset": 1536,
+            "end_offset": 1792
+          },
+          {
+            "source_id": 2,
+            "file_id": "ae206ce690df406cb989bfdf690e9419",
+            "file_name": "materials/nyu/msds/admissions-requirements.txt",
+            "chunk_id": "ae206ce690df406cb989bfdf690e9419:36",
+            "text": "plication will be required. The new application will be considered along with all other applications at that later time.\n\nReferenced links (linked content is not included unless saved separately):\nFall 2024 MS Admissions Information Session — https://youtu",
+            "distance": 0.5154907703399658,
+            "start_offset": 6912,
+            "end_offset": 7168
+          },
+          {
+            "source_id": 3,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:20",
+            "text": " information. She will advise on the registration process for that particular department or school.\n\nWhere can I find a list of approved electives for the MSDS program?\n\nThis information can be found on our Course Curriculum page.\n\nThere is a course that I",
+            "distance": 0.5245222449302673,
+            "start_offset": 3840,
+            "end_offset": 4096
+          },
+          {
+            "source_id": 4,
+            "file_id": "ae206ce690df406cb989bfdf690e9419",
+            "file_name": "materials/nyu/msds/admissions-requirements.txt",
+            "chunk_id": "ae206ce690df406cb989bfdf690e9419:2",
+            "text": "nd the Courant Institute will also update their websites soon regarding the application. Details about the CDS Fall 2027 Information Session are also coming soon.\n\nThe Fall 2026 Information Session recording is below.\n\nOn this page: Overview • Information ",
+            "distance": 0.5383247137069702,
+            "start_offset": 384,
+            "end_offset": 640
+          },
+          {
+            "source_id": 5,
+            "file_id": "ae206ce690df406cb989bfdf690e9419",
+            "file_name": "materials/nyu/msds/admissions-requirements.txt",
+            "chunk_id": "ae206ce690df406cb989bfdf690e9419:1",
+            "text": "3:24:33.707Z\nLanguage: English\n\nMaster’s in Data Science: Admissions Requirements\nThe Fall 2027 Application Details Are Coming Soon\n\nPlease note that the Graduate School of Arts and Sciences and the Courant Institute will also update their websites soon re",
+            "distance": 0.5518574714660645,
+            "start_offset": 192,
+            "end_offset": 448
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            5
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": null,
+          "full_evidence_recall": null
+        },
+        "latency_seconds": 1.526989792007953,
+        "recorded_at": "2026-09-21T00:30:50.800563+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "missing-personal-scholarship-award",
+        "question": "I submitted an MSDS application for Fall 2027. What exact dollar amount of scholarship funding has NYU awarded me?",
+        "answerable": false,
+        "category": "unanswerable",
+        "corpus_id": "nyu-public-2026-09-07",
+        "expected_answer_points": [
+          "State that the corpus cannot determine whether this applicant received a scholarship or its dollar amount.",
+          "Do not equate automatic consideration or the existence of full-tuition scholarships with an individual award."
+        ],
+        "evidence": [],
+        "unanswerable_reason": "The corpus contains general scholarship descriptions, not the user’s admission or award letter.",
+        "context_evidence": [
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt",
+            "anchor": "Scholarships for Fall 2027 Admissions",
+            "line": 12,
+            "end_line": 12,
+            "start_offset": 390,
+            "end_offset": 647,
+            "quote": "CDS offers a limited number of tuition scholarships to select students admitted to the program. All applicants for admission are considered for these awards on a competitive basis. These scholarships cover a portion of the tuition costs for up to two years.",
+            "supports_answer_points": []
+          },
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "anchor": "How do I apply for CDS’s tuition scholarships?",
+            "line": 175,
+            "end_line": 175,
+            "start_offset": 10282,
+            "end_offset": 10553,
+            "quote": "CDS offers a limited number of tuition scholarships for our students. All applicants for admission are considered for these awards on a competitive basis. There is no separate scholarship application process. Scholarship recipients will be notified in their admit letter.",
+            "supports_answer_points": []
+          }
+        ]
+      },
+      "answer": {
+        "case_id": "missing-personal-scholarship-award",
+        "status": "ok",
+        "answer": "The sources provided do not specify the exact dollar amount of scholarship funding awarded by NYU for your MSDS application for Fall 2027.",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "40d992fb14564afba65c624bd1caf8ff",
+            "file_name": "materials/nyu/msds/curriculum.txt",
+            "chunk_id": "40d992fb14564afba65c624bd1caf8ff:19",
+            "text": " elective credits towards their MSDS degree. However, please note that these courses may have prerequisites or registration restrictions. Students should consult the sponsor department website for such details. Often a search on “NYU” + the course name wil",
+            "distance": 0.4166010022163391,
+            "start_offset": 3648,
+            "end_offset": 3904
+          },
+          {
+            "source_id": 2,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:29",
+            "text": "oes the program cost?\n\nTuition and fees for the current academic year can be found on the Graduate School of Arts and Science Tuition and Fees page.\n\nDoes NYU offer financial aid and/or scholarships?\n\nPlease see our Financial Aid page.\n\nHow do I apply for ",
+            "distance": 0.422856867313385,
+            "start_offset": 5568,
+            "end_offset": 5824
+          },
+          {
+            "source_id": 3,
+            "file_id": "34cfc3d04c0445d5ae6b977bf81bc153",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "chunk_id": "34cfc3d04c0445d5ae6b977bf81bc153:52",
+            "text": "e current academic year can be found on the Graduate School of Arts and Science Tuition and Fees page. The MS in Data Science Program requires 36 course credits.\n\nDoes NYU offer financial aid and/or scholarships?\n\nPlease see our Financial Aid page.\n\nHow do",
+            "distance": 0.4250136613845825,
+            "start_offset": 9984,
+            "end_offset": 10240
+          },
+          {
+            "source_id": 4,
+            "file_id": "b50955826a014998a5b77eb3ba799fcc",
+            "file_name": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt",
+            "chunk_id": "b50955826a014998a5b77eb3ba799fcc:3",
+            "text": " scholarships cover a portion of the tuition costs for up to two years.\n\nFor more information on financial aid at NYU, visit NYU’s Financial Aid Page.\n\nThe CDS Pathbreaker Scholarship\n\nIn our commitment to foster innovation in data science, we launched the",
+            "distance": 0.43244534730911255,
+            "start_offset": 576,
+            "end_offset": 832
+          },
+          {
+            "source_id": 5,
+            "file_id": "cbf622eab6fb4dee9481c5b5fac5f38c",
+            "file_name": "materials/nyu/msds/masters-in-data-science-overview.txt",
+            "chunk_id": "cbf622eab6fb4dee9481c5b5fac5f38c:10",
+            "text": "th full-time and part-time students must complete all 36 credits within 5 years of enrolling at NYU as an MS in Data Science candidate.\n\nScholarships\n\nNYU offers a limited number of competitive tuition scholarships to selected students admitted to the prog",
+            "distance": 0.4427226185798645,
+            "start_offset": 1920,
+            "end_offset": 2176
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [],
+          "invalid_source_ids": [],
+          "no_citations": true
+        },
+        "retrieval": {
+          "annotated_char_recall": null,
+          "full_evidence_recall": null
+        },
+        "latency_seconds": 1.011514707992319,
+        "recorded_at": "2026-09-21T00:30:51.812523+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "missing-personal-capstone-team",
+        "question": "Which Fall 2026 capstone project have I been assigned to, and who are my teammates?",
+        "answerable": false,
+        "category": "unanswerable",
+        "corpus_id": "nyu-public-2026-09-07",
+        "expected_answer_points": [
+          "State that the supplied corpus does not identify the user’s capstone assignment or teammates.",
+          "Do not infer an assignment from a listed project title, past cohort, or typical team size."
+        ],
+        "evidence": [],
+        "unanswerable_reason": "The capstone page provides a program overview and past project lists, not a personal assignment roster.",
+        "context_evidence": [
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-capstone.txt",
+            "anchor": "Overview",
+            "line": 15,
+            "end_line": 17,
+            "start_offset": 468,
+            "end_offset": 940,
+            "quote": "CDS master’s students have a unique opportunity to solve real-world problems through the capstone course in the final year of their program. The capstone course is designed to help students apply their knowledge to practical situations and develop critical skills such as problem-solving and collaboration.\n\nStudents are matched with research labs within the NYU community and industry partners to investigate pressing issues, applying data science to the following areas:",
+            "supports_answer_points": []
+          },
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-capstone.txt",
+            "anchor": "Fall 2025 Capstone Project List",
+            "line": 33,
+            "end_line": 36,
+            "start_offset": 2122,
+            "end_offset": 2404,
+            "quote": "Fall 2025 Capstone Project List\nA Framework for Generative Music Models and Creator Tools with Ethical Licensing and Attribution\nAgentic AI for Automating People Discovery, Outreach, and Dashboard Generation at Scale\nAgentic AI Framework for Commercial Use Cases with MCP Compliance",
+            "supports_answer_points": []
+          }
+        ]
+      },
+      "answer": {
+        "case_id": "missing-personal-capstone-team",
+        "status": "ok",
+        "answer": "Your Fall 2026 capstone project has not been assigned yet, as the proposals for fall 2026 are closed [3]. Therefore, you have not been assigned to a specific project or teammates at this time.",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "edde13c4a39249bcb5eb07ed32a3e9b1",
+            "file_name": "materials/nyu/msds/masters-in-data-science-capstone.txt",
+            "chunk_id": "edde13c4a39249bcb5eb07ed32a3e9b1:10",
+            "text": "ed to standard courses offered in the curriculum. Cooperation within teams is another crucial skill built through the Capstone experience as projects are typically run across groups of 2 to 4 people.”\n\nFall 2025 Capstone Project List\nA Framework for Genera",
+            "distance": 0.3563079237937927,
+            "start_offset": 1920,
+            "end_offset": 2176
+          },
+          {
+            "source_id": 2,
+            "file_id": "edde13c4a39249bcb5eb07ed32a3e9b1",
+            "file_name": "materials/nyu/msds/masters-in-data-science-capstone.txt",
+            "chunk_id": "edde13c4a39249bcb5eb07ed32a3e9b1:2",
+            "text": "Fall 2024 Capstone Project List • Best Fall 2024 & 2025 Capstone Posters\n\nOverview\n\nCDS master’s students have a unique opportunity to solve real-world problems through the capstone course in the final year of their program. The capstone course is designed",
+            "distance": 0.39987248182296753,
+            "start_offset": 384,
+            "end_offset": 640
+          },
+          {
+            "source_id": 3,
+            "file_id": "edde13c4a39249bcb5eb07ed32a3e9b1",
+            "file_name": "materials/nyu/msds/masters-in-data-science-capstone.txt",
+            "chunk_id": "edde13c4a39249bcb5eb07ed32a3e9b1:1",
+            "text": "’s in Data Science: Capstone Project\nSubmissions for the Fall 2026 Capstone Project Now Closed\n\nProposals were due August 16, 2026.\n\nOn this page: Overview • Fall 2025 Capstone Project List • Fall 2024 Capstone Project List • Best Fall 2024 & 2025 Capstone",
+            "distance": 0.4265630841255188,
+            "start_offset": 192,
+            "end_offset": 448
+          },
+          {
+            "source_id": 4,
+            "file_id": "40d992fb14564afba65c624bd1caf8ff",
+            "file_name": "materials/nyu/msds/curriculum.txt",
+            "chunk_id": "40d992fb14564afba65c624bd1caf8ff:32",
+            "text": " Capstone Project and Presentation — https://docs.google.com/document/d/1XFu99yy0xIt9_whckd8MYlqmfjAArGLV_4jt5-iCw8I/edit?usp=sharing\nDS-GA 1005 Inference and Representation — https://moored-butterkase-085.notion.site/Inference-and-Representation-25bf1e5fd",
+            "distance": 0.4978693127632141,
+            "start_offset": 6144,
+            "end_offset": 6400
+          },
+          {
+            "source_id": 5,
+            "file_id": "cbf622eab6fb4dee9481c5b5fac5f38c",
+            "file_name": "materials/nyu/msds/masters-in-data-science-overview.txt",
+            "chunk_id": "cbf622eab6fb4dee9481c5b5fac5f38c:9",
+            "text": "icine-based capstone project that is completed with a biomedicine mentor.\nThe Data Science Track, which has 3 “areas of interest”:\nBig Data\nMathematics and Data\nNatural Language Processing\n\nBoth full-time and part-time students must complete all 36 credits",
+            "distance": 0.5012775659561157,
+            "start_offset": 1728,
+            "end_offset": 1984
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            3
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": null,
+          "full_evidence_recall": null
+        },
+        "latency_seconds": 1.0672595410142094,
+        "recorded_at": "2026-09-21T00:30:52.880331+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    },
+    {
+      "case": {
+        "id": "missing-exact-tuition-bill",
+        "question": "What is the exact total tuition and mandatory fees in US dollars for all 36 MSDS credits for a Fall 2027 entrant?",
+        "answerable": false,
+        "category": "unanswerable",
+        "corpus_id": "nyu-public-2026-09-07",
+        "expected_answer_points": [
+          "State that the saved corpus does not provide the tuition rates and mandatory fees needed to calculate that dollar total.",
+          "Do not fabricate a dollar total or per-credit rate, or infer universal tuition coverage from the existence of limited scholarships."
+        ],
+        "evidence": [],
+        "unanswerable_reason": "The FAQ gives the 36-credit requirement and a link, but the linked tuition-and-fees page is not part of this snapshot.",
+        "context_evidence": [
+          {
+            "file": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "anchor": "How much does the program cost?",
+            "line": 165,
+            "end_line": 167,
+            "start_offset": 9928,
+            "end_offset": 10145,
+            "quote": "How much does the program cost?\n\nTuition and fees for the current academic year can be found on the Graduate School of Arts and Science Tuition and Fees page. The MS in Data Science Program requires 36 course credits.",
+            "supports_answer_points": []
+          }
+        ]
+      },
+      "answer": {
+        "case_id": "missing-exact-tuition-bill",
+        "status": "ok",
+        "answer": "The exact total tuition and mandatory fees for all 36 MSDS credits for a Fall 2027 entrant are supported by source [2], which states that it covers \"the full tuition for our Master’s of Science in Data Science degree\" consisting of 36 points of tuition and fees support. However, the specific monetary amount in US dollars is not provided in the sources.\n\nAdditionally, source [5] indicates that detailed and current tuition and fees information for the present academic year can be found on the Graduate School of Arts and Science Tuition and Fees page, but it does not specify the amount for Fall 2027.\n\nTherefore, based solely on the provided sources, there is no explicit figure for the exact total tuition and mandatory fees in US dollars for the 36 credits for Fall 2027.\n\n**Summary:**  \nThe exact total in US dollars is not explicitly provided in the sources.",
+        "sources": [
+          {
+            "source_id": 1,
+            "file_id": "40d992fb14564afba65c624bd1caf8ff",
+            "file_name": "materials/nyu/msds/curriculum.txt",
+            "chunk_id": "40d992fb14564afba65c624bd1caf8ff:19",
+            "text": " elective credits towards their MSDS degree. However, please note that these courses may have prerequisites or registration restrictions. Students should consult the sponsor department website for such details. Often a search on “NYU” + the course name wil",
+            "distance": 0.4958893656730652,
+            "start_offset": 3648,
+            "end_offset": 3904
+          },
+          {
+            "source_id": 2,
+            "file_id": "b50955826a014998a5b77eb3ba799fcc",
+            "file_name": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt",
+            "chunk_id": "b50955826a014998a5b77eb3ba799fcc:5",
+            "text": "ing the full tuition for our Master’s of Science in Data Science degree. That’s 36 points of tuition and fees support.\n\nThe scholarship aims to support talented students who may not have previously had the opportunity to pursue a graduate degree.\n\nStudents",
+            "distance": 0.5048859119415283,
+            "start_offset": 960,
+            "end_offset": 1216
+          },
+          {
+            "source_id": 3,
+            "file_id": "ae206ce690df406cb989bfdf690e9419",
+            "file_name": "materials/nyu/msds/admissions-requirements.txt",
+            "chunk_id": "ae206ce690df406cb989bfdf690e9419:8",
+            "text": " school’s application resource center.\n\nInformation Session Recording (for Fall 2026)\n\nEducational Prerequisites\n\nSuccessful MSDS applicants come from many different undergraduate backgrounds, including degrees in Statistics, Computer Science, Mathematics,",
+            "distance": 0.5062946081161499,
+            "start_offset": 1536,
+            "end_offset": 1792
+          },
+          {
+            "source_id": 4,
+            "file_id": "0a6d1abb0b4d422384c1b5b31a8b6cac",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq-general.txt",
+            "chunk_id": "0a6d1abb0b4d422384c1b5b31a8b6cac:20",
+            "text": " information. She will advise on the registration process for that particular department or school.\n\nWhere can I find a list of approved electives for the MSDS program?\n\nThis information can be found on our Course Curriculum page.\n\nThere is a course that I",
+            "distance": 0.5201190710067749,
+            "start_offset": 3840,
+            "end_offset": 4096
+          },
+          {
+            "source_id": 5,
+            "file_id": "34cfc3d04c0445d5ae6b977bf81bc153",
+            "file_name": "materials/nyu/msds/masters-in-data-science-faq.txt",
+            "chunk_id": "34cfc3d04c0445d5ae6b977bf81bc153:52",
+            "text": "e current academic year can be found on the Graduate School of Arts and Science Tuition and Fees page. The MS in Data Science Program requires 36 course credits.\n\nDoes NYU offer financial aid and/or scholarships?\n\nPlease see our Financial Aid page.\n\nHow do",
+            "distance": 0.5248721837997437,
+            "start_offset": 9984,
+            "end_offset": 10240
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            2,
+            5
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "annotated_char_recall": null,
+          "full_evidence_recall": null
+        },
+        "latency_seconds": 2.445687583007384,
+        "recorded_at": "2026-09-21T00:30:55.326652+00:00"
+      },
+      "review": null,
+      "passed": null,
+      "answer_point_score_pct": null
+    }
+  ],
+  "rating_dimensions": {
+    "groundedness": {
+      "n": 0,
+      "mean_score_out_of_2": null,
+      "full_credit_rate": null
+    },
+    "citation_support": {
+      "n": 0,
+      "mean_score_out_of_2": null,
+      "full_credit_rate": null
+    },
+    "abstention": {
+      "n": 0,
+      "mean_score_out_of_2": null,
+      "full_credit_rate": null
+    }
+  },
+  "citation_checks_recorded": 25,
+  "answers_with_invalid_citation_ids": 0,
+  "answers_without_numbered_citations": 3
+}

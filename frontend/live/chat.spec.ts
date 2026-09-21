@@ -42,7 +42,7 @@ test("live provider browser acceptance in an isolated library", async ({
       encoding: "utf8",
     }).trim(),
     provider_mode: "real OpenAI, unmodified production application",
-    configured_answer_model: "gpt-4.1-nano",
+    configured_answer_model: execFileSync("../.venv/bin/python", ["-c", "from knowledgebase.config import Settings; print(Settings(_env_file='../.env').answer_model)"], { encoding: "utf8", env: { ...process.env, PYTHONPATH: ".." } }).trim(),
     configured_embedding_model: "text-embedding-3-small",
     scope:
       "One synthetic browser workflow, not a quality benchmark. No automatic retries.",
@@ -206,6 +206,23 @@ test("live provider browser acceptance in an isolated library", async ({
     }
     await writeFile(join(directory, "mvp-conversation.json"), JSON.stringify(await history(), null, 2) + "\n");
     await page.screenshot({ path: join(directory, "mvp-acceptance.png"), fullPage: true });
+    const answers = (await history()).messages.filter((message) => message.role === "assistant");
+    expect(answers[0].content).toMatch(/5\s*(?:PM|p\.?m)/i);
+    expect(answers[1].content).toMatch(/7\s*(?:PM|p\.?m)/i);
+    expect(answers[2].content).toMatch(/not|no |cannot|can't|insufficient/i);
+    expect(answers[3].content).toMatch(/numeric|numerical/i);
+    expect(answers[3].content).toMatch(/not|doesn't/i);
+    expect(answers[4].content).toMatch(/portal/i);
+    expect(answers[4].content).toMatch(/PDF/);
+    expect(answers[4].content).toMatch(/student card/i);
+    expect(answers[5].content).toContain("0.08");
+    expect(answers[5].content).not.toMatch(/0\.(?:10|20)/);
+    expect(answers[5].retrieval_question).toContain("2025");
+    expect(answers[6].content).toContain("0.10");
+    expect(answers[6].content).toContain("0.20");
+    expect(answers[6].content).toMatch(/cannot|can't|not (?:possible|establish|determine)|no (?:clear|way)|neither/i);
+    expect(answers[7].content).toMatch(/not|no |cannot|can't|insufficient/i);
+    record("semantic-acceptance-passed", { completed_answers: answers.length, method: "Explicit fixture assertions; not an independent quality benchmark" });
     expect(browserErrors).toEqual([]);
     report.status = "passed";
   } catch (error) {

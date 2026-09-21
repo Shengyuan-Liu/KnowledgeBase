@@ -25,6 +25,8 @@ limited scholarship does not establish a universal rule or a personal entitlemen
 Missing personal information does not mean an event has or has not happened.
 Preserve explicit academic years and semesters. If sources conflict, describe
 the conflict and cite both sources instead of choosing an unsupported answer.
+The original question defines what to answer. A conversation interpretation is
+only a reference-resolution hint, never evidence or an answer to repeat.
 Write the answer in English."""
 
 
@@ -32,6 +34,7 @@ def generate_answer(
     question: str,
     chunks: list[RetrievedChunk],
     llm_client: LLMClient,
+    *, retrieval_question: str | None = None,
 ) -> str:
     """Number chunks in retrieval order and return the model's answer text.
 
@@ -42,24 +45,27 @@ def generate_answer(
     if not chunks:
         return INSUFFICIENT_EVIDENCE
 
-    return llm_client.generate(_answer_messages(question, chunks))
+    return llm_client.generate(_answer_messages(question, chunks, retrieval_question))
 
 
-def _answer_messages(question: str, chunks: list[RetrievedChunk]) -> list[EasyInputMessageParam]:
+def _answer_messages(question: str, chunks: list[RetrievedChunk], retrieval_question: str | None = None) -> list[EasyInputMessageParam]:
     context = build_context(chunks)
+    interpretation = (f"\n\nConversation interpretation (not evidence):\n{retrieval_question}"
+                      if retrieval_question and retrieval_question != question else "")
     return [
         {"role": "developer", "content": ANSWER_INSTRUCTIONS},
-        {"role": "user", "content": f"Question:\n{question}\n\nSources:\n{context}"},
+        {"role": "user", "content": f"Question:\n{question}{interpretation}\n\nSources:\n{context}"},
     ]
 
 
 async def stream_answer(
     question: str, chunks: list[RetrievedChunk], llm_client: StreamingLLMClient,
+    *, retrieval_question: str | None = None,
 ) -> AsyncGenerator[str]:
     """Use the same evidence prompt while yielding text as it arrives."""
     if not chunks:
         yield INSUFFICIENT_EVIDENCE
         return
-    async with aclosing(llm_client.stream(_answer_messages(question, chunks))) as stream:
+    async with aclosing(llm_client.stream(_answer_messages(question, chunks, retrieval_question))) as stream:
         async for delta in stream:
             yield delta

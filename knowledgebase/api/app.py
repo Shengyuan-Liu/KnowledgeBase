@@ -30,8 +30,8 @@ def create_app(data_dir: Path | None = None, frontend_dir: Path | None = None) -
                         sessions=sessions,
                         embeddings=EmbeddingClient(sdk),
                         store=store,
-                        llm=LLMClient(sdk, model="gpt-4.1-nano"),
-                        streaming_llm=StreamingLLMClient(streaming_sdk, model="gpt-4.1-nano"),
+                        llm=LLMClient(sdk, model=settings.answer_model),
+                        streaming_llm=StreamingLLMClient(streaming_sdk, model=settings.answer_model),
                     )
                     yield
 

@@ -26,3 +26,12 @@ def test_data_directory_defaults_and_dotenv_override(tmp_path, monkeypatch):
     assert Settings().data_dir == Path("data")
     (tmp_path / ".env").write_text("DATA_DIR=custom-data\n", encoding="utf-8")
     assert Settings().data_dir == Path("custom-data")
+
+
+def test_answer_model_defaults_and_environment_override(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
+    monkeypatch.delenv("ANSWER_MODEL", raising=False)
+    assert Settings().answer_model == "gpt-4.1-mini"
+    monkeypatch.setenv("ANSWER_MODEL", "test-model")
+    assert Settings().answer_model == "test-model"

@@ -103,6 +103,8 @@ def test_stream_sources_deltas_complete_and_followup_match_saved_history(streami
         second = frames(followup.text)[-1][1]
         assert second["conversation_id"] == complete["conversation_id"]
         assert second["retrieval_question"] == "When does the café close?"
+        assert "Question:\nWhat time?" in streamer.messages[1]["content"]
+        assert "Conversation interpretation (not evidence):\nWhen does the café close?" in streamer.messages[1]["content"]
         resources.embeddings.embed_query.assert_called_with(second["retrieval_question"])
         assert len(client.get(f"/api/conversations/{complete['conversation_id']}").json()["messages"]) == 4
 
