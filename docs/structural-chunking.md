@@ -116,6 +116,7 @@ boundaries, sentence wraps, abbreviations, decimals, clause/word splitting, nest
 lists, code/table boundaries, Unicode, exact token limits, and source preservation
 across the frozen DeepSeek Markdown corpus at two budgets.
 
-Parent-child regions, overlap, persistent source storage, ingestion integration,
+[Document storage](document-storage.md) can persist the original source, parser
+blocks, and structural chunks. Parent-child regions, overlap, ingestion integration,
 and retrieval-quality comparison remain later work. The current output is a flat
 chunk list; it is not yet a parent-child index or a semantic chunking strategy.

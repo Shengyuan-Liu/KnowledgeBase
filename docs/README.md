@@ -16,6 +16,7 @@ not implementation or quality results.
 
 - [Document parsing](document-parsing.md): standalone v1 TXT/Markdown structural blocks and exact source offsets; not yet connected to uploads.
 - [Structural chunking](structural-chunking.md): standalone v1 sentence/structure boundaries, explicit token budgets, and exact source chunks; not yet connected to ingestion.
+- [Document storage](document-storage.md): canonical TXT/Markdown sources, persisted parser blocks, structural chunk metadata, and transactional cleanup; not yet connected to uploads.
 
 - [Runtime configuration](configuration.md): shared `.env` settings, precedence, model selection, and reindexing requirements.
 

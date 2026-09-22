@@ -1,14 +1,19 @@
+from hashlib import sha256
+from typing import Literal
+
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
 from knowledgebase.schemas import (
     ChatAnswer, Chunk, ConversationDetail, ConversationInfo, ConversationMessage,
-    FileInfo, HistoricalSource, MessageInfo,
+    DocumentSource, FileInfo, HistoricalSource, MessageInfo, SourceBlock, StructuredChunk,
 )
 from knowledgebase.storage.models import (
     AnswerSnapshotRecord,
     ChunkRecord,
+    ChunkStructureRecord,
     ConversationRecord,
+    DocumentSourceRecord,
     FileRecord,
     MessageRecord,
 )
@@ -51,41 +56,96 @@ def get_file(session: Session, file_id: str) -> FileInfo | None:
     return FileInfo.model_validate(record, from_attributes=True)
 
 
+def save_document_source(
+    session: Session, file_id: str, source_format: Literal["txt", "md"],
+    text: str, blocks: list[SourceBlock],
+) -> None:
+    """Insert the unchanged source and its ordered parser output without committing.
+
+    The hash is SHA-256 of the decoded source encoded as UTF-8, with no newline
+    normalization. The caller supplies blocks parsed from this exact text.
+    Duplicate or missing file IDs are enforced by the database.
+    """
+    session.add(DocumentSourceRecord(
+        file_id=file_id, source_format=source_format, text=text,
+        source_hash=sha256(text.encode("utf-8")).hexdigest(),
+        blocks=[block.model_dump(mode="json") for block in blocks],
+    ))
+    session.flush()
+
+
+def get_document_source(session: Session, file_id: str) -> DocumentSource | None:
+    """Return a source snapshot, or None for missing files and MVP-only records."""
+    record = session.get(DocumentSourceRecord, file_id)
+    if record is None:
+        return None
+    return DocumentSource.model_validate(record, from_attributes=True)
+
+
 def save_chunks(session: Session, chunks: list[Chunk]) -> None:
     """Insert chunks and check constraints without committing or marking ready.
 
+    StructuredChunk inputs also persist their metadata and token configuration.
     Duplicate IDs or file/index pairs raise IntegrityError; existing chunks are
     not overwritten. The caller must roll back a failed transaction.
     """
     if not chunks:
         return
-    session.add_all(ChunkRecord(**chunk.model_dump()) for chunk in chunks)
+    session.add_all(
+        ChunkRecord(**chunk.model_dump(include=set(Chunk.model_fields))) for chunk in chunks
+    )
     session.flush()
+    session.add_all(
+        ChunkStructureRecord(
+            chunk_id=chunk.chunk_id,
+            **chunk.model_dump(exclude=set(Chunk.model_fields)),
+        )
+        for chunk in chunks if isinstance(chunk, StructuredChunk)
+    )
+    session.flush()
+
+
+def _chunk_snapshot(record: ChunkRecord, structure: ChunkStructureRecord | None) -> Chunk:
+    """Restore the data model stored for this chunk, including optional v1 metadata."""
+    chunk = Chunk.model_validate(record, from_attributes=True)
+    if structure is None:
+        return chunk
+    return StructuredChunk(
+        **chunk.model_dump(), heading_path=structure.heading_path,
+        source_block_indices=structure.source_block_indices, token_count=structure.token_count,
+        tokenizer=structure.tokenizer, max_tokens=structure.max_tokens,
+    )
 
 
 def get_chunks(session: Session, file_id: str) -> list[Chunk]:
     """Return a file's chunks ordered by index, or an empty list.
 
+    Structural records return StructuredChunk snapshots; MVP records return Chunk.
     This storage query does not filter file status. Retrieval must separately
     ensure that a file is ready before using its chunks as answer evidence.
     """
     statement = (
-        select(ChunkRecord)
+        select(ChunkRecord, ChunkStructureRecord)
+        .outerjoin(ChunkStructureRecord, ChunkStructureRecord.chunk_id == ChunkRecord.chunk_id)
         .where(ChunkRecord.file_id == file_id)
         .order_by(ChunkRecord.index)
     )
     return [
-        Chunk.model_validate(record, from_attributes=True)
-        for record in session.scalars(statement)
+        _chunk_snapshot(record, structure)
+        for record, structure in session.execute(statement)
     ]
 
 
 def get_chunks_by_ids(session: Session, chunk_ids: list[str]) -> list[Chunk]:
     """Load existing chunks by ID; the query does not preserve requested order."""
-    statement = select(ChunkRecord).where(ChunkRecord.chunk_id.in_(chunk_ids))
+    statement = (
+        select(ChunkRecord, ChunkStructureRecord)
+        .outerjoin(ChunkStructureRecord, ChunkStructureRecord.chunk_id == ChunkRecord.chunk_id)
+        .where(ChunkRecord.chunk_id.in_(chunk_ids))
+    )
     return [
-        Chunk.model_validate(record, from_attributes=True)
-        for record in session.scalars(statement)
+        _chunk_snapshot(record, structure)
+        for record, structure in session.execute(statement)
     ]
 
 
@@ -112,6 +172,7 @@ def update_file_status(
 def delete_chunks(session: Session, file_id: str) -> None:
     """Delete a file's chunks; the caller owns commit and rollback.
 
+    Structural metadata is removed by the chunk foreign key's delete cascade.
     No matching chunks is a no-op, including after an earlier cleanup attempt.
     """
     session.execute(delete(ChunkRecord).where(ChunkRecord.file_id == file_id))
@@ -121,6 +182,7 @@ def delete_chunks(session: Session, file_id: str) -> None:
 def delete_file_record(session: Session, file_id: str) -> None:
     """Delete an existing file record after its chunks have been removed.
 
+    The canonical document source is removed by the file's delete cascade.
     A missing file raises FileRecordNotFoundError. Flush without committing so the caller
     can keep chunk and file deletion in the same transaction.
     """

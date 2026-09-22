@@ -43,6 +43,38 @@ class ChunkRecord(Base):
     end_offset: Mapped[int]
 
 
+class DocumentSourceRecord(Base):
+    """One canonical source and ordered parser output per v1 file."""
+
+    __tablename__ = "document_sources"
+    __table_args__ = (
+        CheckConstraint("source_format IN ('txt', 'md')", name="ck_document_source_format"),
+    )
+
+    file_id: Mapped[str] = mapped_column(
+        ForeignKey("files.file_id", ondelete="CASCADE"), primary_key=True,
+    )
+    source_format: Mapped[str]
+    text: Mapped[str] = mapped_column(Text)
+    source_hash: Mapped[str]
+    blocks: Mapped[list[dict]] = mapped_column(JSON)
+
+
+class ChunkStructureRecord(Base):
+    """Structural metadata supplements a canonical chunk without changing MVP columns."""
+
+    __tablename__ = "chunk_structures"
+
+    chunk_id: Mapped[str] = mapped_column(
+        ForeignKey("chunks.chunk_id", ondelete="CASCADE"), primary_key=True,
+    )
+    heading_path: Mapped[list[str]] = mapped_column(JSON)
+    source_block_indices: Mapped[list[int]] = mapped_column(JSON)
+    token_count: Mapped[int]
+    tokenizer: Mapped[str]
+    max_tokens: Mapped[int]
+
+
 class ConversationRecord(Base):
     __tablename__ = "conversations"
 

@@ -1,8 +1,9 @@
 # KnowledgeBase v1 Design
 
 Status: implementation started; this directory defines the next version after the local MVP.
-The standalone [document parser](../document-parsing.md) and
-[structural chunker](../structural-chunking.md) are implemented with tests.
+The standalone [document parser](../document-parsing.md),
+[structural chunker](../structural-chunking.md), and
+[document storage](../document-storage.md) are implemented with tests.
 They are not yet connected to uploads. The remaining v1 pipeline is planned;
 these documents do not claim that the full version is implemented or its quality measured.
 

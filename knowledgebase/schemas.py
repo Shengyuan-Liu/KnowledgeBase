@@ -48,6 +48,16 @@ class StructuredChunk(Chunk):
     max_tokens: int
 
 
+class DocumentSource(BaseModel):
+    """Canonical document and parser output, independent of a database session."""
+
+    file_id: str
+    source_format: Literal["txt", "md"]
+    text: str
+    source_hash: str
+    blocks: list[SourceBlock]
+
+
 class VectorMatch(BaseModel):
     """A chunk ID and its distance under the collection's configured metric."""
 
