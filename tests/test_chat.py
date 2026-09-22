@@ -41,7 +41,7 @@ def test_ingestion_to_answer_keeps_sources_aligned_with_prompt(storage, top_k):
     embeddings.embed_query.return_value = [1.0, 0.0]
     first_id = ingest_file(
         "notes.txt", b"First. Second.", sessions, embeddings, store,
-        chunk_size=7, overlap=0,
+        chunk_size=7, overlap=0, chunking_strategy="character",
     )
     second_text = "  The café closes at 5 PM.\n"
     second_id = ingest_file(
@@ -64,7 +64,7 @@ def test_ingestion_to_answer_keeps_sources_aligned_with_prompt(storage, top_k):
         "hours.txt", "notes.txt", "notes.txt"
     ][:top_k]
     assert [source.chunk_id for source in result.sources] == [
-        f"{second_id}:0", f"{first_id}:1", f"{first_id}:0"
+        f"{second_id}:structural:0", f"{first_id}:1", f"{first_id}:0"
     ][:top_k]
     assert [source.text for source in result.sources] == [
         second_text, "Second.", "First. "

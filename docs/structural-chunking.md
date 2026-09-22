@@ -1,9 +1,8 @@
 # Structural Chunking
 
-Status: implemented as a standalone v1 component, using the
-[document parser](document-parsing.md). Upload, API, CLI, and evaluation entry points
-still use the MVP `split_text()` character splitter. This change does not reindex
-existing data or add Markdown uploads to the application.
+Status: connected to TXT/Markdown uploads using the [document parser](document-parsing.md).
+API, CLI, and evaluation entry points share structural chunking settings through
+the ingestion service. Existing data is not reindexed automatically.
 
 ## Flow and Interface
 
@@ -14,9 +13,11 @@ Original text + SourceBlock list -> split_structured -> StructuredChunk list
 
 `split_structured()` in `knowledgebase/rag/chunking.py` receives the original text,
 the ordered blocks parsed from that same text, and a file ID. Callers must explicitly
-supply `max_tokens` and `encoding_name`. Neither setting has a release default yet;
-the existing `.env` character settings still control the MVP only. Runtime settings
-for this strategy will be wired when it is integrated into ingestion.
+supply `max_tokens` and `encoding_name`. Entry points use the shared
+[runtime settings](configuration.md): `CHUNKING_STRATEGY=structural`,
+`CHUNK_MAX_TOKENS=512`, and `CHUNK_TOKENIZER=cl100k_base`. This token budget is an
+experimental starting point, not a measured optimum. `CHUNKING_STRATEGY=character`
+selects the MVP splitter and its character-size/overlap settings explicitly.
 
 ```python
 from knowledgebase.rag.chunking import split_structured
@@ -117,6 +118,6 @@ lists, code/table boundaries, Unicode, exact token limits, and source preservati
 across the frozen DeepSeek Markdown corpus at two budgets.
 
 [Document storage](document-storage.md) can persist the original source, parser
-blocks, and structural chunks. Parent-child regions, overlap, ingestion integration,
+blocks, and structural chunks during ingestion. Parent-child regions, overlap,
 and retrieval-quality comparison remain later work. The current output is a flat
 chunk list; it is not yet a parent-child index or a semantic chunking strategy.

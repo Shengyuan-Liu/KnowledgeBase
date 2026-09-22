@@ -10,15 +10,18 @@ import pytest
 from knowledgebase import cli
 from knowledgebase.api import app as api_module
 from knowledgebase.schemas import CitationCheck, ConversationAnswer
+from knowledgebase.storage.operations import get_chunks, get_document_source
 
 
 @pytest.mark.parametrize("streaming", [False, True])
-def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app, tmp_path, monkeypatch, streaming):
+@pytest.mark.parametrize("strategy", ["structural", "character"])
+def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app, tmp_path, monkeypatch, streaming, strategy):
     app, embeddings, sdk = configured_app
     (tmp_path / ".env").write_text(
         "ANSWER_MODEL=custom-answer\nEMBEDDING_MODEL=custom-embedding\nRESOLVER_MODEL=custom-resolver\n"
         "CHUNK_SIZE=12\nCHUNK_OVERLAP=3\nRETRIEVAL_TOP_K=2\nHISTORY_LIMIT=1\n"
         "OPENAI_BASE_URL=https://provider.test/v1\nOPENAI_TIMEOUT_SECONDS=42\nOPENAI_MAX_RETRIES=1\n"
+        f"CHUNKING_STRATEGY={strategy}\nCHUNK_MAX_TOKENS=4\nCHUNK_TOKENIZER=o200k_base\n"
     )
     sdk.responses.create.side_effect = lambda **kw: Mock(
         output_text="Resolved question" if kw["model"] == "custom-resolver" else "Answer. [1]"
@@ -38,9 +41,19 @@ def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app,
     with TestClient(app) as client:
         uploaded = client.post("/api/files", files={"file": ("notes.txt", b"abcdefghijklmnopqrstuvwxyz0123456789")})
         assert uploaded.status_code == 201
-        embeddings.embed_documents.assert_called_once_with([
-            "abcdefghijkl", "jklmnopqrstu", "stuvwxyz0123", "123456789",
-        ])
+        if strategy == "character":
+            embeddings.embed_documents.assert_called_once_with([
+                "abcdefghijkl", "jklmnopqrstu", "stuvwxyz0123", "123456789",
+            ])
+        else:
+            with app.state.resources.sessions() as session:
+                chunks = get_chunks(session, uploaded.json()["file_id"])
+                source = get_document_source(session, uploaded.json()["file_id"])
+            assert source.text == "abcdefghijklmnopqrstuvwxyz0123456789"
+            assert len(chunks) >= 2
+            assert all(chunk.max_tokens == 4 and chunk.tokenizer == "o200k_base" for chunk in chunks)
+            assert all(chunk.token_count <= 4 for chunk in chunks)
+            embeddings.embed_documents.assert_called_once_with([chunk.text for chunk in chunks])
 
         def ask(question, conversation_id=None):
             body = {"question": question, "conversation_id": conversation_id}
@@ -82,8 +95,9 @@ def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkey
     (tmp_path / ".env").write_text(
         "ANSWER_MODEL=file-answer\nEMBEDDING_MODEL=file-embedding\nRESOLVER_MODEL=file-resolver\n"
         "CHUNK_SIZE=12\nCHUNK_OVERLAP=3\nRETRIEVAL_TOP_K=2\nHISTORY_LIMIT=1\n"
+        "CHUNKING_STRATEGY=structural\nCHUNK_MAX_TOKENS=17\nCHUNK_TOKENIZER=o200k_base\n"
     )
-    source = tmp_path / "notes.txt"
+    source = tmp_path / "notes.md"
     source.write_text("Example text")
     sdk = MagicMock()
     sdk.__enter__.return_value = sdk
@@ -109,7 +123,10 @@ def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkey
     assert llm_factory.call_args_list[0].kwargs["model"] == ("argument-answer" if override else "file-answer")
     assert llm_factory.call_args_list[1].kwargs["model"] == "file-resolver"
     cli.EmbeddingClient.assert_called_once_with(sdk, model="file-embedding")
-    assert ingest.call_args.kwargs == {"chunk_size": 12, "overlap": 3}
+    assert ingest.call_args.kwargs == {
+        "chunk_size": 12, "overlap": 3, "chunking_strategy": "structural",
+        "chunk_max_tokens": 17, "chunk_tokenizer": "o200k_base",
+    }
     assert answer.call_args.kwargs == {
         "conversation_id": None, "top_k": 4 if override else 2, "history_limit": 1, "resolver_client": resolver,
     }

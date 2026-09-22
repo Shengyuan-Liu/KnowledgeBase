@@ -1,8 +1,8 @@
 # Document Parsing
 
-Status: implemented as a standalone v1 building block. The upload service still
-accepts TXT only and uses the existing fixed-character splitter. This module does
-not yet add Markdown uploads or structural chunking to the running application.
+Status: connected to TXT/Markdown uploads through the shared ingestion service.
+Both chunking strategies retain parser blocks alongside the complete source;
+structural chunking also uses the block boundaries to produce chunks.
 
 ## Role and Interface
 

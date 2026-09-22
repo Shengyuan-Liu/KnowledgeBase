@@ -42,9 +42,26 @@ uv run --locked python -m evals.evaluate run --label "Baseline: default chunking
 
 The command prints a unique directory such as `evals/runs/<run-id>/`. Replace `<run-id>` below
 with that directory's name. Defaults come from the same [Settings and `.env`](../docs/configuration.md) as the API/CLI. Built-in defaults are: `gpt-4.1`,
-`text-embedding-3-small`, 2048-character chunks, 256-character overlap, cosine distance, and top-k 5.
-Override them with `--model`, `--embedding-model`, `--chunk-size`, `--overlap`, and `--top-k`.
+`text-embedding-3-small`, structural chunks up to 512 tokens counted with `cl100k_base`,
+no overlap, cosine distance, and top-k 5. The structural default is an experimental
+starting point; historical MVP results do not measure its quality.
+Override them with `--model`, `--embedding-model`, `--chunking-strategy`,
+`--chunk-max-tokens`, `--chunk-tokenizer`, and `--top-k`. `--chunk-size` and
+`--overlap` apply only when `--chunking-strategy character` is selected.
 `--cases` accepts an alternative JSONL in the same format, grounded in the same NYU manifest.
+
+To select the historical MVP chunking configuration explicitly:
+
+```bash
+uv run --locked python -m evals.evaluate run --label "MVP character control" --chunking-strategy character --chunk-size 2048 --overlap 256
+```
+
+Run metadata records both the chosen strategy and token/character settings, plus
+the effective overlap (zero for structural chunks). Retrieved structural sources
+also record heading paths, source block indices, measured tokens, and counting
+configuration in `answers.jsonl`. Those fields describe retrieved evidence, not
+quality scores. Shared ingestion supports Markdown, but this runner still uses
+the frozen NYU TXT manifest; it does not automatically load the DeepSeek corpus.
 
 ## Grade answers
 
@@ -156,7 +173,7 @@ For revised rubrics, start a new evaluation series using the matching evaluator 
 Change one factor at a time and state the hypothesis in `--label`, for example:
 
 ```bash
-uv run --locked python -m evals.evaluate run --label "Larger chunks: does more context improve completeness?" --chunk-size 512 --overlap 64
+uv run --locked python -m evals.evaluate run --label "Structural budget: does more context improve completeness?" --chunking-strategy structural --chunk-max-tokens 768
 ```
 
 ### Automatic diagnostics
@@ -193,7 +210,7 @@ uv run --locked python -m evals.evaluate run --label "Larger chunks: does more c
 Do not edit original answers or old reviews; append another review instead. Answer hashes prevent
 reusing a rating after the recorded answer changes. These are ordinary Git-tracked artifacts, not
 a tamper-proof database. Keep commits for meaningful runs and inspect the dirty flag. Local SQLite
-and Chroma indexes live under `<DATA_DIR>/evals/<run-id>/` (default ignored `data/evals/<run-id>/`); they are not evaluation evidence.
+and Chroma indexes live under `<DATA_DIR>/evals/<run-id>/` (default ignored `data/v1/evals/<run-id>/`); they are not evaluation evidence.
 Completed questions survive a later interruption. A failed ingestion or interrupted run retains its
 status and completed records; start a new run to retry. Exceptions retain their type, not potentially
 secret provider messages. The harness records neither token usage nor monetary cost because the

@@ -7,7 +7,7 @@ import pytest
 
 from knowledgebase.api import app as api_module
 from knowledgebase.rag.retrieval import retrieve
-from knowledgebase.storage.operations import get_chunks, get_file
+from knowledgebase.storage.operations import get_chunks, get_document_source, get_file
 
 
 @pytest.fixture
@@ -52,7 +52,7 @@ def test_upload_list_retrieve_delete_preserves_other_file(api):
 
 
 @pytest.mark.parametrize("name, content, message", [
-    ("notes.pdf", b"Text.", "Only .txt files are supported."),
+    ("notes.pdf", b"Text.", "Only .txt and .md files are supported."),
     ("notes.txt", b"\xff", "The file must be UTF-8 encoded."),
     ("notes.txt", b"", "The file must contain nonempty text."),
     ("notes.txt", b" \n\t", "The file must contain nonempty text."),
@@ -137,6 +137,37 @@ def test_restart_reuses_data_and_openapi_describes_file_contract(configured_app)
         assert client.delete(f"/api/files/{file['file_id']}").status_code == 204
     assert sdk.__exit__.call_count == 2
     embeddings.embed_documents.assert_called_once()
+
+
+def test_markdown_upload_chat_restart_and_delete_preserves_original_evidence(configured_app):
+    app, embeddings, sdk = configured_app
+    text = "# Library\r\n\r\nThe library closes at 5 PM.\r\n"
+    sdk.responses.create.return_value = Mock(output_text="The library closes at 5 PM. [1]")
+    with TestClient(app) as client:
+        response = upload(client, text.encode(), "Hours.MD")
+        assert response.status_code == 201
+        file_id = response.json()["file_id"]
+        result = client.post("/api/chat", json={"question": "When does the library close?"})
+        assert result.status_code == 200
+        answer = result.json()
+        assert answer["sources"][0]["text"] == text
+        conversation_id = answer["conversation_id"]
+
+    with TestClient(api_module.create_app()) as client:
+        resources = client.app.state.resources
+        with resources.sessions() as session:
+            assert get_document_source(session, file_id).text == text
+            chunks = get_chunks(session, file_id)
+            assert chunks[0].heading_path == ["Library"]
+        assert client.get("/api/files").json()[0]["status"] == "ready"
+        assert client.delete(f"/api/files/{file_id}").status_code == 204
+        history = client.get(f"/api/conversations/{conversation_id}").json()
+        assert history["messages"][-1]["sources"][0]["text"] == text
+        assert history["messages"][-1]["sources"][0]["file_deleted"] is True
+        with resources.sessions() as session:
+            assert get_document_source(session, file_id) is None
+            assert get_chunks(session, file_id) == []
+    embeddings.embed_documents.assert_called_once_with([text])
 
 
 def test_built_workspace_and_api_share_one_origin(configured_app, tmp_path):

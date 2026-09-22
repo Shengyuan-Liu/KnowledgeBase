@@ -14,7 +14,7 @@ from knowledgebase.storage.operations import create_file, get_chunks, get_file, 
 
 def test_delete_removes_only_target_and_new_answers_use_remaining_file(storage, embeddings):
     sessions, store, collection = storage
-    removed = ingest_file("notes.txt", b"First. Second.", sessions, embeddings, store, chunk_size=7, overlap=0)
+    removed = ingest_file("notes.txt", b"First. Second.", sessions, embeddings, store, chunk_size=7, overlap=0, chunking_strategy="character")
     kept = ingest_file("notes.txt", b"Keep this source.", sessions, embeddings, store)
 
     assert delete_file(removed, sessions, store) is None
@@ -24,7 +24,7 @@ def test_delete_removes_only_target_and_new_answers_use_remaining_file(storage, 
         assert get_chunks(session, removed) == []
         assert get_file(session, kept).status == "ready"
         assert get_chunks(session, kept)[0].text == "Keep this source."
-    assert collection.get()["ids"] == [f"{kept}:0"]
+    assert collection.get()["ids"] == [f"{kept}:structural:0"]
     llm = Mock(spec=LLMClient)
     llm.generate.return_value = "Keep this source. [1]"
     answer = answer_question("What remains?", sessions, embeddings, store, llm)
@@ -59,7 +59,7 @@ def test_vector_failure_leaves_committed_nonready_file_and_cleanup_is_retryable(
     storage, embeddings, partial_delete
 ):
     sessions, store, collection = storage
-    removed = ingest_file("notes.txt", b"First. Second.", sessions, embeddings, store, chunk_size=7, overlap=0)
+    removed = ingest_file("notes.txt", b"First. Second.", sessions, embeddings, store, chunk_size=7, overlap=0, chunking_strategy="character")
     kept = ingest_file("keep.txt", b"Keep.", sessions, embeddings, store)
     failure = RuntimeError("Vector deletion failed.")
 
@@ -91,7 +91,7 @@ def test_vector_failure_leaves_committed_nonready_file_and_cleanup_is_retryable(
         assert get_file(session, removed) is None
         assert get_chunks(session, removed) == []
         assert get_file(session, kept).status == "ready"
-    assert collection.get()["ids"] == [f"{kept}:0"]
+    assert collection.get()["ids"] == [f"{kept}:structural:0"]
 
 
 def test_sql_cleanup_failure_rolls_back_chunks_and_can_retry_without_vectors(

@@ -18,7 +18,7 @@ def list_files(resources: Resources):
 
 
 @router.post("", response_model=FileInfo, status_code=201, responses={
-    400: {"description": "Invalid TXT upload"},
+    400: {"description": "Invalid TXT/Markdown upload"},
     500: {"description": "File processing failed"},
 })
 def upload_file(file: UploadFile, resources: Resources):
@@ -28,6 +28,9 @@ def upload_file(file: UploadFile, resources: Resources):
             file.filename or "", file.file.read(), resources.sessions,
             resources.embeddings, resources.store,
             chunk_size=resources.settings.chunk_size, overlap=resources.settings.chunk_overlap,
+            chunking_strategy=resources.settings.chunking_strategy,
+            chunk_max_tokens=resources.settings.chunk_max_tokens,
+            chunk_tokenizer=resources.settings.chunk_tokenizer,
         )
     except InvalidUploadError as error:
         raise HTTPException(status_code=400, detail=str(error)) from error

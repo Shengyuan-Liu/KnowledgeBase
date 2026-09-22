@@ -81,12 +81,13 @@ def test_loop_exits_without_asking_model(monkeypatch, capsys, stop):
     assert "Goodbye." in capsys.readouterr().out
 
 
-def test_cli_indexes_and_reuses_local_data(tmp_path, monkeypatch, capsys):
+@pytest.mark.parametrize("suffix", ["txt", "md"])
+def test_cli_indexes_and_reuses_local_data(tmp_path, monkeypatch, capsys, suffix):
     monkeypatch.chdir(tmp_path)
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
     (tmp_path / ".env").write_text("OPENAI_API_KEY=test-only-key\nANSWER_MODEL=test-configured-model\n", encoding="utf-8")
-    path = tmp_path / "hours.txt"
-    text = "The café closes at 5 PM."
+    path = tmp_path / f"hours.{suffix}"
+    text = ("# Hours\n\n" if suffix == "md" else "") + "The café closes at 5 PM."
     path.write_text(text, encoding="utf-8")
     embeddings = Mock()
     embeddings.embed_documents.return_value = [[1.0, 0.0]]
@@ -111,13 +112,13 @@ def test_cli_indexes_and_reuses_local_data(tmp_path, monkeypatch, capsys):
     sdk_class.assert_called_once_with(api_key="test-only-key", base_url=None, timeout=600, max_retries=2)
     llm_class.assert_called_once_with(sdk, model="test-configured-model")
     output = capsys.readouterr().out
-    assert "Indexed hours.txt" in output
+    assert f"Indexed {path.name}" in output
     first_conversation_id = re.search(r"Conversation: ([a-f0-9]+)", output).group(1)
     assert "Answer:\nAt 5 PM. [1]" in output
-    assert "[1] hours.txt" in output
+    assert f"[1] {path.name}" in output
     assert text in output
 
-    assert (tmp_path / "data" / "knowledgebase.db").is_file()
+    assert (tmp_path / "data" / "v1" / "knowledgebase.db").is_file()
 
     monkeypatch.setattr(sys, "argv", ["main.py", "--top-k", "1"])
     monkeypatch.setattr("builtins.input", Mock(side_effect=["What are the hours?", "exit"]))
@@ -127,7 +128,7 @@ def test_cli_indexes_and_reuses_local_data(tmp_path, monkeypatch, capsys):
     assert llm.generate.call_count == 2
     output = capsys.readouterr().out
     assert "Indexed" not in output
-    assert "[1] hours.txt" in output
+    assert f"[1] {path.name}" in output
     assert text in output
     assert re.search(r"Conversation: ([a-f0-9]+)", output).group(1) != first_conversation_id
 

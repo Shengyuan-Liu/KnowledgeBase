@@ -42,7 +42,7 @@ KnowledgeBase/
 │   │   ├── files.py
 │   │   └── chat.py
 │   ├── rag/
-│   │   ├── parsing.py           # Standalone v1 source parser; not yet wired into ingestion
+│   │   ├── parsing.py           # TXT/Markdown source blocks used by ingestion
 │   │   ├── chunking.py
 │   │   ├── retrieval.py
 │   │   ├── context.py
@@ -71,21 +71,22 @@ KnowledgeBase/
 │   ├── README.md
 │   └── mvp/
 └── data/                        # Local runtime data; ignored by Git
-    ├── knowledgebase.db
-    └── chroma/
+    └── v1/                     # Default v1 directory; older data remains separate
+        ├── knowledgebase.db
+        └── chroma/
 ```
 
 Package markers and individual documentation/test files are omitted for readability.
-There is no retained upload directory: the MVP stores source text in SQLite chunks.
-The standalone v1 [document storage](document-storage.md) also supports complete
-canonical documents and structural metadata, pending ingestion integration.
+There is no retained upload directory: [document storage](document-storage.md)
+keeps complete canonical documents, parser blocks, exact chunks, and structural
+metadata in SQLite. Existing `.env` values can override the default data directory.
 
 ## Responsibilities
 
 | Module | Responsibility |
 | --- | --- |
 | `cli.py` | Parse terminal options, ingest supplied files, and run the conversation loop |
-| `config.py` | Read credentials and the data directory from environment variables or `.env` |
+| `config.py` | Read shared credentials, models, chunking, retrieval, and storage settings from environment variables or `.env` |
 | `schemas.py` | Define data snapshots, requests, responses, and stream events independently of ORM and HTTP handlers |
 | `api/app.py` | Assemble the app, register routes, and own storage/SDK lifetimes |
 | `api/dependencies.py` | Define one `AppResources` object and expose it to all routes |
@@ -95,8 +96,8 @@ canonical documents and structural metadata, pending ingestion integration.
 | `api/streaming.py` | Encode SSE frames and cancel generation on disconnect |
 | `services/files.py` | Coordinate ingestion, file states, failure cleanup, and retryable deletion |
 | `services/chat.py` | Coordinate history, retrieval, generation, citations, and atomic exchange persistence |
-| `rag/parsing.py` | Parse TXT/Markdown into exact source blocks with heading metadata; standalone v1 component |
-| `rag/chunking.py` | MVP character splitting and standalone v1 structural/token-budget chunking with exact source offsets |
+| `rag/parsing.py` | Parse TXT/Markdown into exact source blocks with heading metadata |
+| `rag/chunking.py` | Structural/token-budget chunking with exact source offsets, plus the explicit MVP character baseline |
 | `rag/retrieval.py` | Restrict vector search to ready files and return canonical chunks with filenames |
 | `rag/context.py` | Format numbered evidence without altering source text |
 | `rag/query.py` | Resolve follow-up references using message history |
@@ -140,7 +141,7 @@ API conversation reads → Storage operations
 succeed. [Deletion](file-deletion.md) commits retrieval exclusion before removing
 vectors, then deletes chunks and the file record together. Partial cleanup remains
 retryable because SQLite and Chroma do not share a transaction. Recovery of abandoned
-processing records after a crash remains unimplemented.
+processing records after a crash marks them failed and cleans partial vectors/chunks.
 
 [Chat](conversation-chat.md) loads history, resolves the question, retrieves fresh
 evidence, generates an answer, checks citation numbers, and saves the original
@@ -164,8 +165,8 @@ Runtime dependencies exclude notebook tooling. Install it explicitly with
 `uv sync --group notebooks` when needed. `.env` contains local secrets and stays
 out of Git; `.env.example` contains placeholders.
 
-Keep the [MVP scope](mvp/mvp-product-design.md): English-only, single-user TXT basic
-RAG. The browser workflow is verified against the real API with offline provider
+Follow the [v1 scope](v1/README.md): English-only, local, single-user TXT/Markdown
+RAG, with advanced retrieval added in stages. The browser workflow is verified against the real API with offline provider
 fixtures. Live-provider quality and production hosting need separate verification.
 Add functionality and modules when current requirements justify them.
 Follow [AGENTS.md](../AGENTS.md) for Python ownership, verification, English text,

@@ -1,4 +1,4 @@
-"""Index TXT files and ask questions in an interactive terminal loop."""
+"""Index TXT/Markdown files and ask questions in an interactive terminal loop."""
 
 import argparse
 from collections.abc import Callable
@@ -52,7 +52,7 @@ def run_chat_loop(ask: Callable[[str], ChatAnswer]) -> None:
 
 def cli() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("files", nargs="*", type=Path, help="TXT files to index before chatting")
+    parser.add_argument("files", nargs="*", type=Path, help="TXT/Markdown files to index before chatting")
     parser.add_argument("--data-dir", type=Path, help="Override the DATA_DIR local storage directory")
     parser.add_argument("--model", default=None, help="Override the configured answer model")
     parser.add_argument("--top-k", type=int, help="Maximum retrieved chunks per question")
@@ -78,6 +78,9 @@ def cli() -> None:
                 file_id = ingest_file(
                     path.name, path.read_bytes(), sessions, embeddings, store,
                     chunk_size=settings.chunk_size, overlap=settings.chunk_overlap,
+                    chunking_strategy=settings.chunking_strategy,
+                    chunk_max_tokens=settings.chunk_max_tokens,
+                    chunk_tokenizer=settings.chunk_tokenizer,
                 )
                 print(f"Indexed {path.name} ({file_id})")
             conversation_id = args.conversation_id

@@ -3,7 +3,7 @@
 ## Implemented Scope
 
 The React/TypeScript frontend uses Vite and CSS Modules. Its Library panel calls
-the real file API to list, upload, search locally, and delete TXT files. Chat streams
+the real file API to list, upload, search locally, and delete TXT/Markdown files. Chat streams
 answers from the backend, links validated citations to original excerpts, supports
 cancellation, and restores the current saved conversation after a page refresh.
 
@@ -23,7 +23,7 @@ npm --prefix frontend ci
 Start the backend and frontend in separate terminals:
 
 ```bash
-make api
+DATA_DIR=data/v1 make api
 ```
 
 ```bash
@@ -52,7 +52,8 @@ on dynamically assigned ports, leaving running development servers untouched.
 
 ## File Behavior
 
-- Upload accepts one `.txt` file per request. The backend validates UTF-8 and
+- Upload accepts one `.txt` or `.md` file per request, including uppercase extensions.
+  Rows display a TXT or MD badge. The backend validates UTF-8 and
   nonempty content. No client-only size limit is invented.
 - The upload stays pending until the backend returns the indexed file. Failed
   uploads display the server error and refresh the library to expose failed records.
@@ -98,8 +99,9 @@ on dynamically assigned ports, leaving running development servers untouched.
   the current position and exposes Jump to latest.
 
 Answers currently preserve plain text and line breaks with inline citation
-controls. Rich Markdown rendering and TXT line-range labels remain presentation
-enhancements; source locations use the recorded chunk IDs. No model HTML executes.
+controls. Markdown source evidence preserves its original markup as text. Rich
+Markdown rendering, heading-path navigation, and line-range labels remain
+presentation enhancements; source locations use the recorded chunk IDs. No model HTML executes.
 
 ## Modules
 
@@ -126,7 +128,7 @@ make test-frontend
 ```
 
 This runs Vitest/React Testing Library interaction tests, TypeScript checking,
-and a production build. Tests cover pending uploads, TXT validation, backend
+and a production build. Tests cover pending uploads, TXT/Markdown validation, backend
 errors, list retry, filename filtering, confirmed/retryable deletion, and polling.
 Chat tests cover UTF-8/frame boundaries, stale events, HTTP/SSE errors, incomplete
 EOF, cancellation, recovery before retry, repeated citation numbers, and safe text.

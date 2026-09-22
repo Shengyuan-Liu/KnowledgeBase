@@ -1,8 +1,9 @@
 # Document and Structural Chunk Storage
 
-Status: implemented as a v1 storage building block. The parser and structural
-chunker can now persist their output, but the upload service still accepts TXT
-and invokes the MVP character splitter. No existing library has been reindexed.
+Status: connected to TXT/Markdown ingestion. Successful uploads retain the full
+source and parser blocks; structural chunks also retain their metadata. Source,
+chunks, metadata, and the Ready transition share one SQLite transaction.
+No existing library is reindexed automatically.
 
 ## Data Model
 
@@ -93,7 +94,7 @@ assert saved_chunks == chunks
 ```
 
 The example remains in `processing` because it does not create embeddings or a
-vector index. The future ingestion service must mark Ready only after indexing.
+vector index. The ingestion service marks Ready only after indexing succeeds.
 
 ## Deletion and Existing Data
 
@@ -123,6 +124,6 @@ service check. They verify TXT/MD persistence after reconnection, Unicode and CR
 preservation, source-block associations, mixed MVP/v1 reads, caller rollback,
 deletion scope, old-schema initialization, and historical evidence preservation.
 
-This verifies persistence and lifecycle behavior, not retrieval quality. Markdown
-uploads, shared ingestion configuration, and API/UI exposure of structural metadata
-remain later integration work.
+This verifies persistence and lifecycle behavior, not retrieval quality. Uploads
+and shared configuration are connected; API/UI exposure of heading paths and other
+structural metadata remains later work. Existing evidence views show exact excerpts.
