@@ -1,7 +1,9 @@
 # KnowledgeBase v1 Design
 
-Status: planned; this directory defines the next version after the local MVP.
-These documents do not claim that v1 is implemented or that its quality has been measured.
+Status: implementation started; this directory defines the next version after the local MVP.
+The standalone [document parser](../document-parsing.md) is implemented with tests.
+It is not yet connected to uploads or chunking. The remaining v1 pipeline is planned;
+these documents do not claim that the full version is implemented or its quality measured.
 
 v1 adds Markdown support, structure-aware and sentence-aware chunking, parent-child
 retrieval, BM25/vector hybrid search, RRF fusion, and reranking. Embedding-based

@@ -14,6 +14,8 @@ not implementation or quality results.
 
 ## Implemented Components
 
+- [Document parsing](document-parsing.md): standalone v1 TXT/Markdown structural blocks and exact source offsets; not yet connected to uploads or chunking.
+
 - [Runtime configuration](configuration.md): shared `.env` settings, precedence, model selection, and reindexing requirements.
 
 - [MVP release evaluation](../evals/analyses/2026-09-21-mvp-release.md): final application verification and known quality limits.

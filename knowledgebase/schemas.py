@@ -21,6 +21,23 @@ class Chunk(BaseModel):
     end_offset: int
 
 
+BlockType = Literal[
+    "heading", "paragraph", "list", "code", "table", "blockquote",
+    "thematic_break", "reference",
+]
+
+
+class SourceBlock(BaseModel):
+    """A structural block whose text is an exact slice of the original source."""
+
+    kind: BlockType
+    text: str
+    start_offset: int
+    end_offset: int
+    heading_path: list[str]
+    heading_level: int | None = None
+
+
 class VectorMatch(BaseModel):
     """A chunk ID and its distance under the collection's configured metric."""
 

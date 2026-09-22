@@ -42,6 +42,7 @@ KnowledgeBase/
 │   │   ├── files.py
 │   │   └── chat.py
 │   ├── rag/
+│   │   ├── parsing.py           # Standalone v1 source parser; not yet wired into ingestion
 │   │   ├── chunking.py
 │   │   ├── retrieval.py
 │   │   ├── context.py
@@ -92,6 +93,7 @@ There is no retained upload directory: canonical source text lives in SQLite chu
 | `api/streaming.py` | Encode SSE frames and cancel generation on disconnect |
 | `services/files.py` | Coordinate ingestion, file states, failure cleanup, and retryable deletion |
 | `services/chat.py` | Coordinate history, retrieval, generation, citations, and atomic exchange persistence |
+| `rag/parsing.py` | Parse TXT/Markdown into exact source blocks with heading metadata; standalone v1 component |
 | `rag/chunking.py` | Split text with stable chunk associations and character offsets |
 | `rag/retrieval.py` | Restrict vector search to ready files and return canonical chunks with filenames |
 | `rag/context.py` | Format numbered evidence without altering source text |
