@@ -48,6 +48,35 @@ class StructuredChunk(Chunk):
     max_tokens: int
 
 
+class ParentChunk(BaseModel):
+    """A bounded section region that supplies context for its child chunks."""
+
+    parent_id: str
+    file_id: str
+    text: str
+    index: int
+    start_offset: int
+    end_offset: int
+    heading_path: list[str]
+    source_block_indices: list[int]
+    token_count: int
+    tokenizer: str
+    max_tokens: int
+
+
+class ChildChunk(StructuredChunk):
+    """A retrieval-sized source slice contained in exactly one parent."""
+
+    parent_id: str
+
+
+class ParentChildChunks(BaseModel):
+    """Ordered parent and child snapshots, before persistence or indexing."""
+
+    parents: list[ParentChunk]
+    children: list[ChildChunk]
+
+
 class DocumentSource(BaseModel):
     """Canonical document and parser output, independent of a database session."""
 

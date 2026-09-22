@@ -97,7 +97,7 @@ metadata in SQLite. Existing `.env` values can override the default data directo
 | `services/files.py` | Coordinate ingestion, file states, failure cleanup, and retryable deletion |
 | `services/chat.py` | Coordinate history, retrieval, generation, citations, and atomic exchange persistence |
 | `rag/parsing.py` | Parse TXT/Markdown into exact source blocks with heading metadata |
-| `rag/chunking.py` | Structural/token-budget chunking with exact source offsets, plus the explicit MVP character baseline |
+| `rag/chunking.py` | Structural/token-budget chunking, standalone parent-child splitting, and the explicit MVP character baseline |
 | `rag/retrieval.py` | Restrict vector search to ready files and return canonical chunks with filenames |
 | `rag/context.py` | Format numbered evidence without altering source text |
 | `rag/query.py` | Resolve follow-up references using message history |

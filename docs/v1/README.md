@@ -10,7 +10,9 @@ acceptance and merging to `main` remain the user's decision.
 The [targeted live Markdown acceptance](../../evals/browser-runs/20260922T222123209Z-8d828f17/README.md)
 also passed with real providers and seven reviewed questions. This is functional
 evidence, not a broad accuracy result or a chunking-quality comparison.
-The remaining v1 pipeline is planned;
+The standalone [parent-child chunker](../parent-child-chunking.md) also produces
+bounded parents and children with tested source containment. Its storage and
+retrieval integration remain pending. The remaining v1 pipeline is planned;
 these documents do not claim that the full version is implemented or its quality measured.
 
 v1 adds Markdown support, structure-aware and sentence-aware chunking, parent-child
