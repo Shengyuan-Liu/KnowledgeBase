@@ -107,7 +107,7 @@ export function ChatPanel({
             <p>
               {ready
                 ? "Ask about your documents. Follow the citations back to the original passages."
-                : "Upload your first TXT file in Library, then ask a question about it."}
+                : "Upload your first TXT or Markdown file in Library, then ask a question about it."}
             </p>
           </div>
         )}
@@ -313,7 +313,7 @@ export function ChatPanel({
             : libraryError
               ? "Restore your library connection before sending."
               : !ready
-                ? "Upload a TXT file or wait for processing to finish."
+                ? "Upload a TXT or Markdown file or wait for processing to finish."
                 : "Enter to send · Shift+Enter for a new line · Check the sources."}
         </p>
       </form>

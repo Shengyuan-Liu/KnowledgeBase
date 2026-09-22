@@ -92,7 +92,7 @@ export function LibraryPanel({
             </span>
             <h3>A home for your notes</h3>
             <p>
-              Upload your first TXT file to start building your knowledge base.
+              Upload your first TXT or Markdown file to start building your knowledge base.
             </p>
           </div>
         ) : (
@@ -110,7 +110,9 @@ export function LibraryPanel({
                     setSelected(selected === file.file_id ? null : file.file_id)
                   }
                 >
-                  <span className={styles.fileBadge}>TXT</span>
+                  <span className={styles.fileBadge}>
+                    {file.file_name.toLowerCase().endsWith(".md") ? "MD" : "TXT"}
+                  </span>
                   <span className={styles.fileText}>
                     <strong>{file.file_name}</strong>
                     <span className={`${styles.status} ${styles[file.status]}`}>
@@ -177,8 +179,8 @@ export function LibraryPanel({
         <input
           ref={input}
           type="file"
-          accept=".txt"
-          aria-label="Choose TXT file"
+          accept=".txt,.md"
+          aria-label="Choose TXT or Markdown file"
           hidden
           onChange={(event) => {
             const file = event.target.files?.[0];
@@ -192,9 +194,9 @@ export function LibraryPanel({
           onClick={() => input.current?.click()}
         >
           <Icon name="upload" size={18} />
-          {busy ? "Working…" : "Upload TXT file"}
+          {busy ? "Working…" : "Upload file"}
         </button>
-        <p>UTF-8 text files · Indexed for search</p>
+        <p>TXT and Markdown · UTF-8 · Indexed for search</p>
       </footer>
       {deleting && (
         <Modal

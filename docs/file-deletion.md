@@ -1,7 +1,8 @@
 # File Deletion
 
 `knowledgebase/services/files.py` provides `delete_file(file_id, session_factory,
-vector_store)`. It removes an ingested file's vectors, canonical chunks, and file
+vector_store)`. It removes an ingested file's vectors, source document, chunks,
+structural metadata, and file
 record, returning `None` only after cleanup completes. It makes no model calls.
 
 ## Transaction boundaries
@@ -12,6 +13,7 @@ record, returning `None` only after cleanup completes. It makes no model calls.
 2. Delete its vectors through `ChromaStore.delete_by_file_id`.
 3. In one SQLite transaction, call `delete_chunks` and then `delete_file_record`.
    Chunks must be removed first because they reference the file through a foreign key.
+   Foreign-key cascades remove chunk metadata and the complete source document.
 
 The storage helpers flush their changes but never commit. The service owns the
 transactions. SQLite and Chroma have no shared transaction, so the first committed
@@ -44,10 +46,11 @@ sources. New retrievals after the first commit exclude the file, including when
 cleanup fails. Deleting the last ready file causes subsequent questions to return
 the existing insufficient-evidence response without embedding or generation calls.
 
-The current ingestion service does not retain a separate original TXT copy, so
-deletion only needs to clean up SQLite and Chroma. The
-[HTTP delete route](file-api.md) now calls this service; CLI deletion commands and
-UI controls remain separate work.
+The ingestion service retains complete source text in SQLite, without a separate
+uploaded file on disk, so deletion only needs to clean up SQLite and Chroma. The
+[HTTP delete route](file-api.md) and frontend deletion control use this service;
+the CLI has no deletion command. Historical answer evidence remains readable
+after deletion because it is saved separately from the source document.
 
 ## Verification
 

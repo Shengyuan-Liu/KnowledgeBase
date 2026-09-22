@@ -1,7 +1,17 @@
 # KnowledgeBase v1 Design
 
-Status: planned; this directory defines the next version after the local MVP.
-These documents do not claim that v1 is implemented or that its quality has been measured.
+Status: implementation started; this directory defines the next version after the local MVP.
+The [document parser](../document-parsing.md),
+[structural chunker](../structural-chunking.md), and
+[document storage](../document-storage.md) are connected to TXT/Markdown ingestion
+in the API, CLI, and evaluation runner. The frontend accepts both formats. Offline
+tests cover upload, chat, restoration, deletion, and failure cleanup. Feature
+acceptance and merging to `main` remain the user's decision.
+The [targeted live Markdown acceptance](../../evals/browser-runs/20260922T222123209Z-8d828f17/README.md)
+also passed with real providers and seven reviewed questions. This is functional
+evidence, not a broad accuracy result or a chunking-quality comparison.
+The remaining v1 pipeline is planned;
+these documents do not claim that the full version is implemented or its quality measured.
 
 v1 adds Markdown support, structure-aware and sentence-aware chunking, parent-child
 retrieval, BM25/vector hybrid search, RRF fusion, and reranking. Embedding-based

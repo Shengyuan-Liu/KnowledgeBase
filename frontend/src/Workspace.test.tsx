@@ -46,7 +46,7 @@ async function openLibrary() {
 }
 
 function upload(name = "notes.txt") {
-  fireEvent.change(screen.getByLabelText("Choose TXT file"), {
+  fireEvent.change(screen.getByLabelText("Choose TXT or Markdown file"), {
     target: {
       files: [new File(["Example notes"], name, { type: "text/plain" })],
     },
@@ -77,6 +77,18 @@ describe("library workspace", () => {
     expect(request?.[1].body.get("file").name).toBe("notes.txt");
   });
 
+  it("accepts Markdown and displays its file type", async () => {
+    await openLibrary();
+    const input = screen.getByLabelText("Choose TXT or Markdown file");
+    expect(input).toHaveAttribute("accept", ".txt,.md");
+    upload("Guide.MD");
+    await screen.findByText("Guide.MD is ready.");
+    expect(within(screen.getByRole("button", { name: "Guide.MD Ready" })).getByText("MD"))
+      .toBeInTheDocument();
+    const request = fetchMock.mock.calls.find(([, options]) => options?.method === "POST");
+    expect(request?.[1].body.get("file").name).toBe("Guide.MD");
+  });
+
   it("keeps uploading pending until the server finishes indexing", async () => {
     await openLibrary();
     let finish!: (response: Response) => void;
@@ -98,11 +110,11 @@ describe("library workspace", () => {
     await screen.findByText("campus-notes.txt is ready.");
   });
 
-  it("rejects non-TXT selection without posting to the server", async () => {
+  it("rejects unsupported file selection without posting to the server", async () => {
     await openLibrary();
     upload("notes.pdf");
     expect(await screen.findByRole("alert")).toHaveTextContent(
-      "Only .txt files",
+      "Only .txt and .md files",
     );
     expect(
       fetchMock.mock.calls.some(([, options]) => options?.method === "POST"),
@@ -121,7 +133,7 @@ describe("library workspace", () => {
     expect(await screen.findByRole("alert")).toHaveTextContent("UTF-8");
     await waitFor(() =>
       expect(
-        screen.getByRole("button", { name: "Upload TXT file" }),
+        screen.getByRole("button", { name: "Upload file" }),
       ).toBeEnabled(),
     );
     upload();

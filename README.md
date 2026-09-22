@@ -1,12 +1,13 @@
 # KnowledgeBase
 
-A TXT knowledge base with vector retrieval and source-grounded answers.
+A TXT and Markdown knowledge base with structural chunking, vector retrieval,
+and source-grounded answers.
 
-The next version is defined in the [v1 design documents](docs/v1/README.md).
-Markdown and advanced retrieval are planned there; the instructions below describe
-the current TXT MVP.
+The [v1 design documents](docs/v1/README.md) define the ongoing version.
+TXT/Markdown parsing, structural chunking, and source storage are connected to
+uploads. Parent-child retrieval, hybrid search, and reranking remain planned.
 
-## Run the local MVP
+## Run the local application
 
 Requirements: macOS or Linux, Python 3.13+, uv, and a Node.js version supported by
 the locked frontend dependencies (Node 22.12+). Run commands from this directory.
@@ -21,23 +22,25 @@ test -f .env || cp .env.example .env
 Set `OPENAI_API_KEY` in `.env`, then start the complete application:
 
 ```bash
-make app
+DATA_DIR=data/v1 make app
 ```
 
 Open <http://127.0.0.1:8000>. This builds the React interface and serves it together
-with the API from one local process. Upload a UTF-8 TXT file, wait for Ready, ask a
+with the API from one local process. Upload a UTF-8 TXT or Markdown file, wait for Ready, ask a
 question, and click its source citation to inspect the original text. Follow-up
 questions share the current conversation; refresh restores completed messages.
 Uploads and questions use real model APIs and incur provider charges.
 
-Local data persists under `data/`. Stop with Ctrl+C or `make stop`; neither removes
+The command explicitly selects `data/v1/`, even if an existing `.env` still selects
+the MVP's `data/`. It reuses the same credentials and leaves that older library intact.
+Local data persists under the selected directory. Stop with Ctrl+C or `make stop`; neither removes
 saved data. On restart, interrupted uploads become Failed and their partial index
-is cleaned. Re-upload the original TXT and delete the failed record. If cleanup is
+is cleaned. Re-upload the original file and delete the failed record. If cleanup is
 still pending, Delete retries it. Ready files and completed conversations survive.
 Only one API or CLI process may own the same data directory; use another `DATA_DIR`
-for separate instances. The MVP is local and single-user, without authentication.
+for separate instances. The application is local and single-user, without authentication.
 
-For frontend development, use `make api` and `make frontend` in separate terminals,
+For frontend development, use `DATA_DIR=data/v1 make api` and `make frontend` in separate terminals,
 then open <http://127.0.0.1:5173>. Do not run `make app` and `make api` concurrently
 against the same data. See the [frontend guide](docs/frontend.md) for details.
 
@@ -45,16 +48,16 @@ against the same data. See the [frontend guide](docs/frontend.md) for details.
 
 Run from the repository root with `OPENAI_API_KEY` in `.env`.
 
-Index one or more UTF-8 TXT files, then enter the question loop:
+Index one or more UTF-8 TXT or Markdown files, then enter the question loop:
 
 ```bash
-uv run python main.py notes.txt handbook.txt
+uv run python main.py --data-dir data/v1 notes.txt handbook.md
 ```
 
 On subsequent runs, use the saved knowledge base:
 
 ```bash
-uv run python main.py
+uv run python main.py --data-dir data/v1
 ```
 
 Each question prints an answer and the retrieved chunks with source numbers,
@@ -73,13 +76,13 @@ Each invocation starts a new conversation unless you resume a printed ID from th
 same data directory:
 
 ```bash
-uv run python main.py --conversation-id <saved-conversation-id>
+uv run python main.py --data-dir data/v1 --conversation-id <saved-conversation-id>
 ```
 
 Original questions and completed answers are saved together. See the
 [follow-up workflow](docs/conversation-chat.md) for service usage and boundaries.
 
-Local data is stored under `DATA_DIR` (default `data/`), with SQLite in
+Local data is stored under `DATA_DIR` (default `data/v1/`), with SQLite in
 `knowledgebase.db` and Chroma in `chroma/`. The vector collection is `knowledgebase-chunks`.
 
 All backend tuning lives in `.env`, with defaults in `knowledgebase/config.py` and a
@@ -88,19 +91,22 @@ for every setting and its precedence. The API, CLI and evaluation runner use the
 same model, chunking and retrieval configuration.
 
 Defaults are `gpt-4.1` for answers and follow-up resolution,
-`text-embedding-3-small` for embeddings, 2048-character chunks, 256-character overlap,
-and top-k 5. Set `RESOLVER_MODEL` to choose a separate follow-up model; blank follows
+`text-embedding-3-small` for embeddings, structural chunks up to 512 tokens counted
+with `cl100k_base`, no overlap, and top-k 5. The token budget is an experimental
+starting point, not a measured quality improvement. Set `CHUNKING_STRATEGY=character`
+to use the MVP splitter with `CHUNK_SIZE=2048` and `CHUNK_OVERLAP=256`.
+Set `RESOLVER_MODEL` to choose a separate follow-up model; blank follows
 `ANSWER_MODEL`. Restart the application after changing `.env`.
 
 Chunking changes affect new uploads only. Changing the embedding model requires
-reindexing the original TXT files into a new `DATA_DIR`; do not reuse incompatible
+reindexing the original files into a new `DATA_DIR`; do not reuse incompatible
 vectors. Existing files and conversation history remain in the previous directory.
 Passing a file to the CLI again indexes a new copy. To reuse existing data, omit file paths.
 
 Optional settings:
 
 ```bash
-uv run python main.py --data-dir data --model gpt-4.1 --top-k 3
+uv run python main.py --data-dir data/v1 --model gpt-4.1 --top-k 3
 ```
 
 Indexing and answering with retrieved evidence make real OpenAI API calls.
@@ -113,12 +119,13 @@ history-based resolution may still run, but answer generation does not.
 With `OPENAI_API_KEY` configured in `.env`, start the local API:
 
 ```bash
-make api
+DATA_DIR=data/v1 make api
 ```
 
 Open [interactive API documentation](http://127.0.0.1:8000/docs) after startup.
-Upload, list, and delete TXT files through `/api/files`. Upload waits for indexing
-and returns `201` when ready. API and CLI share `DATA_DIR` from `.env` (default `data`).
+Upload, list, and delete TXT/Markdown files through `/api/files`. Upload waits for indexing
+and returns `201` when ready. API and CLI share `DATA_DIR` from `.env` (default `data/v1`),
+unless explicitly overridden as above.
 See the [file API guide](docs/file-api.md) for requests and error codes.
 
 Submit questions to `POST /api/chat` with a JSON `question` and an optional
@@ -135,8 +142,10 @@ examples and error codes. Restore saved messages and their original evidence wit
 
 See the [MVP release evaluation](evals/analyses/2026-09-21-mvp-release.md) for
 verified functionality, real-provider results, all-case inspection and known answer
-quality limitations. The local MVP is functional; independent semantic accuracy
-has not been established.
+quality limitations of that historical baseline. The v1 structural pipeline has
+offline integration coverage and a [targeted live Markdown acceptance report](evals/browser-runs/20260922T222123209Z-8d828f17/README.md).
+Seven development questions passed direct evidence review; broader accuracy and
+comparative retrieval quality remain unmeasured.
 
 Run the frozen NYU question set, grade answers with human review or an LLM judge, and
 compare recorded experiments using the [evaluation guide](evals/README.md).

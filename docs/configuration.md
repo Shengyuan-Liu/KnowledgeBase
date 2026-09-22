@@ -16,12 +16,15 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `OPENAI_BASE_URL` | Blank: SDK default endpoint | API, CLI, model evaluations, and live smoke test |
 | `OPENAI_TIMEOUT_SECONDS` | `600` | API/CLI provider request timeout in seconds |
 | `OPENAI_MAX_RETRIES` | `2` | API/CLI SDK retry limit |
-| `DATA_DIR` | `data` | Application storage; isolated evaluation indexes live under `<DATA_DIR>/evals/<run-id>` |
+| `DATA_DIR` | `data/v1` | Application storage; isolated evaluation indexes live under `<DATA_DIR>/evals/<run-id>` |
 | `ANSWER_MODEL` | `gpt-4.1` | JSON/streamed answers, CLI, evaluation generation, live smoke test |
 | `EMBEDDING_MODEL` | `text-embedding-3-small` | Both document and query embeddings in every entry point |
 | `RESOLVER_MODEL` | Blank: use `ANSWER_MODEL` | Follow-up question rewriting in API and CLI |
-| `CHUNK_SIZE` | `2048` | Maximum characters per chunk for new uploads |
-| `CHUNK_OVERLAP` | `256` | Character overlap between adjacent chunks |
+| `CHUNKING_STRATEGY` | `structural` | `structural` or the MVP `character` baseline, for new uploads |
+| `CHUNK_MAX_TOKENS` | `512` | Structural chunk token limit; experimental starting value |
+| `CHUNK_TOKENIZER` | `cl100k_base` | tiktoken encoding used to count structural chunk tokens |
+| `CHUNK_SIZE` | `2048` | Maximum characters per chunk in `character` mode only |
+| `CHUNK_OVERLAP` | `256` | Character overlap in `character` mode only |
 | `RETRIEVAL_TOP_K` | `5` | Maximum retrieved evidence chunks per question |
 | `HISTORY_LIMIT` | `10` | Recent individual messages supplied to the follow-up resolver |
 | `EVAL_TIMEOUT_SECONDS` | `60` | Evaluation/LLM-judge/live-smoke SDK timeout |
@@ -32,9 +35,13 @@ Model availability still depends on the configured provider/account. `JUDGE_MODE
 is a configuration default, not a claim that the judge is calibrated. The recorded
 [judge audit](../evals/analyses/2026-09-21-judge-calibration.md) still applies.
 
-Blank values use their defaults. Chunk size, top-k, history limit and timeouts must
-be positive; overlap/retries must be nonnegative; overlap must be less than chunk size.
-Invalid settings fail at entry-point configuration loading, before indexing or model requests.
+Blank values use their defaults. Chunk size/token limit, top-k, history limit and
+timeouts must be positive; overlap/retries must be nonnegative. In character mode,
+overlap must be less than chunk size. These constraints are validated when settings load.
+The tokenizer name is resolved when structural chunking runs, before embedding.
+Its public vocabulary may be downloaded on first use. Structural chunks have no
+overlap; the tokenizer counts source text and does not change the embedding model.
+The 512-token default has not yet been validated through a retrieval-quality comparison.
 
 ## Precedence and temporary overrides
 
@@ -46,6 +53,11 @@ From highest to lowest priority:
 4. Defaults in `Settings`.
 
 Run commands from the repository root so they find the intended `.env`.
+
+An existing `.env` retains precedence over the new `data/v1` default. For isolated
+v1 development, use `DATA_DIR=data/v1 make app` (or `make api`) and
+`uv run --locked python main.py --data-dir data/v1`. These commands reuse `.env`
+credentials without modifying the old library or the configuration file.
 
 ```sh
 # Use all configured defaults.
@@ -65,7 +77,9 @@ uv run --locked python -m evals.evaluate grade evals/runs/<run-id> --reviewer ex
 ```
 
 The interactive CLI supports `--model`, `--top-k`, and `--data-dir`. Evaluation runs
-also support `--embedding-model`, `--chunk-size`, and `--overlap`. Explicit overrides
+also support `--embedding-model`, `--chunking-strategy`, `--chunk-max-tokens`,
+`--chunk-tokenizer`, `--chunk-size`, and `--overlap`. The last two apply only to
+character mode. Explicit overrides
 are validated together with the remaining configured values. A blank resolver model
 follows the effective answer model, including a `--model` override.
 
@@ -78,10 +92,11 @@ and history listing remain offline and do not load credentials.
 
 - Answer/resolver model, top-k and history-limit changes apply after restart and do
   not require reindexing.
-- Chunk-size/overlap changes apply only to newly indexed files. Existing chunks and
+- Chunking strategy, token budget/tokenizer, and character size/overlap changes apply
+  only to newly indexed files. Existing chunks and
   saved evidence snapshots do not change. Re-upload files to apply new chunking.
 - Changing the embedding model requires a fresh index of **all** documents. Use a
-  new `DATA_DIR`, restart, then upload the original TXT files. A same-dimensional
+  new `DATA_DIR`, restart, then upload the original TXT or Markdown files. A same-dimensional
   model can still use an incompatible vector space. The application does not
   migrate or detect that mismatch automatically; do not query an old index with
   a different embedding model. A new data directory also starts a new library and

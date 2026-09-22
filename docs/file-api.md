@@ -1,8 +1,8 @@
 # File Management API
 
-The FastAPI application exposes the existing TXT ingestion, listing, and deletion
-services. This is the local, single-user file API; chat routes and streaming are
-separate implementation steps.
+The FastAPI application exposes TXT/Markdown ingestion, listing, and deletion
+services. This is the local, single-user file API; chat and streaming use their
+own routes in the same application.
 
 ## Start the server
 
@@ -10,7 +10,7 @@ Run from the repository root with `OPENAI_API_KEY` in `.env`:
 
 ```bash
 uv sync --locked
-make api
+DATA_DIR=data/v1 make api
 ```
 
 The default address is `http://127.0.0.1:8000`. Interactive API documentation is at
@@ -18,10 +18,11 @@ The default address is `http://127.0.0.1:8000`. Interactive API documentation is
 with Ctrl+C. The equivalent startup command is:
 
 ```bash
-uv run --locked uvicorn knowledgebase.api.app:create_app --factory --host 127.0.0.1 --port 8000
+DATA_DIR=data/v1 uv run --locked uvicorn knowledgebase.api.app:create_app --factory --host 127.0.0.1 --port 8000
 ```
 
-`DATA_DIR` in `.env` defaults to `data`. The API and CLI use the same SQLite file,
+`DATA_DIR` defaults to `data/v1`. The commands above explicitly select that directory
+even if an existing `.env` still selects the MVP library. The API and CLI use the same SQLite file,
 Chroma directory, collection name, and embedding model. `--data-dir` still overrides
 the CLI setting. Paths are relative to the process working directory. A Python
 caller can override the API directory with `create_app(data_dir=Path(...))`.
@@ -46,16 +47,19 @@ storage convention. Names need not be unique; operations use file IDs.
 Send one multipart file under the field name `file`:
 
 ```bash
-curl -F 'file=@notes.txt' http://127.0.0.1:8000/api/files
+curl -F 'file=@notes.md' http://127.0.0.1:8000/api/files
 ```
 
 The route calls `ingest_file` and waits for the result. It returns a ready record
 only after indexing completes; this initial API does not acknowledge a background
 job with `202`. Other requests can observe `processing` through the file list while
 the upload is running. Uploading the same filename again creates another file ID.
-The service checks the `.txt` suffix, UTF-8 decoding, and nonempty text; it does not
+The service checks the `.txt` or `.md` suffix (case-insensitive), UTF-8 decoding,
+and nonempty text; it does not
 rely on the client's MIME type. The full file is read for the existing ingestion
-service, so this endpoint is intended for the MVP's small TXT materials.
+service, so this endpoint is intended for small local documents. Uploads use the
+shared [chunking settings](configuration.md) and retain complete source text,
+parser blocks, and chunk metadata. `FileInfo` does not expose those internal records.
 
 Successful uploads make real embedding API calls. Listing and deletion do not
 call a model. Validation failures create no file records. Processing failures

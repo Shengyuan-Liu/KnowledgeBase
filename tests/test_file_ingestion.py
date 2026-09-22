@@ -1,11 +1,14 @@
 from unittest.mock import Mock
 
 import pytest
+from sqlalchemy import select
 
 from knowledgebase.rag.chunking import split_text
 from knowledgebase.rag.retrieval import retrieve
+from knowledgebase.schemas import StructuredChunk
+from knowledgebase.storage.models import ChunkStructureRecord, DocumentSourceRecord
 from knowledgebase.services.files import InvalidUploadError, ingest_file
-from knowledgebase.storage.operations import get_chunks, get_file, get_files
+from knowledgebase.storage.operations import get_chunks, get_document_source, get_file, get_files
 
 
 def test_ingested_file_is_ready_and_retrievable(storage, embeddings):
@@ -27,13 +30,76 @@ def test_ingested_file_is_ready_and_retrievable(storage, embeddings):
     assert collection.count() == 1
 
 
+@pytest.mark.parametrize("name", ["notes.txt", "Guide.MD"])
+def test_structural_upload_persists_source_blocks_and_indexed_chunks(storage, embeddings, name):
+    sessions, store, collection = storage
+    text = "# Guide\r\n\r\nThe café closes at 5 PM.\r\n\r\n## Setup\r\n\r\nInstall the package.\r\n"
+    file_id = ingest_file(
+        name, text.encode("utf-8"), sessions, embeddings, store,
+        chunk_max_tokens=16, chunk_tokenizer="cl100k_base",
+    )
+
+    with sessions() as session:
+        source = get_document_source(session, file_id)
+        chunks = get_chunks(session, file_id)
+        assert get_file(session, file_id).status == "ready"
+        assert source.text == text
+        assert source.source_format == ("md" if name.endswith("MD") else "txt")
+        assert all(isinstance(chunk, StructuredChunk) for chunk in chunks)
+        assert all(chunk.token_count <= 16 and chunk.max_tokens == 16 for chunk in chunks)
+        assert all(chunk.text == text[chunk.start_offset:chunk.end_offset] for chunk in chunks)
+        if source.source_format == "md":
+            assert {tuple(chunk.heading_path) for chunk in chunks} == {("Guide",), ("Guide", "Setup")}
+        else:
+            assert all(chunk.heading_path == [] for chunk in chunks)
+        results = retrieve("What does the guide say?", session, embeddings, store, top_k=len(chunks))
+        assert {hit.chunk.chunk_id for hit in results} == {chunk.chunk_id for chunk in chunks}
+    embeddings.embed_documents.assert_called_once_with([chunk.text for chunk in chunks])
+    assert collection.count() == len(chunks)
+
+
+def test_parser_failure_leaves_a_failed_record_without_indexing(storage, embeddings, monkeypatch):
+    from knowledgebase.services import files
+
+    sessions, store, collection = storage
+    monkeypatch.setattr(files, "parse_markdown", Mock(side_effect=ValueError("Parsing failed.")))
+    with pytest.raises(ValueError, match="Parsing failed"):
+        ingest_file("guide.md", b"# Guide", sessions, embeddings, store)
+    with sessions() as session:
+        file = get_files(session)[0]
+        assert file.status == "failed"
+        assert get_document_source(session, file.file_id) is None
+        assert get_chunks(session, file.file_id) == []
+    embeddings.embed_documents.assert_not_called()
+    assert collection.count() == 0
+
+
+def test_partial_structural_index_failure_rolls_back_source_and_metadata(storage, embeddings):
+    sessions, store, collection = storage
+    def partial_upsert(chunks, vectors):
+        store.upsert_chunks(chunks[:1], vectors[:1])
+        raise RuntimeError("Vector write failed.")
+    broken = Mock(wraps=store)
+    broken.upsert_chunks.side_effect = partial_upsert
+    with pytest.raises(RuntimeError, match="Vector write failed"):
+        ingest_file("guide.md", b"# First\n\nFirst.\n\n# Second\n\nSecond.", sessions, embeddings, broken)
+    with sessions() as session:
+        file = get_files(session)[0]
+        assert file.status == "failed"
+        assert get_document_source(session, file.file_id) is None
+        assert get_chunks(session, file.file_id) == []
+        assert session.scalars(select(ChunkStructureRecord)).all() == []
+        assert session.scalars(select(DocumentSourceRecord)).all() == []
+    assert collection.count() == 0
+
+
 def test_ingestion_preserves_text_offsets_and_uses_chunk_settings(storage, embeddings):
     sessions, store, collection = storage
     text = "  café 🙂\r\nSecond line.\n"
 
     file_id = ingest_file(
         "notes.txt", text.encode("utf-8"), sessions, embeddings, store,
-        chunk_size=8, overlap=2,
+        chunk_size=8, overlap=2, chunking_strategy="character",
     )
 
     expected = split_text(text, file_id, chunk_size=8, overlap=2)
@@ -136,7 +202,7 @@ def test_partial_vector_failure_rolls_back_chunks_and_cleans_only_new_file(
     with pytest.raises(RuntimeError) as caught:
         ingest_file(
             "new.txt", b"First. Second.", sessions, embeddings, failing_store,
-            chunk_size=7, overlap=0,
+            chunk_size=7, overlap=0, chunking_strategy="character",
         )
 
     assert caught.value is failure
@@ -146,7 +212,7 @@ def test_partial_vector_failure_rolls_back_chunks_and_cleans_only_new_file(
         assert failed.error_message == str(failure)
         assert get_chunks(session, failed.file_id) == []
         assert get_file(session, existing_id).status == "ready"
-    assert collection.get()["ids"] == [f"{existing_id}:0"]
+    assert collection.get()["ids"] == [f"{existing_id}:structural:0"]
 
 
 def test_ready_update_failure_rolls_back_chunks_and_removes_written_vectors(

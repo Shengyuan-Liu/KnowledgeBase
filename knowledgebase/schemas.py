@@ -21,6 +21,43 @@ class Chunk(BaseModel):
     end_offset: int
 
 
+BlockType = Literal[
+    "heading", "paragraph", "list", "code", "table", "blockquote",
+    "thematic_break", "reference",
+]
+
+
+class SourceBlock(BaseModel):
+    """A structural block whose text is an exact slice of the original source."""
+
+    kind: BlockType
+    text: str
+    start_offset: int
+    end_offset: int
+    heading_path: list[str]
+    heading_level: int | None = None
+
+
+class StructuredChunk(Chunk):
+    """A bounded source slice with its structure and token-counting settings."""
+
+    heading_path: list[str]
+    source_block_indices: list[int]
+    token_count: int
+    tokenizer: str
+    max_tokens: int
+
+
+class DocumentSource(BaseModel):
+    """Canonical document and parser output, independent of a database session."""
+
+    file_id: str
+    source_format: Literal["txt", "md"]
+    text: str
+    source_hash: str
+    blocks: list[SourceBlock]
+
+
 class VectorMatch(BaseModel):
     """A chunk ID and its distance under the collection's configured metric."""
 

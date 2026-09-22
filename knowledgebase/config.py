@@ -1,7 +1,7 @@
 """Central defaults and runtime configuration for the API, CLI, and evaluations."""
 
 from pathlib import Path
-from typing import Self
+from typing import Literal, Self
 
 from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -13,6 +13,9 @@ DEFAULT_ANSWER_MODEL = "gpt-4.1"
 DEFAULT_EMBEDDING_MODEL = "text-embedding-3-small"
 DEFAULT_CHUNK_SIZE = 2048
 DEFAULT_OVERLAP = 256
+DEFAULT_CHUNKING_STRATEGY = "structural"
+DEFAULT_CHUNK_MAX_TOKENS = 512
+DEFAULT_CHUNK_TOKENIZER = "cl100k_base"
 DEFAULT_TOP_K = 5
 DEFAULT_HISTORY_LIMIT = 10
 
@@ -29,13 +32,16 @@ class Settings(BaseSettings):
     openai_base_url: str | None = None
     openai_timeout_seconds: float = Field(default=600, gt=0)
     openai_max_retries: int = Field(default=2, ge=0)
-    data_dir: Path = Path("data")
+    data_dir: Path = Path("data/v1")
 
     answer_model: str = DEFAULT_ANSWER_MODEL
     embedding_model: str = DEFAULT_EMBEDDING_MODEL
     resolver_model: str | None = None
     chunk_size: int = Field(default=DEFAULT_CHUNK_SIZE, gt=0)
     chunk_overlap: int = Field(default=DEFAULT_OVERLAP, ge=0)
+    chunking_strategy: Literal["structural", "character"] = DEFAULT_CHUNKING_STRATEGY
+    chunk_max_tokens: int = Field(default=DEFAULT_CHUNK_MAX_TOKENS, gt=0)
+    chunk_tokenizer: str = DEFAULT_CHUNK_TOKENIZER
     retrieval_top_k: int = Field(default=DEFAULT_TOP_K, gt=0)
     history_limit: int = Field(default=DEFAULT_HISTORY_LIMIT, gt=0)
 
@@ -46,6 +52,6 @@ class Settings(BaseSettings):
 
     @model_validator(mode="after")
     def valid_chunk_overlap(self) -> Self:
-        if self.chunk_overlap >= self.chunk_size:
+        if self.chunking_strategy == "character" and self.chunk_overlap >= self.chunk_size:
             raise ValueError("CHUNK_OVERLAP must be smaller than CHUNK_SIZE.")
         return self

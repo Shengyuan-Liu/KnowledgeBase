@@ -208,7 +208,8 @@ def test_interruption_preserves_completed_questions(tmp_path):
 
 
 @pytest.mark.parametrize("explicit_options", [False, True])
-def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_path, monkeypatch, explicit_options):
+@pytest.mark.parametrize("strategy", ["structural", "character"])
+def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_path, monkeypatch, explicit_options, strategy):
     import openai
 
     monkeypatch.setattr(ev, "ROOT", tmp_path)
@@ -221,12 +222,13 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
         "ANSWER_MODEL=env-generator\nEMBEDDING_MODEL=env-embeddings\n"
         "CHUNK_SIZE=64\nCHUNK_OVERLAP=8\nRETRIEVAL_TOP_K=2\n"
         "EVAL_TIMEOUT_SECONDS=17\nEVAL_MAX_RETRIES=1\n"
+        f"CHUNKING_STRATEGY={strategy}\nCHUNK_MAX_TOKENS=32\nCHUNK_TOKENIZER=cl100k_base\n"
     )
     data_case = case()
     data_case["expected_answer_points"] = ["REFERENCE_ONLY_DO_NOT_SEND_TO_GENERATOR"]
-    text = "The requirement is a GPA of 3.0."
-    data_case["evidence"] = [{"file": "notes.txt", "start_offset": 0, "end_offset": len(text)}]
-    monkeypatch.setattr(ev, "load_inputs", lambda path: ([data_case], {"corpus_id": "test"}, {"notes.txt": text}))
+    text = "# GPA\n\nThe requirement is a GPA of 3.0."
+    data_case["evidence"] = [{"file": "notes.md", "start_offset": 0, "end_offset": len(text)}]
+    monkeypatch.setattr(ev, "load_inputs", lambda path: ([data_case], {"corpus_id": "test"}, {"notes.md": text}))
     sdk = Mock()
     sdk.embeddings.create.side_effect = lambda **kwargs: SimpleNamespace(
         data=[SimpleNamespace(embedding=[1.0, 0.0]) for item in kwargs["input"]])
@@ -238,9 +240,12 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
     cases_path = tmp_path / "cases.jsonl"
     cases_path.write_text(json.dumps(data_case) + "\n")
     args = SimpleNamespace(cases=cases_path, label="Offline fixture", top_k=5, chunk_size=256,
+                           chunking_strategy="character" if strategy == "structural" else "structural",
+                           chunk_max_tokens=64, chunk_tokenizer="o200k_base",
                            overlap=64, model="offline-generator", embedding_model="offline-embeddings")
     if not explicit_options:
-        for name in ("model", "embedding_model", "chunk_size", "overlap", "top_k"):
+        for name in ("model", "embedding_model", "chunk_size", "overlap", "top_k",
+                     "chunking_strategy", "chunk_max_tokens", "chunk_tokenizer"):
             setattr(args, name, None)
     first, second = ev.run(args), ev.run(args)
     assert first != second
@@ -254,6 +259,10 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
         assert recorded["top_k"] == (5 if explicit_options else 2)
         assert recorded["timeout_seconds"] == 17
         assert recorded["max_retries"] == 1
+        assert recorded["chunking_strategy"] == args.chunking_strategy
+        assert recorded["chunk_max_tokens"] == (64 if explicit_options else 32)
+        assert recorded["chunk_tokenizer"] == ("o200k_base" if explicit_options else "cl100k_base")
+        assert recorded["effective_overlap"] == (0 if args.chunking_strategy == "structural" else args.overlap)
         assert (tmp_path / "data" / "evals" / path.name / "knowledgebase.db").exists()
         row = summary["rows"][0]["answer"]
         assert row["answer"] == "A GPA of 3.0. [1]"
@@ -262,6 +271,10 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
         assert len(row["sources"]) == 1
         assert row["sources"][0]["start_offset"] == 0
         assert row["sources"][0]["end_offset"] == len(text)
+        if args.chunking_strategy == "structural":
+            assert row["sources"][0]["heading_path"] == ["GPA"]
+            assert row["sources"][0]["tokenizer"] == args.chunk_tokenizer
+            assert row["sources"][0]["max_tokens"] == args.chunk_max_tokens
         assert summary["annotated_char_recall"] == 1
         assert summary["pass_rate"] is None
     for call in sdk.embeddings.create.call_args_list:
@@ -272,7 +285,7 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
         assert call.kwargs["model"] == args.model
         prompt = json.dumps(call.kwargs["input"])
         assert "REFERENCE_ONLY" not in prompt
-        assert text in prompt
+        assert any(text in message["content"] for message in call.kwargs["input"])
 
 
 def test_citation_diagnostics_preserve_unchecked_history_and_do_not_assign_grades(tmp_path):

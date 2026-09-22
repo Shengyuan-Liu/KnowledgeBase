@@ -63,7 +63,7 @@ test("live provider browser acceptance in an isolated library", async ({
     await page.goto("/");
     for (const fixture of fixtures) {
       await page
-        .getByLabel("Choose TXT file")
+        .getByLabel("Choose TXT or Markdown file")
         .setInputFiles({
           name: fixture.name,
           mimeType: "text/plain",
@@ -187,7 +187,7 @@ test("live provider browser acceptance in an isolated library", async ({
       fullPage: true,
     });
     for (const fixture of acceptanceFixtures) {
-      await page.getByLabel("Choose TXT file").setInputFiles({
+      await page.getByLabel("Choose TXT or Markdown file").setInputFiles({
         name: fixture.name, mimeType: "text/plain", buffer: Buffer.from(fixture.text),
       });
       await expect(page.getByText(`${fixture.name} is ready.`)).toBeVisible();

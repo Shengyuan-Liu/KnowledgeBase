@@ -17,7 +17,7 @@ for (const width of [1440, 1024, 390]) {
       await page.getByRole("button", { name: /Library/ }).click();
     await expect(page.getByText("A home for your notes")).toBeVisible();
     const filename = `campus-reference-notes-for-the-autumn-semester-${width}.txt`;
-    await page.getByLabel("Choose TXT file").setInputFiles({
+    await page.getByLabel("Choose TXT or Markdown file").setInputFiles({
       name: filename,
       mimeType: "text/plain",
       buffer: Buffer.from(
@@ -91,7 +91,7 @@ for (const width of [1440, 1024, 390]) {
 test("backend rejects invalid UTF-8 and empty uploads", async ({ page }) => {
   await page.goto("/");
   await page
-    .getByLabel("Choose TXT file")
+    .getByLabel("Choose TXT or Markdown file")
     .setInputFiles({
       name: "invalid.txt",
       mimeType: "text/plain",
@@ -101,7 +101,7 @@ test("backend rejects invalid UTF-8 and empty uploads", async ({ page }) => {
     "The file must be UTF-8 encoded.",
   );
   await page
-    .getByLabel("Choose TXT file")
+    .getByLabel("Choose TXT or Markdown file")
     .setInputFiles({
       name: "empty.txt",
       mimeType: "text/plain",

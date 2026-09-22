@@ -46,7 +46,7 @@ def test_upload_question_followup_and_persisted_exchange(api):
     assert first["answer"] == "The library closes at 5 PM. [1]"
     assert first["sources"] == [{
         "source_id": 1, "file_id": file_id, "file_name": "hours.txt",
-        "chunk_id": f"{file_id}:0", "text": "The library closes at 5 PM.",
+        "chunk_id": f"{file_id}:structural:0", "text": "The library closes at 5 PM.",
         "distance": pytest.approx(0.0),
     }]
     assert first["citation_check"] == {

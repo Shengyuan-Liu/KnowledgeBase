@@ -2,12 +2,14 @@ import { randomUUID } from "node:crypto";
 import { resolve } from "node:path";
 import { defineConfig } from "@playwright/test";
 
-const runId = `${new Date().toISOString().replace(/[-:.]/g, "")}-${randomUUID().slice(0, 8)}`;
+const runId = process.env.LIVE_RUN_ID ?? `${new Date().toISOString().replace(/[-:.]/g, "")}-${randomUUID().slice(0, 8)}`;
+process.env.LIVE_RUN_ID = runId;
 const evidenceDir = resolve("../evals/browser-runs", runId);
 process.env.LIVE_EVIDENCE_DIR = evidenceDir;
 
 export default defineConfig({
   testDir: "./live",
+  testMatch: "chat.spec.ts",
   workers: 1,
   retries: 0,
   timeout: 180_000,

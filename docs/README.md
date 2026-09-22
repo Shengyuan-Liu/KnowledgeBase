@@ -14,6 +14,10 @@ not implementation or quality results.
 
 ## Implemented Components
 
+- [Document parsing](document-parsing.md): TXT/Markdown structural blocks and exact source offsets, connected to uploads.
+- [Structural chunking](structural-chunking.md): sentence/structure boundaries, shared token budgets, and exact source chunks in ingestion.
+- [Document storage](document-storage.md): canonical TXT/Markdown sources, persisted parser blocks, structural chunk metadata, and transactional cleanup.
+
 - [Runtime configuration](configuration.md): shared `.env` settings, precedence, model selection, and reindexing requirements.
 
 - [MVP release evaluation](../evals/analyses/2026-09-21-mvp-release.md): final application verification and known quality limits.
@@ -21,14 +25,14 @@ not implementation or quality results.
 - [Frontend workspace](frontend.md): file management, streaming chat, citation navigation, conversation restoration, and offline browser acceptance tests.
 - [Real-provider browser acceptance](../evals/browser-runs/20260920T225644765Z-96618e0c/README.md): recorded live workflow and original observations.
 - [Baseline failure audit](../evals/analyses/2026-09-20-baseline-failures.md): nine failed cases, retrieval/answer issues, and judge limitations.
-- [File management API](file-api.md): FastAPI startup, TXT upload/list/delete endpoints, HTTP errors, and lifecycle tests.
+- [File management API](file-api.md): FastAPI startup, TXT/Markdown upload/list/delete endpoints, HTTP errors, and lifecycle tests.
 - [Chat API](chat-api.md): complete JSON answers, continued conversations, source and citation fields, HTTP errors, and integration tests.
 - [Streaming chat API](chat-streaming.md): incremental SSE text, request identity, completion, cancellation, and atomic answer persistence.
 - [Conversation reading API](conversation-api.md): ordered history, saved evidence, legacy message compatibility, and deleted-file markers.
 - [Embedding provider](embeddings.md): OpenAI integration, input and output contracts, local usage, and deterministic tests.
 - [Vector database](vectordb.md): Chroma storage, search, file-scoped deletion, and local persistence tests.
 - [Retrieval](retrieval.md): ready-file filtering, question embedding, vector search, and canonical chunk text.
-- [File ingestion](file-ingestion.md): TXT validation, chunking, indexing, file states, and failure cleanup.
+- [File ingestion](file-ingestion.md): TXT/Markdown validation, parsing, chunking, indexing, file states, and failure cleanup.
 - [File deletion](file-deletion.md): retrieval exclusion, vector/chunk/file cleanup, transaction boundaries, and explicit retries.
 - [Conversation storage](conversation-storage.md): conversation metadata, ordered message history, recent-message reads, and caller-owned transactions.
 - [Conversation chat](conversation-chat.md): follow-up resolution, fresh retrieval, completed-turn persistence, and CLI resumption.

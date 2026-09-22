@@ -23,7 +23,7 @@ def test_data_directory_defaults_and_dotenv_override(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     monkeypatch.delenv("DATA_DIR", raising=False)
     monkeypatch.setenv("OPENAI_API_KEY", "test-key")
-    assert Settings().data_dir == Path("data")
+    assert Settings().data_dir == Path("data/v1")
     (tmp_path / ".env").write_text("DATA_DIR=custom-data\n", encoding="utf-8")
     assert Settings().data_dir == Path("custom-data")
 
@@ -43,7 +43,8 @@ def test_all_runtime_options_and_override_precedence(tmp_path, monkeypatch):
         "OPENAI_API_KEY": "test-secret", "OPENAI_BASE_URL": "https://provider.test/v1",
         "OPENAI_TIMEOUT_SECONDS": "42", "OPENAI_MAX_RETRIES": "1", "DATA_DIR": "custom-data",
         "ANSWER_MODEL": "file-answer", "EMBEDDING_MODEL": "file-embedding",
-        "RESOLVER_MODEL": "file-resolver", "CHUNK_SIZE": "100", "CHUNK_OVERLAP": "20",
+        "RESOLVER_MODEL": "file-resolver", "CHUNKING_STRATEGY": "character", "CHUNK_MAX_TOKENS": "64",
+        "CHUNK_TOKENIZER": "cl100k_base", "CHUNK_SIZE": "100", "CHUNK_OVERLAP": "20",
         "RETRIEVAL_TOP_K": "3", "HISTORY_LIMIT": "4", "EVAL_TIMEOUT_SECONDS": "12",
         "EVAL_MAX_RETRIES": "0", "JUDGE_MODEL": "file-judge",
     }
@@ -79,7 +80,9 @@ def test_invalid_tuning_values_fail_before_startup_without_exposing_key(tmp_path
     monkeypatch.chdir(tmp_path)
     monkeypatch.setenv("OPENAI_API_KEY", "must-not-appear-in-errors")
     for invalid in (
-        {"chunk_size": 0}, {"chunk_overlap": -1}, {"chunk_size": 16, "chunk_overlap": 16},
+        {"chunk_max_tokens": 0}, {"chunking_strategy": "unknown"},
+        {"chunk_size": 0}, {"chunk_overlap": -1},
+        {"chunking_strategy": "character", "chunk_size": 16, "chunk_overlap": 16},
         {"retrieval_top_k": 0}, {"history_limit": 0}, {"openai_timeout_seconds": 0},
         {"openai_max_retries": -1}, {"eval_timeout_seconds": 0}, {"eval_max_retries": -1},
     ):
