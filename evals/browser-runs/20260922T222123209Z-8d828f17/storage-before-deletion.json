@@ -1,0 +1,578 @@
+{
+  "files": [
+    {
+      "file_id": "b895d7e877cc41b580586c889de8fbb9",
+      "file_name": "chat_prefix_completion.md",
+      "status": "ready",
+      "error_message": null,
+      "created_at": "2026-09-22 22:21:25.618528"
+    },
+    {
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "file_name": "kv_cache.md",
+      "status": "ready",
+      "error_message": null,
+      "created_at": "2026-09-22 22:21:26.412994"
+    },
+    {
+      "file_id": "ee9ff732e80043c78b9cf0fdcb4da8c8",
+      "file_name": "error_codes.md",
+      "status": "ready",
+      "error_message": null,
+      "created_at": "2026-09-22 22:21:27.202151"
+    },
+    {
+      "file_id": "f0c4e2d1b14d4e328f4a86efabda4048",
+      "file_name": "garden.txt",
+      "status": "ready",
+      "error_message": null,
+      "created_at": "2026-09-22 22:21:27.490425"
+    }
+  ],
+  "document_sources": [
+    {
+      "file_id": "b895d7e877cc41b580586c889de8fbb9",
+      "source_format": "md",
+      "text": "# Chat Prefix Completion (Beta)\n\nSource: https://api-docs.deepseek.com/guides/chat_prefix_completion\nCaptured: 2026-09-21T19:37:14.873Z\n\nThe chat prefix completion follows the [Chat Completion API](https://api-docs.deepseek.com/api/create-chat-completion), where users provide an assistant's prefix message for the model to complete the rest of the message.\n\n## Notice\n\n1.  When using chat prefix completion, users must ensure that the `role` of the last message in the `messages` list is `assistant` and set the `prefix` parameter of the last message to `True`.\n2.  The user needs to set `base_url=\"https://api.deepseek.com/beta\"` to enable the Beta feature.\n\n## Sample Code\n\nBelow is a complete Python code example for chat prefix completion. In this example, we set the prefix message of the `assistant` to `\"```python\\n\"` to force the model to output Python code, and set the `stop` parameter to `['```']` to prevent additional explanations from the model.\n\n```python\nfrom openai import OpenAI\n\nclient = OpenAI(\n    api_key=\"<your api key>\",\n    base_url=\"https://api.deepseek.com/beta\",\n)\n\nmessages = [\n    {\"role\": \"user\", \"content\": \"Please write quick sort code\"},\n    {\"role\": \"assistant\", \"content\": \"```python\\n\", \"prefix\": True}\n]\nresponse = client.chat.completions.create(\n    model=\"deepseek-flash\",\n    messages=messages,\n    stop=[\"```\"],\n)\nprint(response.choices[0].message.content)\n```\n",
+      "source_hash": "6cf714c84d20a04c57b6c9f05645bc43b49e47b492f19d4effea9e616c8d3221",
+      "blocks": "[{\"kind\": \"heading\", \"text\": \"# Chat Prefix Completion (Beta)\\n\", \"start_offset\": 0, \"end_offset\": 32, \"heading_path\": [\"Chat Prefix Completion (Beta)\"], \"heading_level\": 1}, {\"kind\": \"paragraph\", \"text\": \"Source: https://api-docs.deepseek.com/guides/chat_prefix_completion\\nCaptured: 2026-09-21T19:37:14.873Z\\n\", \"start_offset\": 33, \"end_offset\": 136, \"heading_path\": [\"Chat Prefix Completion (Beta)\"], \"heading_level\": null}, {\"kind\": \"paragraph\", \"text\": \"The chat prefix completion follows the [Chat Completion API](https://api-docs.deepseek.com/api/create-chat-completion), where users provide an assistant's prefix message for the model to complete the rest of the message.\\n\", \"start_offset\": 137, \"end_offset\": 358, \"heading_path\": [\"Chat Prefix Completion (Beta)\"], \"heading_level\": null}, {\"kind\": \"heading\", \"text\": \"## Notice\\n\", \"start_offset\": 359, \"end_offset\": 369, \"heading_path\": [\"Chat Prefix Completion (Beta)\", \"Notice\"], \"heading_level\": 2}, {\"kind\": \"list\", \"text\": \"1.  When using chat prefix completion, users must ensure that the `role` of the last message in the `messages` list is `assistant` and set the `prefix` parameter of the last message to `True`.\\n2.  The user needs to set `base_url=\\\"https://api.deepseek.com/beta\\\"` to enable the Beta feature.\\n\\n\", \"start_offset\": 370, \"end_offset\": 661, \"heading_path\": [\"Chat Prefix Completion (Beta)\", \"Notice\"], \"heading_level\": null}, {\"kind\": \"heading\", \"text\": \"## Sample Code\\n\", \"start_offset\": 661, \"end_offset\": 676, \"heading_path\": [\"Chat Prefix Completion (Beta)\", \"Sample Code\"], \"heading_level\": 2}, {\"kind\": \"paragraph\", \"text\": \"Below is a complete Python code example for chat prefix completion. In this example, we set the prefix message of the `assistant` to `\\\"```python\\\\n\\\"` to force the model to output Python code, and set the `stop` parameter to `['```']` to prevent additional explanations from the model.\\n\", \"start_offset\": 677, \"end_offset\": 961, \"heading_path\": [\"Chat Prefix Completion (Beta)\", \"Sample Code\"], \"heading_level\": null}, {\"kind\": \"code\", \"text\": \"```python\\nfrom openai import OpenAI\\n\\nclient = OpenAI(\\n    api_key=\\\"<your api key>\\\",\\n    base_url=\\\"https://api.deepseek.com/beta\\\",\\n)\\n\\nmessages = [\\n    {\\\"role\\\": \\\"user\\\", \\\"content\\\": \\\"Please write quick sort code\\\"},\\n    {\\\"role\\\": \\\"assistant\\\", \\\"content\\\": \\\"```python\\\\n\\\", \\\"prefix\\\": True}\\n]\\nresponse = client.chat.completions.create(\\n    model=\\\"deepseek-flash\\\",\\n    messages=messages,\\n    stop=[\\\"```\\\"],\\n)\\nprint(response.choices[0].message.content)\\n```\\n\", \"start_offset\": 962, \"end_offset\": 1404, \"heading_path\": [\"Chat Prefix Completion (Beta)\", \"Sample Code\"], \"heading_level\": null}]"
+    },
+    {
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "source_format": "md",
+      "text": "# Context Caching\n\nSource: https://api-docs.deepseek.com/guides/kv_cache\nCaptured: 2026-09-21T19:37:18.501Z\n\nThe DeepSeek API Context Caching on Disk Technology is enabled by default for all users, allowing them to benefit without needing to modify their code.\n\nEach user request will trigger the construction of a hard disk cache. If subsequent requests have overlapping prefixes with previous requests, the overlapping part will only be fetched from the cache, which counts as a \"cache hit.\"\n\n## Cache Persistence and Hit Rules\n\nA cache hit requires that the corresponding prefix has already been \"persisted\" (written to the disk cache). Due to the Sliding Window Attention mechanism, the storage and matching of cached prefixes differs from before. Each cached prefix is an independent, complete unit. A subsequent request can only hit the cache if it **fully matches** a **cache prefix unit**.\n\n### When cache prefixes are persisted:\n\n1.  **Persistence at request boundaries**: Each request will produce two **cache prefix units** at the **end position of the user input** and the **end position of the model output**. A subsequent request can hit the cache if it **fully** matches them.\n\n2.  **Common prefix detection persistence**: When the system detects a common prefix across multiple requests, it will persist that common prefix as an independent **cache prefix unit**. A subsequent request can hit the cache if it **fully** reuses that **cache prefix unit**.\n\n3.  **Persistence at fixed token intervals**: For long inputs or long outputs, the system will carve out **cache prefix units** at fixed token intervals, to avoid long prefixes from being completely uncacheable due to never reaching an end position.\n\nExample 1: A user's first-round request is `A + B`, and the second-round request is `A + B + C`. The second request can fully match the **cache prefix unit** `A + B`, hitting the cache for `A + B`. See Example 1 below.\n\nExample 2: A user's first-round request is `A + B`, and the second-round request is `A + C`. The second request cannot hit the cache, because `A + C` does not fully match the first round's **cache prefix unit** (`A + B`). However, at this point the system will detect that the two requests share a common prefix `A`, and persist `A` as a **cache prefix unit**. When a third-round request `A + D` arrives, it can fully match the **cache prefix unit** `A`, hitting the cache for `A`. See Example 2 below.\n\n* * *\n\n### Example 1: Multi-round Conversation\n\n**First Request**\n\n```json\nmessages: [\n    {\"role\": \"system\", \"content\": \"You are a helpful assistant\"},\n    {\"role\": \"user\", \"content\": \"What is the capital of China?\"}\n]\n```\n\n**Second Request**\n\n```json\nmessages: [\n    {\"role\": \"system\", \"content\": \"You are a helpful assistant\"},\n    {\"role\": \"user\", \"content\": \"What is the capital of China?\"},\n    {\"role\": \"assistant\", \"content\": \"The capital of China is Beijing.\"},\n    {\"role\": \"user\", \"content\": \"What is the capital of the United States?\"}\n]\n```\n\nIn this example, the second request can fully reuse the **cache prefix unit** from the first request, which will count as a \"cache hit.\"\n\n### Example 2: Long Text Q&A\n\n**First Request**\n\n```json\nmessages: [\n    {\"role\": \"system\", \"content\": \"You are an experienced financial report analyst...\"}\n    {\"role\": \"user\", \"content\": \"<financial report content>\\n\\nPlease summarize the key information of this financial report.\"}\n]\n```\n\n**Second Request**\n\n```json\nmessages: [\n    {\"role\": \"system\", \"content\": \"You are an experienced financial report analyst...\"}\n    {\"role\": \"user\", \"content\": \"<financial report content>\\n\\nPlease analyze the profitability of this financial report.\"}\n]\n```\n\n**Third Request**\n\n```json\nmessages: [\n    {\"role\": \"system\", \"content\": \"You are an experienced financial report analyst...\"}\n    {\"role\": \"user\", \"content\": \"<financial report content>\\n\\nPlease analyze the ratio of the company's revenue to expenses.\"}\n]\n```\n\nIn the above example, the first two requests will not hit the cache. After the first two requests are completed, the system will identify the `system` message + <financial report content> in the `user` message as a **cache prefix unit** and persist it. In the third request, since it fully matches the previously persisted **cache prefix unit**, it can hit the cache.\n\n* * *\n\n## Checking Cache Hit Status\n\nIn the response from the DeepSeek API, we have added two fields in the `usage` section to reflect the cache hit status of the request:\n\n1.  `prompt_cache_hit_tokens`: The number of tokens in the input of this request that resulted in a cache hit.\n\n2.  `prompt_cache_miss_tokens`: The number of tokens in the input of this request that did not result in a cache hit.\n\n## Hard Disk Cache and Output Randomness\n\nThe hard disk cache only matches the prefix part of the user's input. The output is still generated through computation and inference, and it is influenced by parameters such as temperature, introducing randomness.\n\n## Additional Notes\n\n1.  The cache system works on a \"best-effort\" basis and does not guarantee a 100% cache hit rate.\n\n2.  Cache construction takes seconds. Once the cache is no longer in use, it will be automatically cleared, usually within a few hours to a few days.\n",
+      "source_hash": "685b02dd3721c4bccbff576fd3eff448c575268798d7e58946932456eb0953b2",
+      "blocks": "[{\"kind\": \"heading\", \"text\": \"# Context Caching\\n\", \"start_offset\": 0, \"end_offset\": 18, \"heading_path\": [\"Context Caching\"], \"heading_level\": 1}, {\"kind\": \"paragraph\", \"text\": \"Source: https://api-docs.deepseek.com/guides/kv_cache\\nCaptured: 2026-09-21T19:37:18.501Z\\n\", \"start_offset\": 19, \"end_offset\": 108, \"heading_path\": [\"Context Caching\"], \"heading_level\": null}, {\"kind\": \"paragraph\", \"text\": \"The DeepSeek API Context Caching on Disk Technology is enabled by default for all users, allowing them to benefit without needing to modify their code.\\n\", \"start_offset\": 109, \"end_offset\": 261, \"heading_path\": [\"Context Caching\"], \"heading_level\": null}, {\"kind\": \"paragraph\", \"text\": \"Each user request will trigger the construction of a hard disk cache. If subsequent requests have overlapping prefixes with previous requests, the overlapping part will only be fetched from the cache, which counts as a \\\"cache hit.\\\"\\n\", \"start_offset\": 262, \"end_offset\": 494, \"heading_path\": [\"Context Caching\"], \"heading_level\": null}, {\"kind\": \"heading\", \"text\": \"## Cache Persistence and Hit Rules\\n\", \"start_offset\": 495, \"end_offset\": 530, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\"], \"heading_level\": 2}, {\"kind\": \"paragraph\", \"text\": \"A cache hit requires that the corresponding prefix has already been \\\"persisted\\\" (written to the disk cache). Due to the Sliding Window Attention mechanism, the storage and matching of cached prefixes differs from before. Each cached prefix is an independent, complete unit. A subsequent request can only hit the cache if it **fully matches** a **cache prefix unit**.\\n\", \"start_offset\": 531, \"end_offset\": 898, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\"], \"heading_level\": null}, {\"kind\": \"heading\", \"text\": \"### When cache prefixes are persisted:\\n\", \"start_offset\": 899, \"end_offset\": 938, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"When cache prefixes are persisted:\"], \"heading_level\": 3}, {\"kind\": \"list\", \"text\": \"1.  **Persistence at request boundaries**: Each request will produce two **cache prefix units** at the **end position of the user input** and the **end position of the model output**. A subsequent request can hit the cache if it **fully** matches them.\\n\\n2.  **Common prefix detection persistence**: When the system detects a common prefix across multiple requests, it will persist that common prefix as an independent **cache prefix unit**. A subsequent request can hit the cache if it **fully** reuses that **cache prefix unit**.\\n\\n3.  **Persistence at fixed token intervals**: For long inputs or long outputs, the system will carve out **cache prefix units** at fixed token intervals, to avoid long prefixes from being completely uncacheable due to never reaching an end position.\\n\\n\", \"start_offset\": 939, \"end_offset\": 1722, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"When cache prefixes are persisted:\"], \"heading_level\": null}, {\"kind\": \"paragraph\", \"text\": \"Example 1: A user's first-round request is `A + B`, and the second-round request is `A + B + C`. The second request can fully match the **cache prefix unit** `A + B`, hitting the cache for `A + B`. See Example 1 below.\\n\", \"start_offset\": 1722, \"end_offset\": 1941, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"When cache prefixes are persisted:\"], \"heading_level\": null}, {\"kind\": \"paragraph\", \"text\": \"Example 2: A user's first-round request is `A + B`, and the second-round request is `A + C`. The second request cannot hit the cache, because `A + C` does not fully match the first round's **cache prefix unit** (`A + B`). However, at this point the system will detect that the two requests share a common prefix `A`, and persist `A` as a **cache prefix unit**. When a third-round request `A + D` arrives, it can fully match the **cache prefix unit** `A`, hitting the cache for `A`. See Example 2 below.\\n\", \"start_offset\": 1942, \"end_offset\": 2445, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"When cache prefixes are persisted:\"], \"heading_level\": null}, {\"kind\": \"thematic_break\", \"text\": \"* * *\\n\", \"start_offset\": 2446, \"end_offset\": 2452, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"When cache prefixes are persisted:\"], \"heading_level\": null}, {\"kind\": \"heading\", \"text\": \"### Example 1: Multi-round Conversation\\n\", \"start_offset\": 2453, \"end_offset\": 2493, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 1: Multi-round Conversation\"], \"heading_level\": 3}, {\"kind\": \"paragraph\", \"text\": \"**First Request**\\n\", \"start_offset\": 2494, \"end_offset\": 2512, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 1: Multi-round Conversation\"], \"heading_level\": null}, {\"kind\": \"code\", \"text\": \"```json\\nmessages: [\\n    {\\\"role\\\": \\\"system\\\", \\\"content\\\": \\\"You are a helpful assistant\\\"},\\n    {\\\"role\\\": \\\"user\\\", \\\"content\\\": \\\"What is the capital of China?\\\"}\\n]\\n```\\n\", \"start_offset\": 2513, \"end_offset\": 2670, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 1: Multi-round Conversation\"], \"heading_level\": null}, {\"kind\": \"paragraph\", \"text\": \"**Second Request**\\n\", \"start_offset\": 2671, \"end_offset\": 2690, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 1: Multi-round Conversation\"], \"heading_level\": null}, {\"kind\": \"code\", \"text\": \"```json\\nmessages: [\\n    {\\\"role\\\": \\\"system\\\", \\\"content\\\": \\\"You are a helpful assistant\\\"},\\n    {\\\"role\\\": \\\"user\\\", \\\"content\\\": \\\"What is the capital of China?\\\"},\\n    {\\\"role\\\": \\\"assistant\\\", \\\"content\\\": \\\"The capital of China is Beijing.\\\"},\\n    {\\\"role\\\": \\\"user\\\", \\\"content\\\": \\\"What is the capital of the United States?\\\"}\\n]\\n```\\n\", \"start_offset\": 2691, \"end_offset\": 3000, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 1: Multi-round Conversation\"], \"heading_level\": null}, {\"kind\": \"paragraph\", \"text\": \"In this example, the second request can fully reuse the **cache prefix unit** from the first request, which will count as a \\\"cache hit.\\\"\\n\", \"start_offset\": 3001, \"end_offset\": 3138, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 1: Multi-round Conversation\"], \"heading_level\": null}, {\"kind\": \"heading\", \"text\": \"### Example 2: Long Text Q&A\\n\", \"start_offset\": 3139, \"end_offset\": 3168, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 2: Long Text Q&A\"], \"heading_level\": 3}, {\"kind\": \"paragraph\", \"text\": \"**First Request**\\n\", \"start_offset\": 3169, \"end_offset\": 3187, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 2: Long Text Q&A\"], \"heading_level\": null}, {\"kind\": \"code\", \"text\": \"```json\\nmessages: [\\n    {\\\"role\\\": \\\"system\\\", \\\"content\\\": \\\"You are an experienced financial report analyst...\\\"}\\n    {\\\"role\\\": \\\"user\\\", \\\"content\\\": \\\"<financial report content>\\\\n\\\\nPlease summarize the key information of this financial report.\\\"}\\n]\\n```\\n\", \"start_offset\": 3188, \"end_offset\": 3430, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 2: Long Text Q&A\"], \"heading_level\": null}, {\"kind\": \"paragraph\", \"text\": \"**Second Request**\\n\", \"start_offset\": 3431, \"end_offset\": 3450, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 2: Long Text Q&A\"], \"heading_level\": null}, {\"kind\": \"code\", \"text\": \"```json\\nmessages: [\\n    {\\\"role\\\": \\\"system\\\", \\\"content\\\": \\\"You are an experienced financial report analyst...\\\"}\\n    {\\\"role\\\": \\\"user\\\", \\\"content\\\": \\\"<financial report content>\\\\n\\\\nPlease analyze the profitability of this financial report.\\\"}\\n]\\n```\\n\", \"start_offset\": 3451, \"end_offset\": 3689, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 2: Long Text Q&A\"], \"heading_level\": null}, {\"kind\": \"paragraph\", \"text\": \"**Third Request**\\n\", \"start_offset\": 3690, \"end_offset\": 3708, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 2: Long Text Q&A\"], \"heading_level\": null}, {\"kind\": \"code\", \"text\": \"```json\\nmessages: [\\n    {\\\"role\\\": \\\"system\\\", \\\"content\\\": \\\"You are an experienced financial report analyst...\\\"}\\n    {\\\"role\\\": \\\"user\\\", \\\"content\\\": \\\"<financial report content>\\\\n\\\\nPlease analyze the ratio of the company's revenue to expenses.\\\"}\\n]\\n```\\n\", \"start_offset\": 3709, \"end_offset\": 3951, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 2: Long Text Q&A\"], \"heading_level\": null}, {\"kind\": \"paragraph\", \"text\": \"In the above example, the first two requests will not hit the cache. After the first two requests are completed, the system will identify the `system` message + <financial report content> in the `user` message as a **cache prefix unit** and persist it. In the third request, since it fully matches the previously persisted **cache prefix unit**, it can hit the cache.\\n\", \"start_offset\": 3952, \"end_offset\": 4320, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 2: Long Text Q&A\"], \"heading_level\": null}, {\"kind\": \"thematic_break\", \"text\": \"* * *\\n\", \"start_offset\": 4321, \"end_offset\": 4327, \"heading_path\": [\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 2: Long Text Q&A\"], \"heading_level\": null}, {\"kind\": \"heading\", \"text\": \"## Checking Cache Hit Status\\n\", \"start_offset\": 4328, \"end_offset\": 4357, \"heading_path\": [\"Context Caching\", \"Checking Cache Hit Status\"], \"heading_level\": 2}, {\"kind\": \"paragraph\", \"text\": \"In the response from the DeepSeek API, we have added two fields in the `usage` section to reflect the cache hit status of the request:\\n\", \"start_offset\": 4358, \"end_offset\": 4493, \"heading_path\": [\"Context Caching\", \"Checking Cache Hit Status\"], \"heading_level\": null}, {\"kind\": \"list\", \"text\": \"1.  `prompt_cache_hit_tokens`: The number of tokens in the input of this request that resulted in a cache hit.\\n\\n2.  `prompt_cache_miss_tokens`: The number of tokens in the input of this request that did not result in a cache hit.\\n\\n\", \"start_offset\": 4494, \"end_offset\": 4725, \"heading_path\": [\"Context Caching\", \"Checking Cache Hit Status\"], \"heading_level\": null}, {\"kind\": \"heading\", \"text\": \"## Hard Disk Cache and Output Randomness\\n\", \"start_offset\": 4725, \"end_offset\": 4766, \"heading_path\": [\"Context Caching\", \"Hard Disk Cache and Output Randomness\"], \"heading_level\": 2}, {\"kind\": \"paragraph\", \"text\": \"The hard disk cache only matches the prefix part of the user's input. The output is still generated through computation and inference, and it is influenced by parameters such as temperature, introducing randomness.\\n\", \"start_offset\": 4767, \"end_offset\": 4982, \"heading_path\": [\"Context Caching\", \"Hard Disk Cache and Output Randomness\"], \"heading_level\": null}, {\"kind\": \"heading\", \"text\": \"## Additional Notes\\n\", \"start_offset\": 4983, \"end_offset\": 5003, \"heading_path\": [\"Context Caching\", \"Additional Notes\"], \"heading_level\": 2}, {\"kind\": \"list\", \"text\": \"1.  The cache system works on a \\\"best-effort\\\" basis and does not guarantee a 100% cache hit rate.\\n\\n2.  Cache construction takes seconds. Once the cache is no longer in use, it will be automatically cleared, usually within a few hours to a few days.\\n\", \"start_offset\": 5004, \"end_offset\": 5253, \"heading_path\": [\"Context Caching\", \"Additional Notes\"], \"heading_level\": null}]"
+    },
+    {
+      "file_id": "ee9ff732e80043c78b9cf0fdcb4da8c8",
+      "source_format": "md",
+      "text": "# Error Codes\n\nSource: https://api-docs.deepseek.com/quick_start/error_codes\nCaptured: 2026-09-21T19:37:47.126Z\n\nWhen calling DeepSeek API, you may encounter errors. Here list the causes and solutions.\n\n| CODE | DESCRIPTION |\n| --- | --- |\n| 400 - Invalid Format | **Cause**: Invalid request body format.  <br>**Solution**: Please modify your request body according to the hints in the error message. For more API format details, please refer to [DeepSeek API Docs.](https://api-docs.deepseek.com/) |\n| 401 - Authentication Fails | **Cause**: Authentication fails due to the wrong API key.  <br>**Solution**: Please check your API key. If you don't have one, please [create an API key](https://platform.deepseek.com/api_keys) first. |\n| 402 - Insufficient Balance | **Cause**: You have run out of balance.  <br>**Solution**: Please check your account's balance, and go to the [Top up](https://platform.deepseek.com/top_up) page to add funds. |\n| 422 - Invalid Parameters | **Cause**: Your request contains invalid parameters.  <br>**Solution**: Please modify your request parameters according to the hints in the error message. For more API format details, please refer to [DeepSeek API Docs.](https://api-docs.deepseek.com/) |\n| 429 - Rate Limit Reached | **Cause**: You are sending requests too quickly.  <br>**Solution**: Please pace your requests reasonably. We also advise users to temporarily switch to the APIs of alternative LLM service providers, like OpenAI. |\n| 500 - Server Error | **Cause**: Our server encounters an issue.  <br>**Solution**: Please retry your request after a brief wait and contact us if the issue persists. |\n| 503 - Server Overloaded | **Cause**: The server is overloaded due to high traffic.  <br>**Solution**: Please retry your request after a brief wait. |\n",
+      "source_hash": "bbae48bc721b8148feba20f6e7fc4403a0d5ec227fe57a766ea0e92d61f5b2af",
+      "blocks": "[{\"kind\": \"heading\", \"text\": \"# Error Codes\\n\", \"start_offset\": 0, \"end_offset\": 14, \"heading_path\": [\"Error Codes\"], \"heading_level\": 1}, {\"kind\": \"paragraph\", \"text\": \"Source: https://api-docs.deepseek.com/quick_start/error_codes\\nCaptured: 2026-09-21T19:37:47.126Z\\n\", \"start_offset\": 15, \"end_offset\": 112, \"heading_path\": [\"Error Codes\"], \"heading_level\": null}, {\"kind\": \"paragraph\", \"text\": \"When calling DeepSeek API, you may encounter errors. Here list the causes and solutions.\\n\", \"start_offset\": 113, \"end_offset\": 202, \"heading_path\": [\"Error Codes\"], \"heading_level\": null}, {\"kind\": \"table\", \"text\": \"| CODE | DESCRIPTION |\\n| --- | --- |\\n| 400\\u00a0-\\u00a0Invalid\\u00a0Format | **Cause**: Invalid request body format.  <br>**Solution**: Please modify your request body according to the hints in the error message. For more API format details, please refer to [DeepSeek API Docs.](https://api-docs.deepseek.com/) |\\n| 401\\u00a0-\\u00a0Authentication\\u00a0Fails | **Cause**: Authentication fails due to the wrong API key.  <br>**Solution**: Please check your API key. If you don't have one, please [create an API key](https://platform.deepseek.com/api_keys) first. |\\n| 402\\u00a0-\\u00a0Insufficient\\u00a0Balance | **Cause**: You have run out of balance.  <br>**Solution**: Please check your account's balance, and go to the [Top up](https://platform.deepseek.com/top_up) page to add funds. |\\n| 422\\u00a0-\\u00a0Invalid\\u00a0Parameters | **Cause**: Your request contains invalid parameters.  <br>**Solution**: Please modify your request parameters according to the hints in the error message. For more API format details, please refer to [DeepSeek API Docs.](https://api-docs.deepseek.com/) |\\n| 429\\u00a0-\\u00a0Rate\\u00a0Limit\\u00a0Reached | **Cause**: You are sending requests too quickly.  <br>**Solution**: Please pace your requests reasonably. We also advise users to temporarily switch to the APIs of alternative LLM service providers, like OpenAI. |\\n| 500\\u00a0-\\u00a0Server\\u00a0Error | **Cause**: Our server encounters an issue.  <br>**Solution**: Please retry your request after a brief wait and contact us if the issue persists. |\\n| 503\\u00a0-\\u00a0Server\\u00a0Overloaded | **Cause**: The server is overloaded due to high traffic.  <br>**Solution**: Please retry your request after a brief wait. |\\n\", \"start_offset\": 203, \"end_offset\": 1793, \"heading_path\": [\"Error Codes\"], \"heading_level\": null}]"
+    },
+    {
+      "file_id": "f0c4e2d1b14d4e328f4a86efabda4048",
+      "source_format": "txt",
+      "text": "Garden notes.\nBasil prefers well-drained soil and a sunny window.\n",
+      "source_hash": "a3d363488bc6f2fe7ac62fea1b1c03f998cd3f076fa8d872686074634739d584",
+      "blocks": "[{\"kind\": \"paragraph\", \"text\": \"Garden notes.\\nBasil prefers well-drained soil and a sunny window.\\n\", \"start_offset\": 0, \"end_offset\": 66, \"heading_path\": [], \"heading_level\": null}]"
+    }
+  ],
+  "chunks": [
+    {
+      "chunk_id": "b895d7e877cc41b580586c889de8fbb9:structural:0",
+      "file_id": "b895d7e877cc41b580586c889de8fbb9",
+      "text": "# Chat Prefix Completion (Beta)\n\nSource: https://api-docs.deepseek.com/guides/chat_prefix_completion\nCaptured: 2026-09-21T19:37:14.873Z\n\nThe chat prefix completion follows the [Chat Completion API](https://api-docs.deepseek.com/api/create-chat-completion), where users provide an assistant's prefix message for the model to complete the rest of the message.\n",
+      "index": 0,
+      "start_offset": 0,
+      "end_offset": 358
+    },
+    {
+      "chunk_id": "b895d7e877cc41b580586c889de8fbb9:structural:1",
+      "file_id": "b895d7e877cc41b580586c889de8fbb9",
+      "text": "## Notice\n",
+      "index": 1,
+      "start_offset": 359,
+      "end_offset": 369
+    },
+    {
+      "chunk_id": "b895d7e877cc41b580586c889de8fbb9:structural:2",
+      "file_id": "b895d7e877cc41b580586c889de8fbb9",
+      "text": "1.  When using chat prefix completion, users must ensure that the `role` of the last message in the `messages` list is `assistant` and set the `prefix` parameter of the last message to `True`.\n2.  The user needs to set `base_url=\"https://api.deepseek.com/beta\"` to enable the Beta feature.\n\n",
+      "index": 2,
+      "start_offset": 370,
+      "end_offset": 661
+    },
+    {
+      "chunk_id": "b895d7e877cc41b580586c889de8fbb9:structural:3",
+      "file_id": "b895d7e877cc41b580586c889de8fbb9",
+      "text": "## Sample Code\n\nBelow is a complete Python code example for chat prefix completion. In this example, we set the prefix message of the `assistant` to `\"```python\\n\"` to force the model to output Python code, and set the `stop` parameter to `['```']` to prevent additional explanations from the model.\n",
+      "index": 3,
+      "start_offset": 661,
+      "end_offset": 961
+    },
+    {
+      "chunk_id": "b895d7e877cc41b580586c889de8fbb9:structural:4",
+      "file_id": "b895d7e877cc41b580586c889de8fbb9",
+      "text": "```python\nfrom openai import OpenAI\n\nclient = OpenAI(\n    api_key=\"<your api key>\",\n    base_url=\"https://api.deepseek.com/beta\",\n)\n\nmessages = [\n    {\"role\": \"user\", \"content\": \"Please write quick sort code\"},\n    {\"role\": \"assistant\", \"content\": \"```python\\n\", \"prefix\": True}\n]\nresponse = client.chat.completions.create(\n    model=\"deepseek-flash\",\n    messages=messages,\n    stop=[\"```\"],\n)\nprint(response.choices[0].message.content)\n```\n",
+      "index": 4,
+      "start_offset": 962,
+      "end_offset": 1404
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:0",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "# Context Caching\n\nSource: https://api-docs.deepseek.com/guides/kv_cache\nCaptured: 2026-09-21T19:37:18.501Z\n\nThe DeepSeek API Context Caching on Disk Technology is enabled by default for all users, allowing them to benefit without needing to modify their code.\n\nEach user request will trigger the construction of a hard disk cache. If subsequent requests have overlapping prefixes with previous requests, the overlapping part will only be fetched from the cache, which counts as a \"cache hit.\"\n",
+      "index": 0,
+      "start_offset": 0,
+      "end_offset": 494
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:1",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "## Cache Persistence and Hit Rules\n\nA cache hit requires that the corresponding prefix has already been \"persisted\" (written to the disk cache). Due to the Sliding Window Attention mechanism, the storage and matching of cached prefixes differs from before. Each cached prefix is an independent, complete unit. A subsequent request can only hit the cache if it **fully matches** a **cache prefix unit**.\n",
+      "index": 1,
+      "start_offset": 495,
+      "end_offset": 898
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:2",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "### When cache prefixes are persisted:\n",
+      "index": 2,
+      "start_offset": 899,
+      "end_offset": 938
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:3",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "1.  **Persistence at request boundaries**: Each request will produce two **cache prefix units** at the **end position of the user input** and the **end position of the model output**. A subsequent request can hit the cache if it **fully** matches them.\n\n2.  **Common prefix detection persistence**: When the system detects a common prefix across multiple requests, it will persist that common prefix as an independent **cache prefix unit**. A subsequent request can hit the cache if it **fully** reuses that **cache prefix unit**.\n\n3.  **Persistence at fixed token intervals**: For long inputs or long outputs, the system will carve out **cache prefix units** at fixed token intervals, to avoid long prefixes from being completely uncacheable due to never reaching an end position.\n\n",
+      "index": 3,
+      "start_offset": 939,
+      "end_offset": 1722
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:4",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "Example 1: A user's first-round request is `A + B`, and the second-round request is `A + B + C`. The second request can fully match the **cache prefix unit** `A + B`, hitting the cache for `A + B`. See Example 1 below.\n\nExample 2: A user's first-round request is `A + B`, and the second-round request is `A + C`. The second request cannot hit the cache, because `A + C` does not fully match the first round's **cache prefix unit** (`A + B`). However, at this point the system will detect that the two requests share a common prefix `A`, and persist `A` as a **cache prefix unit**. When a third-round request `A + D` arrives, it can fully match the **cache prefix unit** `A`, hitting the cache for `A`. See Example 2 below.\n",
+      "index": 4,
+      "start_offset": 1722,
+      "end_offset": 2445
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:5",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "* * *\n",
+      "index": 5,
+      "start_offset": 2446,
+      "end_offset": 2452
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:6",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "### Example 1: Multi-round Conversation\n\n**First Request**\n",
+      "index": 6,
+      "start_offset": 2453,
+      "end_offset": 2512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:7",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "```json\nmessages: [\n    {\"role\": \"system\", \"content\": \"You are a helpful assistant\"},\n    {\"role\": \"user\", \"content\": \"What is the capital of China?\"}\n]\n```\n",
+      "index": 7,
+      "start_offset": 2513,
+      "end_offset": 2670
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:8",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "**Second Request**\n",
+      "index": 8,
+      "start_offset": 2671,
+      "end_offset": 2690
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:9",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "```json\nmessages: [\n    {\"role\": \"system\", \"content\": \"You are a helpful assistant\"},\n    {\"role\": \"user\", \"content\": \"What is the capital of China?\"},\n    {\"role\": \"assistant\", \"content\": \"The capital of China is Beijing.\"},\n    {\"role\": \"user\", \"content\": \"What is the capital of the United States?\"}\n]\n```\n",
+      "index": 9,
+      "start_offset": 2691,
+      "end_offset": 3000
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:10",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "In this example, the second request can fully reuse the **cache prefix unit** from the first request, which will count as a \"cache hit.\"\n",
+      "index": 10,
+      "start_offset": 3001,
+      "end_offset": 3138
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:11",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "### Example 2: Long Text Q&A\n\n**First Request**\n",
+      "index": 11,
+      "start_offset": 3139,
+      "end_offset": 3187
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:12",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "```json\nmessages: [\n    {\"role\": \"system\", \"content\": \"You are an experienced financial report analyst...\"}\n    {\"role\": \"user\", \"content\": \"<financial report content>\\n\\nPlease summarize the key information of this financial report.\"}\n]\n```\n",
+      "index": 12,
+      "start_offset": 3188,
+      "end_offset": 3430
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:13",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "**Second Request**\n",
+      "index": 13,
+      "start_offset": 3431,
+      "end_offset": 3450
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:14",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "```json\nmessages: [\n    {\"role\": \"system\", \"content\": \"You are an experienced financial report analyst...\"}\n    {\"role\": \"user\", \"content\": \"<financial report content>\\n\\nPlease analyze the profitability of this financial report.\"}\n]\n```\n",
+      "index": 14,
+      "start_offset": 3451,
+      "end_offset": 3689
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:15",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "**Third Request**\n",
+      "index": 15,
+      "start_offset": 3690,
+      "end_offset": 3708
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:16",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "```json\nmessages: [\n    {\"role\": \"system\", \"content\": \"You are an experienced financial report analyst...\"}\n    {\"role\": \"user\", \"content\": \"<financial report content>\\n\\nPlease analyze the ratio of the company's revenue to expenses.\"}\n]\n```\n",
+      "index": 16,
+      "start_offset": 3709,
+      "end_offset": 3951
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:17",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "In the above example, the first two requests will not hit the cache. After the first two requests are completed, the system will identify the `system` message + <financial report content> in the `user` message as a **cache prefix unit** and persist it. In the third request, since it fully matches the previously persisted **cache prefix unit**, it can hit the cache.\n",
+      "index": 17,
+      "start_offset": 3952,
+      "end_offset": 4320
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:18",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "* * *\n",
+      "index": 18,
+      "start_offset": 4321,
+      "end_offset": 4327
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:19",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "## Checking Cache Hit Status\n\nIn the response from the DeepSeek API, we have added two fields in the `usage` section to reflect the cache hit status of the request:\n",
+      "index": 19,
+      "start_offset": 4328,
+      "end_offset": 4493
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:20",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "1.  `prompt_cache_hit_tokens`: The number of tokens in the input of this request that resulted in a cache hit.\n\n2.  `prompt_cache_miss_tokens`: The number of tokens in the input of this request that did not result in a cache hit.\n\n",
+      "index": 20,
+      "start_offset": 4494,
+      "end_offset": 4725
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:21",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "## Hard Disk Cache and Output Randomness\n\nThe hard disk cache only matches the prefix part of the user's input. The output is still generated through computation and inference, and it is influenced by parameters such as temperature, introducing randomness.\n",
+      "index": 21,
+      "start_offset": 4725,
+      "end_offset": 4982
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:22",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "## Additional Notes\n",
+      "index": 22,
+      "start_offset": 4983,
+      "end_offset": 5003
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:23",
+      "file_id": "7c2a342d26c7419eabdf3fdc85fb9aa7",
+      "text": "1.  The cache system works on a \"best-effort\" basis and does not guarantee a 100% cache hit rate.\n\n2.  Cache construction takes seconds. Once the cache is no longer in use, it will be automatically cleared, usually within a few hours to a few days.\n",
+      "index": 23,
+      "start_offset": 5004,
+      "end_offset": 5253
+    },
+    {
+      "chunk_id": "ee9ff732e80043c78b9cf0fdcb4da8c8:structural:0",
+      "file_id": "ee9ff732e80043c78b9cf0fdcb4da8c8",
+      "text": "# Error Codes\n\nSource: https://api-docs.deepseek.com/quick_start/error_codes\nCaptured: 2026-09-21T19:37:47.126Z\n\nWhen calling DeepSeek API, you may encounter errors. Here list the causes and solutions.\n",
+      "index": 0,
+      "start_offset": 0,
+      "end_offset": 202
+    },
+    {
+      "chunk_id": "ee9ff732e80043c78b9cf0fdcb4da8c8:structural:1",
+      "file_id": "ee9ff732e80043c78b9cf0fdcb4da8c8",
+      "text": "| CODE | DESCRIPTION |\n| --- | --- |\n| 400 - Invalid Format | **Cause**: Invalid request body format.  <br>**Solution**: Please modify your request body according to the hints in the error message. For more API format details, please refer to [DeepSeek API Docs.](https://api-docs.deepseek.com/) |\n| 401 - Authentication Fails | **Cause**: Authentication fails due to the wrong API key.  <br>**Solution**: Please check your API key. If you don't have one, please [create an API key](https://platform.deepseek.com/api_keys) first. |\n| 402 - Insufficient Balance | **Cause**: You have run out of balance.  <br>**Solution**: Please check your account's balance, and go to the [Top up](https://platform.deepseek.com/top_up) page to add funds. |\n| 422 - Invalid Parameters | **Cause**: Your request contains invalid parameters.  <br>**Solution**: Please modify your request parameters according to the hints in the error message. For more API format details, please refer to [DeepSeek API Docs.](https://api-docs.deepseek.com/) |\n| 429 - Rate Limit Reached | **Cause**: You are sending requests too quickly.  <br>**Solution**: Please pace your requests reasonably. We also advise users to temporarily switch to the APIs of alternative LLM service providers, like OpenAI. |\n| 500 - Server Error | **Cause**: Our server encounters an issue.  <br>**Solution**: Please retry your request after a brief wait and contact us if the issue persists. |\n| 503 - Server Overloaded | **Cause**: The server is overloaded due to high traffic.  <br>**Solution**: Please retry your request after a brief wait. |\n",
+      "index": 1,
+      "start_offset": 203,
+      "end_offset": 1793
+    },
+    {
+      "chunk_id": "f0c4e2d1b14d4e328f4a86efabda4048:structural:0",
+      "file_id": "f0c4e2d1b14d4e328f4a86efabda4048",
+      "text": "Garden notes.\nBasil prefers well-drained soil and a sunny window.\n",
+      "index": 0,
+      "start_offset": 0,
+      "end_offset": 66
+    }
+  ],
+  "chunk_structures": [
+    {
+      "chunk_id": "b895d7e877cc41b580586c889de8fbb9:structural:0",
+      "heading_path": "[\"Chat Prefix Completion (Beta)\"]",
+      "source_block_indices": "[0, 1, 2]",
+      "token_count": 88,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "b895d7e877cc41b580586c889de8fbb9:structural:1",
+      "heading_path": "[\"Chat Prefix Completion (Beta)\", \"Notice\"]",
+      "source_block_indices": "[3]",
+      "token_count": 3,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "b895d7e877cc41b580586c889de8fbb9:structural:2",
+      "heading_path": "[\"Chat Prefix Completion (Beta)\", \"Notice\"]",
+      "source_block_indices": "[4]",
+      "token_count": 73,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "b895d7e877cc41b580586c889de8fbb9:structural:3",
+      "heading_path": "[\"Chat Prefix Completion (Beta)\", \"Sample Code\"]",
+      "source_block_indices": "[5, 6]",
+      "token_count": 66,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "b895d7e877cc41b580586c889de8fbb9:structural:4",
+      "heading_path": "[\"Chat Prefix Completion (Beta)\", \"Sample Code\"]",
+      "source_block_indices": "[7]",
+      "token_count": 116,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:0",
+      "heading_path": "[\"Context Caching\"]",
+      "source_block_indices": "[0, 1, 2, 3]",
+      "token_count": 113,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:1",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\"]",
+      "source_block_indices": "[4, 5]",
+      "token_count": 80,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:2",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\", \"When cache prefixes are persisted:\"]",
+      "source_block_indices": "[6]",
+      "token_count": 7,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:3",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\", \"When cache prefixes are persisted:\"]",
+      "source_block_indices": "[7]",
+      "token_count": 161,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:4",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\", \"When cache prefixes are persisted:\"]",
+      "source_block_indices": "[8, 9]",
+      "token_count": 191,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:5",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\", \"When cache prefixes are persisted:\"]",
+      "source_block_indices": "[10]",
+      "token_count": 3,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:6",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 1: Multi-round Conversation\"]",
+      "source_block_indices": "[11, 12]",
+      "token_count": 13,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:7",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 1: Multi-round Conversation\"]",
+      "source_block_indices": "[13]",
+      "token_count": 45,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:8",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 1: Multi-round Conversation\"]",
+      "source_block_indices": "[14]",
+      "token_count": 4,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:9",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 1: Multi-round Conversation\"]",
+      "source_block_indices": "[15]",
+      "token_count": 84,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:10",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 1: Multi-round Conversation\"]",
+      "source_block_indices": "[16]",
+      "token_count": 30,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:11",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 2: Long Text Q&A\"]",
+      "source_block_indices": "[17, 18]",
+      "token_count": 14,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:12",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 2: Long Text Q&A\"]",
+      "source_block_indices": "[19]",
+      "token_count": 57,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:13",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 2: Long Text Q&A\"]",
+      "source_block_indices": "[20]",
+      "token_count": 4,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:14",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 2: Long Text Q&A\"]",
+      "source_block_indices": "[21]",
+      "token_count": 56,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:15",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 2: Long Text Q&A\"]",
+      "source_block_indices": "[22]",
+      "token_count": 4,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:16",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 2: Long Text Q&A\"]",
+      "source_block_indices": "[23]",
+      "token_count": 59,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:17",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 2: Long Text Q&A\"]",
+      "source_block_indices": "[24]",
+      "token_count": 78,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:18",
+      "heading_path": "[\"Context Caching\", \"Cache Persistence and Hit Rules\", \"Example 2: Long Text Q&A\"]",
+      "source_block_indices": "[25]",
+      "token_count": 3,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:19",
+      "heading_path": "[\"Context Caching\", \"Checking Cache Hit Status\"]",
+      "source_block_indices": "[26, 27]",
+      "token_count": 36,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:20",
+      "heading_path": "[\"Context Caching\", \"Checking Cache Hit Status\"]",
+      "source_block_indices": "[28]",
+      "token_count": 54,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:21",
+      "heading_path": "[\"Context Caching\", \"Hard Disk Cache and Output Randomness\"]",
+      "source_block_indices": "[29, 30]",
+      "token_count": 47,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:22",
+      "heading_path": "[\"Context Caching\", \"Additional Notes\"]",
+      "source_block_indices": "[31]",
+      "token_count": 4,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "7c2a342d26c7419eabdf3fdc85fb9aa7:structural:23",
+      "heading_path": "[\"Context Caching\", \"Additional Notes\"]",
+      "source_block_indices": "[32]",
+      "token_count": 60,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "ee9ff732e80043c78b9cf0fdcb4da8c8:structural:0",
+      "heading_path": "[\"Error Codes\"]",
+      "source_block_indices": "[0, 1, 2]",
+      "token_count": 58,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "ee9ff732e80043c78b9cf0fdcb4da8c8:structural:1",
+      "heading_path": "[\"Error Codes\"]",
+      "source_block_indices": "[3]",
+      "token_count": 401,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    },
+    {
+      "chunk_id": "f0c4e2d1b14d4e328f4a86efabda4048:structural:0",
+      "heading_path": "[]",
+      "source_block_indices": "[0]",
+      "token_count": 16,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 512
+    }
+  ]
+}

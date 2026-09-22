@@ -143,7 +143,9 @@ examples and error codes. Restore saved messages and their original evidence wit
 See the [MVP release evaluation](evals/analyses/2026-09-21-mvp-release.md) for
 verified functionality, real-provider results, all-case inspection and known answer
 quality limitations of that historical baseline. The v1 structural pipeline has
-offline integration coverage; its live retrieval/answer quality has not been measured.
+offline integration coverage and a [targeted live Markdown acceptance report](evals/browser-runs/20260922T222123209Z-8d828f17/README.md).
+Seven development questions passed direct evidence review; broader accuracy and
+comparative retrieval quality remain unmeasured.
 
 Run the frozen NYU question set, grade answers with human review or an LLM judge, and
 compare recorded experiments using the [evaluation guide](evals/README.md).

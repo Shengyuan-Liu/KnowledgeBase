@@ -2,6 +2,12 @@
 
 ## Implemented Scope
 
+For the latest targeted Markdown workflow, see the
+[live Markdown acceptance report](../evals/browser-runs/20260922T222123209Z-8d828f17/README.md).
+Run `npm --prefix frontend run test:live:markdown` to repeat the real-provider
+Markdown browser scenario in a fresh isolated library. It makes paid API calls;
+the existing `test:live` command remains the separate TXT scenario.
+
 The React/TypeScript frontend uses Vite and CSS Modules. Its Library panel calls
 the real file API to list, upload, search locally, and delete TXT/Markdown files. Chat streams
 answers from the backend, links validated citations to original excerpts, supports
