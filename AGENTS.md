@@ -5,6 +5,13 @@
 - For code changes, write or update the relevant tests and ensure that all applicable tests and verification checks pass before delivery. For documentation-only changes, review the content and check links and formatting; automated tests are not required.
 - Use `.env` for local environment configuration and credentials, and keep it out of Git. Use `.env.example` for placeholders. Introduce a `Settings` class only when current configuration needs justify it.
 
+# v1 Branch and Merge Workflow
+
+- Perform all v1 development on the `v1` branch and commit changes there.
+- The user decides when each v1 feature is complete. Passing tests or finishing implementation does not authorize a merge.
+- Merge each feature into `main` only after the user explicitly authorizes that feature's merge. Approval for one feature does not authorize later merges.
+- After an authorized merge, continue subsequent v1 work on the `v1` branch.
+
 # Learning and Code Ownership
 
 - The user intends to write most of the project's Python backend and MLE / AI Engineer code by hand. By default, Codex should explain each proposed code file's purpose, the responsibilities of its functions, and the underlying concepts, reasoning, and implementation guidance so the user can write the code.
