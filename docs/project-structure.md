@@ -94,7 +94,7 @@ There is no retained upload directory: canonical source text lives in SQLite chu
 | `services/files.py` | Coordinate ingestion, file states, failure cleanup, and retryable deletion |
 | `services/chat.py` | Coordinate history, retrieval, generation, citations, and atomic exchange persistence |
 | `rag/parsing.py` | Parse TXT/Markdown into exact source blocks with heading metadata; standalone v1 component |
-| `rag/chunking.py` | Split text with stable chunk associations and character offsets |
+| `rag/chunking.py` | MVP character splitting and standalone v1 structural/token-budget chunking with exact source offsets |
 | `rag/retrieval.py` | Restrict vector search to ready files and return canonical chunks with filenames |
 | `rag/context.py` | Format numbered evidence without altering source text |
 | `rag/query.py` | Resolve follow-up references using message history |

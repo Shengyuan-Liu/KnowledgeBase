@@ -38,6 +38,16 @@ class SourceBlock(BaseModel):
     heading_level: int | None = None
 
 
+class StructuredChunk(Chunk):
+    """A bounded source slice with its structure and token-counting settings."""
+
+    heading_path: list[str]
+    source_block_indices: list[int]
+    token_count: int
+    tokenizer: str
+    max_tokens: int
+
+
 class VectorMatch(BaseModel):
     """A chunk ID and its distance under the collection's configured metric."""
 

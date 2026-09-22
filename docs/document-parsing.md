@@ -59,7 +59,7 @@ content as evidence. Parsing never renders HTML or fetches linked resources.
 This is CommonMark plus pipe tables, not an MDX or full GitHub Markdown parser.
 There is no front-matter interpretation, token budget, sentence splitting,
 parent-child hierarchy, or database persistence in this step. Long structures
-remain intact for the next chunking step to handle.
+remain intact for the [structural chunker](structural-chunking.md) to handle.
 
 ## Example
 
