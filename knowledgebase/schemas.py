@@ -94,6 +94,14 @@ class VectorMatch(BaseModel):
     distance: float
 
 
+class BM25Match(BaseModel):
+    """A lexical chunk hit: higher scores rank first; ranks start at one."""
+
+    chunk_id: str
+    score: float
+    rank: int
+
+
 class RetrievedChunk(BaseModel):
     """Canonical evidence with its flat-hit or best matched child's distance."""
 

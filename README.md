@@ -7,6 +7,8 @@ The [v1 design documents](docs/v1/README.md) define the ongoing version.
 TXT/Markdown parsing, structural chunking, and source storage are connected to
 uploads. [Parent-child retrieval](docs/parent-child-retrieval.md) is the default
 strategy. Hybrid search and reranking remain planned.
+The standalone [BM25 scorer](docs/bm25.md) is implemented; connecting its results
+to vector retrieval through RRF is the next integration step.
 
 ## Run the local application
 
