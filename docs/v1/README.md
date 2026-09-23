@@ -21,8 +21,9 @@ workflow tests. Real-library comparisons are recorded separately; choosing a
 default does not establish a general quality improvement.
 The remaining hybrid-search and reranking pipeline is planned;
 these documents do not claim that the full version is implemented or its quality measured.
-The standalone [BM25 scorer](../bm25.md) now ranks supplied children locally;
-service integration and RRF fusion remain pending.
+The standalone [BM25 scorer](../bm25.md) ranks supplied children locally, and
+[RRF fusion](../rrf.md) combines lexical and vector route ranks while preserving
+their separate scores. Service integration and live hybrid acceptance remain pending.
 
 v1 adds Markdown support, structure-aware and sentence-aware chunking, parent-child
 retrieval, BM25/vector hybrid search, RRF fusion, and reranking. Embedding-based

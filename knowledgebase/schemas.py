@@ -102,6 +102,18 @@ class BM25Match(BaseModel):
     rank: int
 
 
+class FusedMatch(BaseModel):
+    """A fused child candidate with separate lexical, vector, and RRF evidence."""
+
+    chunk_id: str
+    rrf_score: float
+    rank: int
+    bm25_score: float | None = None
+    bm25_rank: int | None = None
+    vector_distance: float | None = None
+    vector_rank: int | None = None
+
+
 class RetrievedChunk(BaseModel):
     """Canonical evidence with its flat-hit or best matched child's distance."""
 
