@@ -75,6 +75,41 @@ class ChunkStructureRecord(Base):
     max_tokens: Mapped[int]
 
 
+class ParentChunkRecord(Base):
+    """Canonical parent context stored independently of indexed child chunks."""
+
+    __tablename__ = "parent_chunks"
+    __table_args__ = (
+        UniqueConstraint("file_id", "index", name="uq_parent_chunks_file_index"),
+        CheckConstraint('"index" >= 0', name="ck_parent_chunks_index"),
+        CheckConstraint("start_offset >= 0", name="ck_parent_chunks_start_offset"),
+        CheckConstraint("end_offset > start_offset", name="ck_parent_chunks_end_offset"),
+    )
+
+    parent_id: Mapped[str] = mapped_column(primary_key=True)
+    file_id: Mapped[str] = mapped_column(ForeignKey("files.file_id", ondelete="CASCADE"))
+    text: Mapped[str] = mapped_column(Text)
+    index: Mapped[int]
+    start_offset: Mapped[int]
+    end_offset: Mapped[int]
+    heading_path: Mapped[list[str]] = mapped_column(JSON)
+    source_block_indices: Mapped[list[int]] = mapped_column(JSON)
+    token_count: Mapped[int]
+    tokenizer: Mapped[str]
+    max_tokens: Mapped[int]
+
+
+class ChildParentRecord(Base):
+    """One parent association per structural child, without changing old chunk rows."""
+
+    __tablename__ = "child_parents"
+
+    chunk_id: Mapped[str] = mapped_column(
+        ForeignKey("chunk_structures.chunk_id", ondelete="CASCADE"), primary_key=True,
+    )
+    parent_id: Mapped[str] = mapped_column(ForeignKey("parent_chunks.parent_id"))
+
+
 class ConversationRecord(Base):
     __tablename__ = "conversations"
 

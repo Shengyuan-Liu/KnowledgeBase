@@ -2,7 +2,8 @@
 
 Status: implemented as a standalone v1 function with in-memory data models.
 The active upload and retrieval workflow still uses flat structural chunks.
-Parent-child persistence, indexing, and retrieval expansion are later steps.
+[Parent-child storage](parent-child-storage.md) now persists this output;
+ingestion integration, indexing, and retrieval expansion are later steps.
 
 ## Interface and Models
 
@@ -23,8 +24,8 @@ UTF-8 bytes. Block indices refer to the original input list, not a list local to
 parent. Parent and child indices each start at zero and increase across the file.
 
 These are Pydantic snapshots, not database tables or new HTTP response contracts.
-The existing `save_chunks()` does not persist child-to-parent relationships;
-callers must wait for the dedicated storage step before indexing these outputs.
+`save_parent_child_chunks()` persists these snapshots and their relationships;
+`save_chunks()` can also save children when their parents already exist.
 
 ## Boundary Policy
 

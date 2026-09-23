@@ -11,8 +11,10 @@ The [targeted live Markdown acceptance](../../evals/browser-runs/20260922T222123
 also passed with real providers and seven reviewed questions. This is functional
 evidence, not a broad accuracy result or a chunking-quality comparison.
 The standalone [parent-child chunker](../parent-child-chunking.md) also produces
-bounded parents and children with tested source containment. Its storage and
-retrieval integration remain pending. The remaining v1 pipeline is planned;
+bounded parents and children with tested source containment.
+[Parent-child storage](../parent-child-storage.md) preserves their relationships
+with transactional cleanup and old-data compatibility. Upload and retrieval
+integration remain pending. The remaining v1 pipeline is planned;
 these documents do not claim that the full version is implemented or its quality measured.
 
 v1 adds Markdown support, structure-aware and sentence-aware chunking, parent-child

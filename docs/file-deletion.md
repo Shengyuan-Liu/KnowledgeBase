@@ -2,7 +2,7 @@
 
 `knowledgebase/services/files.py` provides `delete_file(file_id, session_factory,
 vector_store)`. It removes an ingested file's vectors, source document, chunks,
-structural metadata, and file
+structural metadata, parent chunks and links, and file
 record, returning `None` only after cleanup completes. It makes no model calls.
 
 ## Transaction boundaries
@@ -13,7 +13,8 @@ record, returning `None` only after cleanup completes. It makes no model calls.
 2. Delete its vectors through `ChromaStore.delete_by_file_id`.
 3. In one SQLite transaction, call `delete_chunks` and then `delete_file_record`.
    Chunks must be removed first because they reference the file through a foreign key.
-   Foreign-key cascades remove chunk metadata and the complete source document.
+   Foreign-key cascades remove chunk metadata and child-parent links; the helper
+   then deletes parent chunks. File deletion cascades to the complete source document.
 
 The storage helpers flush their changes but never commit. The service owns the
 transactions. SQLite and Chroma have no shared transaction, so the first committed

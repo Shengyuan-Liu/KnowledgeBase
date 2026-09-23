@@ -7,7 +7,7 @@ No existing library is reindexed automatically.
 
 ## Data Model
 
-The existing `files` and `chunks` columns remain unchanged. Two supplementary
+The existing `files` and `chunks` columns remain unchanged. Supplementary
 tables retain v1 information without requiring column migrations for MVP data:
 
 | Table | Key | Stored information |
@@ -16,11 +16,15 @@ tables retain v1 information without requiring column migrations for MVP data:
 | `document_sources` | `file_id`, referencing `files` | Format (`txt` or `md`), complete decoded text, source hash, ordered parser blocks |
 | `chunks` | `chunk_id` | Existing file association, exact excerpt, order, and source offsets |
 | `chunk_structures` | `chunk_id`, referencing `chunks` | Heading path, source block indices, token count, tokenizer, and token limit |
+| `parent_chunks` | `parent_id`, referencing a file | Parent source region and structural/token metadata |
+| `child_parents` | `chunk_id`, referencing a structural chunk | Its one parent ID |
 
 `DocumentSourceRecord` and `ChunkStructureRecord` in
 `knowledgebase/storage/models.py` define the two new database tables.
 `DocumentSource` and `StructuredChunk` in `knowledgebase/schemas.py` are independent
 in-memory snapshots returned to callers, not ORM objects or new HTTP contracts.
+The separate [parent-child storage guide](parent-child-storage.md) describes the
+parent and relationship tables, which are not yet used by active uploads.
 
 The ordered `SourceBlock` list is stored as JSON, including each block's original
 text, type, offsets, heading path, and heading level. A chunk's
@@ -33,8 +37,8 @@ the canonical text; this step does not use them to deduplicate uploads.
 
 Token configuration is stored per structural chunk, matching the existing
 `StructuredChunk` fields. Source records with no chunks have no recorded token
-configuration yet. Full ingestion-run provenance and parent-child records are
-outside this storage step.
+configuration unless parent records exist. Parent token limits are stored on their
+own records. Full ingestion-run provenance remains outside this storage step.
 
 ## Operations and Transaction Ownership
 
@@ -47,8 +51,10 @@ outside this storage step.
 - `save_chunks(session, chunks)`: save the common chunk fields, followed by
   structural metadata for any `StructuredChunk` inputs. Ordinary MVP `Chunk`
   inputs continue to work and do not acquire invented structural metadata.
+  `ChildChunk` inputs additionally store their relationship to an existing parent.
 - `get_chunks(session, file_id)`: return ordered chunks, restoring
-  `StructuredChunk` when structural metadata exists and `Chunk` otherwise.
+  `ChildChunk` when a parent link exists, `StructuredChunk` for flat structural
+  metadata, and `Chunk` otherwise.
 - `get_chunks_by_ids(session, chunk_ids)`: preserve the same data-model behavior
   for selected IDs; requested order is not guaranteed.
 
@@ -98,9 +104,10 @@ vector index. The ingestion service marks Ready only after indexing succeeds.
 
 ## Deletion and Existing Data
 
-`delete_chunks()` removes associated `chunk_structures` rows through the database
-foreign key's `ON DELETE CASCADE`. `delete_file_record()` similarly removes the
-file's `document_sources` row. The existing delete service still excludes the
+`delete_chunks()` removes associated `chunk_structures` and `child_parents` rows
+through foreign-key cascades, then removes the file's parent chunks.
+`delete_file_record()` similarly removes the file's `document_sources` row and
+any remaining childless parents. The existing delete service still excludes the
 file, deletes vectors, and removes chunks before the file record. If that SQLite
 transaction rolls back, both source and metadata deletions roll back with it.
 

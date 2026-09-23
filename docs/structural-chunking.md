@@ -120,6 +120,7 @@ across the frozen DeepSeek Markdown corpus at two budgets.
 [Document storage](document-storage.md) can persist the original source, parser
 blocks, and structural chunks during ingestion. A separate
 [parent-child chunker](parent-child-chunking.md) now builds bounded parents and
-children in memory using the same split policy. Its persistence and retrieval
-integration, overlap, and retrieval-quality comparison remain later work.
+children in memory using the same split policy, with
+[storage operations](parent-child-storage.md) to retain their relationships.
+Ingestion and retrieval integration, overlap, and retrieval-quality comparison remain later work.
 `split_structured()` still returns flat chunks used by the active ingestion flow.

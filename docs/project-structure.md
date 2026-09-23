@@ -107,7 +107,7 @@ metadata in SQLite. Existing `.env` values can override the default data directo
 | `providers/embeddings.py` | Embed documents and questions using the same embedding model |
 | `storage/runtime.py` | Open the same SQLite/Chroma configuration for API and CLI, then dispose the SQL engine on exit |
 | `storage/database.py` | Create engines and session factories, enable SQLite foreign keys, and initialize tables |
-| `storage/models.py` | Map files, chunks, document sources, structural metadata, conversations, messages, and answer snapshots |
+| `storage/models.py` | Map files, chunks, document sources, structural metadata, parent chunks, child links, conversations, messages, and answer snapshots |
 | `storage/operations.py` | Query/write business records; flush writes while leaving commit to callers |
 | `storage/vectordb.py` | Translate Chroma insert/search/delete calls into application types |
 | `evals/evaluate.py` | Record isolated experiments, grade answers, and produce auditable reports/comparisons |
