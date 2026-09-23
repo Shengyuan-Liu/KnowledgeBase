@@ -7,6 +7,7 @@ from unittest.mock import MagicMock, Mock
 from fastapi.testclient import TestClient
 import pytest
 
+from knowledgebase.config import RetrievalOptions
 from knowledgebase import cli
 from knowledgebase.api import app as api_module
 from knowledgebase.schemas import CitationCheck, ConversationAnswer
@@ -23,6 +24,7 @@ def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app,
         "OPENAI_BASE_URL=https://provider.test/v1\nOPENAI_TIMEOUT_SECONDS=42\nOPENAI_MAX_RETRIES=1\n"
         f"CHUNKING_STRATEGY={strategy}\nCHUNK_MAX_TOKENS=4\nCHUNK_TOKENIZER=o200k_base\n"
         "PARENT_MAX_TOKENS=8\nEVIDENCE_MAX_TOKENS=24\n"
+        "RETRIEVAL_STRATEGY=hybrid\nRETRIEVAL_CANDIDATE_LIMIT=3\nBM25_K1=0.9\nBM25_B=0.4\nRRF_K=10\n"
     )
     sdk.responses.create.side_effect = lambda **kw: Mock(
         output_text="Resolved question" if kw["model"] == "custom-resolver" else "Answer. [1]"
@@ -70,6 +72,8 @@ def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app,
 
         first = ask("First question")
         assert len(first["sources"]) == (1 if strategy == "parent_child" else 2)
+        assert first["retrieval"]["options"] == RetrievalOptions(candidate_limit=3, bm25_k1=0.9, bm25_b=0.4, rrf_k=10).model_dump()
+        assert first["retrieval"]["top_k"] == 2
         assert first["retrieval"]["max_tokens"] == 24
         assert first["retrieval"]["tokenizer"] == "o200k_base"
         if strategy == "parent_child":
@@ -103,6 +107,7 @@ def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkey
         "CHUNK_SIZE=12\nCHUNK_OVERLAP=3\nRETRIEVAL_TOP_K=2\nHISTORY_LIMIT=1\n"
         "CHUNKING_STRATEGY=structural\nCHUNK_MAX_TOKENS=17\nCHUNK_TOKENIZER=o200k_base\n"
         "PARENT_MAX_TOKENS=33\nEVIDENCE_MAX_TOKENS=113\n"
+        "RETRIEVAL_STRATEGY=vector\nRETRIEVAL_CANDIDATE_LIMIT=7\nBM25_K1=0.9\nBM25_B=0.4\nRRF_K=10\n"
     )
     source = tmp_path / "notes.md"
     source.write_text("Example text")
@@ -137,4 +142,5 @@ def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkey
     assert answer.call_args.kwargs == {
         "conversation_id": None, "top_k": 4 if override else 2, "history_limit": 1, "resolver_client": resolver,
         "evidence_max_tokens": 113, "encoding_name": "o200k_base",
+        "retrieval_options": RetrievalOptions(strategy="vector", candidate_limit=7, bm25_k1=0.9, bm25_b=0.4, rrf_k=10),
     }

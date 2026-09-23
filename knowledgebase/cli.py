@@ -93,6 +93,7 @@ def cli() -> None:
                     conversation_id=conversation_id, top_k=settings.retrieval_top_k,
                     history_limit=settings.history_limit, resolver_client=resolver,
                     evidence_max_tokens=settings.evidence_max_tokens, encoding_name=settings.chunk_tokenizer,
+                    retrieval_options=settings.retrieval_options,
                 )
                 conversation_id = result.conversation_id
                 return result

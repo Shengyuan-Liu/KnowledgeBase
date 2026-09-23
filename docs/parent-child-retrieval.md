@@ -23,7 +23,7 @@ CLI, and evaluation runner all pass these settings through the same services:
 | `CHUNK_MAX_TOKENS` | `512` | Maximum tokens per searchable child |
 | `PARENT_MAX_TOKENS` | `1536` | Maximum tokens per parent context region |
 | `CHUNK_TOKENIZER` | `cl100k_base` | Tokenizer for splitting and evidence packing |
-| `RETRIEVAL_TOP_K` | `5` | Maximum vector candidates before parent deduplication |
+| `RETRIEVAL_TOP_K` | `5` | Maximum selected child candidates before parent deduplication |
 | `EVIDENCE_MAX_TOKENS` | `4096` | Budget for the exact numbered evidence string |
 
 These are experimental starting values. The child limit must not exceed the
@@ -48,14 +48,14 @@ not convert existing chunks.
 
 ## Search and Pack
 
-1. Restrict vector search to Ready files and select up to `RETRIEVAL_TOP_K`
-   candidates. Record each candidate's ID, parent ID when present, file ID, exact
-   original text, offsets, and cosine distance.
-2. Sort candidates by increasing distance, breaking ties by chunk ID within that
-   selected set. Load each child's parent from SQLite. Flat candidates keep their
-   original chunk text.
+1. Restrict both retrieval routes to Ready files. The default [hybrid service](hybrid-retrieval.md)
+   fuses BM25 and vector ranks, then selects `RETRIEVAL_TOP_K` children. The explicit
+   vector control selects by increasing cosine distance. Record each selected
+   candidate's identity, text, offsets, and route provenance.
+2. Keep that selected order and load each child's parent from SQLite. Flat
+   candidates keep their original chunk text.
 3. Deduplicate parent IDs. A parent's position and distance come from its best
-   matched child. Retain all matched child IDs in candidate order. Parent text has
+   matched child in the selected retrieval order. Retain all matched child IDs in candidate order. Parent text has
    no separately computed embedding score. Deduplication can leave fewer than
    top-k sources; this stage does not fetch more candidates to fill the list.
 4. Greedily pack whole regions in that order. Count the exact `build_context()`
@@ -84,8 +84,9 @@ Every answer source describes the actual text supplied to generation:
 - `start_offset`, `end_offset`, `heading_path`, `source_block_indices`,
   `token_count`, `tokenizer`, and `max_tokens` describe the parent or flat chunk.
   Offsets are half-open Python Unicode character indices into the canonical file.
-- `distance` is the best matched child's cosine distance for a parent, or the
-  flat candidate's distance. Lower values rank first; this is not a confidence.
+- `distance` is the highest-ranked selected child's cosine distance, or null for
+  a lexical-only hit. `fusion` preserves that child's ID, RRF score/rank, and both
+  route scores/ranks. These values describe the child, not an embedding of its parent.
 
 JSON answers and SSE `complete` events include `retrieval` with `candidates`,
 `excluded`, `evidence_tokens`, `max_tokens`, and `tokenizer`. The SSE `sources`
@@ -137,4 +138,4 @@ regions, failure cleanup, JSON/SSE, history after restart/deletion, CLI reuse,
 and isolated evaluation runs. The browser fixture uses parent-child ingestion
 with 16-token children to exercise multi-child parent evidence, while mocked
 providers keep verification offline. These tests validate wiring and invariants,
-not live model quality. BM25, fusion, and reranking remain later work.
+not live model quality. BM25 and fusion are now integrated; reranking remains later work.

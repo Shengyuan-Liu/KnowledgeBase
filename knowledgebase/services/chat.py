@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from knowledgebase.config import (
     DEFAULT_TOP_K, DEFAULT_HISTORY_LIMIT, DEFAULT_EVIDENCE_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER,
+    RetrievalOptions,
 )
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
@@ -46,6 +47,7 @@ def answer_question(
     *, retrieval_question: str | None = None,
     evidence_max_tokens: int = DEFAULT_EVIDENCE_MAX_TOKENS,
     encoding_name: str = DEFAULT_CHUNK_TOKENIZER,
+    retrieval_options: RetrievalOptions | None = None,
 ) -> ChatAnswer:
     """Return an answer and sources in the same order used by the prompt.
 
@@ -55,7 +57,7 @@ def answer_question(
     """
     chunks, sources, diagnostics = _retrieve_evidence(
         retrieval_question or question, session_factory, embedding_client, vector_store, top_k,
-        evidence_max_tokens, encoding_name,
+        evidence_max_tokens, encoding_name, retrieval_options,
     )
     answer = generate_answer(question, chunks, llm_client, retrieval_question=retrieval_question)
     return ChatAnswer(
@@ -67,11 +69,13 @@ def answer_question(
 def _retrieve_evidence(
     question: str, session_factory: sessionmaker[Session], embedding_client: EmbeddingClient,
     vector_store: ChromaStore, top_k: int, evidence_max_tokens: int, encoding_name: str,
+    retrieval_options: RetrievalOptions | None,
 ) -> tuple[list[RetrievedChunk], list[AnswerSource], RetrievalDiagnostics]:
     with session_factory() as session:
         evidence = retrieve_evidence(
             question, session, embedding_client, vector_store, top_k=top_k,
             evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
+            retrieval_options=retrieval_options,
         )
         chunks = evidence.chunks
         sources = [
@@ -81,7 +85,7 @@ def _retrieve_evidence(
                 file_name=item.file_name,
                 chunk_id=item.chunk.chunk_id,
                 text=item.chunk.text,
-                distance=item.distance,
+                distance=item.distance, fusion=item.fusion,
                 parent_id=item.parent_id, matched_child_ids=item.matched_child_ids,
                 start_offset=item.chunk.start_offset, end_offset=item.chunk.end_offset,
                 **(item.chunk.model_dump(include={
@@ -106,6 +110,7 @@ def answer_in_conversation(
     *, resolver_client: LLMClient | None = None,
     evidence_max_tokens: int = DEFAULT_EVIDENCE_MAX_TOKENS,
     encoding_name: str = DEFAULT_CHUNK_TOKENIZER,
+    retrieval_options: RetrievalOptions | None = None,
 ) -> ConversationAnswer:
     """Resolve a follow-up, retrieve fresh evidence, and save a completed exchange.
 
@@ -119,6 +124,7 @@ def answer_in_conversation(
         question, session_factory, embedding_client, vector_store,
         llm_client, top_k=top_k, retrieval_question=retrieval_question,
         evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
+        retrieval_options=retrieval_options,
     )
 
     return _save_exchange(question, retrieval_question, result, session_factory, conversation_id)
@@ -171,6 +177,7 @@ async def stream_answer_in_conversation(
     *, resolver_client: LLMClient | None = None,
     evidence_max_tokens: int = DEFAULT_EVIDENCE_MAX_TOKENS,
     encoding_name: str = DEFAULT_CHUNK_TOKENIZER,
+    retrieval_options: RetrievalOptions | None = None,
 ) -> AsyncGenerator[ChatStreamEvent]:
     """Validate the conversation before streaming; persist only a completed answer.
 
@@ -192,7 +199,7 @@ async def stream_answer_in_conversation(
             )
             chunks, sources, diagnostics = await anyio.to_thread.run_sync(
                 _retrieve_evidence, retrieval_question, session_factory, embedding_client,
-                vector_store, top_k, evidence_max_tokens, encoding_name, abandon_on_cancel=True,
+                vector_store, top_k, evidence_max_tokens, encoding_name, retrieval_options, abandon_on_cancel=True,
             )
             yield event("sources", sources=[source.model_dump() for source in sources])
             parts = []

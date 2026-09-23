@@ -192,6 +192,21 @@ def get_chunks_by_ids(session: Session, chunk_ids: list[str]) -> list[Chunk]:
     ]
 
 
+def get_chunks_for_files(session: Session, file_ids: list[str]) -> list[Chunk]:
+    """Load the lexical corpus for the caller's eligible files in one query."""
+    statement = (
+        select(ChunkRecord, ChunkStructureRecord, ChildParentRecord)
+        .outerjoin(ChunkStructureRecord, ChunkStructureRecord.chunk_id == ChunkRecord.chunk_id)
+        .outerjoin(ChildParentRecord, ChildParentRecord.chunk_id == ChunkRecord.chunk_id)
+        .where(ChunkRecord.file_id.in_(file_ids))
+        .order_by(ChunkRecord.file_id, ChunkRecord.index)
+    )
+    return [
+        _chunk_snapshot(record, structure, parent)
+        for record, structure, parent in session.execute(statement)
+    ]
+
+
 def update_file_status(
     session: Session,
     file_id: str,

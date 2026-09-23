@@ -224,6 +224,7 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
         "EVAL_TIMEOUT_SECONDS=17\nEVAL_MAX_RETRIES=1\n"
         f"CHUNKING_STRATEGY={strategy}\nCHUNK_MAX_TOKENS=32\nCHUNK_TOKENIZER=cl100k_base\n"
         "PARENT_MAX_TOKENS=96\nEVIDENCE_MAX_TOKENS=192\n"
+        "RETRIEVAL_STRATEGY=hybrid\nRETRIEVAL_CANDIDATE_LIMIT=9\nBM25_K1=0.8\nBM25_B=0.4\nRRF_K=12\n"
     )
     data_case = case()
     data_case["expected_answer_points"] = ["REFERENCE_ONLY_DO_NOT_SEND_TO_GENERATOR"]
@@ -243,7 +244,10 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
     args = SimpleNamespace(cases=cases_path, label="Offline fixture", top_k=5, chunk_size=256,
                            chunking_strategy={"structural": "character", "character": "parent_child", "parent_child": "structural"}[strategy],
                            chunk_max_tokens=64, chunk_tokenizer="o200k_base", parent_max_tokens=128, evidence_max_tokens=256,
-                           overlap=64, model="offline-generator", embedding_model="offline-embeddings")
+                           overlap=64, model="offline-generator", embedding_model="offline-embeddings",
+                           retrieval_strategy="vector" if explicit_options else None,
+                           retrieval_candidate_limit=7 if explicit_options else None,
+                           bm25_k1=None, bm25_b=None, rrf_k=None)
     if not explicit_options:
         for name in ("model", "embedding_model", "chunk_size", "overlap", "top_k",
                      "chunking_strategy", "chunk_max_tokens", "chunk_tokenizer", "parent_max_tokens", "evidence_max_tokens"):
@@ -278,6 +282,9 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
             assert row["sources"][0]["max_tokens"] == (args.parent_max_tokens if args.chunking_strategy == "parent_child" else args.chunk_max_tokens)
         assert recorded["parent_max_tokens"] == args.parent_max_tokens
         assert recorded["evidence_max_tokens"] == args.evidence_max_tokens
+        options = {"strategy": "vector" if explicit_options else "hybrid",
+                   "candidate_limit": 7 if explicit_options else 9, "bm25_k1": 0.8, "bm25_b": 0.4, "rrf_k": 12}
+        assert row["retrieval_diagnostics"]["options"] == recorded["retrieval_options"] == options
         assert row["retrieval_diagnostics"]["max_tokens"] == args.evidence_max_tokens
         if args.chunking_strategy == "parent_child":
             assert row["sources"][0]["parent_id"] == row["sources"][0]["chunk_id"]

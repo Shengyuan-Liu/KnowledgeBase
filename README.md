@@ -1,14 +1,15 @@
 # KnowledgeBase
 
-A TXT and Markdown knowledge base with structural chunking, vector retrieval,
+A TXT and Markdown knowledge base with structural chunking, hybrid retrieval,
 and source-grounded answers.
 
 The [v1 design documents](docs/v1/README.md) define the ongoing version.
 TXT/Markdown parsing, structural chunking, and source storage are connected to
 uploads. [Parent-child retrieval](docs/parent-child-retrieval.md) is the default
 strategy. Hybrid search and reranking remain planned.
-The standalone [BM25 scorer](docs/bm25.md) and [RRF fusion](docs/rrf.md) are
-implemented; connecting both to the active retrieval service is the next step.
+[Hybrid retrieval](docs/hybrid-retrieval.md) is now the default: [BM25](docs/bm25.md)
+and vector candidates are combined with [RRF](docs/rrf.md) before parent expansion.
+`RETRIEVAL_STRATEGY=vector` retains the vector-only control; reranking is still pending.
 
 ## Run the local application
 
@@ -152,7 +153,10 @@ verified functionality, real-provider results, all-case inspection and known ans
 quality limitations of that historical baseline. The v1 structural pipeline has
 offline integration coverage and a [targeted live Markdown acceptance report](evals/browser-runs/20260922T222123209Z-8d828f17/README.md).
 Seven development questions passed direct evidence review; broader accuracy and
-comparative retrieval quality remain unmeasured.
+comparative retrieval quality were not measured in that Markdown-only check.
+The later [paired hybrid comparison](evals/library-runs/20260923T221737Z-hybrid/README.md)
+records 18 questions per mode against the active library, including both gains
+and a prerequisite-question budget regression.
 
 Run the frozen NYU question set, grade answers with human review or an LLM judge, and
 compare recorded experiments using the [evaluation guide](evals/README.md).

@@ -27,7 +27,12 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `EVIDENCE_MAX_TOKENS` | `4096` | Exact numbered evidence budget, including labels and separators, for all strategies |
 | `CHUNK_SIZE` | `2048` | Maximum characters per chunk in `character` mode only |
 | `CHUNK_OVERLAP` | `256` | Character overlap in `character` mode only |
-| `RETRIEVAL_TOP_K` | `5` | Maximum vector candidates before parent deduplication and evidence packing |
+| `RETRIEVAL_STRATEGY` | `hybrid` | BM25 + vector + RRF; `vector` selects the vector-only control |
+| `RETRIEVAL_CANDIDATE_LIMIT` | `20` | Maximum candidates per route in hybrid mode |
+| `BM25_K1` | `1.2` | Finite, nonnegative lexical term-frequency saturation |
+| `BM25_B` | `0.75` | Lexical length normalization in [0, 1] |
+| `RRF_K` | `60` | Finite, nonnegative reciprocal-rank constant |
+| `RETRIEVAL_TOP_K` | `5` | Selected child/flat hits before parent deduplication and evidence packing |
 | `HISTORY_LIMIT` | `10` | Recent individual messages supplied to the follow-up resolver |
 | `EVAL_TIMEOUT_SECONDS` | `60` | Evaluation/LLM-judge/live-smoke SDK timeout |
 | `EVAL_MAX_RETRIES` | `0` | Evaluation/LLM-judge/live-smoke SDK retry limit |
@@ -82,11 +87,14 @@ uv run --locked python -m evals.evaluate grade evals/runs/<run-id> --reviewer ex
 uv run --locked python -m evals.evaluate grade evals/runs/<run-id> --reviewer experiment-judge --judge-model alternative-model
 ```
 
+Retrieval settings take effect after restart and do not require re-uploading files.
+See [hybrid retrieval](hybrid-retrieval.md) for route and selection semantics.
+
 The interactive CLI supports `--model`, `--top-k`, and `--data-dir`. Evaluation runs
 also support `--embedding-model`, `--chunking-strategy`, `--chunk-max-tokens`,
 `--chunk-tokenizer`, `--parent-max-tokens`, `--evidence-max-tokens`, `--chunk-size`,
-and `--overlap`. The last two apply only to
-character mode. Explicit overrides
+`--overlap`, `--retrieval-strategy`, `--retrieval-candidate-limit`, `--bm25-k1`,
+`--bm25-b`, and `--rrf-k`. Character size and overlap apply only to character mode. Explicit overrides
 are validated together with the remaining configured values. A blank resolver model
 follows the effective answer model, including a `--model` override.
 

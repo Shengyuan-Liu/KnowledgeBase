@@ -11,7 +11,7 @@ def fuse_rrf(
     vector_matches: Sequence[VectorMatch],
     limit: int = DEFAULT_RRF_LIMIT,
     *,
-    k: int = DEFAULT_RRF_K,
+    k: float = DEFAULT_RRF_K,
 ) -> list[FusedMatch]:
     """Fuse eligible candidate lists using equal-weight reciprocal rank fusion.
 

@@ -194,3 +194,36 @@ it("preserves the draft and partial answer after EOF without completion", async 
   expect(screen.queryByText("Completed")).not.toBeInTheDocument();
   expect(screen.getByRole("button", { name: "Retry answer" })).toBeEnabled();
 });
+
+
+it("renders lexical-only evidence and its ranks in live and restored answers", async () => {
+  const lexical = {
+    ...source, distance: null,
+    fusion: { chunk_id: "child-1", rrf_score: 1 / 61, rank: 2,
+      bm25_score: 2.5, bm25_rank: 1, vector_distance: null, vector_rank: null },
+  };
+  fetchMock.mockImplementation(async (url: string, options?: RequestInit) => {
+    if (url === "/api/chat/stream") {
+      const id = JSON.parse(options?.body as string).request_id;
+      return sse(frame("sources", { sources: [lexical] }, id) +
+        frame("complete", { ...completed, sources: [lexical] }, id));
+    }
+    if (url.includes("/conversations/")) return new Response(JSON.stringify({
+      conversation_id: completed.conversation_id, messages: [{ message_id: 2,
+        role: "assistant", content: completed.answer, sources: [lexical],
+        citation_check: completed.citation_check, retrieval_question: completed.retrieval_question }],
+    }));
+    return new Response(JSON.stringify(files));
+  });
+  const view = render(<Workspace />);
+  const input = screen.getByRole("textbox", { name: "Ask about your documents" });
+  await waitFor(() => expect(input).toBeEnabled());
+  await userEvent.type(input, "When?{enter}");
+  await screen.findByText("Completed");
+  expect(screen.getByText(/No vector hit/)).toBeInTheDocument();
+  expect(screen.getByText(/RRF rank 2/)).toHaveTextContent("BM25 rank 1 · Vector rank —");
+  view.unmount();
+  render(<Workspace />);
+  expect(await screen.findByText(/No vector hit/)).toBeInTheDocument();
+  expect(screen.getByText(/RRF rank 2/)).toBeInTheDocument();
+});

@@ -3,7 +3,7 @@
 from pathlib import Path
 from typing import Literal, Self
 
-from pydantic import Field, model_validator
+from pydantic import BaseModel, Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -24,6 +24,16 @@ DEFAULT_RRF_K = 60
 DEFAULT_RRF_LIMIT = 20
 DEFAULT_TOP_K = 5
 DEFAULT_HISTORY_LIMIT = 10
+
+
+class RetrievalOptions(BaseModel):
+    """Query-time retrieval controls, independent of credentials and .env."""
+
+    strategy: Literal["vector", "hybrid"] = "hybrid"
+    candidate_limit: int = Field(default=DEFAULT_RRF_LIMIT, gt=0)
+    bm25_k1: float = Field(default=DEFAULT_BM25_K1, ge=0, allow_inf_nan=False)
+    bm25_b: float = Field(default=DEFAULT_BM25_B, ge=0, le=1, allow_inf_nan=False)
+    rrf_k: float = Field(default=DEFAULT_RRF_K, ge=0, allow_inf_nan=False)
 
 
 class Settings(BaseSettings):
@@ -51,12 +61,24 @@ class Settings(BaseSettings):
     parent_max_tokens: int = Field(default=DEFAULT_PARENT_MAX_TOKENS, gt=0)
     evidence_max_tokens: int = Field(default=DEFAULT_EVIDENCE_MAX_TOKENS, gt=0)
     retrieval_top_k: int = Field(default=DEFAULT_TOP_K, gt=0)
+    retrieval_strategy: Literal["vector", "hybrid"] = "hybrid"
+    retrieval_candidate_limit: int = Field(default=DEFAULT_RRF_LIMIT, gt=0)
+    bm25_k1: float = Field(default=DEFAULT_BM25_K1, ge=0, allow_inf_nan=False)
+    bm25_b: float = Field(default=DEFAULT_BM25_B, ge=0, le=1, allow_inf_nan=False)
+    rrf_k: float = Field(default=DEFAULT_RRF_K, ge=0, allow_inf_nan=False)
     history_limit: int = Field(default=DEFAULT_HISTORY_LIMIT, gt=0)
 
     # Evaluations retain their shorter timeout and disabled retries.
     eval_timeout_seconds: float = Field(default=60, gt=0)
     eval_max_retries: int = Field(default=0, ge=0)
     judge_model: str = "gpt-4.1-mini"
+
+    @property
+    def retrieval_options(self) -> RetrievalOptions:
+        return RetrievalOptions(
+            strategy=self.retrieval_strategy, candidate_limit=self.retrieval_candidate_limit,
+            bm25_k1=self.bm25_k1, bm25_b=self.bm25_b, rrf_k=self.rrf_k,
+        )
 
     @model_validator(mode="after")
     def valid_chunk_budgets(self) -> Self:

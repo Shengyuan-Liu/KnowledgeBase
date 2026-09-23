@@ -1,9 +1,8 @@
 # Reciprocal Rank Fusion
 
-Status: implemented as a standalone pure function on `v1`. It combines the
-[BM25 scorer](bm25.md)'s results with vector candidates, but the active API/CLI
-retrieval path is still vector-only. Service integration, candidate eligibility,
-parent packing, and live hybrid-answer acceptance are the next step.
+Status: implemented as a pure function on `v1` and connected to the default
+[hybrid retrieval service](hybrid-retrieval.md) in API, CLI, and evaluations.
+User acceptance and merge approval remain separate.
 
 ## Interface
 
@@ -69,8 +68,9 @@ still outrank a relevant single-route result.
 
 `DEFAULT_RRF_K=60` and `DEFAULT_RRF_LIMIT=20` are centralized in
 [`config.py`](../knowledgebase/config.py). The fusion window is an experimental
-starting value. Both are explicit function parameters; `.env` switches will be
-introduced with service integration. `k` must be finite and nonnegative and
+starting value for this standalone function. Both are explicit parameters. The
+service uses `RRF_K`, takes `RETRIEVAL_CANDIDATE_LIMIT` hits from each route, saves
+the full fused union, and selects `RETRIEVAL_TOP_K` children before expansion. `k` must be finite and nonnegative and
 `limit` must be positive. `k=0` is supported.
 
 The caller is responsible for selecting eligible files and limiting each route

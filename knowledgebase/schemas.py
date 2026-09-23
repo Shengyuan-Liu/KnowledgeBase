@@ -3,6 +3,8 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
+from knowledgebase.config import RetrievalOptions
+
 
 class FileInfo(BaseModel):
     file_id: str
@@ -115,18 +117,22 @@ class FusedMatch(BaseModel):
 
 
 class RetrievedChunk(BaseModel):
-    """Canonical evidence with its flat-hit or best matched child's distance."""
+    """Canonical evidence with the highest-ranked child's retrieval provenance."""
 
     chunk: Chunk
     file_name: str
-    distance: float
+    distance: float | None
+    fusion: FusedMatch | None = None
     parent_id: str | None = None
     matched_child_ids: list[str] = Field(default_factory=list)
 
 
-class RetrievalCandidate(VectorMatch):
-    """A selected vector hit before parent expansion and evidence packing."""
+class RetrievalCandidate(BaseModel):
+    """A selected child/flat hit before parent expansion and evidence packing."""
 
+    chunk_id: str
+    distance: float | None
+    fusion: FusedMatch | None = None
     file_id: str
     parent_id: str | None = None
     text: str
@@ -144,6 +150,11 @@ class ExcludedEvidence(BaseModel):
 
 
 class RetrievalDiagnostics(BaseModel):
+    options: RetrievalOptions | None = None
+    top_k: int | None = None
+    vector_matches: list[VectorMatch] = Field(default_factory=list)
+    bm25_matches: list[BM25Match] = Field(default_factory=list)
+    fused_matches: list[FusedMatch] = Field(default_factory=list)
     candidates: list[RetrievalCandidate] = Field(default_factory=list)
     excluded: list[ExcludedEvidence] = Field(default_factory=list)
     evidence_tokens: int = 0
@@ -164,7 +175,8 @@ class AnswerSource(BaseModel):
     file_name: str
     chunk_id: str
     text: str
-    distance: float
+    distance: float | None
+    fusion: FusedMatch | None = None
     parent_id: str | None = None
     matched_child_ids: list[str] = Field(default_factory=list)
     start_offset: int | None = None

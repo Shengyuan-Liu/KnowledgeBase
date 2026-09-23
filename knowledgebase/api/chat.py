@@ -28,6 +28,7 @@ def chat(body: ChatRequest, resources: Resources):
             resolver_client=resources.resolver_llm,
             evidence_max_tokens=resources.settings.evidence_max_tokens,
             encoding_name=resources.settings.chunk_tokenizer,
+            retrieval_options=resources.settings.retrieval_options,
         )
     except ConversationNotFoundError as error:
         raise HTTPException(status_code=404, detail="Conversation not found.") from error
@@ -49,6 +50,7 @@ async def stream_chat(body: StreamChatRequest, resources: Resources):
             resolver_client=resources.resolver_llm,
             evidence_max_tokens=resources.settings.evidence_max_tokens,
             encoding_name=resources.settings.chunk_tokenizer,
+            retrieval_options=resources.settings.retrieval_options,
         )
     except ConversationNotFoundError as error:
         raise HTTPException(status_code=404, detail="Conversation not found.") from error
