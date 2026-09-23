@@ -19,6 +19,9 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `DATA_DIR` | `data/v1` | Application storage; isolated evaluation indexes live under `<DATA_DIR>/evals/<run-id>` |
 | `ANSWER_MODEL` | `gpt-4.1` | JSON/streamed answers, CLI, evaluation generation, live smoke test |
 | `EMBEDDING_MODEL` | `text-embedding-3-small` | Both document and query embeddings in every entry point |
+| `RERANK_MODEL` | Blank: standalone callers use `ANSWER_MODEL` | Standalone reranker only; does not enable reranking in chat |
+| `RERANK_CANDIDATE_LIMIT` | `20` | Maximum leading RRF candidates scored by the standalone reranker |
+| `RERANK_MAX_INPUT_TOKENS` | `16384` | Serialized rerank message-text budget; oversize fails without truncation |
 | `RESOLVER_MODEL` | Blank: use `ANSWER_MODEL` | Follow-up question rewriting in API and CLI |
 | `CHUNKING_STRATEGY` | `parent_child` | `structural`, `parent_child`, or the MVP `character` baseline, for new uploads |
 | `CHUNK_MAX_TOKENS` | `512` | Structural chunk or child token limit; experimental starting value |

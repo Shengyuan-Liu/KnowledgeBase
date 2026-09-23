@@ -116,6 +116,46 @@ class FusedMatch(BaseModel):
     vector_rank: int | None = None
 
 
+class RerankCandidate(FusedMatch):
+    """One fused child with exact text and separately supplied heading context."""
+
+    text: str
+    heading_path: list[str] = Field(default_factory=list)
+
+
+class RelevanceScore(BaseModel):
+    """An ordinal relevance assessment, not a correctness probability."""
+
+    chunk_id: str
+    score: int = Field(ge=0, le=3, strict=True)
+
+
+class RerankedMatch(FusedMatch):
+    """Original route/fusion metadata plus the independent rerank result."""
+
+    rerank_score: int
+    rerank_rank: int
+
+
+class RerankResult(BaseModel):
+    """Full scored input and ranking, including candidates outside selected top-k."""
+
+    question: str
+    model: str
+    prompt_version: str
+    tokenizer: str
+    input_tokens: int
+    candidate_limit: int
+    max_input_tokens: int
+    top_k: int
+    candidates: list[RerankCandidate]
+    matches: list[RerankedMatch]
+
+    @property
+    def selected(self) -> list[RerankedMatch]:
+        return self.matches[:self.top_k]
+
+
 class RetrievedChunk(BaseModel):
     """Canonical evidence with the highest-ranked child's retrieval provenance."""
 

@@ -22,6 +22,8 @@ DEFAULT_BM25_K1 = 1.2
 DEFAULT_BM25_B = 0.75
 DEFAULT_RRF_K = 60
 DEFAULT_RRF_LIMIT = 20
+DEFAULT_RERANK_CANDIDATE_LIMIT = 20
+DEFAULT_RERANK_MAX_INPUT_TOKENS = 16384
 DEFAULT_TOP_K = 5
 DEFAULT_HISTORY_LIMIT = 10
 
@@ -53,6 +55,9 @@ class Settings(BaseSettings):
     answer_model: str = DEFAULT_ANSWER_MODEL
     embedding_model: str = DEFAULT_EMBEDDING_MODEL
     resolver_model: str | None = None
+    rerank_model: str | None = None
+    rerank_candidate_limit: int = Field(default=DEFAULT_RERANK_CANDIDATE_LIMIT, gt=0)
+    rerank_max_input_tokens: int = Field(default=DEFAULT_RERANK_MAX_INPUT_TOKENS, gt=0)
     chunk_size: int = Field(default=DEFAULT_CHUNK_SIZE, gt=0)
     chunk_overlap: int = Field(default=DEFAULT_OVERLAP, ge=0)
     chunking_strategy: Literal["structural", "character", "parent_child"] = DEFAULT_CHUNKING_STRATEGY

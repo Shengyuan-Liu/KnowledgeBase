@@ -2,7 +2,8 @@
 
 Status: integrated on `v1` for JSON chat, streamed chat, CLI, and the evaluation
 runner. Hybrid retrieval is the default; user acceptance does not follow from
-passing tests and merging still requires explicit approval. Reranking is pending.
+passing tests and merging still requires explicit approval. A [standalone reranker](reranking.md)
+is now available; the active chat path does not invoke it yet.
 
 ## Query flow
 

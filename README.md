@@ -9,7 +9,9 @@ uploads. [Parent-child retrieval](docs/parent-child-retrieval.md) is the default
 strategy. Hybrid search and reranking remain planned.
 [Hybrid retrieval](docs/hybrid-retrieval.md) is now the default: [BM25](docs/bm25.md)
 and vector candidates are combined with [RRF](docs/rrf.md) before parent expansion.
-`RETRIEVAL_STRATEGY=vector` retains the vector-only control; reranking is still pending.
+`RETRIEVAL_STRATEGY=vector` retains the vector-only control.
+The [standalone reranker](docs/reranking.md) scores a bounded fused-child window;
+connecting it to chat remains the next step.
 
 ## Run the local application
 

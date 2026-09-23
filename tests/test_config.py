@@ -52,6 +52,7 @@ def test_all_runtime_options_and_override_precedence(tmp_path, monkeypatch):
         "OPENAI_API_KEY": "test-secret", "OPENAI_BASE_URL": "https://provider.test/v1",
         "OPENAI_TIMEOUT_SECONDS": "42", "OPENAI_MAX_RETRIES": "1", "DATA_DIR": "custom-data",
         "ANSWER_MODEL": "file-answer", "EMBEDDING_MODEL": "file-embedding",
+        "RERANK_MODEL": "file-reranker", "RERANK_CANDIDATE_LIMIT": "12", "RERANK_MAX_INPUT_TOKENS": "8000",
         "RESOLVER_MODEL": "file-resolver", "CHUNKING_STRATEGY": "character", "CHUNK_MAX_TOKENS": "64",
         "PARENT_MAX_TOKENS": "128", "EVIDENCE_MAX_TOKENS": "256",
         "CHUNK_TOKENIZER": "cl100k_base", "CHUNK_SIZE": "100", "CHUNK_OVERLAP": "20",
@@ -90,6 +91,7 @@ def test_invalid_tuning_values_fail_before_startup_without_exposing_key(tmp_path
     monkeypatch.chdir(tmp_path)
     monkeypatch.setenv("OPENAI_API_KEY", "must-not-appear-in-errors")
     for invalid in (
+        {"rerank_candidate_limit": 0}, {"rerank_max_input_tokens": 0},
         {"parent_max_tokens": 0}, {"evidence_max_tokens": 0},
         {"chunking_strategy": "parent_child", "parent_max_tokens": 128, "chunk_max_tokens": 256},
         {"chunking_strategy": "parent_child", "parent_max_tokens": 512, "evidence_max_tokens": 512},
@@ -115,3 +117,12 @@ def test_hybrid_is_default_and_vector_is_an_explicit_control(tmp_path, monkeypat
     assert settings.retrieval_options.strategy == "hybrid"
     assert settings.retrieval_options.candidate_limit == 20
     assert Settings(openai_api_key="offline-test", retrieval_strategy="vector").retrieval_options.strategy == "vector"
+
+
+def test_standalone_rerank_defaults_do_not_enable_chat_integration(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    settings = Settings(openai_api_key="offline-test")
+    assert settings.rerank_model is None
+    assert settings.rerank_candidate_limit == 20
+    assert settings.rerank_max_input_tokens == 16384
+    assert settings.retrieval_options.strategy == "hybrid"
