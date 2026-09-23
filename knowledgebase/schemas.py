@@ -95,11 +95,45 @@ class VectorMatch(BaseModel):
 
 
 class RetrievedChunk(BaseModel):
-    """Canonical chunk text and its vector-search distance."""
+    """Canonical evidence with its flat-hit or best matched child's distance."""
 
     chunk: Chunk
     file_name: str
     distance: float
+    parent_id: str | None = None
+    matched_child_ids: list[str] = Field(default_factory=list)
+
+
+class RetrievalCandidate(VectorMatch):
+    """A selected vector hit before parent expansion and evidence packing."""
+
+    file_id: str
+    parent_id: str | None = None
+    text: str
+    start_offset: int
+    end_offset: int
+
+
+class ExcludedEvidence(BaseModel):
+    """An entire evidence region skipped because it cannot fit the remaining budget."""
+
+    chunk_id: str
+    file_id: str
+    token_count: int
+    reason: Literal["context_budget"] = "context_budget"
+
+
+class RetrievalDiagnostics(BaseModel):
+    candidates: list[RetrievalCandidate] = Field(default_factory=list)
+    excluded: list[ExcludedEvidence] = Field(default_factory=list)
+    evidence_tokens: int = 0
+    max_tokens: int
+    tokenizer: str
+
+
+class RetrievedEvidence(BaseModel):
+    chunks: list[RetrievedChunk]
+    diagnostics: RetrievalDiagnostics
 
 
 class AnswerSource(BaseModel):
@@ -111,6 +145,15 @@ class AnswerSource(BaseModel):
     chunk_id: str
     text: str
     distance: float
+    parent_id: str | None = None
+    matched_child_ids: list[str] = Field(default_factory=list)
+    start_offset: int | None = None
+    end_offset: int | None = None
+    heading_path: list[str] = Field(default_factory=list)
+    source_block_indices: list[int] = Field(default_factory=list)
+    token_count: int | None = None
+    tokenizer: str | None = None
+    max_tokens: int | None = None
 
 
 class CitationCheck(BaseModel):
@@ -127,6 +170,7 @@ class ChatAnswer(BaseModel):
     answer: str
     sources: list[AnswerSource]
     citation_check: CitationCheck
+    retrieval: RetrievalDiagnostics | None = None
 
 
 class ChatRequest(BaseModel):
@@ -186,6 +230,7 @@ class ConversationMessage(MessageInfo):
     retrieval_question: str | None = None
     sources: list[HistoricalSource] | None = None
     citation_check: CitationCheck | None = None
+    retrieval: RetrievalDiagnostics | None = None
 
 
 class ConversationDetail(ConversationInfo):

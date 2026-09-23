@@ -132,5 +132,7 @@ preservation, source-block associations, mixed MVP/v1 reads, caller rollback,
 deletion scope, old-schema initialization, and historical evidence preservation.
 
 This verifies persistence and lifecycle behavior, not retrieval quality. Uploads
-and shared configuration are connected; API/UI exposure of heading paths and other
-structural metadata remains later work. Existing evidence views show exact excerpts.
+and shared configuration are connected. [Parent-child retrieval](parent-child-retrieval.md)
+adds parent/child evidence metadata to answer snapshots and persists retrieval
+diagnostics in the supplementary `retrieval_snapshots` table. The evidence panel
+shows heading paths and exact parent or flat excerpts.

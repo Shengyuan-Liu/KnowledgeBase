@@ -19,6 +19,7 @@ from knowledgebase.storage.models import (
     FileRecord,
     MessageRecord,
     ParentChunkRecord,
+    RetrievalSnapshotRecord,
 )
 
 
@@ -300,6 +301,11 @@ def save_answer_snapshot(
         citation_check=answer.citation_check.model_dump(mode="json"),
     ))
     session.flush()
+    if answer.retrieval is not None:
+        session.add(RetrievalSnapshotRecord(
+            message_id=message_id, diagnostics=answer.retrieval.model_dump(mode="json"),
+        ))
+        session.flush()
 
 
 def get_conversation_detail(session: Session, conversation_id: str) -> ConversationDetail | None:
@@ -313,19 +319,20 @@ def get_conversation_detail(session: Session, conversation_id: str) -> Conversat
     if conversation is None:
         return None
     rows = session.execute(
-        select(MessageRecord, AnswerSnapshotRecord)
+        select(MessageRecord, AnswerSnapshotRecord, RetrievalSnapshotRecord)
         .outerjoin(AnswerSnapshotRecord, AnswerSnapshotRecord.message_id == MessageRecord.message_id)
+        .outerjoin(RetrievalSnapshotRecord, RetrievalSnapshotRecord.message_id == MessageRecord.message_id)
         .where(MessageRecord.conversation_id == conversation_id)
         .order_by(MessageRecord.message_id)
     ).all()
     file_ids = {
         source["file_id"]
-        for _, snapshot in rows if snapshot is not None
+        for _, snapshot, _ in rows if snapshot is not None
         for source in snapshot.sources
     }
     existing_ids = set(session.scalars(select(FileRecord.file_id).where(FileRecord.file_id.in_(file_ids))))
     messages = []
-    for record, snapshot in rows:
+    for record, snapshot, retrieval in rows:
         if snapshot is None:
             message = ConversationMessage.model_validate(record, from_attributes=True)
         else:
@@ -335,6 +342,7 @@ def get_conversation_detail(session: Session, conversation_id: str) -> Conversat
                 sources=[HistoricalSource(**source, file_deleted=source["file_id"] not in existing_ids)
                          for source in snapshot.sources],
                 citation_check=snapshot.citation_check,
+                retrieval=retrieval.diagnostics if retrieval is not None else None,
             )
         messages.append(message)
     return ConversationDetail(**conversation.model_dump(), messages=messages)

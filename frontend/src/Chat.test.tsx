@@ -78,6 +78,34 @@ it("does not send during IME composition or Shift+Enter", async () => {
   ).toHaveLength(0);
 });
 
+it("shows the complete parent passage and its heading path", async () => {
+  const parent = {
+    ...source,
+    chunk_id: "file-1:parent:0",
+    parent_id: "file-1:parent:0",
+    matched_child_ids: ["file-1:child:0", "file-1:child:1"],
+    heading_path: ["Library", "Hours"],
+    text: "## Hours\n\nThe library closes at 5 PM.\n\n- Reserve weekend visits.",
+  };
+  fetchMock.mockImplementation(async (url: string, options?: RequestInit) => {
+    if (url === "/api/chat/stream") {
+      const id = JSON.parse(options?.body as string).request_id;
+      return sse(frame("complete", { ...completed, sources: [parent] }, id));
+    }
+    return new Response(JSON.stringify(files));
+  });
+  render(<Workspace />);
+  const input = screen.getByRole("textbox", { name: "Ask about your documents" });
+  await waitFor(() => expect(input).toBeEnabled());
+  await userEvent.type(input, "Opening hours?{enter}");
+  await screen.findByText("Completed");
+  await userEvent.click(screen.getByRole("button", { name: "View source 1: hours.txt" }));
+  const evidence = screen.getByRole("complementary", { name: "Evidence" });
+  expect(within(evidence).getByText("Parent passage file-1:parent:0")).toBeInTheDocument();
+  expect(within(evidence).getByText("Library › Hours")).toBeInTheDocument();
+  expect(evidence.querySelector("blockquote")?.textContent).toBe(parent.text);
+});
+
 it("keeps repeated citation numbers bound to their answer and marks deleted historical sources", async () => {
   localStorage.setItem(CONVERSATION_KEY, "conversation-1");
   const history: SavedConversation = {

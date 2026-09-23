@@ -46,7 +46,8 @@ with that directory's name. Defaults come from the same [Settings and `.env`](..
 no overlap, cosine distance, and top-k 5. The structural default is an experimental
 starting point; historical MVP results do not measure its quality.
 Override them with `--model`, `--embedding-model`, `--chunking-strategy`,
-`--chunk-max-tokens`, `--chunk-tokenizer`, and `--top-k`. `--chunk-size` and
+`--chunk-max-tokens`, `--chunk-tokenizer`, `--parent-max-tokens`,
+`--evidence-max-tokens`, and `--top-k`. `--chunk-size` and
 `--overlap` apply only when `--chunking-strategy character` is selected.
 `--cases` accepts an alternative JSONL in the same format, grounded in the same NYU manifest.
 
@@ -57,7 +58,7 @@ uv run --locked python -m evals.evaluate run --label "MVP character control" --c
 ```
 
 Run metadata records both the chosen strategy and token/character settings, plus
-the effective overlap (zero for structural chunks). Retrieved structural sources
+the effective overlap (zero for structural and parent-child chunks). Retrieved structural sources
 also record heading paths, source block indices, measured tokens, and counting
 configuration in `answers.jsonl`. Those fields describe retrieved evidence, not
 quality scores. Shared ingestion supports Markdown, but this runner still uses
@@ -235,3 +236,15 @@ make test
 
 Tests use offline fixtures and fake judge outputs. They verify scoring, denominators, reference
 spans, comparison eligibility, persistence, and failures; their passing counts are not RAG scores.
+
+## Parent-child experiments
+
+Select `--chunking-strategy parent_child` to index children and provide deduplicated
+parent regions to generation. See the [retrieval guide](../docs/parent-child-retrieval.md)
+for budget settings and a complete command. Run metadata records the parent limit
+and evidence budget. Final sources describe the actual supplied parent text and
+its matched child IDs; `retrieval_diagnostics` records the original candidates,
+budget exclusions, and formatted evidence token count. The existing `retrieval`
+field continues to hold recall metrics. Parent coverage can improve those metrics
+without improving child ranking, so inspect both stages and answer quality.
+Historical run artifacts remain unchanged.

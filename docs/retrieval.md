@@ -8,7 +8,11 @@ canonical chunk text:
 3. Embed the question through the supplied `EmbeddingClient`.
 4. Search Chroma with a file ID filter and the requested `top_k`.
 5. Load the matched chunks from SQLite with `get_chunks_by_ids`.
-6. Return `RetrievedChunk` objects in Chroma's search order.
+6. Order selected candidates by distance, breaking ties by chunk ID. Expand child
+   hits to parents, deduplicate parent IDs, and pack whole regions within the
+   numbered evidence budget.
+7. Return the packed `RetrievedChunk` objects. Use `retrieve_evidence()` to also
+   inspect candidates, exclusions, and token counts.
 
 Filtering applies before nearest-neighbor selection, so processing and failed
 files cannot consume result slots. Chroma stores file IDs as metadata; SQLite
@@ -35,16 +39,18 @@ for result in results:
 
 Each result contains a full `Chunk` (including its ID and original text offsets),
 the filename from the already loaded file metadata, and the raw distance reported
-by the collection. Answer assembly reuses this filename instead of querying all
+by the collection (the best matched child's distance for a parent). Answer assembly reuses this filename instead of querying all
 files a second time. Smaller distances are nearer;
-they are not probabilities of answer correctness. No matches returns `[]`.
+they are not probabilities of answer correctness. No matches or no fitting regions
+returns `[]`. See [parent-child retrieval](parent-child-retrieval.md) for expansion,
+source metadata, and the `EVIDENCE_MAX_TOKENS` packing contract.
 
 The caller owns the session and model client. Retrieval does not commit, update
 file status, or generate an answer. Dependency exceptions propagate normally.
 
 `get_chunks_by_ids(session, chunk_ids)` loads existing chunks in one SQL query.
 It returns data snapshots without promising input order or filtering file status;
-retrieval maps them by ID to preserve Chroma's ranking.
+retrieval maps them by ID before ranking and expansion.
 
 ## Verification
 

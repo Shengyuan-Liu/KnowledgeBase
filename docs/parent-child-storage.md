@@ -2,8 +2,9 @@
 
 Status: implemented and tested as storage operations. The
 [parent-child splitter](parent-child-chunking.md) can persist its output and read
-it back with complete relationships. Active uploads still create flat structural
-chunks; parent-child ingestion and retrieval expansion remain later work.
+it back with complete relationships. [Parent-child retrieval](parent-child-retrieval.md)
+connects these operations to ingestion and evidence expansion when new uploads
+use the opt-in `parent_child` strategy.
 
 ## Tables and Responsibilities
 
@@ -54,7 +55,7 @@ overwrites. After a failed flush, the caller must roll back the transaction.
 Returned snapshots are independent of ORM records and may outlive the session.
 
 Reads do not filter file status or implement retrieval expansion. The retrieval
-layer must still restrict evidence to Ready files and later control deduplication,
+layer restricts evidence to Ready files and controls deduplication,
 ranking, and context budgets.
 
 ## Example

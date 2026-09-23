@@ -107,3 +107,14 @@ the model finishes, then verifies disconnect cancellation. These tests do not ca
 live providers. The [frontend browser suite](frontend.md#verification) additionally
 exercises real HTTP/SSE through the local Vite proxy with offline provider fixtures;
 production proxy deployment remains unverified.
+
+## Parent evidence and retrieval diagnostics
+
+With parent-child indexing, sources contain the complete expanded parent text,
+its `parent_id`, matched child IDs, offsets, and structural metadata. Source numbers
+refer to these final evidence regions. Completed answers include `retrieval`
+diagnostics with candidate hits, budget exclusions, and evidence token counts;
+SSE includes this field in `complete`. Source snapshots and diagnostics persist
+in the same exchange transaction and survive source deletion. Older snapshots
+have `retrieval: null`. See [parent-child retrieval](parent-child-retrieval.md)
+for the full contract and evidence budget behavior.

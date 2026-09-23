@@ -147,3 +147,14 @@ class AnswerSnapshotRecord(Base):
     # Source file/chunk IDs are historical values, not foreign keys to live data.
     sources: Mapped[list[dict]] = mapped_column(JSON)
     citation_check: Mapped[dict] = mapped_column(JSON)
+
+
+class RetrievalSnapshotRecord(Base):
+    """Optional retrieval diagnostics alongside an existing answer snapshot."""
+
+    __tablename__ = "retrieval_snapshots"
+
+    message_id: Mapped[int] = mapped_column(
+        ForeignKey("answer_snapshots.message_id", ondelete="CASCADE"), primary_key=True,
+    )
+    diagnostics: Mapped[dict] = mapped_column(JSON)

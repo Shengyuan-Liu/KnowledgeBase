@@ -81,6 +81,7 @@ def cli() -> None:
                     chunking_strategy=settings.chunking_strategy,
                     chunk_max_tokens=settings.chunk_max_tokens,
                     chunk_tokenizer=settings.chunk_tokenizer,
+                    parent_max_tokens=settings.parent_max_tokens,
                 )
                 print(f"Indexed {path.name} ({file_id})")
             conversation_id = args.conversation_id
@@ -91,6 +92,7 @@ def cli() -> None:
                     question, sessions, embeddings, store, llm,
                     conversation_id=conversation_id, top_k=settings.retrieval_top_k,
                     history_limit=settings.history_limit, resolver_client=resolver,
+                    evidence_max_tokens=settings.evidence_max_tokens, encoding_name=settings.chunk_tokenizer,
                 )
                 conversation_id = result.conversation_id
                 return result

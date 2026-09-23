@@ -240,7 +240,8 @@ def run(args):
     fields = {"model": "answer_model", "embedding_model": "embedding_model",
               "chunk_size": "chunk_size", "overlap": "chunk_overlap", "top_k": "retrieval_top_k",
               "chunking_strategy": "chunking_strategy", "chunk_max_tokens": "chunk_max_tokens",
-              "chunk_tokenizer": "chunk_tokenizer"}
+              "chunk_tokenizer": "chunk_tokenizer", "parent_max_tokens": "parent_max_tokens",
+              "evidence_max_tokens": "evidence_max_tokens"}
     settings = Settings(**{field: getattr(args, name) for name, field in fields.items()
                            if getattr(args, name) is not None})
     for name, field in fields.items():
@@ -258,7 +259,8 @@ def run(args):
                    "chunk_size": args.chunk_size, "overlap": args.overlap, "top_k": args.top_k,
                    "chunking_strategy": args.chunking_strategy, "chunk_max_tokens": args.chunk_max_tokens,
                    "chunk_tokenizer": args.chunk_tokenizer,
-                   "effective_overlap": 0 if args.chunking_strategy == "structural" else args.overlap,
+                   "parent_max_tokens": args.parent_max_tokens, "evidence_max_tokens": args.evidence_max_tokens,
+                   "effective_overlap": args.overlap if args.chunking_strategy == "character" else 0,
                    "distance": "cosine", "question_order": "dataset order",
                    "timeout_seconds": settings.eval_timeout_seconds, "max_retries": settings.eval_max_retries},
     }
@@ -277,11 +279,9 @@ def run(args):
         from openai import OpenAI
         from knowledgebase.providers.embeddings import EmbeddingClient
         from knowledgebase.providers.llm import LLMClient
-        from knowledgebase.schemas import StructuredChunk
         from knowledgebase.services.chat import answer_question
         from knowledgebase.services.files import ingest_file
         from knowledgebase.storage.database import build_engine, build_session_factory, init_db
-        from knowledgebase.storage.operations import get_chunks_by_ids
         from knowledgebase.storage.vectordb import ChromaStore
 
         # Every run gets a fresh index of only the manifest's TXT documents.
@@ -302,20 +302,15 @@ def run(args):
                 ingest_file(name, content.encode(), sessions, embeddings, store,
                             chunk_size=args.chunk_size, overlap=args.overlap,
                             chunking_strategy=args.chunking_strategy, chunk_max_tokens=args.chunk_max_tokens,
-                            chunk_tokenizer=args.chunk_tokenizer)
+                            chunk_tokenizer=args.chunk_tokenizer, parent_max_tokens=args.parent_max_tokens)
             def ask(question):
-                result = answer_question(question, sessions, embeddings, store, llm, top_k=args.top_k)
-                row = result.model_dump()
-                with sessions() as session:
-                    chunks = {c.chunk_id: c for c in get_chunks_by_ids(session, [s.chunk_id for s in result.sources])}
-                for source in row["sources"]:
-                    chunk = chunks[source["chunk_id"]]
-                    source.update(start_offset=chunk.start_offset, end_offset=chunk.end_offset)
-                    if isinstance(chunk, StructuredChunk):
-                        source.update(chunk.model_dump(include={
-                            "heading_path", "source_block_indices", "token_count", "tokenizer", "max_tokens",
-                        }))
-                return row
+                result = answer_question(
+                    question, sessions, embeddings, store, llm, top_k=args.top_k,
+                    evidence_max_tokens=args.evidence_max_tokens, encoding_name=args.chunk_tokenizer,
+                ).model_dump()
+                # Existing evaluation rows reserve "retrieval" for recall metrics.
+                result["retrieval_diagnostics"] = result.pop("retrieval")
+                return result
             collect_answers(run_dir, cases, ask)
         metadata["status"] = "completed"
     except BaseException as error:
@@ -634,9 +629,11 @@ def main():
     runner.add_argument("--embedding-model", help="Override EMBEDDING_MODEL")
     runner.add_argument("--chunk-size", type=int, help="Override CHUNK_SIZE")
     runner.add_argument("--overlap", type=int, help="Override CHUNK_OVERLAP")
-    runner.add_argument("--chunking-strategy", choices=["structural", "character"], help="Override CHUNKING_STRATEGY")
-    runner.add_argument("--chunk-max-tokens", type=int, help="Override CHUNK_MAX_TOKENS for structural chunks")
+    runner.add_argument("--chunking-strategy", choices=["structural", "character", "parent_child"], help="Override CHUNKING_STRATEGY")
+    runner.add_argument("--chunk-max-tokens", type=int, help="Override CHUNK_MAX_TOKENS for structural chunks or children")
     runner.add_argument("--chunk-tokenizer", help="Override CHUNK_TOKENIZER")
+    runner.add_argument("--parent-max-tokens", type=int, help="Override PARENT_MAX_TOKENS")
+    runner.add_argument("--evidence-max-tokens", type=int, help="Override EVIDENCE_MAX_TOKENS")
     runner.add_argument("--top-k", type=int, help="Override RETRIEVAL_TOP_K")
     grader = sub.add_parser("grade", help="Append human or LLM reviews; preserve earlier ratings.")
     grader.add_argument("run_dir", type=Path)

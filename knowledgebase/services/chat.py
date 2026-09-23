@@ -9,15 +9,18 @@ import anyio
 
 from sqlalchemy.orm import Session, sessionmaker
 
-from knowledgebase.config import DEFAULT_TOP_K, DEFAULT_HISTORY_LIMIT
+from knowledgebase.config import (
+    DEFAULT_TOP_K, DEFAULT_HISTORY_LIMIT, DEFAULT_EVIDENCE_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER,
+)
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.rag.citations import validate_citations
 from knowledgebase.rag.generation import generate_answer, stream_answer
 from knowledgebase.rag.query import resolve_question
-from knowledgebase.rag.retrieval import retrieve
+from knowledgebase.rag.retrieval import retrieve_evidence
 from knowledgebase.schemas import (
-    AnswerSource, ChatAnswer, ChatStreamEvent, ConversationAnswer, MessageInfo, RetrievedChunk,
+    AnswerSource, ChatAnswer, ChatStreamEvent, ConversationAnswer, MessageInfo,
+    RetrievedChunk, RetrievalDiagnostics, StructuredChunk,
 )
 from knowledgebase.storage.operations import (
     create_conversation,
@@ -41,6 +44,8 @@ def answer_question(
     llm_client: LLMClient,
     top_k: int = DEFAULT_TOP_K,
     *, retrieval_question: str | None = None,
+    evidence_max_tokens: int = DEFAULT_EVIDENCE_MAX_TOKENS,
+    encoding_name: str = DEFAULT_CHUNK_TOKENIZER,
 ) -> ChatAnswer:
     """Return an answer and sources in the same order used by the prompt.
 
@@ -48,22 +53,27 @@ def answer_question(
     include every retrieved excerpt, regardless of which ones the model cites.
     Source IDs are one-based and local to this answer.
     """
-    chunks, sources = _retrieve_evidence(retrieval_question or question, session_factory, embedding_client, vector_store, top_k)
+    chunks, sources, diagnostics = _retrieve_evidence(
+        retrieval_question or question, session_factory, embedding_client, vector_store, top_k,
+        evidence_max_tokens, encoding_name,
+    )
     answer = generate_answer(question, chunks, llm_client, retrieval_question=retrieval_question)
     return ChatAnswer(
         answer=answer, sources=sources,
-        citation_check=validate_citations(answer, sources),
+        citation_check=validate_citations(answer, sources), retrieval=diagnostics,
     )
 
 
 def _retrieve_evidence(
     question: str, session_factory: sessionmaker[Session], embedding_client: EmbeddingClient,
-    vector_store: ChromaStore, top_k: int,
-) -> tuple[list[RetrievedChunk], list[AnswerSource]]:
+    vector_store: ChromaStore, top_k: int, evidence_max_tokens: int, encoding_name: str,
+) -> tuple[list[RetrievedChunk], list[AnswerSource], RetrievalDiagnostics]:
     with session_factory() as session:
-        chunks = retrieve(
-            question, session, embedding_client, vector_store, top_k=top_k
+        evidence = retrieve_evidence(
+            question, session, embedding_client, vector_store, top_k=top_k,
+            evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
         )
+        chunks = evidence.chunks
         sources = [
             AnswerSource(
                 source_id=number,
@@ -72,11 +82,16 @@ def _retrieve_evidence(
                 chunk_id=item.chunk.chunk_id,
                 text=item.chunk.text,
                 distance=item.distance,
+                parent_id=item.parent_id, matched_child_ids=item.matched_child_ids,
+                start_offset=item.chunk.start_offset, end_offset=item.chunk.end_offset,
+                **(item.chunk.model_dump(include={
+                    "heading_path", "source_block_indices", "token_count", "tokenizer", "max_tokens",
+                }) if isinstance(item.chunk, StructuredChunk) else {}),
             )
             for number, item in enumerate(chunks, start=1)
         ]
 
-    return chunks, sources
+    return chunks, sources, evidence.diagnostics
 
 
 def answer_in_conversation(
@@ -89,6 +104,8 @@ def answer_in_conversation(
     top_k: int = DEFAULT_TOP_K,
     history_limit: int = DEFAULT_HISTORY_LIMIT,
     *, resolver_client: LLMClient | None = None,
+    evidence_max_tokens: int = DEFAULT_EVIDENCE_MAX_TOKENS,
+    encoding_name: str = DEFAULT_CHUNK_TOKENIZER,
 ) -> ConversationAnswer:
     """Resolve a follow-up, retrieve fresh evidence, and save a completed exchange.
 
@@ -101,6 +118,7 @@ def answer_in_conversation(
     result = answer_question(
         question, session_factory, embedding_client, vector_store,
         llm_client, top_k=top_k, retrieval_question=retrieval_question,
+        evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
     )
 
     return _save_exchange(question, retrieval_question, result, session_factory, conversation_id)
@@ -133,7 +151,7 @@ def _save_exchange(
 
     return ConversationAnswer(
         answer=result.answer, sources=result.sources,
-        citation_check=result.citation_check,
+        citation_check=result.citation_check, retrieval=result.retrieval,
         conversation_id=conversation_id, message_id=message.message_id,
         question=question, retrieval_question=retrieval_question,
     )
@@ -151,6 +169,8 @@ async def stream_answer_in_conversation(
     top_k: int = DEFAULT_TOP_K,
     history_limit: int = DEFAULT_HISTORY_LIMIT,
     *, resolver_client: LLMClient | None = None,
+    evidence_max_tokens: int = DEFAULT_EVIDENCE_MAX_TOKENS,
+    encoding_name: str = DEFAULT_CHUNK_TOKENIZER,
 ) -> AsyncGenerator[ChatStreamEvent]:
     """Validate the conversation before streaming; persist only a completed answer.
 
@@ -170,9 +190,9 @@ async def stream_answer_in_conversation(
             retrieval_question = await anyio.to_thread.run_sync(
                 resolve_question, question, history, resolver_client or llm_client, abandon_on_cancel=True,
             )
-            chunks, sources = await anyio.to_thread.run_sync(
+            chunks, sources, diagnostics = await anyio.to_thread.run_sync(
                 _retrieve_evidence, retrieval_question, session_factory, embedding_client,
-                vector_store, top_k, abandon_on_cancel=True,
+                vector_store, top_k, evidence_max_tokens, encoding_name, abandon_on_cancel=True,
             )
             yield event("sources", sources=[source.model_dump() for source in sources])
             parts = []
@@ -181,7 +201,10 @@ async def stream_answer_in_conversation(
                     parts.append(delta)
                     yield event("answer_delta", delta=delta)
             answer = "".join(parts)
-            result = ChatAnswer(answer=answer, sources=sources, citation_check=validate_citations(answer, sources))
+            result = ChatAnswer(
+                answer=answer, sources=sources,
+                citation_check=validate_citations(answer, sources), retrieval=diagnostics,
+            )
             yield event("debug", retrieval_question=retrieval_question, distance_metric="cosine",
                         elapsed_seconds=perf_counter() - started)
             # Let a queued disconnect cancel this turn before beginning the commit.

@@ -13,8 +13,12 @@ evidence, not a broad accuracy result or a chunking-quality comparison.
 The standalone [parent-child chunker](../parent-child-chunking.md) also produces
 bounded parents and children with tested source containment.
 [Parent-child storage](../parent-child-storage.md) preserves their relationships
-with transactional cleanup and old-data compatibility. Upload and retrieval
-integration remain pending. The remaining v1 pipeline is planned;
+with transactional cleanup and old-data compatibility.
+[Parent-child retrieval](../parent-child-retrieval.md) now integrates uploads,
+child-only indexing, parent expansion/deduplication, evidence budgets, and saved
+diagnostics across API, CLI, and evaluation. It is opt-in and covered by offline
+workflow tests; live acceptance and quality comparison remain pending.
+The remaining hybrid-search and reranking pipeline is planned;
 these documents do not claim that the full version is implemented or its quality measured.
 
 v1 adds Markdown support, structure-aware and sentence-aware chunking, parent-child

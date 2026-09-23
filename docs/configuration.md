@@ -20,12 +20,14 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `ANSWER_MODEL` | `gpt-4.1` | JSON/streamed answers, CLI, evaluation generation, live smoke test |
 | `EMBEDDING_MODEL` | `text-embedding-3-small` | Both document and query embeddings in every entry point |
 | `RESOLVER_MODEL` | Blank: use `ANSWER_MODEL` | Follow-up question rewriting in API and CLI |
-| `CHUNKING_STRATEGY` | `structural` | `structural` or the MVP `character` baseline, for new uploads |
-| `CHUNK_MAX_TOKENS` | `512` | Structural chunk token limit; experimental starting value |
-| `CHUNK_TOKENIZER` | `cl100k_base` | tiktoken encoding used to count structural chunk tokens |
+| `CHUNKING_STRATEGY` | `structural` | `structural`, `parent_child`, or the MVP `character` baseline, for new uploads |
+| `CHUNK_MAX_TOKENS` | `512` | Structural chunk or child token limit; experimental starting value |
+| `CHUNK_TOKENIZER` | `cl100k_base` | tiktoken encoding for splitting and evidence packing |
+| `PARENT_MAX_TOKENS` | `1536` | Parent token limit in `parent_child` mode |
+| `EVIDENCE_MAX_TOKENS` | `4096` | Exact numbered evidence budget, including labels and separators, for all strategies |
 | `CHUNK_SIZE` | `2048` | Maximum characters per chunk in `character` mode only |
 | `CHUNK_OVERLAP` | `256` | Character overlap in `character` mode only |
-| `RETRIEVAL_TOP_K` | `5` | Maximum retrieved evidence chunks per question |
+| `RETRIEVAL_TOP_K` | `5` | Maximum vector candidates before parent deduplication and evidence packing |
 | `HISTORY_LIMIT` | `10` | Recent individual messages supplied to the follow-up resolver |
 | `EVAL_TIMEOUT_SECONDS` | `60` | Evaluation/LLM-judge/live-smoke SDK timeout |
 | `EVAL_MAX_RETRIES` | `0` | Evaluation/LLM-judge/live-smoke SDK retry limit |
@@ -38,7 +40,11 @@ is a configuration default, not a claim that the judge is calibrated. The record
 Blank values use their defaults. Chunk size/token limit, top-k, history limit and
 timeouts must be positive; overlap/retries must be nonnegative. In character mode,
 overlap must be less than chunk size. These constraints are validated when settings load.
-The tokenizer name is resolved when structural chunking runs, before embedding.
+In parent-child mode, the child limit must not exceed the parent limit, and the
+parent limit must be below the evidence budget. Evidence is packed as whole
+regions; see [parent-child retrieval](parent-child-retrieval.md). The budget does
+not count system instructions, questions, or generated answers.
+The tokenizer name is resolved when token-based chunking or evidence packing runs.
 Its public vocabulary may be downloaded on first use. Structural chunks have no
 overlap; the tokenizer counts source text and does not change the embedding model.
 The 512-token default has not yet been validated through a retrieval-quality comparison.
@@ -78,7 +84,8 @@ uv run --locked python -m evals.evaluate grade evals/runs/<run-id> --reviewer ex
 
 The interactive CLI supports `--model`, `--top-k`, and `--data-dir`. Evaluation runs
 also support `--embedding-model`, `--chunking-strategy`, `--chunk-max-tokens`,
-`--chunk-tokenizer`, `--chunk-size`, and `--overlap`. The last two apply only to
+`--chunk-tokenizer`, `--parent-max-tokens`, `--evidence-max-tokens`, `--chunk-size`,
+and `--overlap`. The last two apply only to
 character mode. Explicit overrides
 are validated together with the remaining configured values. A blank resolver model
 follows the effective answer model, including a `--model` override.
@@ -90,10 +97,11 @@ and history listing remain offline and do not load credentials.
 
 ## Changes that affect stored data
 
-- Answer/resolver model, top-k and history-limit changes apply after restart and do
+- Answer/resolver model, top-k, evidence budget, and history-limit changes apply after restart and do
   not require reindexing.
-- Chunking strategy, token budget/tokenizer, and character size/overlap changes apply
-  only to newly indexed files. Existing chunks and
+- Chunking strategy, parent/child token limits, and character size/overlap changes
+  apply only to newly indexed files. Changing the tokenizer affects new chunks
+  and future evidence packing; existing chunk token metadata is retained. Existing chunks and
   saved evidence snapshots do not change. Re-upload files to apply new chunking.
 - Changing the embedding model requires a fresh index of **all** documents. Use a
   new `DATA_DIR`, restart, then upload the original TXT or Markdown files. A same-dimensional

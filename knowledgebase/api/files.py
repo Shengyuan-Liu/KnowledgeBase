@@ -31,6 +31,7 @@ def upload_file(file: UploadFile, resources: Resources):
             chunking_strategy=resources.settings.chunking_strategy,
             chunk_max_tokens=resources.settings.chunk_max_tokens,
             chunk_tokenizer=resources.settings.chunk_tokenizer,
+            parent_max_tokens=resources.settings.parent_max_tokens,
         )
     except InvalidUploadError as error:
         raise HTTPException(status_code=400, detail=str(error)) from error

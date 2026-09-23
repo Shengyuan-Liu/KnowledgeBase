@@ -16,13 +16,14 @@ ordered by ascending `message_id`. An existing empty conversation has
 `{"detail":"Conversation not found."}`.
 
 Every message contains its ID, conversation ID, role, original content, creation
-time, and three nullable detail fields:
+time, and four nullable detail fields:
 
 | Field | Completed assistant answer | User or legacy message without a snapshot |
 | --- | --- | --- |
 | `retrieval_question` | Question used for retrieval, including follow-up resolution | `null` |
 | `sources` | Ordered source snapshots with current deletion flags | `null` |
 | `citation_check` | Original source-number diagnostics | `null` |
+| `retrieval` | Candidate/exclusion and budget diagnostics, if recorded | `null` |
 
 An illustrative assistant message is:
 
@@ -100,3 +101,14 @@ an older database. `tests/test_chat_api.py` covers restoration after application
 restart, missing/empty/legacy conversations, deletion followed by a fresh question,
 and complete rollback when snapshot persistence fails. Tests use offline model
 responses and temporary SQLite/Chroma storage. Run `make test` for the full suite.
+
+## Parent evidence and retrieval diagnostics
+
+With parent-child indexing, sources contain the complete expanded parent text,
+its `parent_id`, matched child IDs, offsets, and structural metadata. Source numbers
+refer to these final evidence regions. Completed answers include `retrieval`
+diagnostics with candidate hits, budget exclusions, and evidence token counts;
+SSE includes this field in `complete`. Source snapshots and diagnostics persist
+in the same exchange transaction and survive source deletion. Older snapshots
+have `retrieval: null`. See [parent-child retrieval](parent-child-retrieval.md)
+for the full contract and evidence budget behavior.

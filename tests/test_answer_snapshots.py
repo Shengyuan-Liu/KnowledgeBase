@@ -1,10 +1,10 @@
 """Persist answer evidence without tying historical excerpts to live files."""
 
-from sqlalchemy import inspect
+from sqlalchemy import inspect, select
 
-from knowledgebase.schemas import AnswerSource, ChatAnswer, CitationCheck
+from knowledgebase.schemas import AnswerSource, ChatAnswer, CitationCheck, RetrievalDiagnostics
 from knowledgebase.storage.database import build_engine, build_session_factory, init_db
-from knowledgebase.storage.models import Base, FileRecord
+from knowledgebase.storage.models import Base, FileRecord, RetrievalSnapshotRecord
 from knowledgebase.storage.operations import (
     create_conversation, get_conversation_detail, get_messages,
     save_answer_snapshot, save_message,
@@ -60,18 +60,22 @@ def test_snapshot_write_leaves_commit_to_caller(sessions):
         create_conversation(session, "one")
         message = save_message(session, "one", "assistant", "Earlier message.")
     with sessions() as session:
-        save_answer_snapshot(session, message.message_id, "Hours?", make_answer())
+        answer = make_answer()
+        answer.retrieval = RetrievalDiagnostics(max_tokens=128, tokenizer="cl100k_base")
+        save_answer_snapshot(session, message.message_id, "Hours?", answer)
+        assert get_conversation_detail(session, "one").messages[0].retrieval == answer.retrieval
         assert get_conversation_detail(session, "one").messages[0].sources is not None
         session.rollback()
     with sessions() as session:
         assert get_conversation_detail(session, "one").messages[0].sources is None
+        assert session.scalars(select(RetrievalSnapshotRecord)).all() == []
 
 
 def test_init_db_adds_snapshots_to_old_database_without_rewriting_history(tmp_path):
     engine = build_engine(f"sqlite:///{tmp_path / 'legacy.db'}")
     try:
         Base.metadata.create_all(engine, tables=[
-            table for table in Base.metadata.sorted_tables if table.name != "answer_snapshots"
+            table for table in Base.metadata.sorted_tables if table.name not in {"answer_snapshots", "retrieval_snapshots"}
         ])
         sessions = build_session_factory(engine)
         with sessions.begin() as session:
@@ -85,7 +89,32 @@ def test_init_db_adds_snapshots_to_old_database_without_rewriting_history(tmp_pa
         with sessions() as session:
             detail = get_conversation_detail(session, "legacy")
         assert [m.content for m in detail.messages] == ["Old question?", "Old answer. [1]"]
-        assert all(m.sources is None and m.retrieval_question is None and m.citation_check is None
+        assert all(m.sources is None and m.retrieval_question is None and m.citation_check is None and m.retrieval is None
                    for m in detail.messages)
+    finally:
+        engine.dispose()
+
+
+def test_init_db_adds_diagnostics_table_without_rewriting_existing_snapshots(tmp_path):
+    engine = build_engine(f"sqlite:///{tmp_path / 'snapshots.db'}")
+    try:
+        Base.metadata.create_all(engine, tables=[
+            table for table in Base.metadata.sorted_tables if table.name != "retrieval_snapshots"
+        ])
+        sessions = build_session_factory(engine)
+        answer = make_answer()
+        with sessions.begin() as session:
+            create_conversation(session, "old")
+            message = save_message(session, "old", "assistant", answer.answer)
+            save_answer_snapshot(session, message.message_id, "Hours?", answer)
+        columns = [column["name"] for column in inspect(engine).get_columns("answer_snapshots")]
+        init_db(engine)
+        assert [column["name"] for column in inspect(engine).get_columns("answer_snapshots")] == columns
+        with sessions() as session:
+            saved = get_conversation_detail(session, "old").messages[0]
+            assert saved.sources[0].text == answer.sources[0].text
+            assert saved.citation_check == answer.citation_check
+            assert saved.retrieval is None
+            assert session.scalars(select(RetrievalSnapshotRecord)).all() == []
     finally:
         engine.dispose()

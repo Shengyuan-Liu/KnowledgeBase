@@ -1,9 +1,9 @@
 # Parent-Child Chunking
 
-Status: implemented as a standalone v1 function with in-memory data models.
-The active upload and retrieval workflow still uses flat structural chunks.
-[Parent-child storage](parent-child-storage.md) now persists this output;
-ingestion integration, indexing, and retrieval expansion are later steps.
+Status: implemented as a pure v1 function with in-memory data models.
+[Parent-child storage](parent-child-storage.md) persists its output, and
+[parent-child retrieval](parent-child-retrieval.md) connects ingestion, child
+indexing, and parent expansion through the opt-in `parent_child` strategy.
 
 ## Interface and Models
 
@@ -59,8 +59,8 @@ the hard budget can require character splitting, as described in the
 [structural boundary policy](structural-chunking.md#boundary-policy).
 
 Both limits must be positive, and `child_max_tokens` cannot exceed
-`parent_max_tokens`. Equal limits are permitted. This step introduces no runtime
-defaults or `.env` options: callers choose explicit experimental budgets.
+`parent_max_tokens`. Equal limits are permitted. Direct callers choose explicit budgets; entry points
+pass the experimental defaults from [runtime configuration](configuration.md).
 
 ## Example
 
@@ -85,8 +85,8 @@ for child in result.children:
 ```
 
 The parent retains both the installation paragraph and restart list. Its children
-keep the prose and list as separate retrieval units. Retrieval expansion is not
-implemented by this function; it will later load the parent for a selected child.
+keep the prose and list as separate retrieval units. The separate retrieval layer
+loads the parent for a selected child.
 
 Parent IDs use `<file_id>:parent:<index>` and child IDs use
 `<file_id>:child:<index>`. The same inputs and settings produce the same IDs and

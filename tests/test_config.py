@@ -44,6 +44,7 @@ def test_all_runtime_options_and_override_precedence(tmp_path, monkeypatch):
         "OPENAI_TIMEOUT_SECONDS": "42", "OPENAI_MAX_RETRIES": "1", "DATA_DIR": "custom-data",
         "ANSWER_MODEL": "file-answer", "EMBEDDING_MODEL": "file-embedding",
         "RESOLVER_MODEL": "file-resolver", "CHUNKING_STRATEGY": "character", "CHUNK_MAX_TOKENS": "64",
+        "PARENT_MAX_TOKENS": "128", "EVIDENCE_MAX_TOKENS": "256",
         "CHUNK_TOKENIZER": "cl100k_base", "CHUNK_SIZE": "100", "CHUNK_OVERLAP": "20",
         "RETRIEVAL_TOP_K": "3", "HISTORY_LIMIT": "4", "EVAL_TIMEOUT_SECONDS": "12",
         "EVAL_MAX_RETRIES": "0", "JUDGE_MODEL": "file-judge",
@@ -80,6 +81,9 @@ def test_invalid_tuning_values_fail_before_startup_without_exposing_key(tmp_path
     monkeypatch.chdir(tmp_path)
     monkeypatch.setenv("OPENAI_API_KEY", "must-not-appear-in-errors")
     for invalid in (
+        {"parent_max_tokens": 0}, {"evidence_max_tokens": 0},
+        {"chunking_strategy": "parent_child", "parent_max_tokens": 128, "chunk_max_tokens": 256},
+        {"chunking_strategy": "parent_child", "parent_max_tokens": 512, "evidence_max_tokens": 512},
         {"chunk_max_tokens": 0}, {"chunking_strategy": "unknown"},
         {"chunk_size": 0}, {"chunk_overlap": -1},
         {"chunking_strategy": "character", "chunk_size": 16, "chunk_overlap": 16},

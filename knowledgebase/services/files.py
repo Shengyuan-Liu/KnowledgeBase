@@ -9,9 +9,9 @@ from sqlalchemy.orm import Session, sessionmaker
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.config import (
     DEFAULT_CHUNK_SIZE, DEFAULT_OVERLAP, DEFAULT_CHUNKING_STRATEGY,
-    DEFAULT_CHUNK_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER,
+    DEFAULT_CHUNK_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER, DEFAULT_PARENT_MAX_TOKENS,
 )
-from knowledgebase.rag.chunking import split_structured, split_text
+from knowledgebase.rag.chunking import split_parent_child, split_structured, split_text
 from knowledgebase.rag.parsing import parse_markdown, parse_txt
 from knowledgebase.storage.operations import (
     create_file,
@@ -20,6 +20,7 @@ from knowledgebase.storage.operations import (
     get_files,
     save_chunks,
     save_document_source,
+    save_parent_child_chunks,
     update_file_status,
 )
 from knowledgebase.storage.vectordb import ChromaStore
@@ -60,9 +61,10 @@ def ingest_file(
     chunk_size: int = DEFAULT_CHUNK_SIZE,
     overlap: int = DEFAULT_OVERLAP,
     *,
-    chunking_strategy: Literal["structural", "character"] = DEFAULT_CHUNKING_STRATEGY,
+    chunking_strategy: Literal["structural", "character", "parent_child"] = DEFAULT_CHUNKING_STRATEGY,
     chunk_max_tokens: int = DEFAULT_CHUNK_MAX_TOKENS,
     chunk_tokenizer: str = DEFAULT_CHUNK_TOKENIZER,
+    parent_max_tokens: int = DEFAULT_PARENT_MAX_TOKENS,
 ) -> str:
     """Index a UTF-8 TXT/Markdown file and return its generated file ID.
 
@@ -87,18 +89,28 @@ def ingest_file(
 
     try:
         blocks = parse_markdown(text) if source_format == "md" else parse_txt(text)
-        if chunking_strategy == "structural":
+        hierarchy = None
+        if chunking_strategy == "parent_child":
+            hierarchy = split_parent_child(
+                text, blocks, file_id, parent_max_tokens=parent_max_tokens,
+                child_max_tokens=chunk_max_tokens, encoding_name=chunk_tokenizer,
+            )
+            chunks = hierarchy.children
+        elif chunking_strategy == "structural":
             chunks = split_structured(
                 text, blocks, file_id, max_tokens=chunk_max_tokens, encoding_name=chunk_tokenizer,
             )
         elif chunking_strategy == "character":
             chunks = split_text(text, file_id, chunk_size=chunk_size, overlap=overlap)
         else:
-            raise ValueError("chunking_strategy must be structural or character.")
+            raise ValueError("chunking_strategy must be structural, character, or parent_child.")
         embeddings = embedding_client.embed_documents([chunk.text for chunk in chunks])
         with session_factory.begin() as session:
             save_document_source(session, file_id, source_format, text, blocks)
-            save_chunks(session, chunks)
+            if hierarchy is not None:
+                save_parent_child_chunks(session, hierarchy)
+            else:
+                save_chunks(session, chunks)
             vector_store.upsert_chunks(chunks, embeddings)
             update_file_status(session, file_id, "ready")
     except Exception as error:

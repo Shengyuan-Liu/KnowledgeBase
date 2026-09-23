@@ -15,6 +15,11 @@ export interface Source {
   text: string;
   distance: number;
   file_deleted?: boolean;
+  parent_id?: string | null;
+  matched_child_ids?: string[];
+  heading_path?: string[];
+  start_offset?: number | null;
+  end_offset?: number | null;
 }
 
 export interface CitationCheck {

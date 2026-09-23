@@ -122,5 +122,7 @@ blocks, and structural chunks during ingestion. A separate
 [parent-child chunker](parent-child-chunking.md) now builds bounded parents and
 children in memory using the same split policy, with
 [storage operations](parent-child-storage.md) to retain their relationships.
-Ingestion and retrieval integration, overlap, and retrieval-quality comparison remain later work.
-`split_structured()` still returns flat chunks used by the active ingestion flow.
+[Parent-child retrieval](parent-child-retrieval.md) connects ingestion, child
+indexing, and parent expansion as an opt-in strategy. Overlap and retrieval-quality
+comparison remain later work. `split_structured()` still returns the flat chunks
+used by the default `structural` ingestion strategy.

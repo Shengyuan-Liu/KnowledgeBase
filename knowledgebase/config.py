@@ -16,6 +16,8 @@ DEFAULT_OVERLAP = 256
 DEFAULT_CHUNKING_STRATEGY = "structural"
 DEFAULT_CHUNK_MAX_TOKENS = 512
 DEFAULT_CHUNK_TOKENIZER = "cl100k_base"
+DEFAULT_PARENT_MAX_TOKENS = 1536
+DEFAULT_EVIDENCE_MAX_TOKENS = 4096
 DEFAULT_TOP_K = 5
 DEFAULT_HISTORY_LIMIT = 10
 
@@ -39,9 +41,11 @@ class Settings(BaseSettings):
     resolver_model: str | None = None
     chunk_size: int = Field(default=DEFAULT_CHUNK_SIZE, gt=0)
     chunk_overlap: int = Field(default=DEFAULT_OVERLAP, ge=0)
-    chunking_strategy: Literal["structural", "character"] = DEFAULT_CHUNKING_STRATEGY
+    chunking_strategy: Literal["structural", "character", "parent_child"] = DEFAULT_CHUNKING_STRATEGY
     chunk_max_tokens: int = Field(default=DEFAULT_CHUNK_MAX_TOKENS, gt=0)
     chunk_tokenizer: str = DEFAULT_CHUNK_TOKENIZER
+    parent_max_tokens: int = Field(default=DEFAULT_PARENT_MAX_TOKENS, gt=0)
+    evidence_max_tokens: int = Field(default=DEFAULT_EVIDENCE_MAX_TOKENS, gt=0)
     retrieval_top_k: int = Field(default=DEFAULT_TOP_K, gt=0)
     history_limit: int = Field(default=DEFAULT_HISTORY_LIMIT, gt=0)
 
@@ -51,7 +55,12 @@ class Settings(BaseSettings):
     judge_model: str = "gpt-4.1-mini"
 
     @model_validator(mode="after")
-    def valid_chunk_overlap(self) -> Self:
+    def valid_chunk_budgets(self) -> Self:
         if self.chunking_strategy == "character" and self.chunk_overlap >= self.chunk_size:
             raise ValueError("CHUNK_OVERLAP must be smaller than CHUNK_SIZE.")
+        if self.chunking_strategy == "parent_child":
+            if self.chunk_max_tokens > self.parent_max_tokens:
+                raise ValueError("CHUNK_MAX_TOKENS must not exceed PARENT_MAX_TOKENS.")
+            if self.parent_max_tokens >= self.evidence_max_tokens:
+                raise ValueError("PARENT_MAX_TOKENS must be smaller than EVIDENCE_MAX_TOKENS to leave room for citation labels.")
         return self

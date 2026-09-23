@@ -5,7 +5,8 @@ and source-grounded answers.
 
 The [v1 design documents](docs/v1/README.md) define the ongoing version.
 TXT/Markdown parsing, structural chunking, and source storage are connected to
-uploads. Parent-child retrieval, hybrid search, and reranking remain planned.
+uploads. [Parent-child retrieval](docs/parent-child-retrieval.md) is available as an
+opt-in strategy. Hybrid search and reranking remain planned.
 
 ## Run the local application
 
@@ -95,6 +96,10 @@ Defaults are `gpt-4.1` for answers and follow-up resolution,
 with `cl100k_base`, no overlap, and top-k 5. The token budget is an experimental
 starting point, not a measured quality improvement. Set `CHUNKING_STRATEGY=character`
 to use the MVP splitter with `CHUNK_SIZE=2048` and `CHUNK_OVERLAP=256`.
+Set `CHUNKING_STRATEGY=parent_child` to index children and supply deduplicated parents
+as evidence, with `PARENT_MAX_TOKENS=1536`. `EVIDENCE_MAX_TOKENS=4096` limits the
+numbered evidence context for all strategies. Use a fresh `DATA_DIR` for comparisons;
+these defaults have not been established as better through quality evaluation.
 Set `RESOLVER_MODEL` to choose a separate follow-up model; blank follows
 `ANSWER_MODEL`. Restart the application after changing `.env`.
 

@@ -208,7 +208,7 @@ def test_interruption_preserves_completed_questions(tmp_path):
 
 
 @pytest.mark.parametrize("explicit_options", [False, True])
-@pytest.mark.parametrize("strategy", ["structural", "character"])
+@pytest.mark.parametrize("strategy", ["structural", "character", "parent_child"])
 def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_path, monkeypatch, explicit_options, strategy):
     import openai
 
@@ -223,6 +223,7 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
         "CHUNK_SIZE=64\nCHUNK_OVERLAP=8\nRETRIEVAL_TOP_K=2\n"
         "EVAL_TIMEOUT_SECONDS=17\nEVAL_MAX_RETRIES=1\n"
         f"CHUNKING_STRATEGY={strategy}\nCHUNK_MAX_TOKENS=32\nCHUNK_TOKENIZER=cl100k_base\n"
+        "PARENT_MAX_TOKENS=96\nEVIDENCE_MAX_TOKENS=192\n"
     )
     data_case = case()
     data_case["expected_answer_points"] = ["REFERENCE_ONLY_DO_NOT_SEND_TO_GENERATOR"]
@@ -240,12 +241,12 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
     cases_path = tmp_path / "cases.jsonl"
     cases_path.write_text(json.dumps(data_case) + "\n")
     args = SimpleNamespace(cases=cases_path, label="Offline fixture", top_k=5, chunk_size=256,
-                           chunking_strategy="character" if strategy == "structural" else "structural",
-                           chunk_max_tokens=64, chunk_tokenizer="o200k_base",
+                           chunking_strategy={"structural": "character", "character": "parent_child", "parent_child": "structural"}[strategy],
+                           chunk_max_tokens=64, chunk_tokenizer="o200k_base", parent_max_tokens=128, evidence_max_tokens=256,
                            overlap=64, model="offline-generator", embedding_model="offline-embeddings")
     if not explicit_options:
         for name in ("model", "embedding_model", "chunk_size", "overlap", "top_k",
-                     "chunking_strategy", "chunk_max_tokens", "chunk_tokenizer"):
+                     "chunking_strategy", "chunk_max_tokens", "chunk_tokenizer", "parent_max_tokens", "evidence_max_tokens"):
             setattr(args, name, None)
     first, second = ev.run(args), ev.run(args)
     assert first != second
@@ -262,7 +263,7 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
         assert recorded["chunking_strategy"] == args.chunking_strategy
         assert recorded["chunk_max_tokens"] == (64 if explicit_options else 32)
         assert recorded["chunk_tokenizer"] == ("o200k_base" if explicit_options else "cl100k_base")
-        assert recorded["effective_overlap"] == (0 if args.chunking_strategy == "structural" else args.overlap)
+        assert recorded["effective_overlap"] == (args.overlap if args.chunking_strategy == "character" else 0)
         assert (tmp_path / "data" / "evals" / path.name / "knowledgebase.db").exists()
         row = summary["rows"][0]["answer"]
         assert row["answer"] == "A GPA of 3.0. [1]"
@@ -271,10 +272,16 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
         assert len(row["sources"]) == 1
         assert row["sources"][0]["start_offset"] == 0
         assert row["sources"][0]["end_offset"] == len(text)
-        if args.chunking_strategy == "structural":
+        if args.chunking_strategy != "character":
             assert row["sources"][0]["heading_path"] == ["GPA"]
             assert row["sources"][0]["tokenizer"] == args.chunk_tokenizer
-            assert row["sources"][0]["max_tokens"] == args.chunk_max_tokens
+            assert row["sources"][0]["max_tokens"] == (args.parent_max_tokens if args.chunking_strategy == "parent_child" else args.chunk_max_tokens)
+        assert recorded["parent_max_tokens"] == args.parent_max_tokens
+        assert recorded["evidence_max_tokens"] == args.evidence_max_tokens
+        assert row["retrieval_diagnostics"]["max_tokens"] == args.evidence_max_tokens
+        if args.chunking_strategy == "parent_child":
+            assert row["sources"][0]["parent_id"] == row["sources"][0]["chunk_id"]
+            assert row["sources"][0]["matched_child_ids"] == [row["retrieval_diagnostics"]["candidates"][0]["chunk_id"]]
         assert summary["annotated_char_recall"] == 1
         assert summary["pass_rate"] is None
     for call in sdk.embeddings.create.call_args_list:
