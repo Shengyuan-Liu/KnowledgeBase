@@ -42,8 +42,8 @@ uv run --locked python -m evals.evaluate run --label "Baseline: default chunking
 
 The command prints a unique directory such as `evals/runs/<run-id>/`. Replace `<run-id>` below
 with that directory's name. Defaults come from the same [Settings and `.env`](../docs/configuration.md) as the API/CLI. Built-in defaults are: `gpt-4.1`,
-`text-embedding-3-small`, structural chunks up to 512 tokens counted with `cl100k_base`,
-no overlap, cosine distance, and top-k 5. The structural default is an experimental
+`text-embedding-3-small`, children up to 512 tokens and parents up to 1536 tokens counted with `cl100k_base`,
+no overlap, cosine distance, and top-k 5. The parent-child default is an experimental
 starting point; historical MVP results do not measure its quality.
 Override them with `--model`, `--embedding-model`, `--chunking-strategy`,
 `--chunk-max-tokens`, `--chunk-tokenizer`, `--parent-max-tokens`,
@@ -248,3 +248,13 @@ budget exclusions, and formatted evidence token count. The existing `retrieval`
 field continues to hold recall metrics. Parent coverage can improve those metrics
 without improving child ranking, so inspect both stages and answer quality.
 Historical run artifacts remain unchanged.
+
+## Active-library parent-child comparison
+
+The [2026-09-23 library rebuild](library-runs/20260923T205040Z-parent-child/README.md)
+records 17 byte-identical re-uploads, parent/child boundary checks, and 18 paired
+real-provider questions. Expected-point completeness improved on one Markdown
+setup case; GPA retrieval and CPT budget selection still failed. The comparison
+is against the previous mixed flat library, not an isolated parent-expansion
+experiment. Full answers, corrected coverage, limitations, and per-case reviews
+are retained alongside the report.

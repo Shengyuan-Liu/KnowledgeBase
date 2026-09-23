@@ -36,7 +36,7 @@ def test_recovery_removes_partial_chunks_vectors_and_preserves_ready_files(stora
         assert get_chunks(session, "abandoned") == []
         assert get_file(session, ready).status == "ready"
         assert {r.chunk.file_id for r in retrieve("Evidence?", session, embeddings, store)} == {ready}
-    assert collection.get()["ids"] == [f"{ready}:structural:0"]
+    assert collection.get()["ids"] == [f"{ready}:child:0"]
     delete_file("abandoned", sessions, store)
     with sessions() as session:
         assert get_file(session, "abandoned") is None

@@ -123,6 +123,6 @@ blocks, and structural chunks during ingestion. A separate
 children in memory using the same split policy, with
 [storage operations](parent-child-storage.md) to retain their relationships.
 [Parent-child retrieval](parent-child-retrieval.md) connects ingestion, child
-indexing, and parent expansion as an opt-in strategy. Overlap and retrieval-quality
+indexing, and parent expansion as the default strategy. Overlap and retrieval-quality
 comparison remain later work. `split_structured()` still returns the flat chunks
-used by the default `structural` ingestion strategy.
+used by the explicit `structural` control strategy.

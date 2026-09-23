@@ -3,6 +3,15 @@ from pathlib import Path
 from knowledgebase.config import Settings
 
 
+def test_parent_child_is_the_default_and_structural_remains_an_explicit_control(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("CHUNKING_STRATEGY", raising=False)
+    settings = Settings(openai_api_key="offline-test")
+    assert settings.chunking_strategy == "parent_child"
+    assert (settings.chunk_max_tokens, settings.parent_max_tokens, settings.evidence_max_tokens) == (512, 1536, 4096)
+    assert Settings(openai_api_key="offline-test", chunking_strategy="structural").chunking_strategy == "structural"
+
+
 def test_loads_settings_from_dotenv(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)

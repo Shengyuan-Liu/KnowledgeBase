@@ -20,7 +20,7 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `ANSWER_MODEL` | `gpt-4.1` | JSON/streamed answers, CLI, evaluation generation, live smoke test |
 | `EMBEDDING_MODEL` | `text-embedding-3-small` | Both document and query embeddings in every entry point |
 | `RESOLVER_MODEL` | Blank: use `ANSWER_MODEL` | Follow-up question rewriting in API and CLI |
-| `CHUNKING_STRATEGY` | `structural` | `structural`, `parent_child`, or the MVP `character` baseline, for new uploads |
+| `CHUNKING_STRATEGY` | `parent_child` | `structural`, `parent_child`, or the MVP `character` baseline, for new uploads |
 | `CHUNK_MAX_TOKENS` | `512` | Structural chunk or child token limit; experimental starting value |
 | `CHUNK_TOKENIZER` | `cl100k_base` | tiktoken encoding for splitting and evidence packing |
 | `PARENT_MAX_TOKENS` | `1536` | Parent token limit in `parent_child` mode |

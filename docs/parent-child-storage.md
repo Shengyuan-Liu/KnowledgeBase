@@ -4,7 +4,7 @@ Status: implemented and tested as storage operations. The
 [parent-child splitter](parent-child-chunking.md) can persist its output and read
 it back with complete relationships. [Parent-child retrieval](parent-child-retrieval.md)
 connects these operations to ingestion and evidence expansion when new uploads
-use the opt-in `parent_child` strategy.
+use the default `parent_child` strategy.
 
 ## Tables and Responsibilities
 

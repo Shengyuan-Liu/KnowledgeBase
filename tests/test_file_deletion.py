@@ -24,7 +24,7 @@ def test_delete_removes_only_target_and_new_answers_use_remaining_file(storage, 
         assert get_chunks(session, removed) == []
         assert get_file(session, kept).status == "ready"
         assert get_chunks(session, kept)[0].text == "Keep this source."
-    assert collection.get()["ids"] == [f"{kept}:structural:0"]
+    assert collection.get()["ids"] == [f"{kept}:child:0"]
     llm = Mock(spec=LLMClient)
     llm.generate.return_value = "Keep this source. [1]"
     answer = answer_question("What remains?", sessions, embeddings, store, llm)
@@ -91,7 +91,7 @@ def test_vector_failure_leaves_committed_nonready_file_and_cleanup_is_retryable(
         assert get_file(session, removed) is None
         assert get_chunks(session, removed) == []
         assert get_file(session, kept).status == "ready"
-    assert collection.get()["ids"] == [f"{kept}:structural:0"]
+    assert collection.get()["ids"] == [f"{kept}:child:0"]
 
 
 def test_sql_cleanup_failure_rolls_back_chunks_and_can_retry_without_vectors(

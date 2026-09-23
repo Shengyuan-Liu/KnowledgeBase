@@ -5,8 +5,8 @@ and source-grounded answers.
 
 The [v1 design documents](docs/v1/README.md) define the ongoing version.
 TXT/Markdown parsing, structural chunking, and source storage are connected to
-uploads. [Parent-child retrieval](docs/parent-child-retrieval.md) is available as an
-opt-in strategy. Hybrid search and reranking remain planned.
+uploads. [Parent-child retrieval](docs/parent-child-retrieval.md) is the default
+strategy. Hybrid search and reranking remain planned.
 
 ## Run the local application
 
@@ -92,12 +92,12 @@ for every setting and its precedence. The API, CLI and evaluation runner use the
 same model, chunking and retrieval configuration.
 
 Defaults are `gpt-4.1` for answers and follow-up resolution,
-`text-embedding-3-small` for embeddings, structural chunks up to 512 tokens counted
-with `cl100k_base`, no overlap, and top-k 5. The token budget is an experimental
+`text-embedding-3-small` for embeddings, children up to 512 tokens and parents up
+to 1536 tokens counted with `cl100k_base`, no overlap, and top-k 5. The token budget is an experimental
 starting point, not a measured quality improvement. Set `CHUNKING_STRATEGY=character`
 to use the MVP splitter with `CHUNK_SIZE=2048` and `CHUNK_OVERLAP=256`.
-Set `CHUNKING_STRATEGY=parent_child` to index children and supply deduplicated parents
-as evidence, with `PARENT_MAX_TOKENS=1536`. `EVIDENCE_MAX_TOKENS=4096` limits the
+The default `CHUNKING_STRATEGY=parent_child` indexes children and supplies deduplicated
+parents as evidence. Set `CHUNKING_STRATEGY=structural` for the flat structural control. `EVIDENCE_MAX_TOKENS=4096` limits the
 numbered evidence context for all strategies. Use a fresh `DATA_DIR` for comparisons;
 these defaults have not been established as better through quality evaluation.
 Set `RESOLVER_MODEL` to choose a separate follow-up model; blank follows

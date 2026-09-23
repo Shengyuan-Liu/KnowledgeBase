@@ -3,7 +3,7 @@
 Status: implemented as a pure v1 function with in-memory data models.
 [Parent-child storage](parent-child-storage.md) persists its output, and
 [parent-child retrieval](parent-child-retrieval.md) connects ingestion, child
-indexing, and parent expansion through the opt-in `parent_child` strategy.
+indexing, and parent expansion through the default `parent_child` strategy.
 
 ## Interface and Models
 

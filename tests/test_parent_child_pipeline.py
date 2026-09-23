@@ -77,7 +77,7 @@ def test_parent_deduplication_best_child_rank_and_mixed_flat_files(storage, embe
     _, parents, children = index_parent_file(storage, embeddings)
     first = [child for child in children if child.parent_id == parents[0].parent_id]
     second = next(child for child in children if child.parent_id == parents[1].parent_id)
-    flat_id = ingest_file("old.txt", b"Existing flat evidence.", sessions, embeddings, store)
+    flat_id = ingest_file("old.txt", b"Existing flat evidence.", sessions, embeddings, store, chunking_strategy="structural")
     with sessions() as session:
         flat = get_chunks(session, flat_id)[0]
         matches = ranked_store(store, [first[0], second, flat, first[1]], [0.4, 0.2, 0.3, 0.1])

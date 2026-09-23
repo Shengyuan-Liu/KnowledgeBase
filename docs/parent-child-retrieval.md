@@ -1,9 +1,10 @@
 # Parent-Child Retrieval
 
-Status: implemented on `v1` behind the `parent_child` ingestion strategy. Offline
-tests cover the complete workflow; user acceptance and merge approval are separate.
-The default remains `structural` so controlled comparisons can precede any change
-to the default. This implementation does not establish an answer-quality gain.
+Status: implemented on `v1`; `parent_child` is the default ingestion strategy at
+the user's request. `structural` remains available as an explicit flat control.
+User acceptance and merge approval are separate. Default selection alone does not
+establish an answer-quality gain. The [active-library comparison](../evals/library-runs/20260923T205040Z-parent-child/README.md)
+records the first real-provider results and remaining retrieval/budget failures.
 
 ## Enable and Index
 
@@ -13,7 +14,8 @@ Use the existing `.env` credentials with an isolated library:
 CHUNKING_STRATEGY=parent_child DATA_DIR=data/v1-parent-child make app
 ```
 
-Alternatively, set `CHUNKING_STRATEGY=parent_child` in `.env` and restart. The API,
+Existing `.env` files override built-in defaults. Set `CHUNKING_STRATEGY=parent_child`
+there and restart if they still select another strategy. The API,
 CLI, and evaluation runner all pass these settings through the same services:
 
 | Setting | Default | Meaning |
