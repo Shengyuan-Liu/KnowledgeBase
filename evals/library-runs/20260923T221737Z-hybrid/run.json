@@ -1,0 +1,30 @@
+{
+  "started_at": "2026-09-23T22:17:47.946260+00:00",
+  "base_commit": "4088832c9c11c1662c4c2e7f6b6bc415bb6fbaa5",
+  "working_diff_sha256": "f6a43d50dfbdbbdee23b93c4b39452743b04d4cce8d228de2f3a3f3d3e5eb125",
+  "answer_model": "gpt-4.1",
+  "embedding_model": "text-embedding-3-small",
+  "top_k": 5,
+  "evidence_max_tokens": 4096,
+  "tokenizer": "cl100k_base",
+  "retrieval_options": {
+    "vector": {
+      "strategy": "vector",
+      "candidate_limit": 20,
+      "bm25_k1": 1.2,
+      "bm25_b": 0.75,
+      "rrf_k": 60.0
+    },
+    "hybrid": {
+      "strategy": "hybrid",
+      "candidate_limit": 20,
+      "bm25_k1": 1.2,
+      "bm25_b": 0.75,
+      "rrf_k": 60.0
+    }
+  },
+  "timeout_seconds": 90,
+  "max_retries": 1,
+  "concurrency": 3,
+  "note": "Same stored library for both routes. No uploads or conversation writes. Automatic span coverage is not answer quality."
+}

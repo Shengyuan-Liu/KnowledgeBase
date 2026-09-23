@@ -4,10 +4,11 @@ from unittest.mock import Mock
 import pytest
 from sqlalchemy import event
 
+from knowledgebase.config import RetrievalOptions
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
-from knowledgebase.schemas import ChatAnswer, CitationCheck
+from knowledgebase.schemas import ChatAnswer, CitationCheck, RetrievalDiagnostics
 from knowledgebase.services.chat import answer_in_conversation, answer_question
 from knowledgebase.services.files import delete_file, ingest_file
 from knowledgebase.storage.operations import create_conversation, get_conversation, get_messages, save_message
@@ -64,7 +65,7 @@ def test_ingestion_to_answer_keeps_sources_aligned_with_prompt(storage, top_k):
         "hours.txt", "notes.txt", "notes.txt"
     ][:top_k]
     assert [source.chunk_id for source in result.sources] == [
-        f"{second_id}:structural:0", f"{first_id}:1", f"{first_id}:0"
+        f"{second_id}:parent:0", f"{first_id}:1", f"{first_id}:0"
     ][:top_k]
     assert [source.text for source in result.sources] == [
         second_text, "Second.", "First. "
@@ -93,6 +94,7 @@ def test_empty_knowledge_base_returns_no_sources_without_model_calls(storage):
 
     assert result == ChatAnswer(
         answer=INSUFFICIENT_EVIDENCE, sources=[],
+        retrieval=RetrievalDiagnostics(max_tokens=4096, tokenizer="cl100k_base", options=RetrievalOptions(), top_k=5),
         citation_check=CitationCheck(valid_source_ids=[], invalid_source_ids=[], no_citations=True),
     )
     embeddings.embed_query.assert_not_called()

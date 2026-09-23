@@ -184,3 +184,13 @@ The [September 20 real-provider acceptance record](../evals/browser-runs/2026092
 passed with the production provider clients. Its answer semantics were inspected
 against the synthetic text; it is not a general answer-quality score or a production
 deployment claim.
+
+## Parent-child evidence
+
+Expanded evidence is labeled **Parent passage** and displays its heading path.
+The excerpt is the exact parent text supplied to generation; multiple child hits
+from the same parent produce one source. Restored and deleted-source excerpts
+retain this metadata. Candidate and budget-exclusion diagnostics remain available
+in API responses and evaluation records, without a dedicated frontend view.
+The offline browser server now uses parent-child ingestion with small children
+to verify deduplication and complete parent evidence through the existing UI.

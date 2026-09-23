@@ -5,17 +5,21 @@ from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
 from knowledgebase.schemas import (
-    ChatAnswer, Chunk, ConversationDetail, ConversationInfo, ConversationMessage,
-    DocumentSource, FileInfo, HistoricalSource, MessageInfo, SourceBlock, StructuredChunk,
+    ChatAnswer, ChildChunk, Chunk, ConversationDetail, ConversationInfo, ConversationMessage,
+    DocumentSource, FileInfo, HistoricalSource, MessageInfo, ParentChildChunks, ParentChunk,
+    SourceBlock, StructuredChunk,
 )
 from knowledgebase.storage.models import (
     AnswerSnapshotRecord,
+    ChildParentRecord,
     ChunkRecord,
     ChunkStructureRecord,
     ConversationRecord,
     DocumentSourceRecord,
     FileRecord,
     MessageRecord,
+    ParentChunkRecord,
+    RetrievalSnapshotRecord,
 )
 
 
@@ -86,6 +90,8 @@ def save_chunks(session: Session, chunks: list[Chunk]) -> None:
     """Insert chunks and check constraints without committing or marking ready.
 
     StructuredChunk inputs also persist their metadata and token configuration.
+    ChildChunk inputs additionally link to an existing parent. Use
+    save_parent_child_chunks to insert new parents and their children together.
     Duplicate IDs or file/index pairs raise IntegrityError; existing chunks are
     not overwritten. The caller must roll back a failed transaction.
     """
@@ -98,54 +104,106 @@ def save_chunks(session: Session, chunks: list[Chunk]) -> None:
     session.add_all(
         ChunkStructureRecord(
             chunk_id=chunk.chunk_id,
-            **chunk.model_dump(exclude=set(Chunk.model_fields)),
+            **chunk.model_dump(include=set(StructuredChunk.model_fields) - set(Chunk.model_fields)),
         )
         for chunk in chunks if isinstance(chunk, StructuredChunk)
     )
     session.flush()
+    session.add_all(
+        ChildParentRecord(chunk_id=chunk.chunk_id, parent_id=chunk.parent_id)
+        for chunk in chunks if isinstance(chunk, ChildChunk)
+    )
+    session.flush()
 
 
-def _chunk_snapshot(record: ChunkRecord, structure: ChunkStructureRecord | None) -> Chunk:
+def save_parent_child_chunks(session: Session, chunks: ParentChildChunks) -> None:
+    """Insert parents before children; flush without committing the caller's work.
+
+    Supply the output of split_parent_child for the same canonical source.
+    The splitter owns source containment and same-file membership; storage retains
+    that output and enforces record identities and references with foreign keys.
+    """
+    session.add_all(ParentChunkRecord(**parent.model_dump()) for parent in chunks.parents)
+    session.flush()
+    save_chunks(session, chunks.children)
+
+
+def get_parents(session: Session, file_id: str) -> list[ParentChunk]:
+    """Return a file's parent snapshots in source order, without filtering status."""
+    statement = select(ParentChunkRecord).where(ParentChunkRecord.file_id == file_id).order_by(ParentChunkRecord.index)
+    return [ParentChunk.model_validate(record, from_attributes=True) for record in session.scalars(statement)]
+
+
+def get_parents_by_ids(session: Session, parent_ids: list[str]) -> list[ParentChunk]:
+    """Load existing parents once per ID; requested order is not preserved."""
+    statement = select(ParentChunkRecord).where(ParentChunkRecord.parent_id.in_(parent_ids))
+    return [ParentChunk.model_validate(record, from_attributes=True) for record in session.scalars(statement)]
+
+
+def _chunk_snapshot(
+    record: ChunkRecord, structure: ChunkStructureRecord | None, parent: ChildParentRecord | None,
+) -> Chunk:
     """Restore the data model stored for this chunk, including optional v1 metadata."""
     chunk = Chunk.model_validate(record, from_attributes=True)
     if structure is None:
         return chunk
-    return StructuredChunk(
+    structured = StructuredChunk(
         **chunk.model_dump(), heading_path=structure.heading_path,
         source_block_indices=structure.source_block_indices, token_count=structure.token_count,
         tokenizer=structure.tokenizer, max_tokens=structure.max_tokens,
     )
+    if parent is not None:
+        return ChildChunk(**structured.model_dump(), parent_id=parent.parent_id)
+    return structured
 
 
 def get_chunks(session: Session, file_id: str) -> list[Chunk]:
     """Return a file's chunks ordered by index, or an empty list.
 
-    Structural records return StructuredChunk snapshots; MVP records return Chunk.
+    Child records return ChildChunk, flat structural records return StructuredChunk,
+    and MVP records return Chunk.
     This storage query does not filter file status. Retrieval must separately
     ensure that a file is ready before using its chunks as answer evidence.
     """
     statement = (
-        select(ChunkRecord, ChunkStructureRecord)
+        select(ChunkRecord, ChunkStructureRecord, ChildParentRecord)
         .outerjoin(ChunkStructureRecord, ChunkStructureRecord.chunk_id == ChunkRecord.chunk_id)
+        .outerjoin(ChildParentRecord, ChildParentRecord.chunk_id == ChunkRecord.chunk_id)
         .where(ChunkRecord.file_id == file_id)
         .order_by(ChunkRecord.index)
     )
     return [
-        _chunk_snapshot(record, structure)
-        for record, structure in session.execute(statement)
+        _chunk_snapshot(record, structure, parent)
+        for record, structure, parent in session.execute(statement)
     ]
 
 
 def get_chunks_by_ids(session: Session, chunk_ids: list[str]) -> list[Chunk]:
     """Load existing chunks by ID; the query does not preserve requested order."""
     statement = (
-        select(ChunkRecord, ChunkStructureRecord)
+        select(ChunkRecord, ChunkStructureRecord, ChildParentRecord)
         .outerjoin(ChunkStructureRecord, ChunkStructureRecord.chunk_id == ChunkRecord.chunk_id)
+        .outerjoin(ChildParentRecord, ChildParentRecord.chunk_id == ChunkRecord.chunk_id)
         .where(ChunkRecord.chunk_id.in_(chunk_ids))
     )
     return [
-        _chunk_snapshot(record, structure)
-        for record, structure in session.execute(statement)
+        _chunk_snapshot(record, structure, parent)
+        for record, structure, parent in session.execute(statement)
+    ]
+
+
+def get_chunks_for_files(session: Session, file_ids: list[str]) -> list[Chunk]:
+    """Load the lexical corpus for the caller's eligible files in one query."""
+    statement = (
+        select(ChunkRecord, ChunkStructureRecord, ChildParentRecord)
+        .outerjoin(ChunkStructureRecord, ChunkStructureRecord.chunk_id == ChunkRecord.chunk_id)
+        .outerjoin(ChildParentRecord, ChildParentRecord.chunk_id == ChunkRecord.chunk_id)
+        .where(ChunkRecord.file_id.in_(file_ids))
+        .order_by(ChunkRecord.file_id, ChunkRecord.index)
+    )
+    return [
+        _chunk_snapshot(record, structure, parent)
+        for record, structure, parent in session.execute(statement)
     ]
 
 
@@ -170,19 +228,21 @@ def update_file_status(
 
 
 def delete_chunks(session: Session, file_id: str) -> None:
-    """Delete a file's chunks; the caller owns commit and rollback.
+    """Delete a file's flat/child chunks and parents; the caller owns the transaction.
 
-    Structural metadata is removed by the chunk foreign key's delete cascade.
+    Structural metadata and parent links cascade from children before parents
+    are removed. The canonical document source stays attached to the file.
     No matching chunks is a no-op, including after an earlier cleanup attempt.
     """
     session.execute(delete(ChunkRecord).where(ChunkRecord.file_id == file_id))
+    session.execute(delete(ParentChunkRecord).where(ParentChunkRecord.file_id == file_id))
     session.flush()
 
 
 def delete_file_record(session: Session, file_id: str) -> None:
     """Delete an existing file record after its chunks have been removed.
 
-    The canonical document source is removed by the file's delete cascade.
+    The canonical document source and any childless parents cascade from the file.
     A missing file raises FileRecordNotFoundError. Flush without committing so the caller
     can keep chunk and file deletion in the same transaction.
     """
@@ -256,6 +316,11 @@ def save_answer_snapshot(
         citation_check=answer.citation_check.model_dump(mode="json"),
     ))
     session.flush()
+    if answer.retrieval is not None:
+        session.add(RetrievalSnapshotRecord(
+            message_id=message_id, diagnostics=answer.retrieval.model_dump(mode="json"),
+        ))
+        session.flush()
 
 
 def get_conversation_detail(session: Session, conversation_id: str) -> ConversationDetail | None:
@@ -269,19 +334,20 @@ def get_conversation_detail(session: Session, conversation_id: str) -> Conversat
     if conversation is None:
         return None
     rows = session.execute(
-        select(MessageRecord, AnswerSnapshotRecord)
+        select(MessageRecord, AnswerSnapshotRecord, RetrievalSnapshotRecord)
         .outerjoin(AnswerSnapshotRecord, AnswerSnapshotRecord.message_id == MessageRecord.message_id)
+        .outerjoin(RetrievalSnapshotRecord, RetrievalSnapshotRecord.message_id == MessageRecord.message_id)
         .where(MessageRecord.conversation_id == conversation_id)
         .order_by(MessageRecord.message_id)
     ).all()
     file_ids = {
         source["file_id"]
-        for _, snapshot in rows if snapshot is not None
+        for _, snapshot, _ in rows if snapshot is not None
         for source in snapshot.sources
     }
     existing_ids = set(session.scalars(select(FileRecord.file_id).where(FileRecord.file_id.in_(file_ids))))
     messages = []
-    for record, snapshot in rows:
+    for record, snapshot, retrieval in rows:
         if snapshot is None:
             message = ConversationMessage.model_validate(record, from_attributes=True)
         else:
@@ -291,6 +357,7 @@ def get_conversation_detail(session: Session, conversation_id: str) -> Conversat
                 sources=[HistoricalSource(**source, file_deleted=source["file_id"] not in existing_ids)
                          for source in snapshot.sources],
                 citation_check=snapshot.citation_check,
+                retrieval=retrieval.diagnostics if retrieval is not None else None,
             )
         messages.append(message)
     return ConversationDetail(**conversation.model_dump(), messages=messages)

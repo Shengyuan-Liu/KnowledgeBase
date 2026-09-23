@@ -7,14 +7,30 @@ export interface FileInfo {
   created_at: string;
 }
 
+export interface FusedMatch {
+  chunk_id: string;
+  rrf_score: number;
+  rank: number;
+  bm25_score: number | null;
+  bm25_rank: number | null;
+  vector_distance: number | null;
+  vector_rank: number | null;
+}
+
 export interface Source {
   source_id: number;
   file_id: string;
   file_name: string;
   chunk_id: string;
   text: string;
-  distance: number;
+  distance: number | null;
+  fusion?: FusedMatch | null;
   file_deleted?: boolean;
+  parent_id?: string | null;
+  matched_child_ids?: string[];
+  heading_path?: string[];
+  start_offset?: number | null;
+  end_offset?: number | null;
 }
 
 export interface CitationCheck {

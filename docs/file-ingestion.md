@@ -12,8 +12,10 @@ successful indexing.
    propagates before a file record is created, including invalid UTF-8 input.
 2. Generate a file ID and commit a `processing` record, preserving the filename.
 3. Parse the unchanged text with `parse_txt` or `parse_markdown`, then chunk it
-   using the selected strategy. The default is structural chunking with a
-   512-token limit, `cl100k_base` token counting, and no overlap. Explicit
+   using the selected strategy. The default is parent-child chunking with
+   512-token children, 1536-token parents, `cl100k_base` counting, and no overlap.
+   Only children are embedded; parent context is expanded during retrieval.
+   Explicit `structural` mode retains flat 512-token structural chunks. Explicit
    `character` mode retains the MVP's 2048-character size and 256-character overlap.
 4. Embed the chunk texts in one provider call.
 5. Save the complete source, hash, parser blocks, chunks and structural metadata;
@@ -65,7 +67,7 @@ the provider's request limits apply.
 API, CLI, and evaluation entry points pass the shared [Settings](configuration.md)
 to this service. Direct callers can supply `chunking_strategy`, `chunk_max_tokens`,
 and `chunk_tokenizer`, or `chunk_size`/`overlap` for character mode. Changing these
-options affects only new uploads. The structural default is a functional baseline;
+options affects only new uploads. The default parent-child strategy is a functional baseline;
 live quality comparisons remain separate work.
 
 See [embedding setup](embeddings.md), [vector database setup](vectordb.md),

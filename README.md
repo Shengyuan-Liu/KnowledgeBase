@@ -1,11 +1,15 @@
 # KnowledgeBase
 
-A TXT and Markdown knowledge base with structural chunking, vector retrieval,
+A TXT and Markdown knowledge base with structural chunking, hybrid retrieval,
 and source-grounded answers.
 
 The [v1 design documents](docs/v1/README.md) define the ongoing version.
 TXT/Markdown parsing, structural chunking, and source storage are connected to
-uploads. Parent-child retrieval, hybrid search, and reranking remain planned.
+uploads. [Parent-child retrieval](docs/parent-child-retrieval.md) is the default
+strategy. Hybrid search and reranking remain planned.
+[Hybrid retrieval](docs/hybrid-retrieval.md) is now the default: [BM25](docs/bm25.md)
+and vector candidates are combined with [RRF](docs/rrf.md) before parent expansion.
+`RETRIEVAL_STRATEGY=vector` retains the vector-only control; reranking is still pending.
 
 ## Run the local application
 
@@ -91,10 +95,14 @@ for every setting and its precedence. The API, CLI and evaluation runner use the
 same model, chunking and retrieval configuration.
 
 Defaults are `gpt-4.1` for answers and follow-up resolution,
-`text-embedding-3-small` for embeddings, structural chunks up to 512 tokens counted
-with `cl100k_base`, no overlap, and top-k 5. The token budget is an experimental
+`text-embedding-3-small` for embeddings, children up to 512 tokens and parents up
+to 1536 tokens counted with `cl100k_base`, no overlap, and top-k 5. The token budget is an experimental
 starting point, not a measured quality improvement. Set `CHUNKING_STRATEGY=character`
 to use the MVP splitter with `CHUNK_SIZE=2048` and `CHUNK_OVERLAP=256`.
+The default `CHUNKING_STRATEGY=parent_child` indexes children and supplies deduplicated
+parents as evidence. Set `CHUNKING_STRATEGY=structural` for the flat structural control. `EVIDENCE_MAX_TOKENS=4096` limits the
+numbered evidence context for all strategies. Use a fresh `DATA_DIR` for comparisons;
+these defaults have not been established as better through quality evaluation.
 Set `RESOLVER_MODEL` to choose a separate follow-up model; blank follows
 `ANSWER_MODEL`. Restart the application after changing `.env`.
 
@@ -145,7 +153,10 @@ verified functionality, real-provider results, all-case inspection and known ans
 quality limitations of that historical baseline. The v1 structural pipeline has
 offline integration coverage and a [targeted live Markdown acceptance report](evals/browser-runs/20260922T222123209Z-8d828f17/README.md).
 Seven development questions passed direct evidence review; broader accuracy and
-comparative retrieval quality remain unmeasured.
+comparative retrieval quality were not measured in that Markdown-only check.
+The later [paired hybrid comparison](evals/library-runs/20260923T221737Z-hybrid/README.md)
+records 18 questions per mode against the active library, including both gains
+and a prerequisite-question budget regression.
 
 Run the frozen NYU question set, grade answers with human review or an LLM judge, and
 compare recorded experiments using the [evaluation guide](evals/README.md).

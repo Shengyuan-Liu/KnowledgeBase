@@ -55,7 +55,12 @@ export function EvidencePanel({
                 <span className={styles.sourceNumber}>{source.source_id}</span>
                 <strong>{source.file_name}</strong>
               </div>
-              <p className={styles.chunkLabel}>Chunk {source.chunk_id}</p>
+              <p className={styles.chunkLabel}>
+                {source.parent_id ? "Parent passage" : "Chunk"} {source.chunk_id}
+              </p>
+              {!!source.heading_path?.length && (
+                <p className={styles.chunkLabel}>{source.heading_path.join(" › ")}</p>
+              )}
               {source.file_deleted && (
                 <p className={styles.deleted}>
                   Source deleted · Historical excerpt

@@ -78,6 +78,34 @@ it("does not send during IME composition or Shift+Enter", async () => {
   ).toHaveLength(0);
 });
 
+it("shows the complete parent passage and its heading path", async () => {
+  const parent = {
+    ...source,
+    chunk_id: "file-1:parent:0",
+    parent_id: "file-1:parent:0",
+    matched_child_ids: ["file-1:child:0", "file-1:child:1"],
+    heading_path: ["Library", "Hours"],
+    text: "## Hours\n\nThe library closes at 5 PM.\n\n- Reserve weekend visits.",
+  };
+  fetchMock.mockImplementation(async (url: string, options?: RequestInit) => {
+    if (url === "/api/chat/stream") {
+      const id = JSON.parse(options?.body as string).request_id;
+      return sse(frame("complete", { ...completed, sources: [parent] }, id));
+    }
+    return new Response(JSON.stringify(files));
+  });
+  render(<Workspace />);
+  const input = screen.getByRole("textbox", { name: "Ask about your documents" });
+  await waitFor(() => expect(input).toBeEnabled());
+  await userEvent.type(input, "Opening hours?{enter}");
+  await screen.findByText("Completed");
+  await userEvent.click(screen.getByRole("button", { name: "View source 1: hours.txt" }));
+  const evidence = screen.getByRole("complementary", { name: "Evidence" });
+  expect(within(evidence).getByText("Parent passage file-1:parent:0")).toBeInTheDocument();
+  expect(within(evidence).getByText("Library › Hours")).toBeInTheDocument();
+  expect(evidence.querySelector("blockquote")?.textContent).toBe(parent.text);
+});
+
 it("keeps repeated citation numbers bound to their answer and marks deleted historical sources", async () => {
   localStorage.setItem(CONVERSATION_KEY, "conversation-1");
   const history: SavedConversation = {
@@ -165,4 +193,37 @@ it("preserves the draft and partial answer after EOF without completion", async 
   expect(input).toHaveValue("When?");
   expect(screen.queryByText("Completed")).not.toBeInTheDocument();
   expect(screen.getByRole("button", { name: "Retry answer" })).toBeEnabled();
+});
+
+
+it("renders lexical-only evidence and its ranks in live and restored answers", async () => {
+  const lexical = {
+    ...source, distance: null,
+    fusion: { chunk_id: "child-1", rrf_score: 1 / 61, rank: 2,
+      bm25_score: 2.5, bm25_rank: 1, vector_distance: null, vector_rank: null },
+  };
+  fetchMock.mockImplementation(async (url: string, options?: RequestInit) => {
+    if (url === "/api/chat/stream") {
+      const id = JSON.parse(options?.body as string).request_id;
+      return sse(frame("sources", { sources: [lexical] }, id) +
+        frame("complete", { ...completed, sources: [lexical] }, id));
+    }
+    if (url.includes("/conversations/")) return new Response(JSON.stringify({
+      conversation_id: completed.conversation_id, messages: [{ message_id: 2,
+        role: "assistant", content: completed.answer, sources: [lexical],
+        citation_check: completed.citation_check, retrieval_question: completed.retrieval_question }],
+    }));
+    return new Response(JSON.stringify(files));
+  });
+  const view = render(<Workspace />);
+  const input = screen.getByRole("textbox", { name: "Ask about your documents" });
+  await waitFor(() => expect(input).toBeEnabled());
+  await userEvent.type(input, "When?{enter}");
+  await screen.findByText("Completed");
+  expect(screen.getByText(/No vector hit/)).toBeInTheDocument();
+  expect(screen.getByText(/RRF rank 2/)).toHaveTextContent("BM25 rank 1 · Vector rank —");
+  view.unmount();
+  render(<Workspace />);
+  expect(await screen.findByText(/No vector hit/)).toBeInTheDocument();
+  expect(screen.getByText(/RRF rank 2/)).toBeInTheDocument();
 });

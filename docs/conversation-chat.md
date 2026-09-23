@@ -88,3 +88,14 @@ a follow-up, failed-turn rollback, and CLI resumption. Storage and vector retrie
 use real temporary SQLite/Chroma databases; model responses are offline doubles.
 These tests verify the integration contract, not real-model pronoun-resolution
 accuracy. Run all checks with `make test`.
+
+## Parent evidence and retrieval diagnostics
+
+With parent-child indexing, sources contain the complete expanded parent text,
+its `parent_id`, matched child IDs, offsets, and structural metadata. Source numbers
+refer to these final evidence regions. Completed answers include `retrieval`
+diagnostics with candidate hits, budget exclusions, and evidence token counts;
+SSE includes this field in `complete`. Source snapshots and diagnostics persist
+in the same exchange transaction and survive source deletion. Older snapshots
+have `retrieval: null`. See [parent-child retrieval](parent-child-retrieval.md)
+for the full contract and evidence budget behavior.

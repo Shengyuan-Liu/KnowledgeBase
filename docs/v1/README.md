@@ -10,8 +10,20 @@ acceptance and merging to `main` remain the user's decision.
 The [targeted live Markdown acceptance](../../evals/browser-runs/20260922T222123209Z-8d828f17/README.md)
 also passed with real providers and seven reviewed questions. This is functional
 evidence, not a broad accuracy result or a chunking-quality comparison.
-The remaining v1 pipeline is planned;
+The standalone [parent-child chunker](../parent-child-chunking.md) also produces
+bounded parents and children with tested source containment.
+[Parent-child storage](../parent-child-storage.md) preserves their relationships
+with transactional cleanup and old-data compatibility.
+[Parent-child retrieval](../parent-child-retrieval.md) now integrates uploads,
+child-only indexing, parent expansion/deduplication, evidence budgets, and saved
+diagnostics across API, CLI, and evaluation. It is the default strategy at the user's request and covered by offline
+workflow tests. Real-library comparisons are recorded separately; choosing a
+default does not establish a general quality improvement.
+The remaining hybrid-search and reranking pipeline is planned;
 these documents do not claim that the full version is implemented or its quality measured.
+The standalone [BM25 scorer](../bm25.md) ranks supplied children locally, and
+[RRF fusion](../rrf.md) combines lexical and vector route ranks while preserving
+their separate scores. Service integration and live hybrid acceptance remain pending.
 
 v1 adds Markdown support, structure-aware and sentence-aware chunking, parent-child
 retrieval, BM25/vector hybrid search, RRF fusion, and reranking. Embedding-based

@@ -206,7 +206,7 @@ def test_failed_file_with_source_but_no_chunks_can_be_deleted(sessions):
 
 
 def test_init_db_adds_v1_tables_without_rewriting_mvp_records(engine):
-    v1_names = {"document_sources", "chunk_structures"}
+    v1_names = {"document_sources", "chunk_structures", "parent_chunks", "child_parents"}
     Base.metadata.create_all(engine, tables=[
         table for table in Base.metadata.sorted_tables if table.name not in v1_names
     ])

@@ -118,6 +118,11 @@ lists, code/table boundaries, Unicode, exact token limits, and source preservati
 across the frozen DeepSeek Markdown corpus at two budgets.
 
 [Document storage](document-storage.md) can persist the original source, parser
-blocks, and structural chunks during ingestion. Parent-child regions, overlap,
-and retrieval-quality comparison remain later work. The current output is a flat
-chunk list; it is not yet a parent-child index or a semantic chunking strategy.
+blocks, and structural chunks during ingestion. A separate
+[parent-child chunker](parent-child-chunking.md) now builds bounded parents and
+children in memory using the same split policy, with
+[storage operations](parent-child-storage.md) to retain their relationships.
+[Parent-child retrieval](parent-child-retrieval.md) connects ingestion, child
+indexing, and parent expansion as the default strategy. Overlap and retrieval-quality
+comparison remain later work. `split_structured()` still returns the flat chunks
+used by the explicit `structural` control strategy.

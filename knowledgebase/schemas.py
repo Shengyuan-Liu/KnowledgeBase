@@ -3,6 +3,8 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
+from knowledgebase.config import RetrievalOptions
+
 
 class FileInfo(BaseModel):
     file_id: str
@@ -48,6 +50,35 @@ class StructuredChunk(Chunk):
     max_tokens: int
 
 
+class ParentChunk(BaseModel):
+    """A bounded section region that supplies context for its child chunks."""
+
+    parent_id: str
+    file_id: str
+    text: str
+    index: int
+    start_offset: int
+    end_offset: int
+    heading_path: list[str]
+    source_block_indices: list[int]
+    token_count: int
+    tokenizer: str
+    max_tokens: int
+
+
+class ChildChunk(StructuredChunk):
+    """A retrieval-sized source slice contained in exactly one parent."""
+
+    parent_id: str
+
+
+class ParentChildChunks(BaseModel):
+    """Ordered parent and child snapshots, before persistence or indexing."""
+
+    parents: list[ParentChunk]
+    children: list[ChildChunk]
+
+
 class DocumentSource(BaseModel):
     """Canonical document and parser output, independent of a database session."""
 
@@ -65,12 +96,75 @@ class VectorMatch(BaseModel):
     distance: float
 
 
+class BM25Match(BaseModel):
+    """A lexical chunk hit: higher scores rank first; ranks start at one."""
+
+    chunk_id: str
+    score: float
+    rank: int
+
+
+class FusedMatch(BaseModel):
+    """A fused child candidate with separate lexical, vector, and RRF evidence."""
+
+    chunk_id: str
+    rrf_score: float
+    rank: int
+    bm25_score: float | None = None
+    bm25_rank: int | None = None
+    vector_distance: float | None = None
+    vector_rank: int | None = None
+
+
 class RetrievedChunk(BaseModel):
-    """Canonical chunk text and its vector-search distance."""
+    """Canonical evidence with the highest-ranked child's retrieval provenance."""
 
     chunk: Chunk
     file_name: str
-    distance: float
+    distance: float | None
+    fusion: FusedMatch | None = None
+    parent_id: str | None = None
+    matched_child_ids: list[str] = Field(default_factory=list)
+
+
+class RetrievalCandidate(BaseModel):
+    """A selected child/flat hit before parent expansion and evidence packing."""
+
+    chunk_id: str
+    distance: float | None
+    fusion: FusedMatch | None = None
+    file_id: str
+    parent_id: str | None = None
+    text: str
+    start_offset: int
+    end_offset: int
+
+
+class ExcludedEvidence(BaseModel):
+    """An entire evidence region skipped because it cannot fit the remaining budget."""
+
+    chunk_id: str
+    file_id: str
+    token_count: int
+    reason: Literal["context_budget"] = "context_budget"
+
+
+class RetrievalDiagnostics(BaseModel):
+    options: RetrievalOptions | None = None
+    top_k: int | None = None
+    vector_matches: list[VectorMatch] = Field(default_factory=list)
+    bm25_matches: list[BM25Match] = Field(default_factory=list)
+    fused_matches: list[FusedMatch] = Field(default_factory=list)
+    candidates: list[RetrievalCandidate] = Field(default_factory=list)
+    excluded: list[ExcludedEvidence] = Field(default_factory=list)
+    evidence_tokens: int = 0
+    max_tokens: int
+    tokenizer: str
+
+
+class RetrievedEvidence(BaseModel):
+    chunks: list[RetrievedChunk]
+    diagnostics: RetrievalDiagnostics
 
 
 class AnswerSource(BaseModel):
@@ -81,7 +175,17 @@ class AnswerSource(BaseModel):
     file_name: str
     chunk_id: str
     text: str
-    distance: float
+    distance: float | None
+    fusion: FusedMatch | None = None
+    parent_id: str | None = None
+    matched_child_ids: list[str] = Field(default_factory=list)
+    start_offset: int | None = None
+    end_offset: int | None = None
+    heading_path: list[str] = Field(default_factory=list)
+    source_block_indices: list[int] = Field(default_factory=list)
+    token_count: int | None = None
+    tokenizer: str | None = None
+    max_tokens: int | None = None
 
 
 class CitationCheck(BaseModel):
@@ -98,6 +202,7 @@ class ChatAnswer(BaseModel):
     answer: str
     sources: list[AnswerSource]
     citation_check: CitationCheck
+    retrieval: RetrievalDiagnostics | None = None
 
 
 class ChatRequest(BaseModel):
@@ -157,6 +262,7 @@ class ConversationMessage(MessageInfo):
     retrieval_question: str | None = None
     sources: list[HistoricalSource] | None = None
     citation_check: CitationCheck | None = None
+    retrieval: RetrievalDiagnostics | None = None
 
 
 class ConversationDetail(ConversationInfo):

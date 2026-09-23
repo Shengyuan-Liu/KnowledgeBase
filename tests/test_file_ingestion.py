@@ -36,7 +36,7 @@ def test_structural_upload_persists_source_blocks_and_indexed_chunks(storage, em
     text = "# Guide\r\n\r\nThe café closes at 5 PM.\r\n\r\n## Setup\r\n\r\nInstall the package.\r\n"
     file_id = ingest_file(
         name, text.encode("utf-8"), sessions, embeddings, store,
-        chunk_max_tokens=16, chunk_tokenizer="cl100k_base",
+        chunking_strategy="structural", chunk_max_tokens=16, chunk_tokenizer="cl100k_base",
     )
 
     with sessions() as session:
@@ -212,7 +212,7 @@ def test_partial_vector_failure_rolls_back_chunks_and_cleans_only_new_file(
         assert failed.error_message == str(failure)
         assert get_chunks(session, failed.file_id) == []
         assert get_file(session, existing_id).status == "ready"
-    assert collection.get()["ids"] == [f"{existing_id}:structural:0"]
+    assert collection.get()["ids"] == [f"{existing_id}:child:0"]
 
 
 def test_ready_update_failure_rolls_back_chunks_and_removes_written_vectors(

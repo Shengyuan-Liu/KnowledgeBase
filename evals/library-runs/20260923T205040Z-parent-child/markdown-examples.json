@@ -1,0 +1,525 @@
+[
+  {
+    "parent": {
+      "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:0",
+      "file_id": "061196c1888b41c69e42623e8d1fee9f",
+      "text": "# Using the Anthropic API\n\nSource: https://api-docs.deepseek.com/guides/anthropic_api\nCaptured: 2026-09-21T19:37:14.264Z\n\nTo meet the demand for using the Anthropic API ecosystem, our API has added support for the Anthropic API format, with the `base_url` being `https://api.deepseek.com/anthropic`.\n\nWith simple configuration, you can integrate the capabilities of DeepSeek into the Anthropic API ecosystem.\n\n* * *\n",
+      "index": 0,
+      "start_offset": 0,
+      "end_offset": 416,
+      "heading_path": "[\"Using the Anthropic API\"]",
+      "source_block_indices": "[0, 1, 2, 3, 4]",
+      "token_count": 109,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 1536
+    },
+    "children": [
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:0",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "# Using the Anthropic API\n\nSource: https://api-docs.deepseek.com/guides/anthropic_api\nCaptured: 2026-09-21T19:37:14.264Z\n\nTo meet the demand for using the Anthropic API ecosystem, our API has added support for the Anthropic API format, with the `base_url` being `https://api.deepseek.com/anthropic`.\n\nWith simple configuration, you can integrate the capabilities of DeepSeek into the Anthropic API ecosystem.\n",
+        "index": 0,
+        "start_offset": 0,
+        "end_offset": 409,
+        "token_count": 106,
+        "heading_path": "[\"Using the Anthropic API\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:0"
+      },
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:1",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "* * *\n",
+        "index": 1,
+        "start_offset": 410,
+        "end_offset": 416,
+        "token_count": 3,
+        "heading_path": "[\"Using the Anthropic API\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:0"
+      }
+    ]
+  },
+  {
+    "parent": {
+      "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:1",
+      "file_id": "061196c1888b41c69e42623e8d1fee9f",
+      "text": "## Use DeepSeek in Claude Code\n\nPlease refer to [Integrate with Claude Code](https://api-docs.deepseek.com/quick_start/agent_integrations/claude_code).\n",
+      "index": 1,
+      "start_offset": 417,
+      "end_offset": 569,
+      "heading_path": "[\"Using the Anthropic API\", \"Use DeepSeek in Claude Code\"]",
+      "source_block_indices": "[5, 6]",
+      "token_count": 39,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 1536
+    },
+    "children": [
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:2",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "## Use DeepSeek in Claude Code\n\nPlease refer to [Integrate with Claude Code](https://api-docs.deepseek.com/quick_start/agent_integrations/claude_code).\n",
+        "index": 2,
+        "start_offset": 417,
+        "end_offset": 569,
+        "token_count": 39,
+        "heading_path": "[\"Using the Anthropic API\", \"Use DeepSeek in Claude Code\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:1"
+      }
+    ]
+  },
+  {
+    "parent": {
+      "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:2",
+      "file_id": "061196c1888b41c69e42623e8d1fee9f",
+      "text": "## Invoke DeepSeek Model via Anthropic API\n\n1.  Install Anthropic SDK\n\n```text\npip install anthropic\n```\n\n2.  Config Environment Variables\n\n```text\nexport ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic\nexport ANTHROPIC_API_KEY=${YOUR_API_KEY}\n```\n\n3.  Invoke the API\n\n```text\nimport anthropic\n\nclient = anthropic.Anthropic()\n\nmessage = client.messages.create(\n    model=\"deepseek-flash\",\n    max_tokens=1000,\n    system=\"You are a helpful assistant.\",\n    messages=[\n        {\n            \"role\": \"user\",\n            \"content\": [\n                {\n                    \"type\": \"text\",\n                    \"text\": \"Hi, how are you?\"\n                }\n            ]\n        }\n    ]\n)\nprint(message.content)\n```\n\n**Note:** When you pass an unsupported model name to DeepSeek's Anthropic API, the API backend will automatically map it to the `deepseek-flash` model.\n\n* * *\n",
+      "index": 2,
+      "start_offset": 570,
+      "end_offset": 1445,
+      "heading_path": "[\"Using the Anthropic API\", \"Invoke DeepSeek Model via Anthropic API\"]",
+      "source_block_indices": "[7, 8, 9, 10, 11, 12, 13, 14, 15]",
+      "token_count": 209,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 1536
+    },
+    "children": [
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:3",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "## Invoke DeepSeek Model via Anthropic API\n",
+        "index": 3,
+        "start_offset": 570,
+        "end_offset": 613,
+        "token_count": 10,
+        "heading_path": "[\"Using the Anthropic API\", \"Invoke DeepSeek Model via Anthropic API\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:2"
+      },
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:4",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "1.  Install Anthropic SDK\n\n",
+        "index": 4,
+        "start_offset": 614,
+        "end_offset": 641,
+        "token_count": 8,
+        "heading_path": "[\"Using the Anthropic API\", \"Invoke DeepSeek Model via Anthropic API\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:2"
+      },
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:5",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "```text\npip install anthropic\n```\n",
+        "index": 5,
+        "start_offset": 641,
+        "end_offset": 675,
+        "token_count": 10,
+        "heading_path": "[\"Using the Anthropic API\", \"Invoke DeepSeek Model via Anthropic API\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:2"
+      },
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:6",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "2.  Config Environment Variables\n\n",
+        "index": 6,
+        "start_offset": 676,
+        "end_offset": 710,
+        "token_count": 7,
+        "heading_path": "[\"Using the Anthropic API\", \"Invoke DeepSeek Model via Anthropic API\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:2"
+      },
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:7",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "```text\nexport ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic\nexport ANTHROPIC_API_KEY=${YOUR_API_KEY}\n```\n",
+        "index": 7,
+        "start_offset": 710,
+        "end_offset": 824,
+        "token_count": 34,
+        "heading_path": "[\"Using the Anthropic API\", \"Invoke DeepSeek Model via Anthropic API\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:2"
+      },
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:8",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "3.  Invoke the API\n\n",
+        "index": 8,
+        "start_offset": 825,
+        "end_offset": 845,
+        "token_count": 7,
+        "heading_path": "[\"Using the Anthropic API\", \"Invoke DeepSeek Model via Anthropic API\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:2"
+      },
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:9",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "```text\nimport anthropic\n\nclient = anthropic.Anthropic()\n\nmessage = client.messages.create(\n    model=\"deepseek-flash\",\n    max_tokens=1000,\n    system=\"You are a helpful assistant.\",\n    messages=[\n        {\n            \"role\": \"user\",\n            \"content\": [\n                {\n                    \"type\": \"text\",\n                    \"text\": \"Hi, how are you?\"\n                }\n            ]\n        }\n    ]\n)\nprint(message.content)\n```\n",
+        "index": 9,
+        "start_offset": 845,
+        "end_offset": 1285,
+        "token_count": 96,
+        "heading_path": "[\"Using the Anthropic API\", \"Invoke DeepSeek Model via Anthropic API\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:2"
+      },
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:10",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "**Note:** When you pass an unsupported model name to DeepSeek's Anthropic API, the API backend will automatically map it to the `deepseek-flash` model.\n",
+        "index": 10,
+        "start_offset": 1286,
+        "end_offset": 1438,
+        "token_count": 34,
+        "heading_path": "[\"Using the Anthropic API\", \"Invoke DeepSeek Model via Anthropic API\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:2"
+      },
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:11",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "* * *\n",
+        "index": 11,
+        "start_offset": 1439,
+        "end_offset": 1445,
+        "token_count": 3,
+        "heading_path": "[\"Using the Anthropic API\", \"Invoke DeepSeek Model via Anthropic API\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:2"
+      }
+    ]
+  },
+  {
+    "parent": {
+      "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:3",
+      "file_id": "061196c1888b41c69e42623e8d1fee9f",
+      "text": "## Anthropic Model Mapping\n\nWhen you use the Anthropic API, we map the Claude model names you pass in:\n\n-   Models starting with claude-opus are mapped to `deepseek-v4-pro`\n-   Models starting with claude-haiku or claude-sonnet are mapped to `deepseek-flash`\n\nThe claude-opus mapping points to `deepseek-v4-pro`, which is billed at the V4 Pro price.\n\nWith this mapping, when using the developer mode of the new Claude Desktop APP, you can bypass the APP's model name restrictions by simply changing the base\\_url and api\\_key to connect to DeepSeek models.\n\n* * *\n",
+      "index": 3,
+      "start_offset": 1446,
+      "end_offset": 2010,
+      "heading_path": "[\"Using the Anthropic API\", \"Anthropic Model Mapping\"]",
+      "source_block_indices": "[16, 17, 18, 19, 20, 21]",
+      "token_count": 138,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 1536
+    },
+    "children": [
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:12",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "## Anthropic Model Mapping\n\nWhen you use the Anthropic API, we map the Claude model names you pass in:\n",
+        "index": 12,
+        "start_offset": 1446,
+        "end_offset": 1549,
+        "token_count": 24,
+        "heading_path": "[\"Using the Anthropic API\", \"Anthropic Model Mapping\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:3"
+      },
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:13",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "-   Models starting with claude-opus are mapped to `deepseek-v4-pro`\n-   Models starting with claude-haiku or claude-sonnet are mapped to `deepseek-flash`\n\n",
+        "index": 13,
+        "start_offset": 1550,
+        "end_offset": 1706,
+        "token_count": 43,
+        "heading_path": "[\"Using the Anthropic API\", \"Anthropic Model Mapping\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:3"
+      },
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:14",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "The claude-opus mapping points to `deepseek-v4-pro`, which is billed at the V4 Pro price.\n\nWith this mapping, when using the developer mode of the new Claude Desktop APP, you can bypass the APP's model name restrictions by simply changing the base\\_url and api\\_key to connect to DeepSeek models.\n",
+        "index": 14,
+        "start_offset": 1706,
+        "end_offset": 2003,
+        "token_count": 68,
+        "heading_path": "[\"Using the Anthropic API\", \"Anthropic Model Mapping\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:3"
+      },
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:15",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "* * *\n",
+        "index": 15,
+        "start_offset": 2004,
+        "end_offset": 2010,
+        "token_count": 3,
+        "heading_path": "[\"Using the Anthropic API\", \"Anthropic Model Mapping\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:3"
+      }
+    ]
+  },
+  {
+    "parent": {
+      "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:4",
+      "file_id": "061196c1888b41c69e42623e8d1fee9f",
+      "text": "## Anthropic API Compatibility Details\n\nThis section lists the compatibility details of the DeepSeek API with the Anthropic API. For the full Anthropic API format definition, please refer to the [official Anthropic API reference](https://platform.claude.com/docs/en/api/python/beta/messages/create).\n",
+      "index": 4,
+      "start_offset": 2011,
+      "end_offset": 2311,
+      "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\"]",
+      "source_block_indices": "[22, 23]",
+      "token_count": 60,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 1536
+    },
+    "children": [
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:16",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "## Anthropic API Compatibility Details\n\nThis section lists the compatibility details of the DeepSeek API with the Anthropic API. For the full Anthropic API format definition, please refer to the [official Anthropic API reference](https://platform.claude.com/docs/en/api/python/beta/messages/create).\n",
+        "index": 16,
+        "start_offset": 2011,
+        "end_offset": 2311,
+        "token_count": 60,
+        "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:4"
+      }
+    ]
+  },
+  {
+    "parent": {
+      "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:5",
+      "file_id": "061196c1888b41c69e42623e8d1fee9f",
+      "text": "### HTTP Header\n\n| Field | Support Status |\n| --- | --- |\n| anthropic-beta | Ignored for `/messages`; required (`files-api-2025-04-14`) for Files API endpoints \u2014 see [Files API](https://api-docs.deepseek.com/guides/files_api#anthropic-compatible-files-api) |\n| anthropic-version | Ignored |\n| x-api-key | Fully Supported |\n",
+      "index": 5,
+      "start_offset": 2312,
+      "end_offset": 2635,
+      "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\", \"HTTP Header\"]",
+      "source_block_indices": "[24, 25]",
+      "token_count": 85,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 1536
+    },
+    "children": [
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:17",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "### HTTP Header\n",
+        "index": 17,
+        "start_offset": 2312,
+        "end_offset": 2328,
+        "token_count": 4,
+        "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\", \"HTTP Header\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:5"
+      },
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:18",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "| Field | Support Status |\n| --- | --- |\n| anthropic-beta | Ignored for `/messages`; required (`files-api-2025-04-14`) for Files API endpoints \u2014 see [Files API](https://api-docs.deepseek.com/guides/files_api#anthropic-compatible-files-api) |\n| anthropic-version | Ignored |\n| x-api-key | Fully Supported |\n",
+        "index": 18,
+        "start_offset": 2329,
+        "end_offset": 2635,
+        "token_count": 81,
+        "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\", \"HTTP Header\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:5"
+      }
+    ]
+  },
+  {
+    "parent": {
+      "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:6",
+      "file_id": "061196c1888b41c69e42623e8d1fee9f",
+      "text": "### Simple Fields\n\n| Field | Support Status |\n| --- | --- |\n| model | Use DeepSeek Model Instead |\n| max\\_tokens | Fully Supported |\n| container | Ignored |\n| mcp\\_servers | Ignored |\n| metadata | `user_id` is supported, others are ignored  <br>Please refer to [Rate Limit & Isolation](https://api-docs.deepseek.com/quick_start/rate_limit) for more information about `user_id` parameter. |\n| service\\_tier | Ignored |\n| stop\\_sequences | Fully Supported |\n| stream | Fully Supported |\n| system | Fully Supported |\n| temperature | Fully Supported (range \\[0.0 ~ 2.0\\]) |\n| thinking | Supported (`budget_tokens` is ignored) |\n| output\\_config | Only `effort` is supported |\n| top\\_k | Ignored |\n| top\\_p | Only takes effect in thinking mode (with a lower bound of `0.95`); in non-thinking mode it is fixed at `1.0` |\n",
+      "index": 6,
+      "start_offset": 2636,
+      "end_offset": 3451,
+      "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\", \"Simple Fields\"]",
+      "source_block_indices": "[26, 27]",
+      "token_count": 217,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 1536
+    },
+    "children": [
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:19",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "### Simple Fields\n",
+        "index": 19,
+        "start_offset": 2636,
+        "end_offset": 2654,
+        "token_count": 4,
+        "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\", \"Simple Fields\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:6"
+      },
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:20",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "| Field | Support Status |\n| --- | --- |\n| model | Use DeepSeek Model Instead |\n| max\\_tokens | Fully Supported |\n| container | Ignored |\n| mcp\\_servers | Ignored |\n| metadata | `user_id` is supported, others are ignored  <br>Please refer to [Rate Limit & Isolation](https://api-docs.deepseek.com/quick_start/rate_limit) for more information about `user_id` parameter. |\n| service\\_tier | Ignored |\n| stop\\_sequences | Fully Supported |\n| stream | Fully Supported |\n| system | Fully Supported |\n| temperature | Fully Supported (range \\[0.0 ~ 2.0\\]) |\n| thinking | Supported (`budget_tokens` is ignored) |\n| output\\_config | Only `effort` is supported |\n| top\\_k | Ignored |\n| top\\_p | Only takes effect in thinking mode (with a lower bound of `0.95`); in non-thinking mode it is fixed at `1.0` |\n",
+        "index": 20,
+        "start_offset": 2655,
+        "end_offset": 3451,
+        "token_count": 213,
+        "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\", \"Simple Fields\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:6"
+      }
+    ]
+  },
+  {
+    "parent": {
+      "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:7",
+      "file_id": "061196c1888b41c69e42623e8d1fee9f",
+      "text": "### Tool Fields\n",
+      "index": 7,
+      "start_offset": 3452,
+      "end_offset": 3468,
+      "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\", \"Tool Fields\"]",
+      "source_block_indices": "[28]",
+      "token_count": 4,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 1536
+    },
+    "children": [
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:21",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "### Tool Fields\n",
+        "index": 21,
+        "start_offset": 3452,
+        "end_offset": 3468,
+        "token_count": 4,
+        "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\", \"Tool Fields\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:7"
+      }
+    ]
+  },
+  {
+    "parent": {
+      "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:8",
+      "file_id": "061196c1888b41c69e42623e8d1fee9f",
+      "text": "#### tools\n\n| Field | Support Status |\n| --- | --- |\n| name | Fully Supported |\n| input\\_schema | Fully Supported |\n| description | Fully Supported |\n| cache\\_control | Ignored |\n",
+      "index": 8,
+      "start_offset": 3469,
+      "end_offset": 3648,
+      "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\", \"Tool Fields\", \"tools\"]",
+      "source_block_indices": "[29, 30]",
+      "token_count": 42,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 1536
+    },
+    "children": [
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:22",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "#### tools\n",
+        "index": 22,
+        "start_offset": 3469,
+        "end_offset": 3480,
+        "token_count": 3,
+        "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\", \"Tool Fields\", \"tools\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:8"
+      },
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:23",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "| Field | Support Status |\n| --- | --- |\n| name | Fully Supported |\n| input\\_schema | Fully Supported |\n| description | Fully Supported |\n| cache\\_control | Ignored |\n",
+        "index": 23,
+        "start_offset": 3481,
+        "end_offset": 3648,
+        "token_count": 39,
+        "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\", \"Tool Fields\", \"tools\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:8"
+      }
+    ]
+  },
+  {
+    "parent": {
+      "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:9",
+      "file_id": "061196c1888b41c69e42623e8d1fee9f",
+      "text": "#### tool\\_choice\n\n| Value | Support Status |\n| --- | --- |\n| none | Fully Supported |\n| auto | Supported (`disable_parallel_tool_use` is ignored) |\n| any | Supported (`disable_parallel_tool_use` is ignored) |\n| tool | Supported (`disable_parallel_tool_use` is ignored) |\n",
+      "index": 9,
+      "start_offset": 3649,
+      "end_offset": 3921,
+      "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\", \"Tool Fields\", \"tool\\\\_choice\"]",
+      "source_block_indices": "[31, 32]",
+      "token_count": 64,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 1536
+    },
+    "children": [
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:24",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "#### tool\\_choice\n",
+        "index": 24,
+        "start_offset": 3649,
+        "end_offset": 3667,
+        "token_count": 5,
+        "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\", \"Tool Fields\", \"tool\\\\_choice\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:9"
+      },
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:25",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "| Value | Support Status |\n| --- | --- |\n| none | Fully Supported |\n| auto | Supported (`disable_parallel_tool_use` is ignored) |\n| any | Supported (`disable_parallel_tool_use` is ignored) |\n| tool | Supported (`disable_parallel_tool_use` is ignored) |\n",
+        "index": 25,
+        "start_offset": 3668,
+        "end_offset": 3921,
+        "token_count": 59,
+        "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\", \"Tool Fields\", \"tool\\\\_choice\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:9"
+      }
+    ]
+  },
+  {
+    "parent": {
+      "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:10",
+      "file_id": "061196c1888b41c69e42623e8d1fee9f",
+      "text": "### Message Fields\n\n| Field | Variant | Sub-Field | Support Status |\n| --- | --- | --- | --- |\n| content | string |  | Fully Supported |\n| content | array, type=\"text\" | text | Fully Supported |\n| content | array, type=\"text\" | cache\\_control | Ignored |\n| content | array, type=\"text\" | citations | Ignored |\n| content | array, type=\"image\" | source | Supported. `source.type` can be base64 (media types: jpeg, png, gif, webp), url, or file (the file variant requires the header `anthropic-beta: files-api-2025-04-14`) |\n| content | array, type = \"document\" |  | Not Supported |\n| content | array, type = \"search\\_result\" |  | Not Supported |\n| content | array, type = \"thinking\" |  | Supported |\n| content | array, type=\"redacted\\_thinking\" |  | Not Supported |\n| content | array, type = \"tool\\_use\" | id | Fully Supported |\n| content | array, type = \"tool\\_use\" | input | Fully Supported |\n| content | array, type = \"tool\\_use\" | name | Fully Supported |\n| content | array, type = \"tool\\_use\" | cache\\_control | Ignored |\n| content | array, type = \"tool\\_result\" | tool\\_use\\_id | Fully Supported |\n| content | array, type = \"tool\\_result\" | content | Fully Supported |\n| content | array, type = \"tool\\_result\" | cache\\_control | Ignored |\n| content | array, type = \"tool\\_result\" | is\\_error | Ignored |\n| content | array, type = \"server\\_tool\\_use\" |  | Supported |\n| content | array, type = \"web\\_search\\_tool\\_result\" |  | Supported |\n| content | array, type = \"code\\_execution\\_tool\\_result\" |  | Not Supported |\n| content | array, type = \"mcp\\_tool\\_use\" |  | Not Supported |\n| content | array, type = \"mcp\\_tool\\_result\" |  | Not Supported |\n| content | array, type = \"container\\_upload\" |  | Not Supported |\n",
+      "index": 10,
+      "start_offset": 3922,
+      "end_offset": 5641,
+      "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\", \"Message Fields\"]",
+      "source_block_indices": "[33, 34]",
+      "token_count": 487,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 1536
+    },
+    "children": [
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:26",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "### Message Fields\n",
+        "index": 26,
+        "start_offset": 3922,
+        "end_offset": 3941,
+        "token_count": 4,
+        "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\", \"Message Fields\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:10"
+      },
+      {
+        "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:27",
+        "file_id": "061196c1888b41c69e42623e8d1fee9f",
+        "text": "| Field | Variant | Sub-Field | Support Status |\n| --- | --- | --- | --- |\n| content | string |  | Fully Supported |\n| content | array, type=\"text\" | text | Fully Supported |\n| content | array, type=\"text\" | cache\\_control | Ignored |\n| content | array, type=\"text\" | citations | Ignored |\n| content | array, type=\"image\" | source | Supported. `source.type` can be base64 (media types: jpeg, png, gif, webp), url, or file (the file variant requires the header `anthropic-beta: files-api-2025-04-14`) |\n| content | array, type = \"document\" |  | Not Supported |\n| content | array, type = \"search\\_result\" |  | Not Supported |\n| content | array, type = \"thinking\" |  | Supported |\n| content | array, type=\"redacted\\_thinking\" |  | Not Supported |\n| content | array, type = \"tool\\_use\" | id | Fully Supported |\n| content | array, type = \"tool\\_use\" | input | Fully Supported |\n| content | array, type = \"tool\\_use\" | name | Fully Supported |\n| content | array, type = \"tool\\_use\" | cache\\_control | Ignored |\n| content | array, type = \"tool\\_result\" | tool\\_use\\_id | Fully Supported |\n| content | array, type = \"tool\\_result\" | content | Fully Supported |\n| content | array, type = \"tool\\_result\" | cache\\_control | Ignored |\n| content | array, type = \"tool\\_result\" | is\\_error | Ignored |\n| content | array, type = \"server\\_tool\\_use\" |  | Supported |\n| content | array, type = \"web\\_search\\_tool\\_result\" |  | Supported |\n| content | array, type = \"code\\_execution\\_tool\\_result\" |  | Not Supported |\n| content | array, type = \"mcp\\_tool\\_use\" |  | Not Supported |\n| content | array, type = \"mcp\\_tool\\_result\" |  | Not Supported |\n| content | array, type = \"container\\_upload\" |  | Not Supported |\n",
+        "index": 27,
+        "start_offset": 3942,
+        "end_offset": 5641,
+        "token_count": 483,
+        "heading_path": "[\"Using the Anthropic API\", \"Anthropic API Compatibility Details\", \"Message Fields\"]",
+        "max_tokens": 512,
+        "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:10"
+      }
+    ]
+  }
+]

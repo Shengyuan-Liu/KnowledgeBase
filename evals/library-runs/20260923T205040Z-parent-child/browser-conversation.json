@@ -1,0 +1,176 @@
+{
+  "conversation_id": "08f194bd18724756b63a16a0823f1623",
+  "created_at": "2026-09-23T20:56:35.301284",
+  "messages": [
+    {
+      "message_id": 21,
+      "conversation_id": "08f194bd18724756b63a16a0823f1623",
+      "role": "user",
+      "content": "According to the saved DeepSeek Anthropic API guide, which Python SDK should I install, which environment variables should I set, and what client method invokes a model?",
+      "created_at": "2026-09-23T20:56:35.303235",
+      "retrieval_question": null,
+      "sources": null,
+      "citation_check": null,
+      "retrieval": null
+    },
+    {
+      "message_id": 22,
+      "conversation_id": "08f194bd18724756b63a16a0823f1623",
+      "role": "assistant",
+      "content": "**1. Which Python SDK should I install?**\n\nYou should install the Anthropic SDK using the following command:\n```text\npip install anthropic\n```\n[1]\n\n---\n\n**2. Which environment variables should I set?**\n\nYou should set the following environment variables:\n```text\nexport ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic\nexport ANTHROPIC_API_KEY=${YOUR_API_KEY}\n```\n[1]\n\n---\n\n**3. What client method invokes a model?**\n\nYou should use the following client method to invoke a model:\n```python\nclient.messages.create(...)\n```\nas shown in:\n```python\nmessage = client.messages.create(\n    model=\"deepseek-flash\",\n    ...\n)\n```\n[1]\n\n---\n\nAll requested details are directly supported by source [1].",
+      "created_at": "2026-09-23T20:56:35.306086",
+      "retrieval_question": "According to the saved DeepSeek Anthropic API guide, which Python SDK should I install, which environment variables should I set, and what client method invokes a model?",
+      "sources": [
+        {
+          "source_id": 1,
+          "file_id": "061196c1888b41c69e42623e8d1fee9f",
+          "file_name": "anthropic_api.md",
+          "chunk_id": "061196c1888b41c69e42623e8d1fee9f:parent:2",
+          "text": "## Invoke DeepSeek Model via Anthropic API\n\n1.  Install Anthropic SDK\n\n```text\npip install anthropic\n```\n\n2.  Config Environment Variables\n\n```text\nexport ANTHROPIC_BASE_URL=https://api.deepseek.com/anthropic\nexport ANTHROPIC_API_KEY=${YOUR_API_KEY}\n```\n\n3.  Invoke the API\n\n```text\nimport anthropic\n\nclient = anthropic.Anthropic()\n\nmessage = client.messages.create(\n    model=\"deepseek-flash\",\n    max_tokens=1000,\n    system=\"You are a helpful assistant.\",\n    messages=[\n        {\n            \"role\": \"user\",\n            \"content\": [\n                {\n                    \"type\": \"text\",\n                    \"text\": \"Hi, how are you?\"\n                }\n            ]\n        }\n    ]\n)\nprint(message.content)\n```\n\n**Note:** When you pass an unsupported model name to DeepSeek's Anthropic API, the API backend will automatically map it to the `deepseek-flash` model.\n\n* * *\n",
+          "distance": 0.31195563077926636,
+          "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:2",
+          "matched_child_ids": [
+            "061196c1888b41c69e42623e8d1fee9f:child:3",
+            "061196c1888b41c69e42623e8d1fee9f:child:10",
+            "061196c1888b41c69e42623e8d1fee9f:child:4"
+          ],
+          "start_offset": 570,
+          "end_offset": 1445,
+          "heading_path": [
+            "Using the Anthropic API",
+            "Invoke DeepSeek Model via Anthropic API"
+          ],
+          "source_block_indices": [
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "token_count": 209,
+          "tokenizer": "cl100k_base",
+          "max_tokens": 1536,
+          "file_deleted": false
+        },
+        {
+          "source_id": 2,
+          "file_id": "061196c1888b41c69e42623e8d1fee9f",
+          "file_name": "anthropic_api.md",
+          "chunk_id": "061196c1888b41c69e42623e8d1fee9f:parent:4",
+          "text": "## Anthropic API Compatibility Details\n\nThis section lists the compatibility details of the DeepSeek API with the Anthropic API. For the full Anthropic API format definition, please refer to the [official Anthropic API reference](https://platform.claude.com/docs/en/api/python/beta/messages/create).\n",
+          "distance": 0.37257325649261475,
+          "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:4",
+          "matched_child_ids": [
+            "061196c1888b41c69e42623e8d1fee9f:child:16"
+          ],
+          "start_offset": 2011,
+          "end_offset": 2311,
+          "heading_path": [
+            "Using the Anthropic API",
+            "Anthropic API Compatibility Details"
+          ],
+          "source_block_indices": [
+            22,
+            23
+          ],
+          "token_count": 60,
+          "tokenizer": "cl100k_base",
+          "max_tokens": 1536,
+          "file_deleted": false
+        },
+        {
+          "source_id": 3,
+          "file_id": "061196c1888b41c69e42623e8d1fee9f",
+          "file_name": "anthropic_api.md",
+          "chunk_id": "061196c1888b41c69e42623e8d1fee9f:parent:0",
+          "text": "# Using the Anthropic API\n\nSource: https://api-docs.deepseek.com/guides/anthropic_api\nCaptured: 2026-09-21T19:37:14.264Z\n\nTo meet the demand for using the Anthropic API ecosystem, our API has added support for the Anthropic API format, with the `base_url` being `https://api.deepseek.com/anthropic`.\n\nWith simple configuration, you can integrate the capabilities of DeepSeek into the Anthropic API ecosystem.\n\n* * *\n",
+          "distance": 0.39352715015411377,
+          "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:0",
+          "matched_child_ids": [
+            "061196c1888b41c69e42623e8d1fee9f:child:0"
+          ],
+          "start_offset": 0,
+          "end_offset": 416,
+          "heading_path": [
+            "Using the Anthropic API"
+          ],
+          "source_block_indices": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "token_count": 109,
+          "tokenizer": "cl100k_base",
+          "max_tokens": 1536,
+          "file_deleted": false
+        }
+      ],
+      "citation_check": {
+        "valid_source_ids": [
+          1
+        ],
+        "invalid_source_ids": [],
+        "no_citations": false
+      },
+      "retrieval": {
+        "candidates": [
+          {
+            "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:3",
+            "distance": 0.31195563077926636,
+            "file_id": "061196c1888b41c69e42623e8d1fee9f",
+            "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:2",
+            "text": "## Invoke DeepSeek Model via Anthropic API\n",
+            "start_offset": 570,
+            "end_offset": 613
+          },
+          {
+            "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:16",
+            "distance": 0.37257325649261475,
+            "file_id": "061196c1888b41c69e42623e8d1fee9f",
+            "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:4",
+            "text": "## Anthropic API Compatibility Details\n\nThis section lists the compatibility details of the DeepSeek API with the Anthropic API. For the full Anthropic API format definition, please refer to the [official Anthropic API reference](https://platform.claude.com/docs/en/api/python/beta/messages/create).\n",
+            "start_offset": 2011,
+            "end_offset": 2311
+          },
+          {
+            "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:0",
+            "distance": 0.39352715015411377,
+            "file_id": "061196c1888b41c69e42623e8d1fee9f",
+            "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:0",
+            "text": "# Using the Anthropic API\n\nSource: https://api-docs.deepseek.com/guides/anthropic_api\nCaptured: 2026-09-21T19:37:14.264Z\n\nTo meet the demand for using the Anthropic API ecosystem, our API has added support for the Anthropic API format, with the `base_url` being `https://api.deepseek.com/anthropic`.\n\nWith simple configuration, you can integrate the capabilities of DeepSeek into the Anthropic API ecosystem.\n",
+            "start_offset": 0,
+            "end_offset": 409
+          },
+          {
+            "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:10",
+            "distance": 0.4277627468109131,
+            "file_id": "061196c1888b41c69e42623e8d1fee9f",
+            "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:2",
+            "text": "**Note:** When you pass an unsupported model name to DeepSeek's Anthropic API, the API backend will automatically map it to the `deepseek-flash` model.\n",
+            "start_offset": 1286,
+            "end_offset": 1438
+          },
+          {
+            "chunk_id": "061196c1888b41c69e42623e8d1fee9f:child:4",
+            "distance": 0.4950779676437378,
+            "file_id": "061196c1888b41c69e42623e8d1fee9f",
+            "parent_id": "061196c1888b41c69e42623e8d1fee9f:parent:2",
+            "text": "1.  Install Anthropic SDK\n\n",
+            "start_offset": 614,
+            "end_offset": 641
+          }
+        ],
+        "excluded": [],
+        "evidence_tokens": 387,
+        "max_tokens": 4096,
+        "tokenizer": "cl100k_base"
+      }
+    }
+  ]
+}

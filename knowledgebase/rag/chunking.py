@@ -6,7 +6,9 @@ import tiktoken
 from markdown_it import MarkdownIt
 
 from knowledgebase.config import DEFAULT_CHUNK_SIZE, DEFAULT_OVERLAP
-from knowledgebase.schemas import Chunk, SourceBlock, StructuredChunk
+from knowledgebase.schemas import (
+    ChildChunk, Chunk, ParentChildChunks, ParentChunk, SourceBlock, StructuredChunk,
+)
 
 
 def split_text(
@@ -135,6 +137,23 @@ def _pack_units(
         yield start, end
 
 
+def _block_units(
+    text: str, block: SourceBlock, max_tokens: int, encoding: tiktoken.Encoding,
+) -> Iterator[tuple[int, int]]:
+    """Apply the same structure-specific split policy at either chunking level."""
+    if block.kind == "paragraph":
+        stages = ("sentences", "clauses", "words", "characters")
+    elif block.kind == "list":
+        stages = ("items", "lines", "words", "characters")
+    elif block.kind in ("code", "table", "blockquote"):
+        stages = ("lines", "words", "characters")
+    else:
+        stages = ("words", "characters")
+    yield from _bounded_units(
+        text, block.start_offset, block.end_offset, stages, max_tokens, encoding,
+    )
+
+
 def split_structured(
     text: str, blocks: list[SourceBlock], file_id: str, *,
     max_tokens: int, encoding_name: str,
@@ -170,18 +189,7 @@ def split_structured(
     for group in groups:
         units: list[tuple[int, int]] = []
         for block_index in group:
-            block = blocks[block_index]
-            if block.kind == "paragraph":
-                stages = ("sentences", "clauses", "words", "characters")
-            elif block.kind == "list":
-                stages = ("items", "lines", "words", "characters")
-            elif block.kind in ("code", "table", "blockquote"):
-                stages = ("lines", "words", "characters")
-            else:
-                stages = ("words", "characters")
-            units.extend(_bounded_units(
-                text, block.start_offset, block.end_offset, stages, max_tokens, encoding,
-            ))
+            units.extend(_block_units(text, blocks[block_index], max_tokens, encoding))
         for start, end in _pack_units(text, units, max_tokens, encoding):
             excerpt = text[start:end]
             index = len(chunks)
@@ -197,3 +205,70 @@ def split_structured(
                 tokenizer=encoding.name, max_tokens=max_tokens,
             ))
     return chunks
+
+
+def split_parent_child(
+    text: str, blocks: list[SourceBlock], file_id: str, *,
+    parent_max_tokens: int, child_max_tokens: int, encoding_name: str,
+) -> ParentChildChunks:
+    """Build bounded section parents, then structural children within each parent.
+
+    Every heading starts a section, including repeated labels and nested headings.
+    Within a section, parents can combine different block types. Both levels keep
+    exact original slices and global source-block indices without overlap. This
+    function does not persist records or change the active ingestion strategy.
+    """
+    if parent_max_tokens <= 0 or child_max_tokens <= 0:
+        raise ValueError("parent_max_tokens and child_max_tokens must be positive.")
+    if child_max_tokens > parent_max_tokens:
+        raise ValueError("child_max_tokens must not exceed parent_max_tokens.")
+    encoding = tiktoken.get_encoding(encoding_name)
+
+    sections: list[list[int]] = []
+    for index, block in enumerate(blocks):
+        if (
+            not sections or block.kind == "heading"
+            or block.heading_path != blocks[sections[-1][0]].heading_path
+        ):
+            sections.append([])
+        sections[-1].append(index)
+
+    parents: list[ParentChunk] = []
+    children: list[ChildChunk] = []
+    for section in sections:
+        units = (
+            span for i in section
+            for span in _block_units(text, blocks[i], parent_max_tokens, encoding)
+        )
+        for start, end in _pack_units(text, units, parent_max_tokens, encoding):
+            parent = ParentChunk(
+                parent_id=f"{file_id}:parent:{len(parents)}", file_id=file_id,
+                text=text[start:end], index=len(parents), start_offset=start, end_offset=end,
+                heading_path=blocks[section[0]].heading_path,
+                source_block_indices=[
+                    i for i in section if blocks[i].start_offset < end and blocks[i].end_offset > start
+                ],
+                token_count=_token_count(text[start:end], encoding),
+                tokenizer=encoding.name, max_tokens=parent_max_tokens,
+            )
+            parents.append(parent)
+            # Clip existing blocks, preserving their kinds and original heading paths.
+            # Reparsing a code/list fragment could reinterpret its Markdown structure.
+            clipped: list[SourceBlock] = []
+            for i in parent.source_block_indices:
+                block = blocks[i]
+                block_start, block_end = max(start, block.start_offset), min(end, block.end_offset)
+                clipped.append(block.model_copy(update={
+                    "text": text[block_start:block_end],
+                    "start_offset": block_start, "end_offset": block_end,
+                }))
+            for chunk in split_structured(
+                text, clipped, file_id, max_tokens=child_max_tokens, encoding_name=encoding_name,
+            ):
+                children.append(ChildChunk(**{
+                    **chunk.model_dump(),
+                    "chunk_id": f"{file_id}:child:{len(children)}", "index": len(children),
+                    "parent_id": parent.parent_id,
+                    "source_block_indices": [parent.source_block_indices[i] for i in chunk.source_block_indices],
+                }))
+    return ParentChildChunks(parents=parents, children=children)

@@ -106,3 +106,14 @@ retrieval, failure rollback, and the OpenAPI contract. They make no live API cal
 
 Model, retrieval and history defaults are configurable through `ANSWER_MODEL`,
 `RESOLVER_MODEL`, `RETRIEVAL_TOP_K`, and `HISTORY_LIMIT`; see [runtime configuration](configuration.md).
+
+## Parent evidence and retrieval diagnostics
+
+With parent-child indexing, sources contain the complete expanded parent text,
+its `parent_id`, matched child IDs, offsets, and structural metadata. Source numbers
+refer to these final evidence regions. Completed answers include `retrieval`
+diagnostics with candidate hits, budget exclusions, and evidence token counts;
+SSE includes this field in `complete`. Source snapshots and diagnostics persist
+in the same exchange transaction and survive source deletion. Older snapshots
+have `retrieval: null`. See [parent-child retrieval](parent-child-retrieval.md)
+for the full contract and evidence budget behavior.

@@ -37,7 +37,10 @@ async def lifespan(app):
             streaming_llm = Mock(spec=StreamingLLMClient)
             streaming_llm.stream.side_effect = stream_fixture
             app.state.resources = AppResources(
-                settings=Settings(_env_file=None, openai_api_key="offline-browser-test"),
+                settings=Settings(
+                    _env_file=None, openai_api_key="offline-browser-test",
+                    chunking_strategy="parent_child", chunk_max_tokens=16,
+                ),
                 sessions=sessions,
                 store=store,
                 embeddings=embeddings,
