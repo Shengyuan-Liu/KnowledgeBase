@@ -5,6 +5,12 @@ reporting requirement; it does not claim that existing runners automatically
 calculate all metrics. Add missing measurements within the authorized work and
 mark remaining gaps explicitly. Historical artifacts remain unchanged.
 
+Run full RAG evaluation, live judge calibration, and paid LLM evaluation only
+when a complete feature is ready for user acceptance or the user explicitly asks
+for evaluation. Intermediate edits and implementation steps require only relevant
+unit tests and necessary scoped checks. Recording metrics for executed checks does
+not require running a full evaluation after each change or assistant turn.
+
 ## Run record
 
 Store each run under a new directory in `evals/runs/`, `evals/library-runs/`,
