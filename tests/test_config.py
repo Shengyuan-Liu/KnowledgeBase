@@ -91,6 +91,7 @@ def test_invalid_tuning_values_fail_before_startup_without_exposing_key(tmp_path
     monkeypatch.chdir(tmp_path)
     monkeypatch.setenv("OPENAI_API_KEY", "must-not-appear-in-errors")
     for invalid in (
+        {"rerank_enabled": True, "retrieval_strategy": "vector"},
         {"rerank_candidate_limit": 0}, {"rerank_max_input_tokens": 0},
         {"parent_max_tokens": 0}, {"evidence_max_tokens": 0},
         {"chunking_strategy": "parent_child", "parent_max_tokens": 128, "chunk_max_tokens": 256},
@@ -119,9 +120,11 @@ def test_hybrid_is_default_and_vector_is_an_explicit_control(tmp_path, monkeypat
     assert Settings(openai_api_key="offline-test", retrieval_strategy="vector").retrieval_options.strategy == "vector"
 
 
-def test_standalone_rerank_defaults_do_not_enable_chat_integration(tmp_path, monkeypatch):
+def test_rerank_remains_an_explicit_opt_in(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     settings = Settings(openai_api_key="offline-test")
+    assert settings.rerank_enabled is False
+    assert settings.retrieval_options.rerank_enabled is False
     assert settings.rerank_model is None
     assert settings.rerank_candidate_limit == 20
     assert settings.rerank_max_input_tokens == 16384

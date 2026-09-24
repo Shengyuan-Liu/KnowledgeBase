@@ -6,12 +6,14 @@ and source-grounded answers.
 The [v1 design documents](docs/v1/README.md) define the ongoing version.
 TXT/Markdown parsing, structural chunking, and source storage are connected to
 uploads. [Parent-child retrieval](docs/parent-child-retrieval.md) is the default
-strategy. Hybrid search and reranking remain planned.
+strategy.
 [Hybrid retrieval](docs/hybrid-retrieval.md) is now the default: [BM25](docs/bm25.md)
 and vector candidates are combined with [RRF](docs/rrf.md) before parent expansion.
 `RETRIEVAL_STRATEGY=vector` retains the vector-only control.
-The [standalone reranker](docs/reranking.md) scores a bounded fused-child window;
-connecting it to chat remains the next step.
+Set `RERANK_ENABLED=true` to score a bounded fused-child window with the
+[reranker](docs/reranking.md) before top-k selection and parent expansion. API,
+streaming chat, CLI, and evaluations share this path. Reranking defaults to off;
+the vector-only control requires it to remain off.
 
 ## Run the local application
 
@@ -158,7 +160,9 @@ Seven development questions passed direct evidence review; broader accuracy and
 comparative retrieval quality were not measured in that Markdown-only check.
 The later [paired hybrid comparison](evals/library-runs/20260923T221737Z-hybrid/README.md)
 records 18 questions per mode against the active library, including both gains
-and a prerequisite-question budget regression.
+and a prerequisite-question budget regression. The subsequent
+[paired rerank comparison](evals/library-runs/20260924T000238Z-rerank/README.md)
+records the integrated pipeline on the same questions and documents its latency tradeoff.
 
 Run the frozen NYU question set, grade answers with human review or an LLM judge, and
 compare recorded experiments using the [evaluation guide](evals/README.md).

@@ -16,9 +16,9 @@ not implementation or quality results.
 
 - [Document parsing](document-parsing.md): TXT/Markdown structural blocks and exact source offsets, connected to uploads.
 - [Structural chunking](structural-chunking.md): sentence/structure boundaries, shared token budgets, and exact source chunks in ingestion.
-- [Parent-child chunking](parent-child-chunking.md): standalone bounded section parents and structural children with exact source containment; ingestion and retrieval integration are pending.
+- [Parent-child chunking](parent-child-chunking.md): bounded section parents and structural children with exact source containment, integrated with uploads and retrieval.
 - [Parent-child storage](parent-child-storage.md): persisted parents and child relationships, mixed-type reads, transactional cleanup, and existing-schema compatibility.
-- [Reranking](reranking.md): standalone structured relevance scoring of fused children, exact input traces, and preserved route scores; chat integration is pending.
+- [Reranking](reranking.md): optional relevance scoring before child selection in API, streaming chat, CLI, and evaluations; exact input traces and separate route scores.
 - [Document storage](document-storage.md): canonical TXT/Markdown sources, persisted parser blocks, structural chunk metadata, and transactional cleanup.
 
 - [Runtime configuration](configuration.md): shared `.env` settings, precedence, model selection, and reindexing requirements.

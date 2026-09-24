@@ -25,6 +25,7 @@ export interface Source {
   text: string;
   distance: number | null;
   fusion?: FusedMatch | null;
+  rerank?: (FusedMatch & { rerank_score: number; rerank_rank: number }) | null;
   file_deleted?: boolean;
   parent_id?: string | null;
   matched_child_ids?: string[];

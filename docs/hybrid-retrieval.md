@@ -2,8 +2,8 @@
 
 Status: integrated on `v1` for JSON chat, streamed chat, CLI, and the evaluation
 runner. Hybrid retrieval is the default; user acceptance does not follow from
-passing tests and merging still requires explicit approval. A [standalone reranker](reranking.md)
-is now available; the active chat path does not invoke it yet.
+passing tests and merging still requires explicit approval. Optional
+[reranking](reranking.md) is integrated before child selection.
 
 ## Query flow
 
@@ -14,7 +14,10 @@ is now available; the active chat path does not invoke it yet.
    before either limit and before lexical corpus statistics. Legacy flat chunks
    are included; parent text is never separately indexed or scored.
 3. Apply equal-weight [RRF](rrf.md) to the union of both lists. Save the full
-   fused ranking, then select `RETRIEVAL_TOP_K` (default 5) child/flat hits.
+   fused ranking. When `RERANK_ENABLED=true`, score the leading
+   `RERANK_CANDIDATE_LIMIT` candidates and order them by relevance, using RRF
+   rank to break ties. Select `RETRIEVAL_TOP_K` (default 5) child/flat hits from
+   the resulting order; with reranking disabled, select directly from RRF.
 4. Expand parents, deduplicate by the highest-ranked selected child, and pack
    whole regions within the exact numbered `EVIDENCE_MAX_TOKENS` budget. See
    [parent-child retrieval](parent-child-retrieval.md). Deduplication and budget
@@ -34,6 +37,7 @@ Use `.env` and restart the app:
 
 ```dotenv
 RETRIEVAL_STRATEGY=hybrid
+RERANK_ENABLED=false
 RETRIEVAL_CANDIDATE_LIMIT=20
 BM25_K1=1.2
 BM25_B=0.75
@@ -44,7 +48,8 @@ RETRIEVAL_TOP_K=5
 These are experimental starting values, not tuned quality guarantees. The route
 limit and selected-child limit are independent: a small route union can yield
 fewer than top-k candidates. `RETRIEVAL_STRATEGY=vector` uses the earlier vector
-path with `RETRIEVAL_TOP_K` directly; it does not build lexical statistics.
+path with `RETRIEVAL_TOP_K` directly; it does not build lexical statistics and
+requires reranking to be disabled.
 Changing retrieval settings does not change stored chunks or require re-embedding.
 API, CLI, and evaluation entry points pass the same `Settings.retrieval_options`
 to the services. Pure calls accept `RetrievalOptions` without loading credentials.
@@ -53,7 +58,7 @@ For an isolated evaluation using the standard evaluation corpus:
 
 ```sh
 uv run --locked python -m evals.evaluate run --label "Hybrid control" \
-  --retrieval-strategy hybrid --retrieval-candidate-limit 20 --rrf-k 60 --top-k 5
+  --retrieval-strategy hybrid --no-rerank --retrieval-candidate-limit 20 --rrf-k 60 --top-k 5
 ```
 
 The runner also supports `--bm25-k1` and `--bm25-b`, and records resolved options
@@ -66,7 +71,11 @@ comparison; compare exact supplied evidence and answers, not RRF magnitudes.
 - `vector_matches`, `bm25_matches`, and `fused_matches` retain route IDs, raw
   scores, and ranks, including hits outside the final selected top-k.
 - `candidates` contains only the selected child/flat hits, with exact text and
-  offsets. Each candidate's `fusion` records its rank and route provenance.
+  offsets. Each candidate's `fusion` records its original RRF rank and route
+  provenance; optional `rerank` adds a distinct relevance score and rerank rank.
+- `rerank` retains the full scored window, exact child text, all relevance scores,
+  model, prompt version, and limits. `rerank_seconds` records scoring-stage time.
+  Both fields are null when scoring is disabled.
 - `excluded` records selected evidence regions omitted for budget reasons;
   `evidence_tokens` counts the final numbered text actually given to generation.
 - Each source's `fusion` describes its highest-ranked selected child. Its
@@ -75,11 +84,12 @@ comparison; compare exact supplied evidence and answers, not RRF magnitudes.
   remain inspectable in `candidates` and `matched_child_ids`.
 
 The source panel retains exact parent text; its existing debug section shows
-RRF and route ranks and handles missing vector distances. Scores are not confidence
+RRF, route, and optional rerank ranks and handles missing vector distances. Scores are not confidence
 probabilities. JSON snapshots retain this metadata across restart and deletion.
-Older snapshots lacking fusion/options remain readable without inferring old ranks.
-Full child text is saved for selected candidates only; unselected route hits keep
-IDs and scores, not a second copy of their text.
+Older snapshots lacking fusion/options/rerank remain readable without inferring
+old ranks. With reranking disabled, full child text is saved only for selected
+candidates. With it enabled, the scored window also retains exact inputs, even
+when a candidate is not selected or its parent is excluded by the evidence budget.
 
 ## Verification
 
@@ -93,4 +103,5 @@ deduplication, source fidelity, and no-generation-without-evidence tests still a
 The [live paired comparison](../evals/library-runs/20260923T221737Z-hybrid/README.md)
 records 36 real-provider answers. GPA and CPT improve, while prerequisite evidence
 is displaced by larger FAQ parents. Overall span coverage improves modestly;
-reranking and answer-quality acceptance remain pending.
+the [subsequent rerank comparison](../evals/library-runs/20260924T000238Z-rerank/README.md)
+checks that regression and the rest of the same 18-question set.

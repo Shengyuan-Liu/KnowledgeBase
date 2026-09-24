@@ -213,7 +213,7 @@ export function ChatPanel({
                   </p>
                   {message.debug && (
                     <p>
-                      Generation time:{" "}
+                      Answer preparation time:{" "}
                       {message.debug.elapsed_seconds.toFixed(2)} s (before
                       saving).
                     </p>
@@ -232,6 +232,11 @@ export function ChatPanel({
                             {" · "}RRF rank {source.fusion.rank} (score {source.fusion.rrf_score.toFixed(6)})
                             {" · "}BM25 rank {source.fusion.bm25_rank ?? "—"}
                             {" · "}Vector rank {source.fusion.vector_rank ?? "—"}
+                          </span>
+                        )}
+                        {source.rerank && (
+                          <span>
+                            {" · "}Rerank rank {source.rerank.rerank_rank} (relevance {source.rerank.rerank_score}/3)
                           </span>
                         )}
                       </li>

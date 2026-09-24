@@ -1,12 +1,12 @@
-# Standalone Child Reranking
+# Child Reranking
 
-Status: implemented on `v1` as an independent scoring module and provider adapter.
-The active API, CLI, and evaluation chat services still use hybrid RRF without
-reranking. Connecting the module before child selection is the next step.
+Status: integrated on `v1` for JSON chat, streamed chat, CLI, and evaluation.
+Enable it with `RERANK_ENABLED=true` under hybrid retrieval and restart. The
+default is `false` so the original hybrid route remains an explicit control.
 
 This first baseline uses the existing OpenAI Responses client with a configurable
 model, rather than introducing a local model download or another provider key.
-Standalone callers use `RERANK_MODEL` when set and otherwise `ANSWER_MODEL`.
+All entry points use `RERANK_MODEL` when set and otherwise `ANSWER_MODEL`.
 This is an LLM relevance-scoring baseline, not a trained cross-encoder or a claim
 that the chosen model is optimal for ranking, latency, or cost.
 
@@ -77,7 +77,44 @@ billing guarantee. Input exceeding the budget raises before calling the model;
 source text is never silently shortened. Provider truncation is disabled.
 Incomplete, refused, malformed, or failed requests surface as errors.
 
-## Example
+## Runtime integration
+
+The service resolves follow-ups, retrieves BM25/vector candidates, applies RRF,
+scores its bounded leading window, selects top-k children, then expands and
+deduplicates parents before packing whole evidence regions. Reranking can change
+which parents fit the budget. Siblings still consume child selection slots; no
+additional children are backfilled after deduplication or budget exclusion.
+
+Each selected child and source retains `fusion` and an optional `rerank` match.
+A parent inherits the metadata of its highest rerank-ranked selected child.
+`retrieval.rerank` preserves every scored input and output, and
+`retrieval.rerank_seconds` measures that stage. Completed JSON/SSE answers persist
+these diagnostics with evidence snapshots. History remains readable after restart
+and source deletion; older snapshots have null rerank fields. The frontend debug
+view shows relevance and rank separately from RRF and vector distance. Its
+answer-preparation time includes retrieval, reranking, and generation.
+
+A scoring error stops the current answer: JSON returns its existing processing
+error; SSE emits `error` without `complete`. No exchange is saved. Disconnecting
+while scoring is in progress prevents generation and persistence; the synchronous
+provider request may still finish in its abandoned worker. There is no silent
+hybrid fallback. An empty Ready library makes no embedding or scoring request.
+
+CLI and evaluation accept `--rerank` / `--no-rerank` and `--rerank-model`; the
+evaluation runner also exposes candidate and input-token limits. All resolved
+options and the effective scoring model are saved in evaluation metadata.
+Changing these settings does not require reindexing. Vector-only retrieval
+requires reranking to be disabled.
+
+```sh
+uv run --locked python -m evals.evaluate run --label "Hybrid control" --retrieval-strategy hybrid --no-rerank
+uv run --locked python -m evals.evaluate run --label "Hybrid with rerank" --retrieval-strategy hybrid --rerank
+```
+
+These commands make paid provider calls. See [configuration](configuration.md)
+for `.env` defaults and precedence.
+
+## Low-level example
 
 ```python
 from openai import OpenAI
@@ -113,12 +150,11 @@ with OpenAI(
 
 The example assumes structured children; legacy flat chunks use an empty heading
 path. Loading Settings reads the existing ignored `.env`, never `.env.local`.
-The standalone settings in [.env.example](../.env.example) do not enable reranking
-in chat and do not require re-uploading any file.
+The settings template in [.env.example](../.env.example) leaves reranking disabled.
 
 ## Verification
 
-Run `uv run --locked python -m pytest tests/test_reranking.py tests/test_reranker_provider.py`.
+Run `uv run --locked python -m pytest tests/test_reranking.py tests/test_reranker_provider.py tests/test_rerank_pipeline.py tests/test_chat_streaming.py`.
 Tests cover identity-based mapping, preserved source and route metadata, full result
 serialization, RRF-window selection, stable ties, empty input, exact budget
 boundaries, missing/duplicate scores, and error propagation. Mock HTTP tests use
@@ -126,5 +162,10 @@ the actual installed SDK to check required-ID schemas, parsing, and refusal hand
 
 The [live four-case probe](../evals/rerank-runs/20260923T234002Z-required-scores/README.md)
 and its [initial failed attempt](../evals/rerank-runs/20260923T233640Z-standalone/README.md)
-preserve scores, exact inputs, duration, and usage. These are standalone development checks; parent packing and generated-answer quality need
-separate verification when the module is integrated into chat.
+preserve scores, exact inputs, duration, and usage. The
+[18-question paired integration run](../evals/library-runs/20260924T000238Z-rerank/README.md)
+checks parent packing, supplied evidence, answers, and end-to-end latency.
+Offline integration tests cover API JSON/SSE, CLI and evaluation configuration,
+resolved follow-ups, budgets, Ready filtering, restart/deletion history, provider
+errors, and cancellation. Desktop/mobile browser tests verify visible ranks and
+restored evidence. These checks do not establish general model quality.

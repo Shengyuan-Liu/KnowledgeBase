@@ -1,0 +1,38 @@
+{
+  "started_at": "2026-09-24T00:02:45.226342+00:00",
+  "base_commit": "15086cd7a68f898c30bbce89fc848a1b0222499d",
+  "working_diff_sha256": "26000aa5c970a7b3d6ca8a21cbb87dd9dddf2387545f7ddba924cd18385fda78",
+  "rerank_model": "gpt-4.1",
+  "cases_sha256": "1bc03e1fca2182c6d823c8c9ee3138c70ed90e4836af95d5792f8736d2a0d7cd",
+  "answer_model": "gpt-4.1",
+  "embedding_model": "text-embedding-3-small",
+  "top_k": 5,
+  "evidence_max_tokens": 4096,
+  "tokenizer": "cl100k_base",
+  "retrieval_options": {
+    "hybrid": {
+      "strategy": "hybrid",
+      "candidate_limit": 20,
+      "bm25_k1": 1.2,
+      "bm25_b": 0.75,
+      "rrf_k": 60.0,
+      "rerank_enabled": false,
+      "rerank_candidate_limit": 20,
+      "rerank_max_input_tokens": 16384
+    },
+    "rerank": {
+      "strategy": "hybrid",
+      "candidate_limit": 20,
+      "bm25_k1": 1.2,
+      "bm25_b": 0.75,
+      "rrf_k": 60.0,
+      "rerank_enabled": true,
+      "rerank_candidate_limit": 20,
+      "rerank_max_input_tokens": 16384
+    }
+  },
+  "timeout_seconds": 90,
+  "max_retries": 1,
+  "concurrency": 3,
+  "note": "Same stored library for both routes. No uploads or conversation writes. Automatic span coverage is not answer quality."
+}

@@ -256,3 +256,53 @@ def test_internal_lookup_failure_during_stream_setup_is_500(streaming_app, monke
         })
         assert response.status_code == 500
         assert response.json() == {"detail": "Stream setup failed."}
+
+
+@pytest.mark.anyio
+async def test_disconnect_during_rerank_does_not_generate_or_save(streaming_app):
+    """An abandoned scoring request can finish without continuing the answer."""
+    from threading import Event
+    from knowledgebase.schemas import RelevanceScore
+
+    app, streamer = streaming_app
+    started, disconnect, finished = anyio.Event(), anyio.Event(), anyio.Event()
+    release, scored = Event(), Event()
+    messages = []
+
+    def score(messages, chunk_ids):
+        anyio.from_thread.run_sync(started.set)
+        try:
+            assert release.wait(5)
+            return [RelevanceScore(chunk_id=chunk_id, score=3) for chunk_id in chunk_ids]
+        finally:
+            scored.set()
+
+    async def send(message):
+        messages.append(message)
+
+    async def request():
+        try:
+            await asgi_stream(app, send, disconnect)
+        finally:
+            finished.set()
+
+    async with app.router.lifespan_context(app):
+        resources = app.state.resources
+        resources.settings.rerank_enabled = True
+        resources.reranker = Mock(model="offline-reranker", score=Mock(side_effect=score))
+        ingest(resources)
+        try:
+            with anyio.fail_after(5):
+                async with anyio.create_task_group() as tasks:
+                    tasks.start_soon(request)
+                    await started.wait()
+                    disconnect.set()
+                    await finished.wait()
+                    assert not scored.is_set()
+        finally:
+            release.set()
+            assert await anyio.to_thread.run_sync(scored.wait, 5)
+        assert streamer.messages is None
+        events = frames(b"".join(m.get("body", b"") for m in messages).decode())
+        assert [kind for kind, _ in events] == ["start"]
+        assert_no_turn(resources)

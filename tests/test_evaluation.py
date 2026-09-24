@@ -225,6 +225,7 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
         f"CHUNKING_STRATEGY={strategy}\nCHUNK_MAX_TOKENS=32\nCHUNK_TOKENIZER=cl100k_base\n"
         "PARENT_MAX_TOKENS=96\nEVIDENCE_MAX_TOKENS=192\n"
         "RETRIEVAL_STRATEGY=hybrid\nRETRIEVAL_CANDIDATE_LIMIT=9\nBM25_K1=0.8\nBM25_B=0.4\nRRF_K=12\n"
+        "RERANK_ENABLED=true\nRERANK_MODEL=env-reranker\nRERANK_CANDIDATE_LIMIT=3\nRERANK_MAX_INPUT_TOKENS=1000\n"
     )
     data_case = case()
     data_case["expected_answer_points"] = ["REFERENCE_ONLY_DO_NOT_SEND_TO_GENERATOR"]
@@ -235,6 +236,11 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
     sdk.embeddings.create.side_effect = lambda **kwargs: SimpleNamespace(
         data=[SimpleNamespace(embedding=[1.0, 0.0]) for item in kwargs["input"]])
     sdk.responses.create.return_value = SimpleNamespace(output_text="A GPA of 3.0. [1]")
+    sdk.responses.parse.side_effect = lambda **kw: SimpleNamespace(
+        status="completed", output_parsed=kw["text_format"].model_validate({
+            candidate["chunk_id"]: 3 for candidate in json.loads(kw["input"][-1]["content"])["candidates"]
+        }),
+    )
     context = Mock()
     context.__enter__ = Mock(return_value=sdk)
     context.__exit__ = Mock(return_value=False)
@@ -247,7 +253,9 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
                            overlap=64, model="offline-generator", embedding_model="offline-embeddings",
                            retrieval_strategy="vector" if explicit_options else None,
                            retrieval_candidate_limit=7 if explicit_options else None,
-                           bm25_k1=None, bm25_b=None, rrf_k=None)
+                           bm25_k1=None, bm25_b=None, rrf_k=None,
+                           rerank_enabled=False if explicit_options else None, rerank_model=None,
+                           rerank_candidate_limit=None, rerank_max_input_tokens=None)
     if not explicit_options:
         for name in ("model", "embedding_model", "chunk_size", "overlap", "top_k",
                      "chunking_strategy", "chunk_max_tokens", "chunk_tokenizer", "parent_max_tokens", "evidence_max_tokens"):
@@ -283,14 +291,27 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
         assert recorded["parent_max_tokens"] == args.parent_max_tokens
         assert recorded["evidence_max_tokens"] == args.evidence_max_tokens
         options = {"strategy": "vector" if explicit_options else "hybrid",
-                   "candidate_limit": 7 if explicit_options else 9, "bm25_k1": 0.8, "bm25_b": 0.4, "rrf_k": 12}
+                   "candidate_limit": 7 if explicit_options else 9, "bm25_k1": 0.8, "bm25_b": 0.4, "rrf_k": 12,
+                   "rerank_enabled": not explicit_options, "rerank_candidate_limit": 3, "rerank_max_input_tokens": 1000}
         assert row["retrieval_diagnostics"]["options"] == recorded["retrieval_options"] == options
+        assert recorded["rerank_model"] == (None if explicit_options else "env-reranker")
+        if not explicit_options:
+            assert row["retrieval_diagnostics"]["rerank"]["model"] == "env-reranker"
+            assert row["retrieval_diagnostics"]["rerank"]["candidate_limit"] == 3
+            assert row["retrieval_diagnostics"]["rerank"]["max_input_tokens"] == 1000
+            assert row["sources"][0]["rerank"]["rerank_score"] == 3
+        else:
+            assert row["retrieval_diagnostics"]["rerank"] is None
+            sdk.responses.parse.assert_not_called()
         assert row["retrieval_diagnostics"]["max_tokens"] == args.evidence_max_tokens
         if args.chunking_strategy == "parent_child":
             assert row["sources"][0]["parent_id"] == row["sources"][0]["chunk_id"]
             assert row["sources"][0]["matched_child_ids"] == [row["retrieval_diagnostics"]["candidates"][0]["chunk_id"]]
         assert summary["annotated_char_recall"] == 1
         assert summary["pass_rate"] is None
+    for call in sdk.responses.parse.call_args_list:
+        assert call.kwargs["model"] == "env-reranker"
+        assert "REFERENCE_ONLY_DO_NOT_SEND_TO_GENERATOR" not in str(call.kwargs["input"])
     for call in sdk.embeddings.create.call_args_list:
         assert call.kwargs["model"] == args.embedding_model
     assert all(call.kwargs["timeout"] == 17 and call.kwargs["max_retries"] == 1

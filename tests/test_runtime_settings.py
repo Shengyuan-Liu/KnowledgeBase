@@ -140,7 +140,37 @@ def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkey
         "chunk_max_tokens": 17, "chunk_tokenizer": "o200k_base", "parent_max_tokens": 33,
     }
     assert answer.call_args.kwargs == {
+        "reranker_client": None,
         "conversation_id": None, "top_k": 4 if override else 2, "history_limit": 1, "resolver_client": resolver,
         "evidence_max_tokens": 113, "encoding_name": "o200k_base",
         "retrieval_options": RetrievalOptions(strategy="vector", candidate_limit=7, bm25_k1=0.9, bm25_b=0.4, rrf_k=10),
     }
+
+
+@pytest.mark.parametrize("enabled", [True, False])
+def test_cli_rerank_switch_and_model_reach_answer_service(tmp_path, monkeypatch, enabled):
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / ".env").write_text(
+        "OPENAI_API_KEY=offline-test\nRERANK_ENABLED=true\nRERANK_MODEL=file-reranker\n"
+        "RERANK_CANDIDATE_LIMIT=7\nRERANK_MAX_INPUT_TOKENS=1200\n"
+    )
+    sdk = MagicMock()
+    sdk.__enter__.return_value = sdk
+    monkeypatch.setattr(cli, "OpenAI", Mock(return_value=sdk))
+    factory = Mock()
+    monkeypatch.setattr(cli, "RerankerClient", factory)
+    answer = Mock(return_value=Mock(conversation_id="one"))
+    monkeypatch.setattr(cli, "answer_in_conversation", answer)
+    monkeypatch.setattr(cli, "run_chat_loop", lambda ask: ask("Question"))
+    monkeypatch.setattr(sys, "argv", ["main.py", "--rerank-model", "argument-reranker",
+                                      "--rerank" if enabled else "--no-rerank"])
+    cli.cli()
+    options = answer.call_args.kwargs["retrieval_options"]
+    assert options.rerank_enabled is enabled
+    assert options.rerank_candidate_limit == 7 and options.rerank_max_input_tokens == 1200
+    if enabled:
+        factory.assert_called_once_with(sdk, model="argument-reranker")
+        assert answer.call_args.kwargs["reranker_client"] is factory.return_value
+    else:
+        factory.assert_not_called()
+        assert answer.call_args.kwargs["reranker_client"] is None

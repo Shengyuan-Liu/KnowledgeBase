@@ -49,7 +49,8 @@ not convert existing chunks.
 ## Search and Pack
 
 1. Restrict both retrieval routes to Ready files. The default [hybrid service](hybrid-retrieval.md)
-   fuses BM25 and vector ranks, then selects `RETRIEVAL_TOP_K` children. The explicit
+   fuses BM25 and vector ranks, optionally reranks the leading fused window,
+   then selects `RETRIEVAL_TOP_K` children. The explicit
    vector control selects by increasing cosine distance. Record each selected
    candidate's identity, text, offsets, and route provenance.
 2. Keep that selected order and load each child's parent from SQLite. Flat
@@ -86,7 +87,8 @@ Every answer source describes the actual text supplied to generation:
   Offsets are half-open Python Unicode character indices into the canonical file.
 - `distance` is the highest-ranked selected child's cosine distance, or null for
   a lexical-only hit. `fusion` preserves that child's ID, RRF score/rank, and both
-  route scores/ranks. These values describe the child, not an embedding of its parent.
+  route scores/ranks. Optional `rerank` retains a separate relevance score and
+  rank. These values describe the child, not an embedding of its parent.
 
 JSON answers and SSE `complete` events include `retrieval` with `candidates`,
 `excluded`, `evidence_tokens`, `max_tokens`, and `tokenizer`. The SSE `sources`
@@ -138,4 +140,4 @@ regions, failure cleanup, JSON/SSE, history after restart/deletion, CLI reuse,
 and isolated evaluation runs. The browser fixture uses parent-child ingestion
 with 16-token children to exercise multi-child parent evidence, while mocked
 providers keep verification offline. These tests validate wiring and invariants,
-not live model quality. BM25 and fusion are now integrated; reranking remains later work.
+not live model quality. BM25, fusion, and optional [reranking](reranking.md) are now integrated.

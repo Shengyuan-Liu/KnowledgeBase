@@ -9,6 +9,7 @@ from openai import OpenAI
 from knowledgebase.config import Settings
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient
+from knowledgebase.providers.reranker import RerankerClient
 from knowledgebase.schemas import ChatAnswer, ConversationAnswer
 from knowledgebase.services.chat import answer_in_conversation
 from knowledgebase.services.files import ingest_file
@@ -56,6 +57,8 @@ def cli() -> None:
     parser.add_argument("--data-dir", type=Path, help="Override the DATA_DIR local storage directory")
     parser.add_argument("--model", default=None, help="Override the configured answer model")
     parser.add_argument("--top-k", type=int, help="Maximum retrieved chunks per question")
+    parser.add_argument("--rerank", action=argparse.BooleanOptionalAction, default=None, help="Override RERANK_ENABLED")
+    parser.add_argument("--rerank-model", help="Override RERANK_MODEL")
     parser.add_argument("--conversation-id", help="Resume a saved conversation in this data directory")
     args = parser.parse_args()
     overrides = {}
@@ -63,6 +66,10 @@ def cli() -> None:
         overrides["answer_model"] = args.model
     if args.top_k is not None:
         overrides["retrieval_top_k"] = args.top_k
+    if args.rerank is not None:
+        overrides["rerank_enabled"] = args.rerank
+    if args.rerank_model is not None:
+        overrides["rerank_model"] = args.rerank_model
     settings = Settings(**overrides)
     args.data_dir = args.data_dir if args.data_dir is not None else settings.data_dir
 
@@ -73,6 +80,7 @@ def cli() -> None:
         ) as sdk:
             embeddings = EmbeddingClient(sdk, model=settings.embedding_model)
             llm = LLMClient(sdk, model=settings.answer_model)
+            reranker = RerankerClient(sdk, model=settings.rerank_model or settings.answer_model) if settings.rerank_enabled else None
             resolver = LLMClient(sdk, model=settings.resolver_model) if settings.resolver_model else None
             for path in args.files:
                 file_id = ingest_file(
@@ -93,7 +101,7 @@ def cli() -> None:
                     conversation_id=conversation_id, top_k=settings.retrieval_top_k,
                     history_limit=settings.history_limit, resolver_client=resolver,
                     evidence_max_tokens=settings.evidence_max_tokens, encoding_name=settings.chunk_tokenizer,
-                    retrieval_options=settings.retrieval_options,
+                    retrieval_options=settings.retrieval_options, reranker_client=reranker,
                 )
                 conversation_id = result.conversation_id
                 return result

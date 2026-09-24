@@ -15,6 +15,7 @@ from knowledgebase.config import (
 )
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
+from knowledgebase.providers.reranker import RerankerClient
 from knowledgebase.rag.citations import validate_citations
 from knowledgebase.rag.generation import generate_answer, stream_answer
 from knowledgebase.rag.query import resolve_question
@@ -48,6 +49,7 @@ def answer_question(
     evidence_max_tokens: int = DEFAULT_EVIDENCE_MAX_TOKENS,
     encoding_name: str = DEFAULT_CHUNK_TOKENIZER,
     retrieval_options: RetrievalOptions | None = None,
+    reranker_client: RerankerClient | None = None,
 ) -> ChatAnswer:
     """Return an answer and sources in the same order used by the prompt.
 
@@ -57,7 +59,7 @@ def answer_question(
     """
     chunks, sources, diagnostics = _retrieve_evidence(
         retrieval_question or question, session_factory, embedding_client, vector_store, top_k,
-        evidence_max_tokens, encoding_name, retrieval_options,
+        evidence_max_tokens, encoding_name, retrieval_options, reranker_client,
     )
     answer = generate_answer(question, chunks, llm_client, retrieval_question=retrieval_question)
     return ChatAnswer(
@@ -70,12 +72,13 @@ def _retrieve_evidence(
     question: str, session_factory: sessionmaker[Session], embedding_client: EmbeddingClient,
     vector_store: ChromaStore, top_k: int, evidence_max_tokens: int, encoding_name: str,
     retrieval_options: RetrievalOptions | None,
+    reranker_client: RerankerClient | None,
 ) -> tuple[list[RetrievedChunk], list[AnswerSource], RetrievalDiagnostics]:
     with session_factory() as session:
         evidence = retrieve_evidence(
             question, session, embedding_client, vector_store, top_k=top_k,
             evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
-            retrieval_options=retrieval_options,
+            retrieval_options=retrieval_options, reranker_client=reranker_client,
         )
         chunks = evidence.chunks
         sources = [
@@ -85,7 +88,7 @@ def _retrieve_evidence(
                 file_name=item.file_name,
                 chunk_id=item.chunk.chunk_id,
                 text=item.chunk.text,
-                distance=item.distance, fusion=item.fusion,
+                distance=item.distance, fusion=item.fusion, rerank=item.rerank,
                 parent_id=item.parent_id, matched_child_ids=item.matched_child_ids,
                 start_offset=item.chunk.start_offset, end_offset=item.chunk.end_offset,
                 **(item.chunk.model_dump(include={
@@ -111,6 +114,7 @@ def answer_in_conversation(
     evidence_max_tokens: int = DEFAULT_EVIDENCE_MAX_TOKENS,
     encoding_name: str = DEFAULT_CHUNK_TOKENIZER,
     retrieval_options: RetrievalOptions | None = None,
+    reranker_client: RerankerClient | None = None,
 ) -> ConversationAnswer:
     """Resolve a follow-up, retrieve fresh evidence, and save a completed exchange.
 
@@ -124,7 +128,7 @@ def answer_in_conversation(
         question, session_factory, embedding_client, vector_store,
         llm_client, top_k=top_k, retrieval_question=retrieval_question,
         evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
-        retrieval_options=retrieval_options,
+        retrieval_options=retrieval_options, reranker_client=reranker_client,
     )
 
     return _save_exchange(question, retrieval_question, result, session_factory, conversation_id)
@@ -178,6 +182,7 @@ async def stream_answer_in_conversation(
     evidence_max_tokens: int = DEFAULT_EVIDENCE_MAX_TOKENS,
     encoding_name: str = DEFAULT_CHUNK_TOKENIZER,
     retrieval_options: RetrievalOptions | None = None,
+    reranker_client: RerankerClient | None = None,
 ) -> AsyncGenerator[ChatStreamEvent]:
     """Validate the conversation before streaming; persist only a completed answer.
 
@@ -199,7 +204,7 @@ async def stream_answer_in_conversation(
             )
             chunks, sources, diagnostics = await anyio.to_thread.run_sync(
                 _retrieve_evidence, retrieval_question, session_factory, embedding_client,
-                vector_store, top_k, evidence_max_tokens, encoding_name, retrieval_options, abandon_on_cancel=True,
+                vector_store, top_k, evidence_max_tokens, encoding_name, retrieval_options, reranker_client, abandon_on_cancel=True,
             )
             yield event("sources", sources=[source.model_dump() for source in sources])
             parts = []

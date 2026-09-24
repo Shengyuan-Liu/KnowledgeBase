@@ -14,6 +14,7 @@ from knowledgebase.api.files import router as files_router
 from knowledgebase.config import Settings
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
+from knowledgebase.providers.reranker import RerankerClient
 from knowledgebase.storage.runtime import open_storage
 
 
@@ -32,6 +33,7 @@ def create_app(data_dir: Path | None = None, frontend_dir: Path | None = None) -
                 async with AsyncOpenAI(**sdk_options) as streaming_sdk:
                     app.state.resources = AppResources(
                         settings=settings,
+                        reranker=RerankerClient(sdk, model=settings.rerank_model or settings.answer_model) if settings.rerank_enabled else None,
                         resolver_llm=LLMClient(sdk, model=settings.resolver_model) if settings.resolver_model else None,
                         sessions=sessions,
                         embeddings=EmbeddingClient(sdk, model=settings.embedding_model),

@@ -196,21 +196,22 @@ it("preserves the draft and partial answer after EOF without completion", async 
 });
 
 
-it("renders lexical-only evidence and its ranks in live and restored answers", async () => {
+it("renders lexical-only evidence with fusion and rerank ranks in live and restored answers", async () => {
   const lexical = {
     ...source, distance: null,
     fusion: { chunk_id: "child-1", rrf_score: 1 / 61, rank: 2,
       bm25_score: 2.5, bm25_rank: 1, vector_distance: null, vector_rank: null },
   };
+  const reranked = { ...lexical, rerank: { ...lexical.fusion, rerank_score: 3, rerank_rank: 1 } };
   fetchMock.mockImplementation(async (url: string, options?: RequestInit) => {
     if (url === "/api/chat/stream") {
       const id = JSON.parse(options?.body as string).request_id;
-      return sse(frame("sources", { sources: [lexical] }, id) +
-        frame("complete", { ...completed, sources: [lexical] }, id));
+      return sse(frame("sources", { sources: [reranked] }, id) +
+        frame("complete", { ...completed, sources: [reranked] }, id));
     }
     if (url.includes("/conversations/")) return new Response(JSON.stringify({
       conversation_id: completed.conversation_id, messages: [{ message_id: 2,
-        role: "assistant", content: completed.answer, sources: [lexical],
+        role: "assistant", content: completed.answer, sources: [reranked],
         citation_check: completed.citation_check, retrieval_question: completed.retrieval_question }],
     }));
     return new Response(JSON.stringify(files));
@@ -222,8 +223,10 @@ it("renders lexical-only evidence and its ranks in live and restored answers", a
   await screen.findByText("Completed");
   expect(screen.getByText(/No vector hit/)).toBeInTheDocument();
   expect(screen.getByText(/RRF rank 2/)).toHaveTextContent("BM25 rank 1 · Vector rank —");
+  expect(screen.getByText(/Rerank rank 1/)).toHaveTextContent("relevance 3/3");
   view.unmount();
   render(<Workspace />);
   expect(await screen.findByText(/No vector hit/)).toBeInTheDocument();
   expect(screen.getByText(/RRF rank 2/)).toBeInTheDocument();
+  expect(screen.getByText(/Rerank rank 1/)).toHaveTextContent("relevance 3/3");
 });

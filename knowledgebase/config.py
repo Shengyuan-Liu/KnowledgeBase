@@ -36,6 +36,15 @@ class RetrievalOptions(BaseModel):
     bm25_k1: float = Field(default=DEFAULT_BM25_K1, ge=0, allow_inf_nan=False)
     bm25_b: float = Field(default=DEFAULT_BM25_B, ge=0, le=1, allow_inf_nan=False)
     rrf_k: float = Field(default=DEFAULT_RRF_K, ge=0, allow_inf_nan=False)
+    rerank_enabled: bool = False
+    rerank_candidate_limit: int = Field(default=DEFAULT_RERANK_CANDIDATE_LIMIT, gt=0)
+    rerank_max_input_tokens: int = Field(default=DEFAULT_RERANK_MAX_INPUT_TOKENS, gt=0)
+
+    @model_validator(mode="after")
+    def valid_rerank_strategy(self) -> Self:
+        if self.rerank_enabled and self.strategy != "hybrid":
+            raise ValueError("Reranking requires hybrid retrieval.")
+        return self
 
 
 class Settings(BaseSettings):
@@ -56,6 +65,7 @@ class Settings(BaseSettings):
     embedding_model: str = DEFAULT_EMBEDDING_MODEL
     resolver_model: str | None = None
     rerank_model: str | None = None
+    rerank_enabled: bool = False
     rerank_candidate_limit: int = Field(default=DEFAULT_RERANK_CANDIDATE_LIMIT, gt=0)
     rerank_max_input_tokens: int = Field(default=DEFAULT_RERANK_MAX_INPUT_TOKENS, gt=0)
     chunk_size: int = Field(default=DEFAULT_CHUNK_SIZE, gt=0)
@@ -83,10 +93,14 @@ class Settings(BaseSettings):
         return RetrievalOptions(
             strategy=self.retrieval_strategy, candidate_limit=self.retrieval_candidate_limit,
             bm25_k1=self.bm25_k1, bm25_b=self.bm25_b, rrf_k=self.rrf_k,
+            rerank_enabled=self.rerank_enabled, rerank_candidate_limit=self.rerank_candidate_limit,
+            rerank_max_input_tokens=self.rerank_max_input_tokens,
         )
 
     @model_validator(mode="after")
     def valid_chunk_budgets(self) -> Self:
+        if self.rerank_enabled and self.retrieval_strategy != "hybrid":
+            raise ValueError("RERANK_ENABLED requires RETRIEVAL_STRATEGY=hybrid.")
         if self.chunking_strategy == "character" and self.chunk_overlap >= self.chunk_size:
             raise ValueError("CHUNK_OVERLAP must be smaller than CHUNK_SIZE.")
         if self.chunking_strategy == "parent_child":

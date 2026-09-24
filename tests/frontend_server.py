@@ -14,6 +14,7 @@ from knowledgebase.api.dependencies import AppResources
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.storage.runtime import open_storage
+from knowledgebase.schemas import RelevanceScore
 
 
 async def stream_fixture(messages):
@@ -36,16 +37,21 @@ async def lifespan(app):
             llm.generate.side_effect = lambda messages: json.loads(messages[-1]["content"])["question"]
             streaming_llm = Mock(spec=StreamingLLMClient)
             streaming_llm.stream.side_effect = stream_fixture
+            reranker = Mock(model="offline-reranker")
+            reranker.score.side_effect = lambda messages, chunk_ids: [
+                RelevanceScore(chunk_id=chunk_id, score=3) for chunk_id in chunk_ids
+            ]
             app.state.resources = AppResources(
                 settings=Settings(
                     _env_file=None, openai_api_key="offline-browser-test",
-                    chunking_strategy="parent_child", chunk_max_tokens=16,
+                    chunking_strategy="parent_child", chunk_max_tokens=16, rerank_enabled=True,
                 ),
                 sessions=sessions,
                 store=store,
                 embeddings=embeddings,
                 llm=llm,
                 streaming_llm=streaming_llm,
+                reranker=reranker,
             )
             yield
 

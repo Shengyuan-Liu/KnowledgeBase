@@ -19,8 +19,9 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `DATA_DIR` | `data/v1` | Application storage; isolated evaluation indexes live under `<DATA_DIR>/evals/<run-id>` |
 | `ANSWER_MODEL` | `gpt-4.1` | JSON/streamed answers, CLI, evaluation generation, live smoke test |
 | `EMBEDDING_MODEL` | `text-embedding-3-small` | Both document and query embeddings in every entry point |
-| `RERANK_MODEL` | Blank: standalone callers use `ANSWER_MODEL` | Standalone reranker only; does not enable reranking in chat |
-| `RERANK_CANDIDATE_LIMIT` | `20` | Maximum leading RRF candidates scored by the standalone reranker |
+| `RERANK_ENABLED` | `false` | Optional reranking in API, streamed chat, CLI, and evaluations; requires hybrid retrieval |
+| `RERANK_MODEL` | Blank: use `ANSWER_MODEL` | Model used to score fused children when reranking is enabled |
+| `RERANK_CANDIDATE_LIMIT` | `20` | Maximum leading RRF candidates scored before top-k selection |
 | `RERANK_MAX_INPUT_TOKENS` | `16384` | Serialized rerank message-text budget; oversize fails without truncation |
 | `RESOLVER_MODEL` | Blank: use `ANSWER_MODEL` | Follow-up question rewriting in API and CLI |
 | `CHUNKING_STRATEGY` | `parent_child` | `structural`, `parent_child`, or the MVP `character` baseline, for new uploads |
@@ -93,16 +94,22 @@ uv run --locked python -m evals.evaluate grade evals/runs/<run-id> --reviewer ex
 Retrieval settings take effect after restart and do not require re-uploading files.
 See [hybrid retrieval](hybrid-retrieval.md) for route and selection semantics.
 
-The interactive CLI supports `--model`, `--top-k`, and `--data-dir`. Evaluation runs
+The interactive CLI supports `--model`, `--top-k`, `--data-dir`, `--rerank` /
+`--no-rerank`, and `--rerank-model`. Evaluation runs
 also support `--embedding-model`, `--chunking-strategy`, `--chunk-max-tokens`,
 `--chunk-tokenizer`, `--parent-max-tokens`, `--evidence-max-tokens`, `--chunk-size`,
 `--overlap`, `--retrieval-strategy`, `--retrieval-candidate-limit`, `--bm25-k1`,
-`--bm25-b`, and `--rrf-k`. Character size and overlap apply only to character mode. Explicit overrides
+`--bm25-b`, `--rrf-k`, `--rerank` / `--no-rerank`, `--rerank-model`,
+`--rerank-candidate-limit`, and `--rerank-max-input-tokens`. Character size and overlap apply only to character mode. Explicit overrides
 are validated together with the remaining configured values. A blank resolver model
-follows the effective answer model, including a `--model` override.
+follows the effective answer model, including a `--model` override. A blank rerank
+model follows the same rule. Setting a rerank model alone does not enable scoring.
+Set `RERANK_ENABLED=true` and restart to use the integrated pipeline without
+re-uploading files. `RETRIEVAL_STRATEGY=vector` requires reranking to be disabled.
+Each nonempty scoring window adds a provider request before answer generation.
 
 Evaluation metadata records the resolved generation model, embedding model, chunking,
-top-k, timeout, and retries. Historical run artifacts are unchanged. Setting
+top-k, rerank options and effective model, timeout, and retries. Historical run artifacts are unchanged. Setting
 `JUDGE_MODEL` alone never starts grading. Human grading, report rendering, comparison,
 and history listing remain offline and do not load credentials.
 
@@ -132,5 +139,4 @@ API/CLI/evaluation drift without making every chunking or storage call load sett
 Prompt text, HTTP routes, SSE event names, database schema/filenames, the cosine
 index contract, and development-server ports remain implementation or launcher
 settings. They are not model-tuning options; changing these contracts is not an
-`.env` switch. No hybrid-search/reranker settings are introduced before those
-components exist.
+`.env` switch.
