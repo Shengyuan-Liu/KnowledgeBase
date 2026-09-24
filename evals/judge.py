@@ -11,7 +11,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from evals.evaluate import Score, digest
 
-PROTOCOL = "claim-inventory-v10"
+PROTOCOL = "claim-inventory-v11"
 CLAIM_SCOPE = """Scope shared by inventory and assessment: evaluate assertions about the world or
 supplied documents. The answer's own numbering, formatting, question labels,
 organizational headings (e.g. Part 1 or Summary), and the mere presence of citation
@@ -25,6 +25,9 @@ it merely summarizes the answer's focus. Extract the substantive requirements, b
 not an implied official ranking or exclusivity that the answer does not assert.
 Explicit claims that a policy names these as its only, highest-priority, or exhaustive
 requirements remain factual and must be checked.
+Attribution does not turn editorial emphasis into an official ranking: in
+"The guide states these are the main checks", check that the guide lists the
+checks, without adding an assertion that it formally designates them as "main".
 Source lead-ins such as "according to the provided table" or "based on these
 sources" organize the answer and are NONFACTUAL. Do not extract a separate world
 claim about the answer's own production history or ask documents to attest to it.
@@ -57,6 +60,9 @@ Separate independently checkable totals from category claims, but retain their
 qualifiers: "two mandatory workshops and an optional lab totaling six hours" can
 become "two workshops are mandatory", "the lab is optional", and "the combined
 duration is six hours". Never extract an unqualified category or number alone.
+Retain both sides of contrast clauses: "recommended but not mandatory" asserts
+both a recommendation and the absence of a requirement. Extract both together
+or as separate factual claims; "recommended" alone loses the explicit negation.
 Instructions describing documented installation, configuration, or API usage are
 factual assertions about the prescribed procedure, even when phrased as "install"
 or "use". Distinguish these from purely conversational suggestions.
@@ -144,6 +150,8 @@ For every expected point, return present (the answer actually attempts that fact
 correctness 0 wrong/missing, 1 partly correct, 2 fully correct, answer_unit_ids and
 reason. Select existing answer unit IDs; the program recovers the exact answer text. A point present only in sources/reference is not answered. For relevance use
 0 off-topic, 1 partially responsive/extraneous material, 2 directly responsive.
+Return the abstention object for what the answer ACTUALLY does, not what it should
+have done. An invented requested detail without a refusal is not abstention.
 Return abstains true for an explicit refusal to provide a requested fact (including a
 partial refusal), abstention_unit_ids pointing to existing answer units, and whether that refusal is justified by
 missing supplied evidence. Missing-information units must be checked against sources.
@@ -289,6 +297,10 @@ def validate_assessment(value, case, answer, claims):
         raise ValueError("Refusal requires an answer quote.")
     if assessment.appropriate_abstention and (case["answerable"] or not assessment.abstains):
         raise ValueError("Appropriate abstention applies only to unanswerable refusals.")
+    if not assessment.abstains and (assessment.refusal_justified or assessment.abstention_unit_ids):
+        raise ValueError("A non-refusal cannot have refusal evidence or justification.")
+    if assessment.appropriate_abstention and not assessment.refusal_justified:
+        raise ValueError("Appropriate abstention requires a justified refusal.")
     result = assessment.model_dump()
     for point in result["points"]:
         point["answer_quotes"] = [units[identity] for identity in point["answer_unit_ids"]]
@@ -323,7 +335,7 @@ def inventory_schema(units):
     return schema
 
 
-def assessment_schema(claims, units, point_count, sources):
+def assessment_schema(claims, units, point_count, sources, *, answerable):
     """Bind all generated references to existing answer/source units and citation IDs."""
     schema = Assessment.model_json_schema()
     definitions = schema["$defs"]
@@ -376,6 +388,22 @@ def assessment_schema(claims, units, point_count, sources):
     schema["properties"]["points"].update(minItems=point_count, maxItems=point_count)
     definitions["PointReview"]["properties"]["answer_unit_ids"]["items"]["enum"] = list(units)
     schema["properties"]["abstention_unit_ids"]["items"]["enum"] = list(units)
+    fields = ("abstains", "abstention_unit_ids", "refusal_justified", "appropriate_abstention", "abstention_reason")
+    refusal = {"type": "object", "properties": {key: schema["properties"].pop(key) for key in fields},
+               "required": list(fields), "additionalProperties": False}
+    states = [(False, False, False), (True, False, False), (True, True, False)]
+    if not answerable:
+        states.append((True, True, True))
+    variants = []
+    for abstains, justified, appropriate in states:
+        variant = deepcopy(refusal)
+        for key, value in zip(("abstains", "refusal_justified", "appropriate_abstention"),
+                              (abstains, justified, appropriate), strict=True):
+            variant["properties"][key]["enum"] = [value]
+        variant["properties"]["abstention_unit_ids"]["minItems" if abstains else "maxItems"] = 1 if abstains else 0
+        variants.append(variant)
+    schema["properties"]["abstention"] = {"anyOf": variants}
+    schema["required"] = [key for key in schema["required"] if key not in fields] + ["abstention"]
     return schema
 
 
@@ -420,7 +448,9 @@ def review(sdk, model, case, answer, *, reasoning_effort=None):
                         "heading_path": s.get("heading_path", []), "units": source_units(s["text"])} for s in answer["sources"]]},
                    "units": answer_units(answer["answer"]), "inventory": row["inventory"], "claims": row["claims"]}
         assessment = request(sdk, model, ASSESS_PROMPT, payload,
-            assessment_schema(row["claims"], units, len(case["expected_answer_points"]), answer["sources"]), row["calls"], reasoning_effort)
+            assessment_schema(row["claims"], units, len(case["expected_answer_points"]), answer["sources"],
+                              answerable=case["answerable"]), row["calls"], reasoning_effort)
+        assessment.update(assessment.pop("abstention"))
         assessment["claims"] = [{"claim_id": key, **value,
             "citations": [{"source_id": int(identity), **citation} for identity, citation in value["citations"].items()]}
             for key, value in assessment["claims"].items()]

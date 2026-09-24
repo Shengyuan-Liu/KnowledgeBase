@@ -152,7 +152,7 @@ def test_strict_schemas_require_units_and_prevent_invented_citations():
     assert schema["properties"]["units"]["required"] == ["u1", "u2"]
     _, claims = judge.validate_inventory(inventory, answer["answer"])
     units["u2"] = "Three required courses."
-    schema = judge.assessment_schema(claims, units, 1, answer["sources"])
+    schema = judge.assessment_schema(claims, units, 1, answer["sources"], answerable=case["answerable"])
     entries = schema["properties"]["claims"]["properties"]
     assert entries["u2.c1"]["anyOf"][0]["properties"]["citations"]["properties"] == {}
     assert entries["u1.c1"]["anyOf"][0]["properties"]["citations"]["required"] == ["1"]
@@ -168,6 +168,8 @@ def test_source_blind_audit_separates_extraction_failure_from_wrong_answer(inven
     wire_inventory = {"units": {u["unit_id"]: {k: v for k, v in u.items() if k != "unit_id"} for u in inventory["units"]}}
     assessment["claims"] = {c["claim_id"]: {**{k: v for k, v in c.items() if k != "claim_id"},
         "citations": {str(x["source_id"]): {k: v for k, v in x.items() if k != "source_id"} for x in c["citations"]}} for c in assessment["claims"]}
+    assessment["abstention"] = {key: assessment.pop(key) for key in
+        ("abstains", "abstention_unit_ids", "refusal_justified", "appropriate_abstention", "abstention_reason")}
     sdk = SimpleNamespace(responses=SimpleNamespace(create=Mock(side_effect=[
         SimpleNamespace(output_text=json.dumps(wire_inventory), model="fake", usage=None),
         SimpleNamespace(output_text=json.dumps(audit), model="fake", usage=None),
@@ -382,7 +384,7 @@ def test_all_frozen_cases_report_even_without_optional_categories():
 def test_strict_schema_references_have_no_unsupported_sibling_keywords():
     case, answer, inventory, _ = sample()
     _, claims = judge.validate_inventory(inventory, answer["answer"])
-    schema = judge.assessment_schema(claims, judge.answer_units(answer["answer"]), 1, answer["sources"])
+    schema = judge.assessment_schema(claims, judge.answer_units(answer["answer"]), 1, answer["sources"], answerable=case["answerable"])
     def visit(node):
         if isinstance(node, dict):
             if "$ref" in node:
@@ -393,6 +395,57 @@ def test_strict_schema_references_have_no_unsupported_sibling_keywords():
             for item in node:
                 visit(item)
     visit(schema)
+
+
+@pytest.mark.parametrize("answerable", [False, True])
+def test_abstention_schema_allows_only_consistent_states(answerable):
+    _, answer, inventory, _ = sample()
+    _, claims = judge.validate_inventory(inventory, answer["answer"])
+    schema = judge.assessment_schema(claims, judge.answer_units(answer["answer"]), 1,
+                                     answer["sources"], answerable=answerable)
+    assert "abstains" not in schema["properties"]
+    assert "abstention" in schema["required"]
+    observed = set()
+    for variant in schema["properties"]["abstention"]["anyOf"]:
+        fields = variant["properties"]
+        state = tuple(fields[k]["enum"][0] for k in ("abstains", "refusal_justified", "appropriate_abstention"))
+        observed.add(state)
+        assert set(variant["required"]) == set(fields)
+        assert fields["abstention_unit_ids"]["items"]["enum"] == ["u1", "u2"]
+        if state[0]:
+            assert fields["abstention_unit_ids"]["minItems"] == 1
+        else:
+            assert fields["abstention_unit_ids"]["maxItems"] == 0
+    expected = {(False, False, False), (True, False, False), (True, True, False)}
+    assert observed == (expected if answerable else expected | {(True, True, True)})
+
+
+@pytest.mark.parametrize("answerable,abstains,justified,appropriate", [
+    (True, False, False, False), (True, True, False, False),
+    (True, True, True, False), (False, True, True, True),
+])
+def test_refusal_states_keep_existing_metric_semantics(answerable, abstains, justified, appropriate):
+    case, answer, inventory, assessment = sample()
+    case["answerable"] = answerable
+    assessment.update(abstains=abstains, refusal_justified=justified, appropriate_abstention=appropriate,
+                      abstention_unit_ids=["u1"] if abstains else [])
+    _, claims = judge.validate_inventory(inventory, answer["answer"])
+    value = judge.validate_assessment(assessment, case, answer, claims)
+    assert value["abstains"] == abstains and value["appropriate_abstention"] == appropriate
+    assert value["abstention_quotes"] == (["36 credits. [1]"] if abstains else [])
+
+
+@pytest.mark.parametrize("mutation", [
+    {"refusal_justified": True}, {"abstention_unit_ids": ["u1"]},
+    {"abstains": True, "abstention_unit_ids": ["u1"], "appropriate_abstention": True},
+])
+def test_inconsistent_refusal_states_are_rejected_without_repair(mutation):
+    case, answer, inventory, assessment = sample()
+    case["answerable"] = False
+    assessment.update(mutation)
+    _, claims = judge.validate_inventory(inventory, answer["answer"])
+    with pytest.raises(ValueError):
+        judge.validate_assessment(assessment, case, answer, claims)
 
 
 def test_partial_comparison_uses_only_matching_valid_review_pairs():

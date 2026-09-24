@@ -26,7 +26,7 @@ suite and protocol 3; their scores must not be pooled with this benchmark.
 
 ## LLM-as-a-judge protocol
 
-`claim-inventory-v10` has three calls per successful judgment:
+`claim-inventory-v11` has three calls per successful judgment:
 
 1. Split the original answer deterministically into every nonempty line. The judge
    classifies assertions within every line (including mixed factual/refusal lines)
@@ -58,6 +58,24 @@ Specific source-attributed facts are still assessed. Nested-field summaries are
 resolved in answer context: an ignored child parameter does not mean its parent
 object is unsupported. Absence of evidence is insufficient, not contradiction.
 
+The assessment request now nests refusal fields under `abstention`. Its strict
+schema permits only the combinations below. Explicit refusals require at least
+one existing answer unit; a non-refusal requires an empty unit list.
+
+| Actual refusal | Justified refusal | Appropriate unanswerable refusal | Availability |
+| --- | --- | --- | --- |
+| false | false | false | All cases |
+| true | false | false | All cases |
+| true | true | false | All cases, including a partial refusal with invented details |
+| true | true | true | Unanswerable cases only |
+
+These flags describe observed answer behavior, not what the answer should have
+done. The stored assessment retains its existing flat fields through a lossless
+shape conversion; values are never repaired or inferred. Raw API output retains
+the nested shape. Semantic mistakes can still occur within a legal state.
+The nested `anyOf` design follows the supported
+[Structured Outputs schema subset](https://developers.openai.com/api/docs/guides/structured-outputs).
+
 Run `make eval-calibrate` to check the judge against the
 [fixed calibration set](calibration/cases.json). It calls only the judge, uses the
 same `.env` judge settings, prints the full applicable metric inventory and saves
@@ -68,9 +86,9 @@ are reported separately from wrong decisions. This command exits nonzero for any
 label mismatch or pending review. Labels are Codex-authored development regressions,
 not independent human annotations or held-out accuracy. See the
 [calibration guide](calibration/README.md) for scope and comparison results.
-The [latest calibration review](check-runs/20260924-judge-calibration/REVIEW.md)
-retains a pending internally contradictory judgment; traceable output is not a
-guarantee of semantic correctness.
+The [latest calibration review](check-runs/20260924-judge-abstention/REVIEW.md)
+compares v11 with v10 on unchanged inputs. Historical contradictions remain in
+their original artifacts; traceable output is not a guarantee of semantic correctness.
 
 The three calls use `JUDGE_MODEL` (default `gpt-5.4-mini`) and
 `JUDGE_REASONING_EFFORT` (default `high`; `off` omits the parameter for models that

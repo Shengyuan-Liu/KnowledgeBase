@@ -44,7 +44,15 @@ This follows the [OpenAI grader guidance](https://developers.openai.com/api/docs
 to evaluate a grader against labeled answers and retain discovered edge cases.
 The project uses its own Responses-based runner, not the hosted Graders API.
 
-See the [2026-09-24 delivery review](../check-runs/20260924-judge-calibration/REVIEW.md)
-for all comparison limits and the remaining pending calibration judgment. Default
-reasoning is `high`; this improves the observed calibration but increases evaluation
-latency and usage. It does not change the RAG answer model or user-query latency.
+See the [v11 acceptance review](../check-runs/20260924-judge-abstention/REVIEW.md)
+for the unchanged-input comparison and unresolved semantic judgments. The
+[v10 delivery review](../check-runs/20260924-judge-calibration/REVIEW.md) remains
+available with its original failures. Protocol v11 constrains refusal flag
+combinations in the output schema, preserves both parts of contrast clauses,
+and clarifies editorial emphasis within source attribution. Legal output states
+still do not guarantee correct semantic judgments.
+
+Default reasoning remains `high`. Evaluation latency and usage are measured
+separately from the unchanged RAG answer model and user-query latency. Do not
+keep tuning to make this small development set green; retain disagreements for
+review and require independently labeled examples before claiming general accuracy.
