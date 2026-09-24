@@ -1,171 +1,139 @@
-# Child Reranking
+# Local Cross-Encoder Reranking
 
 Status: integrated on `v1` for JSON chat, streamed chat, CLI, and evaluation.
-Enable it with `RERANK_ENABLED=true` under hybrid retrieval and restart. The
-default is `false` so the original hybrid route remains an explicit control.
+Enable with `RERANK_ENABLED=true` under hybrid retrieval and restart. The shared
+switch defaults to `false`; the active local `.env` enables it.
 
-This first baseline uses the existing OpenAI Responses client with a configurable
-model, rather than introducing a local model download or another provider key.
-All entry points use `RERANK_MODEL` when set and otherwise `ANSWER_MODEL`.
-This is an LLM relevance-scoring baseline, not a trained cross-encoder or a claim
-that the chosen model is optimal for ranking, latency, or cost.
+## Model and input
 
-## Input and output
+The default is [BAAI/bge-reranker-v2-m3](https://huggingface.co/BAAI/bge-reranker-v2-m3),
+a dedicated multilingual sequence-classification cross-encoder. It jointly reads
+a question and a passage, then returns a relevance logit. It does not generate
+an answer or a structured list of scores. The implementation uses the model
+publisher's Transformers sequence-classification interface with PyTorch.
 
-[`rerank()`](../knowledgebase/rag/reranking.py) takes:
+[`RerankerClient`](../knowledgebase/providers/reranker.py) loads its tokenizer
+and weights once when an enabled application starts. The first run downloads the
+model to the standard Hugging Face cache (about 2.3 GB of weights); subsequent
+runs reuse the cache. No reranking API key is required. Embeddings and answers
+continue to use the configured OpenAI connection. Startup loading time is separate
+from query time. Disabling reranking avoids loading weights or importing PyTorch.
 
-- The retrieval question, after any follow-up resolution performed by its caller.
-- `RerankCandidate` objects: a `FusedMatch` plus exact child `text` and separately
-  supplied `heading_path`. Original IDs, route scores, and RRF ranks remain intact.
-- A `RerankerClient`, whose SDK connection is owned by the caller.
-- Child selection `top_k`, a scored-candidate limit, input-text token budget,
-  and tokenizer.
+Each input pair contains:
 
-It sorts the input by RRF rank and child ID and scores the leading bounded window.
-Each question uses one provider request. The model receives the question, child
-IDs, headings, and text. Existing numeric ranks and scores are withheld from the
-model prompt but retained in the result. Question and passage content are marked
-as untrusted data; a relevant heading or link alone is not the missing evidence.
+1. The resolved retrieval question.
+2. The exact child text, preceded by `Heading: A > B` and a blank line when a
+   heading path exists. The prefix is scoring context only; canonical source text
+   and answer evidence remain unchanged.
 
-Scores use an ordinal 0–3 rubric:
+Old vector/BM25/RRF scores are not model inputs. All candidates retain their IDs,
+exact text, and headings in the diagnostic trace. The model scores batches of four
+by default in evaluation/inference mode. `RERANK_DEVICE=auto` selects CUDA, then
+Apple MPS, then CPU according to availability; an explicit device is also allowed.
+Shared-model inference is serialized because concurrent MPS forwards caused a
+native Metal command-buffer assertion during live verification. Scoring-stage
+time includes waiting for that lock. There is no automatic fallback after an error.
 
-| Score | Meaning |
-| --- | --- |
-| 0 | Unrelated |
-| 1 | Topic mention or link, without a requested fact |
-| 2 | Partial or indirect support requiring interpretation |
-| 3 | Explicitly supplies at least one requested fact |
+## Selection and score meaning
 
-These scores are not calibrated probabilities or judgments about a generated
-answer. A passage can be highly relevant to one side of a comparison without
-containing the full answer.
+The pipeline resolves follow-ups, retrieves BM25/vector candidates, fuses by RRF,
+scores its leading bounded window (default 20), selects the top five children,
+then expands/deduplicates parents and packs whole regions into the evidence budget.
+Higher raw logits rank first. Equal scores keep RRF rank, then child ID. Scores can
+be negative or greater than three; they are not calibrated correctness probabilities.
+No sigmoid, score threshold, backfill, or automatic abstention policy is applied.
+Siblings still consume child slots, and parent expansion can still exceed the
+context budget. An empty Ready library makes no embedding or scoring request.
 
-The result is a `RerankResult` with:
+This replaces the former `gpt-4.1` ordinal-scoring implementation. The old provider
+path is no longer active. Its frozen evaluation records remain unchanged.
 
-- `candidates`: the entire scored window, including original text and route metadata.
-- `matches`: all scored IDs, in decreasing relevance order. Each match retains its
-  original `rank`/`rrf_score` and adds independent `rerank_rank`/`rerank_score` fields.
-- `selected`: a convenience property for `matches[:top_k]`. This property is not
-  duplicated in JSON; serialized `matches` and `top_k` reconstruct the selection.
-- The question, model, prompt version, configured limits, tokenizer, and input-text
-  token count, so the scored input and selection can be inspected later.
+## Budgets and configuration
 
-Equal relevance scores keep RRF rank, then child ID. Sibling children remain
-separate; parent expansion and deduplication belong to the subsequent pipeline.
-No score threshold or automatic abstention policy is introduced in this module.
-
-## Structured output and failure behavior
-
-The adapter uses the SDK's Pydantic structured-output helper, following the
-[official OpenAI guide](https://developers.openai.com/api/docs/guides/structured-outputs).
-For each request, it creates an object schema whose required keys are exactly the
-candidate IDs. Each value is an integer in [0, 3]. Local field names use safe aliases
-so IDs do not become Python attribute names.
-
-This addresses an observed prototype failure: an unconstrained list returned only
-19 scores for 20 CPT candidates. The required-key response shape makes coverage
-part of the output schema. The SDK validates the shape; the module also checks the
-returned ID set against its actual window before applying a ranking. There is no
-response repair, invented score, automatic RRF fallback, or module-level retry.
-SDK transport retries remain the caller's existing configuration.
-
-An empty window returns an empty result without a provider call. The input budget
-counts both developer instructions and the exact serialized question/candidate
-message text using the configured tokenizer. Provider message framing, schema,
-and output tokens are excluded: this count is not a model context-window or
-billing guarantee. Input exceeding the budget raises before calling the model;
-source text is never silently shortened. Provider truncation is disabled.
-Incomplete, refused, malformed, or failed requests surface as errors.
-
-## Runtime integration
-
-The service resolves follow-ups, retrieves BM25/vector candidates, applies RRF,
-scores its bounded leading window, selects top-k children, then expands and
-deduplicates parents before packing whole evidence regions. Reranking can change
-which parents fit the budget. Siblings still consume child selection slots; no
-additional children are backfilled after deduplication or budget exclusion.
-
-Each selected child and source retains `fusion` and an optional `rerank` match.
-A parent inherits the metadata of its highest rerank-ranked selected child.
-`retrieval.rerank` preserves every scored input and output, and
-`retrieval.rerank_seconds` measures that stage. Completed JSON/SSE answers persist
-these diagnostics with evidence snapshots. History remains readable after restart
-and source deletion; older snapshots have null rerank fields. The frontend debug
-view shows relevance and rank separately from RRF and vector distance. Its
-answer-preparation time includes retrieval, reranking, and generation.
-
-A scoring error stops the current answer: JSON returns its existing processing
-error; SSE emits `error` without `complete`. No exchange is saved. Disconnecting
-while scoring is in progress prevents generation and persistence; the synchronous
-provider request may still finish in its abandoned worker. There is no silent
-hybrid fallback. An empty Ready library makes no embedding or scoring request.
-
-CLI and evaluation accept `--rerank` / `--no-rerank` and `--rerank-model`; the
-evaluation runner also exposes candidate and input-token limits. All resolved
-options and the effective scoring model are saved in evaluation metadata.
-Changing these settings does not require reindexing. Vector-only retrieval
-requires reranking to be disabled.
-
-```sh
-uv run --locked python -m evals.evaluate run --label "Hybrid control" --retrieval-strategy hybrid --no-rerank
-uv run --locked python -m evals.evaluate run --label "Hybrid with rerank" --retrieval-strategy hybrid --rerank
+```dotenv
+RERANK_ENABLED=true
+RERANK_MODEL=BAAI/bge-reranker-v2-m3
+RERANK_DEVICE=auto
+RERANK_BATCH_SIZE=4
+RERANK_MAX_PAIR_TOKENS=1024
+RERANK_CANDIDATE_LIMIT=20
+RERANK_MAX_INPUT_TOKENS=16384
 ```
 
-These commands make paid provider calls. See [configuration](configuration.md)
-for `.env` defaults and precedence.
+`RERANK_MODEL` now names a compatible Hugging Face sequence-classification model
+or local model directory. Blank uses the BGE default, independently of
+`ANSWER_MODEL`. The supported baseline is the single-logit BGE model above.
+Changing this setting requires a restart but no document reindexing.
 
-## Low-level example
+Two distinct input limits apply:
+
+- `RERANK_MAX_INPUT_TOKENS`: sum of all question/passage pair text, including
+  repeated questions and heading prefixes, counted by `CHUNK_TOKENIZER`. It excludes
+  model special tokens and padding. This is a workload cap, not a model-context cap.
+- `RERANK_MAX_PAIR_TOKENS`: per-pair limit counted by the rerank model's own tokenizer,
+  including its special tokens. The complete window is checked before inference.
+  Oversize pairs fail instead of silently truncating either question or passage.
+  The configured limit should stay within the selected model's context capacity.
+
+Neither limit modifies stored child or parent text. Both failures surface through
+the existing JSON/SSE error contract, without generation or a saved exchange.
+Disconnecting during synchronous scoring prevents subsequent generation and saving;
+the abandoned worker can finish its current inference. See
+[configuration](configuration.md) for precedence and entry-point flags.
+
+## Traces and history
+
+`retrieval.rerank` records the model, resolved model revision (when available),
+actual device, batch size, pair limit, aggregate token count, exact candidate
+window, and all ranked matches. Its retained `prompt_version` field identifies
+the input format (`cross-encoder-pairs-v1`); there is no instruction prompt.
+`rerank_seconds` measures scoring preparation plus inference for that query.
+
+Every new match has `score_kind: "logit"`. Each selected source carries its best
+selected child's original `fusion` metadata and separate `rerank` metadata.
+The frontend debug view displays raw logits independently of RRF/vector scores.
+Saved snapshots survive restart and source deletion. Older matches without
+`score_kind` default to `ordinal_0_3` and retain their historical `/3` display;
+old scores are never relabeled as BGE logits.
+
+## Low-level usage
 
 ```python
-from openai import OpenAI
-
 from knowledgebase.config import Settings
 from knowledgebase.providers.reranker import RerankerClient
 from knowledgebase.rag.reranking import rerank
-from knowledgebase.schemas import RerankCandidate
 
 settings = Settings()
-# The caller loads these canonical chunks and fused matches for eligible files.
-candidates = [
-    RerankCandidate(
-        **hit.model_dump(), text=chunks_by_id[hit.chunk_id].text,
-        heading_path=chunks_by_id[hit.chunk_id].heading_path,
-    )
-    for hit in fused_matches
-]
-with OpenAI(
-    api_key=settings.openai_api_key, base_url=settings.openai_base_url,
-    timeout=settings.openai_timeout_seconds, max_retries=settings.openai_max_retries,
-) as sdk:
-    client = RerankerClient(sdk, settings.rerank_model or settings.answer_model)
-    result = rerank(
-        question, candidates, client, top_k=settings.retrieval_top_k,
-        candidate_limit=settings.rerank_candidate_limit,
-        max_input_tokens=settings.rerank_max_input_tokens,
-        encoding_name=settings.chunk_tokenizer,
-    )
-    for hit in result.selected:
-        print(hit.chunk_id, hit.rerank_score, hit.rerank_rank, hit.rank)
+client = RerankerClient(
+    settings.rerank_model, device=settings.rerank_device,
+    batch_size=settings.rerank_batch_size,
+    max_pair_tokens=settings.rerank_max_pair_tokens,
+)
+# candidates are canonical RerankCandidate objects from the fused Ready corpus.
+result = rerank(question, candidates, client, top_k=settings.retrieval_top_k)
+for hit in result.selected:
+    print(hit.chunk_id, hit.rerank_score, hit.rerank_rank, hit.rank)
 ```
 
-The example assumes structured children; legacy flat chunks use an empty heading
-path. Loading Settings reads the existing ignored `.env`, never `.env.local`.
-The settings template in [.env.example](../.env.example) leaves reranking disabled.
+API, CLI, and evaluation use the same provider. CLI/evaluation `--rerank-model`
+now takes a local cross-encoder identifier. `--no-rerank` retains the hybrid control;
+vector-only retrieval requires reranking to be disabled. Evaluation metadata
+records resolved model and local runtime settings; per-answer traces include
+actual device and model revision.
 
 ## Verification
 
-Run `uv run --locked python -m pytest tests/test_reranking.py tests/test_reranker_provider.py tests/test_rerank_pipeline.py tests/test_chat_streaming.py`.
-Tests cover identity-based mapping, preserved source and route metadata, full result
-serialization, RRF-window selection, stable ties, empty input, exact budget
-boundaries, missing/duplicate scores, and error propagation. Mock HTTP tests use
-the actual installed SDK to check required-ID schemas, parsing, and refusal handling.
+`tests/test_reranker_provider.py` saves and loads a tiny local Transformers model
+for offline verification of batching, raw fractional negative logits, tokenizer
+limits, unchanged input, and failure propagation. It never downloads pretrained
+test weights. Integration tests cover selection before parent expansion, exact
+budgets, JSON/SSE, CLI/evaluation configuration, follow-ups, restart/deletion,
+old history, and cancellation. Frontend tests distinguish both score formats.
 
-The [live four-case probe](../evals/rerank-runs/20260923T234002Z-required-scores/README.md)
-and its [initial failed attempt](../evals/rerank-runs/20260923T233640Z-standalone/README.md)
-preserve scores, exact inputs, duration, and usage. The
-[18-question paired integration run](../evals/library-runs/20260924T000238Z-rerank/README.md)
-checks parent packing, supplied evidence, answers, and end-to-end latency.
-Offline integration tests cover API JSON/SSE, CLI and evaluation configuration,
-resolved follow-ups, budgets, Ready filtering, restart/deletion history, provider
-errors, and cancellation. Desktop/mobile browser tests verify visible ranks and
-restored evidence. These checks do not establish general model quality.
+The earlier [LLM scoring comparison](../evals/library-runs/20260924T000238Z-rerank/README.md)
+remains historical evidence. A dedicated model must be evaluated separately;
+model specialization alone does not establish better answers or latency.
+
+The [BGE integration comparison](../evals/library-runs/20260924T002009Z-bge-serialized/README.md)
+records the same 18 questions with a hybrid control, local MPS timing, source
+fidelity, a corrected concurrency crash, and a remaining CPT evidence regression.

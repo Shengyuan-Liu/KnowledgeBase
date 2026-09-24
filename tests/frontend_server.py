@@ -37,9 +37,9 @@ async def lifespan(app):
             llm.generate.side_effect = lambda messages: json.loads(messages[-1]["content"])["question"]
             streaming_llm = Mock(spec=StreamingLLMClient)
             streaming_llm.stream.side_effect = stream_fixture
-            reranker = Mock(model="offline-reranker")
-            reranker.score.side_effect = lambda messages, chunk_ids: [
-                RelevanceScore(chunk_id=chunk_id, score=3) for chunk_id in chunk_ids
+            reranker = Mock(model="offline-reranker", model_revision="test-revision", device="cpu", max_pair_tokens=1024, batch_size=4)
+            reranker.score.side_effect = lambda question, candidates: [
+                RelevanceScore(chunk_id=c.chunk_id, score=3.25) for c in candidates
             ]
             app.state.resources = AppResources(
                 settings=Settings(

@@ -264,7 +264,9 @@ def run(args):
                    "parent_max_tokens": args.parent_max_tokens, "evidence_max_tokens": args.evidence_max_tokens,
                    "effective_overlap": args.overlap if args.chunking_strategy == "character" else 0,
                    "retrieval_options": settings.retrieval_options.model_dump(),
-                   "rerank_model": (settings.rerank_model or settings.answer_model) if settings.rerank_enabled else None,
+                   "rerank_model": settings.rerank_model if settings.rerank_enabled else None,
+                   "rerank_device": settings.rerank_device, "rerank_batch_size": settings.rerank_batch_size,
+                   "rerank_max_pair_tokens": settings.rerank_max_pair_tokens,
                    "distance": "cosine", "question_order": "dataset order",
                    "timeout_seconds": settings.eval_timeout_seconds, "max_retries": settings.eval_max_retries},
     }
@@ -303,7 +305,10 @@ def run(args):
                     timeout=settings.eval_timeout_seconds, max_retries=settings.eval_max_retries) as sdk:
             embeddings = EmbeddingClient(sdk, model=args.embedding_model)
             llm = LLMClient(sdk, model=args.model)
-            reranker = RerankerClient(sdk, model=settings.rerank_model or settings.answer_model) if settings.rerank_enabled else None
+            reranker = RerankerClient(
+                settings.rerank_model, device=settings.rerank_device,
+                batch_size=settings.rerank_batch_size, max_pair_tokens=settings.rerank_max_pair_tokens,
+            ) if settings.rerank_enabled else None
             for name, content in documents.items():
                 ingest_file(name, content.encode(), sessions, embeddings, store,
                             chunk_size=args.chunk_size, overlap=args.overlap,

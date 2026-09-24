@@ -80,7 +80,10 @@ def cli() -> None:
         ) as sdk:
             embeddings = EmbeddingClient(sdk, model=settings.embedding_model)
             llm = LLMClient(sdk, model=settings.answer_model)
-            reranker = RerankerClient(sdk, model=settings.rerank_model or settings.answer_model) if settings.rerank_enabled else None
+            reranker = RerankerClient(
+                settings.rerank_model, device=settings.rerank_device,
+                batch_size=settings.rerank_batch_size, max_pair_tokens=settings.rerank_max_pair_tokens,
+            ) if settings.rerank_enabled else None
             resolver = LLMClient(sdk, model=settings.resolver_model) if settings.resolver_model else None
             for path in args.files:
                 file_id = ingest_file(

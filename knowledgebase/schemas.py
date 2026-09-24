@@ -124,17 +124,18 @@ class RerankCandidate(FusedMatch):
 
 
 class RelevanceScore(BaseModel):
-    """An ordinal relevance assessment, not a correctness probability."""
+    """A raw relevance logit, not a correctness probability."""
 
     chunk_id: str
-    score: int = Field(ge=0, le=3, strict=True)
+    score: float = Field(allow_inf_nan=False)
 
 
 class RerankedMatch(FusedMatch):
     """Original route/fusion metadata plus the independent rerank result."""
 
-    rerank_score: int
+    rerank_score: float
     rerank_rank: int
+    score_kind: str = "ordinal_0_3"
 
 
 class RerankResult(BaseModel):
@@ -143,6 +144,11 @@ class RerankResult(BaseModel):
     question: str
     model: str
     prompt_version: str
+    score_kind: str = "ordinal_0_3"
+    model_revision: str | None = None
+    device: str | None = None
+    max_pair_tokens: int | None = None
+    batch_size: int | None = None
     tokenizer: str
     input_tokens: int
     candidate_limit: int

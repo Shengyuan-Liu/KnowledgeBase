@@ -11,7 +11,7 @@ strategy.
 and vector candidates are combined with [RRF](docs/rrf.md) before parent expansion.
 `RETRIEVAL_STRATEGY=vector` retains the vector-only control.
 Set `RERANK_ENABLED=true` to score a bounded fused-child window with the
-[reranker](docs/reranking.md) before top-k selection and parent expansion. API,
+[local BGE cross-encoder](docs/reranking.md) before top-k selection and parent expansion. API,
 streaming chat, CLI, and evaluations share this path. Reranking defaults to off;
 the vector-only control requires it to remain off.
 
@@ -162,7 +162,10 @@ The later [paired hybrid comparison](evals/library-runs/20260923T221737Z-hybrid/
 records 18 questions per mode against the active library, including both gains
 and a prerequisite-question budget regression. The subsequent
 [paired rerank comparison](evals/library-runs/20260924T000238Z-rerank/README.md)
-records the integrated pipeline on the same questions and documents its latency tradeoff.
+records the original LLM scoring pipeline. The current
+[dedicated BGE comparison](evals/library-runs/20260924T002009Z-bge-serialized/README.md)
+records the local cross-encoder, a corrected MPS concurrency failure, and a CPT
+evidence regression alongside the prerequisite improvement.
 
 Run the frozen NYU question set, grade answers with human review or an LLM judge, and
 compare recorded experiments using the [evaluation guide](evals/README.md).

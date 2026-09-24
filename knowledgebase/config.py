@@ -22,6 +22,7 @@ DEFAULT_BM25_K1 = 1.2
 DEFAULT_BM25_B = 0.75
 DEFAULT_RRF_K = 60
 DEFAULT_RRF_LIMIT = 20
+DEFAULT_RERANK_MODEL = "BAAI/bge-reranker-v2-m3"
 DEFAULT_RERANK_CANDIDATE_LIMIT = 20
 DEFAULT_RERANK_MAX_INPUT_TOKENS = 16384
 DEFAULT_TOP_K = 5
@@ -64,7 +65,10 @@ class Settings(BaseSettings):
     answer_model: str = DEFAULT_ANSWER_MODEL
     embedding_model: str = DEFAULT_EMBEDDING_MODEL
     resolver_model: str | None = None
-    rerank_model: str | None = None
+    rerank_model: str = DEFAULT_RERANK_MODEL
+    rerank_device: Literal["auto", "cpu", "mps", "cuda"] = "auto"
+    rerank_batch_size: int = Field(default=4, gt=0)
+    rerank_max_pair_tokens: int = Field(default=1024, gt=0)
     rerank_enabled: bool = False
     rerank_candidate_limit: int = Field(default=DEFAULT_RERANK_CANDIDATE_LIMIT, gt=0)
     rerank_max_input_tokens: int = Field(default=DEFAULT_RERANK_MAX_INPUT_TOKENS, gt=0)

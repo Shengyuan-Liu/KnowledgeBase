@@ -93,6 +93,7 @@ def test_invalid_tuning_values_fail_before_startup_without_exposing_key(tmp_path
     for invalid in (
         {"rerank_enabled": True, "retrieval_strategy": "vector"},
         {"rerank_candidate_limit": 0}, {"rerank_max_input_tokens": 0},
+        {"rerank_batch_size": 0}, {"rerank_max_pair_tokens": 0}, {"rerank_device": "unknown"},
         {"parent_max_tokens": 0}, {"evidence_max_tokens": 0},
         {"chunking_strategy": "parent_child", "parent_max_tokens": 128, "chunk_max_tokens": 256},
         {"chunking_strategy": "parent_child", "parent_max_tokens": 512, "evidence_max_tokens": 512},
@@ -125,7 +126,7 @@ def test_rerank_remains_an_explicit_opt_in(tmp_path, monkeypatch):
     settings = Settings(openai_api_key="offline-test")
     assert settings.rerank_enabled is False
     assert settings.retrieval_options.rerank_enabled is False
-    assert settings.rerank_model is None
+    assert settings.rerank_model == "BAAI/bge-reranker-v2-m3"
     assert settings.rerank_candidate_limit == 20
     assert settings.rerank_max_input_tokens == 16384
     assert settings.retrieval_options.strategy == "hybrid"

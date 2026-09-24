@@ -20,9 +20,12 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `ANSWER_MODEL` | `gpt-4.1` | JSON/streamed answers, CLI, evaluation generation, live smoke test |
 | `EMBEDDING_MODEL` | `text-embedding-3-small` | Both document and query embeddings in every entry point |
 | `RERANK_ENABLED` | `false` | Optional reranking in API, streamed chat, CLI, and evaluations; requires hybrid retrieval |
-| `RERANK_MODEL` | Blank: use `ANSWER_MODEL` | Model used to score fused children when reranking is enabled |
+| `RERANK_MODEL` | `BAAI/bge-reranker-v2-m3` | Local cross-encoder model ID or model directory, independent of ANSWER_MODEL |
+| `RERANK_DEVICE` | `auto` | Select available CUDA, MPS, or CPU; accepts explicit `cuda`, `mps`, or `cpu` |
+| `RERANK_BATCH_SIZE` | `4` | Local inference batch size |
+| `RERANK_MAX_PAIR_TOKENS` | `1024` | Per-pair limit using the model tokenizer; oversize fails without truncation |
 | `RERANK_CANDIDATE_LIMIT` | `20` | Maximum leading RRF candidates scored before top-k selection |
-| `RERANK_MAX_INPUT_TOKENS` | `16384` | Serialized rerank message-text budget; oversize fails without truncation |
+| `RERANK_MAX_INPUT_TOKENS` | `16384` | Aggregate rerank pair-text budget; oversize fails without truncation |
 | `RESOLVER_MODEL` | Blank: use `ANSWER_MODEL` | Follow-up question rewriting in API and CLI |
 | `CHUNKING_STRATEGY` | `parent_child` | `structural`, `parent_child`, or the MVP `character` baseline, for new uploads |
 | `CHUNK_MAX_TOKENS` | `512` | Structural chunk or child token limit; experimental starting value |
@@ -103,10 +106,13 @@ also support `--embedding-model`, `--chunking-strategy`, `--chunk-max-tokens`,
 `--rerank-candidate-limit`, and `--rerank-max-input-tokens`. Character size and overlap apply only to character mode. Explicit overrides
 are validated together with the remaining configured values. A blank resolver model
 follows the effective answer model, including a `--model` override. A blank rerank
-model follows the same rule. Setting a rerank model alone does not enable scoring.
+model uses the BGE default independently of the answer model. Setting a rerank model alone does not enable scoring.
 Set `RERANK_ENABLED=true` and restart to use the integrated pipeline without
 re-uploading files. `RETRIEVAL_STRATEGY=vector` requires reranking to be disabled.
-Each nonempty scoring window adds a provider request before answer generation.
+Each nonempty scoring window runs local cross-encoder inference before answer
+generation. Initial startup downloads and loads model weights; subsequent runs
+reuse the Hugging Face cache. See [reranking](reranking.md) for score semantics and
+the two distinct token budgets.
 
 Evaluation metadata records the resolved generation model, embedding model, chunking,
 top-k, rerank options and effective model, timeout, and retries. Historical run artifacts are unchanged. Setting

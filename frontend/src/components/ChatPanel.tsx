@@ -236,7 +236,9 @@ export function ChatPanel({
                         )}
                         {source.rerank && (
                           <span>
-                            {" · "}Rerank rank {source.rerank.rerank_rank} (relevance {source.rerank.rerank_score}/3)
+                            {" · "}Rerank rank {source.rerank.rerank_rank} ({source.rerank.score_kind === "logit"
+                              ? `logit ${source.rerank.rerank_score.toFixed(4)}`
+                              : `relevance ${source.rerank.rerank_score}/3`})
                           </span>
                         )}
                       </li>

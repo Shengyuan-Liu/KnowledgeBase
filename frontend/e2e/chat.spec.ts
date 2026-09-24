@@ -31,7 +31,7 @@ for (const width of [1440, 390]) {
     await expect(page.getByText("The library ", { exact: true })).toBeVisible();
     await expect(page.getByText("Completed", { exact: true })).toBeVisible();
     await page.getByText("Debug details", { exact: true }).click();
-    await expect(page.getByText("Rerank rank 1 (relevance 3/3)")).toBeVisible();
+    await expect(page.getByText("Rerank rank 1 (logit 3.2500)")).toBeVisible();
     const firstCitation = page.getByRole("button", {
       name: "View source 1: hours.txt",
       exact: true,
@@ -55,7 +55,7 @@ for (const width of [1440, 390]) {
     await page.reload();
     await expect(page.getByText("Completed", { exact: true })).toHaveCount(2);
     await page.getByText("Debug details", { exact: true }).first().click();
-    await expect(page.getByText("Rerank rank 1 (relevance 3/3)").first()).toBeVisible();
+    await expect(page.getByText("Rerank rank 1 (logit 3.2500)").first()).toBeVisible();
     await expect(
       page.getByText("When does the library close?", { exact: true }),
     ).toBeVisible();

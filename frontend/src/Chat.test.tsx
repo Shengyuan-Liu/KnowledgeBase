@@ -196,13 +196,13 @@ it("preserves the draft and partial answer after EOF without completion", async 
 });
 
 
-it("renders lexical-only evidence with fusion and rerank ranks in live and restored answers", async () => {
+it.each([undefined, "logit"])("renders lexical-only evidence with %s rerank scores in live and restored answers", async (scoreKind) => {
   const lexical = {
     ...source, distance: null,
     fusion: { chunk_id: "child-1", rrf_score: 1 / 61, rank: 2,
       bm25_score: 2.5, bm25_rank: 1, vector_distance: null, vector_rank: null },
   };
-  const reranked = { ...lexical, rerank: { ...lexical.fusion, rerank_score: 3, rerank_rank: 1 } };
+  const reranked = { ...lexical, rerank: { ...lexical.fusion, rerank_score: scoreKind ? -2.5678 : 3, rerank_rank: 1, score_kind: scoreKind } };
   fetchMock.mockImplementation(async (url: string, options?: RequestInit) => {
     if (url === "/api/chat/stream") {
       const id = JSON.parse(options?.body as string).request_id;
@@ -223,10 +223,10 @@ it("renders lexical-only evidence with fusion and rerank ranks in live and resto
   await screen.findByText("Completed");
   expect(screen.getByText(/No vector hit/)).toBeInTheDocument();
   expect(screen.getByText(/RRF rank 2/)).toHaveTextContent("BM25 rank 1 · Vector rank —");
-  expect(screen.getByText(/Rerank rank 1/)).toHaveTextContent("relevance 3/3");
+  expect(screen.getByText(/Rerank rank 1/)).toHaveTextContent(scoreKind ? "logit -2.5678" : "relevance 3/3");
   view.unmount();
   render(<Workspace />);
   expect(await screen.findByText(/No vector hit/)).toBeInTheDocument();
   expect(screen.getByText(/RRF rank 2/)).toBeInTheDocument();
-  expect(screen.getByText(/Rerank rank 1/)).toHaveTextContent("relevance 3/3");
+  expect(screen.getByText(/Rerank rank 1/)).toHaveTextContent(scoreKind ? "logit -2.5678" : "relevance 3/3");
 });

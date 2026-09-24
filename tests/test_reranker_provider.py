@@ -1,76 +1,110 @@
-"""Exercise the SDK's actual schema request and structured-response parsing."""
+"""Run a tiny local cross-encoder offline; never download pretrained test weights."""
 
-import json
+from unittest.mock import Mock
 
-import httpx2
 import pytest
-from openai import OpenAI
-from pydantic import ValidationError
+import torch
+from tokenizers import Tokenizer
+from tokenizers.models import WordLevel
+from tokenizers.pre_tokenizers import Whitespace
+from transformers import PreTrainedTokenizerFast, XLMRobertaConfig, XLMRobertaForSequenceClassification
 
-from knowledgebase.providers.reranker import RerankerClient
-
-
-@pytest.mark.parametrize("status,refusal", [("completed", False), ("completed", True), ("incomplete", False)])
-def test_structured_scores_and_unsuccessful_responses(status, refusal):
-    messages = [{"role": "user", "content": "Exact input"}]
-    requests = []
-
-    def handle(request):
-        requests.append(request)
-        body = json.loads(request.content)
-        assert body["model"] == "test-reranker"
-        assert body["input"] == messages
-        assert body["truncation"] == "disabled"
-        assert body["text"]["format"]["type"] == "json_schema"
-        assert body["text"]["format"]["strict"] is True
-        schema = body["text"]["format"]["schema"]
-        assert schema["properties"]["child-1"]["maximum"] == 3
-        assert schema["required"] == ["child-1"]
-        content = {"type": "refusal", "refusal": "Cannot score."} if refusal else {
-            "type": "output_text", "text": json.dumps({"child-1": 3}),
-            "annotations": [],
-        }
-        return httpx2.Response(200, json={
-            "id": "resp_test", "object": "response", "created_at": 0,
-            "status": status, "model": "test-reranker", "error": None,
-            "incomplete_details": {"reason": "max_output_tokens"} if status == "incomplete" else None,
-            "instructions": None, "metadata": {}, "parallel_tool_calls": False,
-            "tools": [], "tool_choice": "auto",
-            "output": [{"id": "msg_test", "type": "message", "role": "assistant",
-                        "status": status, "content": [content]}],
-        })
-
-    with OpenAI(api_key="offline-test", base_url="https://api.openai.test/v1",
-                http_client=httpx2.Client(transport=httpx2.MockTransport(handle))) as sdk:
-        client = RerankerClient(sdk, "test-reranker")
-        if refusal or status != "completed":
-            with pytest.raises(RuntimeError, match="structured relevance scores"):
-                client.score(messages, ["child-1"])
-        else:
-            assert [score.model_dump() for score in client.score(messages, ["child-1"])] == [{"chunk_id": "child-1", "score": 3}]
-    assert len(requests) == 1
+from knowledgebase.providers.reranker import RerankerClient, build_rerank_pairs
+from knowledgebase.schemas import RerankCandidate
 
 
-def test_missing_score_is_rejected_by_sdk_schema_for_the_actual_candidate_ids():
-    ids = ["file-a:child:1", "file-b:child:9"]
+@pytest.fixture
+def client(tmp_path):
+    tokenizer = Tokenizer(WordLevel({"[UNK]": 0, "[PAD]": 1, "Question": 2, "fact": 3}, unk_token="[UNK]"))
+    tokenizer.pre_tokenizer = Whitespace()
+    PreTrainedTokenizerFast(tokenizer_object=tokenizer, unk_token="[UNK]", pad_token="[PAD]").save_pretrained(tmp_path)
+    model = XLMRobertaForSequenceClassification(XLMRobertaConfig(
+        vocab_size=4, hidden_size=8, num_hidden_layers=1, num_attention_heads=2,
+        intermediate_size=16, max_position_embeddings=64, num_labels=1, pad_token_id=1,
+    ))
+    with torch.no_grad():
+        model.classifier.out_proj.weight.zero_()
+        model.classifier.out_proj.bias.fill_(-2.75)
+    model.save_pretrained(tmp_path)
+    return RerankerClient(str(tmp_path), device="cpu", batch_size=2, max_pair_tokens=32)
 
-    def handle(request):
-        schema = json.loads(request.content)["text"]["format"]["schema"]
-        assert schema["required"] == ids
-        assert set(schema["properties"]) == set(ids)
-        assert schema["additionalProperties"] is False
-        return httpx2.Response(200, json={
-            "id": "resp_test", "object": "response", "created_at": 0,
-            "status": "completed", "model": "test-reranker", "error": None,
-            "incomplete_details": None, "instructions": None, "metadata": {},
-            "parallel_tool_calls": False, "tools": [], "tool_choice": "auto",
-            "output": [{"id": "msg_test", "type": "message", "role": "assistant",
-                        "status": "completed", "content": [{
-                            "type": "output_text", "text": json.dumps({ids[0]: 3}), "annotations": [],
-                        }]}],
-        })
 
-    with OpenAI(api_key="offline-test", base_url="https://api.openai.test/v1",
-                http_client=httpx2.Client(transport=httpx2.MockTransport(handle))) as sdk:
-        with pytest.raises(ValidationError, match="Field required"):
-            RerankerClient(sdk, "test-reranker").score([], ids)
+def candidates():
+    return [RerankCandidate(chunk_id=f"child-{i}", text="fact\n", heading_path=["Heading"], rank=i+1, rrf_score=0.01)
+            for i in range(3)]
+
+
+def test_actual_local_model_batches_preserve_ids_and_unbounded_float_scores(client, monkeypatch):
+    forward = Mock(wraps=client._model.forward)
+    monkeypatch.setattr(client._model, "forward", forward)
+    inputs = candidates()
+    result = client.score("Question", inputs)
+    assert [r.chunk_id for r in result] == [c.chunk_id for c in inputs]
+    assert [r.score for r in result] == [-2.75] * 3
+    assert [call.kwargs["input_ids"].shape[0] for call in forward.call_args_list] == [2, 1]
+    assert not client._model.training
+    assert client.device == "cpu"
+    assert inputs[0].text == "fact\n"
+    assert build_rerank_pairs("Question", inputs)[0] == ["Question", "Heading: Heading\n\nfact\n"]
+
+
+def test_pair_budget_fails_before_inference_without_shortening_text(client, monkeypatch):
+    forward = Mock(wraps=client._model.forward)
+    monkeypatch.setattr(client._model, "forward", forward)
+    inputs = candidates()
+    pairs = build_rerank_pairs("Question", inputs)
+    limit = max(map(len, client._tokenizer(pairs, truncation=False)["input_ids"]))
+    client.max_pair_tokens = limit
+    assert len(client.score("Question", inputs)) == 3
+    forward.reset_mock()
+    client.max_pair_tokens = limit - 1
+    with pytest.raises(ValueError, match="no text was truncated"):
+        client.score("Question", inputs)
+    forward.assert_not_called()
+
+
+def test_empty_input_skips_inference(client, monkeypatch):
+    forward = Mock()
+    monkeypatch.setattr(client._model, "forward", forward)
+    assert client.score("Question", []) == []
+    forward.assert_not_called()
+
+
+def test_local_model_failure_propagates_without_llm_fallback(client, monkeypatch):
+    monkeypatch.setattr(client._model, "forward", Mock(side_effect=RuntimeError("Local scoring failed")))
+    with pytest.raises(RuntimeError, match="Local scoring failed"):
+        client.score("Question", candidates())
+
+
+def test_shared_model_serializes_concurrent_forward_calls(client, monkeypatch):
+    """Regression for concurrent MPS command-buffer corruption in the live run."""
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Barrier, Lock
+    from time import sleep
+
+    gate, counter = Barrier(2), Lock()
+    active = maximum = 0
+    forward = client._model.forward
+
+    def observed_forward(**kwargs):
+        nonlocal active, maximum
+        with counter:
+            active += 1
+            maximum = max(maximum, active)
+        try:
+            sleep(0.02)
+            return forward(**kwargs)
+        finally:
+            with counter:
+                active -= 1
+
+    monkeypatch.setattr(client._model, "forward", observed_forward)
+
+    def ask(_):
+        gate.wait(timeout=5)
+        return client.score("Question", candidates())
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        results = list(pool.map(ask, range(2)))
+    assert maximum == 1
+    assert all([s.score for s in result] == [-2.75] * 3 for result in results)

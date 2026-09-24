@@ -269,11 +269,11 @@ async def test_disconnect_during_rerank_does_not_generate_or_save(streaming_app)
     release, scored = Event(), Event()
     messages = []
 
-    def score(messages, chunk_ids):
+    def score(question, candidates):
         anyio.from_thread.run_sync(started.set)
         try:
             assert release.wait(5)
-            return [RelevanceScore(chunk_id=chunk_id, score=3) for chunk_id in chunk_ids]
+            return [RelevanceScore(chunk_id=c.chunk_id, score=3.25) for c in candidates]
         finally:
             scored.set()
 
@@ -289,7 +289,7 @@ async def test_disconnect_during_rerank_does_not_generate_or_save(streaming_app)
     async with app.router.lifespan_context(app):
         resources = app.state.resources
         resources.settings.rerank_enabled = True
-        resources.reranker = Mock(model="offline-reranker", score=Mock(side_effect=score))
+        resources.reranker = Mock(model="offline-reranker", model_revision="test-revision", device="cpu", max_pair_tokens=1024, batch_size=4, score=Mock(side_effect=score))
         ingest(resources)
         try:
             with anyio.fail_after(5):

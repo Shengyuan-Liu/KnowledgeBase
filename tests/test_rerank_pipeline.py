@@ -18,14 +18,13 @@ from knowledgebase.storage.models import MessageRecord
 from knowledgebase.storage.operations import get_chunks, get_parents, update_file_status
 
 
-def score_facts(messages, chunk_ids):
-    items = json.loads(messages[-1]["content"])["candidates"]
-    return [RelevanceScore(chunk_id=c["chunk_id"], score=3 if "3.0" in c["text"] or "66%" in c["text"] else 0)
-            for c in items]
+def score_facts(question, candidates):
+    return [RelevanceScore(chunk_id=c.chunk_id, score=3.75 if "3.0" in c.text or "66%" in c.text else -2.5)
+            for c in candidates]
 
 
 def reranker():
-    return Mock(model="offline-reranker", score=Mock(side_effect=score_facts))
+    return Mock(model="offline-reranker", model_revision="test-revision", device="cpu", max_pair_tokens=1024, batch_size=4, score=Mock(side_effect=score_facts))
 
 
 def test_rerank_precedes_top_k_parent_deduplication_and_budget(storage, embeddings):
@@ -103,13 +102,9 @@ def rerank_app(configured_app, tmp_path, monkeypatch):
         "EVIDENCE_MAX_TOKENS=256\nRETRIEVAL_TOP_K=2\n"
     )
 
-    def parse(**kwargs):
-        scores = score_facts(kwargs["input"], [])
-        return Mock(status="completed", output_parsed=kwargs["text_format"].model_validate(
-            {score.chunk_id: score.score for score in scores},
-        ))
-
-    sdk.responses.parse.side_effect = parse
+    sdk.reranker = reranker()
+    sdk.reranker.model = "custom-reranker"
+    monkeypatch.setattr(api_module, "RerankerClient", Mock(return_value=sdk.reranker))
     sdk.responses.create.side_effect = lambda **kwargs: Mock(output_text=(
         "Resolved GPA question" if kwargs["input"][0]["content"].startswith("Rewrite") else "GPA 3.0 and 66%. [1]"
     ))
@@ -152,6 +147,9 @@ def test_json_and_sse_persist_exact_reranked_evidence_and_restore_after_restart_
         assert trace["model"] == "custom-reranker"
         assert trace["candidate_limit"] == 7 and trace["max_input_tokens"] == 1000
         assert trace["top_k"] == 2
+        api_module.RerankerClient.assert_called_with("custom-reranker", device="auto", batch_size=4, max_pair_tokens=1024)
+        assert trace["score_kind"] == "logit"
+        assert result["sources"][0]["rerank"]["rerank_score"] == 3.75
         source = result["sources"][0]
         assert source["rerank"]["rerank_rank"] == 1
         assert source["fusion"]["rank"] == source["rerank"]["rank"]
@@ -160,18 +158,18 @@ def test_json_and_sse_persist_exact_reranked_evidence_and_restore_after_restart_
         prompt = stream_calls[-1] if streaming else sdk.responses.create.call_args.kwargs["input"]
         assert source["text"] in prompt[-1]["content"]
         ask(client, streaming, result["conversation_id"])
-        assert json.loads(sdk.responses.parse.call_args.kwargs["input"][-1]["content"])["question"] == "Resolved GPA question"
-        assert sdk.responses.parse.call_args.kwargs["model"] == "custom-reranker"
+        assert sdk.reranker.score.call_args.args[0] == "Resolved GPA question"
+        assert sdk.reranker.model == "custom-reranker"
     with TestClient(api_module.create_app()) as client:
         assert client.delete(f"/api/files/{file_id}").status_code == 204
         saved = client.get(f"/api/conversations/{result['conversation_id']}").json()["messages"][1]
         assert saved["retrieval"] == result["retrieval"]
         assert saved["sources"] == [{**s, "file_deleted": True} for s in result["sources"]]
-        before_calls = sdk.responses.parse.call_count
+        before_calls = sdk.reranker.score.call_count
         response, events = ask(client, streaming)
         empty = events[-1] if streaming else response.json()
         assert empty["sources"] == []
-        assert sdk.responses.parse.call_count == before_calls
+        assert sdk.reranker.score.call_count == before_calls
 
 
 @pytest.mark.parametrize("streaming", [False, True])
@@ -181,7 +179,7 @@ def test_rerank_failure_does_not_generate_or_save_an_exchange(rerank_app, stream
     with TestClient(app) as client:
         client.post("/api/files", files={"file": ("notes.txt", b"Maintain GPA 3.0.")})
         if failure == "provider":
-            sdk.responses.parse.side_effect = RuntimeError("Scoring failed")
+            sdk.reranker.score.side_effect = RuntimeError("Scoring failed")
         else:
             app.state.resources.settings.rerank_max_input_tokens = 1
         response, events = ask(client, streaming)
@@ -194,4 +192,4 @@ def test_rerank_failure_does_not_generate_or_save_an_exchange(rerank_app, stream
         with app.state.resources.sessions() as session:
             assert session.scalar(select(func.count()).select_from(MessageRecord)) == 0
         if failure == "input_budget":
-            sdk.responses.parse.assert_not_called()
+            sdk.reranker.score.assert_not_called()

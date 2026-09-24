@@ -33,7 +33,10 @@ def create_app(data_dir: Path | None = None, frontend_dir: Path | None = None) -
                 async with AsyncOpenAI(**sdk_options) as streaming_sdk:
                     app.state.resources = AppResources(
                         settings=settings,
-                        reranker=RerankerClient(sdk, model=settings.rerank_model or settings.answer_model) if settings.rerank_enabled else None,
+                        reranker=RerankerClient(
+                            settings.rerank_model, device=settings.rerank_device,
+                            batch_size=settings.rerank_batch_size, max_pair_tokens=settings.rerank_max_pair_tokens,
+                        ) if settings.rerank_enabled else None,
                         resolver_llm=LLMClient(sdk, model=settings.resolver_model) if settings.resolver_model else None,
                         sessions=sessions,
                         embeddings=EmbeddingClient(sdk, model=settings.embedding_model),

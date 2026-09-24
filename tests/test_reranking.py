@@ -1,12 +1,12 @@
 """Check identity, bounded scoring, reproducible inputs, and independent ranks."""
 
-import json
 from unittest.mock import Mock
 
 import pytest
 import tiktoken
 
-from knowledgebase.rag.reranking import build_rerank_messages, rerank
+from knowledgebase.rag.reranking import rerank
+from knowledgebase.providers.reranker import build_rerank_pairs
 from knowledgebase.schemas import FusedMatch, RelevanceScore, RerankCandidate, RerankResult
 
 
@@ -19,7 +19,7 @@ def candidate(identity, rank, text="Exact source text.", heading=None):
 
 
 def scorer(scores):
-    client = Mock(model="offline-reranker")
+    client = Mock(model="offline-reranker", model_revision="test-revision", device="cpu", max_pair_tokens=1024, batch_size=4)
     client.score.return_value = [RelevanceScore(chunk_id=identity, score=score) for identity, score in scores]
     return client
 
@@ -40,14 +40,12 @@ def test_scores_map_by_identity_and_preserve_exact_input_and_route_metadata():
     restored = RerankResult.model_validate_json(result.model_dump_json())
     assert restored == result
     assert restored.selected == result.selected
-    messages = client.score.call_args.args[0]
-    body = json.loads(messages[1]["content"])
-    assert body == {"question": result.question, "candidates": [
-        {"chunk_id": item.chunk_id, "text": item.text, "heading_path": item.heading_path}
-        for item in inputs
-    ]}
-    assert messages == build_rerank_messages(restored.question, restored.candidates)
-    assert "rrf_score" not in messages[1]["content"]
+    client.score.assert_called_once_with(result.question, inputs)
+    assert result.score_kind == "logit"
+    assert result.model_revision == "test-revision"
+    assert build_rerank_pairs(result.question, inputs)[1] == [
+        result.question, "Heading: Academic progress\n\n" + inputs[1].text,
+    ]
 
 
 def test_score_window_is_selected_by_rrf_rank_before_the_model_call():
@@ -57,7 +55,7 @@ def test_score_window_is_selected_by_rrf_rank_before_the_model_call():
     assert [item.chunk_id for item in result.candidates] == ["a", "b"]
     assert [hit.chunk_id for hit in result.selected] == ["b"]
     assert len(result.matches) == 2
-    assert "c" not in [item["chunk_id"] for item in json.loads(client.score.call_args.args[0][1]["content"])["candidates"]]
+    assert "c" not in [item.chunk_id for item in client.score.call_args.args[1]]
 
 
 def test_ties_use_rrf_rank_then_stable_child_identity_and_keep_siblings():
@@ -77,14 +75,14 @@ def test_empty_candidates_do_not_call_model():
 
 def test_input_budget_counts_exact_messages_and_never_truncates():
     inputs = [candidate("a", 1, "café\r\n<|endoftext|>\n", ["Heading"])]
-    messages = build_rerank_messages("Question", inputs)
+    pairs = build_rerank_pairs("Question", inputs)
     encoding = tiktoken.get_encoding("o200k_base")
-    tokens = sum(len(encoding.encode_ordinary(m["content"])) for m in messages)
+    tokens = sum(len(encoding.encode_ordinary(text)) for pair in pairs for text in pair)
     client = scorer([("a", 2)])
     result = rerank("Question", inputs, client, max_input_tokens=tokens, encoding_name="o200k_base")
     assert result.input_tokens == tokens
     assert result.tokenizer == "o200k_base"
-    client.score.assert_called_once_with(messages, ["a"])
+    client.score.assert_called_once_with("Question", inputs)
     client.reset_mock()
     with pytest.raises(ValueError, match="no text was truncated"):
         rerank("Question", inputs, client, max_input_tokens=tokens - 1, encoding_name="o200k_base")

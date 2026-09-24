@@ -153,6 +153,7 @@ def test_cli_rerank_switch_and_model_reach_answer_service(tmp_path, monkeypatch,
     (tmp_path / ".env").write_text(
         "OPENAI_API_KEY=offline-test\nRERANK_ENABLED=true\nRERANK_MODEL=file-reranker\n"
         "RERANK_CANDIDATE_LIMIT=7\nRERANK_MAX_INPUT_TOKENS=1200\n"
+        "RERANK_DEVICE=cpu\nRERANK_BATCH_SIZE=2\nRERANK_MAX_PAIR_TOKENS=333\n"
     )
     sdk = MagicMock()
     sdk.__enter__.return_value = sdk
@@ -169,7 +170,7 @@ def test_cli_rerank_switch_and_model_reach_answer_service(tmp_path, monkeypatch,
     assert options.rerank_enabled is enabled
     assert options.rerank_candidate_limit == 7 and options.rerank_max_input_tokens == 1200
     if enabled:
-        factory.assert_called_once_with(sdk, model="argument-reranker")
+        factory.assert_called_once_with("argument-reranker", device="cpu", batch_size=2, max_pair_tokens=333)
         assert answer.call_args.kwargs["reranker_client"] is factory.return_value
     else:
         factory.assert_not_called()
