@@ -1,0 +1,356 @@
+{
+  "baseline": {
+    "recall_at_5": {
+      "status": "measured",
+      "value": 0.7795138888888888,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "precision_at_5": {
+      "status": "measured",
+      "value": 0.35000000000000003,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "hit_rate_at_5": {
+      "status": "measured",
+      "value": 0.9375,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "mrr_at_5": {
+      "status": "measured",
+      "value": 0.9375,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "ndcg_at_5": {
+      "status": "measured",
+      "value": 0.833565316812447,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "final_evidence_coverage": {
+      "status": "measured",
+      "value": {
+        "annotated_char_recall": 0.9995716773984152,
+        "full_evidence_recall": 0.6875
+      },
+      "method": "Frozen exact packed evidence; macro-average over answerable cases.",
+      "n": 16,
+      "artifact": "frozen-evidence.jsonl"
+    },
+    "answer_correctness": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Not assessed for all answers in this run; see focused development review."
+    },
+    "faithfulness": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Not assessed for all answers in this run; see focused development review."
+    },
+    "answer_completeness": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Not assessed for all answers in this run; see focused development review."
+    },
+    "answer_relevance": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Not assessed for all answers in this run; see focused development review."
+    },
+    "citation_support": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Not assessed for all answers in this run; see focused development review."
+    },
+    "citation_coverage": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Not assessed for all answers in this run; see focused development review."
+    },
+    "abstention": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Not assessed for all answers in this run; see focused development review."
+    },
+    "first_answer_delta_latency": {
+      "status": "measured",
+      "value": {
+        "mean": 0.7001776527160675,
+        "p50": 0.567451125010848,
+        "p95": 2.0263117499416694,
+        "unit": "seconds"
+      },
+      "method": "Generation-only SDK stream; seconds, nearest-rank percentiles, successful requests. Full application end-to-end timing excluded.",
+      "n": 18,
+      "artifact": "answers.jsonl"
+    },
+    "complete_response_latency": {
+      "status": "measured",
+      "value": {
+        "mean": 2.1851685371560357,
+        "p50": 1.8334827920189127,
+        "p95": 5.261908332933672,
+        "unit": "seconds"
+      },
+      "method": "Generation-only SDK stream; seconds, nearest-rank percentiles, successful requests. Full application end-to-end timing excluded.",
+      "n": 18,
+      "artifact": "answers.jsonl"
+    },
+    "stage_latency": {
+      "generation": {
+        "status": "measured",
+        "value": {
+          "mean": 2.1851685371560357,
+          "p50": 1.8334827920189127,
+          "p95": 5.261908332933672,
+          "unit": "seconds"
+        },
+        "method": "Production generation stage replay, including provider HTTP.",
+        "n": 18,
+        "artifact": "answers.jsonl"
+      },
+      "query_embedding_search_reranking_packing": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "Frozen replay; these stages were not executed."
+      }
+    },
+    "token_usage_and_cost": {
+      "provider_usage": {
+        "status": "measured",
+        "value": {
+          "input_tokens": 57329,
+          "output_tokens": 3689,
+          "total_tokens": 61018
+        },
+        "method": "Provider-reported generation usage totals.",
+        "n": 18,
+        "artifact": "answers.jsonl"
+      },
+      "billed_cost": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "Billing data not exposed by the response; no price estimate substituted."
+      },
+      "local_rerank_compute": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "No reranker execution in frozen replay."
+      }
+    },
+    "reliability": {
+      "status": "measured",
+      "value": {
+        "success": 18,
+        "errors": 0,
+        "attempts": 18,
+        "success_rate": 1.0,
+        "retries": 0,
+        "timeouts": 0
+      },
+      "method": "All generation requests; SDK retries disabled.",
+      "n": 18,
+      "artifact": "answers.jsonl"
+    },
+    "concurrency_and_throughput": {
+      "status": "measured",
+      "value": {
+        "concurrency": 1,
+        "successful_requests_per_active_second": 0.45763060514384174
+      },
+      "method": "Sequential completed requests divided by active request time per arm, excluding gaps; not capacity under load. batch.json retains full mixed-arm wall time.",
+      "n": 18,
+      "artifact": "answers.jsonl"
+    },
+    "ingestion_and_index": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No ingestion, index mutation, update or delete in this generation replay."
+    }
+  },
+  "candidate": {
+    "recall_at_5": {
+      "status": "measured",
+      "value": 0.7795138888888888,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "precision_at_5": {
+      "status": "measured",
+      "value": 0.35000000000000003,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "hit_rate_at_5": {
+      "status": "measured",
+      "value": 0.9375,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "mrr_at_5": {
+      "status": "measured",
+      "value": 0.9375,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "ndcg_at_5": {
+      "status": "measured",
+      "value": 0.833565316812447,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "final_evidence_coverage": {
+      "status": "measured",
+      "value": {
+        "annotated_char_recall": 0.9995716773984152,
+        "full_evidence_recall": 0.6875
+      },
+      "method": "Frozen exact packed evidence; macro-average over answerable cases.",
+      "n": 16,
+      "artifact": "frozen-evidence.jsonl"
+    },
+    "answer_correctness": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Not assessed for all answers in this run; see focused development review."
+    },
+    "faithfulness": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Not assessed for all answers in this run; see focused development review."
+    },
+    "answer_completeness": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Not assessed for all answers in this run; see focused development review."
+    },
+    "answer_relevance": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Not assessed for all answers in this run; see focused development review."
+    },
+    "citation_support": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Not assessed for all answers in this run; see focused development review."
+    },
+    "citation_coverage": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Not assessed for all answers in this run; see focused development review."
+    },
+    "abstention": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Not assessed for all answers in this run; see focused development review."
+    },
+    "first_answer_delta_latency": {
+      "status": "measured",
+      "value": {
+        "mean": 0.7162266434364332,
+        "p50": 0.53894533298444,
+        "p95": 1.5973625000333413,
+        "unit": "seconds"
+      },
+      "method": "Generation-only SDK stream; seconds, nearest-rank percentiles, successful requests. Full application end-to-end timing excluded.",
+      "n": 18,
+      "artifact": "answers.jsonl"
+    },
+    "complete_response_latency": {
+      "status": "measured",
+      "value": {
+        "mean": 2.2932097546678656,
+        "p50": 1.9076218330301344,
+        "p95": 4.193114499910735,
+        "unit": "seconds"
+      },
+      "method": "Generation-only SDK stream; seconds, nearest-rank percentiles, successful requests. Full application end-to-end timing excluded.",
+      "n": 18,
+      "artifact": "answers.jsonl"
+    },
+    "stage_latency": {
+      "generation": {
+        "status": "measured",
+        "value": {
+          "mean": 2.2932097546678656,
+          "p50": 1.9076218330301344,
+          "p95": 4.193114499910735,
+          "unit": "seconds"
+        },
+        "method": "Production generation stage replay, including provider HTTP.",
+        "n": 18,
+        "artifact": "answers.jsonl"
+      },
+      "query_embedding_search_reranking_packing": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "Frozen replay; these stages were not executed."
+      }
+    },
+    "token_usage_and_cost": {
+      "provider_usage": {
+        "status": "measured",
+        "value": {
+          "input_tokens": 60011,
+          "output_tokens": 4284,
+          "total_tokens": 64295
+        },
+        "method": "Provider-reported generation usage totals.",
+        "n": 18,
+        "artifact": "answers.jsonl"
+      },
+      "billed_cost": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "Billing data not exposed by the response; no price estimate substituted."
+      },
+      "local_rerank_compute": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "No reranker execution in frozen replay."
+      }
+    },
+    "reliability": {
+      "status": "measured",
+      "value": {
+        "success": 18,
+        "errors": 0,
+        "attempts": 18,
+        "success_rate": 1.0,
+        "retries": 0,
+        "timeouts": 0
+      },
+      "method": "All generation requests; SDK retries disabled.",
+      "n": 18,
+      "artifact": "answers.jsonl"
+    },
+    "concurrency_and_throughput": {
+      "status": "measured",
+      "value": {
+        "concurrency": 1,
+        "successful_requests_per_active_second": 0.4360700097165049
+      },
+      "method": "Sequential completed requests divided by active request time per arm, excluding gaps; not capacity under load. batch.json retains full mixed-arm wall time.",
+      "n": 18,
+      "artifact": "answers.jsonl"
+    },
+    "ingestion_and_index": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No ingestion, index mutation, update or delete in this generation replay."
+    }
+  }
+}

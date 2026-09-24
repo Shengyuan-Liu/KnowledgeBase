@@ -1,7 +1,9 @@
 from unittest.mock import Mock
 
+import pytest
+
 from knowledgebase.providers.llm import LLMClient
-from knowledgebase.rag.generation import generate_answer
+from knowledgebase.rag.generation import generate_answer, stream_answer
 from knowledgebase.schemas import Chunk, RetrievedChunk
 
 
@@ -63,3 +65,38 @@ def test_numbers_sources_in_retrieval_order_and_preserves_question_and_text():
             "[2]\nIn spring 2026, the café closes at 4 PM."
         ),
     }
+
+
+@pytest.mark.anyio
+async def test_comparison_prompt_is_shared_by_json_and_streaming_with_later_evidence():
+    """Guard source identity and later excerpts; live experiments assess semantics."""
+    texts = [
+        'Title: Industry Concentration\nA mandatory internship is required within the first year. Consult OGS about early CPT.',
+        'Title: General FAQ\nThe program connects students with companies.',
+        'Title: Admissions FAQ\nCPT allows paid internships for credit after the first year.',
+    ]
+    chunks = [RetrievedChunk(file_name=f'source-{i}.txt', distance=0.1,
+                            chunk=Chunk(chunk_id=str(i), file_id=str(i), text=text,
+                                        index=0, start_offset=0, end_offset=len(text)))
+              for i, text in enumerate(texts)]
+    question = 'Compare internship timing in the admissions FAQ and concentration page.'
+    llm = Mock(spec=LLMClient)
+    llm.generate.return_value = 'Within the first year [1]; after the first year [3].'
+    generate_answer(question, chunks, llm)
+    captured = []
+
+    class Stream:
+        async def stream(self, messages):
+            captured.append(messages)
+            yield 'Within the first year [1]; '
+            yield 'after the first year [3].'
+
+    answer = ''.join([part async for part in stream_answer(question, chunks, Stream())])
+    assert answer == llm.generate.return_value
+    assert captured == [llm.generate.call_args.args[0]]
+    instructions, user = captured[0]
+    assert 'check all provided excerpts for each named' in instructions['content']
+    assert 'not interchangeable' in instructions['content']
+    assert 'require an explicit statement in the evidence' in instructions['content']
+    assert user['content'].endswith('[3]\n' + texts[-1])
+    assert [user['content'].count(text) for text in texts] == [1, 1, 1]

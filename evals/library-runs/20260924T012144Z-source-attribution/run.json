@@ -1,0 +1,31 @@
+{
+  "scope": "Live production generation replay; retrieval and packing frozen, not rerun.",
+  "base_commit": "ace27107f82376616db9391d4fa95bc59bd0b01a",
+  "generation_sha256": "3967b0c1bbda2ec73e52e0782a869986255ad385458e4d75acf36680de94fcfa",
+  "input_hashes": {
+    "cases.json": "1bc03e1fca2182c6d823c8c9ee3138c70ed90e4836af95d5792f8736d2a0d7cd",
+    "chunks.json": "d172c6eef2c6d33c995973d48892613bef00a99f4c375c41531fde0f1fb47742",
+    "frozen-evidence.jsonl": "e5708d35c1f07fc4274d23b957dda4eca955fe43a82a2ba90da45e691ec1e0f4",
+    "baseline-prompt.txt": "dd132085f2c2aeb680770161892844351b74c4d0550995f436cd0f29b356ba5c",
+    "candidate-prompt.txt": "f1f0678a2be035fea553006bbad877e5d6b2b410c0cc53a082f7efff83bac787"
+  },
+  "answer_model": "gpt-4.1",
+  "judge_model": "gpt-4.1-mini",
+  "concurrency": 1,
+  "timeout_seconds": 60.0,
+  "max_retries": 0,
+  "warmup": "none; provider cache behavior uncontrolled",
+  "retrieval_options": {
+    "strategy": "hybrid",
+    "packing_strategy": "parent_then_child",
+    "candidate_limit": 20,
+    "bm25_k1": 1.2,
+    "bm25_b": 0.75,
+    "rrf_k": 60.0,
+    "rerank_enabled": true,
+    "rerank_candidate_limit": 20,
+    "rerank_max_input_tokens": 16384
+  },
+  "evidence_max_tokens": 4096,
+  "timing_scope": "SDK generation request start to first nonempty delta and stream close; excludes retrieval and app HTTP."
+}
