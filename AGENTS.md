@@ -12,7 +12,13 @@
 - Merge each feature into `main` only after the user explicitly authorizes that feature's merge. Approval for one feature does not authorize later merges.
 - After an authorized merge, continue subsequent v1 work on the `v1` branch.
 
-# Component Change Evaluation
+# Test and Experiment Measurement
+
+- For every future test or experiment, retain a run record following the [measurement policy](evals/measurement-policy.md), not only when replacing a component. Include the complete metric inventory with measured values or explicit `not_applicable` / `unavailable` status and a reason; never silently omit a metric or replace missing data with zero.
+- Measure retrieval Recall@K, Precision@K, Hit Rate@K, MRR, NDCG@K, and final supplied-evidence coverage when applicable. State K, relevance labels, evaluation unit, stage and aggregation. Use stable source spans or facts when comparing different chunk boundaries; distinguish candidate retrieval, reranking and evidence packing.
+- Measure answer correctness, faithfulness, completeness, relevance, citation support, citation coverage and abstention behavior when applicable. Record both appropriate abstention on unanswerable cases and incorrect abstention on answerable cases. Fix the rubric/reviewer protocol, preserve claim-level or expected-point evidence, and manually inspect representative failures. LLM judgments are assessments, not ground truth.
+- Measure first-answer-delta and complete-response latency, stage timings, token usage and cost, success/error/timeout/retry rates, concurrency/throughput, and ingestion time/index size/update/delete behavior when applicable. Report quality and performance separately.
+- Offline unit/integration tests must record scope, command, code version, duration, pass/fail/skip counts and failures. Mark live quality, provider cost and production performance metrics as not applicable to mocked tests; do not run paid benchmarks merely to fill those fields. Documentation-only changes require a recorded content/link/format review, not automated tests.
 
 - When replacing or materially changing a RAG component, record a before/after comparison using the same frozen questions, corpus, and annotations. Keep other settings fixed where possible and disclose differences that limit comparison.
 - Record complete-answer latency, time to first answer delta for streaming, and affected-stage latency separately. Include sample counts, mean and percentile timings, concurrency, device, and whether model loading or queue waiting is included. Mark unmeasured metrics as unavailable; never substitute total duration for time to first answer delta.

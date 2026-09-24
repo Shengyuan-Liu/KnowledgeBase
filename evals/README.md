@@ -1,5 +1,10 @@
 # Recorded RAG evaluations
 
+All future tests and experiments follow the [measurement policy](measurement-policy.md):
+retain the full metric inventory, measured values or explicit missing/not-applicable
+reasons, and raw per-case results. The policy includes offline verification and does
+not imply that every metric is already automated by the runners below.
+
 Additional prepared benchmark: [DeepSeek API documentation evaluation](deepseek/README.md)
 contains 89 Markdown/TXT sources, 320 single-turn questions, 12 multi-turn
 conversations and separate HTTP performance tooling. It has not yet been run
