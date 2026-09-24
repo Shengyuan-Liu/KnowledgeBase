@@ -76,9 +76,11 @@ def test_ingestion_to_answer_keeps_sources_aligned_with_prompt(storage, top_k):
     embeddings.embed_query.assert_called_once_with(question)
     llm.generate.assert_called_once()
     user_message = llm.generate.call_args.args[0][1]
-    expected_context = "[1]\n  The café closes at 5 PM.\n\n\n[2]\nSecond."
+    expected_context = ('[1]\nSource metadata: {"file_name": "hours.txt", "heading_path": []}\nExcerpt:\n'
+                        '  The café closes at 5 PM.\n\n\n'
+                        '[2]\nSource metadata: {"file_name": "notes.txt", "heading_path": []}\nExcerpt:\nSecond.')
     if top_k == 3:
-        expected_context += "\n\n[3]\nFirst. "
+        expected_context += '\n\n[3]\nSource metadata: {"file_name": "notes.txt", "heading_path": []}\nExcerpt:\nFirst. '
     assert user_message == {
         "role": "user",
         "content": f"Question:\n{question}\n\nSources:\n{expected_context}",

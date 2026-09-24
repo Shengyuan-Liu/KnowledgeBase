@@ -1,0 +1,412 @@
+{
+  "baseline": {
+    "recall_at_5": {
+      "status": "measured",
+      "value": 0.7795138888888888,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "precision_at_5": {
+      "status": "measured",
+      "value": 0.35000000000000003,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "hit_rate_at_5": {
+      "status": "measured",
+      "value": 0.9375,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "mrr_at_5": {
+      "status": "measured",
+      "value": 0.9375,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "ndcg_at_5": {
+      "status": "measured",
+      "value": 0.833565316812447,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "final_evidence_coverage": {
+      "status": "measured",
+      "value": {
+        "annotated_char_recall": 0.9995716773984152,
+        "full_evidence_recall": 0.6875
+      },
+      "method": "Freshly packed evidence with the same 4096-token budget; macro-average over answerable cases.",
+      "n": 16,
+      "artifact": "frozen-evidence.jsonl"
+    },
+    "answer_correctness": {
+      "status": "measured",
+      "value": 0.9907407407407407,
+      "n": 18,
+      "artifact": "development-reviews.jsonl",
+      "method": "Codex development review using frozen expected-point 0/1/2 rubric (relevance 0/1/2). Narrow expected-point scores do not measure all extra factual claims; see known failures."
+    },
+    "faithfulness": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Prior judge omitted substantive factual claims; not rerun here. Focused actual-answer audit recorded, but full claim-by-claim review is unavailable."
+    },
+    "answer_completeness": {
+      "status": "measured",
+      "value": 0.9814814814814815,
+      "n": 18,
+      "artifact": "development-reviews.jsonl",
+      "method": "Codex development review using frozen expected-point 0/1/2 rubric (relevance 0/1/2). Narrow expected-point scores do not measure all extra factual claims; see known failures."
+    },
+    "answer_relevance": {
+      "status": "measured",
+      "value": 2,
+      "n": 18,
+      "artifact": "development-reviews.jsonl",
+      "method": "Codex development review using frozen expected-point 0/1/2 rubric (relevance 0/1/2). Narrow expected-point scores do not measure all extra factual claims; see known failures."
+    },
+    "citation_support": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Prior judge omitted substantive factual claims; not rerun here. Focused actual-answer audit recorded, but full claim-by-claim review is unavailable."
+    },
+    "citation_coverage": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Prior judge omitted substantive factual claims; not rerun here. Focused actual-answer audit recorded, but full claim-by-claim review is unavailable."
+    },
+    "abstention": {
+      "status": "measured",
+      "value": {
+        "appropriate_abstention": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "incorrect_missing_information_claim": {
+          "numerator": 0,
+          "denominator": 16
+        }
+      },
+      "method": "Codex review; incorrect absence includes a falsely refused subpart.",
+      "artifact": "development-reviews.jsonl"
+    },
+    "first_answer_delta_latency": {
+      "status": "measured",
+      "value": {
+        "mean": 0.7455813056763468,
+        "p50": 0.7048275829292834,
+        "p95": 1.232771834009327,
+        "unit": "seconds"
+      },
+      "method": "Generation-only SDK stream; seconds, nearest-rank percentiles, successful requests. Full application end-to-end timing excluded.",
+      "n": 18,
+      "artifact": "answers.jsonl"
+    },
+    "complete_response_latency": {
+      "status": "measured",
+      "value": {
+        "mean": 2.8193169607289343,
+        "p50": 2.2159884999273345,
+        "p95": 5.393810041015968,
+        "unit": "seconds"
+      },
+      "method": "Generation-only SDK stream; seconds, nearest-rank percentiles, successful requests. Full application end-to-end timing excluded.",
+      "n": 18,
+      "artifact": "answers.jsonl"
+    },
+    "stage_latency": {
+      "generation": {
+        "status": "measured",
+        "value": {
+          "mean": 2.8193169607289343,
+          "p50": 2.2159884999273345,
+          "p95": 5.393810041015968,
+          "unit": "seconds"
+        },
+        "method": "Production generation stage replay, including provider HTTP.",
+        "n": 18,
+        "artifact": "answers.jsonl"
+      },
+      "packing": {
+        "status": "measured",
+        "value": {
+          "mean": 0.005164965450401521,
+          "p50": 0.004794000065885484,
+          "p95": 0.012428791960701346,
+          "unit": "seconds"
+        },
+        "method": "Fresh exact identity-inclusive context packing.",
+        "n": 18,
+        "artifact": "answers.jsonl"
+      },
+      "query_embedding_search_reranking": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "Frozen selections; these stages were not executed."
+      }
+    },
+    "token_usage_and_cost": {
+      "provider_usage": {
+        "status": "measured",
+        "value": {
+          "input_tokens": 60875,
+          "output_tokens": 4316,
+          "total_tokens": 65191
+        },
+        "method": "Provider-reported generation usage totals.",
+        "n": 18,
+        "artifact": "answers.jsonl"
+      },
+      "billed_cost": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "Billing data not exposed by the response; no price estimate substituted."
+      },
+      "local_rerank_compute": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "No reranker execution in frozen replay."
+      }
+    },
+    "reliability": {
+      "status": "measured",
+      "value": {
+        "success": 18,
+        "errors": 0,
+        "attempts": 18,
+        "success_rate": 1.0,
+        "retries": 0,
+        "timeouts": 0
+      },
+      "method": "All generation requests; SDK retries disabled.",
+      "n": 18,
+      "artifact": "answers.jsonl"
+    },
+    "concurrency_and_throughput": {
+      "status": "measured",
+      "value": {
+        "concurrency": 1,
+        "successful_requests_per_active_second": 0.35469584084701494
+      },
+      "method": "Sequential completed requests divided by active request time per arm, excluding gaps; not capacity under load. batch.json retains full mixed-arm wall time.",
+      "n": 18,
+      "artifact": "answers.jsonl"
+    },
+    "ingestion_and_index": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No ingestion, index mutation, update or delete in this generation replay."
+    }
+  },
+  "candidate": {
+    "recall_at_5": {
+      "status": "measured",
+      "value": 0.7795138888888888,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "precision_at_5": {
+      "status": "measured",
+      "value": 0.35000000000000003,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "hit_rate_at_5": {
+      "status": "measured",
+      "value": 0.9375,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "mrr_at_5": {
+      "status": "measured",
+      "value": 0.9375,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "ndcg_at_5": {
+      "status": "measured",
+      "value": 0.833565316812447,
+      "method": "Frozen selected child top-5, binary nonempty gold-span overlap proxy. Unannotated children count as zero; annotations are not exhaustive semantic relevance labels. MRR truncated at 5; NDCG binary gains/log2 discount; precision denominator 5.",
+      "n": 16,
+      "artifact": "ranking-diagnostics.json"
+    },
+    "final_evidence_coverage": {
+      "status": "measured",
+      "value": {
+        "annotated_char_recall": 0.9995716773984152,
+        "full_evidence_recall": 0.6875
+      },
+      "method": "Freshly packed evidence with the same 4096-token budget; macro-average over answerable cases.",
+      "n": 16,
+      "artifact": "frozen-evidence.jsonl"
+    },
+    "answer_correctness": {
+      "status": "measured",
+      "value": 0.9907407407407407,
+      "n": 18,
+      "artifact": "development-reviews.jsonl",
+      "method": "Codex development review using frozen expected-point 0/1/2 rubric (relevance 0/1/2). Narrow expected-point scores do not measure all extra factual claims; see known failures."
+    },
+    "faithfulness": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Prior judge omitted substantive factual claims; not rerun here. Focused actual-answer audit recorded, but full claim-by-claim review is unavailable."
+    },
+    "answer_completeness": {
+      "status": "measured",
+      "value": 0.9814814814814815,
+      "n": 18,
+      "artifact": "development-reviews.jsonl",
+      "method": "Codex development review using frozen expected-point 0/1/2 rubric (relevance 0/1/2). Narrow expected-point scores do not measure all extra factual claims; see known failures."
+    },
+    "answer_relevance": {
+      "status": "measured",
+      "value": 2,
+      "n": 18,
+      "artifact": "development-reviews.jsonl",
+      "method": "Codex development review using frozen expected-point 0/1/2 rubric (relevance 0/1/2). Narrow expected-point scores do not measure all extra factual claims; see known failures."
+    },
+    "citation_support": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Prior judge omitted substantive factual claims; not rerun here. Focused actual-answer audit recorded, but full claim-by-claim review is unavailable."
+    },
+    "citation_coverage": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Prior judge omitted substantive factual claims; not rerun here. Focused actual-answer audit recorded, but full claim-by-claim review is unavailable."
+    },
+    "abstention": {
+      "status": "measured",
+      "value": {
+        "appropriate_abstention": {
+          "numerator": 2,
+          "denominator": 2
+        },
+        "incorrect_missing_information_claim": {
+          "numerator": 0,
+          "denominator": 16
+        }
+      },
+      "method": "Codex review; incorrect absence includes a falsely refused subpart.",
+      "artifact": "development-reviews.jsonl"
+    },
+    "first_answer_delta_latency": {
+      "status": "measured",
+      "value": {
+        "mean": 0.8760669260130575,
+        "p50": 0.7419849170837551,
+        "p95": 3.643484584055841,
+        "unit": "seconds"
+      },
+      "method": "Generation-only SDK stream; seconds, nearest-rank percentiles, successful requests. Full application end-to-end timing excluded.",
+      "n": 18,
+      "artifact": "answers.jsonl"
+    },
+    "complete_response_latency": {
+      "status": "measured",
+      "value": {
+        "mean": 2.4964175393365116,
+        "p50": 2.207856416935101,
+        "p95": 5.130264999927022,
+        "unit": "seconds"
+      },
+      "method": "Generation-only SDK stream; seconds, nearest-rank percentiles, successful requests. Full application end-to-end timing excluded.",
+      "n": 18,
+      "artifact": "answers.jsonl"
+    },
+    "stage_latency": {
+      "generation": {
+        "status": "measured",
+        "value": {
+          "mean": 2.4964175393365116,
+          "p50": 2.207856416935101,
+          "p95": 5.130264999927022,
+          "unit": "seconds"
+        },
+        "method": "Production generation stage replay, including provider HTTP.",
+        "n": 18,
+        "artifact": "answers.jsonl"
+      },
+      "packing": {
+        "status": "measured",
+        "value": {
+          "mean": 0.005511416626783709,
+          "p50": 0.005111917038448155,
+          "p95": 0.01130729098804295,
+          "unit": "seconds"
+        },
+        "method": "Fresh exact identity-inclusive context packing.",
+        "n": 18,
+        "artifact": "answers.jsonl"
+      },
+      "query_embedding_search_reranking": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "Frozen selections; these stages were not executed."
+      }
+    },
+    "token_usage_and_cost": {
+      "provider_usage": {
+        "status": "measured",
+        "value": {
+          "input_tokens": 61449,
+          "output_tokens": 3095,
+          "total_tokens": 64544
+        },
+        "method": "Provider-reported generation usage totals.",
+        "n": 18,
+        "artifact": "answers.jsonl"
+      },
+      "billed_cost": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "Billing data not exposed by the response; no price estimate substituted."
+      },
+      "local_rerank_compute": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "No reranker execution in frozen replay."
+      }
+    },
+    "reliability": {
+      "status": "measured",
+      "value": {
+        "success": 18,
+        "errors": 0,
+        "attempts": 18,
+        "success_rate": 1.0,
+        "retries": 0,
+        "timeouts": 0
+      },
+      "method": "All generation requests; SDK retries disabled.",
+      "n": 18,
+      "artifact": "answers.jsonl"
+    },
+    "concurrency_and_throughput": {
+      "status": "measured",
+      "value": {
+        "concurrency": 1,
+        "successful_requests_per_active_second": 0.4005740162624303
+      },
+      "method": "Sequential completed requests divided by active request time per arm, excluding gaps; not capacity under load. batch.json retains full mixed-arm wall time.",
+      "n": 18,
+      "artifact": "answers.jsonl"
+    },
+    "ingestion_and_index": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No ingestion, index mutation, update or delete in this generation replay."
+    }
+  }
+}

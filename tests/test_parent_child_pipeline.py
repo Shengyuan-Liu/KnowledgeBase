@@ -157,7 +157,9 @@ def test_expanded_sources_numbering_prompt_and_post_delete_history(storage, embe
     assert [source.text for source in result.sources] == [parent.text for parent in parents]
     assert result.citation_check.valid_source_ids == [1, 2]
     prompt = llm.generate.call_args.args[0][-1]["content"]
-    assert f"[1]\n{parents[0].text}\n\n[2]\n{parents[1].text}" in prompt
+    for i, parent in enumerate(parents, start=1):
+        metadata = json.dumps({'file_name': 'guide.md', 'heading_path': parent.heading_path}, ensure_ascii=False)
+        assert f"[{i}]\nSource metadata: {metadata}\nExcerpt:\n{parent.text}" in prompt
     delete_file(file_id, sessions, store)
     with sessions() as session:
         saved = get_conversation_detail(session, result.conversation_id).messages[-1]

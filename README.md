@@ -172,6 +172,9 @@ also records first-delta and full-completion latency over real HTTP streams.
 The [multi-source generation comparison](evals/library-runs/20260924T012523Z-source-attribution-v2/README.md)
 records the revised comparison prompt, improved CPT fact coverage, remaining
 source-label errors, longer generation time, and unavailable claim-level scores.
+The [source identity comparison](evals/library-runs/20260924T150609Z-source-metadata-v2/README.md)
+adds budgeted file-name and heading-path labels, with unchanged source slices and
+recorded coverage, attribution, citation-format and latency results.
 
 Run the frozen NYU question set, grade answers with human review or an LLM judge, and
 compare recorded experiments using the [evaluation guide](evals/README.md).

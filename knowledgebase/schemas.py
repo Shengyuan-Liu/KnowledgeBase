@@ -209,6 +209,7 @@ class RetrievalDiagnostics(BaseModel):
     excluded: list[ExcludedEvidence] = Field(default_factory=list)
     unexpanded_parents: list[ExcludedEvidence] = Field(default_factory=list)
     packing_seconds: float | None = None
+    context_format: str | None = None
     evidence_tokens: int = 0
     max_tokens: int
     tokenizer: str

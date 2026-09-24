@@ -32,7 +32,7 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `CHUNK_TOKENIZER` | `cl100k_base` | tiktoken encoding for splitting and evidence packing |
 | `PARENT_MAX_TOKENS` | `1536` | Parent token limit in `parent_child` mode |
 | `EVIDENCE_PACKING_STRATEGY` | `parent_then_child` | Keep admitted parents, then fit whole children of omitted parents; `parent_first` is the control |
-| `EVIDENCE_MAX_TOKENS` | `4096` | Exact numbered evidence budget, including labels and separators, for all strategies |
+| `EVIDENCE_MAX_TOKENS` | `4096` | Exact evidence budget, including source file/heading metadata, labels and separators, for all strategies |
 | `CHUNK_SIZE` | `2048` | Maximum characters per chunk in `character` mode only |
 | `CHUNK_OVERLAP` | `256` | Character overlap in `character` mode only |
 | `RETRIEVAL_STRATEGY` | `hybrid` | BM25 + vector + RRF; `vector` selects the vector-only control |

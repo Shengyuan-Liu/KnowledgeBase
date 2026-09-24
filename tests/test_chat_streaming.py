@@ -95,7 +95,10 @@ def test_stream_sources_deltas_complete_and_followup_match_saved_history(streami
         assert saved["sources"] == [{**s, "file_deleted": False} for s in complete["sources"]]
         assert saved["citation_check"] == complete["citation_check"]
         assert streamer.closed
-        assert "[1]\nThe café closes at 5 PM." in streamer.messages[1]["content"]
+        assert '"file_name": "hours.txt"' in streamer.messages[1]["content"]
+        assert "Excerpt:\nThe café closes at 5 PM." in streamer.messages[1]["content"]
+        assert complete['retrieval']['context_format'] == 'source-metadata-v1'
+        assert saved['retrieval']['context_format'] == 'source-metadata-v1'
 
         followup = client.post("/api/chat/stream", json={
             "question": "What time?", "request_id": "two", "conversation_id": complete["conversation_id"],

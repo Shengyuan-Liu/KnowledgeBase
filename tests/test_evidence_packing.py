@@ -72,6 +72,18 @@ def test_oversize_parent_keeps_complete_code_child_and_ample_budget_deduplicates
     assert empty.diagnostics.excluded[0].chunk_id == child.chunk.chunk_id
 
 
+def test_source_identity_is_in_budget_and_historical_format_is_unknown():
+    child = region('flat', 'A complete fact.')
+    text_only = len(tiktoken.get_encoding('cl100k_base').encode_ordinary('[1]\n' + child.chunk.text))
+    assert pack([child], [child], text_only).chunks == []
+    result = pack([child], [child], tokens([child]))
+    assert result.chunks == [child]
+    assert result.diagnostics.evidence_tokens == tokens([child])
+    assert result.diagnostics.context_format == 'source-metadata-v1'
+    old = result.diagnostics.model_dump(exclude={'context_format'})
+    assert RetrievalDiagnostics.model_validate(old).context_format is None
+
+
 @pytest.mark.parametrize('streaming', [False, True])
 def test_api_retained_child_offsets_provenance_and_history_survive_delete(configured_app, monkeypatch, streaming):
     app, _, sdk = configured_app
@@ -91,7 +103,9 @@ def test_api_retained_child_offsets_provenance_and_history_survive_delete(config
             child = next(c for c in get_chunks(session, file_id) if 'Internships' in c.text)
         resources.settings.retrieval_strategy = 'vector'
         resources.settings.retrieval_top_k = 1
-        resources.settings.evidence_max_tokens = tokens([region(child.chunk_id, child.text)])
+        resources.settings.evidence_max_tokens = tokens([
+            RetrievedChunk(chunk=child, file_name='timing.md', distance=0.2),
+        ])
         resources.store.search = Mock(return_value=[VectorMatch(chunk_id=child.chunk_id, distance=0.2)])
         response = client.post('/api/chat/stream' if streaming else '/api/chat', json={
             'question': 'Internship timing?', 'request_id': 'packing-test',

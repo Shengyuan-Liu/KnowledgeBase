@@ -1,0 +1,72 @@
+........................................................................ [ 15%]
+........................................................................ [ 30%]
+....................................................................FF.. [ 45%]
+............................................................s........... [ 60%]
+........................................................................ [ 75%]
+........................................................................ [ 90%]
+......FFFFFF....................................                         [100%]
+=================================== FAILURES ===================================
+_ test_api_retained_child_offsets_provenance_and_history_survive_delete[False] _
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_evidence_packing.py:113: in test_api_retained_child_offsets_provenance_and_history_survive_delete
+    source = result['sources'][0]
+             ^^^^^^^^^^^^^^^^^^^^
+E   IndexError: list index out of range
+_ test_api_retained_child_offsets_provenance_and_history_survive_delete[True] __
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_evidence_packing.py:113: in test_api_retained_child_offsets_provenance_and_history_survive_delete
+    source = result['sources'][0]
+             ^^^^^^^^^^^^^^^^^^^^
+E   IndexError: list index out of range
+_ test_api_uses_dotenv_for_upload_retrieval_history_and_models[structural-False] _
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_runtime_settings.py:74: in test_api_uses_dotenv_for_upload_retrieval_history_and_models
+    assert len(first["sources"]) == (1 if strategy == "parent_child" else 2)
+E   AssertionError: assert 1 == 2
+E    +  where 1 = len([{'source_id': 1, 'file_id': '160cf22c04dc48aabbaa89dabd98e48a', 'file_name': 'notes.txt', 'chunk_id': '160cf22c04dc48aabbaa89dabd98e48a:structural:1', ...}])
+_ test_api_uses_dotenv_for_upload_retrieval_history_and_models[structural-True] _
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_runtime_settings.py:74: in test_api_uses_dotenv_for_upload_retrieval_history_and_models
+    assert len(first["sources"]) == (1 if strategy == "parent_child" else 2)
+E   AssertionError: assert 1 == 2
+E    +  where 1 = len([{'source_id': 1, 'file_id': '300b562564c146e98fb71c05ad8c31dc', 'file_name': 'notes.txt', 'chunk_id': '300b562564c146e98fb71c05ad8c31dc:structural:1', ...}])
+_ test_api_uses_dotenv_for_upload_retrieval_history_and_models[character-False] _
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_runtime_settings.py:74: in test_api_uses_dotenv_for_upload_retrieval_history_and_models
+    assert len(first["sources"]) == (1 if strategy == "parent_child" else 2)
+E   AssertionError: assert 1 == 2
+E    +  where 1 = len([{'source_id': 1, 'file_id': 'c14439d7743f4c98ac4c5b4648eef206', 'file_name': 'notes.txt', 'chunk_id': 'c14439d7743f4c98ac4c5b4648eef206:0', ...}])
+_ test_api_uses_dotenv_for_upload_retrieval_history_and_models[character-True] _
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_runtime_settings.py:74: in test_api_uses_dotenv_for_upload_retrieval_history_and_models
+    assert len(first["sources"]) == (1 if strategy == "parent_child" else 2)
+E   AssertionError: assert 1 == 2
+E    +  where 1 = len([{'source_id': 1, 'file_id': 'a86154f0c1f64647b723abede048e614', 'file_name': 'notes.txt', 'chunk_id': 'a86154f0c1f64647b723abede048e614:0', ...}])
+_ test_api_uses_dotenv_for_upload_retrieval_history_and_models[parent_child-False] _
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_runtime_settings.py:80: in test_api_uses_dotenv_for_upload_retrieval_history_and_models
+    assert first["sources"][0]["parent_id"] == first["sources"][0]["chunk_id"]
+E   AssertionError: assert '8dfcfe0ad3e8...6dbd:parent:0' == '8dfcfe0ad3e8...c6dbd:child:1'
+E     
+E     - 8dfcfe0ad3e84e0e891b84854c1c6dbd:child:1
+E     ?                                  ^^^^^ ^
+E     + 8dfcfe0ad3e84e0e891b84854c1c6dbd:parent:0
+E     ?                                  ^^^^^^ ^
+_ test_api_uses_dotenv_for_upload_retrieval_history_and_models[parent_child-True] _
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_runtime_settings.py:80: in test_api_uses_dotenv_for_upload_retrieval_history_and_models
+    assert first["sources"][0]["parent_id"] == first["sources"][0]["chunk_id"]
+E   AssertionError: assert 'b2c99ae628f5...e9be:parent:0' == 'b2c99ae628f5...3e9be:child:1'
+E     
+E     - b2c99ae628f54654b3b1d0bcec63e9be:child:1
+E     ?                                  ^^^^^ ^
+E     + b2c99ae628f54654b3b1d0bcec63e9be:parent:0
+E     ?                                  ^^^^^^ ^
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_evidence_packing.py::test_api_retained_child_offsets_provenance_and_history_survive_delete[False]
+FAILED tests/test_evidence_packing.py::test_api_retained_child_offsets_provenance_and_history_survive_delete[True]
+FAILED tests/test_runtime_settings.py::test_api_uses_dotenv_for_upload_retrieval_history_and_models[structural-False]
+FAILED tests/test_runtime_settings.py::test_api_uses_dotenv_for_upload_retrieval_history_and_models[structural-True]
+FAILED tests/test_runtime_settings.py::test_api_uses_dotenv_for_upload_retrieval_history_and_models[character-False]
+FAILED tests/test_runtime_settings.py::test_api_uses_dotenv_for_upload_retrieval_history_and_models[character-True]
+FAILED tests/test_runtime_settings.py::test_api_uses_dotenv_for_upload_retrieval_history_and_models[parent_child-False]
+FAILED tests/test_runtime_settings.py::test_api_uses_dotenv_for_upload_retrieval_history_and_models[parent_child-True]
+8 failed, 471 passed, 1 skipped, 1 warning in 13.84s

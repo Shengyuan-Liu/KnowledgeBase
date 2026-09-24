@@ -23,7 +23,7 @@ def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app,
         "CHUNK_SIZE=12\nCHUNK_OVERLAP=3\nRETRIEVAL_TOP_K=2\nHISTORY_LIMIT=1\n"
         "OPENAI_BASE_URL=https://provider.test/v1\nOPENAI_TIMEOUT_SECONDS=42\nOPENAI_MAX_RETRIES=1\n"
         f"CHUNKING_STRATEGY={strategy}\nCHUNK_MAX_TOKENS=4\nCHUNK_TOKENIZER=o200k_base\n"
-        "PARENT_MAX_TOKENS=8\nEVIDENCE_MAX_TOKENS=24\n"
+        "PARENT_MAX_TOKENS=8\nEVIDENCE_MAX_TOKENS=96\n"
         "RETRIEVAL_STRATEGY=hybrid\nRETRIEVAL_CANDIDATE_LIMIT=3\nBM25_K1=0.9\nBM25_B=0.4\nRRF_K=10\n"
     )
     sdk.responses.create.side_effect = lambda **kw: Mock(
@@ -74,7 +74,7 @@ def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app,
         assert len(first["sources"]) == (1 if strategy == "parent_child" else 2)
         assert first["retrieval"]["options"] == RetrievalOptions(packing_strategy="parent_then_child", candidate_limit=3, bm25_k1=0.9, bm25_b=0.4, rrf_k=10).model_dump()
         assert first["retrieval"]["top_k"] == 2
-        assert first["retrieval"]["max_tokens"] == 24
+        assert first["retrieval"]["max_tokens"] == 96
         assert first["retrieval"]["tokenizer"] == "o200k_base"
         if strategy == "parent_child":
             assert first["sources"][0]["parent_id"] == first["sources"][0]["chunk_id"]

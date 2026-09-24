@@ -61,8 +61,10 @@ def test_numbers_sources_in_retrieval_order_and_preserves_question_and_text():
         "role": "user",
         "content": (
             "Question:\n  When does the café close in fall 2026?\n\n\nSources:\n"
-            "[1]\n  In fall 2026, the café closes at 5 PM.\n\n\n"
-            "[2]\nIn spring 2026, the café closes at 4 PM."
+            '[1]\nSource metadata: {"file_name": "notes.txt", "heading_path": []}\nExcerpt:\n'
+            '  In fall 2026, the café closes at 5 PM.\n\n\n'
+            '[2]\nSource metadata: {"file_name": "notes.txt", "heading_path": []}\nExcerpt:\n'
+            'In spring 2026, the café closes at 4 PM.'
         ),
     }
 
@@ -98,5 +100,6 @@ async def test_comparison_prompt_is_shared_by_json_and_streaming_with_later_evid
     assert 'check all provided excerpts for each named' in instructions['content']
     assert 'not interchangeable' in instructions['content']
     assert 'require an explicit statement in the evidence' in instructions['content']
-    assert user['content'].endswith('[3]\n' + texts[-1])
+    assert user['content'].endswith('Excerpt:\n' + texts[-1])
+    assert '[3]\nSource metadata: {"file_name": "source-2.txt", "heading_path": []}' in user['content']
     assert [user['content'].count(text) for text in texts] == [1, 1, 1]

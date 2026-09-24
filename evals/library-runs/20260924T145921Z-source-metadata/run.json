@@ -1,0 +1,33 @@
+{
+  "scope": "Frozen top-5 child selections; fresh budget packing and production streamed generation.",
+  "base_commit": "76b71bc941aa495a4e8d9bf364edb52c5d0b0f1c",
+  "code_hashes": {
+    "knowledgebase/rag/context.py": "266dfb81446d97ca8c49cf1b1c9d7dd0311e4c561d8cc0bcc22f6435f71a457d",
+    "knowledgebase/rag/generation.py": "726f5a7089f4b021f8a5321e0d3e51544bb28b5c33cf28c538821486eb997fc8",
+    "knowledgebase/rag/packing.py": "f3906fc582a93207e074844a7726cb060d5fb0de3eb2695a26b815699440d07c"
+  },
+  "input_hashes": {
+    "cases.json": "1bc03e1fca2182c6d823c8c9ee3138c70ed90e4836af95d5792f8736d2a0d7cd",
+    "chunks.json": "d172c6eef2c6d33c995973d48892613bef00a99f4c375c41531fde0f1fb47742",
+    "frozen-evidence.jsonl": "e5708d35c1f07fc4274d23b957dda4eca955fe43a82a2ba90da45e691ec1e0f4"
+  },
+  "answer_model": "gpt-4.1",
+  "concurrency": 1,
+  "timeout_seconds": 60.0,
+  "max_retries": 0,
+  "evidence_max_tokens": 4096,
+  "warmup": "none; provider cache and host/network load uncontrolled",
+  "retrieval_options": {
+    "strategy": "hybrid",
+    "packing_strategy": "parent_then_child",
+    "candidate_limit": 20,
+    "bm25_k1": 1.2,
+    "bm25_b": 0.75,
+    "rrf_k": 60.0,
+    "rerank_enabled": true,
+    "rerank_candidate_limit": 20,
+    "rerank_max_input_tokens": 16384
+  },
+  "timing_scope": "Separate packing and generation; generation SDK stream excludes retrieval and app HTTP.",
+  "judge": "No provider judge run: prior observed claim-omission failures remain unresolved."
+}

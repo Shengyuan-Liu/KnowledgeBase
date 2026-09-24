@@ -60,7 +60,8 @@ not convert existing chunks.
    no separately computed embedding score. Deduplication can leave fewer than
    top-k sources; this stage does not fetch more candidates to fill the list.
 4. Greedily pack whole parent/flat regions in that order. Count the exact
-   `build_context()` output, including citation labels and separators. Keep every
+   `build_context()` output, including citation labels, source metadata (file name
+   and heading path), excerpt labels and separators. Keep every
    admitted parent; the next pass never evicts it.
 5. With `EVIDENCE_PACKING_STRATEGY=parent_then_child` (the default), revisit selected
    hits whose parents did not fit. Admit each complete child if the resulting
@@ -79,6 +80,14 @@ Packing applies to flat strategies as well. It never truncates a parent or joins
 unrelated sections. The evidence budget excludes the system instructions,
 question, and generated answer: it is not a guarantee about a model's total
 context window. Historical snapshots are never repacked after settings change.
+
+Each numbered region has a `Source metadata` JSON label containing `file_name`
+and `heading_path`, followed by `Excerpt:` and the unchanged canonical text.
+An unavailable heading path is an empty list; titles are not invented. The
+metadata identifies the source but does not supply extra facts. Packing and
+generation share this formatter, so metadata uses the same evidence budget as
+the excerpts. This can change which complete regions fit without changing the
+selected child rankings. See the [source identity comparison](../evals/library-runs/20260924T150609Z-source-metadata-v2/README.md).
 
 ## Responses and Saved Evidence
 
@@ -103,14 +112,17 @@ Every answer source describes the actual text supplied to generation:
   rank. These values describe the child, not an embedding of its parent.
 
 JSON answers and SSE `complete` events include `retrieval` with `candidates`,
-`excluded`, `unexpanded_parents`, `packing_seconds`, `evidence_tokens`, `max_tokens`,
+`excluded`, `unexpanded_parents`, `packing_seconds`, `context_format`, `evidence_tokens`, `max_tokens`,
 and `tokenizer`. In the default mode, `excluded` contains selected hits absent
 from the final evidence. `unexpanded_parents` identifies parents omitted while at
 least one of their selected children is retained; these are not lost facts. The
 parent-first control keeps its historical whole-region exclusion meaning. The SSE `sources`
 event already contains the final parent/child source list. `evidence_tokens` counts the
 formatted context; source `token_count` counts only that source text using its
-stored tokenizer. These can differ after tokenizer settings change.
+stored tokenizer. These can differ after tokenizer settings change. Newly packed
+contexts record `context_format: "source-metadata-v1"`; historical snapshots
+without a recorded version deserialize as null, not as the current format.
+Empty retrieval also has no packed context format.
 
 Source snapshots include the exact supplied parent or child text and metadata. The supplementary
 `retrieval_snapshots` table stores the diagnostics, keyed to
