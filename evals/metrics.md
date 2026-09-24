@@ -26,27 +26,60 @@ suite and protocol 3; their scores must not be pooled with this benchmark.
 
 ## LLM-as-a-judge protocol
 
-`claim-inventory-v4` has two calls per successful answer:
+`claim-inventory-v10` has three calls per successful judgment:
 
 1. Split the original answer deterministically into every nonempty line. The judge
    classifies assertions within every line (including mixed factual/refusal lines)
    and lists atomic factual claims bound to the full original answer unit,
    including extra details, code, tables and source attribution. Every nonempty line must contain classified items; omitted/duplicate lines are rejected.
-2. A second call audits the inventory and assesses each claim against the **actual
-   supplied sources**. It separately scores expected points, relevance, citations and
+2. A source-blind call audits the inventory against the original answer. It receives
+   only answer units and the inventory, never sources, reference points or calibration
+   labels. Reported extraction issues stop the review before evidence grading.
+3. A final call assesses each claim against the **actual supplied sources**.
+   It separately scores expected points, relevance, citations and
    refusal behavior. Supported and contradicted claims select numbered source lines; the evaluator
    records their exact text directly, avoiding model-generated quote paraphrases.
    All inventoried claims must be assessed in order. Reported omissions, fabricated
    answer quotes, absent source/line IDs or untraceable citation assignments invalidate the review.
 
-The two calls use `JUDGE_MODEL` (default `gpt-5.4-mini`) and
-`JUDGE_REASONING_EFFORT` (default `medium`; `off` omits the parameter for models that
+Extraction preserves alternatives, conditions, negation, categories and restrictive
+qualifiers. Atomic claims must retain their original logical scope. Documented
+installation/configuration instructions count as factual claims. The second pass
+audits extraction against the original answer only; a faithfully extracted but
+unsupported answer claim receives a support verdict, not an inventory error.
+`inventory_audit` retains extraction issues and `assessment_attempt` retains an
+attempted evidence assessment before validation. Invalid extraction never becomes
+an answer score. The additional source-blind audit is measured separately.
+Faithful nonexhaustive list paraphrases are allowed. Editorial phrases such as
+"main requirements" are not interpreted as official priority or exclusivity unless
+the answer explicitly asserts that meaning; substantive requirements remain factual.
+Source lead-ins do not create claims about the answer's own production history.
+Specific source-attributed facts are still assessed. Nested-field summaries are
+resolved in answer context: an ignored child parameter does not mean its parent
+object is unsupported. Absence of evidence is insufficient, not contradiction.
+
+Run `make eval-calibrate` to check the judge against the
+[fixed calibration set](calibration/cases.json). It calls only the judge, uses the
+same `.env` judge settings, prints the full applicable metric inventory and saves
+new records in `evals/calibration-runs/`. Correct answers, altered facts and refusal
+cases have frozen expectations that are not sent to the judge. Missing factual
+claims cannot silently pass. Pending reviews count against overall agreement but
+are reported separately from wrong decisions. This command exits nonzero for any
+label mismatch or pending review. Labels are Codex-authored development regressions,
+not independent human annotations or held-out accuracy. See the
+[calibration guide](calibration/README.md) for scope and comparison results.
+The [latest calibration review](check-runs/20260924-judge-calibration/REVIEW.md)
+retains a pending internally contradictory judgment; traceable output is not a
+guarantee of semantic correctness.
+
+The three calls use `JUDGE_MODEL` (default `gpt-5.4-mini`) and
+`JUDGE_REASONING_EFFORT` (default `high`; `off` omits the parameter for models that
 do not support reasoning). [Official model documentation](https://developers.openai.com/api/docs/models/gpt-5.4-mini)
-confirms structured outputs and the available reasoning levels. The second pass is an audit by the same configured
+confirms structured outputs and the available reasoning levels. All stages use the same configured
 model, not an independent human. Reviews run with `JUDGE_CONCURRENCY` workers (default 4), separately from the
 sequential RAG batch. `judge-batch.json` records concurrency and wall time; per-review
 judge latency excludes waiting for a worker. Expected-point and refusal evidence select answer unit IDs; exact answer text is
-recovered by the evaluator. Both prompts, schemas, raw responses, token usage,
+recovered by the evaluator. All prompts, schemas, raw responses, token usage,
 resolved model IDs and protocol hash are retained. No repair, automatic retry or
 silent passing score is applied. Invalid reviews remain pending; full-set pass rate
 is withheld. The command returns nonzero for current RAG/judge operational failures, while

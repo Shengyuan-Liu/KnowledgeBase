@@ -45,9 +45,9 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `EVAL_TIMEOUT_SECONDS` | `60` | Evaluation/LLM-judge/live-smoke SDK timeout |
 | `EVAL_MAX_RETRIES` | `0` | Evaluation/LLM-judge/live-smoke SDK retry limit |
 | `JUDGE_MODEL` | `gpt-5.4-mini` | Model for `make eval` and `grade --judge-model` without an explicit model |
-| `JUDGE_REASONING_EFFORT` | `medium` | Reasoning level for `make eval`; `off` omits the API option for non-reasoning models |
+| `JUDGE_REASONING_EFFORT` | `high` | Reasoning level for evaluation/calibration; `off` omits the API option for non-reasoning models |
 | `JUDGE_CONCURRENCY` | `4` | Concurrent answer reviews in `make eval`; RAG requests remain sequential |
-| `JUDGE_TIMEOUT_SECONDS` | `180` | Per-call timeout for the two-pass `make eval` judge; separate from RAG request timeout |
+| `JUDGE_TIMEOUT_SECONDS` | `180` | Per-call timeout for the three-stage judge; separate from RAG request timeout |
 
 Model availability still depends on the configured provider/account. `JUDGE_MODEL`
 is a configuration default, not a claim that the judge is calibrated. The recorded

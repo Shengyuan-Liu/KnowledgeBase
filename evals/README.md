@@ -1,5 +1,8 @@
 # Recorded RAG evaluations
 
+For judge regression calibration, run **`make eval-calibrate`**; see the
+[fixed labels and metric definitions](calibration/README.md).
+
 For the current one-command benchmark, run **`make eval`**. It runs the full RAG
 pipeline on 18 frozen cases, uses a two-pass LLM claim judge, prints metrics, and
 compares the previous compatible run. See the [automated evaluation and metrics guide](metrics.md).

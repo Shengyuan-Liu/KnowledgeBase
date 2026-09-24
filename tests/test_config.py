@@ -46,6 +46,14 @@ def test_answer_model_defaults_and_environment_override(tmp_path, monkeypatch):
     assert Settings().answer_model == "test-model"
 
 
+def test_calibrated_judge_reasoning_default_and_override(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("JUDGE_REASONING_EFFORT", raising=False)
+    assert Settings(openai_api_key="offline-test").judge_reasoning_effort == "high"
+    monkeypatch.setenv("JUDGE_REASONING_EFFORT", "medium")
+    assert Settings(openai_api_key="offline-test").judge_reasoning_effort == "medium"
+
+
 def test_all_runtime_options_and_override_precedence(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     values = {

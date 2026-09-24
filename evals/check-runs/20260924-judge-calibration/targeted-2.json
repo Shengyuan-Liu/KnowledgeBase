@@ -1,0 +1,170 @@
+{
+  "command": [
+    "uv",
+    "run",
+    "--locked",
+    "python",
+    "-m",
+    "pytest",
+    "tests/test_automatic_evaluation.py",
+    "-q"
+  ],
+  "git": {
+    "commit": "76db4b57f9246240728e0b999eca03adfb6dad3b",
+    "dirty": true,
+    "diff_sha256": "0d57cf0a104e6f0a84a2c985697248a183920e1a26d4f866f8738105968756ed",
+    "implementation_sha256": {
+      "evals/__init__.py": "19f4827ad5cf13373087b01b81f0759fe69da33490b9a49be26ee2159823b889",
+      "evals/automatic.py": "5ccd8c728ad6c02110efb0220594ad6b6808a9c61e314bd84e5d34129d463ae7",
+      "evals/calibrate.py": "e3a6776a562f9a87c0b7089c1bcaa4c7e542405c541b319fe00a943ccd6fc2ed",
+      "evals/evaluate.py": "35aeece6c62b06ff0fd565e591fca5b247257ccfcd9d1958e27572b8f1391eb5",
+      "evals/judge.py": "310f49bf49a29dde66139a5d7f917f064d30afcbdd30d44770e89af8147ee9ae",
+      "evals/metrics.py": "8d9a27d1416060b58a8f6614829d26b4a95084c7a3cec7d4446e4f91c68f6f02",
+      "knowledgebase/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "knowledgebase/api/__init__.py": "7dc7eab42c3d7348a4ec1da96d6de0f739044ae91333929c50098367afbd56b7",
+      "knowledgebase/api/app.py": "c2dda5541f44ac1f8841eddd8c9c4da56240ffcb54ad0b701dd62b444b4944ba",
+      "knowledgebase/api/chat.py": "a6e4a290c4f4801e4496ad6f10eff163db54e25660a39a80e5687a238c5f594d",
+      "knowledgebase/api/conversations.py": "81fafa9a30c5a87caaef103c9f61fd23fdf2a92d68851292e5629a4cc2965b17",
+      "knowledgebase/api/dependencies.py": "5ba59bce9422daf0aa15a89edf8586cb71fc2c360025198c41e27da4faefb611",
+      "knowledgebase/api/files.py": "d546c95f4e17ec6654632c1f460f8c53b13aa8daad29422457fcc5049363a1e7",
+      "knowledgebase/api/streaming.py": "f2cc5359c037d7480d890ad249dcb844c5f8e4fbdb187cae50fac378ea6058e6",
+      "knowledgebase/cli.py": "71844b9bef91676632178faea9b7abc0e33b1dc9cc09117ca126f9f323cabe4f",
+      "knowledgebase/config.py": "b89f69105398e82d3ef990c54ceff62a633415a3ac42169d9e84b609d1f2db91",
+      "knowledgebase/providers/__init__.py": "b251cd6fde07ea42f25226c76644d8921aed56fd12e0c5d6dbdf3dd972768f05",
+      "knowledgebase/providers/embeddings.py": "6d92ababaf52ee7bee6b9efb3dbb0a672f5d31df0db8b14de493835d38fd4fe1",
+      "knowledgebase/providers/llm.py": "b374459cbf6f27cb9497d35ead820a73b14c19ecb0bd0651a68642a09fef41b9",
+      "knowledgebase/providers/reranker.py": "8813067e8ad2c3b85a88698ed170fd69c6bbbd14e544618e55de1b04801a204c",
+      "knowledgebase/rag/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "knowledgebase/rag/bm25.py": "d13c8a8fe6a97a08f5ce0b2617b32c86c074354ed17a154dd812b47710c27873",
+      "knowledgebase/rag/chunking.py": "4ce45b17ef2c807b73907c6dc382e39710e2cead1c6389f17c25e7696b258edc",
+      "knowledgebase/rag/citations.py": "5497481dae8b562f4ee03b1b56abd1734bd531ea5cf6dea0b7ad68854148b460",
+      "knowledgebase/rag/context.py": "266dfb81446d97ca8c49cf1b1c9d7dd0311e4c561d8cc0bcc22f6435f71a457d",
+      "knowledgebase/rag/fusion.py": "780c6b459ac05a19ea218eae95a3c54d1598134806f5f8b447becd07b62ee3be",
+      "knowledgebase/rag/generation.py": "4a40043d1f9f1e665fa30e0b39b94221e8c202fe953bcdbf0c95120ee73e959c",
+      "knowledgebase/rag/packing.py": "f3906fc582a93207e074844a7726cb060d5fb0de3eb2695a26b815699440d07c",
+      "knowledgebase/rag/parsing.py": "62a65cb8eb41edc95437e568ea07bc74a6150374a0659a3d531ba0bf3aff3316",
+      "knowledgebase/rag/query.py": "c105c417e92bb082aef226ec4ea16858d88a636533a4d38400821c127b2dc2f6",
+      "knowledgebase/rag/reranking.py": "e4a1fe578688329866f7b2ebaebb16a7dce23a5a1707a2bd6254fe32de073054",
+      "knowledgebase/rag/retrieval.py": "b33eec68fbdfea26a0bbd48d558cabdaecf1b06cc30965194d9bcbf862d44018",
+      "knowledgebase/schemas.py": "d4872b5b818ad8a46218f992f11723cdd02642501b5bb78519d873938de763be",
+      "knowledgebase/services/__init__.py": "5651ac6f97850be849d3f9998be3a81ea8795655374d865328ab078b7b66e6dd",
+      "knowledgebase/services/chat.py": "80a07072f2d2c495f9b6c46b5ad3ee4a03c9b5935a2b8249b63279a669902b43",
+      "knowledgebase/services/files.py": "944a83b8c328619d320acb33d9ce4798eb2f4f18e8d8a91cfe6f2c0dd8ea8832",
+      "knowledgebase/storage/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "knowledgebase/storage/database.py": "4a694c675130a2a81ebf8d4ad4432d90b26bc7a460e41a63dc68b3fcec05989f",
+      "knowledgebase/storage/models.py": "0a2f1dbc94a09981d3b97784ee5e3b343b8ded6033147b58fed1a43719f4d2e6",
+      "knowledgebase/storage/operations.py": "997812960e13a6aee7e138393093e52f96f8879a86bce74ede846aba38e00989",
+      "knowledgebase/storage/runtime.py": "84e33b6107faa2688bf6c2fc3a3790a6889b0792966e667a9c35376d454b3523",
+      "knowledgebase/storage/vectordb.py": "97f04f87c255f321a73c92b97a46803e7aa3daadf3fc62d4e1f80f5eab32bf61",
+      "uv.lock": "0d6ad1c0aebb22f64007f1aca6df0f28c3a59243e357386d7c07a23c20288111"
+    }
+  },
+  "seconds": 1.4645914169959724,
+  "finished_at": "2026-09-24T19:15:27.107709+00:00",
+  "exit_code": 0,
+  "counts": {
+    "passed": 33
+  },
+  "metric_inventory": {
+    "recall_at_k": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "precision_at_k": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "hit_rate_at_k": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "mrr_at_k": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "ndcg_at_k": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "final_evidence_coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "answer_correctness": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "faithfulness": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "answer_completeness": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "answer_relevance": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "citation_support": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "citation_coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "abstention": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "first_answer_delta_latency": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "complete_response_latency": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "stage_latency": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "token_usage_and_cost": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "reliability": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "concurrency_and_throughput": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    },
+    "ingestion_and_index": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Offline mocked-provider regression checks; no live quality, usage or production performance measurement."
+    }
+  }
+}

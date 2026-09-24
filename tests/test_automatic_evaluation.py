@@ -7,7 +7,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from evals import automatic as run, judge, metrics
+from evals import automatic as run, calibrate, judge, metrics
 
 
 def sample():
@@ -20,7 +20,7 @@ def sample():
          "claims": [{"kind": "factual", "statement": "36 credits are required."}]},
         {"unit_id": "u2", "reason": "Extra course-type assertion.",
          "claims": [{"kind": "factual", "statement": "Three courses are required."}]}]}
-    assessment = {"inventory_issues": [], "claims": [
+    assessment = {"claims": [
         {"claim_id": "u1.c1", "verdict": "supported", "evidence": [{"source_id": 1, "unit_ids": [1]}],
          "citations": [{"source_id": 1, "verdict": "supported", "unit_ids": [1], "reason": "Exact fact."}], "reason": "Exact fact."},
         {"claim_id": "u2.c1", "verdict": "contradicted", "evidence": [{"source_id": 1, "unit_ids": [2]}],
@@ -61,14 +61,12 @@ def test_inventory_rejects_observed_claim_omissions(mutation):
         judge.validate_inventory(inventory, answer["answer"])
 
 
-@pytest.mark.parametrize("mutation", ["missing_claim", "audit_omission", "fake_source", "fake_quote", "fake_citation", "point_without_quote"])
+@pytest.mark.parametrize("mutation", ["missing_claim", "fake_source", "fake_quote", "fake_citation", "point_without_quote"])
 def test_judge_rejects_incomplete_or_untraceable_review(mutation):
     case, answer, inventory, assessment = sample()
     _, claims = judge.validate_inventory(inventory, answer["answer"])
     if mutation == "missing_claim":
         assessment["claims"].pop()
-    elif mutation == "audit_omission":
-        assessment["inventory_issues"] = ["Extra course type detail"]
     elif mutation == "fake_source":
         assessment["claims"][0]["evidence"][0]["source_id"] = 99
     elif mutation == "fake_quote":
@@ -162,17 +160,118 @@ def test_strict_schemas_require_units_and_prevent_invented_citations():
     assert schema["properties"]["points"]["minItems"] == 1
 
 
-def test_complete_two_pass_review_preserves_claim_level_failure():
+@pytest.mark.parametrize("inventory_issue", [False, True])
+def test_source_blind_audit_separates_extraction_failure_from_wrong_answer(inventory_issue):
     case, answer, inventory, assessment = sample()
+    case["expected"] = {"calibration_label": "not-to-be-sent-to-the-judge"}
+    audit = {"inventory_issues": ["The extractor dropped an answer qualifier."] if inventory_issue else []}
     wire_inventory = {"units": {u["unit_id"]: {k: v for k, v in u.items() if k != "unit_id"} for u in inventory["units"]}}
     assessment["claims"] = {c["claim_id"]: {**{k: v for k, v in c.items() if k != "claim_id"},
         "citations": {str(x["source_id"]): {k: v for k, v in x.items() if k != "source_id"} for x in c["citations"]}} for c in assessment["claims"]}
     sdk = SimpleNamespace(responses=SimpleNamespace(create=Mock(side_effect=[
         SimpleNamespace(output_text=json.dumps(wire_inventory), model="fake", usage=None),
+        SimpleNamespace(output_text=json.dumps(audit), model="fake", usage=None),
         SimpleNamespace(output_text=json.dumps(assessment), model="fake", usage=None)])))
     row = judge.review(sdk, "fake", case, answer)
-    assert row["status"] == "ok" and len(row["calls"]) == 2
-    assert metrics.quality(row, case)["strict_pass"] is False
+    assert "not-to-be-sent-to-the-judge" not in json.dumps(sdk.responses.create.call_args_list[-1].kwargs)
+    audit_payload = json.loads(sdk.responses.create.call_args_list[1].kwargs["input"][1]["content"])
+    assert set(audit_payload) == {"units", "inventory"}
+    assert "Two required courses and one elective" not in json.dumps(audit_payload)
+    assert row["status"] == ("error" if inventory_issue else "ok")
+    assert len(row["calls"]) == (2 if inventory_issue else 3)
+    assert row["inventory_audit"] == audit
+    if inventory_issue:
+        assert "assessment" not in row and metrics.quality(row, case) is None
+    else:
+        assert metrics.quality(row, case)["strict_pass"] is False
+
+
+def test_calibration_distinguishes_pending_from_wrong_decision():
+    case, answer, inventory, assessment = sample()
+    _, claims = judge.validate_inventory(inventory, answer["answer"])
+    case.update(category="incorrect", expected={"unit_verdicts": {"u2": "contradicted"},
+        "abstains": False, "appropriate_abstention": False})
+    row = {"status": "ok", "claims": claims, "assessment": assessment}
+    assert calibrate.check_expectation(case, row)["passed"]
+    row["status"] = "error"
+    check = calibrate.check_expectation(case, row)
+    assert not check["passed"] and check["pending"]
+    row["status"] = "ok"
+    assessment["claims"][1]["verdict"] = "supported"
+    check = calibrate.check_expectation(case, row)
+    assert not check["passed"] and not check["pending"]
+
+
+def test_calibration_does_not_pass_omitted_factual_unit():
+    case, answer, inventory, assessment = sample()
+    _, claims = judge.validate_inventory(inventory, answer["answer"])
+    case.update(category="correct", expected={"unit_verdicts": {"u2": "supported"},
+        "abstains": False, "appropriate_abstention": False})
+    assessment["claims"].pop()
+    check = calibrate.check_expectation(case, {"status": "ok", "claims": claims, "assessment": assessment})
+    assert not check["passed"] and "observed []" in check["mismatches"][0]
+
+
+def test_error_detection_is_separate_from_negative_verdict_classification():
+    case, answer, inventory, assessment = sample()
+    _, claims = judge.validate_inventory(inventory, answer["answer"])
+    case.update(category="incorrect", expected={"unit_verdicts": {"u2": "insufficient"},
+        "abstains": False, "appropriate_abstention": False})
+    check = calibrate.check_expectation(case, {"status": "ok", "claims": claims, "assessment": assessment})
+    assert not check["passed"] and check["answer_error_detected"] and not check["pending"]
+
+
+def test_appropriate_abstention_without_an_actual_refusal_is_rejected():
+    case, answer, inventory, assessment = sample()
+    _, claims = judge.validate_inventory(inventory, answer["answer"])
+    case["answerable"] = False
+    assessment.update(abstains=False, appropriate_abstention=True)
+    with pytest.raises(ValueError, match="Appropriate abstention applies only"):
+        judge.validate_assessment(assessment, case, answer, claims)
+
+
+def test_calibration_reports_unexecuted_rag_stages_and_pending_cases():
+    case = json.loads(calibrate.CASES.read_text())[0]
+    row = {"case_id": case["id"], "status": "error", "seconds": 1, "calls": []}
+    summary, checks = calibrate.summarize([case], [row], [], 2, 4)
+    entries = summary["metrics"]
+    assert entries["recall_at_k"]["status"] == entries["total_seconds"]["status"] == "not_applicable"
+    assert entries["token_usage"]["generation"]["status"] == "not_applicable"
+    assert entries["cost"]["status"] == "unavailable"
+    assert entries["correct_answer_rejection"]["value"] == {"mismatched": 0, "pending": 1, "passed": 0}
+    assert entries["calibration_agreement"]["value"] == 0 and checks[0]["pending"]
+
+
+def test_calibration_command_retains_mismatch_and_returns_nonzero(tmp_path, monkeypatch, capsys):
+    from knowledgebase.config import Settings
+    case, answer, inventory, assessment = sample()
+    _, claims = judge.validate_inventory(inventory, answer["answer"])
+    case.update(category="correct", answer=answer["answer"], sources=answer["sources"],
+        expected={"unit_verdicts": {"u1": "supported", "u2": "supported"},
+                  "abstains": False, "appropriate_abstention": False})
+    cases_path = tmp_path / "cases.json"
+    cases_path.write_text(json.dumps([case]))
+    monkeypatch.setattr(calibrate, "CASES", cases_path)
+    monkeypatch.setattr(calibrate, "EVALS", tmp_path)
+    monkeypatch.setattr(calibrate, "git_state", lambda: {"commit": "test"})
+    monkeypatch.setattr(calibrate, "Settings", lambda: Settings(_env_file=None, openai_api_key="test-secret"))
+    class SDK:
+        def __init__(self, **kwargs):
+            assert kwargs["max_retries"] == 0
+        def __enter__(self):
+            return self
+        def __exit__(self, *args):
+            pass
+    monkeypatch.setattr(calibrate, "OpenAI", SDK)
+    module = SimpleNamespace(PROTOCOL="test", __file__=judge.__file__, protocol_hash=lambda: "test",
+        review=lambda *a, **k: {"case_id": case["id"], "status": "ok", "claims": claims,
+            "assessment": assessment, "seconds": 1, "calls": []})
+    assert calibrate.run(module) == 1
+    directory = next((tmp_path / "calibration-runs").iterdir())
+    assert json.loads((directory / "checks.json").read_text())[0]["passed"] is False
+    assert (directory / "reviews.jsonl").exists()
+    assert "test-secret" not in (directory / "run.json").read_text()
+    assert "calibration_agreement" in capsys.readouterr().out
 
 
 def test_chunk_boundary_changes_suppress_ranking_deltas():

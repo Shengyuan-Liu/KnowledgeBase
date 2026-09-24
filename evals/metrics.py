@@ -128,8 +128,11 @@ def summarize(cases, answers, reviews, metadata, calls):
         "requests", len(answers), "All planned RAG requests; SDK retries disabled, partial answers do not succeed.")
     metrics["judge_reliability"] = measured({"reviewed": len(reviews), "valid": len(scores),
         "invalid_or_error": len(reviews) - len(scores), "pending": len(successful) - len(scores)},
-        "reviews", len(reviews), "Two passes, no automatic repair/retry. Invalid review remains pending.", "reviews.jsonl")
+        "reviews", len(reviews), "No automatic repair/retry. Invalid review remains pending; protocol defines judgment stages.", "reviews.jsonl")
     metrics["judge_seconds"] = timing([r["seconds"] for r in reviews])
+    if metrics["judge_seconds"]["status"] == "measured":
+        metrics["judge_seconds"].update(artifact="reviews.jsonl",
+            method="All completed review attempts, including pending/errors; median P50, nearest-rank P95; excludes worker queue wait.")
     usage = {}
     for stage in ("ingestion", "query_embedding", "generation", "judge"):
         observed = [c for c in calls if c.get("stage") == stage]

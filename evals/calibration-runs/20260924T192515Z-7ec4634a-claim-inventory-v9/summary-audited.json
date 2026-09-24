@@ -1,0 +1,705 @@
+{
+  "version": "automated-metrics-v1",
+  "metrics": {
+    "recall_at_k": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "precision_at_k": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "hit_rate_at_k": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "mrr_at_k": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "ndcg_at_k": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "annotated_char_recall": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "full_evidence_recall": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "answer_correctness": {
+      "status": "measured",
+      "value": 0.7692307692307693,
+      "unit": "fraction",
+      "n": 13,
+      "method": "Expected-point correctness, 0/1/2 normalized, macro-average. Extra claim errors are separate; not overall accuracy. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "answer_completeness": {
+      "status": "measured",
+      "value": 0.9230769230769231,
+      "unit": "fraction",
+      "n": 13,
+      "method": "Fraction of expected points attempted, regardless of truth; macro-average. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "fully_correct_points": {
+      "status": "measured",
+      "value": 0.7307692307692307,
+      "unit": "fraction",
+      "n": 13,
+      "method": "Fraction of expected points fully correct (2), macro-average. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "faithfulness": {
+      "status": "measured",
+      "value": 0.717948717948718,
+      "unit": "fraction",
+      "n": 13,
+      "method": "Fraction of inventoried factual claims supported by supplied evidence, macro-average over claim-bearing answers. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "answer_relevance": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 13,
+      "method": "LLM 0 off-topic / 1 partly responsive or extraneous / 2 directly responsive, normalized macro-average. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "citation_support": {
+      "status": "measured",
+      "value": 0.6944444444444444,
+      "unit": "fraction",
+      "n": 12,
+      "method": "Fraction of assessed claim-citation pairs with semantic support, macro-average over cited answers. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "citation_coverage": {
+      "status": "measured",
+      "value": 0.641025641025641,
+      "unit": "fraction",
+      "n": 13,
+      "method": "Fraction of factual claims with at least one supporting inline citation, macro-average over claim-bearing answers. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "appropriate_abstention": {
+      "status": "measured",
+      "value": 0.5,
+      "unit": "fraction",
+      "n": 2,
+      "method": "Appropriate explicit refusal without invented specifics on unanswerable cases. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "incorrect_abstention": {
+      "status": "measured",
+      "value": 0,
+      "unit": "fraction",
+      "n": 11,
+      "method": "Unjustified refusal on answerable cases despite supplied evidence; separate from retrieval-caused refusals. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "answerable_refusal": {
+      "status": "measured",
+      "value": 0,
+      "unit": "fraction",
+      "n": 11,
+      "method": "Any full/partial refusal on answerable cases, including missing retrieved evidence. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "strict_pass_rate": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Run or judgments incomplete; no full-set pass rate."
+    },
+    "contradicted_claims": {
+      "status": "measured",
+      "value": 6,
+      "unit": "claims",
+      "n": 13,
+      "method": "Total over valid inventoried reviews.",
+      "artifact": "reviews.jsonl"
+    },
+    "unsupported_claims": {
+      "status": "measured",
+      "value": 7,
+      "unit": "claims",
+      "n": 13,
+      "method": "Total over valid inventoried reviews.",
+      "artifact": "reviews.jsonl"
+    },
+    "claim_count": {
+      "status": "measured",
+      "value": 25,
+      "unit": "claims",
+      "n": 13,
+      "method": "Total over valid inventoried reviews.",
+      "artifact": "reviews.jsonl"
+    },
+    "first_delta_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "total_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "generation_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "generation_first_delta_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "retrieval_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "embedding_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "rerank_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "packing_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "search_fusion_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "reliability": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "judge_reliability": {
+      "status": "measured",
+      "value": {
+        "reviewed": 14,
+        "valid": 13,
+        "invalid_or_error": 1,
+        "pending": 1
+      },
+      "unit": "reviews",
+      "n": 14,
+      "method": "No automatic repair/retry. Invalid review remains pending; protocol defines judgment stages.",
+      "artifact": "reviews.jsonl"
+    },
+    "judge_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 9.800294056667813,
+        "p50": 9.126794937474187,
+        "p95": 14.408056042040698
+      },
+      "unit": "seconds",
+      "n": 14,
+      "method": "All completed attempts, including pending/errors; median P50, nearest-rank P95; excludes worker queue wait.",
+      "artifact": "reviews.jsonl"
+    },
+    "token_usage": {
+      "ingestion": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "Judge-only calibration; this provider stage was not run."
+      },
+      "query_embedding": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "Judge-only calibration; this provider stage was not run."
+      },
+      "generation": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "Judge-only calibration; this provider stage was not run."
+      },
+      "judge": {
+        "status": "measured",
+        "value": {
+          "input_tokens": 57944,
+          "output_tokens": 15155,
+          "total_tokens": 73099
+        },
+        "unit": "tokens",
+        "n": 41,
+        "method": "Provider-reported totals for 41/41 calls; missing failed-call usage excluded, not zero billed cost.",
+        "artifact": "calls.jsonl"
+      }
+    },
+    "cost": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Provider responses do not expose billed dollars; no inferred price substituted."
+    },
+    "evidence_tokens": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "concurrency_throughput": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "ingestion": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "update_delete": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "model_loading": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed."
+    },
+    "calibration_agreement": {
+      "status": "measured",
+      "value": 0.8571428571428571,
+      "unit": "fraction",
+      "n": 14,
+      "method": "Frozen Codex-authored regression labels; pending judgments fail agreement. Not human or held-out accuracy.",
+      "artifact": "checks-audited.json"
+    },
+    "correct_answer_rejection": {
+      "status": "measured",
+      "value": {
+        "mismatched": 0,
+        "pending": 1,
+        "passed": 7
+      },
+      "unit": "cases",
+      "n": 8,
+      "method": "Pending is separate from a wrong decision; known-error detection accepts either negative support verdict. Exact verdict classification remains in calibration_agreement.",
+      "artifact": "checks-audited.json"
+    },
+    "known_error_miss": {
+      "status": "measured",
+      "value": {
+        "mismatched": 0,
+        "pending": 0,
+        "passed": 5
+      },
+      "unit": "cases",
+      "n": 5,
+      "method": "Pending is separate from a wrong decision; known-error detection accepts either negative support verdict. Exact verdict classification remains in calibration_agreement.",
+      "artifact": "checks-audited.json"
+    },
+    "refusal_mismatch": {
+      "status": "measured",
+      "value": {
+        "mismatched": 0,
+        "pending": 0,
+        "passed": 1
+      },
+      "unit": "cases",
+      "n": 1,
+      "method": "Pending is separate from a wrong decision; known-error detection accepts either negative support verdict. Exact verdict classification remains in calibration_agreement.",
+      "artifact": "checks-audited.json"
+    },
+    "judge_stage_seconds": {
+      "inventory": {
+        "status": "measured",
+        "value": {
+          "mean": 3.0323170447871752,
+          "p50": 2.7788670000154525,
+          "p95": 5.488621374941431
+        },
+        "unit": "seconds",
+        "n": 14,
+        "method": "All completed attempts, including pending/errors; median P50, nearest-rank P95; excludes worker queue wait.",
+        "artifact": "reviews.jsonl"
+      },
+      "inventory_audit": {
+        "status": "measured",
+        "value": {
+          "mean": 1.9735914108127222,
+          "p50": 1.3814970625098795,
+          "p95": 6.241140083991922
+        },
+        "unit": "seconds",
+        "n": 14,
+        "method": "All completed attempts, including pending/errors; median P50, nearest-rank P95; excludes worker queue wait.",
+        "artifact": "reviews.jsonl"
+      },
+      "assessment": {
+        "status": "measured",
+        "value": {
+          "mean": 5.159231740452994,
+          "p50": 4.899126333068125,
+          "p95": 8.262608624994755
+        },
+        "unit": "seconds",
+        "n": 13,
+        "method": "All completed attempts, including pending/errors; median P50, nearest-rank P95; excludes worker queue wait.",
+        "artifact": "reviews.jsonl"
+      }
+    },
+    "judge_call_reliability": {
+      "status": "measured",
+      "value": {
+        "attempts": 41,
+        "success": 41,
+        "errors": 0,
+        "timeouts": 0,
+        "retries": 0
+      },
+      "unit": "calls",
+      "n": 41,
+      "method": "API success is distinct from judgment validity and label agreement.",
+      "artifact": "calls.jsonl"
+    },
+    "judge_throughput": {
+      "status": "measured",
+      "value": {
+        "concurrency": 4,
+        "wall_seconds": 40.55354479199741,
+        "valid_reviews_per_second": 0.3205638389116934
+      },
+      "unit": "reviews/second",
+      "n": 14,
+      "method": "Entire calibration batch including logging; no RAG requests.",
+      "artifact": "run.json"
+    }
+  },
+  "cases": [
+    {
+      "case_id": "alternative-preserved",
+      "category": "correct",
+      "status": "ok",
+      "coverage": null,
+      "ranking": null,
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 1,
+        "citation_support": 1,
+        "citation_coverage": 1,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": true
+      }
+    },
+    {
+      "case_id": "alternative-changed-to-both",
+      "category": "incorrect",
+      "status": "ok",
+      "coverage": null,
+      "ranking": null,
+      "quality": {
+        "answer_correctness": 0.5,
+        "answer_completeness": 1,
+        "fully_correct_points": 0,
+        "answer_relevance": 1.0,
+        "faithfulness": 0.3333333333333333,
+        "contradicted_claims": 2,
+        "unsupported_claims": 2,
+        "claim_count": 3,
+        "citation_support": 0.3333333333333333,
+        "citation_coverage": 0.3333333333333333,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "qualifier-preserved",
+      "category": "correct",
+      "status": "ok",
+      "coverage": null,
+      "ranking": null,
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 1,
+        "citation_support": 1,
+        "citation_coverage": 1,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": true
+      }
+    },
+    {
+      "case_id": "qualifier-removed",
+      "category": "incorrect",
+      "status": "ok",
+      "coverage": null,
+      "ranking": null,
+      "quality": {
+        "answer_correctness": 0.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 0,
+        "answer_relevance": 1.0,
+        "faithfulness": 0,
+        "contradicted_claims": 1,
+        "unsupported_claims": 1,
+        "claim_count": 1,
+        "citation_support": 0,
+        "citation_coverage": 0,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "course-types-preserved",
+      "category": "correct",
+      "status": "ok",
+      "coverage": null,
+      "ranking": null,
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 3,
+        "citation_support": 1,
+        "citation_coverage": 1,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": true
+      }
+    },
+    {
+      "case_id": "elective-called-required",
+      "category": "incorrect",
+      "status": "ok",
+      "coverage": null,
+      "ranking": null,
+      "quality": {
+        "answer_correctness": 0.5,
+        "answer_completeness": 1,
+        "fully_correct_points": 0.5,
+        "answer_relevance": 1.0,
+        "faithfulness": 0.5,
+        "contradicted_claims": 1,
+        "unsupported_claims": 1,
+        "claim_count": 2,
+        "citation_support": 0.5,
+        "citation_coverage": 0.5,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "installation-is-factual",
+      "category": "correct",
+      "status": "ok",
+      "coverage": null,
+      "ranking": null,
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 1,
+        "citation_support": 1,
+        "citation_coverage": 1,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": true
+      }
+    },
+    {
+      "case_id": "unsupported-installation-detail",
+      "category": "incorrect",
+      "status": "ok",
+      "coverage": null,
+      "ranking": null,
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 0.5,
+        "contradicted_claims": 0,
+        "unsupported_claims": 1,
+        "claim_count": 2,
+        "citation_support": 0.5,
+        "citation_coverage": 0.5,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "personal-schedule-refusal",
+      "category": "refusal",
+      "status": "ok",
+      "coverage": null,
+      "ranking": null,
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 1,
+        "citation_support": null,
+        "citation_coverage": 0,
+        "appropriate_abstention": 1,
+        "incorrect_abstention": null,
+        "answerable_refusal": null,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "personal-schedule-invented",
+      "category": "incorrect",
+      "status": "ok",
+      "coverage": null,
+      "ranking": null,
+      "quality": {
+        "answer_correctness": 0.0,
+        "answer_completeness": 0,
+        "fully_correct_points": 0,
+        "answer_relevance": 1.0,
+        "faithfulness": 0,
+        "contradicted_claims": 2,
+        "unsupported_claims": 2,
+        "claim_count": 2,
+        "citation_support": 0,
+        "citation_coverage": 0,
+        "appropriate_abstention": 0,
+        "incorrect_abstention": null,
+        "answerable_refusal": null,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "main-requirements-paraphrase",
+      "category": "correct",
+      "status": "ok",
+      "coverage": null,
+      "ranking": null,
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 3,
+        "citation_support": 1,
+        "citation_coverage": 1,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": true
+      }
+    },
+    {
+      "case_id": "source-provenance",
+      "category": "correct",
+      "status": "ok",
+      "coverage": null,
+      "ranking": null,
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 1,
+        "citation_support": 1,
+        "citation_coverage": 1,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": true
+      }
+    },
+    {
+      "case_id": "nonexhaustive-policy-list",
+      "category": "correct",
+      "status": "ok",
+      "coverage": null,
+      "ranking": null,
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 4,
+        "citation_support": 1,
+        "citation_coverage": 1,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": true
+      }
+    },
+    {
+      "case_id": "editorial-main-summary",
+      "category": "correct",
+      "status": "ok",
+      "coverage": null,
+      "ranking": null,
+      "quality": null
+    }
+  ],
+  "limitations": [
+    "Synthetic development regressions with Codex-authored labels; not human annotation or held-out accuracy.",
+    "Raw answers, sources and labels are frozen before grading; labels are not sent to the judge.",
+    "A single stochastic pass does not establish grader stability. Citation scope remains same-line."
+  ]
+}

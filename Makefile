@@ -1,4 +1,4 @@
-.PHONY: app eval test test-live api frontend test-frontend test-browser test-browser-live stop test-stop
+.PHONY: app eval eval-calibrate test test-live api frontend test-frontend test-browser test-browser-live stop test-stop
 
 EVAL_ARGS ?=
 
@@ -13,6 +13,9 @@ api:
 
 eval:
 	uv run --locked python -m evals.automatic $(EVAL_ARGS)
+
+eval-calibrate:
+	uv run --locked python -m evals.calibrate
 
 test:
 	uv run --locked python -m pytest tests/
