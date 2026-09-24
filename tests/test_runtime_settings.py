@@ -72,7 +72,7 @@ def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app,
 
         first = ask("First question")
         assert len(first["sources"]) == (1 if strategy == "parent_child" else 2)
-        assert first["retrieval"]["options"] == RetrievalOptions(candidate_limit=3, bm25_k1=0.9, bm25_b=0.4, rrf_k=10).model_dump()
+        assert first["retrieval"]["options"] == RetrievalOptions(packing_strategy="parent_then_child", candidate_limit=3, bm25_k1=0.9, bm25_b=0.4, rrf_k=10).model_dump()
         assert first["retrieval"]["top_k"] == 2
         assert first["retrieval"]["max_tokens"] == 24
         assert first["retrieval"]["tokenizer"] == "o200k_base"
@@ -129,7 +129,7 @@ def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkey
     monkeypatch.setattr(cli, "run_chat_loop", lambda ask: ask("Question"))
     argv = ["main.py", str(source)]
     if override:
-        argv += ["--model", "argument-answer", "--top-k", "4"]
+        argv += ["--model", "argument-answer", "--top-k", "4", "--evidence-packing-strategy", "parent_first"]
     monkeypatch.setattr(sys, "argv", argv)
     cli.cli()
     assert llm_factory.call_args_list[0].kwargs["model"] == ("argument-answer" if override else "file-answer")
@@ -143,7 +143,7 @@ def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkey
         "reranker_client": None,
         "conversation_id": None, "top_k": 4 if override else 2, "history_limit": 1, "resolver_client": resolver,
         "evidence_max_tokens": 113, "encoding_name": "o200k_base",
-        "retrieval_options": RetrievalOptions(strategy="vector", candidate_limit=7, bm25_k1=0.9, bm25_b=0.4, rrf_k=10),
+        "retrieval_options": RetrievalOptions(strategy="vector", packing_strategy="parent_first" if override else "parent_then_child", candidate_limit=7, bm25_k1=0.9, bm25_b=0.4, rrf_k=10),
     }
 
 

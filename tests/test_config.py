@@ -115,7 +115,7 @@ def test_hybrid_is_default_and_vector_is_an_explicit_control(tmp_path, monkeypat
 
     monkeypatch.chdir(tmp_path)
     settings = Settings(openai_api_key="offline-test")
-    assert settings.retrieval_options == RetrievalOptions()
+    assert settings.retrieval_options == RetrievalOptions(packing_strategy="parent_then_child")
     assert settings.retrieval_options.strategy == "hybrid"
     assert settings.retrieval_options.candidate_limit == 20
     assert Settings(openai_api_key="offline-test", retrieval_strategy="vector").retrieval_options.strategy == "vector"

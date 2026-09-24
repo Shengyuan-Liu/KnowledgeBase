@@ -59,13 +59,21 @@ not convert existing chunks.
    matched child in the selected retrieval order. Retain all matched child IDs in candidate order. Parent text has
    no separately computed embedding score. Deduplication can leave fewer than
    top-k sources; this stage does not fetch more candidates to fill the list.
-4. Greedily pack whole regions in that order. Count the exact `build_context()`
-   output, including `[1]` labels and separators, with `CHUNK_TOKENIZER`. Skip any
-   region that would exceed `EVIDENCE_MAX_TOKENS`, record its ID, file ID, text
-   token count, and `context_budget` reason, then consider the next region.
-5. Assign contiguous source numbers to the packed regions and supply those exact
-   original text slices to generation. If none fit, return the existing
-   insufficient-evidence response without an answer-generation call.
+4. Greedily pack whole parent/flat regions in that order. Count the exact
+   `build_context()` output, including citation labels and separators. Keep every
+   admitted parent; the next pass never evicts it.
+5. With `EVIDENCE_PACKING_STRATEGY=parent_then_child` (the default), revisit selected
+   hits whose parents did not fit. Admit each complete child if the resulting
+   numbered context fits. Do not fetch additional candidates or truncate text.
+   Expanded parents and their children never appear together; retained siblings
+   remain separate exact excerpts. `parent_first` preserves the earlier control.
+6. Number the final regions in selected-hit order and generate using those exact
+   slices. If no region fits, skip answer generation and report insufficient evidence.
+
+This policy uses otherwise unused budget while preserving admitted parent context.
+It does not guarantee that every selected child fits. A strict child-first reservation
+prototype recovered CPT evidence but displaced useful GPA parent context; that
+regression is retained in the [packing comparison](../evals/library-runs/20260924T004817Z-child-first/README.md).
 
 Packing applies to flat strategies as well. It never truncates a parent or joins
 unrelated sections. The evidence budget excludes the system instructions,
@@ -80,10 +88,14 @@ returns both the packed list and `RetrievalDiagnostics`. Services use the latter
 Every answer source describes the actual text supplied to generation:
 
 - `chunk_id` identifies that evidence region; for an expanded source it equals
-  `parent_id`. Flat sources have `parent_id: null` and `matched_child_ids: []`.
+  `parent_id`. For a retained child, `chunk_id` is its child ID and `parent_id`
+  still points to its stored parent. Flat sources have `parent_id: null` and
+  `matched_child_ids: []`.
 - `matched_child_ids` identifies the selected child hits that produced the parent.
+  A retained child lists only its own ID.
 - `start_offset`, `end_offset`, `heading_path`, `source_block_indices`,
-  `token_count`, `tokenizer`, and `max_tokens` describe the parent or flat chunk.
+  `token_count`, `tokenizer`, and `max_tokens` describe the actual supplied parent,
+  retained child, or flat chunk.
   Offsets are half-open Python Unicode character indices into the canonical file.
 - `distance` is the highest-ranked selected child's cosine distance, or null for
   a lexical-only hit. `fusion` preserves that child's ID, RRF score/rank, and both
@@ -91,15 +103,19 @@ Every answer source describes the actual text supplied to generation:
   rank. These values describe the child, not an embedding of its parent.
 
 JSON answers and SSE `complete` events include `retrieval` with `candidates`,
-`excluded`, `evidence_tokens`, `max_tokens`, and `tokenizer`. The SSE `sources`
-event already contains the expanded source list. `evidence_tokens` counts the
+`excluded`, `unexpanded_parents`, `packing_seconds`, `evidence_tokens`, `max_tokens`,
+and `tokenizer`. In the default mode, `excluded` contains selected hits absent
+from the final evidence. `unexpanded_parents` identifies parents omitted while at
+least one of their selected children is retained; these are not lost facts. The
+parent-first control keeps its historical whole-region exclusion meaning. The SSE `sources`
+event already contains the final parent/child source list. `evidence_tokens` counts the
 formatted context; source `token_count` counts only that source text using its
 stored tokenizer. These can differ after tokenizer settings change.
 
-Source snapshots include the full parent text and metadata. The supplementary
+Source snapshots include the exact supplied parent or child text and metadata. The supplementary
 `retrieval_snapshots` table stores the diagnostics, keyed to
 `answer_snapshots.message_id`, in the same exchange transaction. Candidate text
-and actual supplied parent text survive source deletion and application restart.
+and actual supplied evidence text survive source deletion and application restart.
 Old snapshots remain readable with `retrieval: null`; `init_db()` adds the new
 table without rewriting existing columns. Excluded parent text is not separately
 snapshotted: exclusions retain identity, reason, and size, while candidate text
@@ -120,7 +136,7 @@ uv run --locked python -m evals.evaluate run --label "Parent-child experiment" \
 ```
 
 This command makes real provider calls and creates a fresh evaluation index. It
-records the resolved budgets and strategy. `answers.jsonl` stores final parent
+records the resolved budgets and strategy. `answers.jsonl` stores final parent/child
 sources and `retrieval_diagnostics`; the historical `retrieval` key continues to
 hold automatic recall metrics. Recall measures supplied evidence regions, so
 larger parent coverage must not be mistaken for better child ranking. Candidate

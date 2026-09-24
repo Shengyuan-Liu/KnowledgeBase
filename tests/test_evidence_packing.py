@@ -1,0 +1,113 @@
+"""Regressions for losing complete selected facts when their parents do not fit."""
+
+import json
+
+from fastapi.testclient import TestClient
+import pytest
+import tiktoken
+
+from knowledgebase.api import app as api_module
+from knowledgebase.config import RetrievalOptions
+from knowledgebase.rag.context import build_context
+from knowledgebase.rag.packing import pack_evidence
+from knowledgebase.schemas import Chunk, RetrievedChunk, RetrievalDiagnostics, VectorMatch
+from knowledgebase.storage.operations import get_chunks
+
+
+def region(identity, text, parent_id=None, matched=(), offset=0):
+    return RetrievedChunk(chunk=Chunk(chunk_id=identity, file_id=identity.split(':')[0], text=text,
+                                      index=0, start_offset=offset, end_offset=offset + len(text)),
+                          file_name='facts.md', distance=0.1, parent_id=parent_id, matched_child_ids=list(matched))
+
+
+def tokens(regions):
+    return len(tiktoken.get_encoding('cl100k_base').encode_ordinary(build_context(regions)))
+
+
+def pack(selected, expanded, budget, strategy='parent_then_child'):
+    return pack_evidence(selected, expanded, RetrievalDiagnostics(
+        max_tokens=budget, tokenizer='cl100k_base', options=RetrievalOptions(packing_strategy=strategy),
+    ))
+
+
+def test_preserves_parent_and_two_whole_siblings_without_duplicate_evidence():
+    a = region('a:child:0', 'First fact.', 'a:parent:0', ['a:child:0'])
+    a_parent = region('a:parent:0', 'First fact. ' + 'Context. ' * 20, 'a:parent:0', a.matched_child_ids)
+    b = region('b:child:0', 'Internships after the first year.\r\n', 'b:parent:0', ['b:child:0'])
+    c = region('b:child:1', 'Consult OGS.\n', 'b:parent:0', ['b:child:1'], len(b.chunk.text))
+    b_parent = region('b:parent:0', b.chunk.text + c.chunk.text + 'Other material. ' * 100,
+                      'b:parent:0', [b.chunk.chunk_id, c.chunk.chunk_id])
+    flat = region('flat', 'Legacy fact.')
+    selected, expanded = [a, b, c, flat], [a_parent, b_parent, flat]
+    budget = tokens([a_parent, b, c, flat])
+    old = pack(selected, expanded, budget, 'parent_first')
+    assert old.chunks == [a_parent, flat]
+    new = pack(selected, expanded, budget)
+    assert new.chunks == [a_parent, b, c, flat]
+    assert new.diagnostics.evidence_tokens == budget
+    assert new.diagnostics.excluded == []
+    assert [p.chunk_id for p in new.diagnostics.unexpanded_parents] == ['b:parent:0']
+    assert all(s.chunk.chunk_id != 'b:parent:0' for s in new.chunks)
+    assert new.diagnostics.packing_seconds >= 0
+    short = pack(selected, expanded, budget - 1)
+    assert a_parent in short.chunks and flat in short.chunks
+    assert c not in short.chunks
+    assert [s.chunk_id for s in short.diagnostics.excluded] == ['b:child:1']
+    assert short.diagnostics.evidence_tokens <= budget - 1
+
+
+def test_oversize_parent_keeps_complete_code_child_and_ample_budget_deduplicates():
+    text = '```python\r\nprint("café")\r\n```\r\n'
+    child = region('a:child:0', text, 'a:parent:0', ['a:child:0'])
+    parent = region('a:parent:0', text + 'Surrounding material. ' * 50, 'a:parent:0', child.matched_child_ids)
+    small = pack([child], [parent], tokens([child]))
+    assert small.chunks == [child]
+    assert small.chunks[0].chunk.text == text
+    assert small.diagnostics.excluded == []
+    large = pack([child], [parent], tokens([parent]))
+    assert large.chunks == [parent]
+    assert large.diagnostics.unexpanded_parents == []
+    empty = pack([child], [parent], 1)
+    assert empty.chunks == []
+    assert empty.diagnostics.excluded[0].chunk_id == child.chunk.chunk_id
+
+
+@pytest.mark.parametrize('streaming', [False, True])
+def test_api_retained_child_offsets_provenance_and_history_survive_delete(configured_app, monkeypatch, streaming):
+    app, _, sdk = configured_app
+    sdk.responses.create.return_value.output_text = 'Internships after the first year. [1]'
+
+    async def stream(messages):
+        yield 'Internships after the first year. [1]'
+
+    from unittest.mock import Mock
+    monkeypatch.setattr(api_module, 'StreamingLLMClient', Mock(return_value=Mock(stream=stream)))
+    text = '# Timing\n\nInternships after the first year.\n\n' + 'Unrelated context. ' * 80
+    with TestClient(app) as client:
+        resources = app.state.resources
+        resources.settings.chunk_max_tokens = 16
+        file_id = client.post('/api/files', files={'file': ('timing.md', text.encode())}).json()['file_id']
+        with resources.sessions() as session:
+            child = next(c for c in get_chunks(session, file_id) if 'Internships' in c.text)
+        resources.settings.retrieval_strategy = 'vector'
+        resources.settings.retrieval_top_k = 1
+        resources.settings.evidence_max_tokens = tokens([region(child.chunk_id, child.text)])
+        resources.store.search = Mock(return_value=[VectorMatch(chunk_id=child.chunk_id, distance=0.2)])
+        response = client.post('/api/chat/stream' if streaming else '/api/chat', json={
+            'question': 'Internship timing?', 'request_id': 'packing-test',
+        })
+        assert response.status_code == 200
+        result = json.loads(response.text.strip().split('\n\n')[-1].split('\ndata: ')[1]) if streaming else response.json()
+        source = result['sources'][0]
+        assert source['chunk_id'] == child.chunk_id != source['parent_id']
+        assert source['text'] == text[source['start_offset']:source['end_offset']] == child.text
+        assert source['matched_child_ids'] == [child.chunk_id]
+        assert source['distance'] == 0.2
+        assert result['retrieval']['excluded'] == []
+        assert result['retrieval']['unexpanded_parents'][0]['chunk_id'] == child.parent_id
+        assert result['retrieval']['options']['packing_strategy'] == 'parent_then_child'
+    with TestClient(api_module.create_app()) as client:
+        assert client.delete(f'/api/files/{file_id}').status_code == 204
+        saved = client.get(f"/api/conversations/{result['conversation_id']}").json()['messages'][-1]
+        assert saved['sources'] == [{**source, 'file_deleted': True}]
+        assert saved['retrieval'] == result['retrieval']

@@ -1,0 +1,32 @@
+{
+  "model": "BAAI/bge-reranker-v2-m3",
+  "revision": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+  "device": "mps",
+  "batch_size": 4,
+  "max_pair_tokens": 1024,
+  "answer_model": "gpt-4.1",
+  "embedding_model": "text-embedding-3-small",
+  "top_k": 5,
+  "evidence_max_tokens": 4096,
+  "retrieval_options": {
+    "strategy": "hybrid",
+    "packing_strategy": "parent_then_child",
+    "candidate_limit": 20,
+    "bm25_k1": 1.2,
+    "bm25_b": 0.75,
+    "rrf_k": 60.0,
+    "rerank_enabled": true,
+    "rerank_candidate_limit": 20,
+    "rerank_max_input_tokens": 16384
+  },
+  "base_commit": "bd5ebeb8ddc5fc581be1bb0d10601a91bfafbe2c",
+  "working_diff_sha256": "555ac4d08ebf8ba54f88d07dc1db2b5bee75b424fbb5746a325c53da3d2a8116",
+  "cases_sha256": "1bc03e1fca2182c6d823c8c9ee3138c70ed90e4836af95d5792f8736d2a0d7cd",
+  "concurrency": 1,
+  "startup_seconds": 4.5653738339897245,
+  "timeout_seconds": 90,
+  "max_retries": 1,
+  "percentiles": "nearest rank; first nonempty answer_delta for first-delta time",
+  "warmup": "none; cached weights loaded before requests; first query includes cold kernel effects",
+  "provider_usage_and_billed_cost": null
+}

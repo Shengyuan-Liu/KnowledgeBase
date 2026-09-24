@@ -31,6 +31,7 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `CHUNK_MAX_TOKENS` | `512` | Structural chunk or child token limit; experimental starting value |
 | `CHUNK_TOKENIZER` | `cl100k_base` | tiktoken encoding for splitting and evidence packing |
 | `PARENT_MAX_TOKENS` | `1536` | Parent token limit in `parent_child` mode |
+| `EVIDENCE_PACKING_STRATEGY` | `parent_then_child` | Keep admitted parents, then fit whole children of omitted parents; `parent_first` is the control |
 | `EVIDENCE_MAX_TOKENS` | `4096` | Exact numbered evidence budget, including labels and separators, for all strategies |
 | `CHUNK_SIZE` | `2048` | Maximum characters per chunk in `character` mode only |
 | `CHUNK_OVERLAP` | `256` | Character overlap in `character` mode only |
@@ -98,7 +99,7 @@ Retrieval settings take effect after restart and do not require re-uploading fil
 See [hybrid retrieval](hybrid-retrieval.md) for route and selection semantics.
 
 The interactive CLI supports `--model`, `--top-k`, `--data-dir`, `--rerank` /
-`--no-rerank`, and `--rerank-model`. Evaluation runs
+`--no-rerank`, `--rerank-model`, and `--evidence-packing-strategy`. Evaluation runs
 also support `--embedding-model`, `--chunking-strategy`, `--chunk-max-tokens`,
 `--chunk-tokenizer`, `--parent-max-tokens`, `--evidence-max-tokens`, `--chunk-size`,
 `--overlap`, `--retrieval-strategy`, `--retrieval-candidate-limit`, `--bm25-k1`,

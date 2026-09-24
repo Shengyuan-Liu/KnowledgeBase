@@ -56,7 +56,7 @@ export function EvidencePanel({
                 <strong>{source.file_name}</strong>
               </div>
               <p className={styles.chunkLabel}>
-                {source.parent_id ? "Parent passage" : "Chunk"} {source.chunk_id}
+                {source.parent_id === source.chunk_id ? "Parent passage" : "Chunk"} {source.chunk_id}
               </p>
               {!!source.heading_path?.length && (
                 <p className={styles.chunkLabel}>{source.heading_path.join(" › ")}</p>

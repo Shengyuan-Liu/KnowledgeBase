@@ -165,7 +165,10 @@ and a prerequisite-question budget regression. The subsequent
 records the original LLM scoring pipeline. The current
 [dedicated BGE comparison](evals/library-runs/20260924T002009Z-bge-serialized/README.md)
 records the local cross-encoder, a corrected MPS concurrency failure, and a CPT
-evidence regression alongside the prerequisite improvement.
+evidence regression alongside the prerequisite improvement. The subsequent
+[packing comparison](evals/library-runs/20260924T004817Z-child-first/README.md)
+keeps admitted parents and uses remaining space for whole selected children; it
+also records first-delta and full-completion latency over real HTTP streams.
 
 Run the frozen NYU question set, grade answers with human review or an LLM judge, and
 compare recorded experiments using the [evaluation guide](evals/README.md).

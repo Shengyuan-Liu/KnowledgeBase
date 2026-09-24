@@ -207,6 +207,8 @@ class RetrievalDiagnostics(BaseModel):
     fused_matches: list[FusedMatch] = Field(default_factory=list)
     candidates: list[RetrievalCandidate] = Field(default_factory=list)
     excluded: list[ExcludedEvidence] = Field(default_factory=list)
+    unexpanded_parents: list[ExcludedEvidence] = Field(default_factory=list)
+    packing_seconds: float | None = None
     evidence_tokens: int = 0
     max_tokens: int
     tokenizer: str

@@ -223,7 +223,7 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
         "CHUNK_SIZE=64\nCHUNK_OVERLAP=8\nRETRIEVAL_TOP_K=2\n"
         "EVAL_TIMEOUT_SECONDS=17\nEVAL_MAX_RETRIES=1\n"
         f"CHUNKING_STRATEGY={strategy}\nCHUNK_MAX_TOKENS=32\nCHUNK_TOKENIZER=cl100k_base\n"
-        "PARENT_MAX_TOKENS=96\nEVIDENCE_MAX_TOKENS=192\n"
+        "PARENT_MAX_TOKENS=96\nEVIDENCE_MAX_TOKENS=192\nEVIDENCE_PACKING_STRATEGY=parent_first\n"
         "RETRIEVAL_STRATEGY=hybrid\nRETRIEVAL_CANDIDATE_LIMIT=9\nBM25_K1=0.8\nBM25_B=0.4\nRRF_K=12\n"
         "RERANK_ENABLED=true\nRERANK_MODEL=env-reranker\nRERANK_CANDIDATE_LIMIT=3\nRERANK_MAX_INPUT_TOKENS=1000\n"
     )
@@ -258,6 +258,7 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
                            retrieval_candidate_limit=7 if explicit_options else None,
                            bm25_k1=None, bm25_b=None, rrf_k=None,
                            rerank_enabled=False if explicit_options else None, rerank_model=None,
+                           evidence_packing_strategy="parent_then_child" if explicit_options else None,
                            rerank_candidate_limit=None, rerank_max_input_tokens=None)
     if not explicit_options:
         for name in ("model", "embedding_model", "chunk_size", "overlap", "top_k",
@@ -294,6 +295,7 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
         assert recorded["parent_max_tokens"] == args.parent_max_tokens
         assert recorded["evidence_max_tokens"] == args.evidence_max_tokens
         options = {"strategy": "vector" if explicit_options else "hybrid",
+                   "packing_strategy": "parent_then_child" if explicit_options else "parent_first",
                    "candidate_limit": 7 if explicit_options else 9, "bm25_k1": 0.8, "bm25_b": 0.4, "rrf_k": 12,
                    "rerank_enabled": not explicit_options, "rerank_candidate_limit": 3, "rerank_max_input_tokens": 1000}
         assert row["retrieval_diagnostics"]["options"] == recorded["retrieval_options"] == options

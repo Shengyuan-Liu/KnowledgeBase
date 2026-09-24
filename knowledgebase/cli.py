@@ -59,6 +59,7 @@ def cli() -> None:
     parser.add_argument("--top-k", type=int, help="Maximum retrieved chunks per question")
     parser.add_argument("--rerank", action=argparse.BooleanOptionalAction, default=None, help="Override RERANK_ENABLED")
     parser.add_argument("--rerank-model", help="Override RERANK_MODEL")
+    parser.add_argument("--evidence-packing-strategy", choices=["parent_then_child", "parent_first"])
     parser.add_argument("--conversation-id", help="Resume a saved conversation in this data directory")
     args = parser.parse_args()
     overrides = {}
@@ -70,6 +71,8 @@ def cli() -> None:
         overrides["rerank_enabled"] = args.rerank
     if args.rerank_model is not None:
         overrides["rerank_model"] = args.rerank_model
+    if args.evidence_packing_strategy is not None:
+        overrides["evidence_packing_strategy"] = args.evidence_packing_strategy
     settings = Settings(**overrides)
     args.data_dir = args.data_dir if args.data_dir is not None else settings.data_dir
 

@@ -2,20 +2,20 @@
 
 from time import perf_counter
 
-import tiktoken
 from sqlalchemy.orm import Session
 
 from knowledgebase.config import (
     DEFAULT_TOP_K, DEFAULT_EVIDENCE_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER, RetrievalOptions,
+    DEFAULT_EVIDENCE_PACKING_STRATEGY,
 )
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.reranker import RerankerClient
-from knowledgebase.rag.context import build_context
+from knowledgebase.rag.packing import pack_evidence
 from knowledgebase.rag.bm25 import search_bm25
 from knowledgebase.rag.fusion import fuse_rrf
 from knowledgebase.rag.reranking import rerank
 from knowledgebase.schemas import (
-    ChildChunk, ExcludedEvidence, RetrievedChunk, RetrievedEvidence,
+    ChildChunk, RetrievedChunk, RetrievedEvidence,
     RetrievalCandidate, RetrievalDiagnostics, RerankCandidate, StructuredChunk,
 )
 from knowledgebase.storage.vectordb import ChromaStore
@@ -52,11 +52,11 @@ def retrieve_evidence(
     retrieval_options: RetrievalOptions | None = None,
     reranker_client: RerankerClient | None = None,
 ) -> RetrievedEvidence:
-    """Expand selected children, deduplicate parents by best child rank, and pack.
+    """Pack selected hits as parents, then use spare budget for complete children.
 
     No ready files means no evidence and no embedding request. The caller owns
     the session. The budget counts the exact numbered context, including labels
-    and separators; an oversized region is skipped whole and recorded. Flat
+    and separators. Parent-first packing can retain whole children of omitted parents. Flat
     chunks remain supported, without inventing parents for previously stored data.
     """
     if top_k <= 0:
@@ -64,6 +64,9 @@ def retrieve_evidence(
     if evidence_max_tokens <= 0:
         raise ValueError("evidence_max_tokens must be positive.")
     options = retrieval_options or RetrievalOptions()
+    options = options.model_copy(update={
+        "packing_strategy": options.packing_strategy or DEFAULT_EVIDENCE_PACKING_STRATEGY,
+    })
     if options.rerank_enabled and reranker_client is None:
         raise ValueError("Enabled reranking requires a reranker client.")
     diagnostics = RetrievalDiagnostics(
@@ -121,6 +124,7 @@ def retrieve_evidence(
         session, [chunk.parent_id for chunk in chunks if isinstance(chunk, ChildChunk)],
     )}
     regions: dict[str, RetrievedChunk] = {}
+    child_hits: list[RetrievedChunk] = []
     for chunk_id in selected_ids:
         chunk = chunks_by_id[chunk_id]
         provenance = {"distance": distances.get(chunk_id), "fusion": fusion_by_id.get(chunk_id),
@@ -129,6 +133,10 @@ def retrieve_evidence(
         diagnostics.candidates.append(RetrievalCandidate(
             chunk_id=chunk_id, **provenance, file_id=chunk.file_id, parent_id=parent_id,
             text=chunk.text, start_offset=chunk.start_offset, end_offset=chunk.end_offset,
+        ))
+        child_hits.append(RetrievedChunk(
+            chunk=chunk, file_name=ready_files[chunk.file_id].file_name, **provenance,
+            parent_id=parent_id, matched_child_ids=[chunk_id] if parent_id else [],
         ))
         if parent_id is not None:
             if parent_id in regions:
@@ -145,16 +153,4 @@ def retrieve_evidence(
                 chunk=chunk, file_name=ready_files[chunk.file_id].file_name, **provenance,
             )
 
-    encoding = tiktoken.get_encoding(encoding_name)
-    packed: list[RetrievedChunk] = []
-    for region in regions.values():
-        tokens = len(encoding.encode_ordinary(build_context([*packed, region])))
-        if tokens > evidence_max_tokens:
-            diagnostics.excluded.append(ExcludedEvidence(
-                chunk_id=region.chunk.chunk_id, file_id=region.chunk.file_id,
-                token_count=len(encoding.encode_ordinary(region.chunk.text)),
-            ))
-        else:
-            packed.append(region)
-            diagnostics.evidence_tokens = tokens
-    return RetrievedEvidence(chunks=packed, diagnostics=diagnostics)
+    return pack_evidence(child_hits, list(regions.values()), diagnostics)

@@ -19,7 +19,9 @@ passing tests and merging still requires explicit approval. Optional
    rank to break ties. Select `RETRIEVAL_TOP_K` (default 5) child/flat hits from
    the resulting order; with reranking disabled, select directly from RRF.
 4. Expand parents, deduplicate by the highest-ranked selected child, and pack
-   whole regions within the exact numbered `EVIDENCE_MAX_TOKENS` budget. See
+   whole regions within the exact numbered `EVIDENCE_MAX_TOKENS` budget. The default
+   `parent_then_child` policy fills unused space with complete selected children
+   of omitted parents, while retaining all admitted parents. See
    [parent-child retrieval](parent-child-retrieval.md). Deduplication and budget
    exclusion can reduce the source count. No additional children are selected to
    fill unused slots, and source text is never truncated by retrieval.
@@ -76,7 +78,10 @@ comparison; compare exact supplied evidence and answers, not RRF magnitudes.
 - `rerank` retains the full scored window, exact child text, all relevance scores,
   model, prompt version, and limits. `rerank_seconds` records scoring-stage time.
   Both fields are null when scoring is disabled.
-- `excluded` records selected evidence regions omitted for budget reasons;
+- `excluded` records selected hits absent from final evidence in the default mode;
+  `unexpanded_parents` records omitted parents whose children remain represented.
+  `parent_first` retains the earlier whole-region exclusions.
+- `packing_seconds` records evidence-packing time;
   `evidence_tokens` counts the final numbered text actually given to generation.
 - Each source's `fusion` describes its highest-ranked selected child. Its
   `distance` is null when that child is absent from the vector candidate window.

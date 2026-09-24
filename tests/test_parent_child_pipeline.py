@@ -9,6 +9,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy import select
 
 from knowledgebase.api import app as api_module
+from knowledgebase.config import RetrievalOptions
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
 from knowledgebase.rag.retrieval import retrieve_evidence
@@ -107,16 +108,16 @@ def test_budget_counts_labels_and_separators_without_truncating_parents(storage,
     matches = ranked_store(store, selected, [0.1, 0.2])
     encoding = tiktoken.get_encoding("cl100k_base")
     with sessions() as session:
-        full = retrieve_evidence("Question?", session, embeddings, matches)
+        full = retrieve_evidence("Question?", session, embeddings, matches, retrieval_options=RetrievalOptions(packing_strategy="parent_first"))
         exact = len(encoding.encode_ordinary(build_context(full.chunks)))
-        packed = retrieve_evidence("Question?", session, embeddings, matches, evidence_max_tokens=exact)
+        packed = retrieve_evidence("Question?", session, embeddings, matches, evidence_max_tokens=exact, retrieval_options=RetrievalOptions(packing_strategy="parent_first"))
         assert packed.chunks == full.chunks
         assert packed.diagnostics.evidence_tokens == exact
-        short = retrieve_evidence("Question?", session, embeddings, matches, evidence_max_tokens=exact - 1)
+        short = retrieve_evidence("Question?", session, embeddings, matches, evidence_max_tokens=exact - 1, retrieval_options=RetrievalOptions(packing_strategy="parent_first"))
         assert [item.parent_id for item in short.chunks] == [parents[0].parent_id]
         assert short.diagnostics.excluded[0].chunk_id == parents[1].parent_id
         small_budget = len(encoding.encode_ordinary(build_context([full.chunks[1]])))
-        skipped = retrieve_evidence("Question?", session, embeddings, matches, evidence_max_tokens=small_budget)
+        skipped = retrieve_evidence("Question?", session, embeddings, matches, evidence_max_tokens=small_budget, retrieval_options=RetrievalOptions(packing_strategy="parent_first"))
     assert [item.parent_id for item in skipped.chunks] == [parents[1].parent_id]
     assert skipped.chunks[0].chunk.text == parents[1].text
     assert skipped.diagnostics.evidence_tokens == small_budget
@@ -139,7 +140,7 @@ def test_no_fitting_evidence_skips_generation_and_persists_exclusions(storage, e
     assert result.sources == []
     llm.generate.assert_not_called()
     assert result.retrieval.evidence_tokens == 0
-    assert result.retrieval.excluded[0].chunk_id == parents[0].parent_id
+    assert result.retrieval.excluded[0].chunk_id == children[0].chunk_id
     with sessions() as session:
         saved = get_conversation_detail(session, result.conversation_id).messages[-1]
         assert saved.retrieval == result.retrieval

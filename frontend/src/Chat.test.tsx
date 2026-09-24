@@ -78,14 +78,14 @@ it("does not send during IME composition or Shift+Enter", async () => {
   ).toHaveLength(0);
 });
 
-it("shows the complete parent passage and its heading path", async () => {
+it.each([true, false])("labels expanded parents and retained children correctly (expanded=%s)", async (expanded) => {
   const parent = {
     ...source,
-    chunk_id: "file-1:parent:0",
+    chunk_id: expanded ? "file-1:parent:0" : "file-1:child:0",
     parent_id: "file-1:parent:0",
-    matched_child_ids: ["file-1:child:0", "file-1:child:1"],
+    matched_child_ids: expanded ? ["file-1:child:0", "file-1:child:1"] : ["file-1:child:0"],
     heading_path: ["Library", "Hours"],
-    text: "## Hours\n\nThe library closes at 5 PM.\n\n- Reserve weekend visits.",
+    text: expanded ? "## Hours\n\nThe library closes at 5 PM.\n\n- Reserve weekend visits." : "The library closes at 5 PM.",
   };
   fetchMock.mockImplementation(async (url: string, options?: RequestInit) => {
     if (url === "/api/chat/stream") {
@@ -101,7 +101,7 @@ it("shows the complete parent passage and its heading path", async () => {
   await screen.findByText("Completed");
   await userEvent.click(screen.getByRole("button", { name: "View source 1: hours.txt" }));
   const evidence = screen.getByRole("complementary", { name: "Evidence" });
-  expect(within(evidence).getByText("Parent passage file-1:parent:0")).toBeInTheDocument();
+  expect(within(evidence).getByText(expanded ? "Parent passage file-1:parent:0" : "Chunk file-1:child:0")).toBeInTheDocument();
   expect(within(evidence).getByText("Library › Hours")).toBeInTheDocument();
   expect(evidence.querySelector("blockquote")?.textContent).toBe(parent.text);
 });

@@ -241,7 +241,7 @@ def run(args):
               "chunk_size": "chunk_size", "overlap": "chunk_overlap", "top_k": "retrieval_top_k",
               "chunking_strategy": "chunking_strategy", "chunk_max_tokens": "chunk_max_tokens",
               "chunk_tokenizer": "chunk_tokenizer", "parent_max_tokens": "parent_max_tokens",
-              "evidence_max_tokens": "evidence_max_tokens"}
+              "evidence_max_tokens": "evidence_max_tokens", "evidence_packing_strategy": "evidence_packing_strategy"}
     fields.update({name: name for name in ("retrieval_strategy", "retrieval_candidate_limit", "bm25_k1", "bm25_b", "rrf_k",
                                                "rerank_enabled", "rerank_model", "rerank_candidate_limit", "rerank_max_input_tokens")})
     settings = Settings(**{field: getattr(args, name) for name, field in fields.items()
@@ -654,6 +654,7 @@ def main():
     runner.add_argument("--rrf-k", type=float, help="Override RRF_K")
     runner.add_argument("--rerank", dest="rerank_enabled", action=argparse.BooleanOptionalAction, default=None, help="Override RERANK_ENABLED")
     runner.add_argument("--rerank-model", help="Override RERANK_MODEL")
+    runner.add_argument("--evidence-packing-strategy", choices=["parent_then_child", "parent_first"], help="Override EVIDENCE_PACKING_STRATEGY")
     runner.add_argument("--rerank-candidate-limit", type=int, help="Override RERANK_CANDIDATE_LIMIT")
     runner.add_argument("--rerank-max-input-tokens", type=int, help="Override RERANK_MAX_INPUT_TOKENS")
     grader = sub.add_parser("grade", help="Append human or LLM reviews; preserve earlier ratings.")

@@ -42,8 +42,9 @@ then expands/deduplicates parents and packs whole regions into the evidence budg
 Higher raw logits rank first. Equal scores keep RRF rank, then child ID. Scores can
 be negative or greater than three; they are not calibrated correctness probabilities.
 No sigmoid, score threshold, backfill, or automatic abstention policy is applied.
-Siblings still consume child slots, and parent expansion can still exceed the
-context budget. An empty Ready library makes no embedding or scoring request.
+Siblings still consume child slots. With the default evidence packing policy,
+parents that fit stay intact; unused space can retain complete selected children
+of parents that did not fit. An empty Ready library makes no embedding or scoring request.
 
 This replaces the former `gpt-4.1` ordinal-scoring implementation. The old provider
 path is no longer active. Its frozen evaluation records remain unchanged.
