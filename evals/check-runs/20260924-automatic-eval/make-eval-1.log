@@ -1,0 +1,70 @@
+uv run --locked python -m evals.automatic
+Evaluation: /Users/lucas/Documents/Projects/KnowledgeBase/evals/runs/20260924T154305Z-4ef1ccf3-automatic
+Previous: evals/library-runs/20260924T150609Z-source-metadata-v2
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/393 [00:00<?, ?it/s]Loading weights: 100%|██████████| 393/393 [00:00<00:00, 13006.36it/s]
+Indexed anthropic_api.md
+Indexed university-student-conduct-policy.txt
+Indexed student-resources-overview.txt
+Indexed student-career-development-professional-development-overview.txt
+Indexed student-career-development-professional-career-information.txt
+Indexed masters-in-data-science-tracks.txt
+Indexed masters-in-data-science-summer-research-initiative.txt
+Indexed masters-in-data-science-overview.txt
+Indexed masters-in-data-science-industry-concentration.txt
+Indexed masters-in-data-science-financial-aid-fellowships.txt
+Indexed masters-in-data-science-faq.txt
+Indexed masters-in-data-science-faq-general.txt
+Indexed masters-in-data-science-capstone.txt
+Indexed masters-in-data-science-admissions-ambassadors.txt
+Indexed data-science-ms-bulletin.txt
+Indexed curriculum.txt
+Indexed admissions-requirements.txt
+RAG policy-ai-impersonation: ok, 5.37s
+RAG policy-off-campus: ok, 5.35s
+RAG msds-credits: ok, 5.55s
+RAG msds-gpa: ok, 4.84s
+RAG msds-waiver: ok, 4.36s
+RAG msds-industry: ok, 6.42s
+RAG missing-personal-schedule: ok, 4.59s
+RAG msds-admissions-prerequisites: ok, 6.45s
+RAG msds-working-enrollment: ok, 5.47s
+RAG msds-pathbreaker-fall2027: ok, 7.97s
+RAG msds-cpt-source-context: ok, 6.26s
+RAG missing-exact-tuition-bill: ok, 5.53s
+RAG api-setup: ok, 3.48s
+RAG api-model-mapping: ok, 5.03s
+RAG api-top-p: ok, 5.20s
+RAG api-thinking: ok, 4.44s
+RAG api-images: ok, 4.90s
+RAG api-tools: ok, 5.05s
+Judge policy-off-campus: ok
+Judge policy-ai-impersonation: error (Judge quote is not an exact nonempty substring.)
+Judge msds-gpa: ok
+Judge missing-personal-schedule: error (Only factual units carry factual claims.)
+Judge msds-admissions-prerequisites: error (Only factual units carry factual claims.)
+Judge msds-waiver: ok
+Judge msds-working-enrollment: error (Judge quote is not an exact nonempty substring.)
+Judge msds-credits: error (Evidence must select existing nonempty source units.)
+Judge msds-pathbreaker-fall2027: ok
+Judge missing-exact-tuition-bill: error (Only factual units carry factual claims.)
+Judge msds-cpt-source-context: error (Only factual units carry factual claims.)
+Judge msds-industry: ok
+Judge api-model-mapping: ok
+Judge api-setup: error (Judge reported omitted claims; review is incomplete.)
+Judge api-top-p: ok
+Judge api-tools: ok
+Judge api-thinking: error (Judge quote is not an exact nonempty substring.)
+Judge api-images: error (Judge quote is not an exact nonempty substring.)
+Rejudging saved previous answers under the current protocol; previous artifacts remain unchanged.
+Judge baseline-msds-gpa: ok
+Judge baseline-policy-ai-impersonation: ok
+Judge baseline-policy-off-campus: ok
+Judge baseline-msds-waiver: ok
+Judge baseline-missing-personal-schedule: error (Only factual units carry factual claims.)
+Judge baseline-msds-admissions-prerequisites: error (Only factual units carry factual claims.)
+Judge baseline-msds-pathbreaker-fall2027: error (Judge quote is not an exact nonempty substring.)
+Judge baseline-msds-working-enrollment: ok
+/Users/lucas/miniconda3/lib/python3.13/multiprocessing/resource_tracker.py:324: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown: {'/mp-x8e734nr'}
+  warnings.warn(
+make: *** [eval] Error 143

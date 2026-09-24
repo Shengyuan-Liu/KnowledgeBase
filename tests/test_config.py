@@ -57,7 +57,7 @@ def test_all_runtime_options_and_override_precedence(tmp_path, monkeypatch):
         "PARENT_MAX_TOKENS": "128", "EVIDENCE_MAX_TOKENS": "256",
         "CHUNK_TOKENIZER": "cl100k_base", "CHUNK_SIZE": "100", "CHUNK_OVERLAP": "20",
         "RETRIEVAL_TOP_K": "3", "HISTORY_LIMIT": "4", "EVAL_TIMEOUT_SECONDS": "12",
-        "EVAL_MAX_RETRIES": "0", "JUDGE_MODEL": "file-judge",
+        "EVAL_MAX_RETRIES": "0", "JUDGE_MODEL": "file-judge", "JUDGE_TIMEOUT_SECONDS": "180", "JUDGE_REASONING_EFFORT": "high", "JUDGE_CONCURRENCY": "2",
     }
     for key in values:
         monkeypatch.delenv(key, raising=False)

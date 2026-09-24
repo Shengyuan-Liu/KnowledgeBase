@@ -1,0 +1,1121 @@
+{
+  "version": "automated-metrics-v1",
+  "metrics": {
+    "recall_at_k": {
+      "status": "measured",
+      "value": 0.7795138888888888,
+      "unit": "fraction",
+      "n": 16,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "precision_at_k": {
+      "status": "measured",
+      "value": 0.35000000000000003,
+      "unit": "fraction",
+      "n": 16,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "hit_rate_at_k": {
+      "status": "measured",
+      "value": 0.9375,
+      "unit": "fraction",
+      "n": 16,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "mrr_at_k": {
+      "status": "measured",
+      "value": 0.9375,
+      "unit": "fraction",
+      "n": 16,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "ndcg_at_k": {
+      "status": "measured",
+      "value": 0.833565316812447,
+      "unit": "fraction",
+      "n": 16,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "annotated_char_recall": {
+      "status": "measured",
+      "value": 0.9995716773984152,
+      "unit": "fraction",
+      "n": 16,
+      "method": "Union of actual supplied source spans; average gold spans per answer then macro-average answerable cases.",
+      "artifact": "answers.jsonl"
+    },
+    "full_evidence_recall": {
+      "status": "measured",
+      "value": 0.6875,
+      "unit": "fraction",
+      "n": 16,
+      "method": "Union of actual supplied source spans; average gold spans per answer then macro-average answerable cases.",
+      "artifact": "answers.jsonl"
+    },
+    "answer_correctness": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 17,
+      "method": "Expected-point correctness, 0/1/2 normalized, macro-average. Extra claim errors are separate; not overall accuracy. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "answer_completeness": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 17,
+      "method": "Fraction of expected points attempted, regardless of truth; macro-average. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "fully_correct_points": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 17,
+      "method": "Fraction of expected points fully correct (2), macro-average. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "faithfulness": {
+      "status": "measured",
+      "value": 0.9635452267031215,
+      "unit": "fraction",
+      "n": 17,
+      "method": "Fraction of inventoried factual claims supported by supplied evidence, macro-average over claim-bearing answers. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "answer_relevance": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 17,
+      "method": "LLM 0 off-topic / 1 partly responsive or extraneous / 2 directly responsive, normalized macro-average. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "citation_support": {
+      "status": "measured",
+      "value": 0.9686274509803922,
+      "unit": "fraction",
+      "n": 17,
+      "method": "Fraction of assessed claim-citation pairs with semantic support, macro-average over cited answers. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "citation_coverage": {
+      "status": "measured",
+      "value": 0.6301752671805841,
+      "unit": "fraction",
+      "n": 17,
+      "method": "Fraction of factual claims with at least one supporting inline citation, macro-average over claim-bearing answers. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "appropriate_abstention": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 2,
+      "method": "Appropriate explicit refusal without invented specifics on unanswerable cases. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "incorrect_abstention": {
+      "status": "measured",
+      "value": 0,
+      "unit": "fraction",
+      "n": 15,
+      "method": "Unjustified refusal on answerable cases despite supplied evidence; separate from retrieval-caused refusals. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "answerable_refusal": {
+      "status": "measured",
+      "value": 0,
+      "unit": "fraction",
+      "n": 15,
+      "method": "Any full/partial refusal on answerable cases, including missing retrieved evidence. Valid LLM review subset only; see judge reliability.",
+      "artifact": "reviews.jsonl"
+    },
+    "strict_pass_rate": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Run or judgments incomplete; no full-set pass rate."
+    },
+    "contradicted_claims": {
+      "status": "measured",
+      "value": 1,
+      "unit": "claims",
+      "n": 17,
+      "method": "Total over valid inventoried reviews.",
+      "artifact": "reviews.jsonl"
+    },
+    "unsupported_claims": {
+      "status": "measured",
+      "value": 4,
+      "unit": "claims",
+      "n": 17,
+      "method": "Total over valid inventoried reviews.",
+      "artifact": "reviews.jsonl"
+    },
+    "claim_count": {
+      "status": "measured",
+      "value": 188,
+      "unit": "claims",
+      "n": 17,
+      "method": "Total over valid inventoried reviews.",
+      "artifact": "reviews.jsonl"
+    },
+    "first_delta_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No successful timed observations."
+    },
+    "total_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No successful timed observations."
+    },
+    "generation_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 2.4964175393365116,
+        "p50": 2.220790520950686,
+        "p95": 5.130264999927022
+      },
+      "unit": "seconds",
+      "n": 18,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "generation_first_delta_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.8760669260130575,
+        "p50": 0.7420645000529476,
+        "p95": 3.643484584055841
+      },
+      "unit": "seconds",
+      "n": 18,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "retrieval_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No successful timed observations."
+    },
+    "embedding_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No successful timed observations."
+    },
+    "rerank_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No successful timed observations."
+    },
+    "packing_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.005511416626783709,
+        "p50": 0.005242646031547338,
+        "p95": 0.01130729098804295
+      },
+      "unit": "seconds",
+      "n": 18,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "search_fusion_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Production service exposes total retrieval, embedding, rerank and packing; search/fusion not independently timed."
+    },
+    "reliability": {
+      "status": "measured",
+      "value": {
+        "attempted": 18,
+        "planned": 18,
+        "success": 18,
+        "errors": 0,
+        "not_attempted": 0,
+        "success_rate": 1.0,
+        "timeouts": 0,
+        "retries": 0
+      },
+      "unit": "requests",
+      "n": 18,
+      "method": "All planned RAG requests; SDK retries disabled, partial answers do not succeed.",
+      "artifact": "answers.jsonl"
+    },
+    "judge_reliability": {
+      "status": "measured",
+      "value": {
+        "reviewed": 18,
+        "valid": 17,
+        "invalid_or_error": 1,
+        "pending": 1
+      },
+      "unit": "reviews",
+      "n": 18,
+      "method": "Two passes, no automatic repair/retry. Invalid review remains pending.",
+      "artifact": "reviews.jsonl"
+    },
+    "judge_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 32.35662671989606,
+        "p50": 29.738538041478023,
+        "p95": 75.30819995806087
+      },
+      "unit": "seconds",
+      "n": 18,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "token_usage": {
+      "ingestion": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "No provider usage recorded for this stage."
+      },
+      "query_embedding": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "No provider usage recorded for this stage."
+      },
+      "generation": {
+        "status": "measured",
+        "value": {
+          "input_tokens": 61449,
+          "output_tokens": 3095,
+          "total_tokens": 64544
+        },
+        "unit": "tokens",
+        "n": 18,
+        "method": "Provider-reported totals for 18/18 calls; missing failed-call usage excluded, not zero billed cost.",
+        "artifact": "calls.jsonl"
+      },
+      "judge": {
+        "status": "measured",
+        "value": {
+          "input_tokens": 219837,
+          "output_tokens": 115030,
+          "total_tokens": 334867
+        },
+        "unit": "tokens",
+        "n": 36,
+        "method": "Provider-reported totals for 36/36 calls; missing failed-call usage excluded, not zero billed cost.",
+        "artifact": "calls.jsonl"
+      }
+    },
+    "cost": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Provider responses do not expose billed dollars; no inferred price substituted."
+    },
+    "evidence_tokens": {
+      "status": "measured",
+      "value": [
+        3098,
+        3098,
+        3271,
+        3655,
+        3703,
+        4009,
+        3644,
+        3405,
+        3871,
+        3778,
+        3594,
+        3569,
+        249,
+        951,
+        3176,
+        1113,
+        1923,
+        1518
+      ],
+      "unit": "tokens",
+      "n": 18,
+      "method": "Exact formatted supplied evidence tokens including metadata.",
+      "artifact": "answers.jsonl"
+    },
+    "concurrency_throughput": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No comparable RAG batch wall interval recorded."
+    },
+    "ingestion": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Historical generation replay did not ingest documents."
+    },
+    "update_delete": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Evaluation creates a fresh isolated corpus; update/delete lifecycle is not exercised."
+    },
+    "model_loading": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Model loading not recorded."
+    }
+  },
+  "cases": [
+    {
+      "case_id": "policy-ai-impersonation",
+      "category": "factual",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.2,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "gold_overlap_ids": [
+          "9c84c08d4b2543909cf32bd80d76d641:child:4"
+        ],
+        "relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 6,
+        "citation_support": 1,
+        "citation_coverage": 0.6666666666666666,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "policy-off-campus",
+      "category": "factual",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.2,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "gold_overlap_ids": [
+          "9c84c08d4b2543909cf32bd80d76d641:child:6"
+        ],
+        "relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 4,
+        "citation_support": 1,
+        "citation_coverage": 1,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": true
+      }
+    },
+    {
+      "case_id": "msds-credits",
+      "category": "multi_evidence",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 0.9197207891481876,
+        "gold_overlap_ids": [
+          "658dd0268d1243029a8c73320c4dac61:child:0",
+          "658dd0268d1243029a8c73320c4dac61:child:2"
+        ],
+        "relevance": [
+          1,
+          0,
+          1,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 0.9473684210526315,
+        "contradicted_claims": 1,
+        "unsupported_claims": 1,
+        "claim_count": 19,
+        "citation_support": 1,
+        "citation_coverage": 0.3157894736842105,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "msds-gpa",
+      "category": "multi_evidence",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 0.0,
+        "precision_at_k": 0.0,
+        "hit_rate_at_k": 0,
+        "mrr_at_k": 0,
+        "ndcg_at_k": 0.0,
+        "gold_overlap_ids": [
+          "3d81f4937d164e1d974205ee9526e709:child:1"
+        ],
+        "relevance": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 7,
+        "citation_support": 1,
+        "citation_coverage": 0.2857142857142857,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "msds-waiver",
+      "category": "multi_evidence",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.2,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "gold_overlap_ids": [
+          "3d81f4937d164e1d974205ee9526e709:child:1"
+        ],
+        "relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 9,
+        "citation_support": 1,
+        "citation_coverage": 0.1111111111111111,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "msds-industry",
+      "category": "multi_evidence",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.2,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "gold_overlap_ids": [
+          "b5c5249f1f0842589018c117aae20102:child:0"
+        ],
+        "relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 23,
+        "citation_support": 0.9166666666666666,
+        "citation_coverage": 0.5217391304347826,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "missing-personal-schedule",
+      "category": "unanswerable",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": null,
+        "full_evidence_recall": null
+      },
+      "ranking": null,
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 0.6666666666666666,
+        "contradicted_claims": 0,
+        "unsupported_claims": 1,
+        "claim_count": 3,
+        "citation_support": 0.75,
+        "citation_coverage": 0.6666666666666666,
+        "appropriate_abstention": 1,
+        "incorrect_abstention": null,
+        "answerable_refusal": null,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "msds-admissions-prerequisites",
+      "category": "multi_evidence",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "gold_overlap_ids": [
+          "93d5c75770784bf99f676e1d758f37f5:child:0",
+          "93d5c75770784bf99f676e1d758f37f5:child:1"
+        ],
+        "relevance": [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 16,
+        "citation_support": 1,
+        "citation_coverage": 0.4375,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "msds-working-enrollment",
+      "category": "multi_document",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "gold_overlap_ids": [
+          "3d81f4937d164e1d974205ee9526e709:child:0",
+          "e32fdf05ea4b4d0ebdf567c104e1567b:child:0"
+        ],
+        "relevance": [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 17,
+        "citation_support": 1,
+        "citation_coverage": 1,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": true
+      }
+    },
+    {
+      "case_id": "msds-pathbreaker-fall2027",
+      "category": "temporal",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.2,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "gold_overlap_ids": [
+          "7517e31b69cb446b9eae82b3e2e2ad33:child:0"
+        ],
+        "relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 0.9090909090909091,
+        "contradicted_claims": 0,
+        "unsupported_claims": 1,
+        "claim_count": 11,
+        "citation_support": 1,
+        "citation_coverage": 0.9090909090909091,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "msds-cpt-source-context",
+      "category": "source_comparison",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 0.8772153153380493,
+        "gold_overlap_ids": [
+          "b5c5249f1f0842589018c117aae20102:child:0",
+          "e32fdf05ea4b4d0ebdf567c104e1567b:child:2"
+        ],
+        "relevance": [
+          1,
+          0,
+          0,
+          1,
+          0
+        ],
+        "k": 5
+      },
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 22,
+        "citation_support": 1,
+        "citation_coverage": 0.7272727272727273,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "missing-exact-tuition-bill",
+      "category": "unanswerable",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": null,
+        "full_evidence_recall": null
+      },
+      "ranking": null,
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 3,
+        "citation_support": 1,
+        "citation_coverage": 1,
+        "appropriate_abstention": 1,
+        "incorrect_abstention": null,
+        "answerable_refusal": null,
+        "strict_pass": true
+      }
+    },
+    {
+      "case_id": "api-setup",
+      "category": "uncategorized",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 0.9988584474885844,
+        "full_evidence_recall": 0.0
+      },
+      "ranking": {
+        "recall_at_k": 0.5555555555555556,
+        "precision_at_k": 1.0,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "gold_overlap_ids": [
+          "061196c1888b41c69e42623e8d1fee9f:child:10",
+          "061196c1888b41c69e42623e8d1fee9f:child:11",
+          "061196c1888b41c69e42623e8d1fee9f:child:3",
+          "061196c1888b41c69e42623e8d1fee9f:child:4",
+          "061196c1888b41c69e42623e8d1fee9f:child:5",
+          "061196c1888b41c69e42623e8d1fee9f:child:6",
+          "061196c1888b41c69e42623e8d1fee9f:child:7",
+          "061196c1888b41c69e42623e8d1fee9f:child:8",
+          "061196c1888b41c69e42623e8d1fee9f:child:9"
+        ],
+        "relevance": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "k": 5
+      },
+      "quality": null
+    },
+    {
+      "case_id": "api-model-mapping",
+      "category": "uncategorized",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 0.9972413793103448,
+        "full_evidence_recall": 0.0
+      },
+      "ranking": {
+        "recall_at_k": 0.6666666666666666,
+        "precision_at_k": 0.8,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 0.8687949224876582,
+        "gold_overlap_ids": [
+          "061196c1888b41c69e42623e8d1fee9f:child:10",
+          "061196c1888b41c69e42623e8d1fee9f:child:11",
+          "061196c1888b41c69e42623e8d1fee9f:child:12",
+          "061196c1888b41c69e42623e8d1fee9f:child:13",
+          "061196c1888b41c69e42623e8d1fee9f:child:14",
+          "061196c1888b41c69e42623e8d1fee9f:child:15"
+        ],
+        "relevance": [
+          1,
+          1,
+          1,
+          1,
+          0
+        ],
+        "k": 5
+      },
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 0.8571428571428571,
+        "contradicted_claims": 0,
+        "unsupported_claims": 1,
+        "claim_count": 7,
+        "citation_support": 0.8,
+        "citation_coverage": 0.5714285714285714,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "api-top-p",
+      "category": "uncategorized",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 0.9987745098039216,
+        "full_evidence_recall": 0.0
+      },
+      "ranking": {
+        "recall_at_k": 0.5,
+        "precision_at_k": 0.2,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 0.6131471927654584,
+        "gold_overlap_ids": [
+          "061196c1888b41c69e42623e8d1fee9f:child:19",
+          "061196c1888b41c69e42623e8d1fee9f:child:20"
+        ],
+        "relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 10,
+        "citation_support": 1,
+        "citation_coverage": 0.5,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "api-thinking",
+      "category": "uncategorized",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 0.9987745098039216,
+        "full_evidence_recall": 0.0
+      },
+      "ranking": {
+        "recall_at_k": 0.5,
+        "precision_at_k": 0.2,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 0.6131471927654584,
+        "gold_overlap_ids": [
+          "061196c1888b41c69e42623e8d1fee9f:child:19",
+          "061196c1888b41c69e42623e8d1fee9f:child:20"
+        ],
+        "relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 18,
+        "citation_support": 1,
+        "citation_coverage": 0.6666666666666666,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "api-images",
+      "category": "uncategorized",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 0.5,
+        "precision_at_k": 0.2,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 0.6131471927654584,
+        "gold_overlap_ids": [
+          "061196c1888b41c69e42623e8d1fee9f:child:26",
+          "061196c1888b41c69e42623e8d1fee9f:child:27"
+        ],
+        "relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 9,
+        "citation_support": 1,
+        "citation_coverage": 0.3333333333333333,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": false
+      }
+    },
+    {
+      "case_id": "api-tools",
+      "category": "uncategorized",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 0.9994979919678715,
+        "full_evidence_recall": 0.0
+      },
+      "ranking": {
+        "recall_at_k": 0.75,
+        "precision_at_k": 0.6,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 0.8318724637288826,
+        "gold_overlap_ids": [
+          "061196c1888b41c69e42623e8d1fee9f:child:24",
+          "061196c1888b41c69e42623e8d1fee9f:child:25",
+          "061196c1888b41c69e42623e8d1fee9f:child:26",
+          "061196c1888b41c69e42623e8d1fee9f:child:27"
+        ],
+        "relevance": [
+          1,
+          1,
+          1,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": {
+        "answer_correctness": 1.0,
+        "answer_completeness": 1,
+        "fully_correct_points": 1,
+        "answer_relevance": 1.0,
+        "faithfulness": 1,
+        "contradicted_claims": 0,
+        "unsupported_claims": 0,
+        "claim_count": 4,
+        "citation_support": 1,
+        "citation_coverage": 1,
+        "appropriate_abstention": null,
+        "incorrect_abstention": 0,
+        "answerable_refusal": 0,
+        "strict_pass": true
+      }
+    }
+  ],
+  "limitations": [
+    "Development/regression set; not held-out accuracy.",
+    "LLM judgments are assessments, not human ground truth; inventory misclassification and semantic errors remain possible.",
+    "In-process production streaming service, excluding app HTTP transport; no warmup, caches and host/provider load uncontrolled."
+  ]
+}

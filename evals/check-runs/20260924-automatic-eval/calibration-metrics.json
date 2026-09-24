@@ -1,0 +1,1176 @@
+{
+  "scope": "Known MSDS extra-course-type error; seven development attempts, not independent calibration dataset.",
+  "attempts": [
+    {
+      "artifact": "calibration-1.json",
+      "model": "gpt-4.1-mini",
+      "reasoning_effort": null,
+      "protocol_hash": "17551a991a2a0282a583170f9881a90581ed72005314ac7520432125493bbfa9",
+      "status": "error",
+      "validation_error": "Inventory must cover every answer unit exactly once in order.",
+      "error_type": "ValueError",
+      "metric_inventory": {
+        "recall_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "precision_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "hit_rate_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "mrr_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "ndcg_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "final_evidence_coverage": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "answer_correctness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "faithfulness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "answer_completeness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "answer_relevance": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "citation_support": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "citation_coverage": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "abstention": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "first_answer_delta_latency": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "complete_response_latency": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "stage_latency": {
+          "status": "measured",
+          "value": {
+            "review_seconds": 12.860865666996688,
+            "call_seconds": [
+              12.860584584064782
+            ]
+          },
+          "unit": "seconds",
+          "n": 1,
+          "method": "Sequential single-answer judge calibration; no RAG timing.",
+          "artifact": "calibration-1.json"
+        },
+        "token_usage_and_cost": {
+          "usage": {
+            "status": "measured",
+            "value": [
+              {
+                "input_tokens": 676,
+                "input_tokens_details": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0
+                },
+                "output_tokens": 815,
+                "output_tokens_details": {
+                  "reasoning_tokens": 0
+                },
+                "total_tokens": 1491
+              }
+            ],
+            "unit": "provider token objects",
+            "n": 1,
+            "method": "Raw provider-reported usage for completed calls only; failed usage unavailable.",
+            "artifact": "calibration-1.json"
+          },
+          "billed_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "Billing unavailable; interrupted/timed-out calls may incur costs."
+          }
+        },
+        "reliability": {
+          "status": "measured",
+          "value": {
+            "review_status": "error",
+            "provider_calls": 1,
+            "provider_errors": 0,
+            "retries": 0
+          },
+          "unit": "counts",
+          "n": 1,
+          "method": "One development review; no retries.",
+          "artifact": "calibration-1.json"
+        },
+        "concurrency_and_throughput": {
+          "status": "measured",
+          "value": {
+            "concurrency": 1,
+            "reviews_per_second": 0.07775526359521671
+          },
+          "unit": "reviews/second",
+          "n": 1,
+          "method": "Single sequential probe, not load capacity.",
+          "artifact": "calibration-1.json"
+        },
+        "ingestion_and_index": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        }
+      }
+    },
+    {
+      "artifact": "calibration-2.json",
+      "model": "gpt-4.1-mini",
+      "reasoning_effort": null,
+      "protocol_hash": "17551a991a2a0282a583170f9881a90581ed72005314ac7520432125493bbfa9",
+      "status": "error",
+      "validation_error": "Judge assigned a citation absent from the answer unit.",
+      "error_type": "ValueError",
+      "metric_inventory": {
+        "recall_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "precision_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "hit_rate_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "mrr_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "ndcg_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "final_evidence_coverage": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "answer_correctness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "faithfulness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "answer_completeness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "answer_relevance": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "citation_support": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "citation_coverage": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "abstention": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "first_answer_delta_latency": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "complete_response_latency": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "stage_latency": {
+          "status": "measured",
+          "value": {
+            "review_seconds": 35.1753016669536,
+            "call_seconds": [
+              11.818716582958587,
+              23.355147582944483
+            ]
+          },
+          "unit": "seconds",
+          "n": 2,
+          "method": "Sequential single-answer judge calibration; no RAG timing.",
+          "artifact": "calibration-2.json"
+        },
+        "token_usage_and_cost": {
+          "usage": {
+            "status": "measured",
+            "value": [
+              {
+                "input_tokens": 845,
+                "input_tokens_details": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0
+                },
+                "output_tokens": 932,
+                "output_tokens_details": {
+                  "reasoning_tokens": 0
+                },
+                "total_tokens": 1777
+              },
+              {
+                "input_tokens": 8445,
+                "input_tokens_details": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0
+                },
+                "output_tokens": 2055,
+                "output_tokens_details": {
+                  "reasoning_tokens": 0
+                },
+                "total_tokens": 10500
+              }
+            ],
+            "unit": "provider token objects",
+            "n": 2,
+            "method": "Raw provider-reported usage for completed calls only; failed usage unavailable.",
+            "artifact": "calibration-2.json"
+          },
+          "billed_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "Billing unavailable; interrupted/timed-out calls may incur costs."
+          }
+        },
+        "reliability": {
+          "status": "measured",
+          "value": {
+            "review_status": "error",
+            "provider_calls": 2,
+            "provider_errors": 0,
+            "retries": 0
+          },
+          "unit": "counts",
+          "n": 1,
+          "method": "One development review; no retries.",
+          "artifact": "calibration-2.json"
+        },
+        "concurrency_and_throughput": {
+          "status": "measured",
+          "value": {
+            "concurrency": 1,
+            "reviews_per_second": 0.028429038348219124
+          },
+          "unit": "reviews/second",
+          "n": 1,
+          "method": "Single sequential probe, not load capacity.",
+          "artifact": "calibration-2.json"
+        },
+        "ingestion_and_index": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        }
+      }
+    },
+    {
+      "artifact": "calibration-3.json",
+      "model": "gpt-4.1-mini",
+      "reasoning_effort": null,
+      "protocol_hash": "7cb174ed9898552be56edc33247bf8db7adfc2ceb3e6b29dcefcbde5a99a5404",
+      "status": "error",
+      "validation_error": "Judge quote is not an exact nonempty substring.",
+      "error_type": "ValueError",
+      "metric_inventory": {
+        "recall_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "precision_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "hit_rate_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "mrr_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "ndcg_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "final_evidence_coverage": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "answer_correctness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "faithfulness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "answer_completeness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "answer_relevance": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "citation_support": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "citation_coverage": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "abstention": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "first_answer_delta_latency": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "complete_response_latency": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "stage_latency": {
+          "status": "measured",
+          "value": {
+            "review_seconds": 30.04409629199654,
+            "call_seconds": [
+              14.44359791604802,
+              15.599066915921867
+            ]
+          },
+          "unit": "seconds",
+          "n": 2,
+          "method": "Sequential single-answer judge calibration; no RAG timing.",
+          "artifact": "calibration-3.json"
+        },
+        "token_usage_and_cost": {
+          "usage": {
+            "status": "measured",
+            "value": [
+              {
+                "input_tokens": 845,
+                "input_tokens_details": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0
+                },
+                "output_tokens": 861,
+                "output_tokens_details": {
+                  "reasoning_tokens": 0
+                },
+                "total_tokens": 1706
+              },
+              {
+                "input_tokens": 9944,
+                "input_tokens_details": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0
+                },
+                "output_tokens": 1387,
+                "output_tokens_details": {
+                  "reasoning_tokens": 0
+                },
+                "total_tokens": 11331
+              }
+            ],
+            "unit": "provider token objects",
+            "n": 2,
+            "method": "Raw provider-reported usage for completed calls only; failed usage unavailable.",
+            "artifact": "calibration-3.json"
+          },
+          "billed_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "Billing unavailable; interrupted/timed-out calls may incur costs."
+          }
+        },
+        "reliability": {
+          "status": "measured",
+          "value": {
+            "review_status": "error",
+            "provider_calls": 2,
+            "provider_errors": 0,
+            "retries": 0
+          },
+          "unit": "counts",
+          "n": 1,
+          "method": "One development review; no retries.",
+          "artifact": "calibration-3.json"
+        },
+        "concurrency_and_throughput": {
+          "status": "measured",
+          "value": {
+            "concurrency": 1,
+            "reviews_per_second": 0.033284409365522856
+          },
+          "unit": "reviews/second",
+          "n": 1,
+          "method": "Single sequential probe, not load capacity.",
+          "artifact": "calibration-3.json"
+        },
+        "ingestion_and_index": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        }
+      }
+    },
+    {
+      "artifact": "calibration-4.json",
+      "model": "gpt-4.1",
+      "reasoning_effort": null,
+      "protocol_hash": "7cb174ed9898552be56edc33247bf8db7adfc2ceb3e6b29dcefcbde5a99a5404",
+      "status": "error",
+      "validation_error": "Judge quote is not an exact nonempty substring.",
+      "error_type": "ValueError",
+      "metric_inventory": {
+        "recall_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "precision_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "hit_rate_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "mrr_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "ndcg_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "final_evidence_coverage": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "answer_correctness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "faithfulness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "answer_completeness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "answer_relevance": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "citation_support": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "citation_coverage": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "abstention": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "first_answer_delta_latency": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "complete_response_latency": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "stage_latency": {
+          "status": "measured",
+          "value": {
+            "review_seconds": 17.24899412493687,
+            "call_seconds": [
+              5.730393583071418,
+              11.517031415947713
+            ]
+          },
+          "unit": "seconds",
+          "n": 2,
+          "method": "Sequential single-answer judge calibration; no RAG timing.",
+          "artifact": "calibration-4.json"
+        },
+        "token_usage_and_cost": {
+          "usage": {
+            "status": "measured",
+            "value": [
+              {
+                "input_tokens": 845,
+                "input_tokens_details": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0
+                },
+                "output_tokens": 1116,
+                "output_tokens_details": {
+                  "reasoning_tokens": 0
+                },
+                "total_tokens": 1961
+              },
+              {
+                "input_tokens": 10365,
+                "input_tokens_details": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0
+                },
+                "output_tokens": 2119,
+                "output_tokens_details": {
+                  "reasoning_tokens": 0
+                },
+                "total_tokens": 12484
+              }
+            ],
+            "unit": "provider token objects",
+            "n": 2,
+            "method": "Raw provider-reported usage for completed calls only; failed usage unavailable.",
+            "artifact": "calibration-4.json"
+          },
+          "billed_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "Billing unavailable; interrupted/timed-out calls may incur costs."
+          }
+        },
+        "reliability": {
+          "status": "measured",
+          "value": {
+            "review_status": "error",
+            "provider_calls": 2,
+            "provider_errors": 0,
+            "retries": 0
+          },
+          "unit": "counts",
+          "n": 1,
+          "method": "One development review; no retries.",
+          "artifact": "calibration-4.json"
+        },
+        "concurrency_and_throughput": {
+          "status": "measured",
+          "value": {
+            "concurrency": 1,
+            "reviews_per_second": 0.05797439507236541
+          },
+          "unit": "reviews/second",
+          "n": 1,
+          "method": "Single sequential probe, not load capacity.",
+          "artifact": "calibration-4.json"
+        },
+        "ingestion_and_index": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        }
+      }
+    },
+    {
+      "artifact": "calibration-5.json",
+      "model": "gpt-4.1",
+      "reasoning_effort": null,
+      "protocol_hash": "89edda2b334c27cc12aa59e7de41342f05b5167312ffaa4233792887caaf04fa",
+      "status": "error",
+      "validation_error": null,
+      "error_type": "APITimeoutError",
+      "metric_inventory": {
+        "recall_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "precision_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "hit_rate_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "mrr_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "ndcg_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "final_evidence_coverage": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "answer_correctness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "faithfulness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "answer_completeness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "answer_relevance": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "citation_support": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "citation_coverage": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "abstention": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "first_answer_delta_latency": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "complete_response_latency": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "stage_latency": {
+          "status": "measured",
+          "value": {
+            "review_seconds": 68.76888054201845,
+            "call_seconds": [
+              8.763721874915063,
+              60.00367791601457
+            ]
+          },
+          "unit": "seconds",
+          "n": 2,
+          "method": "Sequential single-answer judge calibration; no RAG timing.",
+          "artifact": "calibration-5.json"
+        },
+        "token_usage_and_cost": {
+          "usage": {
+            "status": "measured",
+            "value": [
+              {
+                "input_tokens": 906,
+                "input_tokens_details": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0
+                },
+                "output_tokens": 1129,
+                "output_tokens_details": {
+                  "reasoning_tokens": 0
+                },
+                "total_tokens": 2035
+              }
+            ],
+            "unit": "provider token objects",
+            "n": 1,
+            "method": "Raw provider-reported usage for completed calls only; failed usage unavailable.",
+            "artifact": "calibration-5.json"
+          },
+          "billed_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "Billing unavailable; interrupted/timed-out calls may incur costs."
+          }
+        },
+        "reliability": {
+          "status": "measured",
+          "value": {
+            "review_status": "error",
+            "provider_calls": 2,
+            "provider_errors": 1,
+            "retries": 0
+          },
+          "unit": "counts",
+          "n": 1,
+          "method": "One development review; no retries.",
+          "artifact": "calibration-5.json"
+        },
+        "concurrency_and_throughput": {
+          "status": "measured",
+          "value": {
+            "concurrency": 1,
+            "reviews_per_second": 0.01454146108120795
+          },
+          "unit": "reviews/second",
+          "n": 1,
+          "method": "Single sequential probe, not load capacity.",
+          "artifact": "calibration-5.json"
+        },
+        "ingestion_and_index": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        }
+      }
+    },
+    {
+      "artifact": "calibration-6.json",
+      "model": "gpt-4.1",
+      "reasoning_effort": null,
+      "protocol_hash": "89edda2b334c27cc12aa59e7de41342f05b5167312ffaa4233792887caaf04fa",
+      "status": "ok",
+      "validation_error": null,
+      "error_type": null,
+      "metric_inventory": {
+        "recall_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "precision_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "hit_rate_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "mrr_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "ndcg_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "final_evidence_coverage": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "answer_correctness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "faithfulness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "answer_completeness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "answer_relevance": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "citation_support": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "citation_coverage": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "abstention": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "first_answer_delta_latency": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "complete_response_latency": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "stage_latency": {
+          "status": "measured",
+          "value": {
+            "review_seconds": 19.887203208054416,
+            "call_seconds": [
+              7.359099833061919,
+              12.525606125011109
+            ]
+          },
+          "unit": "seconds",
+          "n": 2,
+          "method": "Sequential single-answer judge calibration; no RAG timing.",
+          "artifact": "calibration-6.json"
+        },
+        "token_usage_and_cost": {
+          "usage": {
+            "status": "measured",
+            "value": [
+              {
+                "input_tokens": 906,
+                "input_tokens_details": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0
+                },
+                "output_tokens": 1029,
+                "output_tokens_details": {
+                  "reasoning_tokens": 0
+                },
+                "total_tokens": 1935
+              },
+              {
+                "input_tokens": 9971,
+                "input_tokens_details": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 7040
+                },
+                "output_tokens": 2271,
+                "output_tokens_details": {
+                  "reasoning_tokens": 0
+                },
+                "total_tokens": 12242
+              }
+            ],
+            "unit": "provider token objects",
+            "n": 2,
+            "method": "Raw provider-reported usage for completed calls only; failed usage unavailable.",
+            "artifact": "calibration-6.json"
+          },
+          "billed_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "Billing unavailable; interrupted/timed-out calls may incur costs."
+          }
+        },
+        "reliability": {
+          "status": "measured",
+          "value": {
+            "review_status": "ok",
+            "provider_calls": 2,
+            "provider_errors": 0,
+            "retries": 0
+          },
+          "unit": "counts",
+          "n": 1,
+          "method": "One development review; no retries.",
+          "artifact": "calibration-6.json"
+        },
+        "concurrency_and_throughput": {
+          "status": "measured",
+          "value": {
+            "concurrency": 1,
+            "reviews_per_second": 0.05028359138981368
+          },
+          "unit": "reviews/second",
+          "n": 1,
+          "method": "Single sequential probe, not load capacity.",
+          "artifact": "calibration-6.json"
+        },
+        "ingestion_and_index": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        }
+      }
+    },
+    {
+      "artifact": "calibration-7.json",
+      "model": "gpt-5.4-mini",
+      "reasoning_effort": "medium",
+      "protocol_hash": "89edda2b334c27cc12aa59e7de41342f05b5167312ffaa4233792887caaf04fa",
+      "status": "ok",
+      "validation_error": null,
+      "error_type": null,
+      "metric_inventory": {
+        "recall_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "precision_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "hit_rate_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "mrr_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "ndcg_at_k": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "final_evidence_coverage": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "answer_correctness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "faithfulness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "answer_completeness": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "answer_relevance": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "citation_support": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "citation_coverage": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "abstention": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Single known-error development probe; aggregate RAG quality not measured. Raw judge assessments and manual discrepancy notes retained."
+        },
+        "first_answer_delta_latency": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "complete_response_latency": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        },
+        "stage_latency": {
+          "status": "measured",
+          "value": {
+            "review_seconds": 87.84054550004657,
+            "call_seconds": [
+              15.055838834028691,
+              72.77855187491514
+            ]
+          },
+          "unit": "seconds",
+          "n": 2,
+          "method": "Sequential single-answer judge calibration; no RAG timing.",
+          "artifact": "calibration-7.json"
+        },
+        "token_usage_and_cost": {
+          "usage": {
+            "status": "measured",
+            "value": [
+              {
+                "input_tokens": 904,
+                "input_tokens_details": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0
+                },
+                "output_tokens": 3281,
+                "output_tokens_details": {
+                  "reasoning_tokens": 2141
+                },
+                "total_tokens": 4185
+              },
+              {
+                "input_tokens": 14174,
+                "input_tokens_details": {
+                  "cache_write_tokens": 0,
+                  "cached_tokens": 0
+                },
+                "output_tokens": 14510,
+                "output_tokens_details": {
+                  "reasoning_tokens": 11345
+                },
+                "total_tokens": 28684
+              }
+            ],
+            "unit": "provider token objects",
+            "n": 2,
+            "method": "Raw provider-reported usage for completed calls only; failed usage unavailable.",
+            "artifact": "calibration-7.json"
+          },
+          "billed_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "Billing unavailable; interrupted/timed-out calls may incur costs."
+          }
+        },
+        "reliability": {
+          "status": "measured",
+          "value": {
+            "review_status": "ok",
+            "provider_calls": 2,
+            "provider_errors": 0,
+            "retries": 0
+          },
+          "unit": "counts",
+          "n": 1,
+          "method": "One development review; no retries.",
+          "artifact": "calibration-7.json"
+        },
+        "concurrency_and_throughput": {
+          "status": "measured",
+          "value": {
+            "concurrency": 1,
+            "reviews_per_second": 0.011384264456776054
+          },
+          "unit": "reviews/second",
+          "n": 1,
+          "method": "Single sequential probe, not load capacity.",
+          "artifact": "calibration-7.json"
+        },
+        "ingestion_and_index": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Judge-only calibration reuses a saved answer; no new RAG request, retrieval, indexing or lifecycle exercise."
+        }
+      }
+    }
+  ],
+  "inspection": {
+    "reviewer": "Codex",
+    "method": "Inspect exact old answer, source sample-plan course categories, and raw judge claims/reasons.",
+    "observations": {
+      "1": "Inventory omitted headings/questions.",
+      "2": "Assigned citation IDs absent from the answer line.",
+      "3": "Paraphrased source quotes; failed provenance.",
+      "4": "Paraphrased source quotes and failed to detect course-type error.",
+      "5": "Second judge call timed out at 60 seconds; no valid judgment.",
+      "6": "Traceability valid but semantically missed known error; not acceptance evidence.",
+      "7": "gpt-5.4-mini medium detected required/core versus elective contradiction, but this single known-error probe does not prove general judge accuracy."
+    }
+  }
+}

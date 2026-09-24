@@ -197,3 +197,9 @@ To explicitly send one real generation request using the `.env` credentials and
 ```bash
 make test-live
 ```
+
+## Automated evaluation
+
+Run `make eval` to evaluate the production RAG pipeline and LLM judge on the frozen
+18-case benchmark, print metrics and compare a previous run. It uses `.env` and
+makes provider API calls. See [metric definitions and saved records](evals/metrics.md).

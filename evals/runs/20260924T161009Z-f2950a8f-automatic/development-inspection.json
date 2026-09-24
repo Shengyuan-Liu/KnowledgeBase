@@ -1,0 +1,19 @@
+{
+  "reviewer": "Codex development inspection, not independent human grading",
+  "scope": "Known credits regression, all current pending review reasons, and all current unsupported/contradicted claims; not exhaustive independent grading.",
+  "known_credits_error": "The previous answer said three first-fall courses were required/core. The final baseline review detects contradiction with two required courses plus one elective.",
+  "observed_judge_false_positive": {
+    "case_id": "msds-admissions-prerequisites",
+    "claim_id": "u8.c1",
+    "original_answer_unit": "- One of the following: Calculus II, Probability, Statistics, or an advanced course in physics, engineering, or econometrics that is mathematically intensive",
+    "inventoried_statement": "Applicants must complete one of Calculus II, Probability, Statistics, or an advanced course in physics, engineering, or econometrics.",
+    "judge_reason": "Source 1 says the last prerequisite must be one of the listed courses, but for the physics/engineering/econometrics option it adds a required qualifier: the course must have heavy mathematical content. The claim omits that qualifier, so it is broader than the source and therefore contradicted.",
+    "finding": "The original answer includes the mathematically-intensive qualifier. The inventoried statement loses it; the judge then penalizes the answer instead of recognizing an extraction error."
+  },
+  "other_cautions": [
+    "Calling listed GPA requirements main is a debatable unsupported-claim judgment.",
+    "A statement that answer information comes from one source should be checked against answer/source provenance, not require a document to state that meta-claim.",
+    "Line-local citation scope can undercount citations placed after lists or in a later summary."
+  ],
+  "aggregation": "Raw automatic assessments remain unchanged. Scores are LLM assessments, not corrected human labels or objective accuracy."
+}

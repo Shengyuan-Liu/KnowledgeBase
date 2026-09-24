@@ -94,7 +94,10 @@ class Settings(BaseSettings):
     # Evaluations retain their shorter timeout and disabled retries.
     eval_timeout_seconds: float = Field(default=60, gt=0)
     eval_max_retries: int = Field(default=0, ge=0)
-    judge_model: str = "gpt-4.1-mini"
+    judge_model: str = "gpt-5.4-mini"
+    judge_reasoning_effort: Literal["off", "none", "low", "medium", "high", "xhigh"] = "medium"
+    judge_timeout_seconds: float = Field(default=180, gt=0)
+    judge_concurrency: int = Field(default=4, gt=0)
 
     @property
     def retrieval_options(self) -> RetrievalOptions:

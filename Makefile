@@ -1,4 +1,6 @@
-.PHONY: app test test-live api frontend test-frontend test-browser test-browser-live stop test-stop
+.PHONY: app eval test test-live api frontend test-frontend test-browser test-browser-live stop test-stop
+
+EVAL_ARGS ?=
 
 STOP_PORTS ?= 8000 5173 8001 5174 4173
 
@@ -8,6 +10,9 @@ app:
 
 api:
 	uv run --locked uvicorn knowledgebase.api.app:create_app --factory --host 127.0.0.1 --port 8000
+
+eval:
+	uv run --locked python -m evals.automatic $(EVAL_ARGS)
 
 test:
 	uv run --locked python -m pytest tests/
