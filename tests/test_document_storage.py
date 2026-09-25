@@ -76,6 +76,20 @@ def test_source_hash_distinguishes_original_line_endings(sessions):
         assert get_document_source(session, "crlf").source_hash != get_document_source(session, "lf").source_hash
 
 
+def test_additive_indexing_table_preserves_preexisting_sources(engine):
+    Base.metadata.create_all(engine, tables=[table for table in Base.metadata.sorted_tables
+                                           if table.name != "document_indexes"])
+    sessions = build_session_factory(engine)
+    with sessions.begin() as session:
+        store_document(session)
+    init_db(engine)
+    engine.dispose()
+    with sessions() as session:
+        source = get_document_source(session, "file-1")
+        assert source.text == SOURCE
+        assert source.indexing is None
+
+
 def test_mixed_mvp_and_structured_chunks_preserve_their_types_and_metadata(sessions):
     blocks, structured = prepare()
     legacy = split_text("Legacy material.", "legacy")

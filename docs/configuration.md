@@ -27,10 +27,12 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `RERANK_CANDIDATE_LIMIT` | `20` | Maximum leading RRF candidates scored before top-k selection |
 | `RERANK_MAX_INPUT_TOKENS` | `16384` | Aggregate rerank pair-text budget; oversize fails without truncation |
 | `RESOLVER_MODEL` | Blank: use `ANSWER_MODEL` | Follow-up question rewriting in API and CLI |
-| `CHUNKING_STRATEGY` | `parent_child` | `structural`, `parent_child`, or the MVP `character` baseline, for new uploads |
+| `CHUNKING_STRATEGY` | `parent_child` | `structural`, `parent_child`, experimental `semantic`, or the MVP `character` baseline, for new uploads |
+| `SEMANTIC_SIMILARITY_THRESHOLD` | `0.5` | Split paragraph sentences below this cosine similarity; range [-1, 1] |
+| `SEMANTIC_BATCH_SIZE` | `32` | Maximum sentence inputs per semantic embedding call |
 | `CHUNK_MAX_TOKENS` | `512` | Structural chunk or child token limit; experimental starting value |
 | `CHUNK_TOKENIZER` | `cl100k_base` | tiktoken encoding for splitting and evidence packing |
-| `PARENT_MAX_TOKENS` | `1536` | Parent token limit in `parent_child` mode |
+| `PARENT_MAX_TOKENS` | `1536` | Parent token limit in `parent_child` and `semantic` modes |
 | `EVIDENCE_PACKING_STRATEGY` | `parent_then_child` | Keep admitted parents, then fit whole children of omitted parents; `parent_first` is the control |
 | `EVIDENCE_MAX_TOKENS` | `4096` | Exact evidence budget, including source file/heading metadata, labels and separators, for all strategies |
 | `CHUNK_SIZE` | `2048` | Maximum characters per chunk in `character` mode only |
@@ -56,7 +58,7 @@ is a configuration default, not a claim that the judge is calibrated. The record
 Blank values use their defaults. Chunk size/token limit, top-k, history limit and
 timeouts must be positive; overlap/retries must be nonnegative. In character mode,
 overlap must be less than chunk size. These constraints are validated when settings load.
-In parent-child mode, the child limit must not exceed the parent limit, and the
+In parent-child and semantic modes, the child limit must not exceed the parent limit, and the
 parent limit must be below the evidence budget. Evidence is packed as whole
 regions; see [parent-child retrieval](parent-child-retrieval.md). The budget does
 not count system instructions, questions, or generated answers.

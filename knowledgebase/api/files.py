@@ -32,6 +32,9 @@ def upload_file(file: UploadFile, resources: Resources):
             chunk_max_tokens=resources.settings.chunk_max_tokens,
             chunk_tokenizer=resources.settings.chunk_tokenizer,
             parent_max_tokens=resources.settings.parent_max_tokens,
+            semantic_similarity_threshold=resources.settings.semantic_similarity_threshold,
+            semantic_batch_size=resources.settings.semantic_batch_size,
+            embedding_model=resources.settings.embedding_model,
         )
     except InvalidUploadError as error:
         raise HTTPException(status_code=400, detail=str(error)) from error

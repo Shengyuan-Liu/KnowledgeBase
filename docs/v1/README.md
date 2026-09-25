@@ -32,8 +32,9 @@ outstanding. Reranking remains disabled by default in shared settings.
 
 ## Remaining Work
 
-1. Implement an opt-in semantic child-chunking strategy inside unchanged parent
-   regions; retain structural parent-child chunking as the default and control.
+1. Accept the opt-in [semantic child-chunking strategy](../semantic-chunking.md),
+   now implemented inside unchanged parent regions. Structural parent-child
+   chunking remains the default and control; live quality comparison is pending.
 2. Complete frontend source locations and recorded retrieval diagnostics.
 3. Freeze an independent release set and run final workflow and quality acceptance.
 

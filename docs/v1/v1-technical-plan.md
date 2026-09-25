@@ -172,7 +172,7 @@ separately before switching the running application.
 | 2 | Parent-child storage and vector retrieval with parent expansion | Merged; relationships, budget, history and cleanup covered |
 | 3 | BM25 plus RRF over child IDs | Merged; route eligibility, fusion and development comparison recorded |
 | 4 | Reranker integration | Implemented on v1; local BGE and packing comparisons recorded; user acceptance pending |
-| 5 | Semantic child-chunking strategy | Next; controlled comparison with the structural strategy |
+| 5 | Semantic child-chunking strategy | Implemented opt-in on v1; offline comparisons recorded; live quality acceptance pending |
 | 6 | Frontend integration and release evaluation | Partial; source locations, expanded diagnostics and held-out acceptance remain |
 
 Add relevant tests with each implemented stage and commit each completed change.

@@ -15,6 +15,8 @@ Design goals alone do not establish implementation or measured quality.
 
 ## Implemented Components
 
+- [Experimental semantic chunking](semantic-chunking.md): opt-in sentence-similarity child boundaries inside unchanged structural parents, with persisted configuration and boundary traces.
+
 - [Document parsing](document-parsing.md): TXT/Markdown structural blocks and exact source offsets, connected to uploads.
 - [Structural chunking](structural-chunking.md): sentence/structure boundaries, shared token budgets, and exact source chunks in ingestion.
 - [Parent-child chunking](parent-child-chunking.md): bounded section parents and structural children with exact source containment, integrated with uploads and retrieval.

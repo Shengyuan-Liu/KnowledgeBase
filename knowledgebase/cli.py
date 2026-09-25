@@ -96,6 +96,9 @@ def cli() -> None:
                     chunk_max_tokens=settings.chunk_max_tokens,
                     chunk_tokenizer=settings.chunk_tokenizer,
                     parent_max_tokens=settings.parent_max_tokens,
+                    semantic_similarity_threshold=settings.semantic_similarity_threshold,
+                    semantic_batch_size=settings.semantic_batch_size,
+                    embedding_model=settings.embedding_model,
                 )
                 print(f"Indexed {path.name} ({file_id})")
             conversation_id = args.conversation_id

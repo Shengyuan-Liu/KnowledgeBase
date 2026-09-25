@@ -87,6 +87,7 @@ class DocumentSource(BaseModel):
     text: str
     source_hash: str
     blocks: list[SourceBlock]
+    indexing: dict[str, Any] | None = None
 
 
 class VectorMatch(BaseModel):

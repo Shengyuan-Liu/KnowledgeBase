@@ -1,3 +1,4 @@
+from copy import deepcopy
 from hashlib import sha256
 from typing import Literal
 
@@ -16,6 +17,7 @@ from knowledgebase.storage.models import (
     ChunkStructureRecord,
     ConversationRecord,
     DocumentSourceRecord,
+    DocumentIndexRecord,
     FileRecord,
     MessageRecord,
     ParentChunkRecord,
@@ -62,7 +64,7 @@ def get_file(session: Session, file_id: str) -> FileInfo | None:
 
 def save_document_source(
     session: Session, file_id: str, source_format: Literal["txt", "md"],
-    text: str, blocks: list[SourceBlock],
+    text: str, blocks: list[SourceBlock], *, indexing: dict | None = None,
 ) -> None:
     """Insert the unchanged source and its ordered parser output without committing.
 
@@ -77,13 +79,20 @@ def save_document_source(
     ))
     session.flush()
 
+    if indexing is not None:
+        session.add(DocumentIndexRecord(file_id=file_id, details=indexing))
+        session.flush()
+
 
 def get_document_source(session: Session, file_id: str) -> DocumentSource | None:
     """Return a source snapshot, or None for missing files and MVP-only records."""
     record = session.get(DocumentSourceRecord, file_id)
     if record is None:
         return None
-    return DocumentSource.model_validate(record, from_attributes=True)
+    source = DocumentSource.model_validate(record, from_attributes=True)
+    indexing = session.get(DocumentIndexRecord, file_id)
+    source.indexing = deepcopy(indexing.details) if indexing is not None else None
+    return source
 
 
 def save_chunks(session: Session, chunks: list[Chunk]) -> None:

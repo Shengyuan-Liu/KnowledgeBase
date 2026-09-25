@@ -260,6 +260,8 @@ def run(args):
         "config": {"model": args.model, "embedding_model": args.embedding_model,
                    "chunk_size": args.chunk_size, "overlap": args.overlap, "top_k": args.top_k,
                    "chunking_strategy": args.chunking_strategy, "chunk_max_tokens": args.chunk_max_tokens,
+                   "semantic_similarity_threshold": settings.semantic_similarity_threshold,
+                   "semantic_batch_size": settings.semantic_batch_size,
                    "chunk_tokenizer": args.chunk_tokenizer,
                    "parent_max_tokens": args.parent_max_tokens, "evidence_max_tokens": args.evidence_max_tokens,
                    "effective_overlap": args.overlap if args.chunking_strategy == "character" else 0,
@@ -313,7 +315,9 @@ def run(args):
                 ingest_file(name, content.encode(), sessions, embeddings, store,
                             chunk_size=args.chunk_size, overlap=args.overlap,
                             chunking_strategy=args.chunking_strategy, chunk_max_tokens=args.chunk_max_tokens,
-                            chunk_tokenizer=args.chunk_tokenizer, parent_max_tokens=args.parent_max_tokens)
+                            chunk_tokenizer=args.chunk_tokenizer, parent_max_tokens=args.parent_max_tokens,
+                            semantic_similarity_threshold=settings.semantic_similarity_threshold,
+                            semantic_batch_size=settings.semantic_batch_size, embedding_model=settings.embedding_model)
             def ask(question):
                 result = answer_question(
                     question, sessions, embeddings, store, llm, top_k=args.top_k,
@@ -641,7 +645,7 @@ def main():
     runner.add_argument("--embedding-model", help="Override EMBEDDING_MODEL")
     runner.add_argument("--chunk-size", type=int, help="Override CHUNK_SIZE")
     runner.add_argument("--overlap", type=int, help="Override CHUNK_OVERLAP")
-    runner.add_argument("--chunking-strategy", choices=["structural", "character", "parent_child"], help="Override CHUNKING_STRATEGY")
+    runner.add_argument("--chunking-strategy", choices=["structural", "character", "parent_child", "semantic"], help="Override CHUNKING_STRATEGY")
     runner.add_argument("--chunk-max-tokens", type=int, help="Override CHUNK_MAX_TOKENS for structural chunks or children")
     runner.add_argument("--chunk-tokenizer", help="Override CHUNK_TOKENIZER")
     runner.add_argument("--parent-max-tokens", type=int, help="Override PARENT_MAX_TOKENS")

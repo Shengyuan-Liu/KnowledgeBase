@@ -17,6 +17,8 @@ DEFAULT_CHUNKING_STRATEGY = "parent_child"
 DEFAULT_CHUNK_MAX_TOKENS = 512
 DEFAULT_CHUNK_TOKENIZER = "cl100k_base"
 DEFAULT_PARENT_MAX_TOKENS = 1536
+DEFAULT_SEMANTIC_SIMILARITY_THRESHOLD = 0.5
+DEFAULT_SEMANTIC_BATCH_SIZE = 32
 DEFAULT_EVIDENCE_MAX_TOKENS = 4096
 DEFAULT_EVIDENCE_PACKING_STRATEGY = "parent_then_child"
 DEFAULT_BM25_K1 = 1.2
@@ -77,7 +79,9 @@ class Settings(BaseSettings):
     rerank_max_input_tokens: int = Field(default=DEFAULT_RERANK_MAX_INPUT_TOKENS, gt=0)
     chunk_size: int = Field(default=DEFAULT_CHUNK_SIZE, gt=0)
     chunk_overlap: int = Field(default=DEFAULT_OVERLAP, ge=0)
-    chunking_strategy: Literal["structural", "character", "parent_child"] = DEFAULT_CHUNKING_STRATEGY
+    chunking_strategy: Literal["structural", "character", "parent_child", "semantic"] = DEFAULT_CHUNKING_STRATEGY
+    semantic_similarity_threshold: float = Field(default=DEFAULT_SEMANTIC_SIMILARITY_THRESHOLD, ge=-1, le=1, allow_inf_nan=False)
+    semantic_batch_size: int = Field(default=DEFAULT_SEMANTIC_BATCH_SIZE, gt=0)
     chunk_max_tokens: int = Field(default=DEFAULT_CHUNK_MAX_TOKENS, gt=0)
     chunk_tokenizer: str = DEFAULT_CHUNK_TOKENIZER
     parent_max_tokens: int = Field(default=DEFAULT_PARENT_MAX_TOKENS, gt=0)
@@ -115,7 +119,7 @@ class Settings(BaseSettings):
             raise ValueError("RERANK_ENABLED requires RETRIEVAL_STRATEGY=hybrid.")
         if self.chunking_strategy == "character" and self.chunk_overlap >= self.chunk_size:
             raise ValueError("CHUNK_OVERLAP must be smaller than CHUNK_SIZE.")
-        if self.chunking_strategy == "parent_child":
+        if self.chunking_strategy in ("parent_child", "semantic"):
             if self.chunk_max_tokens > self.parent_max_tokens:
                 raise ValueError("CHUNK_MAX_TOKENS must not exceed PARENT_MAX_TOKENS.")
             if self.parent_max_tokens >= self.evidence_max_tokens:

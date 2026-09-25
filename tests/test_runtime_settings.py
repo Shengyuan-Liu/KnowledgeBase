@@ -15,7 +15,7 @@ from knowledgebase.storage.operations import get_chunks, get_document_source
 
 
 @pytest.mark.parametrize("streaming", [False, True])
-@pytest.mark.parametrize("strategy", ["structural", "character", "parent_child"])
+@pytest.mark.parametrize("strategy", ["structural", "character", "parent_child", "semantic"])
 def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app, tmp_path, monkeypatch, streaming, strategy):
     app, embeddings, sdk = configured_app
     (tmp_path / ".env").write_text(
@@ -56,7 +56,11 @@ def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app,
             assert len(chunks) >= 2
             assert all(chunk.max_tokens == 4 and chunk.tokenizer == "o200k_base" for chunk in chunks)
             assert all(chunk.token_count <= 4 for chunk in chunks)
-            embeddings.embed_documents.assert_called_once_with([chunk.text for chunk in chunks])
+            if strategy == "semantic":
+                assert embeddings.embed_documents.call_args.args == ([chunk.text for chunk in chunks],)
+                assert source.indexing["strategy"] == "semantic"
+            else:
+                embeddings.embed_documents.assert_called_once_with([chunk.text for chunk in chunks])
 
         def ask(question, conversation_id=None):
             body = {"question": question, "conversation_id": conversation_id}
@@ -71,12 +75,12 @@ def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app,
             return response.json()
 
         first = ask("First question")
-        assert len(first["sources"]) == (1 if strategy == "parent_child" else 2)
+        assert len(first["sources"]) == (1 if strategy in ("parent_child", "semantic") else 2)
         assert first["retrieval"]["options"] == RetrievalOptions(packing_strategy="parent_then_child", candidate_limit=3, bm25_k1=0.9, bm25_b=0.4, rrf_k=10).model_dump()
         assert first["retrieval"]["top_k"] == 2
         assert first["retrieval"]["max_tokens"] == 96
         assert first["retrieval"]["tokenizer"] == "o200k_base"
-        if strategy == "parent_child":
+        if strategy in ("parent_child", "semantic"):
             assert first["sources"][0]["parent_id"] == first["sources"][0]["chunk_id"]
             assert len(first["sources"][0]["matched_child_ids"]) == 2
         second = ask("Follow-up", first["conversation_id"])
@@ -138,6 +142,7 @@ def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkey
     assert ingest.call_args.kwargs == {
         "chunk_size": 12, "overlap": 3, "chunking_strategy": "structural",
         "chunk_max_tokens": 17, "chunk_tokenizer": "o200k_base", "parent_max_tokens": 33,
+        "semantic_similarity_threshold": 0.5, "semantic_batch_size": 32, "embedding_model": "file-embedding",
     }
     assert answer.call_args.kwargs == {
         "reranker_client": None,
