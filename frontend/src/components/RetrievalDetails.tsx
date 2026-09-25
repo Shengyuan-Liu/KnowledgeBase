@@ -17,6 +17,7 @@ export function RetrievalDetails({ data }: { data?: RetrievalDiagnostics | null 
       <p>Evidence budget: {data.evidence_tokens} / {data.max_tokens} tokens ({data.tokenizer}).</p>
       <p>
         Reranker: {data.rerank?.model ?? (data.options?.rerank_enabled === false ? "Disabled" : "Not recorded")}
+        {data.rerank && <> · Scoring unit: {data.options?.rerank_unit ?? "Not recorded"}</>}
         {data.rerank && <> · Revision: {data.rerank.model_revision ?? "Not recorded"} · Device: {data.rerank.device ?? "Not recorded"}</>}
       </p>
       <p>

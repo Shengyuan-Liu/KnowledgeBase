@@ -58,6 +58,7 @@ def rerank(
         RerankedMatch(
             **candidate.model_dump(include=set(FusedMatch.model_fields)),
             rerank_score=by_id[candidate.chunk_id], rerank_rank=rank, score_kind="logit",
+            scoring_parent_id=candidate.scoring_parent_id,
         )
         for rank, candidate in enumerate(ordered, start=1)
     ]

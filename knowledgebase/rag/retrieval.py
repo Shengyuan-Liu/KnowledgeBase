@@ -99,11 +99,29 @@ def retrieve_evidence(
         fusion_by_id = {match.chunk_id: match for match in diagnostics.fused_matches}
         if options.rerank_enabled:
             corpus_by_id = {chunk.chunk_id: chunk for chunk in corpus}
-            candidates = [RerankCandidate(
-                **match.model_dump(), text=corpus_by_id[match.chunk_id].text,
-                heading_path=(corpus_by_id[match.chunk_id].heading_path
-                              if isinstance(corpus_by_id[match.chunk_id], StructuredChunk) else []),
-            ) for match in diagnostics.fused_matches[:options.rerank_candidate_limit]]
+            scoring_parents = {}
+            if options.rerank_unit == "parent":
+                scoring_parents = {parent.parent_id: parent for parent in get_parents_by_ids(
+                    session, [corpus_by_id[match.chunk_id].parent_id
+                              for match in diagnostics.fused_matches
+                              if isinstance(corpus_by_id[match.chunk_id], ChildChunk)],
+                )}
+            candidates, seen = [], set()
+            for match in diagnostics.fused_matches:
+                child = corpus_by_id[match.chunk_id]
+                parent = (scoring_parents.get(child.parent_id) if isinstance(child, ChildChunk) else None)
+                identity = parent.parent_id if parent else child.chunk_id
+                if identity in seen:
+                    continue
+                seen.add(identity)
+                region = parent or child
+                candidates.append(RerankCandidate(
+                    **match.model_dump(), text=region.text,
+                    heading_path=getattr(region, "heading_path", []),
+                    scoring_parent_id=parent.parent_id if parent else None,
+                ))
+                if len(candidates) == options.rerank_candidate_limit:
+                    break
             started = perf_counter()
             diagnostics.rerank = rerank(
                 question, candidates, reranker_client, top_k=top_k,

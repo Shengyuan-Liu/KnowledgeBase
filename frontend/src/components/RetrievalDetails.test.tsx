@@ -53,3 +53,8 @@ it("does not invent diagnostics for historical answers", () => {
   render(<RetrievalDetails />);
   expect(screen.getByText("Retrieval diagnostics: Not recorded.")).toBeInTheDocument();
 });
+
+it.each(["child", "parent"] as const)("identifies the recorded %s scoring unit", (unit) => {
+  render(<RetrievalDetails data={{ ...details, options: { ...details.options!, rerank_unit: unit } }} />);
+  expect(screen.getByText(new RegExp(`Scoring unit: ${unit}`))).toBeInTheDocument();
+});

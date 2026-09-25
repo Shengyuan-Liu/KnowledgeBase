@@ -8,6 +8,7 @@ def test_parent_child_is_the_default_and_structural_remains_an_explicit_control(
     monkeypatch.delenv("CHUNKING_STRATEGY", raising=False)
     settings = Settings(openai_api_key="offline-test")
     assert settings.chunking_strategy == "parent_child"
+    assert settings.rerank_unit == settings.retrieval_options.rerank_unit == "child"
     assert (settings.chunk_max_tokens, settings.parent_max_tokens, settings.evidence_max_tokens) == (512, 1536, 4096)
     assert Settings(openai_api_key="offline-test", chunking_strategy="structural").chunking_strategy == "structural"
 
@@ -61,6 +62,7 @@ def test_all_runtime_options_and_override_precedence(tmp_path, monkeypatch):
         "OPENAI_TIMEOUT_SECONDS": "42", "OPENAI_MAX_RETRIES": "1", "DATA_DIR": "custom-data",
         "ANSWER_MODEL": "file-answer", "EMBEDDING_MODEL": "file-embedding",
         "RERANK_MODEL": "file-reranker", "RERANK_CANDIDATE_LIMIT": "12", "RERANK_MAX_INPUT_TOKENS": "8000",
+        "RERANK_UNIT": "parent",
         "RESOLVER_MODEL": "file-resolver", "CHUNKING_STRATEGY": "character", "CHUNK_MAX_TOKENS": "64",
         "PARENT_MAX_TOKENS": "128", "EVIDENCE_MAX_TOKENS": "256",
         "CHUNK_TOKENIZER": "cl100k_base", "CHUNK_SIZE": "100", "CHUNK_OVERLAP": "20",
@@ -71,6 +73,7 @@ def test_all_runtime_options_and_override_precedence(tmp_path, monkeypatch):
         monkeypatch.delenv(key, raising=False)
     (tmp_path / ".env").write_text("\n".join(f"{k}={v}" for k, v in values.items()))
     settings = Settings()
+    assert settings.retrieval_options.rerank_unit == "parent"
     for key, value in values.items():
         assert str(getattr(settings, key.lower())) == (str(float(value)) if "TIMEOUT" in key else value)
     monkeypatch.setenv("ANSWER_MODEL", "environment-answer")

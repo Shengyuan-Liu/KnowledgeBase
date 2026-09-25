@@ -37,7 +37,7 @@ export interface Source {
 }
 
 export interface RetrievalDiagnostics {
-  options?: { strategy: string; packing_strategy?: string | null; rerank_enabled: boolean } | null;
+  options?: { strategy: string; packing_strategy?: string | null; rerank_enabled: boolean; rerank_unit?: "child" | "parent" } | null;
   top_k?: number | null;
   evidence_tokens: number;
   max_tokens: number;

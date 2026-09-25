@@ -93,10 +93,11 @@ def test_enabled_reranking_requires_a_client(storage, embeddings):
                           retrieval_options=RetrievalOptions(rerank_enabled=True))
 
 
-@pytest.fixture
-def rerank_app(configured_app, tmp_path, monkeypatch):
+@pytest.fixture(params=["child", "parent"])
+def rerank_app(configured_app, tmp_path, monkeypatch, request):
     app, embeddings, sdk = configured_app
     (tmp_path / ".env").write_text(
+        f"RERANK_UNIT={request.param}\n"
         "RERANK_ENABLED=true\nRERANK_MODEL=custom-reranker\nRERANK_CANDIDATE_LIMIT=7\n"
         "RERANK_MAX_INPUT_TOKENS=1000\nCHUNK_MAX_TOKENS=12\nPARENT_MAX_TOKENS=128\n"
         "EVIDENCE_MAX_TOKENS=256\nRETRIEVAL_TOP_K=2\n"
@@ -144,6 +145,9 @@ def test_json_and_sse_persist_exact_reranked_evidence_and_restore_after_restart_
             assert result["event"] == "complete"
             assert next(e["sources"] for e in events if e["event"] == "sources") == result["sources"]
         trace = result["retrieval"]["rerank"]
+        if result["retrieval"]["options"]["rerank_unit"] == "parent":
+            assert all(c["scoring_parent_id"] for c in trace["candidates"])
+            assert result["sources"][0]["rerank"]["scoring_parent_id"] == result["sources"][0]["parent_id"]
         assert trace["model"] == "custom-reranker"
         assert trace["candidate_limit"] == 7 and trace["max_input_tokens"] == 1000
         assert trace["top_k"] == 2
@@ -193,3 +197,50 @@ def test_rerank_failure_does_not_generate_or_save_an_exchange(rerank_app, stream
             assert session.scalar(select(func.count()).select_from(MessageRecord)) == 0
         if failure == "input_budget":
             sdk.reranker.score.assert_not_called()
+
+
+def test_parent_scoring_keeps_other_region_when_siblings_dominate_child_top_k(storage, embeddings):
+    sessions, store, _ = storage
+    work = '# Work\n\n' + '\n\n'.join(f'Working students have workload requirement {i}.' for i in range(5))
+    summer = '# Enrollment\n\nContinuous enrollment excludes summer.'
+    ids = [ingest_file(name, text.encode(), sessions, embeddings, store,
+                      chunk_max_tokens=12, parent_max_tokens=128)
+           for name, text in [('work.md', work), ('summer.md', summer)]]
+    scorer = reranker()
+    scorer.score.side_effect = lambda question, candidates: [
+        RelevanceScore(chunk_id=c.chunk_id, score=10 if 'Working' in c.text else 5 if 'summer' in c.text else 0)
+        for c in candidates]
+    with sessions() as session:
+        control = retrieve_evidence('working enrollment', session, embeddings, store, top_k=2,
+                                    retrieval_options=RetrievalOptions(rerank_enabled=True), reranker_client=scorer)
+        result = retrieve_evidence('working enrollment', session, embeddings, store, top_k=2,
+            retrieval_options=RetrievalOptions(rerank_enabled=True, rerank_unit='parent', rerank_candidate_limit=2),
+            reranker_client=scorer)
+        canonical = {c.chunk_id: c for file_id in ids for c in get_chunks(session, file_id)}
+    assert {c.file_id for c in control.diagnostics.candidates} == {ids[0]}
+    assert [s.chunk.text for s in result.chunks] == [work, summer]
+    scored = result.diagnostics.rerank.candidates
+    assert len(scored) == 2 and len({c.scoring_parent_id for c in scored}) == 2
+    assert {c.text for c in scored} == {work, summer}
+    for candidate in result.diagnostics.candidates:
+        assert candidate.text == canonical[candidate.chunk_id].text
+        assert candidate.rerank.scoring_parent_id == candidate.parent_id
+        assert candidate.rerank.rank == candidate.fusion.rank
+
+
+def test_parent_mode_preserves_flat_chunks_without_fabricating_a_parent(storage, embeddings):
+    from knowledgebase.schemas import Chunk
+    from knowledgebase.storage.operations import create_file, save_chunks
+    sessions, store, _ = storage
+    flat = Chunk(chunk_id='flat', file_id='flat', index=0, text='GPA 3.0', start_offset=0, end_offset=7)
+    with sessions.begin() as session:
+        create_file(session, 'flat', 'flat.txt')
+        save_chunks(session, [flat])
+        update_file_status(session, 'flat', 'ready')
+    store.upsert_chunks([flat], [[1, 0]])
+    with sessions() as session:
+        result = retrieve_evidence('GPA', session, embeddings, store,
+            retrieval_options=RetrievalOptions(rerank_enabled=True, rerank_unit='parent'), reranker_client=reranker())
+    assert result.chunks[0].chunk == flat
+    assert result.chunks[0].rerank.scoring_parent_id is None
+    assert result.diagnostics.rerank.candidates[0].text == flat.text

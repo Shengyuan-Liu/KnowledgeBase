@@ -138,3 +138,10 @@ model specialization alone does not establish better answers or latency.
 The [BGE integration comparison](../evals/library-runs/20260924T002009Z-bge-serialized/README.md)
 records the same 18 questions with a hybrid control, local MPS timing, source
 fidelity, a corrected concurrency crash, and a remaining CPT evidence regression.
+
+## Whole-parent scoring
+
+The default scores individual child passages. The optional
+[parent scoring mode](parent-reranking.md) groups fused hits before scoring full
+parent regions. Its input limits, representative-child provenance and final
+packing budget are recorded separately; enable it explicitly with `RERANK_UNIT`.

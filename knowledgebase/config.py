@@ -43,6 +43,7 @@ class RetrievalOptions(BaseModel):
     bm25_b: float = Field(default=DEFAULT_BM25_B, ge=0, le=1, allow_inf_nan=False)
     rrf_k: float = Field(default=DEFAULT_RRF_K, ge=0, allow_inf_nan=False)
     rerank_enabled: bool = False
+    rerank_unit: Literal["child", "parent"] = "child"
     rerank_candidate_limit: int = Field(default=DEFAULT_RERANK_CANDIDATE_LIMIT, gt=0)
     rerank_max_input_tokens: int = Field(default=DEFAULT_RERANK_MAX_INPUT_TOKENS, gt=0)
 
@@ -75,6 +76,7 @@ class Settings(BaseSettings):
     rerank_batch_size: int = Field(default=4, gt=0)
     rerank_max_pair_tokens: int = Field(default=1024, gt=0)
     rerank_enabled: bool = False
+    rerank_unit: Literal["child", "parent"] = "child"
     rerank_candidate_limit: int = Field(default=DEFAULT_RERANK_CANDIDATE_LIMIT, gt=0)
     rerank_max_input_tokens: int = Field(default=DEFAULT_RERANK_MAX_INPUT_TOKENS, gt=0)
     chunk_size: int = Field(default=DEFAULT_CHUNK_SIZE, gt=0)
@@ -110,6 +112,7 @@ class Settings(BaseSettings):
             packing_strategy=self.evidence_packing_strategy,
             bm25_k1=self.bm25_k1, bm25_b=self.bm25_b, rrf_k=self.rrf_k,
             rerank_enabled=self.rerank_enabled, rerank_candidate_limit=self.rerank_candidate_limit,
+            rerank_unit=self.rerank_unit,
             rerank_max_input_tokens=self.rerank_max_input_tokens,
         )
 

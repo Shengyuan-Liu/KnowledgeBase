@@ -118,10 +118,11 @@ class FusedMatch(BaseModel):
 
 
 class RerankCandidate(FusedMatch):
-    """One fused child with exact text and separately supplied heading context."""
+    """A fused hit scored with its exact child text or an identified whole parent."""
 
     text: str
     heading_path: list[str] = Field(default_factory=list)
+    scoring_parent_id: str | None = None
 
 
 class RelevanceScore(BaseModel):
@@ -137,6 +138,7 @@ class RerankedMatch(FusedMatch):
     rerank_score: float
     rerank_rank: int
     score_kind: str = "ordinal_0_3"
+    scoring_parent_id: str | None = None
 
 
 class RerankResult(BaseModel):

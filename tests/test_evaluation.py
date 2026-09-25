@@ -297,7 +297,8 @@ def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_pa
         options = {"strategy": "vector" if explicit_options else "hybrid",
                    "packing_strategy": "parent_then_child" if explicit_options else "parent_first",
                    "candidate_limit": 7 if explicit_options else 9, "bm25_k1": 0.8, "bm25_b": 0.4, "rrf_k": 12,
-                   "rerank_enabled": not explicit_options, "rerank_candidate_limit": 3, "rerank_max_input_tokens": 1000}
+                   "rerank_enabled": not explicit_options, "rerank_unit": "child",
+                   "rerank_candidate_limit": 3, "rerank_max_input_tokens": 1000}
         assert row["retrieval_diagnostics"]["options"] == recorded["retrieval_options"] == options
         assert recorded["rerank_model"] == (None if explicit_options else "env-reranker")
         assert recorded["rerank_device"] == "auto"
