@@ -71,10 +71,25 @@ contiguous in packed evidence order. Existing snapshots retain scope, excerpts,
 locations and citations after refresh and file deletion. The UI's Debug details
 shows the recorded document names; historical records without scope are not inferred.
 
-Multiple selected files are eligible for ranking; selection alone does not promise
-that every file will have a hit in the final top-K/budget. The answer must acknowledge
+For explicit multi-file scopes, vector candidates are fetched per file. Candidate
+selection reserves the best available hit from each file before additional hits
+from the same file; the bounded reranker input and final selection use this policy.
+RRF/reranker scores and original ranks are not rewritten. The final selected-child
+list can therefore include a result outside the ordinary global top-K. Both the
+ranking and actual selection remain in diagnostics.
+
+Scoped excerpts carry `document_labels` (filename identity, opening title and source
+hostname) in context metadata and saved sources, including when the excerpt itself
+does not contain the document title. Metadata counts toward the unchanged token
+budget; scoped context uses `source-metadata-v2`. Unscoped context retains v1.
+
+Top-K and context limits still apply: selection alone does not promise that every
+file will have a passage in the final budget, especially with more files than K. The answer must acknowledge
 missing evidence. Document scope prevents cross-file retrieval for recognized
 restrictions; it does not guarantee model faithfulness, completeness or language.
 
 [Check records](../evals/check-runs/20260925-document-scope/README.md) cover source
 matching, vector/BM25 filtering, API/streaming/history parity and browser workflows.
+
+The [initial live acceptance](../evals/library-runs/20260925-document-scope/README.md)
+retains the multi-document candidate-starvation failure that motivated this correction.

@@ -168,6 +168,7 @@ class RerankResult(BaseModel):
 class RetrievedChunk(BaseModel):
     """Canonical evidence with the highest-ranked child's retrieval provenance."""
 
+    document_labels: list[str] = Field(default_factory=list)
     chunk: Chunk
     file_name: str
     distance: float | None
@@ -247,6 +248,7 @@ class AnswerSource(BaseModel):
     """One retrieved excerpt, numbered within the current answer."""
 
     source_id: int
+    document_labels: list[str] = Field(default_factory=list)
     file_id: str
     file_name: str
     chunk_id: str

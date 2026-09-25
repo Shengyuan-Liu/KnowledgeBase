@@ -18,6 +18,7 @@ export interface FusedMatch {
 }
 
 export interface Source {
+  document_labels?: string[];
   source_id: number;
   file_id: string;
   file_name: string;

@@ -102,6 +102,7 @@ def _retrieve_evidence(
                 source_id=number,
                 file_id=item.chunk.file_id,
                 file_name=item.file_name,
+                document_labels=item.document_labels,
                 chunk_id=item.chunk.chunk_id,
                 text=item.chunk.text,
                 distance=item.distance, fusion=item.fusion, rerank=item.rerank,

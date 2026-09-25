@@ -14,6 +14,23 @@ _DESCRIPTOR_WORDS = {
 }
 
 
+def prioritize_documents(chunk_ids: list[str], files_by_chunk: dict[str, str], limit: int) -> list[str]:
+    """Keep the best available hit per document before additional same-file hits.
+
+    Input order is the current ranking. Both groups preserve that order; scores
+    are unchanged. The caller applies this only to an explicit multi-file scope.
+    """
+    representatives, remaining, seen = [], [], set()
+    for identity in chunk_ids:
+        file_id = files_by_chunk[identity]
+        if file_id in seen:
+            remaining.append(identity)
+        else:
+            seen.add(file_id)
+            representatives.append(identity)
+    return (representatives + remaining)[:limit]
+
+
 def document_references(question: str) -> list[str]:
     """Read a leading source clause, allowing quoted names and an 'and' list.
 

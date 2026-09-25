@@ -144,3 +144,32 @@ def test_http_explicit_scope_and_missing_file_return_completed_answers(configure
             history=client.get(f"/api/conversations/{result['conversation_id']}").json()['messages'][-1]
             assert history['retrieval']['document_scope']==scope
         assert client.post(endpoint,json={'question':'What facts?', 'request_id':'scope','file_ids':[]}).status_code==422
+
+
+@pytest.mark.parametrize('strategy,rerank_enabled',[('vector',False),('hybrid',False),('hybrid',True)])
+def test_one_document_cannot_consume_all_comparison_candidates(storage,embeddings,strategy,rerank_enabled):
+    from types import SimpleNamespace
+    import tiktoken
+    from knowledgebase.rag.context import build_context
+    from knowledgebase.schemas import RelevanceScore
+    sessions,store,_=storage
+    a=ingest_file('admissions-faq.txt',b'Scholarship application details. '*35,sessions,embeddings,store,
+                  chunking_strategy='character',chunk_size=40,overlap=0)
+    embeddings.embed_documents.side_effect=lambda texts:[[0.0,1.0] for _ in texts]
+    g=ingest_file('general-faq.txt',b'Title: General FAQ\n\nAll applicants are considered.',sessions,embeddings,store)
+    reranker=SimpleNamespace(model='offline',model_revision='test',device='cpu',max_pair_tokens=512,batch_size=4,
+        score=lambda question,candidates:[RelevanceScore(chunk_id=c.chunk_id,score=0 if 'All applicants' in c.text else 3) for c in candidates]) if rerank_enabled else None
+    observed=Mock(wraps=store)
+    with sessions() as session:
+        result=retrieve_evidence('According to general FAQ and admissions FAQ, how do scholarships work?',session,
+            embeddings,observed,top_k=3,retrieval_options=RetrievalOptions(strategy=strategy,rerank_enabled=rerank_enabled),reranker_client=reranker)
+    assert {tuple(call.kwargs['file_ids']) for call in observed.search.call_args_list}=={(g,),(a,)}
+    assert len(result.diagnostics.candidates)==3
+    assert {c.file_id for c in result.diagnostics.candidates[:2]}=={g,a}
+    assert {c.chunk.file_id for c in result.chunks}=={g,a}
+    general=next(c for c in result.chunks if c.chunk.file_id==g)
+    assert 'General FAQ' in general.document_labels
+    context=build_context(result.chunks)
+    assert '"document_labels"' in context
+    assert len(tiktoken.get_encoding('cl100k_base').encode_ordinary(context))==result.diagnostics.evidence_tokens<=4096
+    assert result.diagnostics.context_format=='source-metadata-v2'

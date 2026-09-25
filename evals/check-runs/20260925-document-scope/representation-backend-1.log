@@ -1,0 +1,55 @@
+........................................................................ [ 12%]
+...............F........................................................ [ 24%]
+........................................................................ [ 36%]
+........................................................................ [ 48%]
+.......................................................................s [ 61%]
+........................................................................ [ 73%]
+........................................................................ [ 85%]
+........................................................................ [ 97%]
+..............                                                           [100%]
+=================================== FAILURES ===================================
+_____________ test_upload_question_followup_and_persisted_exchange _____________
+
+api = (<starlette.testclient.TestClient object at 0x1452996a0>, AppResources(sessions=sessionmaker(class_='Session', bind=En...0.0, judge_concurrency=4), resolver_llm=None, reranker=None), <MagicMock name='mock.responses.create' id='5460539920'>)
+
+    def test_upload_question_followup_and_persisted_exchange(api):
+        client, resources, generate = api
+        file_id = upload(client)
+        generate.side_effect = [SimpleNamespace(output_text=text) for text in (
+            "The library closes at 5 PM. [1]",
+            "When does the library close?",
+            "At 5 PM. [1]",
+        )]
+        question = "  When does the library close?\n"
+        response = client.post("/api/chat", json={"question": question})
+        assert response.status_code == 200
+        assert response.headers["content-type"] == "application/json"
+        first = response.json()
+        assert first["question"] == first["retrieval_question"] == question
+        assert first["answer"] == "The library closes at 5 PM. [1]"
+>       assert first["sources"] == [{
+            "source_id": 1, "file_id": file_id, "file_name": "hours.txt",
+            "chunk_id": f"{file_id}:parent:0", "text": "The library closes at 5 PM.",
+            "fusion": {"chunk_id": f"{file_id}:child:0", "rrf_score": pytest.approx(2 / 61),
+                       "rank": 1, "bm25_score": pytest.approx(0.5753641449035618), "bm25_rank": 1,
+                       "vector_distance": pytest.approx(0.0), "vector_rank": 1},
+            "rerank": None, "distance": pytest.approx(0.0), "parent_id": f"{file_id}:parent:0", "matched_child_ids": [f"{file_id}:child:0"],
+            "start_offset": 0, "end_offset": 27, "start_line": 1, "end_line": 1, "heading_path": [], "source_block_indices": [0],
+            "token_count": 8, "tokenizer": "cl100k_base", "max_tokens": 1536,
+        }]
+E       AssertionError: assert [{'source_id'...rs.txt', ...}] == [{'source_id'...rent:0', ...}]
+E         
+E         At index 0 diff: {'source_id': 1, 'document_labels': [], 'file_id': 'e9219b476dc045209f00f1c7a8221aca', 'file_name': 'hours.txt', 'chunk_id': 'e9219b476dc045209f00f1c7a8221aca:parent:0', 'text': 'The library closes at 5 PM.', 'distance': 0.0, 'fusion': {'chunk_id': 'e9219b476dc045209f00f1c7a8221aca:child:0', 'rrf_score': 0.03278688524590164, 'rank': 1, 'bm25_score': 0.5753641449035618, 'bm25_rank': 1, 'vector_distance': 0.0, 'vector_rank': 1}, 'rerank': None, 'parent_id': 'e9219b476dc045209f00f1c7a8221aca:parent:0', 'matched_child_ids': ['e9219b476dc045209f00f1c7a8221ac...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_chat_api.py:47: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_chat_api.py::test_upload_question_followup_and_persisted_exchange
+1 failed, 588 passed, 1 skipped, 1 warning in 14.69s

@@ -55,3 +55,9 @@ def test_exact_filename_wins_over_partial_label_and_duplicate_names_are_ambiguou
     a=file('a','faq.txt');b=file('b','general-faq.txt')
     assert resolve_document_scope(['faq.txt'],[a,b]).file_ids==['a']
     assert resolve_document_scope(['faq.txt'],[a,file('duplicate','faq.txt')]).status=='ambiguous'
+
+
+def test_representative_selection_retains_rank_order_within_each_group():
+    from knowledgebase.rag.scope import prioritize_documents
+    assert prioritize_documents(['a1','a2','a3','b1','b2'],
+        {'a1':'a','a2':'a','a3':'a','b1':'b','b2':'b'},3)==['a1','b1','a2']

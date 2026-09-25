@@ -14,7 +14,7 @@ from knowledgebase.rag.packing import pack_evidence
 from knowledgebase.rag.bm25 import search_bm25
 from knowledgebase.rag.fusion import fuse_rrf
 from knowledgebase.rag.reranking import rerank
-from knowledgebase.rag.scope import document_references, identity_labels, resolve_document_scope
+from knowledgebase.rag.scope import document_references, identity_labels, resolve_document_scope, prioritize_documents
 from knowledgebase.schemas import (
     ChildChunk, RetrievedChunk, RetrievedEvidence,
     RetrievalCandidate, RetrievalDiagnostics, RerankCandidate, StructuredChunk, ScopeFile,
@@ -95,14 +95,17 @@ def retrieve_evidence(
     if not ready_files:
         return RetrievedEvidence(chunks=[], diagnostics=diagnostics)
 
+    scoped_files = diagnostics.document_scope.matches if diagnostics.document_scope else []
+    labels_by_file = {file.file_id: file.labels for file in scoped_files}
+    multiple_documents = len(scoped_files) > 1
     embedding_started = perf_counter()
     query_embedding = embedding_client.embed_query(question)
     diagnostics.embedding_seconds = perf_counter() - embedding_started
-    matches = vector_store.search(
-        query_embedding,
-        top_k=options.candidate_limit if options.strategy == "hybrid" else top_k,
-        file_ids=list(ready_files),
-    )
+    search_limit = options.candidate_limit if options.strategy == "hybrid" else top_k
+    groups = [[identity] for identity in ready_files] if multiple_documents else [list(ready_files)]
+    matches = [match for group in groups for match in vector_store.search(
+        query_embedding, top_k=search_limit, file_ids=group,
+    )]
     diagnostics.vector_matches = sorted(matches, key=lambda m: (m.distance, m.chunk_id))
     fusion_by_id = {}
     rerank_by_id = {}
@@ -116,6 +119,7 @@ def retrieve_evidence(
             limit=max(1, len(diagnostics.bm25_matches) + len(matches)), k=options.rrf_k,
         )
         fusion_by_id = {match.chunk_id: match for match in diagnostics.fused_matches}
+        files_by_chunk = {chunk.chunk_id: chunk.file_id for chunk in corpus}
         if options.rerank_enabled:
             corpus_by_id = {chunk.chunk_id: chunk for chunk in corpus}
             scoring_parents = {}
@@ -126,7 +130,12 @@ def retrieve_evidence(
                               if isinstance(corpus_by_id[match.chunk_id], ChildChunk)],
                 )}
             candidates, seen = [], set()
-            for match in diagnostics.fused_matches:
+            window = diagnostics.fused_matches
+            if multiple_documents:
+                window = [fusion_by_id[identity] for identity in prioritize_documents(
+                    [match.chunk_id for match in window], files_by_chunk, len(window),
+                )]
+            for match in window:
                 child = corpus_by_id[match.chunk_id]
                 parent = (scoring_parents.get(child.parent_id) if isinstance(child, ChildChunk) else None)
                 identity = parent.parent_id if parent else child.chunk_id
@@ -148,15 +157,21 @@ def retrieve_evidence(
                 max_input_tokens=options.rerank_max_input_tokens, encoding_name=encoding_name,
             )
             diagnostics.rerank_seconds = perf_counter() - started
-            selected = diagnostics.rerank.selected
+            selected = diagnostics.rerank.matches if multiple_documents else diagnostics.rerank.selected
             rerank_by_id = {match.chunk_id: match for match in selected}
         else:
-            selected = diagnostics.fused_matches[:top_k]
+            selected = diagnostics.fused_matches if multiple_documents else diagnostics.fused_matches[:top_k]
         selected_ids = [match.chunk_id for match in selected]
+        if multiple_documents:
+            selected_ids = prioritize_documents(selected_ids, files_by_chunk, top_k)
         chunks = [corpus_chunk for corpus_chunk in corpus if corpus_chunk.chunk_id in selected_ids]
     else:
-        selected_ids = [match.chunk_id for match in diagnostics.vector_matches[:top_k]]
+        selected_ids = [match.chunk_id for match in diagnostics.vector_matches]
+        if not multiple_documents:
+            selected_ids = selected_ids[:top_k]
         chunks = get_chunks_by_ids(session, selected_ids)
+        if multiple_documents:
+            selected_ids = prioritize_documents(selected_ids, {chunk.chunk_id: chunk.file_id for chunk in chunks}, top_k)
     distances = {match.chunk_id: match.distance for match in matches}
     chunks_by_id = {chunk.chunk_id: chunk for chunk in chunks}
     parents = {parent.parent_id: parent for parent in get_parents_by_ids(
@@ -168,6 +183,7 @@ def retrieve_evidence(
         chunk = chunks_by_id[chunk_id]
         provenance = {"distance": distances.get(chunk_id), "fusion": fusion_by_id.get(chunk_id),
                       "rerank": rerank_by_id.get(chunk_id)}
+        identity_labels_for_chunk = labels_by_file.get(chunk.file_id, [])
         parent_id = chunk.parent_id if isinstance(chunk, ChildChunk) else None
         diagnostics.candidates.append(RetrievalCandidate(
             chunk_id=chunk_id, **provenance, file_id=chunk.file_id, parent_id=parent_id,
@@ -175,6 +191,7 @@ def retrieve_evidence(
         ))
         child_hits.append(RetrievedChunk(
             chunk=chunk, file_name=ready_files[chunk.file_id].file_name, **provenance,
+            document_labels=identity_labels_for_chunk,
             parent_id=parent_id, matched_child_ids=[chunk_id] if parent_id else [],
         ))
         if parent_id is not None:
@@ -185,11 +202,13 @@ def retrieve_evidence(
             excerpt = StructuredChunk(chunk_id=parent.parent_id, **parent.model_dump(exclude={"parent_id"}))
             regions[parent_id] = RetrievedChunk(
                 chunk=excerpt, file_name=ready_files[chunk.file_id].file_name,
+                document_labels=identity_labels_for_chunk,
                 **provenance, parent_id=parent_id, matched_child_ids=[chunk.chunk_id],
             )
         else:
             regions[chunk.chunk_id] = RetrievedChunk(
                 chunk=chunk, file_name=ready_files[chunk.file_id].file_name, **provenance,
+                document_labels=identity_labels_for_chunk,
             )
 
     return pack_evidence(child_hits, list(regions.values()), diagnostics)
