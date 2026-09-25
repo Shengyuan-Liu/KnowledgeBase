@@ -60,7 +60,7 @@ controls and the explicit-restriction control pass. The prompt change is not a
 verified semantic fix; both this failure and the earlier 7/8 service run remain
 unchanged. There was no new ingestion/retrieval or full benchmark in this replay.
 
-The latest [correction-session report](../evals/library-runs/20260925-grounding-high/README.md)
+The preceding [correction-session report](../evals/library-runs/20260925-grounding-high/README.md)
 records named-document attribution rules, literal table-status handling, instruction
 placement and optional answer reasoning configuration. Full backend checks pass,
 but no tested configuration passes every frozen semantic gate. Current GPT-4.1
@@ -77,4 +77,7 @@ for; its old scores remain intact. The prompt now requests a concise answer per
 part, avoids repeated summaries and unrequested background, and explicitly applies
 English to uncertainty/status labels. It still preserves needed qualifications,
 source names and identifiers. This is a prompt constraint, not guaranteed language
-or semantic validation. A bounded default-model verification follows offline checks.
+or semantic validation. The [bounded default-model verification](../evals/library-runs/20260925-answer-focus/README.md)
+passes 4/5: all requested facts and factual citations are supported, but the awards
+answer still blends documents without identifying the other FAQ. No non-English
+output was observed in this five-case sample. This is not full acceptance.

@@ -1,12 +1,14 @@
 # v1 Merge Readiness — 2026-09-25
 
-**Do not claim full acceptance yet.** Current default GPT-4.1 passes 3/5 targeted
-cases with the latest prompt. Alternative GPT-5.4-mini configurations reach 4/5,
-but none clears the frozen gates. The
-[correction-session report](../../evals/library-runs/20260925-grounding-high/README.md)
-retains all five attempts and their actual answers. No model default, local `.env`
-or merge has been changed. The user's model preference is pending; no tested
-candidate currently qualifies for promotion.
+**Do not claim full acceptance yet.** Current default GPT-4.1 passes **4/5**
+targeted cases in the [latest correction](../../evals/library-runs/20260925-answer-focus/README.md).
+The remaining issue is document scope: an answer requested from the general FAQ
+includes an admissions-only fact without identifying that other document. The
+fact is supported in context; this is not fabrication or an invalid citation ID.
+The question-aligned rubric was frozen before this pass and applied to the same
+historical baseline (3/5); original scores remain intact. All five new outputs are
+English, but this does not establish general language reliability. No model
+default, local `.env` or merge changed.
 
 ## Completed engineering evidence
 
@@ -14,7 +16,7 @@ candidate currently qualifies for promotion.
   optional local reranking, bounded evidence packing, source locations, restored
   diagnostics and file-deletion history have implementation/workflow checks.
 - Current full backend: **561 passed, 1 intentionally skipped live-provider test**.
-  [Records](../../evals/check-runs/20260925-grounding-reasoning/README.md) include
+  [Records](../../evals/check-runs/20260925-answer-focus/README.md) include
   earlier failures and corrections. Shared generation instructions now explicitly
   bind claims to named sources and table statuses and follow the evidence message.
   The optional answer reasoning setting reaches complete/streaming providers,
@@ -49,13 +51,20 @@ a table status into an unsupported all-endpoint guarantee. The first
 [scope-only correction](../../evals/library-runs/20260925-source-scope/README.md)
 remains 3/5. All failures are preserved; none is overwritten by later results.
 
-In this session, explicit instructions, placement and model/reasoning comparisons
-show different tradeoffs. The final high-effort sample has supported claims and
-citations and avoids inappropriate contacts, but leaves out limited scholarships,
-competitive positions and semester-by-semester postings required by the frozen
-reference points. Its personal-status answer also contains a non-English word.
-The unchanged factual rubric scores 4/5; language noncompliance is separately
-reported. Do not relax the gates or attribute this candidate's gains to GPT-4.1.
+The earlier [five-configuration session](../../evals/library-runs/20260925-grounding-high/README.md)
+retains its original failures. Its frozen awards rubric required optional job
+competition/posting and scholarship-count details not requested by the question.
+The latest audit corrects those two reference points in a new version, preserving
+old annotations/scores. Under corrected factual scoring the previous high-effort
+sample would reach 5/5, but its non-English status word still fails the project's
+language requirement. It is not an accepted model configuration.
+
+The new GPT-4.1 sample has all 11 question-aligned required points correct and all
+19 inventoried factual claims supported. Personal abstention no longer adds an
+unsupported contact. However, the awards answer still blends documents without
+explaining their identity, so it fails the frozen named-source gate. One redundant
+pass/fail prohibition also remains, a style miss. No more sampling was performed
+to obtain a passing response. The full record includes both rubric versions.
 
 Codex reviewed all outputs and source evidence as requested by the user. This is
 not independent human review, but no requirement is imposed for the user to redo
@@ -66,7 +75,10 @@ boundary. Earlier risks (list citations, CPT scope, API-setup rubric mismatch an
 one invalid filename/source-line judgment) remain in the
 [judgment supplement](../../evals/library-runs/20260925-review-supplement-3/README.md).
 
-No broader retrieval features are needed. Further grounding work must address
-source-specific completeness and English output; the bounded configuration
-comparison has ended. Passing engineering checks does not authorize merge. Only
+No broader retrieval features are needed. The remaining observed acceptance
+issue is explicit document attribution when similar excerpts come from different
+files. More general prompt reminders have not resolved it reliably. Future work
+should target document-scoped evidence selection or explicit claim/source mapping,
+with a separately defined contract and regression checks. This is a proposed next
+step, not implemented behavior. Passing checks does not authorize merge; only
 explicit user approval authorizes merging a v1 feature into `main`.

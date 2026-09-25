@@ -53,3 +53,51 @@ def test_completed_replay_preserves_sources_and_deltas():
         assert row['answer'] == ''.join(d['delta'] for d in call['deltas'])
         assert digest(call['messages'][1]['content'].encode()) == run.inputs()['prompt_sha256']
         assert 'total_seconds' not in row
+
+
+def test_review_quotes_offsets_metrics_and_frozen_timing():
+    directory=run.DIR
+    if not (directory/'acceptance.json').exists():
+        pytest.skip('Manual review not recorded yet.')
+    from datetime import datetime
+    meta=json.loads((directory/'run.json').read_text())
+    assert datetime.fromisoformat(run.inputs()['frozen_at']) < datetime.fromisoformat(meta['started_at'])
+    answers={a['case_id']:a for a in read_jsonl(directory/'answers.jsonl')}
+    reviews=json.loads((directory/'manual-review.json').read_text())
+    for review in reviews:
+        a=answers[review['case_id']]
+        assert digest(a['answer'].encode())==review['answer_sha256']
+        assert len(review['points'])==len(review['original_rubric_points'])
+        for claim in review['claims']:
+            assert claim['answer_quote'] in a['answer']
+            for evidence in claim['evidence']:
+                source=next(s for s in a['sources'] if s['source_id']==evidence['source_id'])
+                assert source['file_name']==evidence['file_name']
+                assert source['text'][evidence['start_offset']-source['start_offset']:evidence['end_offset']-source['start_offset']]==evidence['quote']
+    # An annotation change must not turn the remaining source failure into a pass.
+    acceptance=json.loads((directory/'acceptance.json').read_text())
+    assert acceptance['status']=='failed'
+    assert acceptance['gates']['named_source_scope'] is False
+    assert acceptance['cases_passed']==sum(r['pass'] for r in reviews)==4
+    for name in ('before-metrics.json','after-metrics.json'):
+        m=json.loads((directory/name).read_text())['metrics']
+        prior=json.loads((run.BASE/'after-metrics.json').read_text())['metrics']
+        assert set(prior)<=set(m)
+        for key in ('recall_at_k','precision_at_k','hit_rate_at_k','mrr_at_k','ndcg_at_k','full_evidence_recall'):
+            assert m[key]['origin'].startswith('Inherited')
+        assert m['total_seconds']['status']=='not_applicable'
+        assert m['answer_correctness']['status']=='measured'
+
+
+def test_report_and_status_document_links():
+    import re
+    from pathlib import Path
+    paths=[run.DIR/'README.md',run.DIR/'REVIEW.md',run.DIR/'PLAN.md',
+           Path('README.md'),Path('docs/answer-grounding.md'),Path('docs/v1/README.md'),Path('docs/v1/merge-readiness.md')]
+    for path in paths:
+        text=path.read_text()
+        assert not re.search(r'[\u4e00-\u9fff]',text)
+        for target in re.findall(r'\]\(([^\s)]+)\)',text):
+            if '://' in target or target.startswith(('#','mailto:')):
+                continue
+            assert (path.parent/target.split('#')[0]).exists(), (path,target)

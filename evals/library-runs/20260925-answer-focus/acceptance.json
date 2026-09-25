@@ -1,0 +1,69 @@
+{
+  "evaluated_at": "2026-09-25T19:15:17.769136+00:00",
+  "status": "failed",
+  "gates": {
+    "generation_success": true,
+    "citation_ids": true,
+    "question_aligned_required_facts": true,
+    "claim_support": true,
+    "associated_citation_support": true,
+    "named_source_scope": false,
+    "english": true,
+    "citation_coverage": true,
+    "abstention": true,
+    "generation_latency": true,
+    "input_budget": true
+  },
+  "cases_passed": 4,
+  "cases_total": 5,
+  "before_cases_passed": 3,
+  "per_case": [
+    {
+      "case_id": "accept-beta-header-scope",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": [
+        "Both endpoint behaviors and exact version status are supported and locally cited; the earlier uncited opening/bullet is absent."
+      ]
+    },
+    {
+      "case_id": "accept-independent-passfail",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": [
+        "All requested restrictions preserved. One prohibition is unnecessarily repeated; a style-instruction miss, not a new unsupported fact."
+      ]
+    },
+    {
+      "case_id": "accept-awards-jobs",
+      "before_pass": false,
+      "after_pass": false,
+      "findings": [
+        "All requested v2 facts are answered and the extra application-process fact has source support in [1]. However, an answer requested from the general FAQ blends in admissions-only information without explicitly naming that other document. This violates the frozen source-specific instruction; do not label the fact itself fabricated or the citation IDs invalid.",
+        "Under the original rubric the first point is partial because limited scholarship count is absent. Job competition and posting cadence are present. Under v2 the limited count is optional, not a completeness defect."
+      ]
+    },
+    {
+      "case_id": "accept-unspecified-api-error",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": [
+        "Both exact error details are explicitly unavailable; no HTTP status or JSON body invented. Repeated absence statement is not counted as a positive factual claim."
+      ]
+    },
+    {
+      "case_id": "accept-personal-study-approval",
+      "before_pass": false,
+      "after_pass": true,
+      "findings": [
+        "Both individual approval and supervisor assignment are explicitly unavailable. No personal outcome, contact or procedural advice is invented. The citations accompany absence statements and are valid IDs, not positive source facts; claim-free abstention is exempt from factual citation coverage."
+      ]
+    }
+  ],
+  "resolved_models": [
+    "gpt-4.1-2025-04-14"
+  ],
+  "paid_generation_calls": 5,
+  "paid_judge_calls": 0,
+  "decision": "Source-specific answer scope still fails. No further sampling, model/config change, output repair or merge. Do not claim full acceptance."
+}
