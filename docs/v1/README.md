@@ -32,15 +32,13 @@ outstanding. Reranking remains disabled by default in shared settings.
 
 ## Remaining Work
 
-See the current [merge-readiness assessment](merge-readiness.md) for completed
-checks and recommended configuration. The requested
-[Codex acceptance](../../evals/library-runs/20260925-v1-codex-acceptance/README.md)
-remains recorded at 7/8. A subsequent
-[five-case scope verification](../../evals/library-runs/20260925-source-scope/README.md)
-passes 3/5: qualification remains unresolved and one wrong-FAQ citation is a
-definite blocker. The four-line prompt change is not a verified semantic fix.
-Independent human review remains unperformed; it is not being substituted for
-Codex completing the delegated functional audit.
+See the current [merge-readiness assessment](merge-readiness.md). The original
+service acceptance remains 7/8. The latest [grounding correction session](../../evals/library-runs/20260925-grounding-high/README.md)
+records all prompt/model attempts: the current default reaches 3/5 targeted cases;
+alternatives reach 4/5 but still fail completeness and include an output-language
+defect. Full backend checks pass (561 passed, 1 skipped). No candidate has been
+promoted, local settings are unchanged, and no merge is authorized. Codex has
+completed the delegated audit; independent human review remains unperformed.
 
 1. Accept the opt-in [semantic child-chunking strategy](../semantic-chunking.md),
    now implemented inside unchanged parent regions. Structural parent-child

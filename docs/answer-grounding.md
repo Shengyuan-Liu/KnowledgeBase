@@ -4,6 +4,8 @@ The shared `ANSWER_INSTRUCTIONS` in `knowledgebase/rag/generation.py` governs bo
 complete and streaming answers. `_answer_messages` supplies the original question,
 optional conversation interpretation and numbered evidence. `generate_answer`
 and `stream_answer` send the same messages through their respective clients.
+The user question/evidence message precedes the developer instruction message;
+source text is never promoted to developer instructions.
 
 Factual claims should have a supporting citation in the same sentence or list
 item. Each factual list item needs its own citation; an introduction, final bullet
@@ -57,3 +59,13 @@ misattributes an admissions-FAQ statement to the general FAQ. Both abstention
 controls and the explicit-restriction control pass. The prompt change is not a
 verified semantic fix; both this failure and the earlier 7/8 service run remain
 unchanged. There was no new ingestion/retrieval or full benchmark in this replay.
+
+The latest [correction-session report](../evals/library-runs/20260925-grounding-high/README.md)
+records named-document attribution rules, literal table-status handling, instruction
+placement and optional answer reasoning configuration. Full backend checks pass,
+but no tested configuration passes every frozen semantic gate. Current GPT-4.1
+reaches 3/5; GPT-5.4-mini low/high reach 4/5 with different remaining failures.
+The high-effort sample has supported claims/citations but omits reference details
+and includes one non-English word. These observations do not justify claiming a
+completed grounding fix or switching defaults. All previous failures and a labeled
+reviewer correction remain intact; no generated response is repaired.
