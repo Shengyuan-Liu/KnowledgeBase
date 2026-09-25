@@ -1,9 +1,12 @@
 # v1 Merge Readiness — 2026-09-25
 
-**Engineering implementation is ready for user acceptance. No merge is authorized
-or performed. Semantic quality validation remains pending independent human review.**
-A functional local single-user release must be distinguished from a demonstrated
-general answer-quality improvement, as required by the existing release plan.
+**Codex functional acceptance is complete: 7/8 cases pass; one source-scope
+qualification blocks unconditional acceptance under the frozen criteria. No merge
+is authorized or performed.** See the [acceptance report](../../evals/library-runs/20260925-v1-codex-acceptance/README.md)
+and [actual answers](../../evals/library-runs/20260925-v1-codex-acceptance/REVIEW.md).
+The user asked Codex to perform acceptance, so independent human review is not
+being imposed as a prerequisite for Codex to deliver a functional verdict. The
+review is explicitly labeled Codex-authored and not independent human validation.
 
 ## Completed evidence
 
@@ -43,26 +46,32 @@ Do not add query decomposition, another framework or additional product scope to
 finish v1. The remaining decision is acceptance of this functional scope and its
 recorded limitations, not an automatic promotion of the experimental settings.
 
-## Outstanding release validation
+## Current acceptance finding
 
-The [existing release gates](v1-evaluation-plan.md#review-and-release-gates) require
-criteria frozen before opening a new held-out set and independent human review.
-The current 24 questions have been used during development; they cannot be
-relabeled held-out. No independent human semantic review is available yet.
-Report that gate as pending. The two-question Codex review is development evidence
-and cannot satisfy it.
+The new eight-question run uses the checked-in defaults and a fresh isolated
+index. All requests succeed, all six answerable cases receive complete annotated
+evidence, both missing-information cases abstain, and latency/token budgets pass.
+The actual answers were reviewed claim by claim against their supplied excerpts.
 
-Known answer risks remain: list items sometimes lack local citations; a prior
-CPT answer strengthened a qualification; an API-setup expected-point rubric asks
-for a constructor the question did not explicitly request. The frozen judge has
-known assessment disagreements and the unresolved filename-evidence validation.
-Preserve these distinctions: a malformed judge result is not necessarily an
-incorrect product answer, and complete retrieved evidence is not proof of a
-supported final answer.
+One answer says `anthropic-version` is "always ignored ... on all endpoints"
+where the source table only says `Ignored`. The base status is correct; the
+universal scope is not established by that excerpt. This is an unsupported
+qualification judgment, not proof of contrary real API behavior. The frozen
+scope/citation rules reject it. The run is retained as failed semantic acceptance,
+not repaired or rerun until passing. The next change should address this narrow
+qualification failure, followed by targeted verification.
 
-The next acceptance step is a small, newly frozen answer set with predefined
-coverage, support, latency and token-budget criteria, followed by independent
-human inspection of the actual answers and supplied sources. Do not rerun the
-familiar benchmark repeatedly or tune on that new set while calling it held-out.
-The user decides whether to accept a functional release with semantic validation
-explicitly pending, or complete that review before approving the v1 merge.
+The [existing evaluation plan](v1-evaluation-plan.md#review-and-release-gates)
+distinguishes a functional release from demonstrated broad semantic improvement.
+Independent human review remains unperformed and must not be claimed. Codex's
+completed audit does not need to be relabeled human review to be useful, and the
+user is not required to perform all technical or source checking personally.
+
+Earlier development risks remain disclosed: list-level citation omissions, a
+CPT qualification regression, the API-setup question/rubric mismatch, and one
+invalid v11 filename-metadata assessment. These do not replace the new run's
+specific findings or establish that its answers share every historical defect.
+
+No broader features are needed. Fix the observed qualification behavior and
+preserve the failed acceptance evidence; keep experimental options opt-in. Only
+an explicit user instruction authorizes the merge.

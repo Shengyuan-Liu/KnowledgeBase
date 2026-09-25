@@ -102,3 +102,15 @@ Report per-case changes and regressions in addition to aggregate values.
 An LLM judge may assist review only after calibration against human decisions.
 The MVP's judge failures are a reason to retain auditable evidence and disagreements,
 not to relabel automated scores as human approval.
+
+
+### Delegated functional acceptance
+
+When the user asks Codex to perform acceptance, Codex can execute the checks,
+inspect every actual answer/source pair, record its reviewer identity and give a
+functional merge recommendation. Do not require the user to do that work before
+Codex can deliver a verdict. This remains model-assisted review; it does not
+satisfy or impersonate independent human validation of broader semantic quality.
+The [2026-09-25 delegated audit](../../evals/library-runs/20260925-v1-codex-acceptance/README.md)
+uses criteria frozen before results and preserves its failed scope qualification.
+Actual merge authority remains with the user.

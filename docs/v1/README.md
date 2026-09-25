@@ -33,7 +33,11 @@ outstanding. Reranking remains disabled by default in shared settings.
 ## Remaining Work
 
 See the current [merge-readiness assessment](merge-readiness.md) for completed
-checks, recommended configuration and pending independent acceptance.
+checks and recommended configuration. The requested
+[Codex acceptance](../../evals/library-runs/20260925-v1-codex-acceptance/README.md)
+is complete: 7/8 cases pass, with one unsupported universal qualification.
+Independent human review remains unperformed; it is not being substituted for
+Codex completing the delegated functional audit.
 
 1. Accept the opt-in [semantic child-chunking strategy](../semantic-chunking.md),
    now implemented inside unchanged parent regions. Structural parent-child
