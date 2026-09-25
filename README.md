@@ -20,6 +20,9 @@ Set `RERANK_ENABLED=true` to score a bounded fused-child window with the
 streaming chat, CLI, and evaluations share this path. Reranking defaults to off;
 the vector-only control requires it to remain off.
 
+[Answer grounding](docs/answer-grounding.md) defines claim-local citations,
+source-behavior fidelity and how answers handle missing personal information.
+
 ## Run the local application
 
 Requirements: macOS or Linux, Python 3.13+, uv, and a Node.js version supported by

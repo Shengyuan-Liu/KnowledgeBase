@@ -103,3 +103,43 @@ async def test_comparison_prompt_is_shared_by_json_and_streaming_with_later_evid
     assert user['content'].endswith('Excerpt:\n' + texts[-1])
     assert '[3]\nSource metadata: {"file_name": "source-2.txt", "heading_path": []}' in user['content']
     assert [user['content'].count(text) for text in texts] == [1, 1, 1]
+
+
+@pytest.mark.anyio
+@pytest.mark.parametrize('text,question', [
+    ('| name | Fully Supported |\n| cache_control | Ignored |',
+     'Which tool fields are supported?'),
+    ('Only effort is supported in output_config.',
+     'How is output_config supported?'),
+    ('Capstone projects typically have two to four people.',
+     'Which project have I personally been assigned to?'),
+])
+async def test_citation_and_fidelity_instructions_reach_both_generation_paths(text, question):
+    """Observed table, behavior-inference and personal-advice regressions share one prompt.
+
+    Mocked calls verify prompt delivery and evidence fidelity, not model compliance.
+    """
+    from knowledgebase.rag.generation import ANSWER_INSTRUCTIONS
+
+    chunks = [RetrievedChunk(file_name='source.txt', distance=0.1,
+        chunk=Chunk(chunk_id='one', file_id='file', text=text, index=0,
+                    start_offset=0, end_offset=len(text)))]
+    llm = Mock(spec=LLMClient)
+    llm.generate.return_value = 'Recorded output [1].'
+    generate_answer(question, chunks, llm)
+    captured = []
+
+    class Stream:
+        async def stream(self, messages):
+            captured.append(messages)
+            yield 'Recorded output [1].'
+
+    assert ''.join([part async for part in stream_answer(question, chunks, Stream())]) == llm.generate.return_value
+    messages = llm.generate.call_args.args[0]
+    assert captured == [messages]
+    assert messages[0] == {'role': 'developer', 'content': ANSWER_INSTRUCTIONS}
+    assert 'Cite every factual list item separately' in messages[0]['content']
+    assert 'does not establish whether it is ignored, rejected' in messages[0]['content']
+    assert 'Do not add unsupported advice' in messages[0]['content']
+    assert messages[1]['content'].startswith(f'Question:\n{question}\n\nSources:\n[1]\n')
+    assert messages[1]['content'].endswith('Excerpt:\n' + text)
