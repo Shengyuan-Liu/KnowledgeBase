@@ -1,0 +1,141 @@
+{
+  "timestamp": "2026-09-25T17:34:44.392968+00:00",
+  "metric_inventory": {
+    "recall_at_k": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Raw candidate rankings preserved; this exploratory two-case run did not calculate aggregate relevance metrics. Complete-feature experiment supplies stage metrics."
+    },
+    "precision_at_k": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Raw candidate rankings preserved; this exploratory two-case run did not calculate aggregate relevance metrics. Complete-feature experiment supplies stage metrics."
+    },
+    "hit_rate_at_k": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Raw candidate rankings preserved; this exploratory two-case run did not calculate aggregate relevance metrics. Complete-feature experiment supplies stage metrics."
+    },
+    "mrr_at_k": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Raw candidate rankings preserved; this exploratory two-case run did not calculate aggregate relevance metrics. Complete-feature experiment supplies stage metrics."
+    },
+    "ndcg_at_k": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Raw candidate rankings preserved; this exploratory two-case run did not calculate aggregate relevance metrics. Complete-feature experiment supplies stage metrics."
+    },
+    "final_evidence_coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Exploratory local scoring only; no answer, final evidence packing, ingestion, provider calls or service traffic."
+    },
+    "answer_correctness": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Exploratory local scoring only; no answer, final evidence packing, ingestion, provider calls or service traffic."
+    },
+    "faithfulness": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Exploratory local scoring only; no answer, final evidence packing, ingestion, provider calls or service traffic."
+    },
+    "answer_completeness": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Exploratory local scoring only; no answer, final evidence packing, ingestion, provider calls or service traffic."
+    },
+    "answer_relevance": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Exploratory local scoring only; no answer, final evidence packing, ingestion, provider calls or service traffic."
+    },
+    "citation_support": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Exploratory local scoring only; no answer, final evidence packing, ingestion, provider calls or service traffic."
+    },
+    "citation_coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Exploratory local scoring only; no answer, final evidence packing, ingestion, provider calls or service traffic."
+    },
+    "abstention": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Exploratory local scoring only; no answer, final evidence packing, ingestion, provider calls or service traffic."
+    },
+    "first_answer_delta_latency": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Exploratory local scoring only; no answer, final evidence packing, ingestion, provider calls or service traffic."
+    },
+    "complete_response_latency": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Exploratory local scoring only; no answer, final evidence packing, ingestion, provider calls or service traffic."
+    },
+    "stage_latency": {
+      "status": "measured",
+      "value": {
+        "wider_child_pool": {
+          "status": "measured",
+          "value": {
+            "mean": 1.4237424585153349,
+            "p50": 1.4237424585153349,
+            "p95": 1.740740624954924
+          },
+          "unit": "seconds",
+          "n": 2,
+          "method": "Successful observations; median P50, nearest-rank P95.",
+          "artifact": "answers.jsonl"
+        },
+        "parent_scoring": {
+          "status": "measured",
+          "value": {
+            "mean": 4.235078895522747,
+            "p50": 4.235078895522747,
+            "p95": 4.89813787501771
+          },
+          "unit": "seconds",
+          "n": 2,
+          "method": "Successful observations; median P50, nearest-rank P95.",
+          "artifact": "answers.jsonl"
+        }
+      },
+      "unit": "seconds",
+      "n": 2,
+      "method": "Sequential MPS local inference including tokenization, excluding separate model loading. Two observed failure cases only; different passage lengths and candidate units.",
+      "artifact": "results.json; parent-results.json"
+    },
+    "token_usage_and_cost": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Exploratory local scoring only; no answer, final evidence packing, ingestion, provider calls or service traffic."
+    },
+    "reliability": {
+      "status": "measured",
+      "value": {
+        "completed_scoring_queries": 4,
+        "loader_failures_before_scoring": 1,
+        "provider_calls": 0
+      },
+      "unit": "attempts",
+      "n": 5,
+      "method": "Two wider-child queries plus two corrected parent queries; initial parent loader failed before scoring.",
+      "artifact": "results.json; parent-results.json; initial-parent-failure.json"
+    },
+    "concurrency_and_throughput": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Concurrency one; per-call timing retained, no throughput/load measurement."
+    },
+    "ingestion_and_index": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Exploratory local scoring only; no answer, final evidence packing, ingestion, provider calls or service traffic."
+    }
+  },
+  "supersedes": "Scope-inappropriate generic mocked-test inventory attached to initial run.json; original is retained for audit."
+}

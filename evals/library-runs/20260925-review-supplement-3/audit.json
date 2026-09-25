@@ -1,0 +1,40 @@
+{
+  "timestamp": "2026-09-25T17:32:14.957789+00:00",
+  "checks": [
+    "All 24 answer rows remain byte-identical to the generation comparison.",
+    "Three supplemental assessments reused exact original payloads/schema, inventory, answer and judge configuration.",
+    "All original generation/judge attempts plus all three supplemental provider calls retained; aborted preflight made no provider call."
+  ],
+  "passed": 3,
+  "incremental_assessment_calls": 3,
+  "incremental_usage": {
+    "input_tokens": 79522,
+    "output_tokens": 87948,
+    "total_tokens": 167470
+  },
+  "incremental_provider_latency": {
+    "status": "measured",
+    "value": {
+      "mean": 116.17924705566838,
+      "p50": 124.58538575004786,
+      "p95": 126.47025000001304
+    },
+    "unit": "seconds",
+    "n": 3,
+    "method": "Successful observations; median P50, nearest-rank P95.",
+    "artifact": "answers.jsonl"
+  },
+  "incremental_cost": {
+    "status": "unavailable",
+    "value": null,
+    "reason": "Actual provider billing unavailable; token counts do not establish billed cost."
+  },
+  "outcome": {
+    "effective_valid_reviews": 23,
+    "planned_reviews": 24,
+    "credits_status": "invalid",
+    "original_timeouts": 2,
+    "subsequent_invalid_assessments": 2,
+    "aborted_preflight_runs": 1
+  }
+}

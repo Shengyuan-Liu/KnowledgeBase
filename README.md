@@ -213,3 +213,6 @@ Run `make eval` to evaluate the production RAG pipeline and LLM judge on the fro
 makes provider API calls. See [metric definitions and saved records](evals/metrics.md).
 Run `make eval-calibrate` to check the judge against
 [fixed development calibration cases](evals/calibration/README.md) without running RAG.
+
+Current v1 acceptance status: [merge readiness](docs/v1/merge-readiness.md),
+including experimental parent scoring, recorded tradeoffs and pending human review.

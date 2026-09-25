@@ -1,0 +1,15 @@
+{
+  "status": "error",
+  "scope": "Exploratory experiment loader before any model scoring call",
+  "command": "HF_HUB_OFFLINE=1 uv run python -m evals.library-runs.20260925-retrieval-diagnostic.inspect_parents",
+  "error_type": "ValidationError",
+  "error": "RerankCandidate heading_path expected list; frozen raw SQLite parent snapshots store JSON strings.",
+  "resolution": "Decode the stored heading JSON in the experiment loader. Production storage was unaffected.",
+  "duration": {
+    "status": "unavailable",
+    "value": null,
+    "reason": "Initial failing tool invocation duration was not instrumented."
+  },
+  "code": "inspect_parents.py before the json.loads heading fix; source fingerprint unavailable for the aborted attempt.",
+  "metrics": "qualified-metrics.json"
+}

@@ -32,18 +32,26 @@ outstanding. Reranking remains disabled by default in shared settings.
 
 ## Remaining Work
 
+See the current [merge-readiness assessment](merge-readiness.md) for completed
+checks, recommended configuration and pending independent acceptance.
+
 1. Accept the opt-in [semantic child-chunking strategy](../semantic-chunking.md),
    now implemented inside unchanged parent regions. Structural parent-child
    chunking remains the default and control. The
    [paired live comparison](../../evals/library-runs/20260925T002400Z-semantic-acceptance/README.md)
-   records two substantive evidence regressions; semantic chunking remains experimental.
+   records two substantive evidence regressions. The subsequent
+   [parent-scoring and budget comparison](../../evals/library-runs/20260925-parent-reranking/README.md)
+   recovers both with higher compute/context cost; semantic chunking remains experimental.
 2. Accept the completed frontend source locations and recorded retrieval
    diagnostics, verified with [offline checks](../../evals/check-runs/20260924-evidence-ui/README.md)
    and a [real-provider browser workflow](../../evals/browser-runs/20260925-semantic-ui-1/README.md).
 3. Complete acceptance of [generation grounding](../answer-grounding.md): the
    fixed-context prompt comparison improves citation coverage on valid pairs, but
-   retains list-level failures, a qualification regression and two judge timeouts.
-   Address multi-part evidence omissions before claiming release quality.
+   retains list-level failures and a qualification regression. The
+   [assessment supplement](../../evals/library-runs/20260925-review-supplement-3/README.md)
+   reaches 23/24 valid reviews; one metadata/source-line validation failure remains.
+   The two observed semantic evidence omissions have a measured opt-in solution,
+   not a new default or a general release-quality guarantee.
    Six newly frozen questions on familiar documents
    supplement the development set; an independent release population and human
    review remain outstanding. Do not rerun paid evaluation after intermediate edits.

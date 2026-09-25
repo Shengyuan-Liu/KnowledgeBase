@@ -37,3 +37,9 @@ shows improved citation coverage on 22 valid paired reviews, with two assessment
 timeouts. Several lists remain incompletely cited and a source qualification is
 still overstated. Treat this as partial improvement; the change has not established
 complete compliance or full-set release quality.
+
+The [assessment-only supplement](../evals/library-runs/20260925-review-supplement-3/README.md)
+keeps all original answers and failed attempts, reaches 23/24 valid reviews, and
+records the remaining filename-metadata/source-line validation mismatch. The
+[scoped retrieval probe](../evals/library-runs/20260925-parent-reranking/README.md)
+uses this unchanged generation prompt; its manual point review is not v11 scoring.

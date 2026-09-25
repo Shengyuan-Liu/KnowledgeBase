@@ -152,3 +152,12 @@ Prompt text, HTTP routes, SSE event names, database schema/filenames, the cosine
 index contract, and development-server ports remain implementation or launcher
 settings. They are not model-tuning options; changing these contracts is not an
 `.env` switch.
+
+### Parent scoring option
+
+`RERANK_UNIT` defaults to `child`. Set it to `parent` with reranking enabled to
+score unique whole-parent regions from the fused candidates. This changes the
+meaning of the rerank candidate cap to unique regions; raw route windows remain
+child-based. See [parent reranking](parent-reranking.md) for scoring provenance,
+input limits and the separately measured evidence-budget tradeoff. The API, CLI
+and evaluation entry points receive this option through `Settings`.
