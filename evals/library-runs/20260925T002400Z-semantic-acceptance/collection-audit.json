@@ -1,0 +1,612 @@
+{
+  "created_at": "2026-09-25T00:38:42.749247+00:00",
+  "method": "Read-only audit of recorded calls, streaming events, immutable source spans and indexing diagnostics. No additional provider requests.",
+  "modes": {
+    "parent_child": {
+      "answers": 24,
+      "complete_events": 24,
+      "generation_calls": 24,
+      "completed_generation_calls_with_usage_and_deltas": 24,
+      "call_statuses": {
+        "ok": 101
+      },
+      "resolved_models": [
+        "gpt-4.1-2025-04-14",
+        "gpt-5.4-mini-2026-03-17",
+        "text-embedding-3-small"
+      ],
+      "implementation_sha256": {
+        "evals/__init__.py": "19f4827ad5cf13373087b01b81f0759fe69da33490b9a49be26ee2159823b889",
+        "evals/automatic.py": "1b26b678fff70d0a32f039913371006e1e374b98db1219e4404cc13f7ca80d34",
+        "evals/calibrate.py": "141942725caf2eb32b30a7c1283e968a983ad689edff8f201b2c39a475cf8299",
+        "evals/evaluate.py": "3ec91dc3c3be0895ab8b0840e398a9a3a4d0faa6bbaec6fbd1738c8c82f8bbc1",
+        "evals/judge.py": "1209496df166c6366be76725b6233c0b97e392937d39d7a4e860cf17c84b2620",
+        "evals/metrics.py": "eddcfaa8debae400f6aab671c40d54129e1214637288686356332677198fd968",
+        "knowledgebase/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "knowledgebase/api/__init__.py": "7dc7eab42c3d7348a4ec1da96d6de0f739044ae91333929c50098367afbd56b7",
+        "knowledgebase/api/app.py": "c2dda5541f44ac1f8841eddd8c9c4da56240ffcb54ad0b701dd62b444b4944ba",
+        "knowledgebase/api/chat.py": "a6e4a290c4f4801e4496ad6f10eff163db54e25660a39a80e5687a238c5f594d",
+        "knowledgebase/api/conversations.py": "81fafa9a30c5a87caaef103c9f61fd23fdf2a92d68851292e5629a4cc2965b17",
+        "knowledgebase/api/dependencies.py": "5ba59bce9422daf0aa15a89edf8586cb71fc2c360025198c41e27da4faefb611",
+        "knowledgebase/api/files.py": "baeef012fb31ea1aa0014360e22652c26e844dca119618f0c639cda6b7fa5a04",
+        "knowledgebase/api/streaming.py": "f2cc5359c037d7480d890ad249dcb844c5f8e4fbdb187cae50fac378ea6058e6",
+        "knowledgebase/cli.py": "6210e57a00a984c7f8359d82068b43168b9d00d88c8c59362cc6066cf8fa8d62",
+        "knowledgebase/config.py": "d4c2ece6b8f7176f1d14f50a85796397198af0167bed3a0d883cdbdba100f55a",
+        "knowledgebase/providers/__init__.py": "b251cd6fde07ea42f25226c76644d8921aed56fd12e0c5d6dbdf3dd972768f05",
+        "knowledgebase/providers/embeddings.py": "6d92ababaf52ee7bee6b9efb3dbb0a672f5d31df0db8b14de493835d38fd4fe1",
+        "knowledgebase/providers/llm.py": "b374459cbf6f27cb9497d35ead820a73b14c19ecb0bd0651a68642a09fef41b9",
+        "knowledgebase/providers/reranker.py": "8813067e8ad2c3b85a88698ed170fd69c6bbbd14e544618e55de1b04801a204c",
+        "knowledgebase/rag/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "knowledgebase/rag/bm25.py": "d13c8a8fe6a97a08f5ce0b2617b32c86c074354ed17a154dd812b47710c27873",
+        "knowledgebase/rag/chunking.py": "4ce45b17ef2c807b73907c6dc382e39710e2cead1c6389f17c25e7696b258edc",
+        "knowledgebase/rag/citations.py": "5497481dae8b562f4ee03b1b56abd1734bd531ea5cf6dea0b7ad68854148b460",
+        "knowledgebase/rag/context.py": "266dfb81446d97ca8c49cf1b1c9d7dd0311e4c561d8cc0bcc22f6435f71a457d",
+        "knowledgebase/rag/fusion.py": "780c6b459ac05a19ea218eae95a3c54d1598134806f5f8b447becd07b62ee3be",
+        "knowledgebase/rag/generation.py": "4a40043d1f9f1e665fa30e0b39b94221e8c202fe953bcdbf0c95120ee73e959c",
+        "knowledgebase/rag/packing.py": "f3906fc582a93207e074844a7726cb060d5fb0de3eb2695a26b815699440d07c",
+        "knowledgebase/rag/parsing.py": "62a65cb8eb41edc95437e568ea07bc74a6150374a0659a3d531ba0bf3aff3316",
+        "knowledgebase/rag/query.py": "c105c417e92bb082aef226ec4ea16858d88a636533a4d38400821c127b2dc2f6",
+        "knowledgebase/rag/reranking.py": "e4a1fe578688329866f7b2ebaebb16a7dce23a5a1707a2bd6254fe32de073054",
+        "knowledgebase/rag/retrieval.py": "862a6e4eb4cef59b662fe36e387d5ad8a5408afadc92cdecdc6c6888f68845a8",
+        "knowledgebase/rag/semantic_chunking.py": "e512cd9034d27db0864cad899127c82ca99281dc0261c313ade7825f404597bb",
+        "knowledgebase/schemas.py": "f7b4682d1dbef53666daa594db5a387f8ab0f7b0979db637615a06821227996e",
+        "knowledgebase/services/__init__.py": "5651ac6f97850be849d3f9998be3a81ea8795655374d865328ab078b7b66e6dd",
+        "knowledgebase/services/chat.py": "2fb562ac2d7b2ce4077ee631c682624474959c536c7ddb80b2f398a125213f04",
+        "knowledgebase/services/files.py": "02c2fd95743ed595b3613e4ae570aa2b348ab7f379331a80699dc87735b824ad",
+        "knowledgebase/storage/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "knowledgebase/storage/database.py": "4a694c675130a2a81ebf8d4ad4432d90b26bc7a460e41a63dc68b3fcec05989f",
+        "knowledgebase/storage/models.py": "0121cc23c6e0faa40ff8f98b5c5bc3c6bff71cf9d48c5a59446eac4af8d0d18f",
+        "knowledgebase/storage/operations.py": "3989923e707054c0744213f3273631c6d976f195ae5d90d1e4af7b7bf97de766",
+        "knowledgebase/storage/runtime.py": "84e33b6107faa2688bf6c2fc3a3790a6889b0792966e667a9c35376d454b3523",
+        "knowledgebase/storage/vectordb.py": "97f04f87c255f321a73c92b97a46803e7aa3daadf3fc62d4e1f80f5eab32bf61",
+        "uv.lock": "0d6ad1c0aebb22f64007f1aca6df0f28c3a59243e357386d7c07a23c20288111"
+      },
+      "ingestion_call_assignment_method": "In recorded file order, sentence batches immediately followed by one final child embedding call, as used by production upload and EmbeddingClient.",
+      "ingestion_usage_by_file": [
+        {
+          "file_name": "anthropic_api.md",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002733Z-a160aac2",
+          "sentence_tokens": 0,
+          "child_tokens": 1454,
+          "boundary_count": null,
+          "semantic_split_count": null
+        },
+        {
+          "file_name": "university-student-conduct-policy.txt",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002735Z-410f8c34",
+          "sentence_tokens": 0,
+          "child_tokens": 4253,
+          "boundary_count": null,
+          "semantic_split_count": null
+        },
+        {
+          "file_name": "student-resources-overview.txt",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002735Z-9ab00ba2",
+          "sentence_tokens": 0,
+          "child_tokens": 428,
+          "boundary_count": null,
+          "semantic_split_count": null
+        },
+        {
+          "file_name": "student-career-development-professional-development-overview.txt",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002736Z-c5fc5a2e",
+          "sentence_tokens": 0,
+          "child_tokens": 530,
+          "boundary_count": null,
+          "semantic_split_count": null
+        },
+        {
+          "file_name": "student-career-development-professional-career-information.txt",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002736Z-c0e2b091",
+          "sentence_tokens": 0,
+          "child_tokens": 212,
+          "boundary_count": null,
+          "semantic_split_count": null
+        },
+        {
+          "file_name": "masters-in-data-science-tracks.txt",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002736Z-1ff0d34b",
+          "sentence_tokens": 0,
+          "child_tokens": 960,
+          "boundary_count": null,
+          "semantic_split_count": null
+        },
+        {
+          "file_name": "masters-in-data-science-summer-research-initiative.txt",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002737Z-2aae8958",
+          "sentence_tokens": 0,
+          "child_tokens": 348,
+          "boundary_count": null,
+          "semantic_split_count": null
+        },
+        {
+          "file_name": "masters-in-data-science-overview.txt",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002737Z-cf2f2b06",
+          "sentence_tokens": 0,
+          "child_tokens": 552,
+          "boundary_count": null,
+          "semantic_split_count": null
+        },
+        {
+          "file_name": "masters-in-data-science-industry-concentration.txt",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002737Z-458763db",
+          "sentence_tokens": 0,
+          "child_tokens": 719,
+          "boundary_count": null,
+          "semantic_split_count": null
+        },
+        {
+          "file_name": "masters-in-data-science-financial-aid-fellowships.txt",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002738Z-a9cdef17",
+          "sentence_tokens": 0,
+          "child_tokens": 1004,
+          "boundary_count": null,
+          "semantic_split_count": null
+        },
+        {
+          "file_name": "masters-in-data-science-faq.txt",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002738Z-5025a817",
+          "sentence_tokens": 0,
+          "child_tokens": 3081,
+          "boundary_count": null,
+          "semantic_split_count": null
+        },
+        {
+          "file_name": "masters-in-data-science-faq-general.txt",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002739Z-0cd0d5f3",
+          "sentence_tokens": 0,
+          "child_tokens": 2125,
+          "boundary_count": null,
+          "semantic_split_count": null
+        },
+        {
+          "file_name": "masters-in-data-science-capstone.txt",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002739Z-fdcfa50f",
+          "sentence_tokens": 0,
+          "child_tokens": 2137,
+          "boundary_count": null,
+          "semantic_split_count": null
+        },
+        {
+          "file_name": "masters-in-data-science-admissions-ambassadors.txt",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002739Z-566ff6aa",
+          "sentence_tokens": 0,
+          "child_tokens": 1319,
+          "boundary_count": null,
+          "semantic_split_count": null
+        },
+        {
+          "file_name": "data-science-ms-bulletin.txt",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002740Z-abcdd8da",
+          "sentence_tokens": 0,
+          "child_tokens": 3008,
+          "boundary_count": null,
+          "semantic_split_count": null
+        },
+        {
+          "file_name": "curriculum.txt",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002740Z-a482e949",
+          "sentence_tokens": 0,
+          "child_tokens": 2479,
+          "boundary_count": null,
+          "semantic_split_count": null
+        },
+        {
+          "file_name": "admissions-requirements.txt",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002741Z-63bfe849",
+          "sentence_tokens": 0,
+          "child_tokens": 1590,
+          "boundary_count": null,
+          "semantic_split_count": null
+        }
+      ],
+      "sentence_embedding_tokens": 0,
+      "child_embedding_tokens": 26199,
+      "whitespace_only_gold_gaps": [
+        {
+          "case_id": "api-setup",
+          "uncovered_characters": [
+            {
+              "offset": 1445,
+              "character": "\n"
+            }
+          ],
+          "all_whitespace": true
+        },
+        {
+          "case_id": "api-model-mapping",
+          "uncovered_characters": [
+            {
+              "offset": 1445,
+              "character": "\n"
+            },
+            {
+              "offset": 2010,
+              "character": "\n"
+            }
+          ],
+          "all_whitespace": true
+        },
+        {
+          "case_id": "api-top-p",
+          "uncovered_characters": [
+            {
+              "offset": 3451,
+              "character": "\n"
+            }
+          ],
+          "all_whitespace": true
+        },
+        {
+          "case_id": "api-thinking",
+          "uncovered_characters": [
+            {
+              "offset": 3451,
+              "character": "\n"
+            }
+          ],
+          "all_whitespace": true
+        },
+        {
+          "case_id": "api-tools",
+          "uncovered_characters": [
+            {
+              "offset": 3921,
+              "character": "\n"
+            }
+          ],
+          "all_whitespace": true
+        }
+      ]
+    },
+    "semantic": {
+      "answers": 24,
+      "complete_events": 24,
+      "generation_calls": 24,
+      "completed_generation_calls_with_usage_and_deltas": 24,
+      "call_statuses": {
+        "ok": 91
+      },
+      "resolved_models": [
+        "gpt-4.1-2025-04-14",
+        "text-embedding-3-small"
+      ],
+      "implementation_sha256": {
+        "evals/__init__.py": "19f4827ad5cf13373087b01b81f0759fe69da33490b9a49be26ee2159823b889",
+        "evals/automatic.py": "1b26b678fff70d0a32f039913371006e1e374b98db1219e4404cc13f7ca80d34",
+        "evals/calibrate.py": "141942725caf2eb32b30a7c1283e968a983ad689edff8f201b2c39a475cf8299",
+        "evals/evaluate.py": "3ec91dc3c3be0895ab8b0840e398a9a3a4d0faa6bbaec6fbd1738c8c82f8bbc1",
+        "evals/judge.py": "1209496df166c6366be76725b6233c0b97e392937d39d7a4e860cf17c84b2620",
+        "evals/metrics.py": "eddcfaa8debae400f6aab671c40d54129e1214637288686356332677198fd968",
+        "knowledgebase/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "knowledgebase/api/__init__.py": "7dc7eab42c3d7348a4ec1da96d6de0f739044ae91333929c50098367afbd56b7",
+        "knowledgebase/api/app.py": "c2dda5541f44ac1f8841eddd8c9c4da56240ffcb54ad0b701dd62b444b4944ba",
+        "knowledgebase/api/chat.py": "a6e4a290c4f4801e4496ad6f10eff163db54e25660a39a80e5687a238c5f594d",
+        "knowledgebase/api/conversations.py": "81fafa9a30c5a87caaef103c9f61fd23fdf2a92d68851292e5629a4cc2965b17",
+        "knowledgebase/api/dependencies.py": "5ba59bce9422daf0aa15a89edf8586cb71fc2c360025198c41e27da4faefb611",
+        "knowledgebase/api/files.py": "baeef012fb31ea1aa0014360e22652c26e844dca119618f0c639cda6b7fa5a04",
+        "knowledgebase/api/streaming.py": "f2cc5359c037d7480d890ad249dcb844c5f8e4fbdb187cae50fac378ea6058e6",
+        "knowledgebase/cli.py": "6210e57a00a984c7f8359d82068b43168b9d00d88c8c59362cc6066cf8fa8d62",
+        "knowledgebase/config.py": "d4c2ece6b8f7176f1d14f50a85796397198af0167bed3a0d883cdbdba100f55a",
+        "knowledgebase/providers/__init__.py": "b251cd6fde07ea42f25226c76644d8921aed56fd12e0c5d6dbdf3dd972768f05",
+        "knowledgebase/providers/embeddings.py": "6d92ababaf52ee7bee6b9efb3dbb0a672f5d31df0db8b14de493835d38fd4fe1",
+        "knowledgebase/providers/llm.py": "b374459cbf6f27cb9497d35ead820a73b14c19ecb0bd0651a68642a09fef41b9",
+        "knowledgebase/providers/reranker.py": "8813067e8ad2c3b85a88698ed170fd69c6bbbd14e544618e55de1b04801a204c",
+        "knowledgebase/rag/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "knowledgebase/rag/bm25.py": "d13c8a8fe6a97a08f5ce0b2617b32c86c074354ed17a154dd812b47710c27873",
+        "knowledgebase/rag/chunking.py": "4ce45b17ef2c807b73907c6dc382e39710e2cead1c6389f17c25e7696b258edc",
+        "knowledgebase/rag/citations.py": "5497481dae8b562f4ee03b1b56abd1734bd531ea5cf6dea0b7ad68854148b460",
+        "knowledgebase/rag/context.py": "266dfb81446d97ca8c49cf1b1c9d7dd0311e4c561d8cc0bcc22f6435f71a457d",
+        "knowledgebase/rag/fusion.py": "780c6b459ac05a19ea218eae95a3c54d1598134806f5f8b447becd07b62ee3be",
+        "knowledgebase/rag/generation.py": "4a40043d1f9f1e665fa30e0b39b94221e8c202fe953bcdbf0c95120ee73e959c",
+        "knowledgebase/rag/packing.py": "f3906fc582a93207e074844a7726cb060d5fb0de3eb2695a26b815699440d07c",
+        "knowledgebase/rag/parsing.py": "62a65cb8eb41edc95437e568ea07bc74a6150374a0659a3d531ba0bf3aff3316",
+        "knowledgebase/rag/query.py": "c105c417e92bb082aef226ec4ea16858d88a636533a4d38400821c127b2dc2f6",
+        "knowledgebase/rag/reranking.py": "e4a1fe578688329866f7b2ebaebb16a7dce23a5a1707a2bd6254fe32de073054",
+        "knowledgebase/rag/retrieval.py": "862a6e4eb4cef59b662fe36e387d5ad8a5408afadc92cdecdc6c6888f68845a8",
+        "knowledgebase/rag/semantic_chunking.py": "e512cd9034d27db0864cad899127c82ca99281dc0261c313ade7825f404597bb",
+        "knowledgebase/schemas.py": "f7b4682d1dbef53666daa594db5a387f8ab0f7b0979db637615a06821227996e",
+        "knowledgebase/services/__init__.py": "5651ac6f97850be849d3f9998be3a81ea8795655374d865328ab078b7b66e6dd",
+        "knowledgebase/services/chat.py": "2fb562ac2d7b2ce4077ee631c682624474959c536c7ddb80b2f398a125213f04",
+        "knowledgebase/services/files.py": "02c2fd95743ed595b3613e4ae570aa2b348ab7f379331a80699dc87735b824ad",
+        "knowledgebase/storage/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "knowledgebase/storage/database.py": "4a694c675130a2a81ebf8d4ad4432d90b26bc7a460e41a63dc68b3fcec05989f",
+        "knowledgebase/storage/models.py": "0121cc23c6e0faa40ff8f98b5c5bc3c6bff71cf9d48c5a59446eac4af8d0d18f",
+        "knowledgebase/storage/operations.py": "3989923e707054c0744213f3273631c6d976f195ae5d90d1e4af7b7bf97de766",
+        "knowledgebase/storage/runtime.py": "84e33b6107faa2688bf6c2fc3a3790a6889b0792966e667a9c35376d454b3523",
+        "knowledgebase/storage/vectordb.py": "97f04f87c255f321a73c92b97a46803e7aa3daadf3fc62d4e1f80f5eab32bf61",
+        "uv.lock": "0d6ad1c0aebb22f64007f1aca6df0f28c3a59243e357386d7c07a23c20288111"
+      },
+      "ingestion_call_assignment_method": "In recorded file order, sentence batches immediately followed by one final child embedding call, as used by production upload and EmbeddingClient.",
+      "ingestion_usage_by_file": [
+        {
+          "file_name": "anthropic_api.md",
+          "sentence_call_ids": [
+            "20260925T002939Z-53d13bfc"
+          ],
+          "child_call_id": "20260925T002940Z-7b14642e",
+          "sentence_tokens": 54,
+          "child_tokens": 1455,
+          "boundary_count": 1,
+          "semantic_split_count": 1
+        },
+        {
+          "file_name": "university-student-conduct-policy.txt",
+          "sentence_call_ids": [
+            "20260925T002941Z-0eac0867",
+            "20260925T002941Z-4e5e274e",
+            "20260925T002942Z-a3067fd9"
+          ],
+          "child_call_id": "20260925T002942Z-92593dd3",
+          "sentence_tokens": 2117,
+          "child_tokens": 4270,
+          "boundary_count": 58,
+          "semantic_split_count": 19
+        },
+        {
+          "file_name": "student-resources-overview.txt",
+          "sentence_call_ids": [
+            "20260925T002943Z-9dea0bcd"
+          ],
+          "child_call_id": "20260925T002943Z-d1976848",
+          "sentence_tokens": 168,
+          "child_tokens": 428,
+          "boundary_count": 7,
+          "semantic_split_count": 3
+        },
+        {
+          "file_name": "student-career-development-professional-development-overview.txt",
+          "sentence_call_ids": [
+            "20260925T002944Z-03d0ba8e"
+          ],
+          "child_call_id": "20260925T002944Z-9df84764",
+          "sentence_tokens": 142,
+          "child_tokens": 533,
+          "boundary_count": 5,
+          "semantic_split_count": 3
+        },
+        {
+          "file_name": "student-career-development-professional-career-information.txt",
+          "sentence_call_ids": [],
+          "child_call_id": "20260925T002945Z-06ed93bd",
+          "sentence_tokens": 0,
+          "child_tokens": 212,
+          "boundary_count": 0,
+          "semantic_split_count": 0
+        },
+        {
+          "file_name": "masters-in-data-science-tracks.txt",
+          "sentence_call_ids": [
+            "20260925T002945Z-b479796e"
+          ],
+          "child_call_id": "20260925T002945Z-b8215d55",
+          "sentence_tokens": 196,
+          "child_tokens": 962,
+          "boundary_count": 4,
+          "semantic_split_count": 2
+        },
+        {
+          "file_name": "masters-in-data-science-summer-research-initiative.txt",
+          "sentence_call_ids": [
+            "20260925T002946Z-d593e29e"
+          ],
+          "child_call_id": "20260925T002946Z-b12d5a9d",
+          "sentence_tokens": 235,
+          "child_tokens": 349,
+          "boundary_count": 4,
+          "semantic_split_count": 1
+        },
+        {
+          "file_name": "masters-in-data-science-overview.txt",
+          "sentence_call_ids": [
+            "20260925T002946Z-11cb0155"
+          ],
+          "child_call_id": "20260925T002947Z-6eb19635",
+          "sentence_tokens": 256,
+          "child_tokens": 553,
+          "boundary_count": 6,
+          "semantic_split_count": 3
+        },
+        {
+          "file_name": "masters-in-data-science-industry-concentration.txt",
+          "sentence_call_ids": [
+            "20260925T002947Z-6451b6b6"
+          ],
+          "child_call_id": "20260925T002948Z-3f8c4342",
+          "sentence_tokens": 401,
+          "child_tokens": 725,
+          "boundary_count": 7,
+          "semantic_split_count": 6
+        },
+        {
+          "file_name": "masters-in-data-science-financial-aid-fellowships.txt",
+          "sentence_call_ids": [
+            "20260925T002948Z-68b634de"
+          ],
+          "child_call_id": "20260925T002948Z-9d7678d9",
+          "sentence_tokens": 235,
+          "child_tokens": 1009,
+          "boundary_count": 7,
+          "semantic_split_count": 4
+        },
+        {
+          "file_name": "masters-in-data-science-faq.txt",
+          "sentence_call_ids": [
+            "20260925T002949Z-808b4053",
+            "20260925T002949Z-f030ff46",
+            "20260925T002950Z-68a237ea",
+            "20260925T002950Z-9182cf35"
+          ],
+          "child_call_id": "20260925T002951Z-e4b593cd",
+          "sentence_tokens": 2329,
+          "child_tokens": 3117,
+          "boundary_count": 84,
+          "semantic_split_count": 36
+        },
+        {
+          "file_name": "masters-in-data-science-faq-general.txt",
+          "sentence_call_ids": [
+            "20260925T002952Z-fd0c062b",
+            "20260925T002953Z-e428d78b"
+          ],
+          "child_call_id": "20260925T002953Z-6479eb3a",
+          "sentence_tokens": 1583,
+          "child_tokens": 2145,
+          "boundary_count": 36,
+          "semantic_split_count": 21
+        },
+        {
+          "file_name": "masters-in-data-science-capstone.txt",
+          "sentence_call_ids": [
+            "20260925T002954Z-9270af3d"
+          ],
+          "child_call_id": "20260925T002954Z-5d686c39",
+          "sentence_tokens": 1838,
+          "child_tokens": 2143,
+          "boundary_count": 13,
+          "semantic_split_count": 7
+        },
+        {
+          "file_name": "masters-in-data-science-admissions-ambassadors.txt",
+          "sentence_call_ids": [
+            "20260925T002955Z-671b0059",
+            "20260925T002955Z-8dcb8cc1"
+          ],
+          "child_call_id": "20260925T002955Z-1fa56bc3",
+          "sentence_tokens": 1131,
+          "child_tokens": 1340,
+          "boundary_count": 31,
+          "semantic_split_count": 25
+        },
+        {
+          "file_name": "data-science-ms-bulletin.txt",
+          "sentence_call_ids": [
+            "20260925T002956Z-8f706313",
+            "20260925T002956Z-d35b3c85"
+          ],
+          "child_call_id": "20260925T002957Z-c470c0a2",
+          "sentence_tokens": 1811,
+          "child_tokens": 3019,
+          "boundary_count": 50,
+          "semantic_split_count": 14
+        },
+        {
+          "file_name": "curriculum.txt",
+          "sentence_call_ids": [
+            "20260925T002958Z-9ae141ce",
+            "20260925T002958Z-9a38db66"
+          ],
+          "child_call_id": "20260925T002959Z-f66329bb",
+          "sentence_tokens": 2080,
+          "child_tokens": 2487,
+          "boundary_count": 29,
+          "semantic_split_count": 8
+        },
+        {
+          "file_name": "admissions-requirements.txt",
+          "sentence_call_ids": [
+            "20260925T002959Z-90676404",
+            "20260925T003000Z-154acddf"
+          ],
+          "child_call_id": "20260925T003000Z-7e2fca52",
+          "sentence_tokens": 1103,
+          "child_tokens": 1600,
+          "boundary_count": 21,
+          "semantic_split_count": 13
+        }
+      ],
+      "sentence_embedding_tokens": 15679,
+      "child_embedding_tokens": 26347,
+      "whitespace_only_gold_gaps": [
+        {
+          "case_id": "api-setup",
+          "uncovered_characters": [
+            {
+              "offset": 1445,
+              "character": "\n"
+            }
+          ],
+          "all_whitespace": true
+        },
+        {
+          "case_id": "api-model-mapping",
+          "uncovered_characters": [
+            {
+              "offset": 1445,
+              "character": "\n"
+            },
+            {
+              "offset": 2010,
+              "character": "\n"
+            }
+          ],
+          "all_whitespace": true
+        },
+        {
+          "case_id": "api-top-p",
+          "uncovered_characters": [
+            {
+              "offset": 3451,
+              "character": "\n"
+            }
+          ],
+          "all_whitespace": true
+        },
+        {
+          "case_id": "api-thinking",
+          "uncovered_characters": [
+            {
+              "offset": 3451,
+              "character": "\n"
+            }
+          ],
+          "all_whitespace": true
+        },
+        {
+          "case_id": "api-tools",
+          "uncovered_characters": [
+            {
+              "offset": 3921,
+              "character": "\n"
+            }
+          ],
+          "all_whitespace": true
+        }
+      ]
+    }
+  },
+  "warnings": [
+    {
+      "artifact": "collect.log",
+      "message": "Exception ignored in Response.aiter_raw: ValueError: async generator already executing",
+      "observed_between": "semantic api-top-p and api-thinking console completion lines; precise request attribution unavailable",
+      "impact": "All 48 answer rows have complete events; all generation calls have completed status, returned usage and nonempty deltas. No lost answer observed; cleanup cause unresolved."
+    }
+  ],
+  "diagnostic_attempts": [
+    {
+      "purpose": "Inspect uncovered gold characters",
+      "status": "failed_then_corrected",
+      "error": "KeyError: quote",
+      "reason": "Legacy evidence annotations do not all contain quote; follow-up read canonical corpus by source offsets. No provider call or result mutation."
+    }
+  ],
+  "production_implementation_identical": true
+}

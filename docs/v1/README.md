@@ -34,10 +34,16 @@ outstanding. Reranking remains disabled by default in shared settings.
 
 1. Accept the opt-in [semantic child-chunking strategy](../semantic-chunking.md),
    now implemented inside unchanged parent regions. Structural parent-child
-   chunking remains the default and control; live quality comparison is pending.
+   chunking remains the default and control. The
+   [paired live comparison](../../evals/library-runs/20260925T002400Z-semantic-acceptance/README.md)
+   records two substantive evidence regressions; semantic chunking remains experimental.
 2. Accept the completed frontend source locations and recorded retrieval
-   diagnostics, verified with [offline checks](../../evals/check-runs/20260924-evidence-ui/README.md).
-3. Freeze an independent release set and run final workflow and quality acceptance.
+   diagnostics, verified with [offline checks](../../evals/check-runs/20260924-evidence-ui/README.md)
+   and a [real-provider browser workflow](../../evals/browser-runs/20260925-semantic-ui-1/README.md).
+3. Address observed citation placement and multi-part evidence omissions before
+   claiming release quality. Six newly frozen questions on familiar documents
+   supplement the development set; an independent release population and human
+   review remain outstanding. Do not rerun paid evaluation after intermediate edits.
 
 The current judge protocol is frozen at `claim-inventory-v11`. Its
 [review](../../evals/check-runs/20260924-judge-abstention/REVIEW.md) retains one

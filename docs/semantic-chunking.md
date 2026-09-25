@@ -1,8 +1,11 @@
 # Experimental semantic child chunking
 
-Status: integrated on `v1`; opt-in, with offline verification. The default remains
-`CHUNKING_STRATEGY=parent_child`. No live quality improvement or release acceptance
-is implied. Both strategies use identical bounded structural parents.
+Status: integrated on `v1`; opt-in, with offline verification and a
+[recorded live comparison](../evals/library-runs/20260925T002400Z-semantic-acceptance/README.md).
+The default remains `CHUNKING_STRATEGY=parent_child`. The experiment found two
+material evidence-coverage regressions and does not justify changing the default.
+Both strategies use identical bounded structural parents. User acceptance and
+merge approval remain outstanding.
 
 ## Behavior
 
@@ -68,3 +71,15 @@ downstream settings. Report selected-child and packed-evidence span coverage
 separately. Child-overlap ranking metrics have different units after rechunking
 and must not be treated as directly comparable accuracy. Retain ingestion cost,
 exact evidence, answer review and per-question regressions. Keep judge v11 frozen.
+
+The first paired acceptance run uses 18 existing development cases and six newly
+frozen questions on the same 17-document corpus. It records 48 completed answers,
+source-span comparisons and unchanged parent regions. The six new cases are
+Codex-authored and are not an independent release population. Semantic splitting
+also keeps every paragraph as a hard child boundary, unlike the structural control;
+the comparison measures that complete strategy, not the cosine threshold alone.
+
+The [live browser workflow](../evals/browser-runs/20260925-semantic-ui-1/README.md)
+also verifies source lines, saved retrieval details, follow-up, refresh and
+historical evidence after deletion. Known failures and missing measurements remain
+in the reports; a successful workflow does not establish answer quality.

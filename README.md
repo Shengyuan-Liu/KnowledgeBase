@@ -9,7 +9,9 @@ uploads. [Parent-child retrieval](docs/parent-child-retrieval.md) is the default
 strategy.
 An opt-in [semantic child-chunking experiment](docs/semantic-chunking.md) is
 available with `CHUNKING_STRATEGY=semantic`; it adds sentence embedding calls
-during ingestion and retains the same parents. Its quality advantage is unproven.
+during ingestion and retains the same parents. The
+[first paired live comparison](evals/library-runs/20260925T002400Z-semantic-acceptance/README.md)
+found two material evidence regressions; its quality advantage is unproven.
 [Hybrid retrieval](docs/hybrid-retrieval.md) is now the default: [BM25](docs/bm25.md)
 and vector candidates are combined with [RRF](docs/rrf.md) before parent expansion.
 `RETRIEVAL_STRATEGY=vector` retains the vector-only control.
