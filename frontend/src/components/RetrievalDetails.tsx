@@ -10,6 +10,12 @@ export function RetrievalDetails({ data }: { data?: RetrievalDiagnostics | null 
   const reranked = new Map(data.rerank?.matches.map((match) => [match.chunk_id, match]));
   return (
     <section aria-label="Recorded retrieval details">
+      {data.document_scope && <div aria-label="Document scope">
+        <p>{data.document_scope.status === "resolved"
+          ? `Searched documents: ${data.document_scope.matches.map((file) => file.file_name).join(", ")}`
+          : data.document_scope.message}</p>
+        <p>Document selection: {recorded(data.scope_seconds, 3)} s.</p>
+      </div>}
       <p>
         Strategy: {data.options?.strategy ?? "Not recorded"} · Packing: {data.options?.packing_strategy ?? "Not recorded"}
         {" · "}Selected child limit: {data.top_k ?? "Not recorded"}

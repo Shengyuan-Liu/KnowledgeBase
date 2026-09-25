@@ -200,7 +200,25 @@ class ExcludedEvidence(BaseModel):
     reason: Literal["context_budget"] = "context_budget"
 
 
+class ScopeFile(BaseModel):
+    """A file identity used to resolve a document reference."""
+
+    file_id: str
+    file_name: str
+    labels: list[str] = Field(default_factory=list)
+
+
+class DocumentScope(BaseModel):
+    status: Literal["resolved", "ambiguous", "not_found"]
+    references: list[str] = Field(default_factory=list)
+    file_ids: list[str] = Field(default_factory=list)
+    matches: list[ScopeFile] = Field(default_factory=list)
+    message: str | None = None
+
+
 class RetrievalDiagnostics(BaseModel):
+    document_scope: DocumentScope | None = None
+    scope_seconds: float | None = None
     retrieval_seconds: float | None = None
     embedding_seconds: float | None = None
     rerank: RerankResult | None = None
@@ -271,6 +289,7 @@ class ChatRequest(BaseModel):
 
     question: str = Field(pattern=r"\S")
     conversation_id: str | None = None
+    file_ids: list[str] | None = Field(default=None, min_length=1)
 
 
 class StreamChatRequest(ChatRequest):

@@ -37,6 +37,14 @@ export interface Source {
 }
 
 export interface RetrievalDiagnostics {
+  document_scope?: {
+    status: "resolved" | "ambiguous" | "not_found";
+    references: string[];
+    file_ids: string[];
+    matches: { file_id: string; file_name: string; labels: string[] }[];
+    message: string | null;
+  } | null;
+  scope_seconds?: number | null;
   options?: { strategy: string; packing_strategy?: string | null; rerank_enabled: boolean; rerank_unit?: "child" | "parent" } | null;
   top_k?: number | null;
   evidence_tokens: number;

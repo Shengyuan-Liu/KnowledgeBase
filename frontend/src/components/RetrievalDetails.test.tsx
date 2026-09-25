@@ -58,3 +58,20 @@ it.each(["child", "parent"] as const)("identifies the recorded %s scoring unit",
   render(<RetrievalDetails data={{ ...details, options: { ...details.options!, rerank_unit: unit } }} />);
   expect(screen.getByText(new RegExp(`Scoring unit: ${unit}`))).toBeInTheDocument();
 });
+
+it("shows saved document scope separately from retrieved evidence", () => {
+  render(<RetrievalDetails data={{ ...details, scope_seconds: 0,
+    document_scope: { status: "resolved", references: ["general FAQ"], file_ids: ["general"],
+      matches: [{ file_id: "general", file_name: "general-faq.txt", labels: ["General FAQ"] }], message: null } }} />);
+  const scope = screen.getByLabelText("Document scope");
+  expect(within(scope).getByText("Searched documents: general-faq.txt")).toBeInTheDocument();
+  expect(within(scope).getByText("Document selection: 0.000 s.")).toBeInTheDocument();
+});
+
+it("shows clarification without claiming that matching documents were searched", () => {
+  render(<RetrievalDetails data={{ ...details,
+    document_scope: { status: "ambiguous", references: ["FAQ"], file_ids: [],
+      matches: [], message: "Please specify the exact filename." } }} />);
+  expect(screen.getByLabelText("Document scope")).toHaveTextContent("Please specify the exact filename.");
+  expect(screen.queryByText(/Searched documents:/)).not.toBeInTheDocument();
+});

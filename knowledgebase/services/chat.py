@@ -53,6 +53,7 @@ def answer_question(
     encoding_name: str = DEFAULT_CHUNK_TOKENIZER,
     retrieval_options: RetrievalOptions | None = None,
     reranker_client: RerankerClient | None = None,
+    file_ids: list[str] | None = None,
 ) -> ChatAnswer:
     """Return an answer and sources in the same order used by the prompt.
 
@@ -63,8 +64,11 @@ def answer_question(
     chunks, sources, diagnostics = _retrieve_evidence(
         retrieval_question or question, session_factory, embedding_client, vector_store, top_k,
         evidence_max_tokens, encoding_name, retrieval_options, reranker_client,
+        file_ids, question,
     )
-    answer = generate_answer(question, chunks, llm_client, retrieval_question=retrieval_question)
+    scope = diagnostics.document_scope
+    answer = (scope.message if scope and scope.status != "resolved" else
+              generate_answer(question, chunks, llm_client, retrieval_question=retrieval_question))
     return ChatAnswer(
         answer=answer, sources=sources,
         citation_check=validate_citations(answer, sources), retrieval=diagnostics,
@@ -76,6 +80,8 @@ def _retrieve_evidence(
     vector_store: ChromaStore, top_k: int, evidence_max_tokens: int, encoding_name: str,
     retrieval_options: RetrievalOptions | None,
     reranker_client: RerankerClient | None,
+    file_ids: list[str] | None = None,
+    scope_question: str | None = None,
 ) -> tuple[list[RetrievedChunk], list[AnswerSource], RetrievalDiagnostics]:
     started = perf_counter()
     with session_factory() as session:
@@ -83,6 +89,7 @@ def _retrieve_evidence(
             question, session, embedding_client, vector_store, top_k=top_k,
             evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
             retrieval_options=retrieval_options, reranker_client=reranker_client,
+            file_ids=file_ids, scope_question=scope_question,
         )
         chunks = evidence.chunks
         line_starts = {}
@@ -129,6 +136,7 @@ def answer_in_conversation(
     encoding_name: str = DEFAULT_CHUNK_TOKENIZER,
     retrieval_options: RetrievalOptions | None = None,
     reranker_client: RerankerClient | None = None,
+    file_ids: list[str] | None = None,
 ) -> ConversationAnswer:
     """Resolve a follow-up, retrieve fresh evidence, and save a completed exchange.
 
@@ -143,6 +151,7 @@ def answer_in_conversation(
         llm_client, top_k=top_k, retrieval_question=retrieval_question,
         evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
         retrieval_options=retrieval_options, reranker_client=reranker_client,
+        file_ids=file_ids,
     )
 
     return _save_exchange(question, retrieval_question, result, session_factory, conversation_id)
@@ -197,6 +206,7 @@ async def stream_answer_in_conversation(
     encoding_name: str = DEFAULT_CHUNK_TOKENIZER,
     retrieval_options: RetrievalOptions | None = None,
     reranker_client: RerankerClient | None = None,
+    file_ids: list[str] | None = None,
 ) -> AsyncGenerator[ChatStreamEvent]:
     """Validate the conversation before streaming; persist only a completed answer.
 
@@ -218,14 +228,20 @@ async def stream_answer_in_conversation(
             )
             chunks, sources, diagnostics = await anyio.to_thread.run_sync(
                 _retrieve_evidence, retrieval_question, session_factory, embedding_client,
-                vector_store, top_k, evidence_max_tokens, encoding_name, retrieval_options, reranker_client, abandon_on_cancel=True,
+                vector_store, top_k, evidence_max_tokens, encoding_name, retrieval_options, reranker_client,
+                file_ids, question, abandon_on_cancel=True,
             )
             yield event("sources", sources=[source.model_dump() for source in sources])
             parts = []
-            async with aclosing(stream_answer(question, chunks, streaming_client, retrieval_question=retrieval_question)) as stream:
-                async for delta in stream:
-                    parts.append(delta)
-                    yield event("answer_delta", delta=delta)
+            scope = diagnostics.document_scope
+            if scope and scope.status != "resolved":
+                parts.append(scope.message)
+                yield event("answer_delta", delta=scope.message)
+            else:
+                async with aclosing(stream_answer(question, chunks, streaming_client, retrieval_question=retrieval_question)) as stream:
+                    async for delta in stream:
+                        parts.append(delta)
+                        yield event("answer_delta", delta=delta)
             answer = "".join(parts)
             result = ChatAnswer(
                 answer=answer, sources=sources,

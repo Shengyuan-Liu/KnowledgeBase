@@ -20,7 +20,7 @@ from knowledgebase.schemas import RelevanceScore
 async def stream_fixture(messages):
     """Keep the cancellation fixture open until the browser disconnects."""
     yield "The library "
-    if messages[-1]["content"].startswith("Question:\nStop this question\n"):
+    if messages[0]["content"].startswith("Question:\nStop this question\n"):
         await anyio.sleep_forever()
     await anyio.sleep(0.4)
     yield "closes at 5 PM. "

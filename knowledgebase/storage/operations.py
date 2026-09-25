@@ -62,6 +62,12 @@ def get_file(session: Session, file_id: str) -> FileInfo | None:
     return FileInfo.model_validate(record, from_attributes=True)
 
 
+def get_source_texts(session: Session, file_ids: list[str]) -> dict[str, str]:
+    """Load canonical text for identity resolution without deserializing blocks."""
+    return dict(session.execute(select(DocumentSourceRecord.file_id, DocumentSourceRecord.text)
+                                .where(DocumentSourceRecord.file_id.in_(file_ids))).all())
+
+
 def save_document_source(
     session: Session, file_id: str, source_format: Literal["txt", "md"],
     text: str, blocks: list[SourceBlock], *, indexing: dict | None = None,

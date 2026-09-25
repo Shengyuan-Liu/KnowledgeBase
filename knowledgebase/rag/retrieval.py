@@ -14,13 +14,14 @@ from knowledgebase.rag.packing import pack_evidence
 from knowledgebase.rag.bm25 import search_bm25
 from knowledgebase.rag.fusion import fuse_rrf
 from knowledgebase.rag.reranking import rerank
+from knowledgebase.rag.scope import document_references, identity_labels, resolve_document_scope
 from knowledgebase.schemas import (
     ChildChunk, RetrievedChunk, RetrievedEvidence,
-    RetrievalCandidate, RetrievalDiagnostics, RerankCandidate, StructuredChunk,
+    RetrievalCandidate, RetrievalDiagnostics, RerankCandidate, StructuredChunk, ScopeFile,
 )
 from knowledgebase.storage.vectordb import ChromaStore
 from knowledgebase.storage.operations import (
-    get_chunks_by_ids, get_chunks_for_files, get_files, get_parents_by_ids,
+    get_chunks_by_ids, get_chunks_for_files, get_files, get_parents_by_ids, get_source_texts,
 )
 
 
@@ -34,6 +35,8 @@ def retrieve(
     encoding_name: str = DEFAULT_CHUNK_TOKENIZER,
     retrieval_options: RetrievalOptions | None = None,
     reranker_client: RerankerClient | None = None,
+    file_ids: list[str] | None = None,
+    scope_question: str | None = None,
 ) -> list[RetrievedChunk]:
     """Return packed evidence; use retrieve_evidence for candidates and exclusions."""
     return retrieve_evidence(
@@ -41,6 +44,7 @@ def retrieve(
         evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
         retrieval_options=retrieval_options,
         reranker_client=reranker_client,
+        file_ids=file_ids, scope_question=scope_question,
     ).chunks
 
 
@@ -51,6 +55,8 @@ def retrieve_evidence(
     encoding_name: str = DEFAULT_CHUNK_TOKENIZER,
     retrieval_options: RetrievalOptions | None = None,
     reranker_client: RerankerClient | None = None,
+    file_ids: list[str] | None = None,
+    scope_question: str | None = None,
 ) -> RetrievedEvidence:
     """Pack selected hits as parents, then use spare budget for complete children.
 
@@ -73,6 +79,19 @@ def retrieve_evidence(
         max_tokens=evidence_max_tokens, tokenizer=encoding_name, options=options, top_k=top_k,
     )
     ready_files = {file.file_id: file for file in get_files(session) if file.status == "ready"}
+    references = document_references(scope_question or question)
+    if not references and scope_question:
+        references = document_references(question)
+    if references or file_ids is not None:
+        started = perf_counter()
+        texts = get_source_texts(session, list(ready_files)) if references else {}
+        scope = resolve_document_scope(references, [ScopeFile(
+            file_id=file.file_id, file_name=file.file_name,
+            labels=identity_labels(file.file_name, texts.get(file.file_id, "")),
+        ) for file in ready_files.values()], file_ids=file_ids)
+        diagnostics.document_scope = scope
+        diagnostics.scope_seconds = perf_counter() - started
+        ready_files = {identity: file for identity, file in ready_files.items() if identity in scope.file_ids}
     if not ready_files:
         return RetrievedEvidence(chunks=[], diagnostics=diagnostics)
 
