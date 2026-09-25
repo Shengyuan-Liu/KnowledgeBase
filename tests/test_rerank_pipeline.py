@@ -160,7 +160,7 @@ def test_json_and_sse_persist_exact_reranked_evidence_and_restore_after_restart_
         assert source["text"] == text[source["start_offset"]:source["end_offset"]]
         assert "3.0" in source["text"] and "66%" in source["text"]
         prompt = stream_calls[-1] if streaming else sdk.responses.create.call_args.kwargs["input"]
-        assert source["text"] in prompt[-1]["content"]
+        assert source["text"] in prompt[0]["content"]
         ask(client, streaming, result["conversation_id"])
         assert sdk.reranker.score.call_args.args[0] == "Resolved GPA question"
         assert sdk.reranker.model == "custom-reranker"

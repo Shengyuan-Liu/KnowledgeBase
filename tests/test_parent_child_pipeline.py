@@ -156,7 +156,7 @@ def test_expanded_sources_numbering_prompt_and_post_delete_history(storage, embe
     assert [source.source_id for source in result.sources] == [1, 2]
     assert [source.text for source in result.sources] == [parent.text for parent in parents]
     assert result.citation_check.valid_source_ids == [1, 2]
-    prompt = llm.generate.call_args.args[0][-1]["content"]
+    prompt = llm.generate.call_args.args[0][0]["content"]
     for i, parent in enumerate(parents, start=1):
         metadata = json.dumps({'file_name': 'guide.md', 'heading_path': parent.heading_path}, ensure_ascii=False)
         assert f"[{i}]\nSource metadata: {metadata}\nExcerpt:\n{parent.text}" in prompt
@@ -225,7 +225,7 @@ def test_api_parent_evidence_and_diagnostics_survive_restart_and_deletion(config
         else:
             result = response.json()
             prompt = sdk.responses.create.call_args.kwargs["input"]
-        assert parents[0].text in prompt[-1]["content"]
+        assert parents[0].text in prompt[0]["content"]
         assert result["sources"][0]["text"] == parents[0].text
         assert result["sources"][0]["matched_child_ids"] == [chosen.chunk_id]
         assert result["retrieval"]["candidates"][0]["text"] == chosen.text

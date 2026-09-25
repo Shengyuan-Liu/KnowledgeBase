@@ -95,8 +95,8 @@ def test_stream_sources_deltas_complete_and_followup_match_saved_history(streami
         assert saved["sources"] == [{**s, "file_deleted": False} for s in complete["sources"]]
         assert saved["citation_check"] == complete["citation_check"]
         assert streamer.closed
-        assert '"file_name": "hours.txt"' in streamer.messages[1]["content"]
-        assert "Excerpt:\nThe café closes at 5 PM." in streamer.messages[1]["content"]
+        assert '"file_name": "hours.txt"' in streamer.messages[0]["content"]
+        assert "Excerpt:\nThe café closes at 5 PM." in streamer.messages[0]["content"]
         assert complete['retrieval']['context_format'] == 'source-metadata-v1'
         assert saved['retrieval']['context_format'] == 'source-metadata-v1'
 
@@ -106,8 +106,8 @@ def test_stream_sources_deltas_complete_and_followup_match_saved_history(streami
         second = frames(followup.text)[-1][1]
         assert second["conversation_id"] == complete["conversation_id"]
         assert second["retrieval_question"] == "When does the café close?"
-        assert "Question:\nWhat time?" in streamer.messages[1]["content"]
-        assert "Conversation interpretation (not evidence):\nWhen does the café close?" in streamer.messages[1]["content"]
+        assert "Question:\nWhat time?" in streamer.messages[0]["content"]
+        assert "Conversation interpretation (not evidence):\nWhen does the café close?" in streamer.messages[0]["content"]
         resources.embeddings.embed_query.assert_called_with(second["retrieval_question"])
         assert len(client.get(f"/api/conversations/{complete['conversation_id']}").json()["messages"]) == 4
 

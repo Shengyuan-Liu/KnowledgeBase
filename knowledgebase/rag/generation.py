@@ -102,8 +102,8 @@ def _answer_messages(question: str, chunks: list[RetrievedChunk], retrieval_ques
     interpretation = (f"\n\nConversation interpretation (not evidence):\n{retrieval_question}"
                       if retrieval_question and retrieval_question != question else "")
     return [
-        {"role": "developer", "content": ANSWER_INSTRUCTIONS},
         {"role": "user", "content": f"Question:\n{question}{interpretation}\n\nSources:\n{context}"},
+        {"role": "developer", "content": ANSWER_INSTRUCTIONS},
     ]
 
 

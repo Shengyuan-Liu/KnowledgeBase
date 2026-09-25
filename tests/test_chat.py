@@ -75,7 +75,7 @@ def test_ingestion_to_answer_keeps_sources_aligned_with_prompt(storage, top_k):
     )
     embeddings.embed_query.assert_called_once_with(question)
     llm.generate.assert_called_once()
-    user_message = llm.generate.call_args.args[0][1]
+    user_message = llm.generate.call_args.args[0][0]
     expected_context = ('[1]\nSource metadata: {"file_name": "hours.txt", "heading_path": []}\nExcerpt:\n'
                         '  The café closes at 5 PM.\n\n\n'
                         '[2]\nSource metadata: {"file_name": "notes.txt", "heading_path": []}\nExcerpt:\nSecond.')
@@ -134,7 +134,7 @@ def test_followup_uses_resolved_question_and_saves_original_exchange(storage, co
     resolver_payload = json.loads(llm.generate.call_args_list[1].args[0][1]["content"])
     assert resolver_payload["history"] == [
         {"role": "user", "content": first.question}, {"role": "assistant", "content": first.answer}]
-    generation = llm.generate.call_args_list[2].args[0][1]["content"]
+    generation = llm.generate.call_args_list[2].args[0][0]["content"]
     assert f"Question:\n{question}" in generation
     assert f"Conversation interpretation (not evidence):\n{second.retrieval_question}" in generation
     assert first.answer not in generation
@@ -256,6 +256,6 @@ def test_resolver_answer_cannot_replace_the_original_question(storage, conversat
     answer_in_conversation(question, sessions, embeddings, store, llm,
                            conversation_id=first.conversation_id)
     prompt = llm.generate.call_args.args[0]
-    assert prompt[1]["content"].startswith(f"Question:\n{question}\n")
-    assert f"Conversation interpretation (not evidence):\n{bad_rewrite}" in prompt[1]["content"]
-    assert "original question defines what to answer" in prompt[0]["content"]
+    assert prompt[0]["content"].startswith(f"Question:\n{question}\n")
+    assert f"Conversation interpretation (not evidence):\n{bad_rewrite}" in prompt[0]["content"]
+    assert "original question defines what to answer" in prompt[1]["content"]

@@ -52,7 +52,7 @@ def test_numbers_sources_in_retrieval_order_and_preserves_question_and_text():
 
     assert answer == "It closes at 5 PM in fall 2026. [1]\n"
     llm.generate.assert_called_once()
-    instructions, user_message = llm.generate.call_args.args[0]
+    user_message, instructions = llm.generate.call_args.args[0]
     assert instructions["role"] == "developer"
     assert "using only the provided sources" in instructions["content"]
     assert "Cite supporting source numbers inline" in instructions["content"]
@@ -96,7 +96,7 @@ async def test_comparison_prompt_is_shared_by_json_and_streaming_with_later_evid
     answer = ''.join([part async for part in stream_answer(question, chunks, Stream())])
     assert answer == llm.generate.return_value
     assert captured == [llm.generate.call_args.args[0]]
-    instructions, user = captured[0]
+    user, instructions = captured[0]
     assert 'check all provided excerpts for each named' in instructions['content']
     assert 'not interchangeable' in instructions['content']
     assert 'require an explicit statement in the evidence' in instructions['content']
@@ -140,15 +140,15 @@ async def test_citation_and_fidelity_instructions_reach_both_generation_paths(te
     assert ''.join([part async for part in stream_answer(question, chunks, Stream())]) == llm.generate.return_value
     messages = llm.generate.call_args.args[0]
     assert captured == [messages]
-    assert messages[0] == {'role': 'developer', 'content': ANSWER_INSTRUCTIONS}
-    assert 'Cite every factual list item separately' in messages[0]['content']
-    assert 'does not establish whether it is ignored, rejected' in messages[0]['content']
-    assert 'Do not add unsupported advice' in messages[0]['content']
-    assert 'Keep each claim\'s scope no broader or narrower than its source' in messages[0]['content']
-    assert 'Retain explicit source restrictions and exceptions' in messages[0]['content']
-    assert 'For a table lookup, quote the relevant status cell' in messages[0]['content']
-    assert messages[1]['content'].startswith(f'Question:\n{question}\n\nSources:\n[1]\n')
-    assert messages[1]['content'].endswith('Excerpt:\n' + text)
+    assert messages[1] == {'role': 'developer', 'content': ANSWER_INSTRUCTIONS}
+    assert 'Cite every factual list item separately' in messages[1]['content']
+    assert 'does not establish whether it is ignored, rejected' in messages[1]['content']
+    assert 'Do not add unsupported advice' in messages[1]['content']
+    assert 'Keep each claim\'s scope no broader or narrower than its source' in messages[1]['content']
+    assert 'Retain explicit source restrictions and exceptions' in messages[1]['content']
+    assert 'For a table lookup, quote the relevant status cell' in messages[1]['content']
+    assert messages[0]['content'].startswith(f'Question:\n{question}\n\nSources:\n[1]\n')
+    assert messages[0]['content'].endswith('Excerpt:\n' + text)
 
 
 @pytest.mark.anyio
@@ -178,8 +178,8 @@ async def test_named_document_identity_survives_similar_excerpts_and_reordering(
     assert ''.join([delta async for delta in stream_answer(question, chunks, Stream())]) == llm.generate.return_value
     messages = llm.generate.call_args.args[0]
     assert captured == [messages]
-    assert 'A fact found only in another document must not be attributed to the named one' in messages[0]['content']
-    assert 'Match each claim to its actual supporting excerpt' in messages[0]['content']
-    assert question in messages[1]['content']
+    assert 'A fact found only in another document must not be attributed to the named one' in messages[1]['content']
+    assert 'Match each claim to its actual supporting excerpt' in messages[1]['content']
+    assert question in messages[0]['content']
     for i, (name, text) in enumerate(entries, 1):
-        assert f'[{i}]\nSource metadata: {{"file_name": "{name}", "heading_path": []}}\nExcerpt:\n{text}' in messages[1]['content']
+        assert f'[{i}]\nSource metadata: {{"file_name": "{name}", "heading_path": []}}\nExcerpt:\n{text}' in messages[0]['content']

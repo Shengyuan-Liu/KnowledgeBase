@@ -140,7 +140,7 @@ def test_lexical_only_parent_evidence_survives_restart_and_deletion(configured_a
         assert source["matched_child_ids"] == [children[0].chunk_id]
         assert first["retrieval"]["options"]["strategy"] == "hybrid"
         prompt = prompts[-1] if streaming else sdk.responses.create.call_args.kwargs["input"]
-        assert text in prompt[-1]["content"]
+        assert text in prompt[0]["content"]
         before_embedding_calls = embeddings.embed_documents.call_count
     reopened = api_module.create_app()
     with TestClient(reopened) as client:
