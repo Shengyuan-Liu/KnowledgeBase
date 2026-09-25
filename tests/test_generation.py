@@ -147,6 +147,9 @@ async def test_citation_and_fidelity_instructions_reach_both_generation_paths(te
     assert 'Keep each claim\'s scope no broader or narrower than its source' in messages[1]['content']
     assert 'Retain explicit source restrictions and exceptions' in messages[1]['content']
     assert 'For a table lookup, quote the relevant status cell' in messages[1]['content']
+    assert 'one sentence or list item per requested' in messages[1]['content']
+    assert 'Use English for all explanatory text' in messages[1]['content']
+    assert 'do not repeat the answer' in messages[1]['content']
     assert messages[0]['content'].startswith(f'Question:\n{question}\n\nSources:\n[1]\n')
     assert messages[0]['content'].endswith('Excerpt:\n' + text)
 

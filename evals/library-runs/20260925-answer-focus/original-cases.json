@@ -1,0 +1,152 @@
+[
+  {
+    "id": "accept-independent-passfail",
+    "question": "According to the saved general FAQ, how many DS-GA 1010 credits can count toward the MSDS, and which courses can be counted pass/fail? Include the exclusion and the Industry Concentration allowance.",
+    "answerable": true,
+    "category": "frozen-functional-acceptance",
+    "expected_answer_points": [
+      "Up to 6 credits of independent study, DS-GA 1010, can count.",
+      "Only one elective, excluding the One Data Science Elective requirement, and DS-GA 1009 may count pass/fail.",
+      "Industry Concentration students can use the one-elective allowance for an Industry Concentration elective.",
+      "Required degree courses cannot be taken pass/fail."
+    ],
+    "evidence": [
+      {
+        "file": "masters-in-data-science-faq-general.txt",
+        "quote": "MSDS students can apply up to 6 credits of independent study (DS-GA 1010) to the MSDS degree.",
+        "start_offset": 4683,
+        "end_offset": 4776,
+        "line": 85,
+        "end_line": 85,
+        "supports_answer_points": [
+          1
+        ]
+      },
+      {
+        "file": "masters-in-data-science-faq-general.txt",
+        "quote": "Only 1 elective (this does not include the \u201cOne Data Science Elective\u201d requirement) and DS-GA 1009 can be taken as pass/fail and count towards the MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail.",
+        "start_offset": 4847,
+        "end_offset": 5182,
+        "line": 89,
+        "end_line": 89,
+        "supports_answer_points": [
+          2,
+          3,
+          4
+        ]
+      }
+    ],
+    "context_evidence": [],
+    "split": "new-frozen-functional-acceptance"
+  },
+  {
+    "id": "accept-awards-jobs",
+    "question": "According to the saved general FAQ, how are applicants considered for tuition scholarships, how are recipients notified, and is an on-campus research or teaching position guaranteed?",
+    "answerable": true,
+    "category": "frozen-functional-acceptance",
+    "expected_answer_points": [
+      "A limited number of tuition scholarships are competitive; all admission applicants are considered.",
+      "Recipients are notified in their admit letter.",
+      "On-campus positions are not guaranteed for any individual, are competitive, and typically posted semester by semester."
+    ],
+    "evidence": [
+      {
+        "file": "masters-in-data-science-faq-general.txt",
+        "quote": "CDS offers a limited number of tuition scholarships for our students. All applicants for admission are considered for these awards on a competitive basis. Scholarship recipients will be notified in their admit letter.",
+        "start_offset": 5881,
+        "end_offset": 6098,
+        "line": 107,
+        "end_line": 107,
+        "supports_answer_points": [
+          1,
+          2
+        ]
+      },
+      {
+        "file": "masters-in-data-science-faq-general.txt",
+        "quote": "On-campus positions are available at CDS and NYU, but we do not guarantee such opportunities for any given student. Positions are competitive, and are typically posted on a semester-by-semester basis.",
+        "start_offset": 6159,
+        "end_offset": 6359,
+        "line": 111,
+        "end_line": 111,
+        "supports_answer_points": [
+          3
+        ]
+      }
+    ],
+    "context_evidence": [],
+    "split": "new-frozen-functional-acceptance"
+  },
+  {
+    "id": "accept-beta-header-scope",
+    "question": "In the saved DeepSeek Anthropic guide, does anthropic-beta have the same behavior for /messages and Files API endpoints? What happens to anthropic-version?",
+    "answerable": true,
+    "category": "frozen-functional-acceptance",
+    "expected_answer_points": [
+      "anthropic-beta is ignored for /messages but required for Files API endpoints with files-api-2025-04-14.",
+      "anthropic-version is ignored."
+    ],
+    "evidence": [
+      {
+        "file": "anthropic_api.md",
+        "quote": "| anthropic-beta | Ignored for `/messages`; required (`files-api-2025-04-14`) for Files API endpoints \u2014 see [Files API](https://api-docs.deepseek.com/guides/files_api#anthropic-compatible-files-api) |",
+        "start_offset": 2370,
+        "end_offset": 2570,
+        "line": 82,
+        "end_line": 82,
+        "supports_answer_points": [
+          1
+        ]
+      },
+      {
+        "file": "anthropic_api.md",
+        "quote": "| anthropic-version | Ignored |",
+        "start_offset": 2571,
+        "end_offset": 2602,
+        "line": 83,
+        "end_line": 83,
+        "supports_answer_points": [
+          2
+        ]
+      }
+    ],
+    "context_evidence": [],
+    "split": "new-frozen-functional-acceptance"
+  },
+  {
+    "id": "accept-unspecified-api-error",
+    "question": "What exact HTTP status code and JSON error body does the saved DeepSeek Anthropic guide promise when a request contains a search_result content block?",
+    "answerable": false,
+    "category": "frozen-functional-acceptance",
+    "expected_answer_points": [
+      "The saved guide does not specify the exact HTTP status code or JSON error body; do not invent either."
+    ],
+    "evidence": [],
+    "context_evidence": [
+      {
+        "file": "anthropic_api.md",
+        "quote": "| content | array, type = \"search\\_result\" |  | Not Supported |",
+        "start_offset": 4502,
+        "end_offset": 4565,
+        "line": 135,
+        "end_line": 135,
+        "supports_answer_points": [
+          1
+        ]
+      }
+    ],
+    "split": "new-frozen-functional-acceptance"
+  },
+  {
+    "id": "accept-personal-study-approval",
+    "question": "Has my own DS-GA 1010 independent-study proposal already been approved, and who is my assigned supervisor?",
+    "answerable": false,
+    "category": "frozen-functional-acceptance",
+    "expected_answer_points": [
+      "The provided public documents do not establish the user\u2019s proposal approval status or assigned supervisor; explicitly acknowledge the missing personal information without inventing it."
+    ],
+    "evidence": [],
+    "context_evidence": [],
+    "split": "new-frozen-functional-acceptance"
+  }
+]

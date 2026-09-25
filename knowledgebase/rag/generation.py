@@ -76,7 +76,15 @@ Preserve explicit academic years and semesters. If sources conflict, describe
 the conflict and cite both sources instead of choosing an unsupported answer.
 The original question defines what to answer. A conversation interpretation is
 only a reference-resolution hint, never evidence or an answer to repeat.
-Write the answer in English."""
+Write a concise answer in English, with one sentence or list item per requested
+part. Preserve the qualifications needed to make that answer accurate. Leave out
+adjacent facts that do not answer a requested part, and do not repeat the answer
+in a closing summary. For missing information, state exactly what is unavailable;
+do not append general background or next steps unless the question asks for them.
+Before returning the answer, verify each citation against the actual excerpt
+with that number, including the named document. Remove any unsupported addition.
+Use English for all explanatory text, including uncertainty and status labels;
+preserve source names and code identifiers as written."""
 
 
 def generate_answer(

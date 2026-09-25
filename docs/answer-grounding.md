@@ -69,3 +69,12 @@ The high-effort sample has supported claims/citations but omits reference detail
 and includes one non-English word. These observations do not justify claiming a
 completed grounding fix or switching defaults. All previous failures and a labeled
 reviewer correction remain intact; no generated response is repaired.
+
+A subsequent [question-aligned correction](../evals/library-runs/20260925-answer-focus/PLAN.md)
+separates requested answer points from optional adjacent facts. The awards rubric
+previously demanded job competition/posting details that the question did not ask
+for; its old scores remain intact. The prompt now requests a concise answer per
+part, avoids repeated summaries and unrequested background, and explicitly applies
+English to uncertainty/status labels. It still preserves needed qualifications,
+source names and identifiers. This is a prompt constraint, not guaranteed language
+or semantic validation. A bounded default-model verification follows offline checks.
