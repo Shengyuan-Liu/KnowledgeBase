@@ -306,6 +306,7 @@ export function ChatPanel({
           />
           {chat.activeId ? (
             <button
+              key="stop"
               type="button"
               className={styles.stopButton}
               onClick={chat.stop}
@@ -314,6 +315,7 @@ export function ChatPanel({
             </button>
           ) : (
             <button
+              key="send"
               type="submit"
               aria-label="Send question"
               disabled={!canSend}

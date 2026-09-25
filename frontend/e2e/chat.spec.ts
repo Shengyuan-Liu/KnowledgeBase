@@ -110,6 +110,11 @@ test("stopping keeps partial output locally and does not save an unfinished turn
   page,
   request,
 }) => {
+  const submissions: string[] = [];
+  page.on("request", (sent) => {
+    if (sent.method() === "POST" && sent.url().endsWith("/api/chat/stream"))
+      submissions.push(sent.postDataJSON().question);
+  });
   await page.goto("/");
   const composer = page.getByRole("textbox", {
     name: "Ask about your documents",
@@ -123,11 +128,13 @@ test("stopping keeps partial output locally and does not save an unfinished turn
   await composer.fill("Stop this question");
   await composer.press("Enter");
   await expect(page.getByText("Answering…", { exact: true })).toBeVisible();
+  await expect(page.getByRole("article", { name: "Assistant answer" }).last()).toContainText("The library ");
   await page.getByRole("button", { name: "Stop", exact: true }).click();
   await expect(page.getByText("Interrupted", { exact: true })).toBeVisible();
   await expect(composer).toHaveValue("Stop this question");
   const history = await (await request.get(`/api/conversations/${id}`)).json();
   expect(history.messages).toHaveLength(2);
+  expect(submissions).toEqual(["First question", "Stop this question"]);
   await page.reload();
   await expect(page.getByText("Completed", { exact: true })).toHaveCount(1);
   await expect(
