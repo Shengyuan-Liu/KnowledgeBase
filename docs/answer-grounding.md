@@ -31,3 +31,9 @@ verify prompt delivery and source fidelity across complete and streaming paths.
 The [frozen acceptance plan](../evals/library-runs/20260925-generation-citations/PLAN.md)
 compares only generation with unchanged historical user/evidence messages and v11
 assessments. All questions are development data, not independent release accuracy.
+
+The [first fixed-context comparison](../evals/library-runs/20260925-generation-citations/README.md)
+shows improved citation coverage on 22 valid paired reviews, with two assessment
+timeouts. Several lists remain incompletely cited and a source qualification is
+still overstated. Treat this as partial improvement; the change has not established
+complete compliance or full-set release quality.

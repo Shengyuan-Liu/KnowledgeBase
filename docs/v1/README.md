@@ -40,8 +40,11 @@ outstanding. Reranking remains disabled by default in shared settings.
 2. Accept the completed frontend source locations and recorded retrieval
    diagnostics, verified with [offline checks](../../evals/check-runs/20260924-evidence-ui/README.md)
    and a [real-provider browser workflow](../../evals/browser-runs/20260925-semantic-ui-1/README.md).
-3. Address observed citation placement and multi-part evidence omissions before
-   claiming release quality. Six newly frozen questions on familiar documents
+3. Complete acceptance of [generation grounding](../answer-grounding.md): the
+   fixed-context prompt comparison improves citation coverage on valid pairs, but
+   retains list-level failures, a qualification regression and two judge timeouts.
+   Address multi-part evidence omissions before claiming release quality.
+   Six newly frozen questions on familiar documents
    supplement the development set; an independent release population and human
    review remain outstanding. Do not rerun paid evaluation after intermediate edits.
 
