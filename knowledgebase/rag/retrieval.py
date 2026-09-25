@@ -76,7 +76,9 @@ def retrieve_evidence(
     if not ready_files:
         return RetrievedEvidence(chunks=[], diagnostics=diagnostics)
 
+    embedding_started = perf_counter()
     query_embedding = embedding_client.embed_query(question)
+    diagnostics.embedding_seconds = perf_counter() - embedding_started
     matches = vector_store.search(
         query_embedding,
         top_k=options.candidate_limit if options.strategy == "hybrid" else top_k,

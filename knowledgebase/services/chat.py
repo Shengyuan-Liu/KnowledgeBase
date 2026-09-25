@@ -1,7 +1,9 @@
 """Coordinate single-turn and conversational knowledge-base answers."""
 
+from bisect import bisect_right
 from collections.abc import AsyncGenerator
 from contextlib import aclosing
+import re
 from time import perf_counter
 from uuid import uuid4
 
@@ -27,6 +29,7 @@ from knowledgebase.schemas import (
 from knowledgebase.storage.operations import (
     create_conversation,
     get_conversation,
+    get_document_source,
     get_messages,
     save_answer_snapshot,
     save_message,
@@ -74,6 +77,7 @@ def _retrieve_evidence(
     retrieval_options: RetrievalOptions | None,
     reranker_client: RerankerClient | None,
 ) -> tuple[list[RetrievedChunk], list[AnswerSource], RetrievalDiagnostics]:
+    started = perf_counter()
     with session_factory() as session:
         evidence = retrieve_evidence(
             question, session, embedding_client, vector_store, top_k=top_k,
@@ -81,6 +85,11 @@ def _retrieve_evidence(
             retrieval_options=retrieval_options, reranker_client=reranker_client,
         )
         chunks = evidence.chunks
+        line_starts = {}
+        for file_id in {item.chunk.file_id for item in chunks}:
+            document = get_document_source(session, file_id)
+            if document is not None:
+                line_starts[file_id] = [0, *(m.end() for m in re.finditer(r"\r\n|\r|\n", document.text))]
         sources = [
             AnswerSource(
                 source_id=number,
@@ -91,6 +100,10 @@ def _retrieve_evidence(
                 distance=item.distance, fusion=item.fusion, rerank=item.rerank,
                 parent_id=item.parent_id, matched_child_ids=item.matched_child_ids,
                 start_offset=item.chunk.start_offset, end_offset=item.chunk.end_offset,
+                start_line=bisect_right(line_starts[item.chunk.file_id], item.chunk.start_offset)
+                    if item.chunk.file_id in line_starts else None,
+                end_line=bisect_right(line_starts[item.chunk.file_id], item.chunk.end_offset - 1)
+                    if item.chunk.file_id in line_starts else None,
                 **(item.chunk.model_dump(include={
                     "heading_path", "source_block_indices", "token_count", "tokenizer", "max_tokens",
                 }) if isinstance(item.chunk, StructuredChunk) else {}),
@@ -98,6 +111,7 @@ def _retrieve_evidence(
             for number, item in enumerate(chunks, start=1)
         ]
 
+    evidence.diagnostics.retrieval_seconds = perf_counter() - started
     return chunks, sources, evidence.diagnostics
 
 

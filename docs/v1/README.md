@@ -35,7 +35,8 @@ outstanding. Reranking remains disabled by default in shared settings.
 1. Accept the opt-in [semantic child-chunking strategy](../semantic-chunking.md),
    now implemented inside unchanged parent regions. Structural parent-child
    chunking remains the default and control; live quality comparison is pending.
-2. Complete frontend source locations and recorded retrieval diagnostics.
+2. Accept the completed frontend source locations and recorded retrieval
+   diagnostics, verified with [offline checks](../../evals/check-runs/20260924-evidence-ui/README.md).
 3. Freeze an independent release set and run final workflow and quality acceptance.
 
 The current judge protocol is frozen at `claim-inventory-v11`. Its

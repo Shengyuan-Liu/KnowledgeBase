@@ -96,7 +96,8 @@ def test_empty_knowledge_base_returns_no_sources_without_model_calls(storage):
 
     assert result == ChatAnswer(
         answer=INSUFFICIENT_EVIDENCE, sources=[],
-        retrieval=RetrievalDiagnostics(max_tokens=4096, tokenizer="cl100k_base", options=RetrievalOptions(packing_strategy="parent_then_child"), top_k=5),
+        retrieval=RetrievalDiagnostics(max_tokens=4096, tokenizer="cl100k_base", options=RetrievalOptions(packing_strategy="parent_then_child"), top_k=5,
+                                       retrieval_seconds=result.retrieval.retrieval_seconds),
         citation_check=CitationCheck(valid_source_ids=[], invalid_source_ids=[], no_citations=True),
     )
     embeddings.embed_query.assert_not_called()

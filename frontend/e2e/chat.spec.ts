@@ -14,7 +14,7 @@ test.beforeEach(async ({ request }) => {
   });
 });
 
-for (const width of [1440, 390]) {
+for (const width of [1440, 900, 390]) {
   test(`streams, restores, selects evidence, and retains deleted excerpts at ${width}px`, async ({
     page,
   }, testInfo) => {
@@ -32,6 +32,8 @@ for (const width of [1440, 390]) {
     await expect(page.getByText("Completed", { exact: true })).toBeVisible();
     await page.getByText("Debug details", { exact: true }).click();
     await expect(page.getByText("Rerank rank 1 (logit 3.2500)")).toBeVisible();
+    await expect(page.getByRole("region", { name: "Candidate ranking table" })).toBeVisible();
+    await expect(page.getByText(/Evidence budget:/)).toBeVisible();
     const firstCitation = page.getByRole("button", {
       name: "View source 1: hours.txt",
       exact: true,
@@ -44,6 +46,7 @@ for (const width of [1440, 390]) {
     await expect(evidence.locator("blockquote")).toHaveText(
       "The library closes at 5 PM.",
     );
+    await expect(evidence.getByText("Lines 1–1 · Cited in this answer")).toBeVisible();
     await page.screenshot({
       path: testInfo.outputPath(`chat-${width}.png`),
       fullPage: true,
@@ -56,6 +59,7 @@ for (const width of [1440, 390]) {
     await expect(page.getByText("Completed", { exact: true })).toHaveCount(2);
     await page.getByText("Debug details", { exact: true }).first().click();
     await expect(page.getByText("Rerank rank 1 (logit 3.2500)").first()).toBeVisible();
+    await expect(page.getByRole("region", { name: "Recorded retrieval details" }).first()).toBeVisible();
     await expect(
       page.getByText("When does the library close?", { exact: true }),
     ).toBeVisible();
@@ -68,8 +72,8 @@ for (const width of [1440, 390]) {
     );
     if (width < 1200) {
       await page.keyboard.press("Escape");
-      await page.getByRole("button", { name: /Library/ }).click();
     }
+    if (width < 768) await page.getByRole("button", { name: /Library/ }).click();
     await page.getByRole("button", { name: "hours.txt Ready" }).click();
     await page.getByRole("button", { name: "Delete", exact: true }).click();
     await page

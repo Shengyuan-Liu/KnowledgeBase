@@ -44,6 +44,7 @@ KnowledgeBase/
 │   ├── rag/
 │   │   ├── parsing.py           # TXT/Markdown source blocks used by ingestion
 │   │   ├── chunking.py
+│   │   ├── semantic_chunking.py
 │   │   ├── retrieval.py
 │   │   ├── bm25.py
 │   │   ├── fusion.py
@@ -103,6 +104,7 @@ metadata in SQLite. Existing `.env` values can override the default data directo
 | `services/chat.py` | Coordinate history, retrieval, generation, citations, and atomic exchange persistence |
 | `rag/parsing.py` | Parse TXT/Markdown into exact source blocks with heading metadata |
 | `rag/chunking.py` | Structural/token-budget chunking, integrated parent-child splitting, and the explicit MVP character baseline |
+| `rag/semantic_chunking.py` | Experimental sentence-similarity child boundaries inside unchanged parents, with recorded embedding inputs and decisions |
 | `rag/retrieval.py` | Coordinate Ready-only BM25/vector retrieval, RRF, optional reranking, parent expansion and packing |
 | `rag/bm25.py`, `rag/fusion.py` | Score canonical children lexically and combine route ranks while preserving separate scores |
 | `rag/reranking.py`, `providers/reranker.py` | Bound candidate inputs and score query/passage pairs with a local BGE cross-encoder |

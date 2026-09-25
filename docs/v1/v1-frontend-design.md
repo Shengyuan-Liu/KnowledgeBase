@@ -2,9 +2,10 @@
 
 ## Scope
 
-Status: partially implemented. Markdown uploads, heading paths, historical
-evidence and per-source fusion/rerank scores are available. Source line locations
-and complete recorded retrieval diagnostics remain to be added. Extend the existing Library, Chat, and Evidence workspace using
+Status: implemented on `v1`, with offline acceptance checks. Markdown uploads,
+heading paths, original line ranges, citation status and recorded retrieval
+diagnostics are available, including after history restoration and deletion.
+Retain the Library, Chat, and Evidence workspace using
 React, TypeScript, Vite, and CSS Modules. Retain the [MVP interaction design](../mvp/mvp-frontend-design.md)
 and the implemented [frontend workflow](../frontend.md).
 
@@ -44,7 +45,7 @@ metadata remain readable without fabricated locations or diagnostics.
 
 ## Optional Debug Details
 
-Provide a collapsed `Retrieval details` disclosure, extending the current debug view.
+The collapsed `Debug details` disclosure includes recorded retrieval details.
 
 | Detail | Presentation |
 | --- | --- |
@@ -63,8 +64,9 @@ configuration controls to the normal chat flow.
 
 Keep the existing endpoints and request lifecycle. Extend shared source and debug
 payloads to carry parent identity, source location, heading paths, and child traces.
-The exact schema must be designed together with backend snapshots and frontend
-types before implementation; this document does not claim new fields already exist.
+The shared `AnswerSource` includes optional `start_line` and `end_line` fields.
+Completed answers and history carry saved `RetrievalDiagnostics`; frontend state
+retains these fields. Old snapshots without them display `Not recorded`.
 
 Preserve message-local source numbering, request correlation, sources-to-answer
 association, completed-answer reconciliation, and explicit stream completion.

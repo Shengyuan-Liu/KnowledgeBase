@@ -2,7 +2,7 @@
 
 ## Scope and Architecture
 
-Status: stages 1-4 are implemented; see the [version status](README.md) for merge
+Status: stages 1-5 and the frontend integration are implemented; see the [version status](README.md) for merge
 boundaries and remaining work. Continue the [product design](v1-product-design.md) using the
 existing React/TypeScript frontend, FastAPI services, SQLite/SQLAlchemy storage,
 Chroma vector index, provider interfaces, and ordinary Python orchestration.
@@ -173,7 +173,7 @@ separately before switching the running application.
 | 3 | BM25 plus RRF over child IDs | Merged; route eligibility, fusion and development comparison recorded |
 | 4 | Reranker integration | Implemented on v1; local BGE and packing comparisons recorded; user acceptance pending |
 | 5 | Semantic child-chunking strategy | Implemented opt-in on v1; offline comparisons recorded; live quality acceptance pending |
-| 6 | Frontend integration and release evaluation | Partial; source locations, expanded diagnostics and held-out acceptance remain |
+| 6 | Frontend integration and release evaluation | Frontend implemented with offline checks; held-out and live acceptance remain |
 
 Add relevant tests with each implemented stage and commit each completed change.
 This documentation does not authorize writing Python implementation beyond the

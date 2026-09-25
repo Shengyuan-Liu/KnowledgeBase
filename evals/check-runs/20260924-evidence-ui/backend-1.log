@@ -1,0 +1,151 @@
+FFF...F..........F...................................................... [ 67%]
+..................................                                       [100%]
+=================================== FAILURES ===================================
+___ test_exact_line_ranges_and_diagnostics_survive_restore_and_deletion[\n] ____
+
+storage = (sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-...pire_on_commit=True), <knowledgebase.storage.vectordb.ChromaStore object at 0x10e594c20>, Collection(name=test-chunks))
+embeddings = <Mock spec='EmbeddingClient' id='4535702864'>, newline = '\n'
+
+    @pytest.mark.parametrize("newline", ["\n", "\r\n", "\r"])
+    def test_exact_line_ranges_and_diagnostics_survive_restore_and_deletion(storage, embeddings, newline):
+        sessions, store, _ = storage
+        text = newline.join(["# First", "", "First sentence.", "", "# Second", "", "Last sentence.", ""])
+        file_id = ingest_file("guide.md", text.encode(), sessions, embeddings, store)
+        llm = Mock()
+        llm.generate.return_value = "First sentence. [1]"
+        answer = answer_in_conversation("First sentence?", sessions, embeddings, store, llm)
+>       assert {s.text: (s.start_line, s.end_line) for s in answer.sources} == {
+            text[:text.index("# Second")]: (1, 4), text[text.index("# Second"):]: (5, 7),
+        }
+E       AssertionError: assert {'# First\n\n...e.\n': (5, 7)} == {'# First\n\n...e.\n': (5, 7)}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Left contains 1 more item:
+E         {'# First\n\nFirst sentence.\n': (1, 3)}
+E         Right contains 1 more item:
+E         {'# First\n\nFirst sentence.\n\n': (1, 4)}
+E         Use -v to get more diff
+
+tests/test_source_locations.py:20: AssertionError
+__ test_exact_line_ranges_and_diagnostics_survive_restore_and_deletion[\r\n] ___
+
+storage = (sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-...pire_on_commit=True), <knowledgebase.storage.vectordb.ChromaStore object at 0x10e883110>, Collection(name=test-chunks))
+embeddings = <Mock spec='EmbeddingClient' id='4535698496'>, newline = '\r\n'
+
+    @pytest.mark.parametrize("newline", ["\n", "\r\n", "\r"])
+    def test_exact_line_ranges_and_diagnostics_survive_restore_and_deletion(storage, embeddings, newline):
+        sessions, store, _ = storage
+        text = newline.join(["# First", "", "First sentence.", "", "# Second", "", "Last sentence.", ""])
+        file_id = ingest_file("guide.md", text.encode(), sessions, embeddings, store)
+        llm = Mock()
+        llm.generate.return_value = "First sentence. [1]"
+        answer = answer_in_conversation("First sentence?", sessions, embeddings, store, llm)
+>       assert {s.text: (s.start_line, s.end_line) for s in answer.sources} == {
+            text[:text.index("# Second")]: (1, 4), text[text.index("# Second"):]: (5, 7),
+        }
+E       AssertionError: assert {'# First\r\n...\r\n': (5, 7)} == {'# First\r\n...\r\n': (5, 7)}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Left contains 1 more item:
+E         {'# First\r\n\r\nFirst sentence.\r\n': (1, 3)}
+E         Right contains 1 more item:
+E         {'# First\r\n\r\nFirst sentence.\r\n\r\n': (1, 4)}
+E         Use -v to get more diff
+
+tests/test_source_locations.py:20: AssertionError
+___ test_exact_line_ranges_and_diagnostics_survive_restore_and_deletion[\r] ____
+
+storage = (sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-...pire_on_commit=True), <knowledgebase.storage.vectordb.ChromaStore object at 0x10ee3c550>, Collection(name=test-chunks))
+embeddings = <Mock spec='EmbeddingClient' id='4535699504'>, newline = '\r'
+
+    @pytest.mark.parametrize("newline", ["\n", "\r\n", "\r"])
+    def test_exact_line_ranges_and_diagnostics_survive_restore_and_deletion(storage, embeddings, newline):
+        sessions, store, _ = storage
+        text = newline.join(["# First", "", "First sentence.", "", "# Second", "", "Last sentence.", ""])
+        file_id = ingest_file("guide.md", text.encode(), sessions, embeddings, store)
+        llm = Mock()
+        llm.generate.return_value = "First sentence. [1]"
+        answer = answer_in_conversation("First sentence?", sessions, embeddings, store, llm)
+>       assert {s.text: (s.start_line, s.end_line) for s in answer.sources} == {
+            text[:text.index("# Second")]: (1, 4), text[text.index("# Second"):]: (5, 7),
+        }
+E       AssertionError: assert {'# First\r\r...e.\r': (5, 7)} == {'# First\r\r...e.\r': (5, 7)}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Left contains 1 more item:
+E         {'# First\r\rFirst sentence.\r': (1, 3)}
+E         Right contains 1 more item:
+E         {'# First\r\rFirst sentence.\r\r': (1, 4)}
+E         Use -v to get more diff
+
+tests/test_source_locations.py:20: AssertionError
+_______ test_empty_knowledge_base_returns_no_sources_without_model_calls _______
+
+storage = (sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-...pire_on_commit=True), <knowledgebase.storage.vectordb.ChromaStore object at 0x10ee09480>, Collection(name=test-chunks))
+
+    def test_empty_knowledge_base_returns_no_sources_without_model_calls(storage):
+        sessions, store, _ = storage
+        embeddings = Mock(spec=EmbeddingClient)
+        llm = Mock(spec=LLMClient)
+    
+        result = answer_question("When does the café close?", sessions, embeddings, store, llm)
+    
+>       assert result == ChatAnswer(
+            answer=INSUFFICIENT_EVIDENCE, sources=[],
+            retrieval=RetrievalDiagnostics(max_tokens=4096, tokenizer="cl100k_base", options=RetrievalOptions(packing_strategy="parent_then_child"), top_k=5),
+            citation_check=CitationCheck(valid_source_ids=[], invalid_source_ids=[], no_citations=True),
+        )
+E       AssertionError: assert ChatAnswer(an...cl100k_base')) == ChatAnswer(an...cl100k_base'))
+E         
+E         Use -v to get more diff
+
+tests/test_chat.py:97: AssertionError
+_____________ test_upload_question_followup_and_persisted_exchange _____________
+
+api = (<starlette.testclient.TestClient object at 0x10ee72e40>, AppResources(sessions=sessionmaker(class_='Session', bind=En...0.0, judge_concurrency=4), resolver_llm=None, reranker=None), <MagicMock name='mock.responses.create' id='4535698496'>)
+
+    def test_upload_question_followup_and_persisted_exchange(api):
+        client, resources, generate = api
+        file_id = upload(client)
+        generate.side_effect = [SimpleNamespace(output_text=text) for text in (
+            "The library closes at 5 PM. [1]",
+            "When does the library close?",
+            "At 5 PM. [1]",
+        )]
+        question = "  When does the library close?\n"
+        response = client.post("/api/chat", json={"question": question})
+        assert response.status_code == 200
+        assert response.headers["content-type"] == "application/json"
+        first = response.json()
+        assert first["question"] == first["retrieval_question"] == question
+        assert first["answer"] == "The library closes at 5 PM. [1]"
+>       assert first["sources"] == [{
+            "source_id": 1, "file_id": file_id, "file_name": "hours.txt",
+            "chunk_id": f"{file_id}:parent:0", "text": "The library closes at 5 PM.",
+            "fusion": {"chunk_id": f"{file_id}:child:0", "rrf_score": pytest.approx(2 / 61),
+                       "rank": 1, "bm25_score": pytest.approx(0.5753641449035618), "bm25_rank": 1,
+                       "vector_distance": pytest.approx(0.0), "vector_rank": 1},
+            "rerank": None, "distance": pytest.approx(0.0), "parent_id": f"{file_id}:parent:0", "matched_child_ids": [f"{file_id}:child:0"],
+            "start_offset": 0, "end_offset": 27, "heading_path": [], "source_block_indices": [0],
+            "token_count": 8, "tokenizer": "cl100k_base", "max_tokens": 1536,
+        }]
+E       AssertionError: assert [{'source_id'...rent:0', ...}] == [{'source_id'...rent:0', ...}]
+E         
+E         At index 0 diff: {'source_id': 1, 'file_id': 'a6b9f561ec284305ac4f5c2a9ca38913', 'file_name': 'hours.txt', 'chunk_id': 'a6b9f561ec284305ac4f5c2a9ca38913:parent:0', 'text': 'The library closes at 5 PM.', 'distance': 0.0, 'fusion': {'chunk_id': 'a6b9f561ec284305ac4f5c2a9ca38913:child:0', 'rrf_score': 0.03278688524590164, 'rank': 1, 'bm25_score': 0.5753641449035618, 'bm25_rank': 1, 'vector_distance': 0.0, 'vector_rank': 1}, 'rerank': None, 'parent_id': 'a6b9f561ec284305ac4f5c2a9ca38913:parent:0', 'matched_child_ids': ['a6b9f561ec284305ac4f5c2a9ca38913:child:0'], 'start_off...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_chat_api.py:47: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_source_locations.py::test_exact_line_ranges_and_diagnostics_survive_restore_and_deletion[\n]
+FAILED tests/test_source_locations.py::test_exact_line_ranges_and_diagnostics_survive_restore_and_deletion[\r\n]
+FAILED tests/test_source_locations.py::test_exact_line_ranges_and_diagnostics_survive_restore_and_deletion[\r]
+FAILED tests/test_chat.py::test_empty_knowledge_base_returns_no_sources_without_model_calls
+FAILED tests/test_chat_api.py::test_upload_question_followup_and_persisted_exchange
+5 failed, 101 passed, 1 warning in 1.79s

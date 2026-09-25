@@ -98,16 +98,31 @@ on dynamically assigned ports, leaving running development servers untouched.
   model did not cite. Empty evidence and missing legacy snapshots remain distinct.
   Deleted source files keep their original excerpts with a deletion label, both
   immediately after deletion and after restoration.
-- Debug details show the retrieval question, chunk distances, and citation-number
-  diagnostics. Stream timing is displayed when received and is not reconstructed
-  for restored history. Distances and citation checks are not correctness scores.
+- Evidence cards show canonical source line ranges, heading paths, and whether
+  the answer cited the source or only received it as additional evidence. Missing
+  historical locations are labeled `Not recorded`, including after deletion.
+- Debug details retain recorded candidate BM25/vector/RRF/rerank scores, selected
+  child-to-parent mappings, budget exclusions, unexpanded parents, token budget,
+  strategy, reranker identity/revision/device, and available stage timings.
+  Completion and restored history use the same saved retrieval snapshot. Stream
+  preparation time is displayed when received and is not reconstructed for old
+  history. Distances and citation checks are not correctness scores.
 - New content follows the scroll only near the bottom. Reading older content keeps
   the current position and exposes Jump to latest.
 
 Answers currently preserve plain text and line breaks with inline citation
 controls. Markdown source evidence preserves its original markup as text. Rich
-Markdown rendering, heading-path navigation, and line-range labels remain
-presentation enhancements; source locations use the recorded chunk IDs. No model HTML executes.
+Markdown rendering and clickable heading navigation remain outside this change.
+No model HTML executes. The [v1 evidence checks](../evals/check-runs/20260924-evidence-ui/README.md)
+retain offline browser results and screenshots.
+
+Source line numbers are one-based and computed from canonical decoded text,
+handling LF, CRLF and CR. End lines use the final included character of each
+half-open source span. They are persisted with the evidence snapshot and never
+recalculated from a deleted file or an isolated excerpt. Retrieval/source-lookup
+time includes the read session and source conversion; embedding, rerank and
+packing durations are nested stages, not additive to that total. Disabled or
+unrecorded stages remain null rather than fabricated zeroes.
 
 ## Modules
 

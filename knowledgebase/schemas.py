@@ -199,6 +199,8 @@ class ExcludedEvidence(BaseModel):
 
 
 class RetrievalDiagnostics(BaseModel):
+    retrieval_seconds: float | None = None
+    embedding_seconds: float | None = None
     rerank: RerankResult | None = None
     rerank_seconds: float | None = None
     options: RetrievalOptions | None = None
@@ -236,6 +238,8 @@ class AnswerSource(BaseModel):
     matched_child_ids: list[str] = Field(default_factory=list)
     start_offset: int | None = None
     end_offset: int | None = None
+    start_line: int | None = None
+    end_line: int | None = None
     heading_path: list[str] = Field(default_factory=list)
     source_block_indices: list[int] = Field(default_factory=list)
     token_count: int | None = None
