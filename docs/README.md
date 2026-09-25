@@ -2,11 +2,12 @@
 
 ## v1 Design
 
-The [v1 design set](v1/README.md) defines the planned next version: TXT/Markdown,
+The [v1 design set](v1/README.md) tracks the ongoing version: TXT/Markdown,
 structure-aware and parent-child chunking, BM25/vector retrieval with RRF and
 reranking, and an evaluated semantic-chunking option. It includes product,
-technical, frontend, system, and evaluation plans. These are specifications,
-not implementation or quality results.
+technical, frontend, system, and evaluation plans. Its status page separates
+merged features, implemented changes awaiting acceptance, and remaining work.
+Design goals alone do not establish implementation or measured quality.
 
 ## Project Organization
 

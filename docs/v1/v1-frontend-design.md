@@ -2,7 +2,9 @@
 
 ## Scope
 
-Status: planned. Extend the existing Library, Chat, and Evidence workspace using
+Status: partially implemented. Markdown uploads, heading paths, historical
+evidence and per-source fusion/rerank scores are available. Source line locations
+and complete recorded retrieval diagnostics remain to be added. Extend the existing Library, Chat, and Evidence workspace using
 React, TypeScript, Vite, and CSS Modules. Retain the [MVP interaction design](../mvp/mvp-frontend-design.md)
 and the implemented [frontend workflow](../frontend.md).
 
@@ -21,7 +23,7 @@ No Markdown editor, document folder system, or document preview workspace is add
 
 ## Evidence Navigation
 
-Each numbered source represents one parent excerpt actually supplied to generation.
+Each numbered source represents one parent or selected-child excerpt actually supplied to generation.
 Show its filename, heading path when available, and original source location. Use
 line ranges derived from the canonical text for display; character offsets remain
 the precise stored location. Do not invent Markdown headings for TXT content.

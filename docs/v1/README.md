@@ -19,11 +19,30 @@ child-only indexing, parent expansion/deduplication, evidence budgets, and saved
 diagnostics across API, CLI, and evaluation. It is the default strategy at the user's request and covered by offline
 workflow tests. Real-library comparisons are recorded separately; choosing a
 default does not establish a general quality improvement.
-The remaining hybrid-search and reranking pipeline is planned;
-these documents do not claim that the full version is implemented or its quality measured.
-The standalone [BM25 scorer](../bm25.md) ranks supplied children locally, and
-[RRF fusion](../rrf.md) combines lexical and vector route ranks while preserving
-their separate scores. Service integration and live hybrid acceptance remain pending.
+[Hybrid retrieval](../hybrid-retrieval.md) combines [BM25](../bm25.md) and vector
+candidates through [RRF](../rrf.md) across the shared service path. Markdown
+ingestion was merged into `main` at `282158a`; parent-child and hybrid retrieval
+were merged at `cd10620`.
+
+The `v1` branch also implements optional [local BGE reranking](../reranking.md),
+parent-then-child evidence packing, budgeted source identity, and
+[automatic evaluation](../../evals/metrics.md). These changes have recorded checks
+and development comparisons, but user acceptance and merge approval remain
+outstanding. Reranking remains disabled by default in shared settings.
+
+## Remaining Work
+
+1. Implement an opt-in semantic child-chunking strategy inside unchanged parent
+   regions; retain structural parent-child chunking as the default and control.
+2. Complete frontend source locations and recorded retrieval diagnostics.
+3. Freeze an independent release set and run final workflow and quality acceptance.
+
+The current judge protocol is frozen at `claim-inventory-v11`. Its
+[review](../../evals/check-runs/20260924-judge-abstention/REVIEW.md) retains one
+calibration label mismatch and disputed judgments. Valid judgments are not proof
+of answer correctness. Development results are not held-out release accuracy.
+Run full evaluation only at feature acceptance or on explicit request, following
+the [measurement policy](../../evals/measurement-policy.md).
 
 v1 adds Markdown support, structure-aware and sentence-aware chunking, parent-child
 retrieval, BM25/vector hybrid search, RRF fusion, and reranking. Embedding-based
