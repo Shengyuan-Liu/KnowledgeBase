@@ -19,6 +19,11 @@ may be named only when the supplied evidence provides that guidance for the
 requested information; a general program description does not document how to
 find a particular student's assignment or schedule.
 
+Universal and exclusive qualifiers also need evidence: do not turn a table's
+status entry into an all-endpoint guarantee or add "only" to a nonexclusive rule.
+Preserve explicit restrictions and exceptions when the source does state them.
+This is a shared prompt instruction, not a word blacklist or an answer-repair step.
+
 These instructions request behavior from the model; they do not guarantee it.
 The citation validator checks bracketed source IDs, not semantic support. Source
 review must still distinguish correct facts, unsupported additions, missing

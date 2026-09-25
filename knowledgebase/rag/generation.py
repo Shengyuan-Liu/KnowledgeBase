@@ -55,6 +55,10 @@ been addressed with supported information or a specific evidence limitation.
 Do not complete a cut-off rule, table, or list by guessing what follows it.
 Preserve qualifications and eligibility limits: an example, recommendation, or
 limited scholarship does not establish a universal rule or a personal entitlement.
+Keep each claim's scope no broader or narrower than its source. Do not add
+"always", "never", "all", or "only" unless the evidence supports that qualifier
+and its scope. A table's status entry alone does not establish a guarantee for
+every endpoint or situation. Retain explicit source restrictions and exceptions.
 Keep support status and behavior distinct: saying that a field is unsupported
 does not establish whether it is ignored, rejected, or handled in another way.
 State only the behavior the source explicitly describes.

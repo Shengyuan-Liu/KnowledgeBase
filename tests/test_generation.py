@@ -111,6 +111,9 @@ async def test_comparison_prompt_is_shared_by_json_and_streaming_with_later_evid
      'Which tool fields are supported?'),
     ('Only effort is supported in output_config.',
      'How is output_config supported?'),
+    ('| anthropic-beta | Ignored for /messages; required for Files API endpoints |\n'
+     '| anthropic-version | Ignored |',
+     'Do these headers have the same behavior across endpoints?'),
     ('Capstone projects typically have two to four people.',
      'Which project have I personally been assigned to?'),
 ])
@@ -141,5 +144,7 @@ async def test_citation_and_fidelity_instructions_reach_both_generation_paths(te
     assert 'Cite every factual list item separately' in messages[0]['content']
     assert 'does not establish whether it is ignored, rejected' in messages[0]['content']
     assert 'Do not add unsupported advice' in messages[0]['content']
+    assert 'Keep each claim\'s scope no broader or narrower than its source' in messages[0]['content']
+    assert 'Retain explicit source restrictions and exceptions' in messages[0]['content']
     assert messages[1]['content'].startswith(f'Question:\n{question}\n\nSources:\n[1]\n')
     assert messages[1]['content'].endswith('Excerpt:\n' + text)
