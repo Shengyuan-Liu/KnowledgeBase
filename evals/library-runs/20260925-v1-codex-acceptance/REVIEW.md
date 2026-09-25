@@ -213,4 +213,3 @@ Has my own DS-GA 1010 independent-study proposal already been approved, and who 
 The personal decision and supervisor remain unknown. The answer invents neither a person nor an approved/rejected status nor a contact. Citation 1 supports the independent-study cap; citation 2 supports the preceding general-curriculum clause. Missing-information statements are assessed under abstention.
 
 The entire supplied context was inspected for the missing detail; none establishes the requested personal information or exact error payload.
-
