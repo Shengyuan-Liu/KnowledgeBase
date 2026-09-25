@@ -38,3 +38,58 @@ def test_completed_replay_preserves_sources_and_all_deltas():
         assert row['answer'] == ''.join(d['delta'] for d in call['deltas'])
         assert digest(call['messages'][0]['content'].encode()) == run.inputs()['prompt_sha256']
         assert 'total_seconds' not in row  # No inherited service latency as a fresh measurement.
+
+
+def test_review_quotes_offsets_and_failure_disclosure():
+    answers = {a['case_id']:a for a in read_jsonl(run.DIR/'answers.jsonl')}
+    reviews = json.loads((run.DIR/'manual-review.json').read_text())
+    assert {r['case_id'] for r in reviews} == set(run.IDS)
+    for review in reviews:
+        answer = answers[review['case_id']]
+        assert review['answer_sha256'] == digest(answer['answer'].encode())
+        for claim in review['claims']:
+            assert claim['answer_quote'] in answer['answer']
+            for evidence in claim['evidence']:
+                source = next(s for s in answer['sources'] if s['source_id']==evidence['source_id'])
+                assert source['text'][evidence['start_offset']-source['start_offset']:evidence['end_offset']-source['start_offset']] == evidence['quote']
+    result = json.loads((run.DIR/'acceptance.json').read_text())
+    assert result['status'] == 'failed'
+    assert result['cases_passed'] == sum(r['pass'] for r in reviews) == 3
+    assert not result['gates']['associated_citation_support']
+    assert json.loads((run.BASE/'acceptance.json').read_text())['cases_passed'] == 7
+
+
+def test_complete_measurement_inventory_and_generation_scope():
+    baseline = json.loads((run.BASE/'qualified-metrics.json').read_text())['metrics']
+    current = json.loads((run.DIR/'after-metrics.json').read_text())['metrics']
+    assert set(baseline) <= set(current)
+    def inspect(entry):
+        if 'status' in entry:
+            assert entry['status'] in ('measured','not_applicable','unavailable')
+            if entry['status']=='measured':
+                assert all(k in entry for k in ('value','unit','n','method','artifact'))
+            else:
+                assert entry['value'] is None and entry['reason']
+        else:
+            for child in entry.values(): inspect(child)
+    for entry in current.values(): inspect(entry)
+    for key in ('total_seconds','first_delta_seconds','retrieval_seconds','ingestion'):
+        assert current[key]['status']=='not_applicable'
+    assert current['cost']['status']=='unavailable'
+    assert current['generation_seconds']['n']==5
+    assert current['token_usage']['generation']['n']==5
+
+
+def test_document_links_and_english_artifact_text():
+    from pathlib import Path
+    import re
+    docs = [Path('README.md'), Path('docs/v1/README.md'), Path('docs/v1/merge-readiness.md'),
+            Path('docs/answer-grounding.md'), run.DIR/'README.md', run.DIR/'PLAN.md',
+            Path('evals/check-runs/20260925-source-scope/README.md')]
+    for path in docs:
+        text=path.read_text()
+        assert not re.search(r'[\u4e00-\u9fff]',text)
+        for target in re.findall(r'\[[^\]]+\]\(([^)]+)\)',text):
+            if '://' not in target and not target.startswith('#'):
+                assert (path.parent/target.split('#')[0]).exists(), (path,target)
+        assert text.endswith('\n')

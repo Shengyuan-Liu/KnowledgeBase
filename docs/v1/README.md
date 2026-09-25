@@ -35,7 +35,10 @@ outstanding. Reranking remains disabled by default in shared settings.
 See the current [merge-readiness assessment](merge-readiness.md) for completed
 checks and recommended configuration. The requested
 [Codex acceptance](../../evals/library-runs/20260925-v1-codex-acceptance/README.md)
-is complete: 7/8 cases pass, with one unsupported universal qualification.
+remains recorded at 7/8. A subsequent
+[five-case scope verification](../../evals/library-runs/20260925-source-scope/README.md)
+passes 3/5: qualification remains unresolved and one wrong-FAQ citation is a
+definite blocker. The four-line prompt change is not a verified semantic fix.
 Independent human review remains unperformed; it is not being substituted for
 Codex completing the delegated functional audit.
 

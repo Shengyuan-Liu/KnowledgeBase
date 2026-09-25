@@ -216,4 +216,5 @@ Run `make eval-calibrate` to check the judge against
 
 Current v1 acceptance status: [merge readiness](docs/v1/merge-readiness.md),
 including experimental parent scoring, recorded tradeoffs and the completed
-[Codex acceptance with one scope failure](evals/library-runs/20260925-v1-codex-acceptance/README.md).
+[original Codex acceptance with one scope failure](evals/library-runs/20260925-v1-codex-acceptance/README.md),
+and [latest scope verification with unresolved attribution failures](evals/library-runs/20260925-source-scope/README.md).

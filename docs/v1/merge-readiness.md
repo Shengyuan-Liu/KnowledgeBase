@@ -1,8 +1,11 @@
 # v1 Merge Readiness — 2026-09-25
 
-**Codex functional acceptance is complete: 7/8 cases pass; one source-scope
-qualification blocks unconditional acceptance under the frozen criteria. No merge
-is authorized or performed.** See the [acceptance report](../../evals/library-runs/20260925-v1-codex-acceptance/README.md)
+**The latest targeted verification does not pass: 3/5 cases pass after a scoped
+prompt change. Source qualification remains unresolved under a conservative
+reading, and a definite wrong-FAQ citation independently blocks unconditional
+acceptance. No merge is authorized or performed.** See the
+[fixed-context report](../../evals/library-runs/20260925-source-scope/README.md).
+The original full-service acceptance remains 7/8 in its [acceptance report](../../evals/library-runs/20260925-v1-codex-acceptance/README.md)
 and [actual answers](../../evals/library-runs/20260925-v1-codex-acceptance/REVIEW.md).
 The user asked Codex to perform acceptance, so independent human review is not
 being imposed as a prerequisite for Codex to deliver a functional verdict. The
@@ -13,12 +16,14 @@ review is explicitly labeled Codex-authored and not independent human validation
 - Markdown/TXT ingestion, structural parent-child storage, hybrid retrieval,
   optional local reranking, bounded evidence packing, source locations, restored
   diagnostics and file-deletion history have implementation and workflow checks.
-- Current backend: 554 passed, 1 intentionally skipped live-provider test.
+- Last full backend run: 554 passed, 1 intentionally skipped live-provider test.
   Frontend: 40 passed. TypeScript/build passed. Browser workflows: 10 passed.
   [Records](../../evals/check-runs/20260925-retrieval-coverage/README.md) retain every
   failed attempt and correction, including Stop causing an unintended extra
   request when its DOM button was reused as Send. Distinct button identities fix
   that regression; the browser test asserts no extra request after cancellation.
+- After the shared prompt change, [68 relevant tests passed](../../evals/check-runs/20260925-source-scope/README.md).
+  These verify prompt delivery and generation/chat contracts, not semantic compliance.
 - The [previous real-provider UI workflow](../../evals/browser-runs/20260925-semantic-ui-1/README.md)
   covers source inspection, follow-up, refresh and deletion. It predates this
   parent-scoring option; the new option has API/SSE/restart/deletion tests and a
@@ -58,8 +63,20 @@ where the source table only says `Ignored`. The base status is correct; the
 universal scope is not established by that excerpt. This is an unsupported
 qualification judgment, not proof of contrary real API behavior. The frozen
 scope/citation rules reject it. The run is retained as failed semantic acceptance,
-not repaired or rerun until passing. The next change should address this narrow
-qualification failure, followed by targeted verification.
+not repaired or overwritten. The subsequent four-line scope instruction was
+verified with five fixed-context generation calls, including this failure and
+four controls. It removed the exact "always/all endpoints" wording, but the model
+still said "in both cases". Conservatively the scope concern remains unresolved;
+this is a debatable source interpretation, not proof the real API behaves otherwise.
+
+More decisively, the scholarship answer cited the general FAQ for a separate-
+application statement found only in the supplied admissions FAQ, then asserted
+that every answer came from the general FAQ. This source/citation attribution
+regression fails the frozen support gate even if the header wording is accepted.
+Explicit pass/fail restrictions and both abstention controls pass. The five-case
+result is 3/5, not a new full-service result or proof that the prompt caused the
+regression. Same resolved model and contexts; one sample per prompt, with provider
+variation uncontrolled. No judge calls, response repair or same-prompt retries.
 
 The [existing evaluation plan](v1-evaluation-plan.md#review-and-release-gates)
 distinguishes a functional release from demonstrated broad semantic improvement.
@@ -72,6 +89,7 @@ CPT qualification regression, the API-setup question/rubric mismatch, and one
 invalid v11 filename-metadata assessment. These do not replace the new run's
 specific findings or establish that its answers share every historical defect.
 
-No broader features are needed. Fix the observed qualification behavior and
-preserve the failed acceptance evidence; keep experimental options opt-in. Only
-an explicit user instruction authorizes the merge.
+No broader features are needed. The next grounding change must address source
+identity and exact table-status scope; another generic instruction alone has not
+established the required behavior. Keep both failed attempts visible and
+experimental options opt-in. Only an explicit user instruction authorizes merge.

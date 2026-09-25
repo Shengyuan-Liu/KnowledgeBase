@@ -48,3 +48,12 @@ keeps all original answers and failed attempts, reaches 23/24 valid reviews, and
 records the remaining filename-metadata/source-line validation mismatch. The
 [scoped retrieval probe](../evals/library-runs/20260925-parent-reranking/README.md)
 uses this unchanged generation prompt; its manual point review is not v11 scoring.
+
+The subsequent [source-scope instruction and fixed-context verification](../evals/library-runs/20260925-source-scope/README.md)
+adds four lines requiring evidence-supported qualifiers and explicit restrictions.
+All 68 scoped engineering checks pass, but only 3/5 selected live cases pass the
+frozen review: the original scope concern is not clearly resolved, and one answer
+misattributes an admissions-FAQ statement to the general FAQ. Both abstention
+controls and the explicit-restriction control pass. The prompt change is not a
+verified semantic fix; both this failure and the earlier 7/8 service run remain
+unchanged. There was no new ingestion/retrieval or full benchmark in this replay.

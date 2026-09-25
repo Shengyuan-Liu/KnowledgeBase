@@ -17,3 +17,15 @@ Documentation review: the new paragraph in `docs/answer-grounding.md` matches th
 implemented instruction and distinguishes prompting from output repair. Relative
 links above resolve; English text and Markdown formatting reviewed. No automated
 runtime metrics apply to this documentation review.
+
+- `final-audit-1`: 5 passed. Frozen inputs, exact sources/deltas, review quotes and
+  offsets, unchanged historical failure, complete metric statuses, and current
+  documentation links/English formatting verified. These are artifact-integrity
+  checks; the live semantic result is separately **failed (3/5)**.
+
+Final documentation review: root README, v1 README, merge readiness, answer
+grounding and the run report consistently preserve the failed result and distinguish
+source-attribution failure from a fabricated policy. The header interpretation is
+explicitly labeled conservative/debatable. No merger approval or completed fix is
+claimed. `qualified-before-metrics.json` corrects a nested historical provider-usage
+artifact path; the original numeric observations and original file are retained.

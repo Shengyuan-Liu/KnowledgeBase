@@ -1,0 +1,68 @@
+{
+  "evaluated_at": "2026-09-25T18:11:34.642425+00:00",
+  "status": "failed",
+  "gates": {
+    "generation_success": true,
+    "citation_ids": true,
+    "required_fact_correctness_and_scope": false,
+    "claim_support": false,
+    "associated_citation_support": false,
+    "citation_coverage": true,
+    "abstention": true,
+    "generation_latency": true,
+    "input_budget": true
+  },
+  "cases_passed": 3,
+  "cases_total": 5,
+  "per_case": [
+    {
+      "case_id": "accept-beta-header-scope",
+      "before_pass": false,
+      "after_pass": false,
+      "findings": [
+        "The original always/all-endpoints wording disappeared, but both cases remains an explicit scope inference. Conservatively leave the observed issue unresolved. Even accepting this interpretation would not make this run pass because the awards answer independently fails citation/source identity."
+      ]
+    },
+    {
+      "case_id": "accept-independent-passfail",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": [
+        "Explicit only, maximum credits, exclusion, required-course rule and Industry Concentration allowance are all retained. The redundant summary repeats supported facts; each occurrence is inventoried."
+      ]
+    },
+    {
+      "case_id": "accept-awards-jobs",
+      "before_pass": true,
+      "after_pass": false,
+      "findings": [
+        "All three requested reference points remain correct, but the extra application-process fact cites the wrong FAQ and the concluding all-general-FAQ attribution is unsupported. This definite citation failure independently fails the frozen gates."
+      ]
+    },
+    {
+      "case_id": "accept-unspecified-api-error",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": [
+        "Inspected all supplied excerpts: no specific HTTP status or JSON error body. Answer explicitly withholds both; no unsupported runtime behavior is inferred. Missing-information acknowledgments count under abstention, not factual-claim support."
+      ]
+    },
+    {
+      "case_id": "accept-personal-study-approval",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": [
+        "All supplied excerpts inspected. No personal approval status, supervisor identity or contact guidance is invented. Missing-information statements are assessed under abstention."
+      ]
+    }
+  ],
+  "resolved_models_before": [
+    "gpt-4.1-2025-04-14"
+  ],
+  "resolved_models_after": [
+    "gpt-4.1-2025-04-14"
+  ],
+  "reviewer": "Codex; not independent human review",
+  "paid_judge_calls": 0,
+  "decision": "Do not recommend unconditional merge. The source-scope fix is not verified; one definite source/citation attribution regression independently fails the frozen criteria. No retries or answer repair."
+}

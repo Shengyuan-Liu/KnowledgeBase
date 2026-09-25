@@ -1,0 +1,816 @@
+[
+  {
+    "case_id": "accept-beta-header-scope",
+    "reviewer": "Codex",
+    "answer_sha256": "1c157e95b19c33036cdcfe82757c0e0f756225a4390ef37b80e1b7b1bb636fb0",
+    "claims": [
+      {
+        "id": "c1",
+        "answer_quote": "No, anthropic-beta does not have the same behavior for /messages and Files API endpoints.",
+        "statement": "The two endpoint families have different beta-header behavior.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 2,
+            "file_name": "anthropic_api.md",
+            "start_offset": 2329,
+            "end_offset": 2635,
+            "quote": "| Field | Support Status |\n| --- | --- |\n| anthropic-beta | Ignored for `/messages`; required (`files-api-2025-04-14`) for Files API endpoints — see [Files API](https://api-docs.deepseek.com/guides/files_api#anthropic-compatible-files-api) |\n| anthropic-version | Ignored |\n| x-api-key | Fully Supported |\n"
+          }
+        ],
+        "associated_citations": [
+          2
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c2",
+        "answer_quote": "For /messages, the anthropic-beta header is ignored.",
+        "statement": "The beta header is ignored for /messages.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 2,
+            "file_name": "anthropic_api.md",
+            "start_offset": 2329,
+            "end_offset": 2635,
+            "quote": "| Field | Support Status |\n| --- | --- |\n| anthropic-beta | Ignored for `/messages`; required (`files-api-2025-04-14`) for Files API endpoints — see [Files API](https://api-docs.deepseek.com/guides/files_api#anthropic-compatible-files-api) |\n| anthropic-version | Ignored |\n| x-api-key | Fully Supported |\n"
+          }
+        ],
+        "associated_citations": [
+          2
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c3",
+        "answer_quote": "For Files API endpoints, the anthropic-beta header is required and must be set to files-api-2025-04-14",
+        "statement": "Files endpoints require the stated beta value.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 2,
+            "file_name": "anthropic_api.md",
+            "start_offset": 2329,
+            "end_offset": 2635,
+            "quote": "| Field | Support Status |\n| --- | --- |\n| anthropic-beta | Ignored for `/messages`; required (`files-api-2025-04-14`) for Files API endpoints — see [Files API](https://api-docs.deepseek.com/guides/files_api#anthropic-compatible-files-api) |\n| anthropic-version | Ignored |\n| x-api-key | Fully Supported |\n"
+          }
+        ],
+        "associated_citations": [
+          2
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c4",
+        "answer_quote": "The anthropic-version header is ignored in both cases",
+        "statement": "The version header is ignored in both endpoint families.",
+        "verdict": "insufficient",
+        "evidence": [
+          {
+            "source_id": 2,
+            "file_name": "anthropic_api.md",
+            "start_offset": 2329,
+            "end_offset": 2635,
+            "quote": "| Field | Support Status |\n| --- | --- |\n| anthropic-beta | Ignored for `/messages`; required (`files-api-2025-04-14`) for Files API endpoints — see [Files API](https://api-docs.deepseek.com/guides/files_api#anthropic-compatible-files-api) |\n| anthropic-version | Ignored |\n| x-api-key | Fully Supported |\n"
+          }
+        ],
+        "associated_citations": [
+          2
+        ],
+        "citation_verdict": "insufficient",
+        "reason": "Conservative scope assessment: the row says Ignored without endpoint-specific version-header guarantees. Both cases is a narrower claim than all endpoints but still adds endpoint scope. This interpretation is debatable and is not proof of contrary real API behavior; the replay does not clearly resolve the original scope concern."
+      }
+    ],
+    "relevance": 2,
+    "abstains": false,
+    "appropriate_abstention": false,
+    "incorrect_abstention": false,
+    "findings": [
+      "The original always/all-endpoints wording disappeared, but both cases remains an explicit scope inference. Conservatively leave the observed issue unresolved. Even accepting this interpretation would not make this run pass because the awards answer independently fails citation/source identity."
+    ],
+    "points": [
+      {
+        "reference": "anthropic-beta is ignored for /messages but required for Files API endpoints with files-api-2025-04-14.",
+        "correctness": 2,
+        "present": true
+      },
+      {
+        "reference": "anthropic-version is ignored.",
+        "correctness": 1,
+        "present": true
+      }
+    ],
+    "pass": false,
+    "citation_association_note": "Same paragraph/list-item association rule as baseline; unrelated citations are not assigned to every clause. Missing-information statements assessed under abstention."
+  },
+  {
+    "case_id": "accept-independent-passfail",
+    "reviewer": "Codex",
+    "answer_sha256": "c5c6adb0b8faecb2c24d71cb426a7611018f5718c7a1bca13b8c5b911172f551",
+    "claims": [
+      {
+        "id": "c1",
+        "answer_quote": "MSDS students can apply up to 6 credits of independent study (DS-GA 1010) to the MSDS degree",
+        "statement": "At most six DS-GA 1010 credits count.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 4683,
+            "end_offset": 4776,
+            "quote": "MSDS students can apply up to 6 credits of independent study (DS-GA 1010) to the MSDS degree."
+          }
+        ],
+        "associated_citations": [
+          1
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c2",
+        "answer_quote": "Up to 6 credits of DS-GA 1010 Independent Study can count toward the MSDS degree",
+        "statement": "At most six DS-GA 1010 credits count.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 4683,
+            "end_offset": 4776,
+            "quote": "MSDS students can apply up to 6 credits of independent study (DS-GA 1010) to the MSDS degree."
+          }
+        ],
+        "associated_citations": [
+          1
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c3",
+        "answer_quote": "Only 1 elective (not including",
+        "statement": "Only one elective can count pass/fail.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 4847,
+            "end_offset": 5182,
+            "quote": "Only 1 elective (this does not include the “One Data Science Elective” requirement) and DS-GA 1009 can be taken as pass/fail and count towards the MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail."
+          },
+          {
+            "source_id": 3,
+            "file_name": "data-science-ms-bulletin.txt",
+            "start_offset": 7821,
+            "end_offset": 8069,
+            "quote": "MSDS students can only take 1 elective (this does not include the required \"Data Science Elective\") and DS-GA 1009 Practical Training for Data Science as pass/fail for the degree. Required courses (and substitutes) must be taken for a letter grade."
+          }
+        ],
+        "associated_citations": [
+          1,
+          3
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c4",
+        "answer_quote": "not including the “One Data Science Elective” requirement",
+        "statement": "The designated elective is excluded.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 4847,
+            "end_offset": 5182,
+            "quote": "Only 1 elective (this does not include the “One Data Science Elective” requirement) and DS-GA 1009 can be taken as pass/fail and count towards the MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail."
+          },
+          {
+            "source_id": 3,
+            "file_name": "data-science-ms-bulletin.txt",
+            "start_offset": 7821,
+            "end_offset": 8069,
+            "quote": "MSDS students can only take 1 elective (this does not include the required \"Data Science Elective\") and DS-GA 1009 Practical Training for Data Science as pass/fail for the degree. Required courses (and substitutes) must be taken for a letter grade."
+          }
+        ],
+        "associated_citations": [
+          1,
+          3
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c5",
+        "answer_quote": "and DS-GA 1009 can be taken as pass/fail and counted towards the MSDS degree",
+        "statement": "DS-GA 1009 can count pass/fail.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 4847,
+            "end_offset": 5182,
+            "quote": "Only 1 elective (this does not include the “One Data Science Elective” requirement) and DS-GA 1009 can be taken as pass/fail and count towards the MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail."
+          },
+          {
+            "source_id": 3,
+            "file_name": "data-science-ms-bulletin.txt",
+            "start_offset": 7821,
+            "end_offset": 8069,
+            "quote": "MSDS students can only take 1 elective (this does not include the required \"Data Science Elective\") and DS-GA 1009 Practical Training for Data Science as pass/fail for the degree. Required courses (and substitutes) must be taken for a letter grade."
+          }
+        ],
+        "associated_citations": [
+          1,
+          3
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c6",
+        "answer_quote": "Only 1 elective (excluding",
+        "statement": "The one-elective restriction is repeated.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 4847,
+            "end_offset": 5182,
+            "quote": "Only 1 elective (this does not include the “One Data Science Elective” requirement) and DS-GA 1009 can be taken as pass/fail and count towards the MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail."
+          },
+          {
+            "source_id": 3,
+            "file_name": "data-science-ms-bulletin.txt",
+            "start_offset": 7821,
+            "end_offset": 8069,
+            "quote": "MSDS students can only take 1 elective (this does not include the required \"Data Science Elective\") and DS-GA 1009 Practical Training for Data Science as pass/fail for the degree. Required courses (and substitutes) must be taken for a letter grade."
+          }
+        ],
+        "associated_citations": [
+          1,
+          3
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c7",
+        "answer_quote": "excluding the Data Science Elective requirement",
+        "statement": "The designated-elective exclusion is repeated.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 4847,
+            "end_offset": 5182,
+            "quote": "Only 1 elective (this does not include the “One Data Science Elective” requirement) and DS-GA 1009 can be taken as pass/fail and count towards the MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail."
+          },
+          {
+            "source_id": 3,
+            "file_name": "data-science-ms-bulletin.txt",
+            "start_offset": 7821,
+            "end_offset": 8069,
+            "quote": "MSDS students can only take 1 elective (this does not include the required \"Data Science Elective\") and DS-GA 1009 Practical Training for Data Science as pass/fail for the degree. Required courses (and substitutes) must be taken for a letter grade."
+          }
+        ],
+        "associated_citations": [
+          1,
+          3
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c8",
+        "answer_quote": "and DS-GA 1009 can be counted as pass/fail",
+        "statement": "The DS-GA 1009 allowance is repeated.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 4847,
+            "end_offset": 5182,
+            "quote": "Only 1 elective (this does not include the “One Data Science Elective” requirement) and DS-GA 1009 can be taken as pass/fail and count towards the MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail."
+          },
+          {
+            "source_id": 3,
+            "file_name": "data-science-ms-bulletin.txt",
+            "start_offset": 7821,
+            "end_offset": 8069,
+            "quote": "MSDS students can only take 1 elective (this does not include the required \"Data Science Elective\") and DS-GA 1009 Practical Training for Data Science as pass/fail for the degree. Required courses (and substitutes) must be taken for a letter grade."
+          }
+        ],
+        "associated_citations": [
+          1,
+          3
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c9",
+        "answer_quote": "Required courses cannot be taken pass/fail",
+        "statement": "Required degree courses cannot count pass/fail, in the stated degree-credit context.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 4847,
+            "end_offset": 5182,
+            "quote": "Only 1 elective (this does not include the “One Data Science Elective” requirement) and DS-GA 1009 can be taken as pass/fail and count towards the MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail."
+          },
+          {
+            "source_id": 3,
+            "file_name": "data-science-ms-bulletin.txt",
+            "start_offset": 7821,
+            "end_offset": 8069,
+            "quote": "MSDS students can only take 1 elective (this does not include the required \"Data Science Elective\") and DS-GA 1009 Practical Training for Data Science as pass/fail for the degree. Required courses (and substitutes) must be taken for a letter grade."
+          }
+        ],
+        "associated_citations": [
+          1,
+          3
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c10",
+        "answer_quote": "Required courses for the degree cannot be taken as pass/fail.",
+        "statement": "Required degree courses cannot count pass/fail.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 4847,
+            "end_offset": 5182,
+            "quote": "Only 1 elective (this does not include the “One Data Science Elective” requirement) and DS-GA 1009 can be taken as pass/fail and count towards the MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail."
+          }
+        ],
+        "associated_citations": [
+          1
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c11",
+        "answer_quote": "For students in the Industry Concentration, the single elective pass/fail allowance may be used for an Industry Concentration elective",
+        "statement": "The concentration can use its one-elective allowance within the concentration.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 4847,
+            "end_offset": 5182,
+            "quote": "Only 1 elective (this does not include the “One Data Science Elective” requirement) and DS-GA 1009 can be taken as pass/fail and count towards the MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail."
+          }
+        ],
+        "associated_citations": [
+          1
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c12",
+        "answer_quote": "The 1 elective pass/fail allowance may be used for an Industry Concentration elective",
+        "statement": "The concentration can use its one-elective allowance within the concentration.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 4847,
+            "end_offset": 5182,
+            "quote": "Only 1 elective (this does not include the “One Data Science Elective” requirement) and DS-GA 1009 can be taken as pass/fail and count towards the MSDS degree. Students in the Industry Concentration can use their 1 elective allowance for an Industry Concentration elective. Required courses for the degree cannot be taken as pass/fail."
+          }
+        ],
+        "associated_citations": [
+          1
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      }
+    ],
+    "relevance": 2,
+    "abstains": false,
+    "appropriate_abstention": false,
+    "incorrect_abstention": false,
+    "findings": [
+      "Explicit only, maximum credits, exclusion, required-course rule and Industry Concentration allowance are all retained. The redundant summary repeats supported facts; each occurrence is inventoried."
+    ],
+    "points": [
+      {
+        "reference": "Up to 6 credits of independent study, DS-GA 1010, can count.",
+        "correctness": 2,
+        "present": true
+      },
+      {
+        "reference": "Only one elective, excluding the One Data Science Elective requirement, and DS-GA 1009 may count pass/fail.",
+        "correctness": 2,
+        "present": true
+      },
+      {
+        "reference": "Industry Concentration students can use the one-elective allowance for an Industry Concentration elective.",
+        "correctness": 2,
+        "present": true
+      },
+      {
+        "reference": "Required degree courses cannot be taken pass/fail.",
+        "correctness": 2,
+        "present": true
+      }
+    ],
+    "pass": true,
+    "citation_association_note": "Same paragraph/list-item association rule as baseline; unrelated citations are not assigned to every clause. Missing-information statements assessed under abstention."
+  },
+  {
+    "case_id": "accept-awards-jobs",
+    "reviewer": "Codex",
+    "answer_sha256": "3aa420ecea03177f538b08adad3fa3dfef126cdf9462deb5e46ce1630412f26d",
+    "claims": [
+      {
+        "id": "c1",
+        "answer_quote": "All applicants for admission are considered",
+        "statement": "All admission applicants are considered.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 2,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 5881,
+            "end_offset": 6098,
+            "quote": "CDS offers a limited number of tuition scholarships for our students. All applicants for admission are considered for these awards on a competitive basis. Scholarship recipients will be notified in their admit letter."
+          }
+        ],
+        "associated_citations": [
+          2
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c2",
+        "answer_quote": "the limited number of tuition scholarships offered by CDS",
+        "statement": "Scholarships are limited.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 2,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 5881,
+            "end_offset": 6098,
+            "quote": "CDS offers a limited number of tuition scholarships for our students. All applicants for admission are considered for these awards on a competitive basis. Scholarship recipients will be notified in their admit letter."
+          }
+        ],
+        "associated_citations": [
+          2
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c3",
+        "answer_quote": "on a competitive basis",
+        "statement": "Awards are competitive.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 2,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 5881,
+            "end_offset": 6098,
+            "quote": "CDS offers a limited number of tuition scholarships for our students. All applicants for admission are considered for these awards on a competitive basis. Scholarship recipients will be notified in their admit letter."
+          }
+        ],
+        "associated_citations": [
+          2
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c4",
+        "answer_quote": "There is no separate application process for these scholarships",
+        "statement": "No separate scholarship application process.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "masters-in-data-science-faq.txt",
+            "start_offset": 10282,
+            "end_offset": 10553,
+            "quote": "CDS offers a limited number of tuition scholarships for our students. All applicants for admission are considered for these awards on a competitive basis. There is no separate scholarship application process. Scholarship recipients will be notified in their admit letter."
+          }
+        ],
+        "associated_citations": [
+          2
+        ],
+        "citation_verdict": "insufficient",
+        "reason": "The statement exists in supplied admissions FAQ source 1, but the answer cites general FAQ source 2, where it is absent. Supported in context, unsupported by its actual associated citation."
+      },
+      {
+        "id": "c5",
+        "answer_quote": "Scholarship recipients are notified in their admit letter",
+        "statement": "Recipients are notified in the admit letter.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 2,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 5881,
+            "end_offset": 6098,
+            "quote": "CDS offers a limited number of tuition scholarships for our students. All applicants for admission are considered for these awards on a competitive basis. Scholarship recipients will be notified in their admit letter."
+          }
+        ],
+        "associated_citations": [
+          2
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c6",
+        "answer_quote": "On-campus positions (including research and teaching assistant roles) are available at CDS and NYU",
+        "statement": "Such positions are available at CDS and NYU.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 2,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 6159,
+            "end_offset": 6359,
+            "quote": "On-campus positions are available at CDS and NYU, but we do not guarantee such opportunities for any given student. Positions are competitive, and are typically posted on a semester-by-semester basis."
+          }
+        ],
+        "associated_citations": [
+          2
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c7",
+        "answer_quote": "such opportunities are not guaranteed for any given student",
+        "statement": "Positions are not individually guaranteed.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 2,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 6159,
+            "end_offset": 6359,
+            "quote": "On-campus positions are available at CDS and NYU, but we do not guarantee such opportunities for any given student. Positions are competitive, and are typically posted on a semester-by-semester basis."
+          }
+        ],
+        "associated_citations": [
+          2
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c8",
+        "answer_quote": "These positions are competitive",
+        "statement": "Positions are competitive.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 2,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 6159,
+            "end_offset": 6359,
+            "quote": "On-campus positions are available at CDS and NYU, but we do not guarantee such opportunities for any given student. Positions are competitive, and are typically posted on a semester-by-semester basis."
+          }
+        ],
+        "associated_citations": [
+          2
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c9",
+        "answer_quote": "are typically posted on a semester-by-semester basis",
+        "statement": "Positions are typically advertised each semester.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 2,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 6159,
+            "end_offset": 6359,
+            "quote": "On-campus positions are available at CDS and NYU, but we do not guarantee such opportunities for any given student. Positions are competitive, and are typically posted on a semester-by-semester basis."
+          }
+        ],
+        "associated_citations": [
+          2
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c10",
+        "answer_quote": "All responses above are directly supported by the general FAQ evidence provided.",
+        "statement": "Every preceding statement is supported by the general FAQ.",
+        "verdict": "insufficient",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "masters-in-data-science-faq.txt",
+            "start_offset": 10282,
+            "end_offset": 10553,
+            "quote": "CDS offers a limited number of tuition scholarships for our students. All applicants for admission are considered for these awards on a competitive basis. There is no separate scholarship application process. Scholarship recipients will be notified in their admit letter."
+          },
+          {
+            "source_id": 2,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 5881,
+            "end_offset": 6098,
+            "quote": "CDS offers a limited number of tuition scholarships for our students. All applicants for admission are considered for these awards on a competitive basis. Scholarship recipients will be notified in their admit letter."
+          }
+        ],
+        "associated_citations": [],
+        "citation_verdict": "missing",
+        "reason": "The no-separate-application statement is present only in the supplied admissions FAQ. The explicit all-general-FAQ attribution is not supported. This is a source attribution failure, not an invented scholarship policy."
+      }
+    ],
+    "relevance": 2,
+    "abstains": false,
+    "appropriate_abstention": false,
+    "incorrect_abstention": false,
+    "findings": [
+      "All three requested reference points remain correct, but the extra application-process fact cites the wrong FAQ and the concluding all-general-FAQ attribution is unsupported. This definite citation failure independently fails the frozen gates."
+    ],
+    "points": [
+      {
+        "reference": "A limited number of tuition scholarships are competitive; all admission applicants are considered.",
+        "correctness": 2,
+        "present": true
+      },
+      {
+        "reference": "Recipients are notified in their admit letter.",
+        "correctness": 2,
+        "present": true
+      },
+      {
+        "reference": "On-campus positions are not guaranteed for any individual, are competitive, and typically posted semester by semester.",
+        "correctness": 2,
+        "present": true
+      }
+    ],
+    "pass": false,
+    "citation_association_note": "Same paragraph/list-item association rule as baseline; unrelated citations are not assigned to every clause. Missing-information statements assessed under abstention."
+  },
+  {
+    "case_id": "accept-unspecified-api-error",
+    "reviewer": "Codex",
+    "answer_sha256": "71e23140fa990806fe4a58d7797badd131f3aa192aa199e9ebf75d0da75217f1",
+    "claims": [
+      {
+        "id": "c1",
+        "answer_quote": "the content block type search_result is \"Not Supported\" in the list of message fields",
+        "statement": "The guide marks search_result content Not Supported.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "anthropic_api.md",
+            "start_offset": 3942,
+            "end_offset": 5641,
+            "quote": "| Field | Variant | Sub-Field | Support Status |\n| --- | --- | --- | --- |\n| content | string |  | Fully Supported |\n| content | array, type=\"text\" | text | Fully Supported |\n| content | array, type=\"text\" | cache\\_control | Ignored |\n| content | array, type=\"text\" | citations | Ignored |\n| content | array, type=\"image\" | source | Supported. `source.type` can be base64 (media types: jpeg, png, gif, webp), url, or file (the file variant requires the header `anthropic-beta: files-api-2025-04-14`) |\n| content | array, type = \"document\" |  | Not Supported |\n| content | array, type = \"search\\_result\" |  | Not Supported |\n| content | array, type = \"thinking\" |  | Supported |\n| content | array, type=\"redacted\\_thinking\" |  | Not Supported |\n| content | array, type = \"tool\\_use\" | id | Fully Supported |\n| content | array, type = \"tool\\_use\" | input | Fully Supported |\n| content | array, type = \"tool\\_use\" | name | Fully Supported |\n| content | array, type = \"tool\\_use\" | cache\\_control | Ignored |\n| content | array, type = \"tool\\_result\" | tool\\_use\\_id | Fully Supported |\n| content | array, type = \"tool\\_result\" | content | Fully Supported |\n| content | array, type = \"tool\\_result\" | cache\\_control | Ignored |\n| content | array, type = \"tool\\_result\" | is\\_error | Ignored |\n| content | array, type = \"server\\_tool\\_use\" |  | Supported |\n| content | array, type = \"web\\_search\\_tool\\_result\" |  | Supported |\n| content | array, type = \"code\\_execution\\_tool\\_result\" |  | Not Supported |\n| content | array, type = \"mcp\\_tool\\_use\" |  | Not Supported |\n| content | array, type = \"mcp\\_tool\\_result\" |  | Not Supported |\n| content | array, type = \"container\\_upload\" |  | Not Supported |\n"
+          }
+        ],
+        "associated_citations": [
+          1
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      }
+    ],
+    "relevance": 2,
+    "abstains": true,
+    "appropriate_abstention": true,
+    "incorrect_abstention": false,
+    "findings": [
+      "Inspected all supplied excerpts: no specific HTTP status or JSON error body. Answer explicitly withholds both; no unsupported runtime behavior is inferred. Missing-information acknowledgments count under abstention, not factual-claim support."
+    ],
+    "points": [
+      {
+        "reference": "The saved guide does not specify the exact HTTP status code or JSON error body; do not invent either.",
+        "correctness": 2,
+        "present": true
+      }
+    ],
+    "pass": true,
+    "citation_association_note": "Same paragraph/list-item association rule as baseline; unrelated citations are not assigned to every clause. Missing-information statements assessed under abstention."
+  },
+  {
+    "case_id": "accept-personal-study-approval",
+    "reviewer": "Codex",
+    "answer_sha256": "b49a4bd1d515c87b4824bc0492ced518ce4b8b91e9bb497411e8967d581cf750",
+    "claims": [
+      {
+        "id": "c1",
+        "answer_quote": "The sources mention general policies around independent study and electives",
+        "statement": "Supplied sources describe general degree policies.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 4683,
+            "end_offset": 4776,
+            "quote": "MSDS students can apply up to 6 credits of independent study (DS-GA 1010) to the MSDS degree."
+          },
+          {
+            "source_id": 2,
+            "file_name": "curriculum.txt",
+            "start_offset": 2948,
+            "end_offset": 3508,
+            "quote": "DS-GA 1007 Programming for Data Science\nDS-GA 1009 Practical Training for Data Science\nDS-GA 1010 Independent Study\nDS-GA 1019 Advanced Python for Data Science\nDS-GA 3001 Special Topics in Data Science (topics vary each semester; examples of current and previous offerings are listed below).\nReinforcement Learning\nIntroduction to Computer Vision\nApplied Statistics\nModern Topics in Statistical Learning Theory\nIntro to Applied ML in Finance I: Discrete Choice\nVisualization in Machine Learning\nCausal Inference in Machine Learning\nMathematics of Deep Learning"
+          }
+        ],
+        "associated_citations": [
+          1,
+          2
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c2",
+        "answer_quote": "MSDS students can apply up to 6 credits of independent study (DS-GA 1010) to the degree",
+        "statement": "Up to six independent-study credits count.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "start_offset": 4683,
+            "end_offset": 4776,
+            "quote": "MSDS students can apply up to 6 credits of independent study (DS-GA 1010) to the MSDS degree."
+          }
+        ],
+        "associated_citations": [
+          1
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      },
+      {
+        "id": "c3",
+        "answer_quote": "the course exists as an elective",
+        "statement": "DS-GA 1010 is listed among elective options.",
+        "verdict": "supported",
+        "evidence": [
+          {
+            "source_id": 2,
+            "file_name": "curriculum.txt",
+            "start_offset": 2948,
+            "end_offset": 3508,
+            "quote": "DS-GA 1007 Programming for Data Science\nDS-GA 1009 Practical Training for Data Science\nDS-GA 1010 Independent Study\nDS-GA 1019 Advanced Python for Data Science\nDS-GA 3001 Special Topics in Data Science (topics vary each semester; examples of current and previous offerings are listed below).\nReinforcement Learning\nIntroduction to Computer Vision\nApplied Statistics\nModern Topics in Statistical Learning Theory\nIntro to Applied ML in Finance I: Discrete Choice\nVisualization in Machine Learning\nCausal Inference in Machine Learning\nMathematics of Deep Learning"
+          }
+        ],
+        "associated_citations": [
+          2
+        ],
+        "citation_verdict": "supported",
+        "reason": "The exact supplied source text supports this claim, including its qualification."
+      }
+    ],
+    "relevance": 2,
+    "abstains": true,
+    "appropriate_abstention": true,
+    "incorrect_abstention": false,
+    "findings": [
+      "All supplied excerpts inspected. No personal approval status, supervisor identity or contact guidance is invented. Missing-information statements are assessed under abstention."
+    ],
+    "points": [
+      {
+        "reference": "The provided public documents do not establish the user’s proposal approval status or assigned supervisor; explicitly acknowledge the missing personal information without inventing it.",
+        "correctness": 2,
+        "present": true
+      }
+    ],
+    "pass": true,
+    "citation_association_note": "Same paragraph/list-item association rule as baseline; unrelated citations are not assigned to every clause. Missing-information statements assessed under abstention."
+  }
+]
