@@ -42,13 +42,14 @@ def client(body, requests):
 
 
 @pytest.mark.anyio
-async def test_provider_yields_before_completion_and_closes():
+@pytest.mark.parametrize("reasoning_effort", [None, "low"])
+async def test_provider_yields_before_completion_and_closes(reasoning_effort):
     body = EventBody("response.completed")
     body.wait = anyio.Event()
     requests = []
     messages = [{"role": "user", "content": "Hours?"}]
     async with client(body, requests) as sdk:
-        async with aclosing(StreamingLLMClient(sdk, "test-model").stream(messages)) as stream:
+        async with aclosing(StreamingLLMClient(sdk, "test-model", reasoning_effort=reasoning_effort).stream(messages)) as stream:
             assert await anext(stream) == "  Café"
             assert await anext(stream) == " 🙂\n[1]"
             assert not body.closed
@@ -56,7 +57,8 @@ async def test_provider_yields_before_completion_and_closes():
             with pytest.raises(StopAsyncIteration):
                 await anext(stream)
     assert body.closed
-    assert requests == [{"model": "test-model", "input": messages, "stream": True}]
+    options = {"reasoning": {"effort": reasoning_effort}} if reasoning_effort is not None else {}
+    assert requests == [{"model": "test-model", "input": messages, "stream": True, **options}]
 
 
 @pytest.mark.anyio

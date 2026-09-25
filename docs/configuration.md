@@ -18,6 +18,7 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `OPENAI_MAX_RETRIES` | `2` | API/CLI SDK retry limit |
 | `DATA_DIR` | `data/v1` | Application storage; isolated evaluation indexes live under `<DATA_DIR>/evals/<run-id>` |
 | `ANSWER_MODEL` | `gpt-4.1` | JSON/streamed answers, CLI, evaluation generation, live smoke test |
+| `ANSWER_REASONING_EFFORT` | Blank: omit provider parameter | Optional `none`, `low`, `medium`, `high`, `xhigh` for compatible answer models; API, CLI, evaluation and live smoke test |
 | `EMBEDDING_MODEL` | `text-embedding-3-small` | Both document and query embeddings in every entry point |
 | `RERANK_ENABLED` | `false` | Optional reranking in API, streamed chat, CLI, and evaluations; requires hybrid retrieval |
 | `RERANK_MODEL` | `BAAI/bge-reranker-v2-m3` | Local cross-encoder model ID or model directory, independent of ANSWER_MODEL |
@@ -161,3 +162,10 @@ meaning of the rerank candidate cap to unique regions; raw route windows remain
 child-based. See [parent reranking](parent-reranking.md) for scoring provenance,
 input limits and the separately measured evidence-budget tradeoff. The API, CLI
 and evaluation entry points receive this option through `Settings`.
+
+`ANSWER_REASONING_EFFORT` is optional and must be supported by the selected answer
+model. Blank omits the parameter entirely, preserving non-reasoning model calls.
+A separate `RESOLVER_MODEL` does not receive this setting; when the resolver shares
+the answer client, it also shares that client's reasoning option. Judge reasoning
+remains controlled separately by `JUDGE_REASONING_EFFORT`. Model comparison records
+do not silently change the local `.env` or the checked-in default model.

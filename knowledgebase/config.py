@@ -69,6 +69,7 @@ class Settings(BaseSettings):
     data_dir: Path = Path("data/v1")
 
     answer_model: str = DEFAULT_ANSWER_MODEL
+    answer_reasoning_effort: Literal["none", "low", "medium", "high", "xhigh"] | None = None
     embedding_model: str = DEFAULT_EMBEDDING_MODEL
     resolver_model: str | None = None
     rerank_model: str = DEFAULT_RERANK_MODEL

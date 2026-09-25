@@ -1,0 +1,449 @@
+{
+  "version": "automated-metrics-v1",
+  "metrics": {
+    "recall_at_k": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "/Users/lucas/Documents/Projects/KnowledgeBase/evals/library-runs/20260925-grounding-order/answers.jsonl",
+      "origin": "Inherited frozen baseline retrieval/context, unchanged; no fresh search/reranking measurement."
+    },
+    "precision_at_k": {
+      "status": "measured",
+      "value": 0.2,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "/Users/lucas/Documents/Projects/KnowledgeBase/evals/library-runs/20260925-grounding-order/answers.jsonl",
+      "origin": "Inherited frozen baseline retrieval/context, unchanged; no fresh search/reranking measurement."
+    },
+    "hit_rate_at_k": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "/Users/lucas/Documents/Projects/KnowledgeBase/evals/library-runs/20260925-grounding-order/answers.jsonl",
+      "origin": "Inherited frozen baseline retrieval/context, unchanged; no fresh search/reranking measurement."
+    },
+    "mrr_at_k": {
+      "status": "measured",
+      "value": 0.5,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "/Users/lucas/Documents/Projects/KnowledgeBase/evals/library-runs/20260925-grounding-order/answers.jsonl",
+      "origin": "Inherited frozen baseline retrieval/context, unchanged; no fresh search/reranking measurement."
+    },
+    "ndcg_at_k": {
+      "status": "measured",
+      "value": 0.6309297535714575,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "/Users/lucas/Documents/Projects/KnowledgeBase/evals/library-runs/20260925-grounding-order/answers.jsonl",
+      "origin": "Inherited frozen baseline retrieval/context, unchanged; no fresh search/reranking measurement."
+    },
+    "annotated_char_recall": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Union of actual supplied source spans; average gold spans per answer then macro-average answerable cases.",
+      "artifact": "/Users/lucas/Documents/Projects/KnowledgeBase/evals/library-runs/20260925-grounding-order/answers.jsonl",
+      "origin": "Inherited frozen baseline retrieval/context, unchanged; no fresh search/reranking measurement."
+    },
+    "full_evidence_recall": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Union of actual supplied source spans; average gold spans per answer then macro-average answerable cases.",
+      "artifact": "/Users/lucas/Documents/Projects/KnowledgeBase/evals/library-runs/20260925-grounding-order/answers.jsonl",
+      "origin": "Inherited frozen baseline retrieval/context, unchanged; no fresh search/reranking measurement."
+    },
+    "answer_correctness": {
+      "status": "measured",
+      "value": 0.9090909090909091,
+      "unit": "fraction",
+      "n": 11,
+      "method": "Micro-average reference points, 0/1/2 correctness; frozen PLAN.md rubric; Codex.",
+      "artifact": "manual-review.json"
+    },
+    "answer_completeness": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 11,
+      "method": "Reference points addressed, independent of correctness.",
+      "artifact": "manual-review.json"
+    },
+    "fully_correct_points": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No valid applicable LLM assessments; claim-free/citation-free answers are excluded."
+    },
+    "faithfulness": {
+      "status": "measured",
+      "value": 0.9523809523809523,
+      "unit": "fraction",
+      "n": 21,
+      "method": "Micro-average all inventoried factual claim occurrences, including repeats; missing information assessed as abstention.",
+      "artifact": "manual-review.json"
+    },
+    "answer_relevance": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 5,
+      "method": "0 off-topic, 1 partial/extraneous, 2 responsive; Codex.",
+      "artifact": "manual-review.json"
+    },
+    "citation_support": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 27,
+      "method": "Micro-average semantically associated claim-citation pairs; exact source support, not ID validity.",
+      "artifact": "manual-review.json"
+    },
+    "citation_coverage": {
+      "status": "measured",
+      "value": 0.9523809523809523,
+      "unit": "fraction",
+      "n": 21,
+      "method": "Claim occurrences with local supporting citations under frozen paragraph/list-item association rule.",
+      "artifact": "manual-review.json"
+    },
+    "appropriate_abstention": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 2,
+      "method": "Unavailable-information cases, denominator two.",
+      "artifact": "manual-review.json"
+    },
+    "incorrect_abstention": {
+      "status": "measured",
+      "value": 0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Answerable cases, denominator three.",
+      "artifact": "manual-review.json"
+    },
+    "answerable_refusal": {
+      "status": "measured",
+      "value": 0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Any full/partial refusal on answerable cases.",
+      "artifact": "manual-review.json"
+    },
+    "strict_pass_rate": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No v11 paid judge; manual functional protocol and per-case assessments retained."
+    },
+    "contradicted_claims": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Manual protocol records support sufficiency; no separate contradiction taxonomy was scored."
+    },
+    "unsupported_claims": {
+      "status": "measured",
+      "value": 1,
+      "unit": "claims",
+      "n": 5,
+      "method": "Complete Codex factual-claim inventory; insufficient support is not proof of falsehood.",
+      "artifact": "manual-review.json"
+    },
+    "claim_count": {
+      "status": "measured",
+      "value": 21,
+      "unit": "claims",
+      "n": 5,
+      "method": "Complete Codex factual-claim inventory; insufficient support is not proof of falsehood.",
+      "artifact": "manual-review.json"
+    },
+    "first_delta_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Not exercised by fixed-context generation replay; baseline service measurements are retained separately."
+    },
+    "total_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Not exercised by fixed-context generation replay; baseline service measurements are retained separately."
+    },
+    "generation_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 1.3639808998210357,
+        "p50": 1.5307928749825805,
+        "p95": 1.7279656250029802
+      },
+      "unit": "seconds",
+      "n": 5,
+      "method": "Successful observations; median P50, nearest-rank P95. Provider generation stream only; includes provider waiting, excludes retrieval, persistence and HTTP transport.",
+      "artifact": "answers.jsonl"
+    },
+    "generation_first_delta_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.8401998749934136,
+        "p50": 0.6707303329603747,
+        "p95": 1.2264185840031132
+      },
+      "unit": "seconds",
+      "n": 5,
+      "method": "Successful observations; median P50, nearest-rank P95. Provider generation stream only; includes provider waiting, excludes retrieval, persistence and HTTP transport.",
+      "artifact": "answers.jsonl"
+    },
+    "retrieval_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Not exercised by fixed-context generation replay; baseline service measurements are retained separately."
+    },
+    "embedding_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Not exercised by fixed-context generation replay; baseline service measurements are retained separately."
+    },
+    "rerank_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Not exercised by fixed-context generation replay; baseline service measurements are retained separately."
+    },
+    "packing_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Not exercised by fixed-context generation replay; baseline service measurements are retained separately."
+    },
+    "search_fusion_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Not exercised by fixed-context generation replay; baseline service measurements are retained separately."
+    },
+    "reliability": {
+      "status": "measured",
+      "value": {
+        "attempted": 5,
+        "planned": 5,
+        "success": 5,
+        "errors": 0,
+        "not_attempted": 0,
+        "success_rate": 1.0,
+        "timeouts": 0,
+        "retries": 0
+      },
+      "unit": "requests",
+      "n": 5,
+      "method": "Planned saved-context generation requests/attempts; SDK retries zero, partial answers fail.",
+      "artifact": "answers.jsonl"
+    },
+    "judge_reliability": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No v11 paid judge; manual functional protocol and per-case assessments retained."
+    },
+    "judge_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No v11 paid judge; manual functional protocol and per-case assessments retained."
+    },
+    "token_usage": {
+      "ingestion": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "No calls for this stage in the comparison."
+      },
+      "query_embedding": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "No calls for this stage in the comparison."
+      },
+      "generation": {
+        "status": "measured",
+        "value": {
+          "input_tokens": 17281,
+          "output_tokens": 475,
+          "total_tokens": 17756
+        },
+        "unit": "tokens",
+        "n": 5,
+        "method": "Provider-reported totals for 5/5 calls; missing failed-call usage excluded, not zero billed cost.",
+        "artifact": "calls.jsonl"
+      },
+      "judge": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "No calls for this stage in the comparison."
+      }
+    },
+    "cost": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Provider responses do not expose billed dollars; no inferred price substituted."
+    },
+    "evidence_tokens": {
+      "status": "measured",
+      "value": [
+        612,
+        3271,
+        3766,
+        1121,
+        3779
+      ],
+      "unit": "tokens",
+      "n": 5,
+      "method": "Exact formatted supplied evidence tokens including metadata.",
+      "artifact": "/Users/lucas/Documents/Projects/KnowledgeBase/evals/library-runs/20260925-grounding-order/answers.jsonl",
+      "origin": "Inherited frozen baseline retrieval/context, unchanged; no fresh search/reranking measurement."
+    },
+    "concurrency_throughput": {
+      "status": "measured",
+      "value": {
+        "concurrency": 1,
+        "wall_seconds": 6.844015625072643,
+        "successful_requests_per_second": 0.7305652520258425
+      },
+      "unit": "requests/second",
+      "n": 5,
+      "method": "Sequential generation batch including logging; no initialization, no load-capacity claim.",
+      "artifact": "run.json"
+    },
+    "ingestion": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Not exercised by fixed-context generation replay; baseline service measurements are retained separately."
+    },
+    "update_delete": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Not exercised by fixed-context generation replay; baseline service measurements are retained separately."
+    },
+    "model_loading": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Not exercised by fixed-context generation replay; baseline service measurements are retained separately."
+    },
+    "functional_case_pass_rate": {
+      "status": "measured",
+      "value": 0.6,
+      "unit": "fraction",
+      "n": 5,
+      "method": "All required facts and associated citations supported; not v11 strict-pass scoring.",
+      "artifact": "manual-review.json"
+    }
+  },
+  "cases": [
+    {
+      "case_id": "accept-beta-header-scope",
+      "pass": false,
+      "points": [
+        {
+          "reference": "anthropic-beta is ignored for /messages but required for Files API endpoints with files-api-2025-04-14.",
+          "correctness": 1,
+          "present": true
+        },
+        {
+          "reference": "anthropic-version is ignored.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": [
+        "Status facts and version scope are correct, but opening Yes answers the same-behavior question incorrectly. Keep this contradiction visible; do not silently read it as No."
+      ]
+    },
+    {
+      "case_id": "accept-independent-passfail",
+      "pass": true,
+      "points": [
+        {
+          "reference": "Up to 6 credits of independent study, DS-GA 1010, can count.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "Only one elective, excluding the One Data Science Elective requirement, and DS-GA 1009 may count pass/fail.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "Industry Concentration students can use the one-elective allowance for an Industry Concentration elective.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "Required degree courses cannot be taken pass/fail.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": []
+    },
+    {
+      "case_id": "accept-awards-jobs",
+      "pass": false,
+      "points": [
+        {
+          "reference": "A limited number of tuition scholarships are competitive; all admission applicants are considered.",
+          "correctness": 1,
+          "present": true
+        },
+        {
+          "reference": "Recipients are notified in their admit letter.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "On-campus positions are not guaranteed for any individual, are competitive, and typically posted semester by semester.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": [
+        "The previously wrong citation now includes the supporting admissions FAQ; per-clause associations preserved. However, the limited number of scholarships is omitted, so required-point correctness is partial. The answer also leaves the two FAQ identities under a generic FAQ label rather than explicitly identifying the additional document."
+      ]
+    },
+    {
+      "case_id": "accept-unspecified-api-error",
+      "pass": true,
+      "points": [
+        {
+          "reference": "The saved guide does not specify the exact HTTP status code or JSON error body; do not invent either.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": [
+        "All excerpts inspected. Exact status/body correctly withheld; no error invented. Missing-information assertions assessed under abstention."
+      ]
+    },
+    {
+      "case_id": "accept-personal-study-approval",
+      "pass": true,
+      "points": [
+        {
+          "reference": "The provided public documents do not establish the user’s proposal approval status or assigned supervisor; explicitly acknowledge the missing personal information without inventing it.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": [
+        "Personal approval and supervisor correctly unknown; no inapplicable contact advice."
+      ]
+    }
+  ],
+  "limitations": [
+    "Five selected development/regression cases; not a new full service acceptance or held-out accuracy.",
+    "Same corpus, questions, user messages, configuration and annotations; only the answer model changes; messages and roles are unchanged. Tokenizers and provider defaults differ. Single historical sample, provider variability uncontrolled.",
+    "Historical scope judgments are conservative; compare actual output and supplied sources, not API behavior outside this corpus.",
+    "Actual billed cost unavailable. No local inference, live retrieval, service/browser timing or lifecycle exercise."
+  ],
+  "reviewer": "Codex, same implementer; not independent human review",
+  "review_protocol": "PLAN.md"
+}

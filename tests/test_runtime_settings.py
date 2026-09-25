@@ -19,7 +19,7 @@ from knowledgebase.storage.operations import get_chunks, get_document_source
 def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app, tmp_path, monkeypatch, streaming, strategy):
     app, embeddings, sdk = configured_app
     (tmp_path / ".env").write_text(
-        "ANSWER_MODEL=custom-answer\nEMBEDDING_MODEL=custom-embedding\nRESOLVER_MODEL=custom-resolver\n"
+        "ANSWER_MODEL=custom-answer\nANSWER_REASONING_EFFORT=low\nEMBEDDING_MODEL=custom-embedding\nRESOLVER_MODEL=custom-resolver\n"
         "CHUNK_SIZE=12\nCHUNK_OVERLAP=3\nRETRIEVAL_TOP_K=2\nHISTORY_LIMIT=1\n"
         "OPENAI_BASE_URL=https://provider.test/v1\nOPENAI_TIMEOUT_SECONDS=42\nOPENAI_MAX_RETRIES=1\n"
         f"CHUNKING_STRATEGY={strategy}\nCHUNK_MAX_TOKENS=4\nCHUNK_TOKENIZER=o200k_base\n"
@@ -89,6 +89,8 @@ def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app,
         calls = sdk.responses.create.call_args_list
         resolver = [c for c in calls if c.kwargs["model"] == "custom-resolver"]
         assert len(resolver) == 1
+        assert "reasoning" not in resolver[0].kwargs
+        assert all(c.kwargs["reasoning"] == {"effort": "low"} for c in calls if c.kwargs["model"] == "custom-answer")
         assert json.loads(resolver[0].kwargs["input"][1]["content"])["history"] == [
             {"role": "assistant", "content": "Answer. [1]"},
         ]
@@ -96,7 +98,7 @@ def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app,
             ["custom-resolver"] if streaming else ["custom-answer", "custom-resolver", "custom-answer"]
         )
         api_module.EmbeddingClient.assert_called_once_with(sdk, model="custom-embedding")
-        streaming_factory.assert_called_once_with(async_sdk, model="custom-answer")
+        streaming_factory.assert_called_once_with(async_sdk, model="custom-answer", reasoning_effort="low")
         expected = dict(api_key="offline-test-key", base_url="https://provider.test/v1", timeout=42, max_retries=1)
         api_module.OpenAI.assert_called_once_with(**expected)
         async_factory.assert_called_once_with(**expected)
@@ -107,7 +109,7 @@ def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkey
     monkeypatch.chdir(tmp_path)
     monkeypatch.setenv("OPENAI_API_KEY", "offline-test")
     (tmp_path / ".env").write_text(
-        "ANSWER_MODEL=file-answer\nEMBEDDING_MODEL=file-embedding\nRESOLVER_MODEL=file-resolver\n"
+        "ANSWER_MODEL=file-answer\nANSWER_REASONING_EFFORT=low\nEMBEDDING_MODEL=file-embedding\nRESOLVER_MODEL=file-resolver\n"
         "CHUNK_SIZE=12\nCHUNK_OVERLAP=3\nRETRIEVAL_TOP_K=2\nHISTORY_LIMIT=1\n"
         "CHUNKING_STRATEGY=structural\nCHUNK_MAX_TOKENS=17\nCHUNK_TOKENIZER=o200k_base\n"
         "PARENT_MAX_TOKENS=33\nEVIDENCE_MAX_TOKENS=113\n"
@@ -138,6 +140,8 @@ def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkey
     cli.cli()
     assert llm_factory.call_args_list[0].kwargs["model"] == ("argument-answer" if override else "file-answer")
     assert llm_factory.call_args_list[1].kwargs["model"] == "file-resolver"
+    assert llm_factory.call_args_list[0].kwargs["reasoning_effort"] == "low"
+    assert "reasoning_effort" not in llm_factory.call_args_list[1].kwargs
     cli.EmbeddingClient.assert_called_once_with(sdk, model="file-embedding")
     assert ingest.call_args.kwargs == {
         "chunk_size": 12, "overlap": 3, "chunking_strategy": "structural",

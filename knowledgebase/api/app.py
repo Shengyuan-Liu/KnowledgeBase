@@ -41,8 +41,8 @@ def create_app(data_dir: Path | None = None, frontend_dir: Path | None = None) -
                         sessions=sessions,
                         embeddings=EmbeddingClient(sdk, model=settings.embedding_model),
                         store=store,
-                        llm=LLMClient(sdk, model=settings.answer_model),
-                        streaming_llm=StreamingLLMClient(streaming_sdk, model=settings.answer_model),
+                        llm=LLMClient(sdk, model=settings.answer_model, reasoning_effort=settings.answer_reasoning_effort),
+                        streaming_llm=StreamingLLMClient(streaming_sdk, model=settings.answer_model, reasoning_effort=settings.answer_reasoning_effort),
                     )
                     yield
 

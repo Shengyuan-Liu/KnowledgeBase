@@ -257,7 +257,7 @@ def run(args):
         "status": "running", "git": revision, "rubric": RUBRIC,
         "cases_sha256": digest(args.cases.read_bytes()),
         "corpus_sha256": digest(json.dumps(manifest, sort_keys=True).encode()),
-        "config": {"model": args.model, "embedding_model": args.embedding_model,
+        "config": {"model": args.model, "answer_reasoning_effort": settings.answer_reasoning_effort, "embedding_model": args.embedding_model,
                    "chunk_size": args.chunk_size, "overlap": args.overlap, "top_k": args.top_k,
                    "chunking_strategy": args.chunking_strategy, "chunk_max_tokens": args.chunk_max_tokens,
                    "semantic_similarity_threshold": settings.semantic_similarity_threshold,
@@ -306,7 +306,7 @@ def run(args):
         with OpenAI(api_key=settings.openai_api_key, base_url=settings.openai_base_url,
                     timeout=settings.eval_timeout_seconds, max_retries=settings.eval_max_retries) as sdk:
             embeddings = EmbeddingClient(sdk, model=args.embedding_model)
-            llm = LLMClient(sdk, model=args.model)
+            llm = LLMClient(sdk, model=args.model, reasoning_effort=settings.answer_reasoning_effort)
             reranker = RerankerClient(
                 settings.rerank_model, device=settings.rerank_device,
                 batch_size=settings.rerank_batch_size, max_pair_tokens=settings.rerank_max_pair_tokens,

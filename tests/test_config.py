@@ -90,6 +90,7 @@ def test_blank_optional_settings_use_defaults(tmp_path, monkeypatch):
     (tmp_path / ".env").write_text("RESOLVER_MODEL=\nOPENAI_BASE_URL=\nCHUNK_SIZE=\nCHUNK_OVERLAP=\n")
     settings = Settings()
     assert settings.resolver_model is None
+    assert settings.answer_reasoning_effort is None
     assert settings.openai_base_url is None
     assert settings.chunk_size == 2048
     assert settings.chunk_overlap == 256
@@ -141,3 +142,11 @@ def test_rerank_remains_an_explicit_opt_in(tmp_path, monkeypatch):
     assert settings.rerank_candidate_limit == 20
     assert settings.rerank_max_input_tokens == 16384
     assert settings.retrieval_options.strategy == "hybrid"
+
+
+def test_answer_reasoning_effort_from_env_and_explicit_override(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("ANSWER_REASONING_EFFORT", raising=False)
+    (tmp_path / ".env").write_text("OPENAI_API_KEY=offline-test\nANSWER_REASONING_EFFORT=low\n")
+    assert Settings().answer_reasoning_effort == "low"
+    assert Settings(answer_reasoning_effort="high").answer_reasoning_effort == "high"

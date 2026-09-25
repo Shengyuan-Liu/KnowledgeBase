@@ -1,0 +1,66 @@
+{
+  "evaluated_at": "2026-09-25T18:32:58.804174+00:00",
+  "status": "failed",
+  "gates": {
+    "generation_success": true,
+    "citation_ids": true,
+    "required_fact_correctness_and_scope": false,
+    "claim_support": false,
+    "associated_citation_support": true,
+    "citation_coverage": true,
+    "abstention": true,
+    "generation_latency": true,
+    "input_budget": true
+  },
+  "cases_passed": 3,
+  "cases_total": 5,
+  "per_case": [
+    {
+      "case_id": "accept-beta-header-scope",
+      "before_pass": true,
+      "after_pass": false,
+      "findings": [
+        "Status facts and version scope are correct, but opening Yes answers the same-behavior question incorrectly. Keep this contradiction visible; do not silently read it as No."
+      ]
+    },
+    {
+      "case_id": "accept-independent-passfail",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": []
+    },
+    {
+      "case_id": "accept-awards-jobs",
+      "before_pass": false,
+      "after_pass": false,
+      "findings": [
+        "The previously wrong citation now includes the supporting admissions FAQ; per-clause associations preserved. However, the limited number of scholarships is omitted, so required-point correctness is partial. The answer also leaves the two FAQ identities under a generic FAQ label rather than explicitly identifying the additional document."
+      ]
+    },
+    {
+      "case_id": "accept-unspecified-api-error",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": [
+        "All excerpts inspected. Exact status/body correctly withheld; no error invented. Missing-information assertions assessed under abstention."
+      ]
+    },
+    {
+      "case_id": "accept-personal-study-approval",
+      "before_pass": false,
+      "after_pass": true,
+      "findings": [
+        "Personal approval and supervisor correctly unknown; no inapplicable contact advice."
+      ]
+    }
+  ],
+  "resolved_models_before": [
+    "gpt-4.1-2025-04-14"
+  ],
+  "resolved_models_after": [
+    "gpt-5.4-mini-2026-03-17"
+  ],
+  "reviewer": "Codex; not independent human review",
+  "paid_judge_calls": 0,
+  "decision": "Do not claim acceptance; retain failed gates and actual answers. No same-configuration retries or answer repair."
+}

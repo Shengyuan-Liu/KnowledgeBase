@@ -111,7 +111,7 @@ def test_cli_indexes_and_reuses_local_data(tmp_path, monkeypatch, capsys, suffix
 
     embeddings.embed_documents.assert_called_once_with([text])
     sdk_class.assert_called_once_with(api_key="test-only-key", base_url=None, timeout=600, max_retries=2)
-    llm_class.assert_called_once_with(sdk, model="test-configured-model")
+    llm_class.assert_called_once_with(sdk, model="test-configured-model", reasoning_effort=None)
     output = capsys.readouterr().out
     assert f"Indexed {path.name}" in output
     first_conversation_id = re.search(r"Conversation: ([a-f0-9]+)", output).group(1)

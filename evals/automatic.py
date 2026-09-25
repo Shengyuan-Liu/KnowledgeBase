@@ -131,7 +131,7 @@ class RecordedResponses:
 
     async def create(self, **kwargs):
         row = {"call_id": identifier(), "stage": "generation", "case_id": self.case_id, "model": kwargs["model"],
-               "messages": kwargs["input"], "status": "error"}
+               "messages": kwargs["input"], "reasoning": kwargs.get("reasoning"), "status": "error"}
         self.calls.append(row)
         started = perf_counter()
         try:
@@ -162,8 +162,8 @@ async def collect(settings, directory, metadata, cases, documents, sdk, async_sd
     embeddings_api = RecordedEmbeddings(sdk, calls)
     embeddings = EmbeddingClient(SimpleNamespace(embeddings=embeddings_api), settings.embedding_model)
     response_api = RecordedResponses(async_sdk, calls)
-    streaming = StreamingLLMClient(SimpleNamespace(responses=response_api), settings.answer_model)
-    llm = LLMClient(sdk, settings.answer_model)
+    streaming = StreamingLLMClient(SimpleNamespace(responses=response_api), settings.answer_model, reasoning_effort=settings.answer_reasoning_effort)
+    llm = LLMClient(sdk, settings.answer_model, reasoning_effort=settings.answer_reasoning_effort)
     started = perf_counter()
     reranker = RerankerClient(settings.rerank_model, device=settings.rerank_device,
         batch_size=settings.rerank_batch_size, max_pair_tokens=settings.rerank_max_pair_tokens) if settings.rerank_enabled else None

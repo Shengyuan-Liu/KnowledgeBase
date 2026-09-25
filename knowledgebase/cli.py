@@ -82,7 +82,7 @@ def cli() -> None:
             timeout=settings.openai_timeout_seconds, max_retries=settings.openai_max_retries,
         ) as sdk:
             embeddings = EmbeddingClient(sdk, model=settings.embedding_model)
-            llm = LLMClient(sdk, model=settings.answer_model)
+            llm = LLMClient(sdk, model=settings.answer_model, reasoning_effort=settings.answer_reasoning_effort)
             reranker = RerankerClient(
                 settings.rerank_model, device=settings.rerank_device,
                 batch_size=settings.rerank_batch_size, max_pair_tokens=settings.rerank_max_pair_tokens,
