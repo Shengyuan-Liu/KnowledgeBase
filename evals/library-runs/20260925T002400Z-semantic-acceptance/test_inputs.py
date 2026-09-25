@@ -36,3 +36,19 @@ def test_stable_blocks_are_identical_source_slices():
     assert len({b["unit_id"] for b in blocks}) == len(blocks)
     for block in blocks:
         assert block["text"] == documents[block["file_name"]][block["start_offset"]:block["end_offset"]]
+
+
+def test_block_metrics_deduplicate_children_and_score_misses():
+    score = runpy.run_path(str(DIRECTORY / "analyze.py"))["fixed_block_ranking"]
+    blocks = [{"unit_id": "a", "file_name": "x", "start_offset": 0, "end_offset": 10},
+              {"unit_id": "b", "file_name": "x", "start_offset": 10, "end_offset": 20}]
+    case = {"answerable": True, "evidence": [{"file": "x", "start_offset": 12, "end_offset": 18}]}
+    hits = [{"file_name": "x", "start_offset": 0, "end_offset": 4},
+            {"file_name": "x", "start_offset": 4, "end_offset": 8},
+            {"file_name": "x", "start_offset": 12, "end_offset": 18}]
+    result = score(case, hits, blocks, k=5)
+    assert result["ranked_units"] == ["a", "b"]
+    assert result["recall_at_k"] == result["hit_rate_at_k"] == 1
+    assert result["precision_at_k"] == .2 and result["mrr_at_k"] == .5
+    assert score(case, [], blocks)["ndcg_at_k"] == 0
+    assert score({"answerable": False}, hits, blocks) is None
