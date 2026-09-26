@@ -2,9 +2,12 @@
 
 ## Purpose
 
-Status: planned; no v1 results exist in this document. Establish which changes
-improve evidence retrieval, context coverage, and supported answers, and measure
-their latency and cost. Retain the [MVP release report](../../evals/analyses/2026-09-21-mvp-release.md)
+Status: development comparisons and default functional acceptance are recorded
+in the [release summary](release-summary.md); the implementation is merged at
+`483a156`. This document retains the evaluation protocol, including independent
+held-out and human-review requirements that remain open. Its purpose is to establish
+which changes improve evidence retrieval, context coverage and supported answers,
+and measure their latency and cost. Retain the [MVP release report](../../evals/analyses/2026-09-21-mvp-release.md)
 as historical evidence rather than assigning its scores to v1.
 
 ## Data and Comparison Rules

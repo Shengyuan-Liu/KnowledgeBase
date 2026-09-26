@@ -1,4 +1,9 @@
-# v1 Merge Readiness — 2026-09-26
+# v1 Merge Acceptance — 2026-09-26
+
+**Merge completed locally at `483a156`.** The [release summary](release-summary.md)
+records delivered functionality. The final [default browser acceptance](../../evals/browser-runs/20260926-v1-final-ui-1/README.md)
+passed afterward on identical product code; subsequent closeout work remains on
+`v1` until separately approved for merge.
 
 **The user accepted the current default v1 path and explicitly authorized its
 merge into `main` on 2026-09-26.** The [single awake-host acceptance](../../evals/library-runs/20260926-comparison-awake/README.md)
@@ -46,8 +51,10 @@ Evaluation now records both clocks and stream-open timing to expose suspension.
   original questions and source evidence; it excludes HTTP/browser overhead.
   Final artifact checks verify exact quotes, frozen references, both clocks,
   provider call limits, and saved answers/evidence/diagnostics for all 11 requests.
-- The previous [real-provider browser workflow](../../evals/browser-runs/20260925-semantic-ui-1/README.md)
-  predates the scope/prompt changes. Current scope UI checks use mocked providers.
+- The earlier [semantic browser workflow](../../evals/browser-runs/20260925-semantic-ui-1/README.md)
+  predates scope/prompt changes. The final [default browser workflow](../../evals/browser-runs/20260926-v1-final-ui-1/README.md)
+  now verifies the merged product with real providers: TXT/Markdown upload, scoped
+  follow-up, comparison, citations, refresh, Stop, deletion and historical evidence.
 - TXT/Markdown ingestion, parent-child storage/retrieval, hybrid search, evidence
   packing, citations, follow-up, restoration and deletion retain their prior
   implementation and workflow checks. No migration/reindex is needed here.
@@ -82,8 +89,8 @@ Follow-up resolution remains model-dependent; explicit API IDs apply per request
 
 ## Merge decision
 
-Recommend accepting the implemented default v1 functionality with these recorded
-limitations. Do not add more retrieval work or repeat paid sampling to erase
+The user accepted the implemented default v1 functionality with these recorded
+limitations, and the authorized merge is complete. Do not add more retrieval work or repeat paid sampling to erase
 historical failures. Original 7/8, 4/5, scope failures and the separate timeout
 recovery remain intact; the new pass is its own evidence under unchanged references.
 

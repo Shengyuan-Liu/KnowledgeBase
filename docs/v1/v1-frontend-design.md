@@ -2,7 +2,9 @@
 
 ## Scope
 
-Status: implemented on `v1`, with offline acceptance checks. Markdown uploads,
+Status: merged locally at `483a156`, with offline checks and the final
+[real-provider browser workflow](../../evals/browser-runs/20260926-v1-final-ui-1/README.md)
+passing on that product code. Markdown uploads,
 heading paths, original line ranges, citation status and recorded retrieval
 diagnostics are available, including after history restoration and deletion.
 Retain the Library, Chat, and Evidence workspace using

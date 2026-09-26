@@ -33,7 +33,9 @@ test("final default v1 workflow with real providers", async ({ page, request }) 
     if (!response.url().endsWith("/api/chat/stream")) return;
     const entry = {question: response.request().postDataJSON().question} as typeof transport[number];
     transport.push(entry);
-    responses.push(response.text().then(body => {entry.body = body;}).catch(() => {entry.error = "Response body unavailable after browser cancellation.";}));
+    responses.push(response.text().then(body => {entry.body = body;}).catch(error => {
+      entry.error = `Response body unavailable: ${error instanceof Error ? error.message : String(error)}`;
+    }));
   });
   const history = async (): Promise<SavedConversation> => {
     const id = await page.evaluate(() => localStorage.getItem("knowledgebase.conversationId"));
