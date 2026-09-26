@@ -89,3 +89,22 @@ async def test_cancelling_provider_wait_closes_upstream_connection():
             await waiting.wait()
             tasks.cancel_scope.cancel()
     assert body.closed
+
+
+@pytest.mark.anyio
+async def test_read_timeout_after_partial_output_closes_without_replaying_request():
+    from openai import APITimeoutError
+
+    class TimeoutBody(EventBody):
+        async def __aiter__(self):
+            async for part in super().__aiter__():
+                yield part
+            raise httpx2.ReadTimeout('Private transport diagnostic')
+
+    body, requests, parts = TimeoutBody(None), [], []
+    async with client(body, requests) as sdk:
+        with pytest.raises(APITimeoutError):
+            async for part in StreamingLLMClient(sdk, 'test-model').stream([]):
+                parts.append(part)
+    assert parts == ['  Café', ' 🙂\n[1]']
+    assert body.closed and len(requests) == 1

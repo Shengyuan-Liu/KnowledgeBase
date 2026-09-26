@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 import platform
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from time import perf_counter
+from time import perf_counter, time
 from types import SimpleNamespace
 
 from openai import AsyncOpenAI, OpenAI
@@ -99,8 +99,8 @@ class RecordedEmbeddings:
 
 
 class RecordedStream:
-    def __init__(self, stream, row, start):
-        self.stream, self.row, self.start = stream, row, start
+    def __init__(self, stream, row, start, wall_start):
+        self.stream, self.row, self.start, self.wall_start = stream, row, start, wall_start
 
     def __aiter__(self):
         return self
@@ -112,9 +112,11 @@ class RecordedStream:
             raise
         except Exception as error:
             self.row["error_type"] = type(error).__name__
+            self.row["error_cause_type"] = type(error.__cause__).__name__ if error.__cause__ else None
             raise
         if event.type == "response.output_text.delta":
-            self.row.setdefault("deltas", []).append({"seconds": perf_counter() - self.start, "delta": event.delta})
+            self.row.setdefault("deltas", []).append({"seconds": perf_counter() - self.start,
+                "wall_seconds": time() - self.wall_start, "delta": event.delta})
         elif event.type == "response.completed":
             self.row.update(status="ok", resolved_model=event.response.model,
                             usage=event.response.usage.model_dump() if event.response.usage else None)
@@ -123,6 +125,8 @@ class RecordedStream:
     async def close(self):
         await self.stream.close()
         self.row["seconds"] = perf_counter() - self.start
+        self.row["wall_seconds"] = time() - self.wall_start
+        self.row["finished_at"] = timestamp()
 
 
 class RecordedResponses:
@@ -131,14 +135,18 @@ class RecordedResponses:
 
     async def create(self, **kwargs):
         row = {"call_id": identifier(), "stage": "generation", "case_id": self.case_id, "model": kwargs["model"],
-               "messages": kwargs["input"], "reasoning": kwargs.get("reasoning"), "status": "error"}
+               "messages": kwargs["input"], "reasoning": kwargs.get("reasoning"), "status": "error",
+               "started_at": timestamp()}
         self.calls.append(row)
-        started = perf_counter()
+        started, wall_start = perf_counter(), time()
         try:
             stream = await self.sdk.responses.create(**kwargs)
-            return RecordedStream(stream, row, started)
+            row.update(stream_open_seconds=perf_counter() - started, stream_open_wall_seconds=time() - wall_start)
+            return RecordedStream(stream, row, started, wall_start)
         except Exception as error:
-            row.update(error_type=type(error).__name__, seconds=perf_counter() - started)
+            row.update(error_type=type(error).__name__, seconds=perf_counter() - started,
+                       error_cause_type=type(error.__cause__).__name__ if error.__cause__ else None,
+                       wall_seconds=time() - wall_start, finished_at=timestamp())
             raise
 
 

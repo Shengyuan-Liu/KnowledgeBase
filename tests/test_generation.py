@@ -99,6 +99,10 @@ async def test_comparison_prompt_is_shared_by_json_and_streaming_with_later_evid
     user, instructions = captured[0]
     assert 'check all provided excerpts for each named' in instructions['content']
     assert 'not interchangeable' in instructions['content']
+    assert 'Use one labeled item per named document' in instructions['content']
+    assert 'silence is not the opposite policy' in instructions['content']
+    assert 'Limit absence claims to the' in instructions['content']
+    assert 'source comparisons use the per-document items' in instructions['content']
     assert 'require an explicit statement in the evidence' in instructions['content']
     assert user['content'].endswith('Excerpt:\n' + texts[-1])
     assert '[3]\nSource metadata: {"file_name": "source-2.txt", "heading_path": []}' in user['content']

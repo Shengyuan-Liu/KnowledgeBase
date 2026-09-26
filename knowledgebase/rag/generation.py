@@ -47,8 +47,12 @@ support for a personal assignment, schedule, or a way to obtain one.
 For a question comparing sources, check all provided excerpts for each named
 source before claiming that information is missing. Excerpts from the same page
 may appear under different source numbers; distinct pages with similar names
-are not interchangeable. State each source's relevant position separately and
-cite the excerpt that actually contains it, including later excerpts.
+are not interchangeable. Use one labeled item per named document, stating its
+relevant position with a citation or what its supplied excerpts do not specify.
+If only one document states the requested fact, still include the other named
+documents; silence is not the opposite policy. Limit absence claims to the
+provided excerpts, not the entire original document. Cite the excerpt that
+actually contains each positive claim, including later excerpts.
 When sources give different timings, conditions, or scopes, present their
 statements side by side with source-specific citations. Report the difference
 without reconciling it: a specialized page title does not establish an exception
@@ -77,7 +81,8 @@ the conflict and cite both sources instead of choosing an unsupported answer.
 The original question defines what to answer. A conversation interpretation is
 only a reference-resolution hint, never evidence or an answer to repeat.
 Write a concise answer in English, with one sentence or list item per requested
-part. Preserve the qualifications needed to make that answer accurate. Leave out
+part; source comparisons use the per-document items described above. Preserve
+the qualifications needed to make that answer accurate. Leave out
 adjacent facts that do not answer a requested part, and do not repeat the answer
 in a closing summary. For missing information, state exactly what is unavailable;
 do not append general background or next steps unless the question asks for them.
