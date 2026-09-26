@@ -60,6 +60,7 @@ extended. See the [MVP release report](../../evals/analyses/2026-09-21-mvp-relea
 PDF/OCR, agents, multi-user accounts and hosted deployment are outside v1.
 
 Markdown ingestion merged at `282158a`; parent-child and hybrid retrieval at
-`cd10620`; remaining accepted v1 work at `483a156`. Closeout documentation and final
-UI evidence are subsequent commits on `v1`. Continue v1 work there, following
+`cd10620`; remaining accepted v1 work at `483a156`. The user also explicitly
+authorized merging closeout documentation and final UI evidence (`360a982` and
+`55837b0`) on 2026-09-26. Continue subsequent v1 work on `v1`, following
 [AGENTS.md](../../AGENTS.md); each future merge needs separate user authorization.

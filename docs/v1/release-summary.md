@@ -2,9 +2,9 @@
 
 As of 2026-09-26, the user-approved v1 implementation is merged locally into
 `main` at `483a156`. The default functional release is delivered. The final
-real-provider browser workflow also passes on the same product code. This report
-and its closeout evidence are subsequent work on `v1`; they do not imply another
-merge or a remote push.
+real-provider browser workflow also passes on the same product code. The user also explicitly authorized merging the subsequent release summary and
+final browser closeout evidence on 2026-09-26. This authorization covers closeout
+commits `360a982` and `55837b0` plus this status update; it does not imply a remote push.
 
 v1 improves the local, single-user, English-only knowledge base from basic TXT
 vector search into source-preserving TXT/Markdown retrieval with structured

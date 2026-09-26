@@ -2,8 +2,9 @@
 
 **Merge completed locally at `483a156`.** The [release summary](release-summary.md)
 records delivered functionality. The final [default browser acceptance](../../evals/browser-runs/20260926-v1-final-ui-1/README.md)
-passed afterward on identical product code; subsequent closeout work remains on
-`v1` until separately approved for merge.
+passed afterward on identical product code. The user separately authorized
+merging the closeout documentation and evidence (`360a982` and `55837b0`) on
+2026-09-26. Future work still requires its own merge approval.
 
 **The user accepted the current default v1 path and explicitly authorized its
 merge into `main` on 2026-09-26.** The [single awake-host acceptance](../../evals/library-runs/20260926-comparison-awake/README.md)
