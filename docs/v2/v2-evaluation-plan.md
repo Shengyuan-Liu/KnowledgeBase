@@ -10,7 +10,9 @@ Freeze original PDF bytes before writing questions. Record content hashes, sourc
 rights/provenance, extraction versions, and reference annotations. Start with
 digital prose, two-column pages, tables with notes/units, and cross-page passages.
 Include explicit unsupported-content examples to verify limitation reporting.
-Add OCR or visual reasoning populations only if those capabilities enter scope.
+OCR, visual chart/figure understanding, and formula understanding are deferred
+from v2. Evaluate their limitation reporting, not recognition quality; separate
+quality populations belong to a later feature that explicitly adds those abilities.
 
 Annotate facts and locations against the original rendered pages, not exclusively
 against parser output: an omitted passage must remain a detectable extraction

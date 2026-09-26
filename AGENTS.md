@@ -12,6 +12,14 @@
 - Merge each feature into `main` only after the user explicitly authorizes that feature's merge. Approval for one feature does not authorize later merges.
 - After an authorized merge, continue subsequent v1 work on the `v1` branch.
 
+# v2 Branch and Merge Workflow
+
+- Perform all v2 development and documentation work on the `v2` branch and commit changes there.
+- The user decides when each v2 feature is complete. Passing tests or finishing implementation does not authorize a merge.
+- Merge each v2 feature into `main` only after the user explicitly authorizes that feature's merge. Approval for one feature does not authorize later merges.
+- After an authorized merge, continue subsequent v2 work on the `v2` branch.
+- OCR, visual chart/figure understanding, and mathematical formula understanding are deferred from v2. Core PDF work targets digitally generated text and supported table structures with page citations.
+
 # Test and Experiment Measurement
 
 - Run full RAG evaluations, live judge calibration, and paid LLM evaluation only when a complete feature is ready for user acceptance or when the user explicitly requests evaluation. Do not run them after every edit, intermediate implementation step, or assistant turn. During development, run only the relevant unit tests and necessary scoped checks. The measurement requirements below apply to checks actually performed; they do not require an evaluation on every change.

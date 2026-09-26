@@ -11,8 +11,8 @@ Show PDF page count when known and an extraction notice when some content was
 not indexed. Do not label an image-only upload as fully searchable because its
 filename or a small text layer was extracted.
 
-The proposed core uses digital PDFs. If OCR is not enabled for the delivered
-scope, communicate that limitation directly, for example `This PDF requires OCR,
+The core uses digital PDFs; OCR is outside v2. Communicate that limitation
+directly when applicable, for example `This PDF requires OCR,
 which is not supported in this version.` Mixed documents need a visible notice
 about affected pages when identifiable. Do not promise percentage completeness
 without a measured basis.

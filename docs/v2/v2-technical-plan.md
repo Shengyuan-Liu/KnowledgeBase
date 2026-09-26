@@ -180,7 +180,10 @@ SSE completion, and history must agree about sources and trace identity.
 Use scoped tests during development and retained records under the
 [measurement policy](../../evals/measurement-policy.md). Run paid/full evaluation
 only at feature acceptance or on explicit request. Commit each completed change;
-user acceptance and merge authorization remain separate.
+all v2 implementation and documentation commits belong on `v2`. User acceptance
+and merge authorization remain separate. OCR, visual chart/figure understanding,
+and mathematical formula understanding are outside this implementation scope;
+supported table extraction and page citations remain part of PDF work.
 
 ## Primary References
 

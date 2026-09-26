@@ -15,10 +15,11 @@ implied by this documentation.
    identify missing support, search for it within explicit limits, and answer
    with supported facts and clearly stated remaining gaps.
 
-The proposed core PDF scope is digitally generated English documents, including
+The core PDF scope is digitally generated English documents, including
 representative multi-column pages and tables. The user's main PDF population has
-not been specified. OCR, visual chart understanding, and mathematical formula
-understanding are not confirmed requirements; see the scope decisions below.
+not been specified. On 2026-09-26, the user confirmed that OCR, visual chart/figure
+understanding, and mathematical formula understanding can be deferred. They are
+outside v2; text captions and supported table structures remain in scope.
 
 ## Design Set
 
@@ -53,12 +54,12 @@ combines all three; stage completion does not establish a general quality gain.
 | Decision | Current position | Resolve by |
 | --- | --- | --- |
 | Representative PDF population | Papers, lecture notes, and reports are candidate fixtures, not confirmed user priorities | Before parser selection |
-| OCR and mixed scanned pages | Deferred from the proposed core; disclose content that is not indexed | Before freezing PDF acceptance |
-| Figures and formulas | Text captions may be indexed; visual interpretation and formula reasoning are deferred | A separate scope decision |
+| OCR and mixed scanned pages | OCR deferred by the user; disclose content that is not indexed | Confirmed for v2; revisit in a later version |
+| Figures and formulas | Text captions may be indexed; visual interpretation and formula reasoning are deferred by the user | Confirmed for v2; revisit in a later version |
 | Parser and page viewer | Evaluate against source fidelity, page mapping, local resources, and licensing | PDF implementation stage |
 | Query/checker models and limits | Bounded controller proposed; numerical limits in the technical plan are starting settings | Before live acceptance |
 | Quality, latency, and cost thresholds | Freeze from development evidence before held-out evaluation | Evaluation preparation |
-| v2 implementation branch | Not selected by this design; these documents are committed on the current `v1` branch | Before implementation |
+| v2 development branch | Use `v2` for all v2 implementation and documentation commits | Confirmed by the user on 2026-09-26 |
 
 Follow [AGENTS.md](../../AGENTS.md) for English project text, Python ownership,
 verification, and commits. This document request authorizes documentation, not
@@ -69,3 +70,6 @@ authorization remain separate from passing checks. No merge is part of this task
 
 The [design review record](../../evals/check-runs/20260926T195804Z-v2-design/README.md)
 records content, links, and formatting checks. It is not a runtime or RAG evaluation.
+The subsequent [branch and scope review](../../evals/check-runs/20260926T200634Z-v2-scope/README.md)
+records the user-confirmed branch and deferred capabilities without changing the
+historical review.

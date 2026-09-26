@@ -1,7 +1,8 @@
 # KnowledgeBase v2 Product Design
 
-Status: proposed product specification. The three feature areas are confirmed;
-PDF subtypes and implementation choices retain the boundaries described below.
+Status: product specification; implementation is pending. The three feature areas
+are confirmed. OCR and visual chart/figure and formula understanding are deferred
+from v2 by the user; parser selection and representative fixtures remain open.
 
 ## Goal
 
@@ -12,7 +13,7 @@ it and disclose any remaining gap.
 
 ## Feature 1: PDF Ingestion and Page Citations
 
-The proposed core accepts digitally generated English PDFs alongside existing
+The core accepts digitally generated English PDFs alongside existing
 TXT and Markdown files. Preserve reading order, headings, paragraphs, lists, and
 supported table structure. Acceptance must include representative two-column
 pages and tables; perfect extraction from arbitrary PDFs is not promised.
@@ -31,9 +32,9 @@ and retain enough location information to check extraction and quotations.
 | Digital prose, headings, lists | Core support with original page mapping |
 | Multi-column prose | Core acceptance fixtures must verify correct reading order |
 | Tables | Preserve headers, row/column associations, units, and relevant notes for supported layouts |
-| Scanned or mixed image/text pages | OCR is pending scope confirmation; disclose unindexed pages/content instead of claiming complete coverage |
-| Figures and charts | Index available captions as text; do not infer visual values or relationships |
-| Mathematical expressions | Preserve available extracted content without promising formula interpretation |
+| Scanned or mixed image/text pages | OCR is deferred from v2; disclose unindexed pages/content instead of claiming complete coverage |
+| Figures and charts | Visual understanding is deferred; index available captions as text without inferring visual values or relationships |
+| Mathematical expressions | Formula understanding is deferred; preserve available extracted content without promising interpretation |
 | Password-protected PDFs | Password entry and decryption workflows are outside the core scope |
 
 Retain the original PDF locally to support page navigation. On deletion, remove
