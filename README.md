@@ -6,6 +6,8 @@ and source-grounded answers.
 The v2 [PDF integration](docs/pdf-integration.md) supports upload, local extraction,
 page citations and original-page viewing, with recorded parser fidelity limits.
 Follow its one-time model setup before uploading PDFs.
+The v2 [independent plan executor](docs/planned-retrieval.md) is available as a
+standalone backend component; automatic planning is not yet active in chat.
 
 The [v1 release summary](docs/v1/release-summary.md) records the delivered version,
 accepted defaults, experiments, verification and known limits. The implementation

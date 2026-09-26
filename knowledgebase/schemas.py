@@ -286,6 +286,13 @@ class RetrievalDiagnostics(BaseModel):
     tokenizer: str
 
 
+class RetrievedCandidates(BaseModel):
+    """Unpacked query hits; no context has been admitted to the answer yet."""
+
+    hits: list[RetrievedChunk]
+    diagnostics: RetrievalDiagnostics
+
+
 class RetrievedEvidence(BaseModel):
     chunks: list[RetrievedChunk]
     diagnostics: RetrievalDiagnostics

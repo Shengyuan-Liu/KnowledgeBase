@@ -8,7 +8,10 @@ Use the current [project structure](../project-structure.md) and accepted
 The standalone stage 1 [PDF adapter](../pdf-parsing.md) now has an implemented
 contract and a retained parser comparison. Its fidelity failures remain open;
 the [stage 2 integration](../pdf-integration.md) now connects uploads, source
-storage, retrieval and original-page navigation. Controller stages remain proposed.
+storage, retrieval and original-page navigation. The stage 3a
+[independent plan executor](../planned-retrieval.md) is now implemented and tested
+as a standalone component. Automatic planning, dependent queries and live
+controller integration remain proposed.
 
 ## Architecture and Ownership
 

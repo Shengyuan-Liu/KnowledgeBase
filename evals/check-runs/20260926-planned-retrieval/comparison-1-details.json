@@ -1,0 +1,5129 @@
+{
+  "fixture_sha256": "ed77776ec1a3e5e0ac954e8f008b574848b244b523a4343e0d8489c5dd6c9d78",
+  "K": 2,
+  "protocol": "Complete binary labels over four canonical source spans, one child per span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro means within each strategy/variant. No generation or semantic reviewer.",
+  "controls": "Same corpus, questions, labels, index, top_k=2, budgets, tokenizer and retrieval options for each pair. Only supplied independent plan queries/merge/representative selection differ. Hand-authored fixed vectors and plans; not live quality evidence. Sequential concurrency one; cold tokenizer on first pair; no provider/model loading or queue. Single pass, baseline always first; latency comparisons are not causal.",
+  "cases": [
+    {
+      "case_id": "direct",
+      "strategy": "vector",
+      "question": "What method does Aster use?",
+      "gold_spans": [
+        {
+          "file_id": "a",
+          "start": 0,
+          "end": 35
+        }
+      ],
+      "options": {
+        "strategy": "vector",
+        "packing_strategy": null,
+        "candidate_limit": 2,
+        "bm25_k1": 1.2,
+        "bm25_b": 0.75,
+        "rrf_k": 60,
+        "rerank_enabled": false,
+        "rerank_unit": "child",
+        "rerank_candidate_limit": 20,
+        "rerank_max_input_tokens": 16384
+      },
+      "budget": 4096,
+      "single": {
+        "metrics": {
+          "Recall@K": 1.0,
+          "Precision@K": 0.5,
+          "Hit Rate@K": 1.0,
+          "MRR": 1.0,
+          "NDCG@K": 1.0,
+          "Final evidence coverage": 1.0
+        },
+        "ranked_file_ids": [
+          "a",
+          "c"
+        ],
+        "retrieval_seconds": 0.04166629200335592,
+        "evidence": {
+          "chunks": [
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "a:0",
+                "file_id": "a",
+                "text": "Aster trains with labeled examples.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              "file_name": "aster.txt",
+              "distance": 0.0,
+              "fusion": null,
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            },
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "c:0",
+                "file_id": "c",
+                "text": "Cedar stores model checkpoints every hour.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 42
+              },
+              "file_name": "cedar.txt",
+              "distance": 0.029271721839904785,
+              "fusion": null,
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            }
+          ],
+          "diagnostics": {
+            "document_scope": null,
+            "scope_seconds": null,
+            "retrieval_seconds": null,
+            "embedding_seconds": 1.7749960534274578e-05,
+            "rerank": null,
+            "rerank_seconds": null,
+            "options": {
+              "strategy": "vector",
+              "packing_strategy": "parent_then_child",
+              "candidate_limit": 2,
+              "bm25_k1": 1.2,
+              "bm25_b": 0.75,
+              "rrf_k": 60.0,
+              "rerank_enabled": false,
+              "rerank_unit": "child",
+              "rerank_candidate_limit": 20,
+              "rerank_max_input_tokens": 16384
+            },
+            "top_k": 2,
+            "vector_matches": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785
+              }
+            ],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "candidates": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0,
+                "fusion": null,
+                "rerank": null,
+                "file_id": "a",
+                "parent_id": null,
+                "text": "Aster trains with labeled examples.",
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785,
+                "fusion": null,
+                "rerank": null,
+                "file_id": "c",
+                "parent_id": null,
+                "text": "Cedar stores model checkpoints every hour.",
+                "start_offset": 0,
+                "end_offset": 42
+              }
+            ],
+            "excluded": [],
+            "unexpanded_parents": [],
+            "packing_seconds": 0.03880895802285522,
+            "context_format": "source-metadata-v1",
+            "evidence_tokens": 62,
+            "max_tokens": 4096,
+            "tokenizer": "cl100k_base"
+          }
+        },
+        "context": "[1]\nSource metadata: {\"file_name\": \"aster.txt\", \"heading_path\": []}\nExcerpt:\nAster trains with labeled examples.\n\n[2]\nSource metadata: {\"file_name\": \"cedar.txt\", \"heading_path\": []}\nExcerpt:\nCedar stores model checkpoints every hour.",
+        "trace": null
+      },
+      "planned": {
+        "metrics": {
+          "Recall@K": 1.0,
+          "Precision@K": 0.5,
+          "Hit Rate@K": 1.0,
+          "MRR": 1.0,
+          "NDCG@K": 1.0,
+          "Final evidence coverage": 1.0
+        },
+        "ranked_file_ids": [
+          "a",
+          "c"
+        ],
+        "retrieval_seconds": 0.0016452500130981207,
+        "evidence": {
+          "chunks": [
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "a:0",
+                "file_id": "a",
+                "text": "Aster trains with labeled examples.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              "file_name": "aster.txt",
+              "distance": 0.0,
+              "fusion": null,
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            },
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "c:0",
+                "file_id": "c",
+                "text": "Cedar stores model checkpoints every hour.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 42
+              },
+              "file_name": "cedar.txt",
+              "distance": 0.029271721839904785,
+              "fusion": null,
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            }
+          ],
+          "diagnostics": {
+            "document_scope": null,
+            "scope_seconds": null,
+            "retrieval_seconds": 0.0008706660009920597,
+            "embedding_seconds": 1.829105895012617e-05,
+            "rerank": null,
+            "rerank_seconds": null,
+            "options": {
+              "strategy": "vector",
+              "packing_strategy": "parent_then_child",
+              "candidate_limit": 2,
+              "bm25_k1": 1.2,
+              "bm25_b": 0.75,
+              "rrf_k": 60.0,
+              "rerank_enabled": false,
+              "rerank_unit": "child",
+              "rerank_candidate_limit": 20,
+              "rerank_max_input_tokens": 16384
+            },
+            "top_k": 2,
+            "vector_matches": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785
+              }
+            ],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "candidates": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0,
+                "fusion": null,
+                "rerank": null,
+                "file_id": "a",
+                "parent_id": null,
+                "text": "Aster trains with labeled examples.",
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785,
+                "fusion": null,
+                "rerank": null,
+                "file_id": "c",
+                "parent_id": null,
+                "text": "Cedar stores model checkpoints every hour.",
+                "start_offset": 0,
+                "end_offset": 42
+              }
+            ],
+            "excluded": [],
+            "unexpanded_parents": [],
+            "packing_seconds": 4.345795605331659e-05,
+            "context_format": "source-metadata-v1",
+            "evidence_tokens": 62,
+            "max_tokens": 4096,
+            "tokenizer": "cl100k_base"
+          }
+        },
+        "context": "[1]\nSource metadata: {\"file_name\": \"aster.txt\", \"heading_path\": []}\nExcerpt:\nAster trains with labeled examples.\n\n[2]\nSource metadata: {\"file_name\": \"cedar.txt\", \"heading_path\": []}\nExcerpt:\nCedar stores model checkpoints every hour.",
+        "trace": {
+          "version": 1,
+          "plan": {
+            "original_question": "What method does Aster use?",
+            "resolved_question": "What method does Aster use?",
+            "route": "direct",
+            "requirements": [
+              {
+                "requirement_id": "answer",
+                "description": "What method does Aster use?"
+              }
+            ],
+            "queries": [
+              {
+                "query_id": "direct",
+                "text": "What method does Aster use?",
+                "requirement_ids": [
+                  "answer"
+                ],
+                "file_ids": null
+              }
+            ]
+          },
+          "allowed_file_ids": [
+            "d",
+            "c",
+            "b",
+            "a"
+          ],
+          "document_scope": null,
+          "cross_query_rrf_k": 60.0,
+          "per_query_limit": 2,
+          "top_k": 2,
+          "max_evidence_tokens": 4096,
+          "runs": [
+            {
+              "query_ids": [
+                "direct"
+              ],
+              "requirement_ids": [
+                "answer"
+              ],
+              "text": "What method does Aster use?",
+              "requested_file_ids": null,
+              "result": {
+                "hits": [
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "a:0",
+                      "file_id": "a",
+                      "text": "Aster trains with labeled examples.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 35
+                    },
+                    "file_name": "aster.txt",
+                    "distance": 0.0,
+                    "fusion": null,
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  },
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "c:0",
+                      "file_id": "c",
+                      "text": "Cedar stores model checkpoints every hour.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 42
+                    },
+                    "file_name": "cedar.txt",
+                    "distance": 0.029271721839904785,
+                    "fusion": null,
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  }
+                ],
+                "diagnostics": {
+                  "document_scope": null,
+                  "scope_seconds": null,
+                  "retrieval_seconds": 0.0008706660009920597,
+                  "embedding_seconds": 1.829105895012617e-05,
+                  "rerank": null,
+                  "rerank_seconds": null,
+                  "options": {
+                    "strategy": "vector",
+                    "packing_strategy": "parent_then_child",
+                    "candidate_limit": 2,
+                    "bm25_k1": 1.2,
+                    "bm25_b": 0.75,
+                    "rrf_k": 60.0,
+                    "rerank_enabled": false,
+                    "rerank_unit": "child",
+                    "rerank_candidate_limit": 20,
+                    "rerank_max_input_tokens": 16384
+                  },
+                  "top_k": 2,
+                  "vector_matches": [
+                    {
+                      "chunk_id": "a:0",
+                      "distance": 0.0
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "distance": 0.029271721839904785
+                    }
+                  ],
+                  "bm25_matches": [],
+                  "fused_matches": [],
+                  "candidates": [
+                    {
+                      "chunk_id": "a:0",
+                      "distance": 0.0,
+                      "fusion": null,
+                      "rerank": null,
+                      "file_id": "a",
+                      "parent_id": null,
+                      "text": "Aster trains with labeled examples.",
+                      "start_offset": 0,
+                      "end_offset": 35
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "distance": 0.029271721839904785,
+                      "fusion": null,
+                      "rerank": null,
+                      "file_id": "c",
+                      "parent_id": null,
+                      "text": "Cedar stores model checkpoints every hour.",
+                      "start_offset": 0,
+                      "end_offset": 42
+                    }
+                  ],
+                  "excluded": [],
+                  "unexpanded_parents": [],
+                  "packing_seconds": null,
+                  "context_format": null,
+                  "evidence_tokens": 0,
+                  "max_tokens": 4096,
+                  "tokenizer": "cl100k_base"
+                }
+              },
+              "seconds": 0.0008706660009920597
+            }
+          ],
+          "merged": [
+            {
+              "chunk_id": "a:0",
+              "file_id": "a",
+              "score": 0.01639344262295082,
+              "rank": 1,
+              "votes": [
+                {
+                  "run_index": 0,
+                  "rank": 1
+                }
+              ]
+            },
+            {
+              "chunk_id": "c:0",
+              "file_id": "c",
+              "score": 0.016129032258064516,
+              "rank": 2,
+              "votes": [
+                {
+                  "run_index": 0,
+                  "rank": 2
+                }
+              ]
+            }
+          ],
+          "selected_ids": [
+            "a:0",
+            "c:0"
+          ],
+          "requirements": [
+            {
+              "requirement_id": "answer",
+              "candidate_ids": [
+                "a:0",
+                "c:0"
+              ],
+              "selected_ids": [
+                "a:0",
+                "c:0"
+              ],
+              "supplied_ids": [
+                "a:0",
+                "c:0"
+              ],
+              "budget_excluded_ids": []
+            }
+          ],
+          "stop_reason": "independent_queries_complete",
+          "scope_seconds": 0.0003471249947324395,
+          "merge_seconds": 4.4042011722922325e-05,
+          "total_seconds": 0.0016141250962391496
+        }
+      },
+      "deltas": {
+        "Recall@K": 0.0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0.0,
+        "MRR": 0.0,
+        "NDCG@K": 0.0,
+        "Final evidence coverage": 0.0
+      }
+    },
+    {
+      "case_id": "independent",
+      "strategy": "vector",
+      "question": "What method does Aster use and what accuracy does Birch report?",
+      "gold_spans": [
+        {
+          "file_id": "a",
+          "start": 0,
+          "end": 35
+        },
+        {
+          "file_id": "b",
+          "start": 0,
+          "end": 34
+        }
+      ],
+      "options": {
+        "strategy": "vector",
+        "packing_strategy": null,
+        "candidate_limit": 2,
+        "bm25_k1": 1.2,
+        "bm25_b": 0.75,
+        "rrf_k": 60,
+        "rerank_enabled": false,
+        "rerank_unit": "child",
+        "rerank_candidate_limit": 20,
+        "rerank_max_input_tokens": 16384
+      },
+      "budget": 4096,
+      "single": {
+        "metrics": {
+          "Recall@K": 0.5,
+          "Precision@K": 0.5,
+          "Hit Rate@K": 1.0,
+          "MRR": 1.0,
+          "NDCG@K": 0.6131471927654584,
+          "Final evidence coverage": 0.5
+        },
+        "ranked_file_ids": [
+          "a",
+          "c"
+        ],
+        "retrieval_seconds": 0.0009172919671982527,
+        "evidence": {
+          "chunks": [
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "a:0",
+                "file_id": "a",
+                "text": "Aster trains with labeled examples.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              "file_name": "aster.txt",
+              "distance": 0.0,
+              "fusion": null,
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            },
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "c:0",
+                "file_id": "c",
+                "text": "Cedar stores model checkpoints every hour.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 42
+              },
+              "file_name": "cedar.txt",
+              "distance": 0.029271721839904785,
+              "fusion": null,
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            }
+          ],
+          "diagnostics": {
+            "document_scope": null,
+            "scope_seconds": null,
+            "retrieval_seconds": null,
+            "embedding_seconds": 9.625102393329144e-06,
+            "rerank": null,
+            "rerank_seconds": null,
+            "options": {
+              "strategy": "vector",
+              "packing_strategy": "parent_then_child",
+              "candidate_limit": 2,
+              "bm25_k1": 1.2,
+              "bm25_b": 0.75,
+              "rrf_k": 60.0,
+              "rerank_enabled": false,
+              "rerank_unit": "child",
+              "rerank_candidate_limit": 20,
+              "rerank_max_input_tokens": 16384
+            },
+            "top_k": 2,
+            "vector_matches": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785
+              }
+            ],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "candidates": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0,
+                "fusion": null,
+                "rerank": null,
+                "file_id": "a",
+                "parent_id": null,
+                "text": "Aster trains with labeled examples.",
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785,
+                "fusion": null,
+                "rerank": null,
+                "file_id": "c",
+                "parent_id": null,
+                "text": "Cedar stores model checkpoints every hour.",
+                "start_offset": 0,
+                "end_offset": 42
+              }
+            ],
+            "excluded": [],
+            "unexpanded_parents": [],
+            "packing_seconds": 4.779198206961155e-05,
+            "context_format": "source-metadata-v1",
+            "evidence_tokens": 62,
+            "max_tokens": 4096,
+            "tokenizer": "cl100k_base"
+          }
+        },
+        "context": "[1]\nSource metadata: {\"file_name\": \"aster.txt\", \"heading_path\": []}\nExcerpt:\nAster trains with labeled examples.\n\n[2]\nSource metadata: {\"file_name\": \"cedar.txt\", \"heading_path\": []}\nExcerpt:\nCedar stores model checkpoints every hour.",
+        "trace": null
+      },
+      "planned": {
+        "metrics": {
+          "Recall@K": 1.0,
+          "Precision@K": 1.0,
+          "Hit Rate@K": 1.0,
+          "MRR": 1.0,
+          "NDCG@K": 1.0,
+          "Final evidence coverage": 1.0
+        },
+        "ranked_file_ids": [
+          "a",
+          "b"
+        ],
+        "retrieval_seconds": 0.0014572920044884086,
+        "evidence": {
+          "chunks": [
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "a:0",
+                "file_id": "a",
+                "text": "Aster trains with labeled examples.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              "file_name": "aster.txt",
+              "distance": 0.0,
+              "fusion": null,
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            },
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "b:0",
+                "file_id": "b",
+                "text": "Birch accuracy was eighty percent.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 34
+              },
+              "file_name": "birch.txt",
+              "distance": 0.0,
+              "fusion": null,
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            }
+          ],
+          "diagnostics": {
+            "document_scope": null,
+            "scope_seconds": null,
+            "retrieval_seconds": null,
+            "embedding_seconds": null,
+            "rerank": null,
+            "rerank_seconds": null,
+            "options": {
+              "strategy": "vector",
+              "packing_strategy": "parent_then_child",
+              "candidate_limit": 2,
+              "bm25_k1": 1.2,
+              "bm25_b": 0.75,
+              "rrf_k": 60.0,
+              "rerank_enabled": false,
+              "rerank_unit": "child",
+              "rerank_candidate_limit": 20,
+              "rerank_max_input_tokens": 16384
+            },
+            "top_k": 2,
+            "vector_matches": [],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "candidates": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0,
+                "fusion": null,
+                "rerank": null,
+                "file_id": "a",
+                "parent_id": null,
+                "text": "Aster trains with labeled examples.",
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              {
+                "chunk_id": "b:0",
+                "distance": 0.0,
+                "fusion": null,
+                "rerank": null,
+                "file_id": "b",
+                "parent_id": null,
+                "text": "Birch accuracy was eighty percent.",
+                "start_offset": 0,
+                "end_offset": 34
+              }
+            ],
+            "excluded": [],
+            "unexpanded_parents": [],
+            "packing_seconds": 4.04169550165534e-05,
+            "context_format": "source-metadata-v1",
+            "evidence_tokens": 62,
+            "max_tokens": 4096,
+            "tokenizer": "cl100k_base"
+          }
+        },
+        "context": "[1]\nSource metadata: {\"file_name\": \"aster.txt\", \"heading_path\": []}\nExcerpt:\nAster trains with labeled examples.\n\n[2]\nSource metadata: {\"file_name\": \"birch.txt\", \"heading_path\": []}\nExcerpt:\nBirch accuracy was eighty percent.",
+        "trace": {
+          "version": 1,
+          "plan": {
+            "original_question": "What method does Aster use and what accuracy does Birch report?",
+            "resolved_question": "What method does Aster use and what accuracy does Birch report?",
+            "route": "decomposed",
+            "requirements": [
+              {
+                "requirement_id": "method",
+                "description": "method"
+              },
+              {
+                "requirement_id": "result",
+                "description": "result"
+              }
+            ],
+            "queries": [
+              {
+                "query_id": "method",
+                "text": "Aster method labeled examples",
+                "requirement_ids": [
+                  "method"
+                ],
+                "file_ids": null
+              },
+              {
+                "query_id": "result",
+                "text": "Birch accuracy percent",
+                "requirement_ids": [
+                  "result"
+                ],
+                "file_ids": null
+              }
+            ]
+          },
+          "allowed_file_ids": [
+            "d",
+            "c",
+            "b",
+            "a"
+          ],
+          "document_scope": null,
+          "cross_query_rrf_k": 60.0,
+          "per_query_limit": 2,
+          "top_k": 2,
+          "max_evidence_tokens": 4096,
+          "runs": [
+            {
+              "query_ids": [
+                "method"
+              ],
+              "requirement_ids": [
+                "method"
+              ],
+              "text": "Aster method labeled examples",
+              "requested_file_ids": null,
+              "result": {
+                "hits": [
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "a:0",
+                      "file_id": "a",
+                      "text": "Aster trains with labeled examples.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 35
+                    },
+                    "file_name": "aster.txt",
+                    "distance": 0.0,
+                    "fusion": null,
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  },
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "c:0",
+                      "file_id": "c",
+                      "text": "Cedar stores model checkpoints every hour.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 42
+                    },
+                    "file_name": "cedar.txt",
+                    "distance": 0.029271721839904785,
+                    "fusion": null,
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  }
+                ],
+                "diagnostics": {
+                  "document_scope": null,
+                  "scope_seconds": null,
+                  "retrieval_seconds": 0.0005237919976934791,
+                  "embedding_seconds": 9.333016350865364e-06,
+                  "rerank": null,
+                  "rerank_seconds": null,
+                  "options": {
+                    "strategy": "vector",
+                    "packing_strategy": "parent_then_child",
+                    "candidate_limit": 2,
+                    "bm25_k1": 1.2,
+                    "bm25_b": 0.75,
+                    "rrf_k": 60.0,
+                    "rerank_enabled": false,
+                    "rerank_unit": "child",
+                    "rerank_candidate_limit": 20,
+                    "rerank_max_input_tokens": 16384
+                  },
+                  "top_k": 2,
+                  "vector_matches": [
+                    {
+                      "chunk_id": "a:0",
+                      "distance": 0.0
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "distance": 0.029271721839904785
+                    }
+                  ],
+                  "bm25_matches": [],
+                  "fused_matches": [],
+                  "candidates": [
+                    {
+                      "chunk_id": "a:0",
+                      "distance": 0.0,
+                      "fusion": null,
+                      "rerank": null,
+                      "file_id": "a",
+                      "parent_id": null,
+                      "text": "Aster trains with labeled examples.",
+                      "start_offset": 0,
+                      "end_offset": 35
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "distance": 0.029271721839904785,
+                      "fusion": null,
+                      "rerank": null,
+                      "file_id": "c",
+                      "parent_id": null,
+                      "text": "Cedar stores model checkpoints every hour.",
+                      "start_offset": 0,
+                      "end_offset": 42
+                    }
+                  ],
+                  "excluded": [],
+                  "unexpanded_parents": [],
+                  "packing_seconds": null,
+                  "context_format": null,
+                  "evidence_tokens": 0,
+                  "max_tokens": 4096,
+                  "tokenizer": "cl100k_base"
+                }
+              },
+              "seconds": 0.0005237919976934791
+            },
+            {
+              "query_ids": [
+                "result"
+              ],
+              "requirement_ids": [
+                "result"
+              ],
+              "text": "Birch accuracy percent",
+              "requested_file_ids": null,
+              "result": {
+                "hits": [
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "b:0",
+                      "file_id": "b",
+                      "text": "Birch accuracy was eighty percent.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 34
+                    },
+                    "file_name": "birch.txt",
+                    "distance": 0.0,
+                    "fusion": null,
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  },
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "d:0",
+                      "file_id": "d",
+                      "text": "Dahlia rotates log files daily.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 31
+                    },
+                    "file_name": "dahlia.txt",
+                    "distance": 0.029271721839904785,
+                    "fusion": null,
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  }
+                ],
+                "diagnostics": {
+                  "document_scope": null,
+                  "scope_seconds": null,
+                  "retrieval_seconds": 0.0004794170381501317,
+                  "embedding_seconds": 7.833936251699924e-06,
+                  "rerank": null,
+                  "rerank_seconds": null,
+                  "options": {
+                    "strategy": "vector",
+                    "packing_strategy": "parent_then_child",
+                    "candidate_limit": 2,
+                    "bm25_k1": 1.2,
+                    "bm25_b": 0.75,
+                    "rrf_k": 60.0,
+                    "rerank_enabled": false,
+                    "rerank_unit": "child",
+                    "rerank_candidate_limit": 20,
+                    "rerank_max_input_tokens": 16384
+                  },
+                  "top_k": 2,
+                  "vector_matches": [
+                    {
+                      "chunk_id": "b:0",
+                      "distance": 0.0
+                    },
+                    {
+                      "chunk_id": "d:0",
+                      "distance": 0.029271721839904785
+                    }
+                  ],
+                  "bm25_matches": [],
+                  "fused_matches": [],
+                  "candidates": [
+                    {
+                      "chunk_id": "b:0",
+                      "distance": 0.0,
+                      "fusion": null,
+                      "rerank": null,
+                      "file_id": "b",
+                      "parent_id": null,
+                      "text": "Birch accuracy was eighty percent.",
+                      "start_offset": 0,
+                      "end_offset": 34
+                    },
+                    {
+                      "chunk_id": "d:0",
+                      "distance": 0.029271721839904785,
+                      "fusion": null,
+                      "rerank": null,
+                      "file_id": "d",
+                      "parent_id": null,
+                      "text": "Dahlia rotates log files daily.",
+                      "start_offset": 0,
+                      "end_offset": 31
+                    }
+                  ],
+                  "excluded": [],
+                  "unexpanded_parents": [],
+                  "packing_seconds": null,
+                  "context_format": null,
+                  "evidence_tokens": 0,
+                  "max_tokens": 4096,
+                  "tokenizer": "cl100k_base"
+                }
+              },
+              "seconds": 0.0004794170381501317
+            }
+          ],
+          "merged": [
+            {
+              "chunk_id": "a:0",
+              "file_id": "a",
+              "score": 0.01639344262295082,
+              "rank": 1,
+              "votes": [
+                {
+                  "run_index": 0,
+                  "rank": 1
+                }
+              ]
+            },
+            {
+              "chunk_id": "b:0",
+              "file_id": "b",
+              "score": 0.01639344262295082,
+              "rank": 2,
+              "votes": [
+                {
+                  "run_index": 1,
+                  "rank": 1
+                }
+              ]
+            },
+            {
+              "chunk_id": "c:0",
+              "file_id": "c",
+              "score": 0.016129032258064516,
+              "rank": 3,
+              "votes": [
+                {
+                  "run_index": 0,
+                  "rank": 2
+                }
+              ]
+            },
+            {
+              "chunk_id": "d:0",
+              "file_id": "d",
+              "score": 0.016129032258064516,
+              "rank": 4,
+              "votes": [
+                {
+                  "run_index": 1,
+                  "rank": 2
+                }
+              ]
+            }
+          ],
+          "selected_ids": [
+            "a:0",
+            "b:0"
+          ],
+          "requirements": [
+            {
+              "requirement_id": "method",
+              "candidate_ids": [
+                "a:0",
+                "c:0"
+              ],
+              "selected_ids": [
+                "a:0"
+              ],
+              "supplied_ids": [
+                "a:0"
+              ],
+              "budget_excluded_ids": []
+            },
+            {
+              "requirement_id": "result",
+              "candidate_ids": [
+                "b:0",
+                "d:0"
+              ],
+              "selected_ids": [
+                "b:0"
+              ],
+              "supplied_ids": [
+                "b:0"
+              ],
+              "budget_excluded_ids": []
+            }
+          ],
+          "stop_reason": "independent_queries_complete",
+          "scope_seconds": 0.0001337080029770732,
+          "merge_seconds": 3.583391662687063e-05,
+          "total_seconds": 0.001426583039574325
+        }
+      },
+      "deltas": {
+        "Recall@K": 0.5,
+        "Precision@K": 0.5,
+        "Hit Rate@K": 0.0,
+        "MRR": 0.0,
+        "NDCG@K": 0.38685280723454163,
+        "Final evidence coverage": 0.5
+      }
+    },
+    {
+      "case_id": "duplicate",
+      "strategy": "vector",
+      "question": "What method does Aster use?",
+      "gold_spans": [
+        {
+          "file_id": "a",
+          "start": 0,
+          "end": 35
+        }
+      ],
+      "options": {
+        "strategy": "vector",
+        "packing_strategy": null,
+        "candidate_limit": 2,
+        "bm25_k1": 1.2,
+        "bm25_b": 0.75,
+        "rrf_k": 60,
+        "rerank_enabled": false,
+        "rerank_unit": "child",
+        "rerank_candidate_limit": 20,
+        "rerank_max_input_tokens": 16384
+      },
+      "budget": 4096,
+      "single": {
+        "metrics": {
+          "Recall@K": 1.0,
+          "Precision@K": 0.5,
+          "Hit Rate@K": 1.0,
+          "MRR": 1.0,
+          "NDCG@K": 1.0,
+          "Final evidence coverage": 1.0
+        },
+        "ranked_file_ids": [
+          "a",
+          "c"
+        ],
+        "retrieval_seconds": 0.0007589160231873393,
+        "evidence": {
+          "chunks": [
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "a:0",
+                "file_id": "a",
+                "text": "Aster trains with labeled examples.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              "file_name": "aster.txt",
+              "distance": 0.0,
+              "fusion": null,
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            },
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "c:0",
+                "file_id": "c",
+                "text": "Cedar stores model checkpoints every hour.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 42
+              },
+              "file_name": "cedar.txt",
+              "distance": 0.029271721839904785,
+              "fusion": null,
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            }
+          ],
+          "diagnostics": {
+            "document_scope": null,
+            "scope_seconds": null,
+            "retrieval_seconds": null,
+            "embedding_seconds": 7.500057108700275e-06,
+            "rerank": null,
+            "rerank_seconds": null,
+            "options": {
+              "strategy": "vector",
+              "packing_strategy": "parent_then_child",
+              "candidate_limit": 2,
+              "bm25_k1": 1.2,
+              "bm25_b": 0.75,
+              "rrf_k": 60.0,
+              "rerank_enabled": false,
+              "rerank_unit": "child",
+              "rerank_candidate_limit": 20,
+              "rerank_max_input_tokens": 16384
+            },
+            "top_k": 2,
+            "vector_matches": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785
+              }
+            ],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "candidates": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0,
+                "fusion": null,
+                "rerank": null,
+                "file_id": "a",
+                "parent_id": null,
+                "text": "Aster trains with labeled examples.",
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785,
+                "fusion": null,
+                "rerank": null,
+                "file_id": "c",
+                "parent_id": null,
+                "text": "Cedar stores model checkpoints every hour.",
+                "start_offset": 0,
+                "end_offset": 42
+              }
+            ],
+            "excluded": [],
+            "unexpanded_parents": [],
+            "packing_seconds": 3.779097460210323e-05,
+            "context_format": "source-metadata-v1",
+            "evidence_tokens": 62,
+            "max_tokens": 4096,
+            "tokenizer": "cl100k_base"
+          }
+        },
+        "context": "[1]\nSource metadata: {\"file_name\": \"aster.txt\", \"heading_path\": []}\nExcerpt:\nAster trains with labeled examples.\n\n[2]\nSource metadata: {\"file_name\": \"cedar.txt\", \"heading_path\": []}\nExcerpt:\nCedar stores model checkpoints every hour.",
+        "trace": null
+      },
+      "planned": {
+        "metrics": {
+          "Recall@K": 1.0,
+          "Precision@K": 0.5,
+          "Hit Rate@K": 1.0,
+          "MRR": 1.0,
+          "NDCG@K": 1.0,
+          "Final evidence coverage": 1.0
+        },
+        "ranked_file_ids": [
+          "a",
+          "c"
+        ],
+        "retrieval_seconds": 0.0008917079539969563,
+        "evidence": {
+          "chunks": [
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "a:0",
+                "file_id": "a",
+                "text": "Aster trains with labeled examples.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              "file_name": "aster.txt",
+              "distance": 0.0,
+              "fusion": null,
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            },
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "c:0",
+                "file_id": "c",
+                "text": "Cedar stores model checkpoints every hour.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 42
+              },
+              "file_name": "cedar.txt",
+              "distance": 0.029271721839904785,
+              "fusion": null,
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            }
+          ],
+          "diagnostics": {
+            "document_scope": null,
+            "scope_seconds": null,
+            "retrieval_seconds": null,
+            "embedding_seconds": null,
+            "rerank": null,
+            "rerank_seconds": null,
+            "options": {
+              "strategy": "vector",
+              "packing_strategy": "parent_then_child",
+              "candidate_limit": 2,
+              "bm25_k1": 1.2,
+              "bm25_b": 0.75,
+              "rrf_k": 60.0,
+              "rerank_enabled": false,
+              "rerank_unit": "child",
+              "rerank_candidate_limit": 20,
+              "rerank_max_input_tokens": 16384
+            },
+            "top_k": 2,
+            "vector_matches": [],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "candidates": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0,
+                "fusion": null,
+                "rerank": null,
+                "file_id": "a",
+                "parent_id": null,
+                "text": "Aster trains with labeled examples.",
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785,
+                "fusion": null,
+                "rerank": null,
+                "file_id": "c",
+                "parent_id": null,
+                "text": "Cedar stores model checkpoints every hour.",
+                "start_offset": 0,
+                "end_offset": 42
+              }
+            ],
+            "excluded": [],
+            "unexpanded_parents": [],
+            "packing_seconds": 4.2958068661391735e-05,
+            "context_format": "source-metadata-v1",
+            "evidence_tokens": 62,
+            "max_tokens": 4096,
+            "tokenizer": "cl100k_base"
+          }
+        },
+        "context": "[1]\nSource metadata: {\"file_name\": \"aster.txt\", \"heading_path\": []}\nExcerpt:\nAster trains with labeled examples.\n\n[2]\nSource metadata: {\"file_name\": \"cedar.txt\", \"heading_path\": []}\nExcerpt:\nCedar stores model checkpoints every hour.",
+        "trace": {
+          "version": 1,
+          "plan": {
+            "original_question": "What method does Aster use?",
+            "resolved_question": "What method does Aster use?",
+            "route": "decomposed",
+            "requirements": [
+              {
+                "requirement_id": "method",
+                "description": "method"
+              }
+            ],
+            "queries": [
+              {
+                "query_id": "one",
+                "text": "What method does Aster use?",
+                "requirement_ids": [
+                  "method"
+                ],
+                "file_ids": null
+              },
+              {
+                "query_id": "two",
+                "text": "What method does Aster use?",
+                "requirement_ids": [
+                  "method"
+                ],
+                "file_ids": null
+              }
+            ]
+          },
+          "allowed_file_ids": [
+            "d",
+            "c",
+            "b",
+            "a"
+          ],
+          "document_scope": null,
+          "cross_query_rrf_k": 60.0,
+          "per_query_limit": 2,
+          "top_k": 2,
+          "max_evidence_tokens": 4096,
+          "runs": [
+            {
+              "query_ids": [
+                "one",
+                "two"
+              ],
+              "requirement_ids": [
+                "method"
+              ],
+              "text": "What method does Aster use?",
+              "requested_file_ids": null,
+              "result": {
+                "hits": [
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "a:0",
+                      "file_id": "a",
+                      "text": "Aster trains with labeled examples.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 35
+                    },
+                    "file_name": "aster.txt",
+                    "distance": 0.0,
+                    "fusion": null,
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  },
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "c:0",
+                      "file_id": "c",
+                      "text": "Cedar stores model checkpoints every hour.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 42
+                    },
+                    "file_name": "cedar.txt",
+                    "distance": 0.029271721839904785,
+                    "fusion": null,
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  }
+                ],
+                "diagnostics": {
+                  "document_scope": null,
+                  "scope_seconds": null,
+                  "retrieval_seconds": 0.00047795800492167473,
+                  "embedding_seconds": 7.833004929125309e-06,
+                  "rerank": null,
+                  "rerank_seconds": null,
+                  "options": {
+                    "strategy": "vector",
+                    "packing_strategy": "parent_then_child",
+                    "candidate_limit": 2,
+                    "bm25_k1": 1.2,
+                    "bm25_b": 0.75,
+                    "rrf_k": 60.0,
+                    "rerank_enabled": false,
+                    "rerank_unit": "child",
+                    "rerank_candidate_limit": 20,
+                    "rerank_max_input_tokens": 16384
+                  },
+                  "top_k": 2,
+                  "vector_matches": [
+                    {
+                      "chunk_id": "a:0",
+                      "distance": 0.0
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "distance": 0.029271721839904785
+                    }
+                  ],
+                  "bm25_matches": [],
+                  "fused_matches": [],
+                  "candidates": [
+                    {
+                      "chunk_id": "a:0",
+                      "distance": 0.0,
+                      "fusion": null,
+                      "rerank": null,
+                      "file_id": "a",
+                      "parent_id": null,
+                      "text": "Aster trains with labeled examples.",
+                      "start_offset": 0,
+                      "end_offset": 35
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "distance": 0.029271721839904785,
+                      "fusion": null,
+                      "rerank": null,
+                      "file_id": "c",
+                      "parent_id": null,
+                      "text": "Cedar stores model checkpoints every hour.",
+                      "start_offset": 0,
+                      "end_offset": 42
+                    }
+                  ],
+                  "excluded": [],
+                  "unexpanded_parents": [],
+                  "packing_seconds": null,
+                  "context_format": null,
+                  "evidence_tokens": 0,
+                  "max_tokens": 4096,
+                  "tokenizer": "cl100k_base"
+                }
+              },
+              "seconds": 0.00047795800492167473
+            }
+          ],
+          "merged": [
+            {
+              "chunk_id": "a:0",
+              "file_id": "a",
+              "score": 0.01639344262295082,
+              "rank": 1,
+              "votes": [
+                {
+                  "run_index": 0,
+                  "rank": 1
+                }
+              ]
+            },
+            {
+              "chunk_id": "c:0",
+              "file_id": "c",
+              "score": 0.016129032258064516,
+              "rank": 2,
+              "votes": [
+                {
+                  "run_index": 0,
+                  "rank": 2
+                }
+              ]
+            }
+          ],
+          "selected_ids": [
+            "a:0",
+            "c:0"
+          ],
+          "requirements": [
+            {
+              "requirement_id": "method",
+              "candidate_ids": [
+                "a:0",
+                "c:0"
+              ],
+              "selected_ids": [
+                "a:0",
+                "c:0"
+              ],
+              "supplied_ids": [
+                "a:0",
+                "c:0"
+              ],
+              "budget_excluded_ids": []
+            }
+          ],
+          "stop_reason": "independent_queries_complete",
+          "scope_seconds": 0.00011258292943239212,
+          "merge_seconds": 2.6084017008543015e-05,
+          "total_seconds": 0.0008698749588802457
+        }
+      },
+      "deltas": {
+        "Recall@K": 0.0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0.0,
+        "MRR": 0.0,
+        "NDCG@K": 0.0,
+        "Final evidence coverage": 0.0
+      }
+    },
+    {
+      "case_id": "budget_exhausted",
+      "strategy": "vector",
+      "question": "What method does Aster use and what accuracy does Birch report?",
+      "gold_spans": [
+        {
+          "file_id": "a",
+          "start": 0,
+          "end": 35
+        },
+        {
+          "file_id": "b",
+          "start": 0,
+          "end": 34
+        }
+      ],
+      "options": {
+        "strategy": "vector",
+        "packing_strategy": null,
+        "candidate_limit": 2,
+        "bm25_k1": 1.2,
+        "bm25_b": 0.75,
+        "rrf_k": 60,
+        "rerank_enabled": false,
+        "rerank_unit": "child",
+        "rerank_candidate_limit": 20,
+        "rerank_max_input_tokens": 16384
+      },
+      "budget": 1,
+      "single": {
+        "metrics": {
+          "Recall@K": 0.5,
+          "Precision@K": 0.5,
+          "Hit Rate@K": 1.0,
+          "MRR": 1.0,
+          "NDCG@K": 0.6131471927654584,
+          "Final evidence coverage": 0.0
+        },
+        "ranked_file_ids": [
+          "a",
+          "c"
+        ],
+        "retrieval_seconds": 0.0007714590756222606,
+        "evidence": {
+          "chunks": [],
+          "diagnostics": {
+            "document_scope": null,
+            "scope_seconds": null,
+            "retrieval_seconds": null,
+            "embedding_seconds": 7.0410314947366714e-06,
+            "rerank": null,
+            "rerank_seconds": null,
+            "options": {
+              "strategy": "vector",
+              "packing_strategy": "parent_then_child",
+              "candidate_limit": 2,
+              "bm25_k1": 1.2,
+              "bm25_b": 0.75,
+              "rrf_k": 60.0,
+              "rerank_enabled": false,
+              "rerank_unit": "child",
+              "rerank_candidate_limit": 20,
+              "rerank_max_input_tokens": 16384
+            },
+            "top_k": 2,
+            "vector_matches": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785
+              }
+            ],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "candidates": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0,
+                "fusion": null,
+                "rerank": null,
+                "file_id": "a",
+                "parent_id": null,
+                "text": "Aster trains with labeled examples.",
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785,
+                "fusion": null,
+                "rerank": null,
+                "file_id": "c",
+                "parent_id": null,
+                "text": "Cedar stores model checkpoints every hour.",
+                "start_offset": 0,
+                "end_offset": 42
+              }
+            ],
+            "excluded": [
+              {
+                "chunk_id": "a:0",
+                "file_id": "a",
+                "token_count": 7,
+                "reason": "context_budget"
+              },
+              {
+                "chunk_id": "c:0",
+                "file_id": "c",
+                "token_count": 8,
+                "reason": "context_budget"
+              }
+            ],
+            "unexpanded_parents": [],
+            "packing_seconds": 4.416599404066801e-05,
+            "context_format": "source-metadata-v1",
+            "evidence_tokens": 0,
+            "max_tokens": 1,
+            "tokenizer": "cl100k_base"
+          }
+        },
+        "context": "",
+        "trace": null
+      },
+      "planned": {
+        "metrics": {
+          "Recall@K": 1.0,
+          "Precision@K": 1.0,
+          "Hit Rate@K": 1.0,
+          "MRR": 1.0,
+          "NDCG@K": 1.0,
+          "Final evidence coverage": 0.0
+        },
+        "ranked_file_ids": [
+          "a",
+          "b"
+        ],
+        "retrieval_seconds": 0.0017054580384865403,
+        "evidence": {
+          "chunks": [],
+          "diagnostics": {
+            "document_scope": null,
+            "scope_seconds": null,
+            "retrieval_seconds": null,
+            "embedding_seconds": null,
+            "rerank": null,
+            "rerank_seconds": null,
+            "options": {
+              "strategy": "vector",
+              "packing_strategy": "parent_then_child",
+              "candidate_limit": 2,
+              "bm25_k1": 1.2,
+              "bm25_b": 0.75,
+              "rrf_k": 60.0,
+              "rerank_enabled": false,
+              "rerank_unit": "child",
+              "rerank_candidate_limit": 20,
+              "rerank_max_input_tokens": 16384
+            },
+            "top_k": 2,
+            "vector_matches": [],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "candidates": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0,
+                "fusion": null,
+                "rerank": null,
+                "file_id": "a",
+                "parent_id": null,
+                "text": "Aster trains with labeled examples.",
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              {
+                "chunk_id": "b:0",
+                "distance": 0.0,
+                "fusion": null,
+                "rerank": null,
+                "file_id": "b",
+                "parent_id": null,
+                "text": "Birch accuracy was eighty percent.",
+                "start_offset": 0,
+                "end_offset": 34
+              }
+            ],
+            "excluded": [
+              {
+                "chunk_id": "a:0",
+                "file_id": "a",
+                "token_count": 7,
+                "reason": "context_budget"
+              },
+              {
+                "chunk_id": "b:0",
+                "file_id": "b",
+                "token_count": 8,
+                "reason": "context_budget"
+              }
+            ],
+            "unexpanded_parents": [],
+            "packing_seconds": 4.6874978579580784e-05,
+            "context_format": "source-metadata-v1",
+            "evidence_tokens": 0,
+            "max_tokens": 1,
+            "tokenizer": "cl100k_base"
+          }
+        },
+        "context": "",
+        "trace": {
+          "version": 1,
+          "plan": {
+            "original_question": "What method does Aster use and what accuracy does Birch report?",
+            "resolved_question": "What method does Aster use and what accuracy does Birch report?",
+            "route": "decomposed",
+            "requirements": [
+              {
+                "requirement_id": "method",
+                "description": "method"
+              },
+              {
+                "requirement_id": "result",
+                "description": "result"
+              }
+            ],
+            "queries": [
+              {
+                "query_id": "method",
+                "text": "Aster method labeled examples",
+                "requirement_ids": [
+                  "method"
+                ],
+                "file_ids": null
+              },
+              {
+                "query_id": "result",
+                "text": "Birch accuracy percent",
+                "requirement_ids": [
+                  "result"
+                ],
+                "file_ids": null
+              }
+            ]
+          },
+          "allowed_file_ids": [
+            "d",
+            "c",
+            "b",
+            "a"
+          ],
+          "document_scope": null,
+          "cross_query_rrf_k": 60.0,
+          "per_query_limit": 2,
+          "top_k": 2,
+          "max_evidence_tokens": 1,
+          "runs": [
+            {
+              "query_ids": [
+                "method"
+              ],
+              "requirement_ids": [
+                "method"
+              ],
+              "text": "Aster method labeled examples",
+              "requested_file_ids": null,
+              "result": {
+                "hits": [
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "a:0",
+                      "file_id": "a",
+                      "text": "Aster trains with labeled examples.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 35
+                    },
+                    "file_name": "aster.txt",
+                    "distance": 0.0,
+                    "fusion": null,
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  },
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "c:0",
+                      "file_id": "c",
+                      "text": "Cedar stores model checkpoints every hour.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 42
+                    },
+                    "file_name": "cedar.txt",
+                    "distance": 0.029271721839904785,
+                    "fusion": null,
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  }
+                ],
+                "diagnostics": {
+                  "document_scope": null,
+                  "scope_seconds": null,
+                  "retrieval_seconds": 0.0004706248873844743,
+                  "embedding_seconds": 7.208087481558323e-06,
+                  "rerank": null,
+                  "rerank_seconds": null,
+                  "options": {
+                    "strategy": "vector",
+                    "packing_strategy": "parent_then_child",
+                    "candidate_limit": 2,
+                    "bm25_k1": 1.2,
+                    "bm25_b": 0.75,
+                    "rrf_k": 60.0,
+                    "rerank_enabled": false,
+                    "rerank_unit": "child",
+                    "rerank_candidate_limit": 20,
+                    "rerank_max_input_tokens": 16384
+                  },
+                  "top_k": 2,
+                  "vector_matches": [
+                    {
+                      "chunk_id": "a:0",
+                      "distance": 0.0
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "distance": 0.029271721839904785
+                    }
+                  ],
+                  "bm25_matches": [],
+                  "fused_matches": [],
+                  "candidates": [
+                    {
+                      "chunk_id": "a:0",
+                      "distance": 0.0,
+                      "fusion": null,
+                      "rerank": null,
+                      "file_id": "a",
+                      "parent_id": null,
+                      "text": "Aster trains with labeled examples.",
+                      "start_offset": 0,
+                      "end_offset": 35
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "distance": 0.029271721839904785,
+                      "fusion": null,
+                      "rerank": null,
+                      "file_id": "c",
+                      "parent_id": null,
+                      "text": "Cedar stores model checkpoints every hour.",
+                      "start_offset": 0,
+                      "end_offset": 42
+                    }
+                  ],
+                  "excluded": [],
+                  "unexpanded_parents": [],
+                  "packing_seconds": null,
+                  "context_format": null,
+                  "evidence_tokens": 0,
+                  "max_tokens": 1,
+                  "tokenizer": "cl100k_base"
+                }
+              },
+              "seconds": 0.0004706248873844743
+            },
+            {
+              "query_ids": [
+                "result"
+              ],
+              "requirement_ids": [
+                "result"
+              ],
+              "text": "Birch accuracy percent",
+              "requested_file_ids": null,
+              "result": {
+                "hits": [
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "b:0",
+                      "file_id": "b",
+                      "text": "Birch accuracy was eighty percent.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 34
+                    },
+                    "file_name": "birch.txt",
+                    "distance": 0.0,
+                    "fusion": null,
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  },
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "d:0",
+                      "file_id": "d",
+                      "text": "Dahlia rotates log files daily.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 31
+                    },
+                    "file_name": "dahlia.txt",
+                    "distance": 0.029271721839904785,
+                    "fusion": null,
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  }
+                ],
+                "diagnostics": {
+                  "document_scope": null,
+                  "scope_seconds": null,
+                  "retrieval_seconds": 0.0007506659021601081,
+                  "embedding_seconds": 1.1208001524209976e-05,
+                  "rerank": null,
+                  "rerank_seconds": null,
+                  "options": {
+                    "strategy": "vector",
+                    "packing_strategy": "parent_then_child",
+                    "candidate_limit": 2,
+                    "bm25_k1": 1.2,
+                    "bm25_b": 0.75,
+                    "rrf_k": 60.0,
+                    "rerank_enabled": false,
+                    "rerank_unit": "child",
+                    "rerank_candidate_limit": 20,
+                    "rerank_max_input_tokens": 16384
+                  },
+                  "top_k": 2,
+                  "vector_matches": [
+                    {
+                      "chunk_id": "b:0",
+                      "distance": 0.0
+                    },
+                    {
+                      "chunk_id": "d:0",
+                      "distance": 0.029271721839904785
+                    }
+                  ],
+                  "bm25_matches": [],
+                  "fused_matches": [],
+                  "candidates": [
+                    {
+                      "chunk_id": "b:0",
+                      "distance": 0.0,
+                      "fusion": null,
+                      "rerank": null,
+                      "file_id": "b",
+                      "parent_id": null,
+                      "text": "Birch accuracy was eighty percent.",
+                      "start_offset": 0,
+                      "end_offset": 34
+                    },
+                    {
+                      "chunk_id": "d:0",
+                      "distance": 0.029271721839904785,
+                      "fusion": null,
+                      "rerank": null,
+                      "file_id": "d",
+                      "parent_id": null,
+                      "text": "Dahlia rotates log files daily.",
+                      "start_offset": 0,
+                      "end_offset": 31
+                    }
+                  ],
+                  "excluded": [],
+                  "unexpanded_parents": [],
+                  "packing_seconds": null,
+                  "context_format": null,
+                  "evidence_tokens": 0,
+                  "max_tokens": 1,
+                  "tokenizer": "cl100k_base"
+                }
+              },
+              "seconds": 0.0007506659021601081
+            }
+          ],
+          "merged": [
+            {
+              "chunk_id": "a:0",
+              "file_id": "a",
+              "score": 0.01639344262295082,
+              "rank": 1,
+              "votes": [
+                {
+                  "run_index": 0,
+                  "rank": 1
+                }
+              ]
+            },
+            {
+              "chunk_id": "b:0",
+              "file_id": "b",
+              "score": 0.01639344262295082,
+              "rank": 2,
+              "votes": [
+                {
+                  "run_index": 1,
+                  "rank": 1
+                }
+              ]
+            },
+            {
+              "chunk_id": "c:0",
+              "file_id": "c",
+              "score": 0.016129032258064516,
+              "rank": 3,
+              "votes": [
+                {
+                  "run_index": 0,
+                  "rank": 2
+                }
+              ]
+            },
+            {
+              "chunk_id": "d:0",
+              "file_id": "d",
+              "score": 0.016129032258064516,
+              "rank": 4,
+              "votes": [
+                {
+                  "run_index": 1,
+                  "rank": 2
+                }
+              ]
+            }
+          ],
+          "selected_ids": [
+            "a:0",
+            "b:0"
+          ],
+          "requirements": [
+            {
+              "requirement_id": "method",
+              "candidate_ids": [
+                "a:0",
+                "c:0"
+              ],
+              "selected_ids": [
+                "a:0"
+              ],
+              "supplied_ids": [],
+              "budget_excluded_ids": [
+                "a:0"
+              ]
+            },
+            {
+              "requirement_id": "result",
+              "candidate_ids": [
+                "b:0",
+                "d:0"
+              ],
+              "selected_ids": [
+                "b:0"
+              ],
+              "supplied_ids": [],
+              "budget_excluded_ids": [
+                "b:0"
+              ]
+            }
+          ],
+          "stop_reason": "independent_queries_complete",
+          "scope_seconds": 0.00011729192920029163,
+          "merge_seconds": 3.2832962460815907e-05,
+          "total_seconds": 0.0016746670007705688
+        }
+      },
+      "deltas": {
+        "Recall@K": 0.5,
+        "Precision@K": 0.5,
+        "Hit Rate@K": 0.0,
+        "MRR": 0.0,
+        "NDCG@K": 0.38685280723454163,
+        "Final evidence coverage": 0.0
+      }
+    },
+    {
+      "case_id": "direct",
+      "strategy": "hybrid",
+      "question": "What method does Aster use?",
+      "gold_spans": [
+        {
+          "file_id": "a",
+          "start": 0,
+          "end": 35
+        }
+      ],
+      "options": {
+        "strategy": "hybrid",
+        "packing_strategy": null,
+        "candidate_limit": 2,
+        "bm25_k1": 1.2,
+        "bm25_b": 0.75,
+        "rrf_k": 60,
+        "rerank_enabled": false,
+        "rerank_unit": "child",
+        "rerank_candidate_limit": 20,
+        "rerank_max_input_tokens": 16384
+      },
+      "budget": 4096,
+      "single": {
+        "metrics": {
+          "Recall@K": 1.0,
+          "Precision@K": 0.5,
+          "Hit Rate@K": 1.0,
+          "MRR": 1.0,
+          "NDCG@K": 1.0,
+          "Final evidence coverage": 1.0
+        },
+        "ranked_file_ids": [
+          "a",
+          "c"
+        ],
+        "retrieval_seconds": 0.0012366659939289093,
+        "evidence": {
+          "chunks": [
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "a:0",
+                "file_id": "a",
+                "text": "Aster trains with labeled examples.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              "file_name": "aster.txt",
+              "distance": 0.0,
+              "fusion": {
+                "chunk_id": "a:0",
+                "rrf_score": 0.03278688524590164,
+                "rank": 1,
+                "bm25_score": 1.2278927938158555,
+                "bm25_rank": 1,
+                "vector_distance": 0.0,
+                "vector_rank": 1
+              },
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            },
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "c:0",
+                "file_id": "c",
+                "text": "Cedar stores model checkpoints every hour.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 42
+              },
+              "file_name": "cedar.txt",
+              "distance": 0.029271721839904785,
+              "fusion": {
+                "chunk_id": "c:0",
+                "rrf_score": 0.016129032258064516,
+                "rank": 2,
+                "bm25_score": null,
+                "bm25_rank": null,
+                "vector_distance": 0.029271721839904785,
+                "vector_rank": 2
+              },
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            }
+          ],
+          "diagnostics": {
+            "document_scope": null,
+            "scope_seconds": null,
+            "retrieval_seconds": null,
+            "embedding_seconds": 9.124982170760632e-06,
+            "rerank": null,
+            "rerank_seconds": null,
+            "options": {
+              "strategy": "hybrid",
+              "packing_strategy": "parent_then_child",
+              "candidate_limit": 2,
+              "bm25_k1": 1.2,
+              "bm25_b": 0.75,
+              "rrf_k": 60.0,
+              "rerank_enabled": false,
+              "rerank_unit": "child",
+              "rerank_candidate_limit": 20,
+              "rerank_max_input_tokens": 16384
+            },
+            "top_k": 2,
+            "vector_matches": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785
+              }
+            ],
+            "bm25_matches": [
+              {
+                "chunk_id": "a:0",
+                "score": 1.2278927938158555,
+                "rank": 1
+              }
+            ],
+            "fused_matches": [
+              {
+                "chunk_id": "a:0",
+                "rrf_score": 0.03278688524590164,
+                "rank": 1,
+                "bm25_score": 1.2278927938158555,
+                "bm25_rank": 1,
+                "vector_distance": 0.0,
+                "vector_rank": 1
+              },
+              {
+                "chunk_id": "c:0",
+                "rrf_score": 0.016129032258064516,
+                "rank": 2,
+                "bm25_score": null,
+                "bm25_rank": null,
+                "vector_distance": 0.029271721839904785,
+                "vector_rank": 2
+              }
+            ],
+            "candidates": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0,
+                "fusion": {
+                  "chunk_id": "a:0",
+                  "rrf_score": 0.03278688524590164,
+                  "rank": 1,
+                  "bm25_score": 1.2278927938158555,
+                  "bm25_rank": 1,
+                  "vector_distance": 0.0,
+                  "vector_rank": 1
+                },
+                "rerank": null,
+                "file_id": "a",
+                "parent_id": null,
+                "text": "Aster trains with labeled examples.",
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785,
+                "fusion": {
+                  "chunk_id": "c:0",
+                  "rrf_score": 0.016129032258064516,
+                  "rank": 2,
+                  "bm25_score": null,
+                  "bm25_rank": null,
+                  "vector_distance": 0.029271721839904785,
+                  "vector_rank": 2
+                },
+                "rerank": null,
+                "file_id": "c",
+                "parent_id": null,
+                "text": "Cedar stores model checkpoints every hour.",
+                "start_offset": 0,
+                "end_offset": 42
+              }
+            ],
+            "excluded": [],
+            "unexpanded_parents": [],
+            "packing_seconds": 3.758305683732033e-05,
+            "context_format": "source-metadata-v1",
+            "evidence_tokens": 62,
+            "max_tokens": 4096,
+            "tokenizer": "cl100k_base"
+          }
+        },
+        "context": "[1]\nSource metadata: {\"file_name\": \"aster.txt\", \"heading_path\": []}\nExcerpt:\nAster trains with labeled examples.\n\n[2]\nSource metadata: {\"file_name\": \"cedar.txt\", \"heading_path\": []}\nExcerpt:\nCedar stores model checkpoints every hour.",
+        "trace": null
+      },
+      "planned": {
+        "metrics": {
+          "Recall@K": 1.0,
+          "Precision@K": 0.5,
+          "Hit Rate@K": 1.0,
+          "MRR": 1.0,
+          "NDCG@K": 1.0,
+          "Final evidence coverage": 1.0
+        },
+        "ranked_file_ids": [
+          "a",
+          "c"
+        ],
+        "retrieval_seconds": 0.0009641669457778335,
+        "evidence": {
+          "chunks": [
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "a:0",
+                "file_id": "a",
+                "text": "Aster trains with labeled examples.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              "file_name": "aster.txt",
+              "distance": 0.0,
+              "fusion": {
+                "chunk_id": "a:0",
+                "rrf_score": 0.03278688524590164,
+                "rank": 1,
+                "bm25_score": 1.2278927938158555,
+                "bm25_rank": 1,
+                "vector_distance": 0.0,
+                "vector_rank": 1
+              },
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            },
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "c:0",
+                "file_id": "c",
+                "text": "Cedar stores model checkpoints every hour.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 42
+              },
+              "file_name": "cedar.txt",
+              "distance": 0.029271721839904785,
+              "fusion": {
+                "chunk_id": "c:0",
+                "rrf_score": 0.016129032258064516,
+                "rank": 2,
+                "bm25_score": null,
+                "bm25_rank": null,
+                "vector_distance": 0.029271721839904785,
+                "vector_rank": 2
+              },
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            }
+          ],
+          "diagnostics": {
+            "document_scope": null,
+            "scope_seconds": null,
+            "retrieval_seconds": 0.0005439160158857703,
+            "embedding_seconds": 7.458031177520752e-06,
+            "rerank": null,
+            "rerank_seconds": null,
+            "options": {
+              "strategy": "hybrid",
+              "packing_strategy": "parent_then_child",
+              "candidate_limit": 2,
+              "bm25_k1": 1.2,
+              "bm25_b": 0.75,
+              "rrf_k": 60.0,
+              "rerank_enabled": false,
+              "rerank_unit": "child",
+              "rerank_candidate_limit": 20,
+              "rerank_max_input_tokens": 16384
+            },
+            "top_k": 2,
+            "vector_matches": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785
+              }
+            ],
+            "bm25_matches": [
+              {
+                "chunk_id": "a:0",
+                "score": 1.2278927938158555,
+                "rank": 1
+              }
+            ],
+            "fused_matches": [
+              {
+                "chunk_id": "a:0",
+                "rrf_score": 0.03278688524590164,
+                "rank": 1,
+                "bm25_score": 1.2278927938158555,
+                "bm25_rank": 1,
+                "vector_distance": 0.0,
+                "vector_rank": 1
+              },
+              {
+                "chunk_id": "c:0",
+                "rrf_score": 0.016129032258064516,
+                "rank": 2,
+                "bm25_score": null,
+                "bm25_rank": null,
+                "vector_distance": 0.029271721839904785,
+                "vector_rank": 2
+              }
+            ],
+            "candidates": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0,
+                "fusion": {
+                  "chunk_id": "a:0",
+                  "rrf_score": 0.03278688524590164,
+                  "rank": 1,
+                  "bm25_score": 1.2278927938158555,
+                  "bm25_rank": 1,
+                  "vector_distance": 0.0,
+                  "vector_rank": 1
+                },
+                "rerank": null,
+                "file_id": "a",
+                "parent_id": null,
+                "text": "Aster trains with labeled examples.",
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785,
+                "fusion": {
+                  "chunk_id": "c:0",
+                  "rrf_score": 0.016129032258064516,
+                  "rank": 2,
+                  "bm25_score": null,
+                  "bm25_rank": null,
+                  "vector_distance": 0.029271721839904785,
+                  "vector_rank": 2
+                },
+                "rerank": null,
+                "file_id": "c",
+                "parent_id": null,
+                "text": "Cedar stores model checkpoints every hour.",
+                "start_offset": 0,
+                "end_offset": 42
+              }
+            ],
+            "excluded": [],
+            "unexpanded_parents": [],
+            "packing_seconds": 3.5458942875266075e-05,
+            "context_format": "source-metadata-v1",
+            "evidence_tokens": 62,
+            "max_tokens": 4096,
+            "tokenizer": "cl100k_base"
+          }
+        },
+        "context": "[1]\nSource metadata: {\"file_name\": \"aster.txt\", \"heading_path\": []}\nExcerpt:\nAster trains with labeled examples.\n\n[2]\nSource metadata: {\"file_name\": \"cedar.txt\", \"heading_path\": []}\nExcerpt:\nCedar stores model checkpoints every hour.",
+        "trace": {
+          "version": 1,
+          "plan": {
+            "original_question": "What method does Aster use?",
+            "resolved_question": "What method does Aster use?",
+            "route": "direct",
+            "requirements": [
+              {
+                "requirement_id": "answer",
+                "description": "What method does Aster use?"
+              }
+            ],
+            "queries": [
+              {
+                "query_id": "direct",
+                "text": "What method does Aster use?",
+                "requirement_ids": [
+                  "answer"
+                ],
+                "file_ids": null
+              }
+            ]
+          },
+          "allowed_file_ids": [
+            "d",
+            "c",
+            "b",
+            "a"
+          ],
+          "document_scope": null,
+          "cross_query_rrf_k": 60.0,
+          "per_query_limit": 2,
+          "top_k": 2,
+          "max_evidence_tokens": 4096,
+          "runs": [
+            {
+              "query_ids": [
+                "direct"
+              ],
+              "requirement_ids": [
+                "answer"
+              ],
+              "text": "What method does Aster use?",
+              "requested_file_ids": null,
+              "result": {
+                "hits": [
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "a:0",
+                      "file_id": "a",
+                      "text": "Aster trains with labeled examples.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 35
+                    },
+                    "file_name": "aster.txt",
+                    "distance": 0.0,
+                    "fusion": {
+                      "chunk_id": "a:0",
+                      "rrf_score": 0.03278688524590164,
+                      "rank": 1,
+                      "bm25_score": 1.2278927938158555,
+                      "bm25_rank": 1,
+                      "vector_distance": 0.0,
+                      "vector_rank": 1
+                    },
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  },
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "c:0",
+                      "file_id": "c",
+                      "text": "Cedar stores model checkpoints every hour.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 42
+                    },
+                    "file_name": "cedar.txt",
+                    "distance": 0.029271721839904785,
+                    "fusion": {
+                      "chunk_id": "c:0",
+                      "rrf_score": 0.016129032258064516,
+                      "rank": 2,
+                      "bm25_score": null,
+                      "bm25_rank": null,
+                      "vector_distance": 0.029271721839904785,
+                      "vector_rank": 2
+                    },
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  }
+                ],
+                "diagnostics": {
+                  "document_scope": null,
+                  "scope_seconds": null,
+                  "retrieval_seconds": 0.0005439160158857703,
+                  "embedding_seconds": 7.458031177520752e-06,
+                  "rerank": null,
+                  "rerank_seconds": null,
+                  "options": {
+                    "strategy": "hybrid",
+                    "packing_strategy": "parent_then_child",
+                    "candidate_limit": 2,
+                    "bm25_k1": 1.2,
+                    "bm25_b": 0.75,
+                    "rrf_k": 60.0,
+                    "rerank_enabled": false,
+                    "rerank_unit": "child",
+                    "rerank_candidate_limit": 20,
+                    "rerank_max_input_tokens": 16384
+                  },
+                  "top_k": 2,
+                  "vector_matches": [
+                    {
+                      "chunk_id": "a:0",
+                      "distance": 0.0
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "distance": 0.029271721839904785
+                    }
+                  ],
+                  "bm25_matches": [
+                    {
+                      "chunk_id": "a:0",
+                      "score": 1.2278927938158555,
+                      "rank": 1
+                    }
+                  ],
+                  "fused_matches": [
+                    {
+                      "chunk_id": "a:0",
+                      "rrf_score": 0.03278688524590164,
+                      "rank": 1,
+                      "bm25_score": 1.2278927938158555,
+                      "bm25_rank": 1,
+                      "vector_distance": 0.0,
+                      "vector_rank": 1
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "rrf_score": 0.016129032258064516,
+                      "rank": 2,
+                      "bm25_score": null,
+                      "bm25_rank": null,
+                      "vector_distance": 0.029271721839904785,
+                      "vector_rank": 2
+                    }
+                  ],
+                  "candidates": [
+                    {
+                      "chunk_id": "a:0",
+                      "distance": 0.0,
+                      "fusion": {
+                        "chunk_id": "a:0",
+                        "rrf_score": 0.03278688524590164,
+                        "rank": 1,
+                        "bm25_score": 1.2278927938158555,
+                        "bm25_rank": 1,
+                        "vector_distance": 0.0,
+                        "vector_rank": 1
+                      },
+                      "rerank": null,
+                      "file_id": "a",
+                      "parent_id": null,
+                      "text": "Aster trains with labeled examples.",
+                      "start_offset": 0,
+                      "end_offset": 35
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "distance": 0.029271721839904785,
+                      "fusion": {
+                        "chunk_id": "c:0",
+                        "rrf_score": 0.016129032258064516,
+                        "rank": 2,
+                        "bm25_score": null,
+                        "bm25_rank": null,
+                        "vector_distance": 0.029271721839904785,
+                        "vector_rank": 2
+                      },
+                      "rerank": null,
+                      "file_id": "c",
+                      "parent_id": null,
+                      "text": "Cedar stores model checkpoints every hour.",
+                      "start_offset": 0,
+                      "end_offset": 42
+                    }
+                  ],
+                  "excluded": [],
+                  "unexpanded_parents": [],
+                  "packing_seconds": null,
+                  "context_format": null,
+                  "evidence_tokens": 0,
+                  "max_tokens": 4096,
+                  "tokenizer": "cl100k_base"
+                }
+              },
+              "seconds": 0.0005439160158857703
+            }
+          ],
+          "merged": [
+            {
+              "chunk_id": "a:0",
+              "file_id": "a",
+              "score": 0.01639344262295082,
+              "rank": 1,
+              "votes": [
+                {
+                  "run_index": 0,
+                  "rank": 1
+                }
+              ]
+            },
+            {
+              "chunk_id": "c:0",
+              "file_id": "c",
+              "score": 0.016129032258064516,
+              "rank": 2,
+              "votes": [
+                {
+                  "run_index": 0,
+                  "rank": 2
+                }
+              ]
+            }
+          ],
+          "selected_ids": [
+            "a:0",
+            "c:0"
+          ],
+          "requirements": [
+            {
+              "requirement_id": "answer",
+              "candidate_ids": [
+                "a:0",
+                "c:0"
+              ],
+              "selected_ids": [
+                "a:0",
+                "c:0"
+              ],
+              "supplied_ids": [
+                "a:0",
+                "c:0"
+              ],
+              "budget_excluded_ids": []
+            }
+          ],
+          "stop_reason": "independent_queries_complete",
+          "scope_seconds": 0.00011004193220287561,
+          "merge_seconds": 2.816703636199236e-05,
+          "total_seconds": 0.0009383339202031493
+        }
+      },
+      "deltas": {
+        "Recall@K": 0.0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0.0,
+        "MRR": 0.0,
+        "NDCG@K": 0.0,
+        "Final evidence coverage": 0.0
+      }
+    },
+    {
+      "case_id": "independent",
+      "strategy": "hybrid",
+      "question": "What method does Aster use and what accuracy does Birch report?",
+      "gold_spans": [
+        {
+          "file_id": "a",
+          "start": 0,
+          "end": 35
+        },
+        {
+          "file_id": "b",
+          "start": 0,
+          "end": 34
+        }
+      ],
+      "options": {
+        "strategy": "hybrid",
+        "packing_strategy": null,
+        "candidate_limit": 2,
+        "bm25_k1": 1.2,
+        "bm25_b": 0.75,
+        "rrf_k": 60,
+        "rerank_enabled": false,
+        "rerank_unit": "child",
+        "rerank_candidate_limit": 20,
+        "rerank_max_input_tokens": 16384
+      },
+      "budget": 4096,
+      "single": {
+        "metrics": {
+          "Recall@K": 1.0,
+          "Precision@K": 1.0,
+          "Hit Rate@K": 1.0,
+          "MRR": 1.0,
+          "NDCG@K": 1.0,
+          "Final evidence coverage": 1.0
+        },
+        "ranked_file_ids": [
+          "a",
+          "b"
+        ],
+        "retrieval_seconds": 0.0007703340379521251,
+        "evidence": {
+          "chunks": [
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "a:0",
+                "file_id": "a",
+                "text": "Aster trains with labeled examples.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              "file_name": "aster.txt",
+              "distance": 0.0,
+              "fusion": {
+                "chunk_id": "a:0",
+                "rrf_score": 0.03252247488101534,
+                "rank": 1,
+                "bm25_score": 1.2278927938158555,
+                "bm25_rank": 2,
+                "vector_distance": 0.0,
+                "vector_rank": 1
+              },
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            },
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "b:0",
+                "file_id": "b",
+                "text": "Birch accuracy was eighty percent.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 34
+              },
+              "file_name": "birch.txt",
+              "distance": null,
+              "fusion": {
+                "chunk_id": "b:0",
+                "rrf_score": 0.01639344262295082,
+                "rank": 2,
+                "bm25_score": 2.455785587631711,
+                "bm25_rank": 1,
+                "vector_distance": null,
+                "vector_rank": null
+              },
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            }
+          ],
+          "diagnostics": {
+            "document_scope": null,
+            "scope_seconds": null,
+            "retrieval_seconds": null,
+            "embedding_seconds": 6.832997314631939e-06,
+            "rerank": null,
+            "rerank_seconds": null,
+            "options": {
+              "strategy": "hybrid",
+              "packing_strategy": "parent_then_child",
+              "candidate_limit": 2,
+              "bm25_k1": 1.2,
+              "bm25_b": 0.75,
+              "rrf_k": 60.0,
+              "rerank_enabled": false,
+              "rerank_unit": "child",
+              "rerank_candidate_limit": 20,
+              "rerank_max_input_tokens": 16384
+            },
+            "top_k": 2,
+            "vector_matches": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785
+              }
+            ],
+            "bm25_matches": [
+              {
+                "chunk_id": "b:0",
+                "score": 2.455785587631711,
+                "rank": 1
+              },
+              {
+                "chunk_id": "a:0",
+                "score": 1.2278927938158555,
+                "rank": 2
+              }
+            ],
+            "fused_matches": [
+              {
+                "chunk_id": "a:0",
+                "rrf_score": 0.03252247488101534,
+                "rank": 1,
+                "bm25_score": 1.2278927938158555,
+                "bm25_rank": 2,
+                "vector_distance": 0.0,
+                "vector_rank": 1
+              },
+              {
+                "chunk_id": "b:0",
+                "rrf_score": 0.01639344262295082,
+                "rank": 2,
+                "bm25_score": 2.455785587631711,
+                "bm25_rank": 1,
+                "vector_distance": null,
+                "vector_rank": null
+              },
+              {
+                "chunk_id": "c:0",
+                "rrf_score": 0.016129032258064516,
+                "rank": 3,
+                "bm25_score": null,
+                "bm25_rank": null,
+                "vector_distance": 0.029271721839904785,
+                "vector_rank": 2
+              }
+            ],
+            "candidates": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0,
+                "fusion": {
+                  "chunk_id": "a:0",
+                  "rrf_score": 0.03252247488101534,
+                  "rank": 1,
+                  "bm25_score": 1.2278927938158555,
+                  "bm25_rank": 2,
+                  "vector_distance": 0.0,
+                  "vector_rank": 1
+                },
+                "rerank": null,
+                "file_id": "a",
+                "parent_id": null,
+                "text": "Aster trains with labeled examples.",
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              {
+                "chunk_id": "b:0",
+                "distance": null,
+                "fusion": {
+                  "chunk_id": "b:0",
+                  "rrf_score": 0.01639344262295082,
+                  "rank": 2,
+                  "bm25_score": 2.455785587631711,
+                  "bm25_rank": 1,
+                  "vector_distance": null,
+                  "vector_rank": null
+                },
+                "rerank": null,
+                "file_id": "b",
+                "parent_id": null,
+                "text": "Birch accuracy was eighty percent.",
+                "start_offset": 0,
+                "end_offset": 34
+              }
+            ],
+            "excluded": [],
+            "unexpanded_parents": [],
+            "packing_seconds": 3.4917029552161694e-05,
+            "context_format": "source-metadata-v1",
+            "evidence_tokens": 62,
+            "max_tokens": 4096,
+            "tokenizer": "cl100k_base"
+          }
+        },
+        "context": "[1]\nSource metadata: {\"file_name\": \"aster.txt\", \"heading_path\": []}\nExcerpt:\nAster trains with labeled examples.\n\n[2]\nSource metadata: {\"file_name\": \"birch.txt\", \"heading_path\": []}\nExcerpt:\nBirch accuracy was eighty percent.",
+        "trace": null
+      },
+      "planned": {
+        "metrics": {
+          "Recall@K": 1.0,
+          "Precision@K": 1.0,
+          "Hit Rate@K": 1.0,
+          "MRR": 1.0,
+          "NDCG@K": 1.0,
+          "Final evidence coverage": 1.0
+        },
+        "ranked_file_ids": [
+          "a",
+          "b"
+        ],
+        "retrieval_seconds": 0.0014786249957978725,
+        "evidence": {
+          "chunks": [
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "a:0",
+                "file_id": "a",
+                "text": "Aster trains with labeled examples.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              "file_name": "aster.txt",
+              "distance": 0.0,
+              "fusion": {
+                "chunk_id": "a:0",
+                "rrf_score": 0.03278688524590164,
+                "rank": 1,
+                "bm25_score": 3.6836783814475664,
+                "bm25_rank": 1,
+                "vector_distance": 0.0,
+                "vector_rank": 1
+              },
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            },
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "b:0",
+                "file_id": "b",
+                "text": "Birch accuracy was eighty percent.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 34
+              },
+              "file_name": "birch.txt",
+              "distance": 0.0,
+              "fusion": {
+                "chunk_id": "b:0",
+                "rrf_score": 0.03278688524590164,
+                "rank": 1,
+                "bm25_score": 3.6836783814475664,
+                "bm25_rank": 1,
+                "vector_distance": 0.0,
+                "vector_rank": 1
+              },
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            }
+          ],
+          "diagnostics": {
+            "document_scope": null,
+            "scope_seconds": null,
+            "retrieval_seconds": null,
+            "embedding_seconds": null,
+            "rerank": null,
+            "rerank_seconds": null,
+            "options": {
+              "strategy": "hybrid",
+              "packing_strategy": "parent_then_child",
+              "candidate_limit": 2,
+              "bm25_k1": 1.2,
+              "bm25_b": 0.75,
+              "rrf_k": 60.0,
+              "rerank_enabled": false,
+              "rerank_unit": "child",
+              "rerank_candidate_limit": 20,
+              "rerank_max_input_tokens": 16384
+            },
+            "top_k": 2,
+            "vector_matches": [],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "candidates": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0,
+                "fusion": {
+                  "chunk_id": "a:0",
+                  "rrf_score": 0.03278688524590164,
+                  "rank": 1,
+                  "bm25_score": 3.6836783814475664,
+                  "bm25_rank": 1,
+                  "vector_distance": 0.0,
+                  "vector_rank": 1
+                },
+                "rerank": null,
+                "file_id": "a",
+                "parent_id": null,
+                "text": "Aster trains with labeled examples.",
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              {
+                "chunk_id": "b:0",
+                "distance": 0.0,
+                "fusion": {
+                  "chunk_id": "b:0",
+                  "rrf_score": 0.03278688524590164,
+                  "rank": 1,
+                  "bm25_score": 3.6836783814475664,
+                  "bm25_rank": 1,
+                  "vector_distance": 0.0,
+                  "vector_rank": 1
+                },
+                "rerank": null,
+                "file_id": "b",
+                "parent_id": null,
+                "text": "Birch accuracy was eighty percent.",
+                "start_offset": 0,
+                "end_offset": 34
+              }
+            ],
+            "excluded": [],
+            "unexpanded_parents": [],
+            "packing_seconds": 3.599992487579584e-05,
+            "context_format": "source-metadata-v1",
+            "evidence_tokens": 62,
+            "max_tokens": 4096,
+            "tokenizer": "cl100k_base"
+          }
+        },
+        "context": "[1]\nSource metadata: {\"file_name\": \"aster.txt\", \"heading_path\": []}\nExcerpt:\nAster trains with labeled examples.\n\n[2]\nSource metadata: {\"file_name\": \"birch.txt\", \"heading_path\": []}\nExcerpt:\nBirch accuracy was eighty percent.",
+        "trace": {
+          "version": 1,
+          "plan": {
+            "original_question": "What method does Aster use and what accuracy does Birch report?",
+            "resolved_question": "What method does Aster use and what accuracy does Birch report?",
+            "route": "decomposed",
+            "requirements": [
+              {
+                "requirement_id": "method",
+                "description": "method"
+              },
+              {
+                "requirement_id": "result",
+                "description": "result"
+              }
+            ],
+            "queries": [
+              {
+                "query_id": "method",
+                "text": "Aster method labeled examples",
+                "requirement_ids": [
+                  "method"
+                ],
+                "file_ids": null
+              },
+              {
+                "query_id": "result",
+                "text": "Birch accuracy percent",
+                "requirement_ids": [
+                  "result"
+                ],
+                "file_ids": null
+              }
+            ]
+          },
+          "allowed_file_ids": [
+            "d",
+            "c",
+            "b",
+            "a"
+          ],
+          "document_scope": null,
+          "cross_query_rrf_k": 60.0,
+          "per_query_limit": 2,
+          "top_k": 2,
+          "max_evidence_tokens": 4096,
+          "runs": [
+            {
+              "query_ids": [
+                "method"
+              ],
+              "requirement_ids": [
+                "method"
+              ],
+              "text": "Aster method labeled examples",
+              "requested_file_ids": null,
+              "result": {
+                "hits": [
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "a:0",
+                      "file_id": "a",
+                      "text": "Aster trains with labeled examples.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 35
+                    },
+                    "file_name": "aster.txt",
+                    "distance": 0.0,
+                    "fusion": {
+                      "chunk_id": "a:0",
+                      "rrf_score": 0.03278688524590164,
+                      "rank": 1,
+                      "bm25_score": 3.6836783814475664,
+                      "bm25_rank": 1,
+                      "vector_distance": 0.0,
+                      "vector_rank": 1
+                    },
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  },
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "c:0",
+                      "file_id": "c",
+                      "text": "Cedar stores model checkpoints every hour.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 42
+                    },
+                    "file_name": "cedar.txt",
+                    "distance": 0.029271721839904785,
+                    "fusion": {
+                      "chunk_id": "c:0",
+                      "rrf_score": 0.016129032258064516,
+                      "rank": 2,
+                      "bm25_score": null,
+                      "bm25_rank": null,
+                      "vector_distance": 0.029271721839904785,
+                      "vector_rank": 2
+                    },
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  }
+                ],
+                "diagnostics": {
+                  "document_scope": null,
+                  "scope_seconds": null,
+                  "retrieval_seconds": 0.0005177500424906611,
+                  "embedding_seconds": 6.084097549319267e-06,
+                  "rerank": null,
+                  "rerank_seconds": null,
+                  "options": {
+                    "strategy": "hybrid",
+                    "packing_strategy": "parent_then_child",
+                    "candidate_limit": 2,
+                    "bm25_k1": 1.2,
+                    "bm25_b": 0.75,
+                    "rrf_k": 60.0,
+                    "rerank_enabled": false,
+                    "rerank_unit": "child",
+                    "rerank_candidate_limit": 20,
+                    "rerank_max_input_tokens": 16384
+                  },
+                  "top_k": 2,
+                  "vector_matches": [
+                    {
+                      "chunk_id": "a:0",
+                      "distance": 0.0
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "distance": 0.029271721839904785
+                    }
+                  ],
+                  "bm25_matches": [
+                    {
+                      "chunk_id": "a:0",
+                      "score": 3.6836783814475664,
+                      "rank": 1
+                    }
+                  ],
+                  "fused_matches": [
+                    {
+                      "chunk_id": "a:0",
+                      "rrf_score": 0.03278688524590164,
+                      "rank": 1,
+                      "bm25_score": 3.6836783814475664,
+                      "bm25_rank": 1,
+                      "vector_distance": 0.0,
+                      "vector_rank": 1
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "rrf_score": 0.016129032258064516,
+                      "rank": 2,
+                      "bm25_score": null,
+                      "bm25_rank": null,
+                      "vector_distance": 0.029271721839904785,
+                      "vector_rank": 2
+                    }
+                  ],
+                  "candidates": [
+                    {
+                      "chunk_id": "a:0",
+                      "distance": 0.0,
+                      "fusion": {
+                        "chunk_id": "a:0",
+                        "rrf_score": 0.03278688524590164,
+                        "rank": 1,
+                        "bm25_score": 3.6836783814475664,
+                        "bm25_rank": 1,
+                        "vector_distance": 0.0,
+                        "vector_rank": 1
+                      },
+                      "rerank": null,
+                      "file_id": "a",
+                      "parent_id": null,
+                      "text": "Aster trains with labeled examples.",
+                      "start_offset": 0,
+                      "end_offset": 35
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "distance": 0.029271721839904785,
+                      "fusion": {
+                        "chunk_id": "c:0",
+                        "rrf_score": 0.016129032258064516,
+                        "rank": 2,
+                        "bm25_score": null,
+                        "bm25_rank": null,
+                        "vector_distance": 0.029271721839904785,
+                        "vector_rank": 2
+                      },
+                      "rerank": null,
+                      "file_id": "c",
+                      "parent_id": null,
+                      "text": "Cedar stores model checkpoints every hour.",
+                      "start_offset": 0,
+                      "end_offset": 42
+                    }
+                  ],
+                  "excluded": [],
+                  "unexpanded_parents": [],
+                  "packing_seconds": null,
+                  "context_format": null,
+                  "evidence_tokens": 0,
+                  "max_tokens": 4096,
+                  "tokenizer": "cl100k_base"
+                }
+              },
+              "seconds": 0.0005177500424906611
+            },
+            {
+              "query_ids": [
+                "result"
+              ],
+              "requirement_ids": [
+                "result"
+              ],
+              "text": "Birch accuracy percent",
+              "requested_file_ids": null,
+              "result": {
+                "hits": [
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "b:0",
+                      "file_id": "b",
+                      "text": "Birch accuracy was eighty percent.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 34
+                    },
+                    "file_name": "birch.txt",
+                    "distance": 0.0,
+                    "fusion": {
+                      "chunk_id": "b:0",
+                      "rrf_score": 0.03278688524590164,
+                      "rank": 1,
+                      "bm25_score": 3.6836783814475664,
+                      "bm25_rank": 1,
+                      "vector_distance": 0.0,
+                      "vector_rank": 1
+                    },
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  },
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "d:0",
+                      "file_id": "d",
+                      "text": "Dahlia rotates log files daily.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 31
+                    },
+                    "file_name": "dahlia.txt",
+                    "distance": 0.029271721839904785,
+                    "fusion": {
+                      "chunk_id": "d:0",
+                      "rrf_score": 0.016129032258064516,
+                      "rank": 2,
+                      "bm25_score": null,
+                      "bm25_rank": null,
+                      "vector_distance": 0.029271721839904785,
+                      "vector_rank": 2
+                    },
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  }
+                ],
+                "diagnostics": {
+                  "document_scope": null,
+                  "scope_seconds": null,
+                  "retrieval_seconds": 0.0005505409790202975,
+                  "embedding_seconds": 5.749985575675964e-06,
+                  "rerank": null,
+                  "rerank_seconds": null,
+                  "options": {
+                    "strategy": "hybrid",
+                    "packing_strategy": "parent_then_child",
+                    "candidate_limit": 2,
+                    "bm25_k1": 1.2,
+                    "bm25_b": 0.75,
+                    "rrf_k": 60.0,
+                    "rerank_enabled": false,
+                    "rerank_unit": "child",
+                    "rerank_candidate_limit": 20,
+                    "rerank_max_input_tokens": 16384
+                  },
+                  "top_k": 2,
+                  "vector_matches": [
+                    {
+                      "chunk_id": "b:0",
+                      "distance": 0.0
+                    },
+                    {
+                      "chunk_id": "d:0",
+                      "distance": 0.029271721839904785
+                    }
+                  ],
+                  "bm25_matches": [
+                    {
+                      "chunk_id": "b:0",
+                      "score": 3.6836783814475664,
+                      "rank": 1
+                    }
+                  ],
+                  "fused_matches": [
+                    {
+                      "chunk_id": "b:0",
+                      "rrf_score": 0.03278688524590164,
+                      "rank": 1,
+                      "bm25_score": 3.6836783814475664,
+                      "bm25_rank": 1,
+                      "vector_distance": 0.0,
+                      "vector_rank": 1
+                    },
+                    {
+                      "chunk_id": "d:0",
+                      "rrf_score": 0.016129032258064516,
+                      "rank": 2,
+                      "bm25_score": null,
+                      "bm25_rank": null,
+                      "vector_distance": 0.029271721839904785,
+                      "vector_rank": 2
+                    }
+                  ],
+                  "candidates": [
+                    {
+                      "chunk_id": "b:0",
+                      "distance": 0.0,
+                      "fusion": {
+                        "chunk_id": "b:0",
+                        "rrf_score": 0.03278688524590164,
+                        "rank": 1,
+                        "bm25_score": 3.6836783814475664,
+                        "bm25_rank": 1,
+                        "vector_distance": 0.0,
+                        "vector_rank": 1
+                      },
+                      "rerank": null,
+                      "file_id": "b",
+                      "parent_id": null,
+                      "text": "Birch accuracy was eighty percent.",
+                      "start_offset": 0,
+                      "end_offset": 34
+                    },
+                    {
+                      "chunk_id": "d:0",
+                      "distance": 0.029271721839904785,
+                      "fusion": {
+                        "chunk_id": "d:0",
+                        "rrf_score": 0.016129032258064516,
+                        "rank": 2,
+                        "bm25_score": null,
+                        "bm25_rank": null,
+                        "vector_distance": 0.029271721839904785,
+                        "vector_rank": 2
+                      },
+                      "rerank": null,
+                      "file_id": "d",
+                      "parent_id": null,
+                      "text": "Dahlia rotates log files daily.",
+                      "start_offset": 0,
+                      "end_offset": 31
+                    }
+                  ],
+                  "excluded": [],
+                  "unexpanded_parents": [],
+                  "packing_seconds": null,
+                  "context_format": null,
+                  "evidence_tokens": 0,
+                  "max_tokens": 4096,
+                  "tokenizer": "cl100k_base"
+                }
+              },
+              "seconds": 0.0005505409790202975
+            }
+          ],
+          "merged": [
+            {
+              "chunk_id": "a:0",
+              "file_id": "a",
+              "score": 0.01639344262295082,
+              "rank": 1,
+              "votes": [
+                {
+                  "run_index": 0,
+                  "rank": 1
+                }
+              ]
+            },
+            {
+              "chunk_id": "b:0",
+              "file_id": "b",
+              "score": 0.01639344262295082,
+              "rank": 2,
+              "votes": [
+                {
+                  "run_index": 1,
+                  "rank": 1
+                }
+              ]
+            },
+            {
+              "chunk_id": "c:0",
+              "file_id": "c",
+              "score": 0.016129032258064516,
+              "rank": 3,
+              "votes": [
+                {
+                  "run_index": 0,
+                  "rank": 2
+                }
+              ]
+            },
+            {
+              "chunk_id": "d:0",
+              "file_id": "d",
+              "score": 0.016129032258064516,
+              "rank": 4,
+              "votes": [
+                {
+                  "run_index": 1,
+                  "rank": 2
+                }
+              ]
+            }
+          ],
+          "selected_ids": [
+            "a:0",
+            "b:0"
+          ],
+          "requirements": [
+            {
+              "requirement_id": "method",
+              "candidate_ids": [
+                "a:0",
+                "c:0"
+              ],
+              "selected_ids": [
+                "a:0"
+              ],
+              "supplied_ids": [
+                "a:0"
+              ],
+              "budget_excluded_ids": []
+            },
+            {
+              "requirement_id": "result",
+              "candidate_ids": [
+                "b:0",
+                "d:0"
+              ],
+              "selected_ids": [
+                "b:0"
+              ],
+              "supplied_ids": [
+                "b:0"
+              ],
+              "budget_excluded_ids": []
+            }
+          ],
+          "stop_reason": "independent_queries_complete",
+          "scope_seconds": 0.00010274990927428007,
+          "merge_seconds": 3.245798870921135e-05,
+          "total_seconds": 0.0014460409292951226
+        }
+      },
+      "deltas": {
+        "Recall@K": 0.0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0.0,
+        "MRR": 0.0,
+        "NDCG@K": 0.0,
+        "Final evidence coverage": 0.0
+      }
+    },
+    {
+      "case_id": "duplicate",
+      "strategy": "hybrid",
+      "question": "What method does Aster use?",
+      "gold_spans": [
+        {
+          "file_id": "a",
+          "start": 0,
+          "end": 35
+        }
+      ],
+      "options": {
+        "strategy": "hybrid",
+        "packing_strategy": null,
+        "candidate_limit": 2,
+        "bm25_k1": 1.2,
+        "bm25_b": 0.75,
+        "rrf_k": 60,
+        "rerank_enabled": false,
+        "rerank_unit": "child",
+        "rerank_candidate_limit": 20,
+        "rerank_max_input_tokens": 16384
+      },
+      "budget": 4096,
+      "single": {
+        "metrics": {
+          "Recall@K": 1.0,
+          "Precision@K": 0.5,
+          "Hit Rate@K": 1.0,
+          "MRR": 1.0,
+          "NDCG@K": 1.0,
+          "Final evidence coverage": 1.0
+        },
+        "ranked_file_ids": [
+          "a",
+          "c"
+        ],
+        "retrieval_seconds": 0.0008872499456629157,
+        "evidence": {
+          "chunks": [
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "a:0",
+                "file_id": "a",
+                "text": "Aster trains with labeled examples.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              "file_name": "aster.txt",
+              "distance": 0.0,
+              "fusion": {
+                "chunk_id": "a:0",
+                "rrf_score": 0.03278688524590164,
+                "rank": 1,
+                "bm25_score": 1.2278927938158555,
+                "bm25_rank": 1,
+                "vector_distance": 0.0,
+                "vector_rank": 1
+              },
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            },
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "c:0",
+                "file_id": "c",
+                "text": "Cedar stores model checkpoints every hour.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 42
+              },
+              "file_name": "cedar.txt",
+              "distance": 0.029271721839904785,
+              "fusion": {
+                "chunk_id": "c:0",
+                "rrf_score": 0.016129032258064516,
+                "rank": 2,
+                "bm25_score": null,
+                "bm25_rank": null,
+                "vector_distance": 0.029271721839904785,
+                "vector_rank": 2
+              },
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            }
+          ],
+          "diagnostics": {
+            "document_scope": null,
+            "scope_seconds": null,
+            "retrieval_seconds": null,
+            "embedding_seconds": 6.334041245281696e-06,
+            "rerank": null,
+            "rerank_seconds": null,
+            "options": {
+              "strategy": "hybrid",
+              "packing_strategy": "parent_then_child",
+              "candidate_limit": 2,
+              "bm25_k1": 1.2,
+              "bm25_b": 0.75,
+              "rrf_k": 60.0,
+              "rerank_enabled": false,
+              "rerank_unit": "child",
+              "rerank_candidate_limit": 20,
+              "rerank_max_input_tokens": 16384
+            },
+            "top_k": 2,
+            "vector_matches": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785
+              }
+            ],
+            "bm25_matches": [
+              {
+                "chunk_id": "a:0",
+                "score": 1.2278927938158555,
+                "rank": 1
+              }
+            ],
+            "fused_matches": [
+              {
+                "chunk_id": "a:0",
+                "rrf_score": 0.03278688524590164,
+                "rank": 1,
+                "bm25_score": 1.2278927938158555,
+                "bm25_rank": 1,
+                "vector_distance": 0.0,
+                "vector_rank": 1
+              },
+              {
+                "chunk_id": "c:0",
+                "rrf_score": 0.016129032258064516,
+                "rank": 2,
+                "bm25_score": null,
+                "bm25_rank": null,
+                "vector_distance": 0.029271721839904785,
+                "vector_rank": 2
+              }
+            ],
+            "candidates": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0,
+                "fusion": {
+                  "chunk_id": "a:0",
+                  "rrf_score": 0.03278688524590164,
+                  "rank": 1,
+                  "bm25_score": 1.2278927938158555,
+                  "bm25_rank": 1,
+                  "vector_distance": 0.0,
+                  "vector_rank": 1
+                },
+                "rerank": null,
+                "file_id": "a",
+                "parent_id": null,
+                "text": "Aster trains with labeled examples.",
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785,
+                "fusion": {
+                  "chunk_id": "c:0",
+                  "rrf_score": 0.016129032258064516,
+                  "rank": 2,
+                  "bm25_score": null,
+                  "bm25_rank": null,
+                  "vector_distance": 0.029271721839904785,
+                  "vector_rank": 2
+                },
+                "rerank": null,
+                "file_id": "c",
+                "parent_id": null,
+                "text": "Cedar stores model checkpoints every hour.",
+                "start_offset": 0,
+                "end_offset": 42
+              }
+            ],
+            "excluded": [],
+            "unexpanded_parents": [],
+            "packing_seconds": 4.5082997530698776e-05,
+            "context_format": "source-metadata-v1",
+            "evidence_tokens": 62,
+            "max_tokens": 4096,
+            "tokenizer": "cl100k_base"
+          }
+        },
+        "context": "[1]\nSource metadata: {\"file_name\": \"aster.txt\", \"heading_path\": []}\nExcerpt:\nAster trains with labeled examples.\n\n[2]\nSource metadata: {\"file_name\": \"cedar.txt\", \"heading_path\": []}\nExcerpt:\nCedar stores model checkpoints every hour.",
+        "trace": null
+      },
+      "planned": {
+        "metrics": {
+          "Recall@K": 1.0,
+          "Precision@K": 0.5,
+          "Hit Rate@K": 1.0,
+          "MRR": 1.0,
+          "NDCG@K": 1.0,
+          "Final evidence coverage": 1.0
+        },
+        "ranked_file_ids": [
+          "a",
+          "c"
+        ],
+        "retrieval_seconds": 0.0009138750610873103,
+        "evidence": {
+          "chunks": [
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "a:0",
+                "file_id": "a",
+                "text": "Aster trains with labeled examples.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              "file_name": "aster.txt",
+              "distance": 0.0,
+              "fusion": {
+                "chunk_id": "a:0",
+                "rrf_score": 0.03278688524590164,
+                "rank": 1,
+                "bm25_score": 1.2278927938158555,
+                "bm25_rank": 1,
+                "vector_distance": 0.0,
+                "vector_rank": 1
+              },
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            },
+            {
+              "pdf": null,
+              "document_labels": [],
+              "chunk": {
+                "chunk_id": "c:0",
+                "file_id": "c",
+                "text": "Cedar stores model checkpoints every hour.",
+                "index": 0,
+                "start_offset": 0,
+                "end_offset": 42
+              },
+              "file_name": "cedar.txt",
+              "distance": 0.029271721839904785,
+              "fusion": {
+                "chunk_id": "c:0",
+                "rrf_score": 0.016129032258064516,
+                "rank": 2,
+                "bm25_score": null,
+                "bm25_rank": null,
+                "vector_distance": 0.029271721839904785,
+                "vector_rank": 2
+              },
+              "rerank": null,
+              "parent_id": null,
+              "matched_child_ids": []
+            }
+          ],
+          "diagnostics": {
+            "document_scope": null,
+            "scope_seconds": null,
+            "retrieval_seconds": null,
+            "embedding_seconds": null,
+            "rerank": null,
+            "rerank_seconds": null,
+            "options": {
+              "strategy": "hybrid",
+              "packing_strategy": "parent_then_child",
+              "candidate_limit": 2,
+              "bm25_k1": 1.2,
+              "bm25_b": 0.75,
+              "rrf_k": 60.0,
+              "rerank_enabled": false,
+              "rerank_unit": "child",
+              "rerank_candidate_limit": 20,
+              "rerank_max_input_tokens": 16384
+            },
+            "top_k": 2,
+            "vector_matches": [],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "candidates": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0,
+                "fusion": {
+                  "chunk_id": "a:0",
+                  "rrf_score": 0.03278688524590164,
+                  "rank": 1,
+                  "bm25_score": 1.2278927938158555,
+                  "bm25_rank": 1,
+                  "vector_distance": 0.0,
+                  "vector_rank": 1
+                },
+                "rerank": null,
+                "file_id": "a",
+                "parent_id": null,
+                "text": "Aster trains with labeled examples.",
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785,
+                "fusion": {
+                  "chunk_id": "c:0",
+                  "rrf_score": 0.016129032258064516,
+                  "rank": 2,
+                  "bm25_score": null,
+                  "bm25_rank": null,
+                  "vector_distance": 0.029271721839904785,
+                  "vector_rank": 2
+                },
+                "rerank": null,
+                "file_id": "c",
+                "parent_id": null,
+                "text": "Cedar stores model checkpoints every hour.",
+                "start_offset": 0,
+                "end_offset": 42
+              }
+            ],
+            "excluded": [],
+            "unexpanded_parents": [],
+            "packing_seconds": 3.504101186990738e-05,
+            "context_format": "source-metadata-v1",
+            "evidence_tokens": 62,
+            "max_tokens": 4096,
+            "tokenizer": "cl100k_base"
+          }
+        },
+        "context": "[1]\nSource metadata: {\"file_name\": \"aster.txt\", \"heading_path\": []}\nExcerpt:\nAster trains with labeled examples.\n\n[2]\nSource metadata: {\"file_name\": \"cedar.txt\", \"heading_path\": []}\nExcerpt:\nCedar stores model checkpoints every hour.",
+        "trace": {
+          "version": 1,
+          "plan": {
+            "original_question": "What method does Aster use?",
+            "resolved_question": "What method does Aster use?",
+            "route": "decomposed",
+            "requirements": [
+              {
+                "requirement_id": "method",
+                "description": "method"
+              }
+            ],
+            "queries": [
+              {
+                "query_id": "one",
+                "text": "What method does Aster use?",
+                "requirement_ids": [
+                  "method"
+                ],
+                "file_ids": null
+              },
+              {
+                "query_id": "two",
+                "text": "What method does Aster use?",
+                "requirement_ids": [
+                  "method"
+                ],
+                "file_ids": null
+              }
+            ]
+          },
+          "allowed_file_ids": [
+            "d",
+            "c",
+            "b",
+            "a"
+          ],
+          "document_scope": null,
+          "cross_query_rrf_k": 60.0,
+          "per_query_limit": 2,
+          "top_k": 2,
+          "max_evidence_tokens": 4096,
+          "runs": [
+            {
+              "query_ids": [
+                "one",
+                "two"
+              ],
+              "requirement_ids": [
+                "method"
+              ],
+              "text": "What method does Aster use?",
+              "requested_file_ids": null,
+              "result": {
+                "hits": [
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "a:0",
+                      "file_id": "a",
+                      "text": "Aster trains with labeled examples.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 35
+                    },
+                    "file_name": "aster.txt",
+                    "distance": 0.0,
+                    "fusion": {
+                      "chunk_id": "a:0",
+                      "rrf_score": 0.03278688524590164,
+                      "rank": 1,
+                      "bm25_score": 1.2278927938158555,
+                      "bm25_rank": 1,
+                      "vector_distance": 0.0,
+                      "vector_rank": 1
+                    },
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  },
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "c:0",
+                      "file_id": "c",
+                      "text": "Cedar stores model checkpoints every hour.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 42
+                    },
+                    "file_name": "cedar.txt",
+                    "distance": 0.029271721839904785,
+                    "fusion": {
+                      "chunk_id": "c:0",
+                      "rrf_score": 0.016129032258064516,
+                      "rank": 2,
+                      "bm25_score": null,
+                      "bm25_rank": null,
+                      "vector_distance": 0.029271721839904785,
+                      "vector_rank": 2
+                    },
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  }
+                ],
+                "diagnostics": {
+                  "document_scope": null,
+                  "scope_seconds": null,
+                  "retrieval_seconds": 0.0005045420257374644,
+                  "embedding_seconds": 8.834060281515121e-06,
+                  "rerank": null,
+                  "rerank_seconds": null,
+                  "options": {
+                    "strategy": "hybrid",
+                    "packing_strategy": "parent_then_child",
+                    "candidate_limit": 2,
+                    "bm25_k1": 1.2,
+                    "bm25_b": 0.75,
+                    "rrf_k": 60.0,
+                    "rerank_enabled": false,
+                    "rerank_unit": "child",
+                    "rerank_candidate_limit": 20,
+                    "rerank_max_input_tokens": 16384
+                  },
+                  "top_k": 2,
+                  "vector_matches": [
+                    {
+                      "chunk_id": "a:0",
+                      "distance": 0.0
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "distance": 0.029271721839904785
+                    }
+                  ],
+                  "bm25_matches": [
+                    {
+                      "chunk_id": "a:0",
+                      "score": 1.2278927938158555,
+                      "rank": 1
+                    }
+                  ],
+                  "fused_matches": [
+                    {
+                      "chunk_id": "a:0",
+                      "rrf_score": 0.03278688524590164,
+                      "rank": 1,
+                      "bm25_score": 1.2278927938158555,
+                      "bm25_rank": 1,
+                      "vector_distance": 0.0,
+                      "vector_rank": 1
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "rrf_score": 0.016129032258064516,
+                      "rank": 2,
+                      "bm25_score": null,
+                      "bm25_rank": null,
+                      "vector_distance": 0.029271721839904785,
+                      "vector_rank": 2
+                    }
+                  ],
+                  "candidates": [
+                    {
+                      "chunk_id": "a:0",
+                      "distance": 0.0,
+                      "fusion": {
+                        "chunk_id": "a:0",
+                        "rrf_score": 0.03278688524590164,
+                        "rank": 1,
+                        "bm25_score": 1.2278927938158555,
+                        "bm25_rank": 1,
+                        "vector_distance": 0.0,
+                        "vector_rank": 1
+                      },
+                      "rerank": null,
+                      "file_id": "a",
+                      "parent_id": null,
+                      "text": "Aster trains with labeled examples.",
+                      "start_offset": 0,
+                      "end_offset": 35
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "distance": 0.029271721839904785,
+                      "fusion": {
+                        "chunk_id": "c:0",
+                        "rrf_score": 0.016129032258064516,
+                        "rank": 2,
+                        "bm25_score": null,
+                        "bm25_rank": null,
+                        "vector_distance": 0.029271721839904785,
+                        "vector_rank": 2
+                      },
+                      "rerank": null,
+                      "file_id": "c",
+                      "parent_id": null,
+                      "text": "Cedar stores model checkpoints every hour.",
+                      "start_offset": 0,
+                      "end_offset": 42
+                    }
+                  ],
+                  "excluded": [],
+                  "unexpanded_parents": [],
+                  "packing_seconds": null,
+                  "context_format": null,
+                  "evidence_tokens": 0,
+                  "max_tokens": 4096,
+                  "tokenizer": "cl100k_base"
+                }
+              },
+              "seconds": 0.0005045420257374644
+            }
+          ],
+          "merged": [
+            {
+              "chunk_id": "a:0",
+              "file_id": "a",
+              "score": 0.01639344262295082,
+              "rank": 1,
+              "votes": [
+                {
+                  "run_index": 0,
+                  "rank": 1
+                }
+              ]
+            },
+            {
+              "chunk_id": "c:0",
+              "file_id": "c",
+              "score": 0.016129032258064516,
+              "rank": 2,
+              "votes": [
+                {
+                  "run_index": 0,
+                  "rank": 2
+                }
+              ]
+            }
+          ],
+          "selected_ids": [
+            "a:0",
+            "c:0"
+          ],
+          "requirements": [
+            {
+              "requirement_id": "method",
+              "candidate_ids": [
+                "a:0",
+                "c:0"
+              ],
+              "selected_ids": [
+                "a:0",
+                "c:0"
+              ],
+              "supplied_ids": [
+                "a:0",
+                "c:0"
+              ],
+              "budget_excluded_ids": []
+            }
+          ],
+          "stop_reason": "independent_queries_complete",
+          "scope_seconds": 0.00012474996037781239,
+          "merge_seconds": 2.7333968318998814e-05,
+          "total_seconds": 0.0008883329574018717
+        }
+      },
+      "deltas": {
+        "Recall@K": 0.0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0.0,
+        "MRR": 0.0,
+        "NDCG@K": 0.0,
+        "Final evidence coverage": 0.0
+      }
+    },
+    {
+      "case_id": "budget_exhausted",
+      "strategy": "hybrid",
+      "question": "What method does Aster use and what accuracy does Birch report?",
+      "gold_spans": [
+        {
+          "file_id": "a",
+          "start": 0,
+          "end": 35
+        },
+        {
+          "file_id": "b",
+          "start": 0,
+          "end": 34
+        }
+      ],
+      "options": {
+        "strategy": "hybrid",
+        "packing_strategy": null,
+        "candidate_limit": 2,
+        "bm25_k1": 1.2,
+        "bm25_b": 0.75,
+        "rrf_k": 60,
+        "rerank_enabled": false,
+        "rerank_unit": "child",
+        "rerank_candidate_limit": 20,
+        "rerank_max_input_tokens": 16384
+      },
+      "budget": 1,
+      "single": {
+        "metrics": {
+          "Recall@K": 1.0,
+          "Precision@K": 1.0,
+          "Hit Rate@K": 1.0,
+          "MRR": 1.0,
+          "NDCG@K": 1.0,
+          "Final evidence coverage": 0.0
+        },
+        "ranked_file_ids": [
+          "a",
+          "b"
+        ],
+        "retrieval_seconds": 0.0007902089273557067,
+        "evidence": {
+          "chunks": [],
+          "diagnostics": {
+            "document_scope": null,
+            "scope_seconds": null,
+            "retrieval_seconds": null,
+            "embedding_seconds": 6.292015314102173e-06,
+            "rerank": null,
+            "rerank_seconds": null,
+            "options": {
+              "strategy": "hybrid",
+              "packing_strategy": "parent_then_child",
+              "candidate_limit": 2,
+              "bm25_k1": 1.2,
+              "bm25_b": 0.75,
+              "rrf_k": 60.0,
+              "rerank_enabled": false,
+              "rerank_unit": "child",
+              "rerank_candidate_limit": 20,
+              "rerank_max_input_tokens": 16384
+            },
+            "top_k": 2,
+            "vector_matches": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0
+              },
+              {
+                "chunk_id": "c:0",
+                "distance": 0.029271721839904785
+              }
+            ],
+            "bm25_matches": [
+              {
+                "chunk_id": "b:0",
+                "score": 2.455785587631711,
+                "rank": 1
+              },
+              {
+                "chunk_id": "a:0",
+                "score": 1.2278927938158555,
+                "rank": 2
+              }
+            ],
+            "fused_matches": [
+              {
+                "chunk_id": "a:0",
+                "rrf_score": 0.03252247488101534,
+                "rank": 1,
+                "bm25_score": 1.2278927938158555,
+                "bm25_rank": 2,
+                "vector_distance": 0.0,
+                "vector_rank": 1
+              },
+              {
+                "chunk_id": "b:0",
+                "rrf_score": 0.01639344262295082,
+                "rank": 2,
+                "bm25_score": 2.455785587631711,
+                "bm25_rank": 1,
+                "vector_distance": null,
+                "vector_rank": null
+              },
+              {
+                "chunk_id": "c:0",
+                "rrf_score": 0.016129032258064516,
+                "rank": 3,
+                "bm25_score": null,
+                "bm25_rank": null,
+                "vector_distance": 0.029271721839904785,
+                "vector_rank": 2
+              }
+            ],
+            "candidates": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0,
+                "fusion": {
+                  "chunk_id": "a:0",
+                  "rrf_score": 0.03252247488101534,
+                  "rank": 1,
+                  "bm25_score": 1.2278927938158555,
+                  "bm25_rank": 2,
+                  "vector_distance": 0.0,
+                  "vector_rank": 1
+                },
+                "rerank": null,
+                "file_id": "a",
+                "parent_id": null,
+                "text": "Aster trains with labeled examples.",
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              {
+                "chunk_id": "b:0",
+                "distance": null,
+                "fusion": {
+                  "chunk_id": "b:0",
+                  "rrf_score": 0.01639344262295082,
+                  "rank": 2,
+                  "bm25_score": 2.455785587631711,
+                  "bm25_rank": 1,
+                  "vector_distance": null,
+                  "vector_rank": null
+                },
+                "rerank": null,
+                "file_id": "b",
+                "parent_id": null,
+                "text": "Birch accuracy was eighty percent.",
+                "start_offset": 0,
+                "end_offset": 34
+              }
+            ],
+            "excluded": [
+              {
+                "chunk_id": "a:0",
+                "file_id": "a",
+                "token_count": 7,
+                "reason": "context_budget"
+              },
+              {
+                "chunk_id": "b:0",
+                "file_id": "b",
+                "token_count": 8,
+                "reason": "context_budget"
+              }
+            ],
+            "unexpanded_parents": [],
+            "packing_seconds": 3.92089132219553e-05,
+            "context_format": "source-metadata-v1",
+            "evidence_tokens": 0,
+            "max_tokens": 1,
+            "tokenizer": "cl100k_base"
+          }
+        },
+        "context": "",
+        "trace": null
+      },
+      "planned": {
+        "metrics": {
+          "Recall@K": 1.0,
+          "Precision@K": 1.0,
+          "Hit Rate@K": 1.0,
+          "MRR": 1.0,
+          "NDCG@K": 1.0,
+          "Final evidence coverage": 0.0
+        },
+        "ranked_file_ids": [
+          "a",
+          "b"
+        ],
+        "retrieval_seconds": 0.0014549159677699208,
+        "evidence": {
+          "chunks": [],
+          "diagnostics": {
+            "document_scope": null,
+            "scope_seconds": null,
+            "retrieval_seconds": null,
+            "embedding_seconds": null,
+            "rerank": null,
+            "rerank_seconds": null,
+            "options": {
+              "strategy": "hybrid",
+              "packing_strategy": "parent_then_child",
+              "candidate_limit": 2,
+              "bm25_k1": 1.2,
+              "bm25_b": 0.75,
+              "rrf_k": 60.0,
+              "rerank_enabled": false,
+              "rerank_unit": "child",
+              "rerank_candidate_limit": 20,
+              "rerank_max_input_tokens": 16384
+            },
+            "top_k": 2,
+            "vector_matches": [],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "candidates": [
+              {
+                "chunk_id": "a:0",
+                "distance": 0.0,
+                "fusion": {
+                  "chunk_id": "a:0",
+                  "rrf_score": 0.03278688524590164,
+                  "rank": 1,
+                  "bm25_score": 3.6836783814475664,
+                  "bm25_rank": 1,
+                  "vector_distance": 0.0,
+                  "vector_rank": 1
+                },
+                "rerank": null,
+                "file_id": "a",
+                "parent_id": null,
+                "text": "Aster trains with labeled examples.",
+                "start_offset": 0,
+                "end_offset": 35
+              },
+              {
+                "chunk_id": "b:0",
+                "distance": 0.0,
+                "fusion": {
+                  "chunk_id": "b:0",
+                  "rrf_score": 0.03278688524590164,
+                  "rank": 1,
+                  "bm25_score": 3.6836783814475664,
+                  "bm25_rank": 1,
+                  "vector_distance": 0.0,
+                  "vector_rank": 1
+                },
+                "rerank": null,
+                "file_id": "b",
+                "parent_id": null,
+                "text": "Birch accuracy was eighty percent.",
+                "start_offset": 0,
+                "end_offset": 34
+              }
+            ],
+            "excluded": [
+              {
+                "chunk_id": "a:0",
+                "file_id": "a",
+                "token_count": 7,
+                "reason": "context_budget"
+              },
+              {
+                "chunk_id": "b:0",
+                "file_id": "b",
+                "token_count": 8,
+                "reason": "context_budget"
+              }
+            ],
+            "unexpanded_parents": [],
+            "packing_seconds": 3.616604954004288e-05,
+            "context_format": "source-metadata-v1",
+            "evidence_tokens": 0,
+            "max_tokens": 1,
+            "tokenizer": "cl100k_base"
+          }
+        },
+        "context": "",
+        "trace": {
+          "version": 1,
+          "plan": {
+            "original_question": "What method does Aster use and what accuracy does Birch report?",
+            "resolved_question": "What method does Aster use and what accuracy does Birch report?",
+            "route": "decomposed",
+            "requirements": [
+              {
+                "requirement_id": "method",
+                "description": "method"
+              },
+              {
+                "requirement_id": "result",
+                "description": "result"
+              }
+            ],
+            "queries": [
+              {
+                "query_id": "method",
+                "text": "Aster method labeled examples",
+                "requirement_ids": [
+                  "method"
+                ],
+                "file_ids": null
+              },
+              {
+                "query_id": "result",
+                "text": "Birch accuracy percent",
+                "requirement_ids": [
+                  "result"
+                ],
+                "file_ids": null
+              }
+            ]
+          },
+          "allowed_file_ids": [
+            "d",
+            "c",
+            "b",
+            "a"
+          ],
+          "document_scope": null,
+          "cross_query_rrf_k": 60.0,
+          "per_query_limit": 2,
+          "top_k": 2,
+          "max_evidence_tokens": 1,
+          "runs": [
+            {
+              "query_ids": [
+                "method"
+              ],
+              "requirement_ids": [
+                "method"
+              ],
+              "text": "Aster method labeled examples",
+              "requested_file_ids": null,
+              "result": {
+                "hits": [
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "a:0",
+                      "file_id": "a",
+                      "text": "Aster trains with labeled examples.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 35
+                    },
+                    "file_name": "aster.txt",
+                    "distance": 0.0,
+                    "fusion": {
+                      "chunk_id": "a:0",
+                      "rrf_score": 0.03278688524590164,
+                      "rank": 1,
+                      "bm25_score": 3.6836783814475664,
+                      "bm25_rank": 1,
+                      "vector_distance": 0.0,
+                      "vector_rank": 1
+                    },
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  },
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "c:0",
+                      "file_id": "c",
+                      "text": "Cedar stores model checkpoints every hour.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 42
+                    },
+                    "file_name": "cedar.txt",
+                    "distance": 0.029271721839904785,
+                    "fusion": {
+                      "chunk_id": "c:0",
+                      "rrf_score": 0.016129032258064516,
+                      "rank": 2,
+                      "bm25_score": null,
+                      "bm25_rank": null,
+                      "vector_distance": 0.029271721839904785,
+                      "vector_rank": 2
+                    },
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  }
+                ],
+                "diagnostics": {
+                  "document_scope": null,
+                  "scope_seconds": null,
+                  "retrieval_seconds": 0.0005461249966174364,
+                  "embedding_seconds": 8.95792618393898e-06,
+                  "rerank": null,
+                  "rerank_seconds": null,
+                  "options": {
+                    "strategy": "hybrid",
+                    "packing_strategy": "parent_then_child",
+                    "candidate_limit": 2,
+                    "bm25_k1": 1.2,
+                    "bm25_b": 0.75,
+                    "rrf_k": 60.0,
+                    "rerank_enabled": false,
+                    "rerank_unit": "child",
+                    "rerank_candidate_limit": 20,
+                    "rerank_max_input_tokens": 16384
+                  },
+                  "top_k": 2,
+                  "vector_matches": [
+                    {
+                      "chunk_id": "a:0",
+                      "distance": 0.0
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "distance": 0.029271721839904785
+                    }
+                  ],
+                  "bm25_matches": [
+                    {
+                      "chunk_id": "a:0",
+                      "score": 3.6836783814475664,
+                      "rank": 1
+                    }
+                  ],
+                  "fused_matches": [
+                    {
+                      "chunk_id": "a:0",
+                      "rrf_score": 0.03278688524590164,
+                      "rank": 1,
+                      "bm25_score": 3.6836783814475664,
+                      "bm25_rank": 1,
+                      "vector_distance": 0.0,
+                      "vector_rank": 1
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "rrf_score": 0.016129032258064516,
+                      "rank": 2,
+                      "bm25_score": null,
+                      "bm25_rank": null,
+                      "vector_distance": 0.029271721839904785,
+                      "vector_rank": 2
+                    }
+                  ],
+                  "candidates": [
+                    {
+                      "chunk_id": "a:0",
+                      "distance": 0.0,
+                      "fusion": {
+                        "chunk_id": "a:0",
+                        "rrf_score": 0.03278688524590164,
+                        "rank": 1,
+                        "bm25_score": 3.6836783814475664,
+                        "bm25_rank": 1,
+                        "vector_distance": 0.0,
+                        "vector_rank": 1
+                      },
+                      "rerank": null,
+                      "file_id": "a",
+                      "parent_id": null,
+                      "text": "Aster trains with labeled examples.",
+                      "start_offset": 0,
+                      "end_offset": 35
+                    },
+                    {
+                      "chunk_id": "c:0",
+                      "distance": 0.029271721839904785,
+                      "fusion": {
+                        "chunk_id": "c:0",
+                        "rrf_score": 0.016129032258064516,
+                        "rank": 2,
+                        "bm25_score": null,
+                        "bm25_rank": null,
+                        "vector_distance": 0.029271721839904785,
+                        "vector_rank": 2
+                      },
+                      "rerank": null,
+                      "file_id": "c",
+                      "parent_id": null,
+                      "text": "Cedar stores model checkpoints every hour.",
+                      "start_offset": 0,
+                      "end_offset": 42
+                    }
+                  ],
+                  "excluded": [],
+                  "unexpanded_parents": [],
+                  "packing_seconds": null,
+                  "context_format": null,
+                  "evidence_tokens": 0,
+                  "max_tokens": 1,
+                  "tokenizer": "cl100k_base"
+                }
+              },
+              "seconds": 0.0005461249966174364
+            },
+            {
+              "query_ids": [
+                "result"
+              ],
+              "requirement_ids": [
+                "result"
+              ],
+              "text": "Birch accuracy percent",
+              "requested_file_ids": null,
+              "result": {
+                "hits": [
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "b:0",
+                      "file_id": "b",
+                      "text": "Birch accuracy was eighty percent.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 34
+                    },
+                    "file_name": "birch.txt",
+                    "distance": 0.0,
+                    "fusion": {
+                      "chunk_id": "b:0",
+                      "rrf_score": 0.03278688524590164,
+                      "rank": 1,
+                      "bm25_score": 3.6836783814475664,
+                      "bm25_rank": 1,
+                      "vector_distance": 0.0,
+                      "vector_rank": 1
+                    },
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  },
+                  {
+                    "pdf": null,
+                    "document_labels": [],
+                    "chunk": {
+                      "chunk_id": "d:0",
+                      "file_id": "d",
+                      "text": "Dahlia rotates log files daily.",
+                      "index": 0,
+                      "start_offset": 0,
+                      "end_offset": 31
+                    },
+                    "file_name": "dahlia.txt",
+                    "distance": 0.029271721839904785,
+                    "fusion": {
+                      "chunk_id": "d:0",
+                      "rrf_score": 0.016129032258064516,
+                      "rank": 2,
+                      "bm25_score": null,
+                      "bm25_rank": null,
+                      "vector_distance": 0.029271721839904785,
+                      "vector_rank": 2
+                    },
+                    "rerank": null,
+                    "parent_id": null,
+                    "matched_child_ids": []
+                  }
+                ],
+                "diagnostics": {
+                  "document_scope": null,
+                  "scope_seconds": null,
+                  "retrieval_seconds": 0.0004994170740246773,
+                  "embedding_seconds": 6.875023245811462e-06,
+                  "rerank": null,
+                  "rerank_seconds": null,
+                  "options": {
+                    "strategy": "hybrid",
+                    "packing_strategy": "parent_then_child",
+                    "candidate_limit": 2,
+                    "bm25_k1": 1.2,
+                    "bm25_b": 0.75,
+                    "rrf_k": 60.0,
+                    "rerank_enabled": false,
+                    "rerank_unit": "child",
+                    "rerank_candidate_limit": 20,
+                    "rerank_max_input_tokens": 16384
+                  },
+                  "top_k": 2,
+                  "vector_matches": [
+                    {
+                      "chunk_id": "b:0",
+                      "distance": 0.0
+                    },
+                    {
+                      "chunk_id": "d:0",
+                      "distance": 0.029271721839904785
+                    }
+                  ],
+                  "bm25_matches": [
+                    {
+                      "chunk_id": "b:0",
+                      "score": 3.6836783814475664,
+                      "rank": 1
+                    }
+                  ],
+                  "fused_matches": [
+                    {
+                      "chunk_id": "b:0",
+                      "rrf_score": 0.03278688524590164,
+                      "rank": 1,
+                      "bm25_score": 3.6836783814475664,
+                      "bm25_rank": 1,
+                      "vector_distance": 0.0,
+                      "vector_rank": 1
+                    },
+                    {
+                      "chunk_id": "d:0",
+                      "rrf_score": 0.016129032258064516,
+                      "rank": 2,
+                      "bm25_score": null,
+                      "bm25_rank": null,
+                      "vector_distance": 0.029271721839904785,
+                      "vector_rank": 2
+                    }
+                  ],
+                  "candidates": [
+                    {
+                      "chunk_id": "b:0",
+                      "distance": 0.0,
+                      "fusion": {
+                        "chunk_id": "b:0",
+                        "rrf_score": 0.03278688524590164,
+                        "rank": 1,
+                        "bm25_score": 3.6836783814475664,
+                        "bm25_rank": 1,
+                        "vector_distance": 0.0,
+                        "vector_rank": 1
+                      },
+                      "rerank": null,
+                      "file_id": "b",
+                      "parent_id": null,
+                      "text": "Birch accuracy was eighty percent.",
+                      "start_offset": 0,
+                      "end_offset": 34
+                    },
+                    {
+                      "chunk_id": "d:0",
+                      "distance": 0.029271721839904785,
+                      "fusion": {
+                        "chunk_id": "d:0",
+                        "rrf_score": 0.016129032258064516,
+                        "rank": 2,
+                        "bm25_score": null,
+                        "bm25_rank": null,
+                        "vector_distance": 0.029271721839904785,
+                        "vector_rank": 2
+                      },
+                      "rerank": null,
+                      "file_id": "d",
+                      "parent_id": null,
+                      "text": "Dahlia rotates log files daily.",
+                      "start_offset": 0,
+                      "end_offset": 31
+                    }
+                  ],
+                  "excluded": [],
+                  "unexpanded_parents": [],
+                  "packing_seconds": null,
+                  "context_format": null,
+                  "evidence_tokens": 0,
+                  "max_tokens": 1,
+                  "tokenizer": "cl100k_base"
+                }
+              },
+              "seconds": 0.0004994170740246773
+            }
+          ],
+          "merged": [
+            {
+              "chunk_id": "a:0",
+              "file_id": "a",
+              "score": 0.01639344262295082,
+              "rank": 1,
+              "votes": [
+                {
+                  "run_index": 0,
+                  "rank": 1
+                }
+              ]
+            },
+            {
+              "chunk_id": "b:0",
+              "file_id": "b",
+              "score": 0.01639344262295082,
+              "rank": 2,
+              "votes": [
+                {
+                  "run_index": 1,
+                  "rank": 1
+                }
+              ]
+            },
+            {
+              "chunk_id": "c:0",
+              "file_id": "c",
+              "score": 0.016129032258064516,
+              "rank": 3,
+              "votes": [
+                {
+                  "run_index": 0,
+                  "rank": 2
+                }
+              ]
+            },
+            {
+              "chunk_id": "d:0",
+              "file_id": "d",
+              "score": 0.016129032258064516,
+              "rank": 4,
+              "votes": [
+                {
+                  "run_index": 1,
+                  "rank": 2
+                }
+              ]
+            }
+          ],
+          "selected_ids": [
+            "a:0",
+            "b:0"
+          ],
+          "requirements": [
+            {
+              "requirement_id": "method",
+              "candidate_ids": [
+                "a:0",
+                "c:0"
+              ],
+              "selected_ids": [
+                "a:0"
+              ],
+              "supplied_ids": [],
+              "budget_excluded_ids": [
+                "a:0"
+              ]
+            },
+            {
+              "requirement_id": "result",
+              "candidate_ids": [
+                "b:0",
+                "d:0"
+              ],
+              "selected_ids": [
+                "b:0"
+              ],
+              "supplied_ids": [],
+              "budget_excluded_ids": [
+                "b:0"
+              ]
+            }
+          ],
+          "stop_reason": "independent_queries_complete",
+          "scope_seconds": 0.00011966598685830832,
+          "merge_seconds": 3.0249939300119877e-05,
+          "total_seconds": 0.001423291047103703
+        }
+      },
+      "deltas": {
+        "Recall@K": 0.0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0.0,
+        "MRR": 0.0,
+        "NDCG@K": 0.0,
+        "Final evidence coverage": 0.0
+      }
+    }
+  ],
+  "aggregates": {
+    "vector": {
+      "single": {
+        "Recall@K": 0.75,
+        "Precision@K": 0.5,
+        "Hit Rate@K": 1.0,
+        "MRR": 1.0,
+        "NDCG@K": 0.8065735963827292,
+        "Final evidence coverage": 0.625
+      },
+      "planned": {
+        "Recall@K": 1.0,
+        "Precision@K": 0.75,
+        "Hit Rate@K": 1.0,
+        "MRR": 1.0,
+        "NDCG@K": 1.0,
+        "Final evidence coverage": 0.75
+      }
+    },
+    "hybrid": {
+      "single": {
+        "Recall@K": 1.0,
+        "Precision@K": 0.75,
+        "Hit Rate@K": 1.0,
+        "MRR": 1.0,
+        "NDCG@K": 1.0,
+        "Final evidence coverage": 0.75
+      },
+      "planned": {
+        "Recall@K": 1.0,
+        "Precision@K": 0.75,
+        "Hit Rate@K": 1.0,
+        "MRR": 1.0,
+        "NDCG@K": 1.0,
+        "Final evidence coverage": 0.75
+      }
+    }
+  }
+}

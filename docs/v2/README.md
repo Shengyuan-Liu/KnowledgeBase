@@ -2,8 +2,10 @@
 
 Status: designs prepared on 2026-09-26; the stage 1 [PDF adapter](../pdf-parsing.md)
 and stage 2 [PDF integration](../pdf-integration.md) are implemented with recorded
-checks and unresolved parser fidelity limits. The retrieval controller remains
-planned. No feature acceptance or merge is implied.
+checks and unresolved parser fidelity limits. Stage 3a [independent planned
+retrieval](../planned-retrieval.md) now accepts typed caller-supplied plans as a
+standalone component. Automatic planning, chat integration, dependent queries and
+sufficiency control remain planned. No feature acceptance or merge is implied.
 
 ## Confirmed Feature Areas
 

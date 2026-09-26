@@ -17,7 +17,7 @@ from knowledgebase.rag.fusion import fuse_rrf
 from knowledgebase.rag.reranking import rerank
 from knowledgebase.rag.scope import document_references, identity_labels, resolve_document_scope, prioritize_documents
 from knowledgebase.schemas import (
-    ChildChunk, RetrievedChunk, RetrievedEvidence,
+    ChildChunk, RetrievedChunk, RetrievedEvidence, RetrievedCandidates, DocumentScope, FileInfo,
     RetrievalCandidate, RetrievalDiagnostics, RerankCandidate, StructuredChunk, ScopeFile,
 )
 from knowledgebase.storage.vectordb import ChromaStore
@@ -59,13 +59,31 @@ def retrieve_evidence(
     file_ids: list[str] | None = None,
     scope_question: str | None = None,
 ) -> RetrievedEvidence:
-    """Pack selected hits as parents, then use spare budget for complete children.
+    """Retrieve candidates, then expand and pack one final evidence context."""
+    candidates = retrieve_candidates(
+        question, session, embedding_client, vector_store, top_k,
+        evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
+        retrieval_options=retrieval_options, reranker_client=reranker_client,
+        file_ids=file_ids, scope_question=scope_question,
+    )
+    if candidates.diagnostics.embedding_seconds is None:
+        return RetrievedEvidence(chunks=[], diagnostics=candidates.diagnostics)
+    return pack_retrieval_candidates(candidates.hits, session, candidates.diagnostics)
 
-    No ready files means no evidence and no embedding request. The caller owns
-    the session. The budget counts the exact numbered context, including labels
-    and separators. Parent-first packing can retain whole children of omitted parents. Flat
-    chunks remain supported, without inventing parents for previously stored data.
-    """
+
+def retrieve_candidates(
+    question: str, session: Session, embedding_client: EmbeddingClient,
+    vector_store: ChromaStore, top_k: int = DEFAULT_TOP_K,
+    *, evidence_max_tokens: int = DEFAULT_EVIDENCE_MAX_TOKENS,
+    encoding_name: str = DEFAULT_CHUNK_TOKENIZER,
+    retrieval_options: RetrievalOptions | None = None,
+    reranker_client: RerankerClient | None = None,
+    file_ids: list[str] | None = None,
+    scope_question: str | None = None,
+    allowed_file_ids: list[str] | None = None,
+    prioritize_scope: bool = True,
+) -> RetrievedCandidates:
+    """Search ready children before expansion or packing; retain query-local ranks."""
     if top_k <= 0:
         raise ValueError("top_k must be positive.")
     if evidence_max_tokens <= 0:
@@ -79,26 +97,21 @@ def retrieve_evidence(
     diagnostics = RetrievalDiagnostics(
         max_tokens=evidence_max_tokens, tokenizer=encoding_name, options=options, top_k=top_k,
     )
-    ready_files = {file.file_id: file for file in get_files(session) if file.status == "ready"}
-    references = document_references(scope_question or question)
-    if not references and scope_question:
-        references = document_references(question)
-    if references or file_ids is not None:
-        started = perf_counter()
-        texts = get_source_texts(session, list(ready_files)) if references else {}
-        scope = resolve_document_scope(references, [ScopeFile(
-            file_id=file.file_id, file_name=file.file_name,
-            labels=identity_labels(file.file_name, texts.get(file.file_id, "")),
-        ) for file in ready_files.values()], file_ids=file_ids)
-        diagnostics.document_scope = scope
+    started = perf_counter()
+    ready_files, scope = resolve_ready_scope(
+        question, session, file_ids=file_ids, scope_question=scope_question,
+        allowed_file_ids=allowed_file_ids,
+    )
+    diagnostics.document_scope = scope
+    if scope is not None:
         diagnostics.scope_seconds = perf_counter() - started
-        ready_files = {identity: file for identity, file in ready_files.items() if identity in scope.file_ids}
     if not ready_files:
-        return RetrievedEvidence(chunks=[], diagnostics=diagnostics)
+        return RetrievedCandidates(hits=[], diagnostics=diagnostics)
 
     scoped_files = diagnostics.document_scope.matches if diagnostics.document_scope else []
     labels_by_file = {file.file_id: file.labels for file in scoped_files}
     multiple_documents = len(scoped_files) > 1
+    balance_documents = multiple_documents and prioritize_scope
     embedding_started = perf_counter()
     query_embedding = embedding_client.embed_query(question)
     diagnostics.embedding_seconds = perf_counter() - embedding_started
@@ -132,7 +145,7 @@ def retrieve_evidence(
                 )}
             candidates, seen = [], set()
             window = diagnostics.fused_matches
-            if multiple_documents:
+            if balance_documents:
                 window = [fusion_by_id[identity] for identity in prioritize_documents(
                     [match.chunk_id for match in window], files_by_chunk, len(window),
                 )]
@@ -158,27 +171,23 @@ def retrieve_evidence(
                 max_input_tokens=options.rerank_max_input_tokens, encoding_name=encoding_name,
             )
             diagnostics.rerank_seconds = perf_counter() - started
-            selected = diagnostics.rerank.matches if multiple_documents else diagnostics.rerank.selected
+            selected = diagnostics.rerank.matches if balance_documents else diagnostics.rerank.selected
             rerank_by_id = {match.chunk_id: match for match in selected}
         else:
-            selected = diagnostics.fused_matches if multiple_documents else diagnostics.fused_matches[:top_k]
+            selected = diagnostics.fused_matches if balance_documents else diagnostics.fused_matches[:top_k]
         selected_ids = [match.chunk_id for match in selected]
-        if multiple_documents:
+        if balance_documents:
             selected_ids = prioritize_documents(selected_ids, files_by_chunk, top_k)
         chunks = [corpus_chunk for corpus_chunk in corpus if corpus_chunk.chunk_id in selected_ids]
     else:
         selected_ids = [match.chunk_id for match in diagnostics.vector_matches]
-        if not multiple_documents:
+        if not balance_documents:
             selected_ids = selected_ids[:top_k]
         chunks = get_chunks_by_ids(session, selected_ids)
-        if multiple_documents:
+        if balance_documents:
             selected_ids = prioritize_documents(selected_ids, {chunk.chunk_id: chunk.file_id for chunk in chunks}, top_k)
     distances = {match.chunk_id: match.distance for match in matches}
     chunks_by_id = {chunk.chunk_id: chunk for chunk in chunks}
-    parents = {parent.parent_id: parent for parent in get_parents_by_ids(
-        session, [chunk.parent_id for chunk in chunks if isinstance(chunk, ChildChunk)],
-    )}
-    regions: dict[str, RetrievedChunk] = {}
     child_hits: list[RetrievedChunk] = []
     for chunk_id in selected_ids:
         chunk = chunks_by_id[chunk_id]
@@ -195,24 +204,50 @@ def retrieve_evidence(
             document_labels=identity_labels_for_chunk,
             parent_id=parent_id, matched_child_ids=[chunk_id] if parent_id else [],
         ))
+    return RetrievedCandidates(hits=child_hits, diagnostics=diagnostics)
+
+
+def resolve_ready_scope(
+    question: str, session: Session, *, file_ids: list[str] | None = None,
+    scope_question: str | None = None, allowed_file_ids: list[str] | None = None,
+) -> tuple[dict[str, FileInfo], DocumentScope | None]:
+    """Resolve a document request inside the caller's ready-file boundary."""
+    ready_files = {file.file_id: file for file in get_files(session)
+                   if file.status == "ready" and (allowed_file_ids is None or file.file_id in allowed_file_ids)}
+    references = document_references(scope_question or question)
+    if not references and scope_question:
+        references = document_references(question)
+    scope = None
+    if references or file_ids is not None:
+        texts = get_source_texts(session, list(ready_files)) if references else {}
+        scope = resolve_document_scope(references, [ScopeFile(
+            file_id=file.file_id, file_name=file.file_name,
+            labels=identity_labels(file.file_name, texts.get(file.file_id, "")),
+        ) for file in ready_files.values()], file_ids=file_ids)
+        ready_files = {identity: file for identity, file in ready_files.items() if identity in scope.file_ids}
+    return ready_files, scope
+
+
+def pack_retrieval_candidates(
+    child_hits: list[RetrievedChunk], session: Session, diagnostics: RetrievalDiagnostics,
+) -> RetrievedEvidence:
+    """Expand a selected, deduplicated child list and charge one context budget."""
+    parents = {parent.parent_id: parent for parent in get_parents_by_ids(
+        session, [hit.parent_id for hit in child_hits if hit.parent_id is not None],
+    )}
+    regions: dict[str, RetrievedChunk] = {}
+    for hit in child_hits:
+        chunk, parent_id = hit.chunk, hit.parent_id
         if parent_id is not None:
             if parent_id in regions:
                 regions[parent_id].matched_child_ids.append(chunk.chunk_id)
                 continue
             parent = parents[parent_id]
             excerpt = StructuredChunk(chunk_id=parent.parent_id, **parent.model_dump(exclude={"parent_id"}))
-            regions[parent_id] = RetrievedChunk(
-                chunk=excerpt, file_name=ready_files[chunk.file_id].file_name,
-                document_labels=identity_labels_for_chunk,
-                **provenance, parent_id=parent_id, matched_child_ids=[chunk.chunk_id],
-            )
+            regions[parent_id] = hit.model_copy(update={"chunk": excerpt, "matched_child_ids": [chunk.chunk_id]})
         else:
-            regions[chunk.chunk_id] = RetrievedChunk(
-                chunk=chunk, file_name=ready_files[chunk.file_id].file_name, **provenance,
-                document_labels=identity_labels_for_chunk,
-            )
-
-    pdfs = {identity: get_pdf_extraction(session, identity) for identity in {c.file_id for c in chunks}}
+            regions[chunk.chunk_id] = hit.model_copy()
+    pdfs = {identity: get_pdf_extraction(session, identity) for identity in {hit.chunk.file_id for hit in child_hits}}
     for region in [*child_hits, *regions.values()]:
         pdf = pdfs[region.chunk.file_id]
         if pdf is not None:
