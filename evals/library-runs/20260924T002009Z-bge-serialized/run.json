@@ -1,0 +1,38 @@
+{
+  "started_at": "2026-09-24T00:20:21.321931+00:00",
+  "base_commit": "1bdc8f21b0aef02db0bed3945cabb8e3e7329a2b",
+  "working_diff_sha256": "08c58e736e60c147b3435e25f169c3d83acd8fe2a2315b21c26a5fc2e1ac8c34",
+  "rerank_model": "BAAI/bge-reranker-v2-m3",
+  "cases_sha256": "1bc03e1fca2182c6d823c8c9ee3138c70ed90e4836af95d5792f8736d2a0d7cd",
+  "answer_model": "gpt-4.1",
+  "embedding_model": "text-embedding-3-small",
+  "top_k": 5,
+  "evidence_max_tokens": 4096,
+  "tokenizer": "cl100k_base",
+  "retrieval_options": {
+    "hybrid": {
+      "strategy": "hybrid",
+      "candidate_limit": 20,
+      "bm25_k1": 1.2,
+      "bm25_b": 0.75,
+      "rrf_k": 60.0,
+      "rerank_enabled": false,
+      "rerank_candidate_limit": 20,
+      "rerank_max_input_tokens": 16384
+    },
+    "bge": {
+      "strategy": "hybrid",
+      "candidate_limit": 20,
+      "bm25_k1": 1.2,
+      "bm25_b": 0.75,
+      "rrf_k": 60.0,
+      "rerank_enabled": true,
+      "rerank_candidate_limit": 20,
+      "rerank_max_input_tokens": 16384
+    }
+  },
+  "timeout_seconds": 90,
+  "max_retries": 1,
+  "concurrency": 3,
+  "note": "Same stored library for both routes. No uploads or conversation writes. Automatic span coverage is not answer quality."
+}

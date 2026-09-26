@@ -1,0 +1,701 @@
+........................................................................ [ 12%]
+........................................................................ [ 25%]
+........................................................................ [ 38%]
+................FFFFFF.................................................. [ 51%]
+.....................................s.................................. [ 64%]
+........................................................................ [ 77%]
+........................................................................ [ 90%]
+...................................................                      [100%]
+=================================== FAILURES ===================================
+_ test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage[structural-False] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x117408130>
+explicit_options = False, strategy = 'structural'
+
+    @pytest.mark.parametrize("explicit_options", [False, True])
+    @pytest.mark.parametrize("strategy", ["structural", "character", "parent_child"])
+    def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_path, monkeypatch, explicit_options, strategy):
+        import openai
+    
+        monkeypatch.setattr(ev, "ROOT", tmp_path)
+        monkeypatch.setattr(ev, "EVALS", tmp_path / "evals")
+        monkeypatch.setattr(ev, "git_state", lambda: {"commit": "test", "dirty": False})
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        (tmp_path / ".env").write_text(
+            "ANSWER_MODEL=env-generator\nEMBEDDING_MODEL=env-embeddings\n"
+            "CHUNK_SIZE=64\nCHUNK_OVERLAP=8\nRETRIEVAL_TOP_K=2\n"
+            "EVAL_TIMEOUT_SECONDS=17\nEVAL_MAX_RETRIES=1\n"
+            f"CHUNKING_STRATEGY={strategy}\nCHUNK_MAX_TOKENS=32\nCHUNK_TOKENIZER=cl100k_base\n"
+            "PARENT_MAX_TOKENS=96\nEVIDENCE_MAX_TOKENS=192\nEVIDENCE_PACKING_STRATEGY=parent_first\n"
+            "RETRIEVAL_STRATEGY=hybrid\nRETRIEVAL_CANDIDATE_LIMIT=9\nBM25_K1=0.8\nBM25_B=0.4\nRRF_K=12\n"
+            "RERANK_ENABLED=true\nRERANK_MODEL=env-reranker\nRERANK_CANDIDATE_LIMIT=3\nRERANK_MAX_INPUT_TOKENS=1000\n"
+        )
+        data_case = case()
+        data_case["expected_answer_points"] = ["REFERENCE_ONLY_DO_NOT_SEND_TO_GENERATOR"]
+        text = "# GPA\n\nThe requirement is a GPA of 3.0."
+        data_case["evidence"] = [{"file": "notes.md", "start_offset": 0, "end_offset": len(text)}]
+        monkeypatch.setattr(ev, "load_inputs", lambda path: ([data_case], {"corpus_id": "test"}, {"notes.md": text}))
+        sdk = Mock()
+        sdk.embeddings.create.side_effect = lambda **kwargs: SimpleNamespace(
+            data=[SimpleNamespace(embedding=[1.0, 0.0]) for item in kwargs["input"]])
+        sdk.responses.create.return_value = SimpleNamespace(output_text="A GPA of 3.0. [1]")
+        from knowledgebase.providers import reranker as reranker_module
+        from knowledgebase.schemas import RelevanceScore
+        scorer = Mock(model="env-reranker", model_revision="test-revision", device="cpu", max_pair_tokens=1024, batch_size=4)
+        scorer.score.side_effect = lambda question, candidates: [
+            RelevanceScore(chunk_id=c.chunk_id, score=3.25) for c in candidates
+        ]
+        factory = Mock(return_value=scorer)
+        monkeypatch.setattr(reranker_module, "RerankerClient", factory)
+        context = Mock()
+        context.__enter__ = Mock(return_value=sdk)
+        context.__exit__ = Mock(return_value=False)
+        monkeypatch.setattr(openai, "OpenAI", Mock(return_value=context))
+        cases_path = tmp_path / "cases.jsonl"
+        cases_path.write_text(json.dumps(data_case) + "\n")
+        args = SimpleNamespace(cases=cases_path, label="Offline fixture", top_k=5, chunk_size=256,
+                               chunking_strategy={"structural": "character", "character": "parent_child", "parent_child": "structural"}[strategy],
+                               chunk_max_tokens=64, chunk_tokenizer="o200k_base", parent_max_tokens=128, evidence_max_tokens=256,
+                               overlap=64, model="offline-generator", embedding_model="offline-embeddings",
+                               retrieval_strategy="vector" if explicit_options else None,
+                               retrieval_candidate_limit=7 if explicit_options else None,
+                               bm25_k1=None, bm25_b=None, rrf_k=None,
+                               rerank_enabled=False if explicit_options else None, rerank_model=None,
+                               evidence_packing_strategy="parent_then_child" if explicit_options else None,
+                               rerank_candidate_limit=None, rerank_max_input_tokens=None)
+        if not explicit_options:
+            for name in ("model", "embedding_model", "chunk_size", "overlap", "top_k",
+                         "chunking_strategy", "chunk_max_tokens", "chunk_tokenizer", "parent_max_tokens", "evidence_max_tokens"):
+                setattr(args, name, None)
+        first, second = ev.run(args), ev.run(args)
+        assert first != second
+        for path in (first, second):
+            summary = ev.summarize(path)
+            recorded = summary["run"]["config"]
+            assert recorded["model"] == ("offline-generator" if explicit_options else "env-generator")
+            assert recorded["embedding_model"] == ("offline-embeddings" if explicit_options else "env-embeddings")
+            assert recorded["chunk_size"] == (256 if explicit_options else 64)
+            assert recorded["overlap"] == (64 if explicit_options else 8)
+            assert recorded["top_k"] == (5 if explicit_options else 2)
+            assert recorded["timeout_seconds"] == 17
+            assert recorded["max_retries"] == 1
+            assert recorded["chunking_strategy"] == args.chunking_strategy
+            assert recorded["chunk_max_tokens"] == (64 if explicit_options else 32)
+            assert recorded["chunk_tokenizer"] == ("o200k_base" if explicit_options else "cl100k_base")
+            assert recorded["effective_overlap"] == (args.overlap if args.chunking_strategy == "character" else 0)
+            assert (tmp_path / "data" / "evals" / path.name / "knowledgebase.db").exists()
+            row = summary["rows"][0]["answer"]
+            assert row["answer"] == "A GPA of 3.0. [1]"
+            assert row["citation_check"] == {"valid_source_ids": [1], "invalid_source_ids": [], "no_citations": False}
+            assert summary["citation_checks_recorded"] == 1
+            assert len(row["sources"]) == 1
+            assert row["sources"][0]["start_offset"] == 0
+            assert row["sources"][0]["end_offset"] == len(text)
+            if args.chunking_strategy != "character":
+                assert row["sources"][0]["heading_path"] == ["GPA"]
+                assert row["sources"][0]["tokenizer"] == args.chunk_tokenizer
+                assert row["sources"][0]["max_tokens"] == (args.parent_max_tokens if args.chunking_strategy == "parent_child" else args.chunk_max_tokens)
+            assert recorded["parent_max_tokens"] == args.parent_max_tokens
+            assert recorded["evidence_max_tokens"] == args.evidence_max_tokens
+            options = {"strategy": "vector" if explicit_options else "hybrid",
+                       "packing_strategy": "parent_then_child" if explicit_options else "parent_first",
+                       "candidate_limit": 7 if explicit_options else 9, "bm25_k1": 0.8, "bm25_b": 0.4, "rrf_k": 12,
+                       "rerank_enabled": not explicit_options, "rerank_candidate_limit": 3, "rerank_max_input_tokens": 1000}
+>           assert row["retrieval_diagnostics"]["options"] == recorded["retrieval_options"] == options
+E           AssertionError: assert {'strategy': ...k1': 0.8, ...} == {'strategy': ...k1': 0.8, ...}
+E             
+E             Omitting 9 identical items, use -vv to show
+E             Left contains 1 more item:
+E             {'rerank_unit': 'child'}
+E             Use -v to get more diff
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_evaluation.py:301: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Run: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services0/evals/runs/20260925T172732Z-6e454741
+one: ok
+Report: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services0/evals/runs/20260925T172732Z-6e454741/reports/20260925T172732Z-b79d5b3e.md
+Run: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services0/evals/runs/20260925T172732Z-d7b1432a
+one: ok
+Report: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services0/evals/runs/20260925T172732Z-d7b1432a/reports/20260925T172732Z-6ef0ede2.md
+_ test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage[structural-True] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x144cc95c0>
+explicit_options = True, strategy = 'structural'
+
+    @pytest.mark.parametrize("explicit_options", [False, True])
+    @pytest.mark.parametrize("strategy", ["structural", "character", "parent_child"])
+    def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_path, monkeypatch, explicit_options, strategy):
+        import openai
+    
+        monkeypatch.setattr(ev, "ROOT", tmp_path)
+        monkeypatch.setattr(ev, "EVALS", tmp_path / "evals")
+        monkeypatch.setattr(ev, "git_state", lambda: {"commit": "test", "dirty": False})
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        (tmp_path / ".env").write_text(
+            "ANSWER_MODEL=env-generator\nEMBEDDING_MODEL=env-embeddings\n"
+            "CHUNK_SIZE=64\nCHUNK_OVERLAP=8\nRETRIEVAL_TOP_K=2\n"
+            "EVAL_TIMEOUT_SECONDS=17\nEVAL_MAX_RETRIES=1\n"
+            f"CHUNKING_STRATEGY={strategy}\nCHUNK_MAX_TOKENS=32\nCHUNK_TOKENIZER=cl100k_base\n"
+            "PARENT_MAX_TOKENS=96\nEVIDENCE_MAX_TOKENS=192\nEVIDENCE_PACKING_STRATEGY=parent_first\n"
+            "RETRIEVAL_STRATEGY=hybrid\nRETRIEVAL_CANDIDATE_LIMIT=9\nBM25_K1=0.8\nBM25_B=0.4\nRRF_K=12\n"
+            "RERANK_ENABLED=true\nRERANK_MODEL=env-reranker\nRERANK_CANDIDATE_LIMIT=3\nRERANK_MAX_INPUT_TOKENS=1000\n"
+        )
+        data_case = case()
+        data_case["expected_answer_points"] = ["REFERENCE_ONLY_DO_NOT_SEND_TO_GENERATOR"]
+        text = "# GPA\n\nThe requirement is a GPA of 3.0."
+        data_case["evidence"] = [{"file": "notes.md", "start_offset": 0, "end_offset": len(text)}]
+        monkeypatch.setattr(ev, "load_inputs", lambda path: ([data_case], {"corpus_id": "test"}, {"notes.md": text}))
+        sdk = Mock()
+        sdk.embeddings.create.side_effect = lambda **kwargs: SimpleNamespace(
+            data=[SimpleNamespace(embedding=[1.0, 0.0]) for item in kwargs["input"]])
+        sdk.responses.create.return_value = SimpleNamespace(output_text="A GPA of 3.0. [1]")
+        from knowledgebase.providers import reranker as reranker_module
+        from knowledgebase.schemas import RelevanceScore
+        scorer = Mock(model="env-reranker", model_revision="test-revision", device="cpu", max_pair_tokens=1024, batch_size=4)
+        scorer.score.side_effect = lambda question, candidates: [
+            RelevanceScore(chunk_id=c.chunk_id, score=3.25) for c in candidates
+        ]
+        factory = Mock(return_value=scorer)
+        monkeypatch.setattr(reranker_module, "RerankerClient", factory)
+        context = Mock()
+        context.__enter__ = Mock(return_value=sdk)
+        context.__exit__ = Mock(return_value=False)
+        monkeypatch.setattr(openai, "OpenAI", Mock(return_value=context))
+        cases_path = tmp_path / "cases.jsonl"
+        cases_path.write_text(json.dumps(data_case) + "\n")
+        args = SimpleNamespace(cases=cases_path, label="Offline fixture", top_k=5, chunk_size=256,
+                               chunking_strategy={"structural": "character", "character": "parent_child", "parent_child": "structural"}[strategy],
+                               chunk_max_tokens=64, chunk_tokenizer="o200k_base", parent_max_tokens=128, evidence_max_tokens=256,
+                               overlap=64, model="offline-generator", embedding_model="offline-embeddings",
+                               retrieval_strategy="vector" if explicit_options else None,
+                               retrieval_candidate_limit=7 if explicit_options else None,
+                               bm25_k1=None, bm25_b=None, rrf_k=None,
+                               rerank_enabled=False if explicit_options else None, rerank_model=None,
+                               evidence_packing_strategy="parent_then_child" if explicit_options else None,
+                               rerank_candidate_limit=None, rerank_max_input_tokens=None)
+        if not explicit_options:
+            for name in ("model", "embedding_model", "chunk_size", "overlap", "top_k",
+                         "chunking_strategy", "chunk_max_tokens", "chunk_tokenizer", "parent_max_tokens", "evidence_max_tokens"):
+                setattr(args, name, None)
+        first, second = ev.run(args), ev.run(args)
+        assert first != second
+        for path in (first, second):
+            summary = ev.summarize(path)
+            recorded = summary["run"]["config"]
+            assert recorded["model"] == ("offline-generator" if explicit_options else "env-generator")
+            assert recorded["embedding_model"] == ("offline-embeddings" if explicit_options else "env-embeddings")
+            assert recorded["chunk_size"] == (256 if explicit_options else 64)
+            assert recorded["overlap"] == (64 if explicit_options else 8)
+            assert recorded["top_k"] == (5 if explicit_options else 2)
+            assert recorded["timeout_seconds"] == 17
+            assert recorded["max_retries"] == 1
+            assert recorded["chunking_strategy"] == args.chunking_strategy
+            assert recorded["chunk_max_tokens"] == (64 if explicit_options else 32)
+            assert recorded["chunk_tokenizer"] == ("o200k_base" if explicit_options else "cl100k_base")
+            assert recorded["effective_overlap"] == (args.overlap if args.chunking_strategy == "character" else 0)
+            assert (tmp_path / "data" / "evals" / path.name / "knowledgebase.db").exists()
+            row = summary["rows"][0]["answer"]
+            assert row["answer"] == "A GPA of 3.0. [1]"
+            assert row["citation_check"] == {"valid_source_ids": [1], "invalid_source_ids": [], "no_citations": False}
+            assert summary["citation_checks_recorded"] == 1
+            assert len(row["sources"]) == 1
+            assert row["sources"][0]["start_offset"] == 0
+            assert row["sources"][0]["end_offset"] == len(text)
+            if args.chunking_strategy != "character":
+                assert row["sources"][0]["heading_path"] == ["GPA"]
+                assert row["sources"][0]["tokenizer"] == args.chunk_tokenizer
+                assert row["sources"][0]["max_tokens"] == (args.parent_max_tokens if args.chunking_strategy == "parent_child" else args.chunk_max_tokens)
+            assert recorded["parent_max_tokens"] == args.parent_max_tokens
+            assert recorded["evidence_max_tokens"] == args.evidence_max_tokens
+            options = {"strategy": "vector" if explicit_options else "hybrid",
+                       "packing_strategy": "parent_then_child" if explicit_options else "parent_first",
+                       "candidate_limit": 7 if explicit_options else 9, "bm25_k1": 0.8, "bm25_b": 0.4, "rrf_k": 12,
+                       "rerank_enabled": not explicit_options, "rerank_candidate_limit": 3, "rerank_max_input_tokens": 1000}
+>           assert row["retrieval_diagnostics"]["options"] == recorded["retrieval_options"] == options
+E           AssertionError: assert {'strategy': ...k1': 0.8, ...} == {'strategy': ...k1': 0.8, ...}
+E             
+E             Omitting 9 identical items, use -vv to show
+E             Left contains 1 more item:
+E             {'rerank_unit': 'child'}
+E             Use -v to get more diff
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_evaluation.py:301: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Run: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services1/evals/runs/20260925T172732Z-bd395e49
+one: ok
+Report: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services1/evals/runs/20260925T172732Z-bd395e49/reports/20260925T172732Z-821c3d24.md
+Run: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services1/evals/runs/20260925T172732Z-7b9b51ef
+one: ok
+Report: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services1/evals/runs/20260925T172732Z-7b9b51ef/reports/20260925T172732Z-b72074a6.md
+_ test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage[character-False] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x143fae9e0>
+explicit_options = False, strategy = 'character'
+
+    @pytest.mark.parametrize("explicit_options", [False, True])
+    @pytest.mark.parametrize("strategy", ["structural", "character", "parent_child"])
+    def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_path, monkeypatch, explicit_options, strategy):
+        import openai
+    
+        monkeypatch.setattr(ev, "ROOT", tmp_path)
+        monkeypatch.setattr(ev, "EVALS", tmp_path / "evals")
+        monkeypatch.setattr(ev, "git_state", lambda: {"commit": "test", "dirty": False})
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        (tmp_path / ".env").write_text(
+            "ANSWER_MODEL=env-generator\nEMBEDDING_MODEL=env-embeddings\n"
+            "CHUNK_SIZE=64\nCHUNK_OVERLAP=8\nRETRIEVAL_TOP_K=2\n"
+            "EVAL_TIMEOUT_SECONDS=17\nEVAL_MAX_RETRIES=1\n"
+            f"CHUNKING_STRATEGY={strategy}\nCHUNK_MAX_TOKENS=32\nCHUNK_TOKENIZER=cl100k_base\n"
+            "PARENT_MAX_TOKENS=96\nEVIDENCE_MAX_TOKENS=192\nEVIDENCE_PACKING_STRATEGY=parent_first\n"
+            "RETRIEVAL_STRATEGY=hybrid\nRETRIEVAL_CANDIDATE_LIMIT=9\nBM25_K1=0.8\nBM25_B=0.4\nRRF_K=12\n"
+            "RERANK_ENABLED=true\nRERANK_MODEL=env-reranker\nRERANK_CANDIDATE_LIMIT=3\nRERANK_MAX_INPUT_TOKENS=1000\n"
+        )
+        data_case = case()
+        data_case["expected_answer_points"] = ["REFERENCE_ONLY_DO_NOT_SEND_TO_GENERATOR"]
+        text = "# GPA\n\nThe requirement is a GPA of 3.0."
+        data_case["evidence"] = [{"file": "notes.md", "start_offset": 0, "end_offset": len(text)}]
+        monkeypatch.setattr(ev, "load_inputs", lambda path: ([data_case], {"corpus_id": "test"}, {"notes.md": text}))
+        sdk = Mock()
+        sdk.embeddings.create.side_effect = lambda **kwargs: SimpleNamespace(
+            data=[SimpleNamespace(embedding=[1.0, 0.0]) for item in kwargs["input"]])
+        sdk.responses.create.return_value = SimpleNamespace(output_text="A GPA of 3.0. [1]")
+        from knowledgebase.providers import reranker as reranker_module
+        from knowledgebase.schemas import RelevanceScore
+        scorer = Mock(model="env-reranker", model_revision="test-revision", device="cpu", max_pair_tokens=1024, batch_size=4)
+        scorer.score.side_effect = lambda question, candidates: [
+            RelevanceScore(chunk_id=c.chunk_id, score=3.25) for c in candidates
+        ]
+        factory = Mock(return_value=scorer)
+        monkeypatch.setattr(reranker_module, "RerankerClient", factory)
+        context = Mock()
+        context.__enter__ = Mock(return_value=sdk)
+        context.__exit__ = Mock(return_value=False)
+        monkeypatch.setattr(openai, "OpenAI", Mock(return_value=context))
+        cases_path = tmp_path / "cases.jsonl"
+        cases_path.write_text(json.dumps(data_case) + "\n")
+        args = SimpleNamespace(cases=cases_path, label="Offline fixture", top_k=5, chunk_size=256,
+                               chunking_strategy={"structural": "character", "character": "parent_child", "parent_child": "structural"}[strategy],
+                               chunk_max_tokens=64, chunk_tokenizer="o200k_base", parent_max_tokens=128, evidence_max_tokens=256,
+                               overlap=64, model="offline-generator", embedding_model="offline-embeddings",
+                               retrieval_strategy="vector" if explicit_options else None,
+                               retrieval_candidate_limit=7 if explicit_options else None,
+                               bm25_k1=None, bm25_b=None, rrf_k=None,
+                               rerank_enabled=False if explicit_options else None, rerank_model=None,
+                               evidence_packing_strategy="parent_then_child" if explicit_options else None,
+                               rerank_candidate_limit=None, rerank_max_input_tokens=None)
+        if not explicit_options:
+            for name in ("model", "embedding_model", "chunk_size", "overlap", "top_k",
+                         "chunking_strategy", "chunk_max_tokens", "chunk_tokenizer", "parent_max_tokens", "evidence_max_tokens"):
+                setattr(args, name, None)
+        first, second = ev.run(args), ev.run(args)
+        assert first != second
+        for path in (first, second):
+            summary = ev.summarize(path)
+            recorded = summary["run"]["config"]
+            assert recorded["model"] == ("offline-generator" if explicit_options else "env-generator")
+            assert recorded["embedding_model"] == ("offline-embeddings" if explicit_options else "env-embeddings")
+            assert recorded["chunk_size"] == (256 if explicit_options else 64)
+            assert recorded["overlap"] == (64 if explicit_options else 8)
+            assert recorded["top_k"] == (5 if explicit_options else 2)
+            assert recorded["timeout_seconds"] == 17
+            assert recorded["max_retries"] == 1
+            assert recorded["chunking_strategy"] == args.chunking_strategy
+            assert recorded["chunk_max_tokens"] == (64 if explicit_options else 32)
+            assert recorded["chunk_tokenizer"] == ("o200k_base" if explicit_options else "cl100k_base")
+            assert recorded["effective_overlap"] == (args.overlap if args.chunking_strategy == "character" else 0)
+            assert (tmp_path / "data" / "evals" / path.name / "knowledgebase.db").exists()
+            row = summary["rows"][0]["answer"]
+            assert row["answer"] == "A GPA of 3.0. [1]"
+            assert row["citation_check"] == {"valid_source_ids": [1], "invalid_source_ids": [], "no_citations": False}
+            assert summary["citation_checks_recorded"] == 1
+            assert len(row["sources"]) == 1
+            assert row["sources"][0]["start_offset"] == 0
+            assert row["sources"][0]["end_offset"] == len(text)
+            if args.chunking_strategy != "character":
+                assert row["sources"][0]["heading_path"] == ["GPA"]
+                assert row["sources"][0]["tokenizer"] == args.chunk_tokenizer
+                assert row["sources"][0]["max_tokens"] == (args.parent_max_tokens if args.chunking_strategy == "parent_child" else args.chunk_max_tokens)
+            assert recorded["parent_max_tokens"] == args.parent_max_tokens
+            assert recorded["evidence_max_tokens"] == args.evidence_max_tokens
+            options = {"strategy": "vector" if explicit_options else "hybrid",
+                       "packing_strategy": "parent_then_child" if explicit_options else "parent_first",
+                       "candidate_limit": 7 if explicit_options else 9, "bm25_k1": 0.8, "bm25_b": 0.4, "rrf_k": 12,
+                       "rerank_enabled": not explicit_options, "rerank_candidate_limit": 3, "rerank_max_input_tokens": 1000}
+>           assert row["retrieval_diagnostics"]["options"] == recorded["retrieval_options"] == options
+E           AssertionError: assert {'strategy': ...k1': 0.8, ...} == {'strategy': ...k1': 0.8, ...}
+E             
+E             Omitting 9 identical items, use -vv to show
+E             Left contains 1 more item:
+E             {'rerank_unit': 'child'}
+E             Use -v to get more diff
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_evaluation.py:301: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Run: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services2/evals/runs/20260925T172732Z-7cc722ae
+one: ok
+Report: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services2/evals/runs/20260925T172732Z-7cc722ae/reports/20260925T172732Z-bcc29290.md
+Run: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services2/evals/runs/20260925T172732Z-717c406f
+one: ok
+Report: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services2/evals/runs/20260925T172732Z-717c406f/reports/20260925T172732Z-8af57b8b.md
+_ test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage[character-True] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x114c0af20>
+explicit_options = True, strategy = 'character'
+
+    @pytest.mark.parametrize("explicit_options", [False, True])
+    @pytest.mark.parametrize("strategy", ["structural", "character", "parent_child"])
+    def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_path, monkeypatch, explicit_options, strategy):
+        import openai
+    
+        monkeypatch.setattr(ev, "ROOT", tmp_path)
+        monkeypatch.setattr(ev, "EVALS", tmp_path / "evals")
+        monkeypatch.setattr(ev, "git_state", lambda: {"commit": "test", "dirty": False})
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        (tmp_path / ".env").write_text(
+            "ANSWER_MODEL=env-generator\nEMBEDDING_MODEL=env-embeddings\n"
+            "CHUNK_SIZE=64\nCHUNK_OVERLAP=8\nRETRIEVAL_TOP_K=2\n"
+            "EVAL_TIMEOUT_SECONDS=17\nEVAL_MAX_RETRIES=1\n"
+            f"CHUNKING_STRATEGY={strategy}\nCHUNK_MAX_TOKENS=32\nCHUNK_TOKENIZER=cl100k_base\n"
+            "PARENT_MAX_TOKENS=96\nEVIDENCE_MAX_TOKENS=192\nEVIDENCE_PACKING_STRATEGY=parent_first\n"
+            "RETRIEVAL_STRATEGY=hybrid\nRETRIEVAL_CANDIDATE_LIMIT=9\nBM25_K1=0.8\nBM25_B=0.4\nRRF_K=12\n"
+            "RERANK_ENABLED=true\nRERANK_MODEL=env-reranker\nRERANK_CANDIDATE_LIMIT=3\nRERANK_MAX_INPUT_TOKENS=1000\n"
+        )
+        data_case = case()
+        data_case["expected_answer_points"] = ["REFERENCE_ONLY_DO_NOT_SEND_TO_GENERATOR"]
+        text = "# GPA\n\nThe requirement is a GPA of 3.0."
+        data_case["evidence"] = [{"file": "notes.md", "start_offset": 0, "end_offset": len(text)}]
+        monkeypatch.setattr(ev, "load_inputs", lambda path: ([data_case], {"corpus_id": "test"}, {"notes.md": text}))
+        sdk = Mock()
+        sdk.embeddings.create.side_effect = lambda **kwargs: SimpleNamespace(
+            data=[SimpleNamespace(embedding=[1.0, 0.0]) for item in kwargs["input"]])
+        sdk.responses.create.return_value = SimpleNamespace(output_text="A GPA of 3.0. [1]")
+        from knowledgebase.providers import reranker as reranker_module
+        from knowledgebase.schemas import RelevanceScore
+        scorer = Mock(model="env-reranker", model_revision="test-revision", device="cpu", max_pair_tokens=1024, batch_size=4)
+        scorer.score.side_effect = lambda question, candidates: [
+            RelevanceScore(chunk_id=c.chunk_id, score=3.25) for c in candidates
+        ]
+        factory = Mock(return_value=scorer)
+        monkeypatch.setattr(reranker_module, "RerankerClient", factory)
+        context = Mock()
+        context.__enter__ = Mock(return_value=sdk)
+        context.__exit__ = Mock(return_value=False)
+        monkeypatch.setattr(openai, "OpenAI", Mock(return_value=context))
+        cases_path = tmp_path / "cases.jsonl"
+        cases_path.write_text(json.dumps(data_case) + "\n")
+        args = SimpleNamespace(cases=cases_path, label="Offline fixture", top_k=5, chunk_size=256,
+                               chunking_strategy={"structural": "character", "character": "parent_child", "parent_child": "structural"}[strategy],
+                               chunk_max_tokens=64, chunk_tokenizer="o200k_base", parent_max_tokens=128, evidence_max_tokens=256,
+                               overlap=64, model="offline-generator", embedding_model="offline-embeddings",
+                               retrieval_strategy="vector" if explicit_options else None,
+                               retrieval_candidate_limit=7 if explicit_options else None,
+                               bm25_k1=None, bm25_b=None, rrf_k=None,
+                               rerank_enabled=False if explicit_options else None, rerank_model=None,
+                               evidence_packing_strategy="parent_then_child" if explicit_options else None,
+                               rerank_candidate_limit=None, rerank_max_input_tokens=None)
+        if not explicit_options:
+            for name in ("model", "embedding_model", "chunk_size", "overlap", "top_k",
+                         "chunking_strategy", "chunk_max_tokens", "chunk_tokenizer", "parent_max_tokens", "evidence_max_tokens"):
+                setattr(args, name, None)
+        first, second = ev.run(args), ev.run(args)
+        assert first != second
+        for path in (first, second):
+            summary = ev.summarize(path)
+            recorded = summary["run"]["config"]
+            assert recorded["model"] == ("offline-generator" if explicit_options else "env-generator")
+            assert recorded["embedding_model"] == ("offline-embeddings" if explicit_options else "env-embeddings")
+            assert recorded["chunk_size"] == (256 if explicit_options else 64)
+            assert recorded["overlap"] == (64 if explicit_options else 8)
+            assert recorded["top_k"] == (5 if explicit_options else 2)
+            assert recorded["timeout_seconds"] == 17
+            assert recorded["max_retries"] == 1
+            assert recorded["chunking_strategy"] == args.chunking_strategy
+            assert recorded["chunk_max_tokens"] == (64 if explicit_options else 32)
+            assert recorded["chunk_tokenizer"] == ("o200k_base" if explicit_options else "cl100k_base")
+            assert recorded["effective_overlap"] == (args.overlap if args.chunking_strategy == "character" else 0)
+            assert (tmp_path / "data" / "evals" / path.name / "knowledgebase.db").exists()
+            row = summary["rows"][0]["answer"]
+            assert row["answer"] == "A GPA of 3.0. [1]"
+            assert row["citation_check"] == {"valid_source_ids": [1], "invalid_source_ids": [], "no_citations": False}
+            assert summary["citation_checks_recorded"] == 1
+            assert len(row["sources"]) == 1
+            assert row["sources"][0]["start_offset"] == 0
+            assert row["sources"][0]["end_offset"] == len(text)
+            if args.chunking_strategy != "character":
+                assert row["sources"][0]["heading_path"] == ["GPA"]
+                assert row["sources"][0]["tokenizer"] == args.chunk_tokenizer
+                assert row["sources"][0]["max_tokens"] == (args.parent_max_tokens if args.chunking_strategy == "parent_child" else args.chunk_max_tokens)
+            assert recorded["parent_max_tokens"] == args.parent_max_tokens
+            assert recorded["evidence_max_tokens"] == args.evidence_max_tokens
+            options = {"strategy": "vector" if explicit_options else "hybrid",
+                       "packing_strategy": "parent_then_child" if explicit_options else "parent_first",
+                       "candidate_limit": 7 if explicit_options else 9, "bm25_k1": 0.8, "bm25_b": 0.4, "rrf_k": 12,
+                       "rerank_enabled": not explicit_options, "rerank_candidate_limit": 3, "rerank_max_input_tokens": 1000}
+>           assert row["retrieval_diagnostics"]["options"] == recorded["retrieval_options"] == options
+E           AssertionError: assert {'strategy': ...k1': 0.8, ...} == {'strategy': ...k1': 0.8, ...}
+E             
+E             Omitting 9 identical items, use -vv to show
+E             Left contains 1 more item:
+E             {'rerank_unit': 'child'}
+E             Use -v to get more diff
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_evaluation.py:301: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Run: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services3/evals/runs/20260925T172732Z-9d78b820
+one: ok
+Report: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services3/evals/runs/20260925T172732Z-9d78b820/reports/20260925T172732Z-8f1105fa.md
+Run: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services3/evals/runs/20260925T172732Z-c2af9ecc
+one: ok
+Report: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services3/evals/runs/20260925T172732Z-c2af9ecc/reports/20260925T172733Z-62841f78.md
+_ test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage[parent_child-False] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services4')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x142d06f90>
+explicit_options = False, strategy = 'parent_child'
+
+    @pytest.mark.parametrize("explicit_options", [False, True])
+    @pytest.mark.parametrize("strategy", ["structural", "character", "parent_child"])
+    def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_path, monkeypatch, explicit_options, strategy):
+        import openai
+    
+        monkeypatch.setattr(ev, "ROOT", tmp_path)
+        monkeypatch.setattr(ev, "EVALS", tmp_path / "evals")
+        monkeypatch.setattr(ev, "git_state", lambda: {"commit": "test", "dirty": False})
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        (tmp_path / ".env").write_text(
+            "ANSWER_MODEL=env-generator\nEMBEDDING_MODEL=env-embeddings\n"
+            "CHUNK_SIZE=64\nCHUNK_OVERLAP=8\nRETRIEVAL_TOP_K=2\n"
+            "EVAL_TIMEOUT_SECONDS=17\nEVAL_MAX_RETRIES=1\n"
+            f"CHUNKING_STRATEGY={strategy}\nCHUNK_MAX_TOKENS=32\nCHUNK_TOKENIZER=cl100k_base\n"
+            "PARENT_MAX_TOKENS=96\nEVIDENCE_MAX_TOKENS=192\nEVIDENCE_PACKING_STRATEGY=parent_first\n"
+            "RETRIEVAL_STRATEGY=hybrid\nRETRIEVAL_CANDIDATE_LIMIT=9\nBM25_K1=0.8\nBM25_B=0.4\nRRF_K=12\n"
+            "RERANK_ENABLED=true\nRERANK_MODEL=env-reranker\nRERANK_CANDIDATE_LIMIT=3\nRERANK_MAX_INPUT_TOKENS=1000\n"
+        )
+        data_case = case()
+        data_case["expected_answer_points"] = ["REFERENCE_ONLY_DO_NOT_SEND_TO_GENERATOR"]
+        text = "# GPA\n\nThe requirement is a GPA of 3.0."
+        data_case["evidence"] = [{"file": "notes.md", "start_offset": 0, "end_offset": len(text)}]
+        monkeypatch.setattr(ev, "load_inputs", lambda path: ([data_case], {"corpus_id": "test"}, {"notes.md": text}))
+        sdk = Mock()
+        sdk.embeddings.create.side_effect = lambda **kwargs: SimpleNamespace(
+            data=[SimpleNamespace(embedding=[1.0, 0.0]) for item in kwargs["input"]])
+        sdk.responses.create.return_value = SimpleNamespace(output_text="A GPA of 3.0. [1]")
+        from knowledgebase.providers import reranker as reranker_module
+        from knowledgebase.schemas import RelevanceScore
+        scorer = Mock(model="env-reranker", model_revision="test-revision", device="cpu", max_pair_tokens=1024, batch_size=4)
+        scorer.score.side_effect = lambda question, candidates: [
+            RelevanceScore(chunk_id=c.chunk_id, score=3.25) for c in candidates
+        ]
+        factory = Mock(return_value=scorer)
+        monkeypatch.setattr(reranker_module, "RerankerClient", factory)
+        context = Mock()
+        context.__enter__ = Mock(return_value=sdk)
+        context.__exit__ = Mock(return_value=False)
+        monkeypatch.setattr(openai, "OpenAI", Mock(return_value=context))
+        cases_path = tmp_path / "cases.jsonl"
+        cases_path.write_text(json.dumps(data_case) + "\n")
+        args = SimpleNamespace(cases=cases_path, label="Offline fixture", top_k=5, chunk_size=256,
+                               chunking_strategy={"structural": "character", "character": "parent_child", "parent_child": "structural"}[strategy],
+                               chunk_max_tokens=64, chunk_tokenizer="o200k_base", parent_max_tokens=128, evidence_max_tokens=256,
+                               overlap=64, model="offline-generator", embedding_model="offline-embeddings",
+                               retrieval_strategy="vector" if explicit_options else None,
+                               retrieval_candidate_limit=7 if explicit_options else None,
+                               bm25_k1=None, bm25_b=None, rrf_k=None,
+                               rerank_enabled=False if explicit_options else None, rerank_model=None,
+                               evidence_packing_strategy="parent_then_child" if explicit_options else None,
+                               rerank_candidate_limit=None, rerank_max_input_tokens=None)
+        if not explicit_options:
+            for name in ("model", "embedding_model", "chunk_size", "overlap", "top_k",
+                         "chunking_strategy", "chunk_max_tokens", "chunk_tokenizer", "parent_max_tokens", "evidence_max_tokens"):
+                setattr(args, name, None)
+        first, second = ev.run(args), ev.run(args)
+        assert first != second
+        for path in (first, second):
+            summary = ev.summarize(path)
+            recorded = summary["run"]["config"]
+            assert recorded["model"] == ("offline-generator" if explicit_options else "env-generator")
+            assert recorded["embedding_model"] == ("offline-embeddings" if explicit_options else "env-embeddings")
+            assert recorded["chunk_size"] == (256 if explicit_options else 64)
+            assert recorded["overlap"] == (64 if explicit_options else 8)
+            assert recorded["top_k"] == (5 if explicit_options else 2)
+            assert recorded["timeout_seconds"] == 17
+            assert recorded["max_retries"] == 1
+            assert recorded["chunking_strategy"] == args.chunking_strategy
+            assert recorded["chunk_max_tokens"] == (64 if explicit_options else 32)
+            assert recorded["chunk_tokenizer"] == ("o200k_base" if explicit_options else "cl100k_base")
+            assert recorded["effective_overlap"] == (args.overlap if args.chunking_strategy == "character" else 0)
+            assert (tmp_path / "data" / "evals" / path.name / "knowledgebase.db").exists()
+            row = summary["rows"][0]["answer"]
+            assert row["answer"] == "A GPA of 3.0. [1]"
+            assert row["citation_check"] == {"valid_source_ids": [1], "invalid_source_ids": [], "no_citations": False}
+            assert summary["citation_checks_recorded"] == 1
+            assert len(row["sources"]) == 1
+            assert row["sources"][0]["start_offset"] == 0
+            assert row["sources"][0]["end_offset"] == len(text)
+            if args.chunking_strategy != "character":
+                assert row["sources"][0]["heading_path"] == ["GPA"]
+                assert row["sources"][0]["tokenizer"] == args.chunk_tokenizer
+                assert row["sources"][0]["max_tokens"] == (args.parent_max_tokens if args.chunking_strategy == "parent_child" else args.chunk_max_tokens)
+            assert recorded["parent_max_tokens"] == args.parent_max_tokens
+            assert recorded["evidence_max_tokens"] == args.evidence_max_tokens
+            options = {"strategy": "vector" if explicit_options else "hybrid",
+                       "packing_strategy": "parent_then_child" if explicit_options else "parent_first",
+                       "candidate_limit": 7 if explicit_options else 9, "bm25_k1": 0.8, "bm25_b": 0.4, "rrf_k": 12,
+                       "rerank_enabled": not explicit_options, "rerank_candidate_limit": 3, "rerank_max_input_tokens": 1000}
+>           assert row["retrieval_diagnostics"]["options"] == recorded["retrieval_options"] == options
+E           AssertionError: assert {'strategy': ...k1': 0.8, ...} == {'strategy': ...k1': 0.8, ...}
+E             
+E             Omitting 9 identical items, use -vv to show
+E             Left contains 1 more item:
+E             {'rerank_unit': 'child'}
+E             Use -v to get more diff
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_evaluation.py:301: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Run: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services4/evals/runs/20260925T172733Z-264e9765
+one: ok
+Report: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services4/evals/runs/20260925T172733Z-264e9765/reports/20260925T172733Z-e585e2d5.md
+Run: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services4/evals/runs/20260925T172733Z-90513503
+one: ok
+Report: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services4/evals/runs/20260925T172733Z-90513503/reports/20260925T172733Z-280656ab.md
+_ test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage[parent_child-True] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services5')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x142dda890>
+explicit_options = True, strategy = 'parent_child'
+
+    @pytest.mark.parametrize("explicit_options", [False, True])
+    @pytest.mark.parametrize("strategy", ["structural", "character", "parent_child"])
+    def test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage(tmp_path, monkeypatch, explicit_options, strategy):
+        import openai
+    
+        monkeypatch.setattr(ev, "ROOT", tmp_path)
+        monkeypatch.setattr(ev, "EVALS", tmp_path / "evals")
+        monkeypatch.setattr(ev, "git_state", lambda: {"commit": "test", "dirty": False})
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        (tmp_path / ".env").write_text(
+            "ANSWER_MODEL=env-generator\nEMBEDDING_MODEL=env-embeddings\n"
+            "CHUNK_SIZE=64\nCHUNK_OVERLAP=8\nRETRIEVAL_TOP_K=2\n"
+            "EVAL_TIMEOUT_SECONDS=17\nEVAL_MAX_RETRIES=1\n"
+            f"CHUNKING_STRATEGY={strategy}\nCHUNK_MAX_TOKENS=32\nCHUNK_TOKENIZER=cl100k_base\n"
+            "PARENT_MAX_TOKENS=96\nEVIDENCE_MAX_TOKENS=192\nEVIDENCE_PACKING_STRATEGY=parent_first\n"
+            "RETRIEVAL_STRATEGY=hybrid\nRETRIEVAL_CANDIDATE_LIMIT=9\nBM25_K1=0.8\nBM25_B=0.4\nRRF_K=12\n"
+            "RERANK_ENABLED=true\nRERANK_MODEL=env-reranker\nRERANK_CANDIDATE_LIMIT=3\nRERANK_MAX_INPUT_TOKENS=1000\n"
+        )
+        data_case = case()
+        data_case["expected_answer_points"] = ["REFERENCE_ONLY_DO_NOT_SEND_TO_GENERATOR"]
+        text = "# GPA\n\nThe requirement is a GPA of 3.0."
+        data_case["evidence"] = [{"file": "notes.md", "start_offset": 0, "end_offset": len(text)}]
+        monkeypatch.setattr(ev, "load_inputs", lambda path: ([data_case], {"corpus_id": "test"}, {"notes.md": text}))
+        sdk = Mock()
+        sdk.embeddings.create.side_effect = lambda **kwargs: SimpleNamespace(
+            data=[SimpleNamespace(embedding=[1.0, 0.0]) for item in kwargs["input"]])
+        sdk.responses.create.return_value = SimpleNamespace(output_text="A GPA of 3.0. [1]")
+        from knowledgebase.providers import reranker as reranker_module
+        from knowledgebase.schemas import RelevanceScore
+        scorer = Mock(model="env-reranker", model_revision="test-revision", device="cpu", max_pair_tokens=1024, batch_size=4)
+        scorer.score.side_effect = lambda question, candidates: [
+            RelevanceScore(chunk_id=c.chunk_id, score=3.25) for c in candidates
+        ]
+        factory = Mock(return_value=scorer)
+        monkeypatch.setattr(reranker_module, "RerankerClient", factory)
+        context = Mock()
+        context.__enter__ = Mock(return_value=sdk)
+        context.__exit__ = Mock(return_value=False)
+        monkeypatch.setattr(openai, "OpenAI", Mock(return_value=context))
+        cases_path = tmp_path / "cases.jsonl"
+        cases_path.write_text(json.dumps(data_case) + "\n")
+        args = SimpleNamespace(cases=cases_path, label="Offline fixture", top_k=5, chunk_size=256,
+                               chunking_strategy={"structural": "character", "character": "parent_child", "parent_child": "structural"}[strategy],
+                               chunk_max_tokens=64, chunk_tokenizer="o200k_base", parent_max_tokens=128, evidence_max_tokens=256,
+                               overlap=64, model="offline-generator", embedding_model="offline-embeddings",
+                               retrieval_strategy="vector" if explicit_options else None,
+                               retrieval_candidate_limit=7 if explicit_options else None,
+                               bm25_k1=None, bm25_b=None, rrf_k=None,
+                               rerank_enabled=False if explicit_options else None, rerank_model=None,
+                               evidence_packing_strategy="parent_then_child" if explicit_options else None,
+                               rerank_candidate_limit=None, rerank_max_input_tokens=None)
+        if not explicit_options:
+            for name in ("model", "embedding_model", "chunk_size", "overlap", "top_k",
+                         "chunking_strategy", "chunk_max_tokens", "chunk_tokenizer", "parent_max_tokens", "evidence_max_tokens"):
+                setattr(args, name, None)
+        first, second = ev.run(args), ev.run(args)
+        assert first != second
+        for path in (first, second):
+            summary = ev.summarize(path)
+            recorded = summary["run"]["config"]
+            assert recorded["model"] == ("offline-generator" if explicit_options else "env-generator")
+            assert recorded["embedding_model"] == ("offline-embeddings" if explicit_options else "env-embeddings")
+            assert recorded["chunk_size"] == (256 if explicit_options else 64)
+            assert recorded["overlap"] == (64 if explicit_options else 8)
+            assert recorded["top_k"] == (5 if explicit_options else 2)
+            assert recorded["timeout_seconds"] == 17
+            assert recorded["max_retries"] == 1
+            assert recorded["chunking_strategy"] == args.chunking_strategy
+            assert recorded["chunk_max_tokens"] == (64 if explicit_options else 32)
+            assert recorded["chunk_tokenizer"] == ("o200k_base" if explicit_options else "cl100k_base")
+            assert recorded["effective_overlap"] == (args.overlap if args.chunking_strategy == "character" else 0)
+            assert (tmp_path / "data" / "evals" / path.name / "knowledgebase.db").exists()
+            row = summary["rows"][0]["answer"]
+            assert row["answer"] == "A GPA of 3.0. [1]"
+            assert row["citation_check"] == {"valid_source_ids": [1], "invalid_source_ids": [], "no_citations": False}
+            assert summary["citation_checks_recorded"] == 1
+            assert len(row["sources"]) == 1
+            assert row["sources"][0]["start_offset"] == 0
+            assert row["sources"][0]["end_offset"] == len(text)
+            if args.chunking_strategy != "character":
+                assert row["sources"][0]["heading_path"] == ["GPA"]
+                assert row["sources"][0]["tokenizer"] == args.chunk_tokenizer
+                assert row["sources"][0]["max_tokens"] == (args.parent_max_tokens if args.chunking_strategy == "parent_child" else args.chunk_max_tokens)
+            assert recorded["parent_max_tokens"] == args.parent_max_tokens
+            assert recorded["evidence_max_tokens"] == args.evidence_max_tokens
+            options = {"strategy": "vector" if explicit_options else "hybrid",
+                       "packing_strategy": "parent_then_child" if explicit_options else "parent_first",
+                       "candidate_limit": 7 if explicit_options else 9, "bm25_k1": 0.8, "bm25_b": 0.4, "rrf_k": 12,
+                       "rerank_enabled": not explicit_options, "rerank_candidate_limit": 3, "rerank_max_input_tokens": 1000}
+>           assert row["retrieval_diagnostics"]["options"] == recorded["retrieval_options"] == options
+E           AssertionError: assert {'strategy': ...k1': 0.8, ...} == {'strategy': ...k1': 0.8, ...}
+E             
+E             Omitting 9 identical items, use -vv to show
+E             Left contains 1 more item:
+E             {'rerank_unit': 'child'}
+E             Use -v to get more diff
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_evaluation.py:301: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Run: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services5/evals/runs/20260925T172733Z-c091201d
+one: ok
+Report: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services5/evals/runs/20260925T172733Z-c091201d/reports/20260925T172733Z-12936a57.md
+Run: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services5/evals/runs/20260925T172733Z-1dba2431
+one: ok
+Report: /private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-149/test_runner_uses_real_services5/evals/runs/20260925T172733Z-1dba2431/reports/20260925T172733Z-1070012b.md
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_evaluation.py::test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage[structural-False]
+FAILED tests/test_evaluation.py::test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage[structural-True]
+FAILED tests/test_evaluation.py::test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage[character-False]
+FAILED tests/test_evaluation.py::test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage[character-True]
+FAILED tests/test_evaluation.py::test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage[parent_child-False]
+FAILED tests/test_evaluation.py::test_runner_uses_real_services_fresh_indexes_and_no_reference_leakage[parent_child-True]
+6 failed, 548 passed, 1 skipped, 1 warning in 14.65s

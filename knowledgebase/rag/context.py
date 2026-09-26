@@ -1,11 +1,24 @@
-"""Build numbered source context from retrieved chunks."""
+"""Build budgeted source context with explicit identity and unchanged excerpts."""
 
-from knowledgebase.schemas import RetrievedChunk
+import json
+
+from knowledgebase.schemas import RetrievedChunk, StructuredChunk
+
+
+CONTEXT_FORMAT = "source-metadata-v1"
+LABELED_CONTEXT_FORMAT = "source-metadata-v2"
 
 
 def build_context(chunks: list[RetrievedChunk]) -> str:
-    """Preserve retrieval order and source text; source [n] is chunks[n - 1]."""
-    return "\n\n".join(
-        f"[{number}]\n{item.chunk.text}"
-        for number, item in enumerate(chunks, start=1)
-    )
+    """Count identity labels as context while preserving canonical source slices."""
+    sources = []
+    for number, item in enumerate(chunks, start=1):
+        identity = {
+            "file_name": item.file_name,
+            "heading_path": item.chunk.heading_path if isinstance(item.chunk, StructuredChunk) else [],
+        }
+        if item.document_labels:
+            identity["document_labels"] = item.document_labels
+        metadata = json.dumps(identity, ensure_ascii=False)
+        sources.append(f"[{number}]\nSource metadata: {metadata}\nExcerpt:\n{item.chunk.text}")
+    return "\n\n".join(sources)

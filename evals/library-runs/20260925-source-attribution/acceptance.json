@@ -1,0 +1,68 @@
+{
+  "evaluated_at": "2026-09-25T18:20:49.120150+00:00",
+  "status": "failed",
+  "gates": {
+    "generation_success": true,
+    "citation_ids": true,
+    "required_fact_correctness_and_scope": false,
+    "claim_support": false,
+    "associated_citation_support": false,
+    "citation_coverage": false,
+    "abstention": true,
+    "generation_latency": true,
+    "input_budget": true
+  },
+  "cases_passed": 3,
+  "cases_total": 5,
+  "per_case": [
+    {
+      "case_id": "accept-beta-header-scope",
+      "before_pass": false,
+      "after_pass": false,
+      "findings": [
+        "Universal endpoint qualification remains despite the new exact-status instruction. The status itself is correct; its added scope is not established."
+      ]
+    },
+    {
+      "case_id": "accept-independent-passfail",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": [
+        "Required restrictions preserved. The first summary bullet is uncited; the next bullet citation does not cover it. This lowers citation coverage but is not an unsupported fact."
+      ]
+    },
+    {
+      "case_id": "accept-awards-jobs",
+      "before_pass": false,
+      "after_pass": false,
+      "findings": [
+        "Wrong-FAQ citation and blanket source attribution remain. Limited number of scholarships is also omitted from the required first reference point; other required facts are present."
+      ]
+    },
+    {
+      "case_id": "accept-unspecified-api-error",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": [
+        "All excerpts inspected; exact HTTP status/body correctly withheld. The repeated support-status statement shares the paragraph with citation [1]."
+      ]
+    },
+    {
+      "case_id": "accept-personal-study-approval",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": [
+        "All supplied excerpts inspected. No personal approval/supervisor or contact invented; absence statements assessed under abstention. Leading Source [n] inside the same list item counts as an associated citation under the original protocol."
+      ]
+    }
+  ],
+  "resolved_models_before": [
+    "gpt-4.1-2025-04-14"
+  ],
+  "resolved_models_after": [
+    "gpt-4.1-2025-04-14"
+  ],
+  "reviewer": "Codex; not independent human review",
+  "paid_judge_calls": 0,
+  "decision": "Do not recommend unconditional merge. The source-attribution instruction change is not verified; endpoint scope and wrong-FAQ citation remain failures. No retries or answer repair."
+}

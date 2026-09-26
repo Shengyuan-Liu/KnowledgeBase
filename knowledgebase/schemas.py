@@ -87,6 +87,7 @@ class DocumentSource(BaseModel):
     text: str
     source_hash: str
     blocks: list[SourceBlock]
+    indexing: dict[str, Any] | None = None
 
 
 class VectorMatch(BaseModel):
@@ -116,13 +117,63 @@ class FusedMatch(BaseModel):
     vector_rank: int | None = None
 
 
+class RerankCandidate(FusedMatch):
+    """A fused hit scored with its exact child text or an identified whole parent."""
+
+    text: str
+    heading_path: list[str] = Field(default_factory=list)
+    scoring_parent_id: str | None = None
+
+
+class RelevanceScore(BaseModel):
+    """A raw relevance logit, not a correctness probability."""
+
+    chunk_id: str
+    score: float = Field(allow_inf_nan=False)
+
+
+class RerankedMatch(FusedMatch):
+    """Original route/fusion metadata plus the independent rerank result."""
+
+    rerank_score: float
+    rerank_rank: int
+    score_kind: str = "ordinal_0_3"
+    scoring_parent_id: str | None = None
+
+
+class RerankResult(BaseModel):
+    """Full scored input and ranking, including candidates outside selected top-k."""
+
+    question: str
+    model: str
+    prompt_version: str
+    score_kind: str = "ordinal_0_3"
+    model_revision: str | None = None
+    device: str | None = None
+    max_pair_tokens: int | None = None
+    batch_size: int | None = None
+    tokenizer: str
+    input_tokens: int
+    candidate_limit: int
+    max_input_tokens: int
+    top_k: int
+    candidates: list[RerankCandidate]
+    matches: list[RerankedMatch]
+
+    @property
+    def selected(self) -> list[RerankedMatch]:
+        return self.matches[:self.top_k]
+
+
 class RetrievedChunk(BaseModel):
     """Canonical evidence with the highest-ranked child's retrieval provenance."""
 
+    document_labels: list[str] = Field(default_factory=list)
     chunk: Chunk
     file_name: str
     distance: float | None
     fusion: FusedMatch | None = None
+    rerank: RerankedMatch | None = None
     parent_id: str | None = None
     matched_child_ids: list[str] = Field(default_factory=list)
 
@@ -133,6 +184,7 @@ class RetrievalCandidate(BaseModel):
     chunk_id: str
     distance: float | None
     fusion: FusedMatch | None = None
+    rerank: RerankedMatch | None = None
     file_id: str
     parent_id: str | None = None
     text: str
@@ -149,7 +201,29 @@ class ExcludedEvidence(BaseModel):
     reason: Literal["context_budget"] = "context_budget"
 
 
+class ScopeFile(BaseModel):
+    """A file identity used to resolve a document reference."""
+
+    file_id: str
+    file_name: str
+    labels: list[str] = Field(default_factory=list)
+
+
+class DocumentScope(BaseModel):
+    status: Literal["resolved", "ambiguous", "not_found"]
+    references: list[str] = Field(default_factory=list)
+    file_ids: list[str] = Field(default_factory=list)
+    matches: list[ScopeFile] = Field(default_factory=list)
+    message: str | None = None
+
+
 class RetrievalDiagnostics(BaseModel):
+    document_scope: DocumentScope | None = None
+    scope_seconds: float | None = None
+    retrieval_seconds: float | None = None
+    embedding_seconds: float | None = None
+    rerank: RerankResult | None = None
+    rerank_seconds: float | None = None
     options: RetrievalOptions | None = None
     top_k: int | None = None
     vector_matches: list[VectorMatch] = Field(default_factory=list)
@@ -157,6 +231,9 @@ class RetrievalDiagnostics(BaseModel):
     fused_matches: list[FusedMatch] = Field(default_factory=list)
     candidates: list[RetrievalCandidate] = Field(default_factory=list)
     excluded: list[ExcludedEvidence] = Field(default_factory=list)
+    unexpanded_parents: list[ExcludedEvidence] = Field(default_factory=list)
+    packing_seconds: float | None = None
+    context_format: str | None = None
     evidence_tokens: int = 0
     max_tokens: int
     tokenizer: str
@@ -171,16 +248,20 @@ class AnswerSource(BaseModel):
     """One retrieved excerpt, numbered within the current answer."""
 
     source_id: int
+    document_labels: list[str] = Field(default_factory=list)
     file_id: str
     file_name: str
     chunk_id: str
     text: str
     distance: float | None
     fusion: FusedMatch | None = None
+    rerank: RerankedMatch | None = None
     parent_id: str | None = None
     matched_child_ids: list[str] = Field(default_factory=list)
     start_offset: int | None = None
     end_offset: int | None = None
+    start_line: int | None = None
+    end_line: int | None = None
     heading_path: list[str] = Field(default_factory=list)
     source_block_indices: list[int] = Field(default_factory=list)
     token_count: int | None = None
@@ -210,6 +291,7 @@ class ChatRequest(BaseModel):
 
     question: str = Field(pattern=r"\S")
     conversation_id: str | None = None
+    file_ids: list[str] | None = Field(default=None, min_length=1)
 
 
 class StreamChatRequest(ChatRequest):

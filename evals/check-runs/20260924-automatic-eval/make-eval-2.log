@@ -1,0 +1,68 @@
+uv run --locked python -m evals.automatic --answers-from evals/runs/20260924T154305Z-4ef1ccf3-automatic
+Evaluation: /Users/lucas/Documents/Projects/KnowledgeBase/evals/runs/20260924T154941Z-3084b4b2-automatic
+Previous: evals/library-runs/20260924T150609Z-source-metadata-v2
+Answer model: gpt-4.1; judge: gpt-5.4-mini (medium); RAG concurrency: 1; judge concurrency: 4
+Reusing recorded RAG observations: evals/runs/20260924T154305Z-4ef1ccf3-automatic; only judgments are fresh.
+Judge policy-off-campus: ok
+Judge policy-ai-impersonation: ok
+Judge msds-gpa: ok
+Judge msds-waiver: ok
+Judge msds-credits: error (Evidence must select existing nonempty source units.)
+Judge missing-personal-schedule: error (Citation support cannot exceed factual support.)
+Judge msds-working-enrollment: ok
+Judge msds-industry: ok
+Judge msds-pathbreaker-fall2027: ok
+Judge msds-admissions-prerequisites: error (Judge reported omitted claims; review is incomplete.)
+Judge msds-cpt-source-context: ok
+Judge api-model-mapping: error (Judge quote is not an exact nonempty substring.)
+Judge missing-exact-tuition-bill: ok
+Judge api-top-p: ok
+Judge api-tools: error (Judge quote is not an exact nonempty substring.)
+Judge api-setup: error (Judge reported omitted claims; review is incomplete.)
+Judge api-thinking: ok
+Judge api-images: ok
+Rejudging saved previous answers under the current protocol; previous artifacts remain unchanged.
+Judge baseline-policy-off-campus: ok
+Judge baseline-policy-ai-impersonation: error (Evidence must select existing nonempty source units.)
+Judge baseline-msds-waiver: ok
+Judge baseline-msds-gpa: error (Judge reported omitted claims; review is incomplete.)
+Judge baseline-missing-personal-schedule: error (Judge quote is not an exact nonempty substring.)
+Judge baseline-msds-credits: ok
+Judge baseline-msds-pathbreaker-fall2027: error (Judge quote is not an exact nonempty substring.)
+Judge baseline-msds-working-enrollment: ok
+Judge baseline-missing-exact-tuition-bill: error (Judge quote is not an exact nonempty substring.)
+Judge baseline-api-setup: error (Judge quote is not an exact nonempty substring.)
+Judge baseline-msds-cpt-source-context: ok
+Judge baseline-api-model-mapping: ok
+Judge baseline-api-top-p: ok
+Judge baseline-msds-industry: ok
+Judge baseline-api-images: ok
+Judge baseline-api-tools: ok
+Judge baseline-api-thinking: ok
+Judge baseline-msds-admissions-prerequisites: error (Judge reported omitted claims; review is incomplete.)
+Evaluation failed: KeyError; completed records were retained.
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/evals/automatic.py", line 421, in <module>
+    main()
+    ~~~~^^
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/evals/automatic.py", line 417, in main
+    raise SystemExit(asyncio.run(run(args)))
+                     ~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/lucas/miniconda3/lib/python3.13/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/Users/lucas/miniconda3/lib/python3.13/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Users/lucas/miniconda3/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/evals/automatic.py", line 394, in run
+    summary = metrics.summarize(cases, answers, reviews, metadata, read_jsonl(directory / "calls.jsonl"))
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/evals/metrics.py", line 96, in summarize
+    rows = [{"case_id": a["case_id"], "category": cases_by_id[a["case_id"]]["category"], "status": a["status"],
+                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+KeyError: 'category'
+make: *** [eval] Error 1

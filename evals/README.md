@@ -1,5 +1,18 @@
 # Recorded RAG evaluations
 
+For judge regression calibration, run **`make eval-calibrate`**; see the
+[fixed labels and metric definitions](calibration/README.md).
+
+For the current one-command benchmark, run **`make eval`**. It runs the full RAG
+pipeline on 18 frozen cases, uses a two-pass LLM claim judge, prints metrics, and
+compares the previous compatible run. See the [automated evaluation and metrics guide](metrics.md).
+The legacy commands and protocol below remain available for historical experiments.
+
+All future tests and experiments follow the [measurement policy](measurement-policy.md):
+retain the full metric inventory, measured values or explicit missing/not-applicable
+reasons, and raw per-case results. The policy includes offline verification and does
+not imply that every metric is already automated by the runners below.
+
 Additional prepared benchmark: [DeepSeek API documentation evaluation](deepseek/README.md)
 contains 89 Markdown/TXT sources, 320 single-turn questions, 12 multi-turn
 conversations and separate HTTP performance tooling. It has not yet been run
@@ -12,6 +25,10 @@ into a fresh, isolated index. References and expected answers never enter the an
 Generation and grading are separate: use human ratings, an LLM judge, or both as successive reviews.
 
 Recorded inspections:
+
+- [One-command evaluation and claim-judge validation](runs/20260924T161009Z-f2950a8f-automatic/REVIEW.md):
+  18 successful RAG answers, matched historical comparisons, 3 pending current judgments
+  and a concrete judge false positive retained for inspection.
 
 - [Local MVP release evaluation](analyses/2026-09-21-mvp-release.md): final real-provider
   acceptance, 25-case diagnostics, all-case Codex inspection and explicit quality limits.

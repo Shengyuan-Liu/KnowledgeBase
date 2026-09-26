@@ -1,0 +1,54 @@
+[
+  {
+    "case_id": "accept-unspecified-api-error",
+    "reviewer": "Codex implementer; not independent human review",
+    "answer_sha256": "8c04196f8b52497920f4cd3039d0fedc2e1dd3a20bc8ecd802918739c74328bf",
+    "service_status": "ok",
+    "claims": [
+      {
+        "id": "c1",
+        "answer_quote": "the content block type \"search_result\" is \"Not Supported\"",
+        "statement": "the content block type \"search_result\" is \"Not Supported\"",
+        "verdict": "supported",
+        "citation_verdict": "supported",
+        "associated_citations": [
+          1
+        ],
+        "reason": "The cited supplied excerpt supports this claim and its qualifications.",
+        "evidence": [
+          {
+            "source_id": 1,
+            "file_name": "anthropic_api.md",
+            "start_offset": 3942,
+            "end_offset": 5641,
+            "quote": "| Field | Variant | Sub-Field | Support Status |\n| --- | --- | --- | --- |\n| content | string |  | Fully Supported |\n| content | array, type=\"text\" | text | Fully Supported |\n| content | array, type=\"text\" | cache\\_control | Ignored |\n| content | array, type=\"text\" | citations | Ignored |\n| content | array, type=\"image\" | source | Supported. `source.type` can be base64 (media types: jpeg, png, gif, webp), url, or file (the file variant requires the header `anthropic-beta: files-api-2025-04-14`) |\n| content | array, type = \"document\" |  | Not Supported |\n| content | array, type = \"search\\_result\" |  | Not Supported |\n| content | array, type = \"thinking\" |  | Supported |\n| content | array, type=\"redacted\\_thinking\" |  | Not Supported |\n| content | array, type = \"tool\\_use\" | id | Fully Supported |\n| content | array, type = \"tool\\_use\" | input | Fully Supported |\n| content | array, type = \"tool\\_use\" | name | Fully Supported |\n| content | array, type = \"tool\\_use\" | cache\\_control | Ignored |\n| content | array, type = \"tool\\_result\" | tool\\_use\\_id | Fully Supported |\n| content | array, type = \"tool\\_result\" | content | Fully Supported |\n| content | array, type = \"tool\\_result\" | cache\\_control | Ignored |\n| content | array, type = \"tool\\_result\" | is\\_error | Ignored |\n| content | array, type = \"server\\_tool\\_use\" |  | Supported |\n| content | array, type = \"web\\_search\\_tool\\_result\" |  | Supported |\n| content | array, type = \"code\\_execution\\_tool\\_result\" |  | Not Supported |\n| content | array, type = \"mcp\\_tool\\_use\" |  | Not Supported |\n| content | array, type = \"mcp\\_tool\\_result\" |  | Not Supported |\n| content | array, type = \"container\\_upload\" |  | Not Supported |\n"
+          }
+        ]
+      }
+    ],
+    "points": [
+      {
+        "reference": "The saved guide does not specify the exact HTTP status code or JSON error body; do not invent either.",
+        "correctness": 2,
+        "present": true
+      }
+    ],
+    "relevance": 2,
+    "abstains": true,
+    "appropriate_abstention": true,
+    "incorrect_abstention": false,
+    "language_compliance": true,
+    "named_source_compliance": true,
+    "findings": [
+      "Complete abstention on both exact HTTP status and JSON payload, with a supported extra support-status claim. Repeated absence statements are scored as abstention, not positive source claims. This recovery does not replace the failed attempt."
+    ],
+    "original_rubric_points": [
+      {
+        "reference": "The saved guide does not specify the exact HTTP status code or JSON error body; do not invent either.",
+        "correctness": 2,
+        "present": true
+      }
+    ],
+    "pass": true
+  }
+]

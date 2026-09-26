@@ -1,0 +1,16 @@
+{
+  "created_at": "2026-09-24T19:58:56.050395+00:00",
+  "protocol": "claim-inventory-v11",
+  "scope": "Judge-only; no retrieval, indexing or answer generation.",
+  "calibration_baseline": "evals/calibration-runs/20260924T193931Z-14f32e71-claim-inventory-v10",
+  "saved_baseline": "evals/calibration-runs/20260924T194004Z-1a80463c-saved-answers-high",
+  "original_answers": "evals/runs/20260924T161009Z-f2950a8f-automatic",
+  "controls": "Same frozen cases, original answers, sources, gpt-5.4-mini/high, concurrency 4, per-call timeout 180 seconds, retries 0.",
+  "changes": [
+    "Nested abstention schema allows only consistent flag combinations.",
+    "Clarify contrast-clause extraction and editorial attribution."
+  ],
+  "stopping_rule": "One full calibration and one saved-answer batch. Preserve mismatches and pending cases; no prompt tuning to force agreement.",
+  "reviewer": "Codex checks targeted source/answer/inventory comparisons; no independent human annotations.",
+  "acceptance_boundary": "Schema consistency is deterministic; live semantic accuracy remains empirical and user acceptance is required."
+}

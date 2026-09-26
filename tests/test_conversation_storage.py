@@ -147,7 +147,7 @@ def test_init_db_adds_conversation_tables_to_existing_file_database(tmp_path):
             assert get_messages(reader, "chat-1")[0].content == "Persist across connections."
         assert set(inspect(engine).get_table_names()) == {
             "files", "chunks", "conversations", "messages", "answer_snapshots",
-            "document_sources", "chunk_structures", "parent_chunks", "child_parents", "retrieval_snapshots",
+            "document_sources", "document_indexes", "chunk_structures", "parent_chunks", "child_parents", "retrieval_snapshots",
         }
     finally:
         engine.dispose()

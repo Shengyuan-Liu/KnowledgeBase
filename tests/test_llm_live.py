@@ -21,7 +21,7 @@ def test_generate_with_real_openai_api():
         max_retries=settings.eval_max_retries,
         timeout=settings.eval_timeout_seconds,
     ) as sdk:
-        answer = LLMClient(sdk, model=settings.answer_model).generate(
+        answer = LLMClient(sdk, model=settings.answer_model, reasoning_effort=settings.answer_reasoning_effort).generate(
             [{"role": "user", "content": "Reply with exactly: API_OK"}]
         )
 

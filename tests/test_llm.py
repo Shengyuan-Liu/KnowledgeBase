@@ -8,8 +8,9 @@ from openai.types.responses import EasyInputMessageParam
 from knowledgebase.providers.llm import LLMClient
 
 
+@pytest.mark.parametrize("reasoning_effort", [None, "low"])
 @pytest.mark.parametrize("model", ["test-model-a", "test-model-b"])
-def test_generate_sends_messages_and_returns_text_without_network(model):
+def test_generate_sends_messages_and_returns_text_without_network(model, reasoning_effort):
     messages: list[EasyInputMessageParam] = [
         {"role": "developer", "content": "Answer using the supplied evidence."},
         {"role": "user", "content": "  What does the café serve?\n"},
@@ -20,7 +21,8 @@ def test_generate_sends_messages_and_returns_text_without_network(model):
         requests.append(request)
         assert request.method == "POST"
         assert request.url.path == "/v1/responses"
-        assert json.loads(request.content) == {"model": model, "input": messages}
+        options = {"reasoning": {"effort": reasoning_effort}} if reasoning_effort is not None else {}
+        assert json.loads(request.content) == {"model": model, "input": messages, **options}
         return httpx2.Response(
             200,
             json={
@@ -60,6 +62,6 @@ def test_generate_sends_messages_and_returns_text_without_network(model):
         base_url="https://api.openai.test/v1",
         http_client=httpx2.Client(transport=httpx2.MockTransport(handle)),
     ) as sdk:
-        assert LLMClient(sdk, model).generate(messages) == "  Coffee and tea. [1]\n"
+        assert LLMClient(sdk, model, reasoning_effort=reasoning_effort).generate(messages) == "  Coffee and tea. [1]\n"
 
     assert len(requests) == 1

@@ -30,6 +30,7 @@ export function savedMessages(conversation: SavedConversation): ChatMessage[] {
     sources: message.sources,
     citationCheck: message.citation_check,
     retrievalQuestion: message.retrieval_question,
+    retrieval: message.retrieval,
   }));
 }
 
@@ -138,6 +139,7 @@ export function chatReducer(state: ChatState, action: Action): ChatState {
                 sources: event.sources,
                 citationCheck: event.citation_check,
                 retrievalQuestion: event.retrieval_question,
+                retrieval: event.retrieval,
               };
             default:
               return message;

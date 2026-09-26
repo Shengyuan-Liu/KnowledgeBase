@@ -12,6 +12,22 @@
 - Merge each feature into `main` only after the user explicitly authorizes that feature's merge. Approval for one feature does not authorize later merges.
 - After an authorized merge, continue subsequent v1 work on the `v1` branch.
 
+# Test and Experiment Measurement
+
+- Run full RAG evaluations, live judge calibration, and paid LLM evaluation only when a complete feature is ready for user acceptance or when the user explicitly requests evaluation. Do not run them after every edit, intermediate implementation step, or assistant turn. During development, run only the relevant unit tests and necessary scoped checks. The measurement requirements below apply to checks actually performed; they do not require an evaluation on every change.
+- For every future test or experiment, retain a run record following the [measurement policy](evals/measurement-policy.md), not only when replacing a component. Include the complete metric inventory with measured values or explicit `not_applicable` / `unavailable` status and a reason; never silently omit a metric or replace missing data with zero.
+- Measure retrieval Recall@K, Precision@K, Hit Rate@K, MRR, NDCG@K, and final supplied-evidence coverage when applicable. State K, relevance labels, evaluation unit, stage and aggregation. Use stable source spans or facts when comparing different chunk boundaries; distinguish candidate retrieval, reranking and evidence packing.
+- Measure answer correctness, faithfulness, completeness, relevance, citation support, citation coverage and abstention behavior when applicable. Record both appropriate abstention on unanswerable cases and incorrect abstention on answerable cases. Fix the rubric/reviewer protocol, preserve claim-level or expected-point evidence, and manually inspect representative failures. LLM judgments are assessments, not ground truth.
+- Measure first-answer-delta and complete-response latency, stage timings, token usage and cost, success/error/timeout/retry rates, concurrency/throughput, and ingestion time/index size/update/delete behavior when applicable. Report quality and performance separately.
+- Offline unit/integration tests must record scope, command, code version, duration, pass/fail/skip counts and failures. Mark live quality, provider cost and production performance metrics as not applicable to mocked tests; do not run paid benchmarks merely to fill those fields. Documentation-only changes require a recorded content/link/format review, not automated tests.
+
+- When replacing or materially changing a RAG component, record a before/after comparison using the same frozen questions, corpus, and annotations. Keep other settings fixed where possible and disclose differences that limit comparison.
+- Record complete-answer latency, time to first answer delta for streaming, and affected-stage latency separately. Include sample counts, mean and percentile timings, concurrency, device, and whether model loading or queue waiting is included. Mark unmeasured metrics as unavailable; never substitute total duration for time to first answer delta.
+- Record evidence coverage separately from answer quality. Inspect actual answers and supplied evidence, preserve per-question improvements and regressions, and identify the reviewer and review method. Valid citation IDs alone do not establish support.
+- Save resolved models and revisions, component settings, code version, exact retrieved and supplied evidence, rankings, budget exclusions, errors, and available token usage or cost information. Distinguish local compute from paid provider calls; do not invent billing figures.
+- Keep evaluation artifacts append-only in a new run directory, including failed attempts. Link a concise comparison report from the relevant documentation. Missing measurements and known failures must remain visible in the delivery summary.
+- Passing checks or improving an aggregate metric does not authorize a merge; the user decides acceptance and approves each feature's merge.
+
 # Learning and Code Ownership
 
 - The user intends to write most of the project's Python backend and MLE / AI Engineer code by hand. By default, Codex should explain each proposed code file's purpose, the responsibilities of its functions, and the underlying concepts, reasoning, and implementation guidance so the user can write the code.

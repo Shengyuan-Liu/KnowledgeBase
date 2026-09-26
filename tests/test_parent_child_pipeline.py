@@ -9,6 +9,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy import select
 
 from knowledgebase.api import app as api_module
+from knowledgebase.config import RetrievalOptions
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
 from knowledgebase.rag.retrieval import retrieve_evidence
@@ -107,16 +108,16 @@ def test_budget_counts_labels_and_separators_without_truncating_parents(storage,
     matches = ranked_store(store, selected, [0.1, 0.2])
     encoding = tiktoken.get_encoding("cl100k_base")
     with sessions() as session:
-        full = retrieve_evidence("Question?", session, embeddings, matches)
+        full = retrieve_evidence("Question?", session, embeddings, matches, retrieval_options=RetrievalOptions(packing_strategy="parent_first"))
         exact = len(encoding.encode_ordinary(build_context(full.chunks)))
-        packed = retrieve_evidence("Question?", session, embeddings, matches, evidence_max_tokens=exact)
+        packed = retrieve_evidence("Question?", session, embeddings, matches, evidence_max_tokens=exact, retrieval_options=RetrievalOptions(packing_strategy="parent_first"))
         assert packed.chunks == full.chunks
         assert packed.diagnostics.evidence_tokens == exact
-        short = retrieve_evidence("Question?", session, embeddings, matches, evidence_max_tokens=exact - 1)
+        short = retrieve_evidence("Question?", session, embeddings, matches, evidence_max_tokens=exact - 1, retrieval_options=RetrievalOptions(packing_strategy="parent_first"))
         assert [item.parent_id for item in short.chunks] == [parents[0].parent_id]
         assert short.diagnostics.excluded[0].chunk_id == parents[1].parent_id
         small_budget = len(encoding.encode_ordinary(build_context([full.chunks[1]])))
-        skipped = retrieve_evidence("Question?", session, embeddings, matches, evidence_max_tokens=small_budget)
+        skipped = retrieve_evidence("Question?", session, embeddings, matches, evidence_max_tokens=small_budget, retrieval_options=RetrievalOptions(packing_strategy="parent_first"))
     assert [item.parent_id for item in skipped.chunks] == [parents[1].parent_id]
     assert skipped.chunks[0].chunk.text == parents[1].text
     assert skipped.diagnostics.evidence_tokens == small_budget
@@ -139,7 +140,7 @@ def test_no_fitting_evidence_skips_generation_and_persists_exclusions(storage, e
     assert result.sources == []
     llm.generate.assert_not_called()
     assert result.retrieval.evidence_tokens == 0
-    assert result.retrieval.excluded[0].chunk_id == parents[0].parent_id
+    assert result.retrieval.excluded[0].chunk_id == children[0].chunk_id
     with sessions() as session:
         saved = get_conversation_detail(session, result.conversation_id).messages[-1]
         assert saved.retrieval == result.retrieval
@@ -155,8 +156,10 @@ def test_expanded_sources_numbering_prompt_and_post_delete_history(storage, embe
     assert [source.source_id for source in result.sources] == [1, 2]
     assert [source.text for source in result.sources] == [parent.text for parent in parents]
     assert result.citation_check.valid_source_ids == [1, 2]
-    prompt = llm.generate.call_args.args[0][-1]["content"]
-    assert f"[1]\n{parents[0].text}\n\n[2]\n{parents[1].text}" in prompt
+    prompt = llm.generate.call_args.args[0][0]["content"]
+    for i, parent in enumerate(parents, start=1):
+        metadata = json.dumps({'file_name': 'guide.md', 'heading_path': parent.heading_path}, ensure_ascii=False)
+        assert f"[{i}]\nSource metadata: {metadata}\nExcerpt:\n{parent.text}" in prompt
     delete_file(file_id, sessions, store)
     with sessions() as session:
         saved = get_conversation_detail(session, result.conversation_id).messages[-1]
@@ -222,7 +225,7 @@ def test_api_parent_evidence_and_diagnostics_survive_restart_and_deletion(config
         else:
             result = response.json()
             prompt = sdk.responses.create.call_args.kwargs["input"]
-        assert parents[0].text in prompt[-1]["content"]
+        assert parents[0].text in prompt[0]["content"]
         assert result["sources"][0]["text"] == parents[0].text
         assert result["sources"][0]["matched_child_ids"] == [chosen.chunk_id]
         assert result["retrieval"]["candidates"][0]["text"] == chosen.text

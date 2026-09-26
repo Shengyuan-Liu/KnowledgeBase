@@ -18,6 +18,7 @@ export interface FusedMatch {
 }
 
 export interface Source {
+  document_labels?: string[];
   source_id: number;
   file_id: string;
   file_name: string;
@@ -25,12 +26,45 @@ export interface Source {
   text: string;
   distance: number | null;
   fusion?: FusedMatch | null;
+  rerank?: (FusedMatch & { rerank_score: number; rerank_rank: number; score_kind?: string }) | null;
   file_deleted?: boolean;
   parent_id?: string | null;
   matched_child_ids?: string[];
   heading_path?: string[];
   start_offset?: number | null;
   end_offset?: number | null;
+  start_line?: number | null;
+  end_line?: number | null;
+}
+
+export interface RetrievalDiagnostics {
+  document_scope?: {
+    status: "resolved" | "ambiguous" | "not_found";
+    references: string[];
+    file_ids: string[];
+    matches: { file_id: string; file_name: string; labels: string[] }[];
+    message: string | null;
+  } | null;
+  scope_seconds?: number | null;
+  options?: { strategy: string; packing_strategy?: string | null; rerank_enabled: boolean; rerank_unit?: "child" | "parent" } | null;
+  top_k?: number | null;
+  evidence_tokens: number;
+  max_tokens: number;
+  tokenizer: string;
+  retrieval_seconds?: number | null;
+  embedding_seconds?: number | null;
+  rerank_seconds?: number | null;
+  packing_seconds?: number | null;
+  fused_matches: FusedMatch[];
+  candidates: { chunk_id: string; parent_id?: string | null }[];
+  excluded: { chunk_id: string; token_count: number; reason: string }[];
+  unexpanded_parents?: { chunk_id: string; token_count: number }[];
+  rerank?: {
+    model: string;
+    model_revision?: string | null;
+    device?: string | null;
+    matches: (FusedMatch & { rerank_score: number; rerank_rank: number; score_kind?: string })[];
+  } | null;
 }
 
 export interface CitationCheck {
@@ -40,6 +74,7 @@ export interface CitationCheck {
 }
 
 export interface CompletedAnswer {
+  retrieval?: RetrievalDiagnostics | null;
   conversation_id: string;
   message_id: number;
   question: string;
@@ -67,6 +102,7 @@ export type StreamEvent = { request_id: string } & (
 export interface SavedConversation {
   conversation_id: string;
   messages: {
+    retrieval?: RetrievalDiagnostics | null;
     message_id: number;
     role: "user" | "assistant";
     content: string;
@@ -77,6 +113,7 @@ export interface SavedConversation {
 }
 
 export interface ChatMessage {
+  retrieval?: RetrievalDiagnostics | null;
   key: string;
   messageId?: number;
   role: "user" | "assistant";

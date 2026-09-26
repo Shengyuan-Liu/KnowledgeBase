@@ -1,0 +1,135 @@
+{
+  "recall_at_5": {
+    "status": "unavailable",
+    "value": null,
+    "reason": "Single live-route smoke: metric not instrumented or semantically reviewed at full-run scope."
+  },
+  "precision_at_5": {
+    "status": "unavailable",
+    "value": null,
+    "reason": "Single live-route smoke: metric not instrumented or semantically reviewed at full-run scope."
+  },
+  "hit_rate_at_5": {
+    "status": "unavailable",
+    "value": null,
+    "reason": "Single live-route smoke: metric not instrumented or semantically reviewed at full-run scope."
+  },
+  "mrr_at_5": {
+    "status": "unavailable",
+    "value": null,
+    "reason": "Single live-route smoke: metric not instrumented or semantically reviewed at full-run scope."
+  },
+  "ndcg_at_5": {
+    "status": "unavailable",
+    "value": null,
+    "reason": "Single live-route smoke: metric not instrumented or semantically reviewed at full-run scope."
+  },
+  "final_evidence_coverage": {
+    "status": "measured",
+    "value": {
+      "annotated_char_recall": 1,
+      "full_evidence_recall": 1
+    },
+    "n": 1,
+    "method": "Verify exact CPT spans from frozen cases against actual response sources.",
+    "artifact": "app-smoke.json"
+  },
+  "answer_correctness": {
+    "status": "unavailable",
+    "value": null,
+    "reason": "Single live-route smoke: metric not instrumented or semantically reviewed at full-run scope."
+  },
+  "faithfulness": {
+    "status": "unavailable",
+    "value": null,
+    "reason": "Single live-route smoke: metric not instrumented or semantically reviewed at full-run scope."
+  },
+  "answer_completeness": {
+    "status": "unavailable",
+    "value": null,
+    "reason": "Single live-route smoke: metric not instrumented or semantically reviewed at full-run scope."
+  },
+  "answer_relevance": {
+    "status": "unavailable",
+    "value": null,
+    "reason": "Single live-route smoke: metric not instrumented or semantically reviewed at full-run scope."
+  },
+  "citation_support": {
+    "status": "unavailable",
+    "value": null,
+    "reason": "Single live-route smoke: metric not instrumented or semantically reviewed at full-run scope."
+  },
+  "citation_coverage": {
+    "status": "unavailable",
+    "value": null,
+    "reason": "Single live-route smoke: metric not instrumented or semantically reviewed at full-run scope."
+  },
+  "abstention": {
+    "status": "unavailable",
+    "value": null,
+    "reason": "Single live-route smoke: metric not instrumented or semantically reviewed at full-run scope."
+  },
+  "first_answer_delta_latency": {
+    "status": "measured",
+    "value": {
+      "mean": 4.41472008288838,
+      "p50": 4.41472008288838,
+      "p95": 4.41472008288838,
+      "unit": "seconds"
+    },
+    "n": 1,
+    "method": "Actual app HTTP stream, no population performance claim.",
+    "artifact": "app-smoke.json"
+  },
+  "complete_response_latency": {
+    "status": "measured",
+    "value": {
+      "mean": 6.959839665913023,
+      "p50": 6.959839665913023,
+      "p95": 6.959839665913023,
+      "unit": "seconds"
+    },
+    "n": 1,
+    "method": "Actual app HTTP stream, no population performance claim.",
+    "artifact": "app-smoke.json"
+  },
+  "stage_latency": {
+    "status": "measured",
+    "value": {
+      "rerank_seconds": 2.907506874995306,
+      "packing_seconds": 0.003764791996218264
+    },
+    "n": 1,
+    "reason": "Other stage boundaries unavailable.",
+    "artifact": "app-smoke.json"
+  },
+  "token_usage_and_cost": {
+    "status": "unavailable",
+    "value": null,
+    "reason": "App stream does not expose provider usage or billing; frozen replay usage is recorded separately."
+  },
+  "reliability": {
+    "status": "measured",
+    "value": {
+      "completed": 1,
+      "errors": 0,
+      "requests": 1
+    },
+    "artifact": "app-smoke.json"
+  },
+  "concurrency_and_throughput": {
+    "status": "measured",
+    "value": {
+      "concurrency": 1,
+      "requests_per_active_second": 0.143681470838713
+    },
+    "n": 1,
+    "method": "One request, no load-capacity claim.",
+    "artifact": "app-smoke.json"
+  },
+  "ingestion_and_index": {
+    "status": "not_applicable",
+    "value": null,
+    "reason": "No ingestion or mutation; verified 17 files unchanged and all 8 earlier conversations readable."
+  }
+}

@@ -66,7 +66,7 @@ def test_ready_filter_precedes_both_route_limits_and_bm25_statistics(storage, em
             add_flat(session, store, status, "needle needle needle", [1, 0], status)
     with sessions() as session:
         result = retrieve_evidence("needle", session, embeddings, store, retrieval_options=options)
-    assert result == baseline
+    assert result.model_dump(exclude={"diagnostics": {"packing_seconds", "embedding_seconds", "retrieval_seconds"}}) == baseline.model_dump(exclude={"diagnostics": {"packing_seconds", "embedding_seconds", "retrieval_seconds"}})
     assert [hit.chunk_id for hit in result.diagnostics.vector_matches] == ["ready"]
 
 
@@ -140,13 +140,15 @@ def test_lexical_only_parent_evidence_survives_restart_and_deletion(configured_a
         assert source["matched_child_ids"] == [children[0].chunk_id]
         assert first["retrieval"]["options"]["strategy"] == "hybrid"
         prompt = prompts[-1] if streaming else sdk.responses.create.call_args.kwargs["input"]
-        assert text in prompt[-1]["content"]
+        assert text in prompt[0]["content"]
         before_embedding_calls = embeddings.embed_documents.call_count
     reopened = api_module.create_app()
     with TestClient(reopened) as client:
         after = ask(client)
         assert after["sources"] == first["sources"]
-        assert after["retrieval"] == first["retrieval"]
+        assert {k: v for k, v in after["retrieval"].items() if k not in {"packing_seconds", "embedding_seconds", "retrieval_seconds"}} == {
+            k: v for k, v in first["retrieval"].items() if k not in {"packing_seconds", "embedding_seconds", "retrieval_seconds"}
+        }
         assert embeddings.embed_documents.call_count == before_embedding_calls
         assert client.delete(f"/api/files/{lexical_id}").status_code == 204
         remaining = ask(client)

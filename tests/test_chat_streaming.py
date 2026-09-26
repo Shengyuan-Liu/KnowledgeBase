@@ -95,7 +95,10 @@ def test_stream_sources_deltas_complete_and_followup_match_saved_history(streami
         assert saved["sources"] == [{**s, "file_deleted": False} for s in complete["sources"]]
         assert saved["citation_check"] == complete["citation_check"]
         assert streamer.closed
-        assert "[1]\nThe café closes at 5 PM." in streamer.messages[1]["content"]
+        assert '"file_name": "hours.txt"' in streamer.messages[0]["content"]
+        assert "Excerpt:\nThe café closes at 5 PM." in streamer.messages[0]["content"]
+        assert complete['retrieval']['context_format'] == 'source-metadata-v1'
+        assert saved['retrieval']['context_format'] == 'source-metadata-v1'
 
         followup = client.post("/api/chat/stream", json={
             "question": "What time?", "request_id": "two", "conversation_id": complete["conversation_id"],
@@ -103,8 +106,8 @@ def test_stream_sources_deltas_complete_and_followup_match_saved_history(streami
         second = frames(followup.text)[-1][1]
         assert second["conversation_id"] == complete["conversation_id"]
         assert second["retrieval_question"] == "When does the café close?"
-        assert "Question:\nWhat time?" in streamer.messages[1]["content"]
-        assert "Conversation interpretation (not evidence):\nWhen does the café close?" in streamer.messages[1]["content"]
+        assert "Question:\nWhat time?" in streamer.messages[0]["content"]
+        assert "Conversation interpretation (not evidence):\nWhen does the café close?" in streamer.messages[0]["content"]
         resources.embeddings.embed_query.assert_called_with(second["retrieval_question"])
         assert len(client.get(f"/api/conversations/{complete['conversation_id']}").json()["messages"]) == 4
 
@@ -256,3 +259,53 @@ def test_internal_lookup_failure_during_stream_setup_is_500(streaming_app, monke
         })
         assert response.status_code == 500
         assert response.json() == {"detail": "Stream setup failed."}
+
+
+@pytest.mark.anyio
+async def test_disconnect_during_rerank_does_not_generate_or_save(streaming_app):
+    """An abandoned scoring request can finish without continuing the answer."""
+    from threading import Event
+    from knowledgebase.schemas import RelevanceScore
+
+    app, streamer = streaming_app
+    started, disconnect, finished = anyio.Event(), anyio.Event(), anyio.Event()
+    release, scored = Event(), Event()
+    messages = []
+
+    def score(question, candidates):
+        anyio.from_thread.run_sync(started.set)
+        try:
+            assert release.wait(5)
+            return [RelevanceScore(chunk_id=c.chunk_id, score=3.25) for c in candidates]
+        finally:
+            scored.set()
+
+    async def send(message):
+        messages.append(message)
+
+    async def request():
+        try:
+            await asgi_stream(app, send, disconnect)
+        finally:
+            finished.set()
+
+    async with app.router.lifespan_context(app):
+        resources = app.state.resources
+        resources.settings.rerank_enabled = True
+        resources.reranker = Mock(model="offline-reranker", model_revision="test-revision", device="cpu", max_pair_tokens=1024, batch_size=4, score=Mock(side_effect=score))
+        ingest(resources)
+        try:
+            with anyio.fail_after(5):
+                async with anyio.create_task_group() as tasks:
+                    tasks.start_soon(request)
+                    await started.wait()
+                    disconnect.set()
+                    await finished.wait()
+                    assert not scored.is_set()
+        finally:
+            release.set()
+            assert await anyio.to_thread.run_sync(scored.wait, 5)
+        assert streamer.messages is None
+        events = frames(b"".join(m.get("body", b"") for m in messages).decode())
+        assert [kind for kind, _ in events] == ["start"]
+        assert_no_turn(resources)

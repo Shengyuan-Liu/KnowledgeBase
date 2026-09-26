@@ -1,0 +1,454 @@
+{
+  "version": "automated-metrics-v1",
+  "metrics": {
+    "recall_at_k": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No eligible ranking observations."
+    },
+    "precision_at_k": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No eligible ranking observations."
+    },
+    "hit_rate_at_k": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No eligible ranking observations."
+    },
+    "mrr_at_k": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No eligible ranking observations."
+    },
+    "ndcg_at_k": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No eligible ranking observations."
+    },
+    "annotated_char_recall": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No eligible evidence coverage observations."
+    },
+    "full_evidence_recall": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No eligible evidence coverage observations."
+    },
+    "answer_correctness": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 1,
+      "method": "Micro-average frozen required points, 0/1/2; incomplete transport output receives only partial diagnostic credit, never a passing case.",
+      "artifact": "manual-review.json"
+    },
+    "answer_completeness": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 1,
+      "method": "Required points addressed, separate from correctness and completed service delivery.",
+      "artifact": "manual-review.json"
+    },
+    "fully_correct_points": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 1,
+      "method": "Fraction of frozen required points fully correct; missing comparison point stays missing.",
+      "artifact": "manual-review.json"
+    },
+    "faithfulness": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 1,
+      "method": "Inventoried factual claim occurrences; absence statements evaluated as abstention. Review includes the retained partial output.",
+      "artifact": "manual-review.json"
+    },
+    "answer_relevance": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 1,
+      "method": "0 off-topic, 1 extraneous, 2 responsive. Responsiveness does not establish completeness or service completion.",
+      "artifact": "manual-review.json"
+    },
+    "citation_support": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 1,
+      "method": "Semantic support of associated claim/citation pairs, not ID validity.",
+      "artifact": "manual-review.json"
+    },
+    "citation_coverage": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 1,
+      "method": "Factual claims with local supporting citations; claim-free abstentions and deterministic clarifications exempt.",
+      "artifact": "manual-review.json"
+    },
+    "appropriate_abstention": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 1,
+      "method": "Unanswerable cases including unresolved scope; a transport-interrupted answer does not pass.",
+      "artifact": "manual-review.json"
+    },
+    "incorrect_abstention": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No applicable reviewed observations in this workload."
+    },
+    "answerable_refusal": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No applicable reviewed observations in this workload."
+    },
+    "strict_pass_rate": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No paid judge; use explicit Codex functional_case_pass_rate and source review."
+    },
+    "contradicted_claims": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Support sufficiency reviewed; no independent contradiction taxonomy."
+    },
+    "unsupported_claims": {
+      "status": "measured",
+      "value": 0,
+      "unit": "claims",
+      "n": 1,
+      "method": "Full reviewed claim inventory.",
+      "artifact": "manual-review.json"
+    },
+    "claim_count": {
+      "status": "measured",
+      "value": 1,
+      "unit": "claims",
+      "n": 1,
+      "method": "All explicit reviewed factual claim occurrences.",
+      "artifact": "manual-review.json"
+    },
+    "first_delta_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 2.098218208993785,
+        "p50": 2.098218208993785,
+        "p95": 2.098218208993785
+      },
+      "unit": "seconds",
+      "n": 1,
+      "method": "Successful observations; median P50, nearest-rank P95. Successful service observations only; includes deterministic clarifications when present, excludes HTTP/browser; queue/provider wait included.",
+      "artifact": "answers.jsonl"
+    },
+    "total_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 2.893413749989122,
+        "p50": 2.893413749989122,
+        "p95": 2.893413749989122
+      },
+      "unit": "seconds",
+      "n": 1,
+      "method": "Successful observations; median P50, nearest-rank P95. Successful service observations only; includes deterministic clarifications when present, excludes HTTP/browser; queue/provider wait included.",
+      "artifact": "answers.jsonl"
+    },
+    "generation_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 1.430033125099726,
+        "p50": 1.430033125099726,
+        "p95": 1.430033125099726
+      },
+      "unit": "seconds",
+      "n": 1,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "generation_first_delta_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.640222042100504,
+        "p50": 0.640222042100504,
+        "p95": 0.640222042100504
+      },
+      "unit": "seconds",
+      "n": 1,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "retrieval_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 1.4511600410332903,
+        "p50": 1.4511600410332903,
+        "p95": 1.4511600410332903
+      },
+      "unit": "seconds",
+      "n": 1,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "embedding_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 1.3719294579932466,
+        "p50": 1.3719294579932466,
+        "p95": 1.3719294579932466
+      },
+      "unit": "seconds",
+      "n": 1,
+      "method": "All executed successful query embeddings, including the subsequently failed generation; skipped calls are not timed zeros. Median P50, nearest-rank P95.",
+      "artifact": "calls.jsonl"
+    },
+    "rerank_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Reranking disabled."
+    },
+    "packing_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.05233095807489008,
+        "p50": 0.05233095807489008,
+        "p95": 0.05233095807489008
+      },
+      "unit": "seconds",
+      "n": 1,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "search_fusion_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Production service exposes total retrieval, embedding, rerank and packing; search/fusion not independently timed."
+    },
+    "reliability": {
+      "status": "measured",
+      "value": {
+        "attempted": 1,
+        "planned": 1,
+        "success": 1,
+        "errors": 0,
+        "not_attempted": 0,
+        "success_rate": 1.0,
+        "timeouts": 0,
+        "retries": 0
+      },
+      "unit": "requests",
+      "n": 1,
+      "method": "All planned RAG requests; SDK retries disabled, partial answers do not succeed.",
+      "artifact": "answers.jsonl"
+    },
+    "judge_reliability": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No paid judge; use explicit Codex functional_case_pass_rate and source review."
+    },
+    "judge_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No paid judge; use explicit Codex functional_case_pass_rate and source review."
+    },
+    "token_usage": {
+      "ingestion": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "No calls for this stage; verified closed baseline index reused."
+      },
+      "query_embedding": {
+        "status": "measured",
+        "value": {
+          "total_tokens": 28,
+          "prompt_tokens": 28
+        },
+        "unit": "tokens",
+        "n": 1,
+        "method": "Provider-reported totals for 1/1 calls; missing failed-call usage excluded, not zero billed cost.",
+        "artifact": "calls.jsonl"
+      },
+      "generation": {
+        "status": "measured",
+        "value": {
+          "input_tokens": 2234,
+          "output_tokens": 105,
+          "total_tokens": 2339
+        },
+        "unit": "tokens",
+        "n": 1,
+        "method": "Provider-reported totals for 1/1 calls; missing failed-call usage excluded, not zero billed cost.",
+        "artifact": "calls.jsonl"
+      },
+      "judge": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "No calls for this stage; verified closed baseline index reused."
+      }
+    },
+    "cost": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Provider responses do not expose billed dollars; no inferred price substituted."
+    },
+    "evidence_tokens": {
+      "status": "measured",
+      "value": [
+        1121
+      ],
+      "unit": "tokens",
+      "n": 1,
+      "method": "Exact formatted supplied evidence tokens including metadata.",
+      "artifact": "answers.jsonl"
+    },
+    "concurrency_throughput": {
+      "status": "measured",
+      "value": {
+        "concurrency": 1,
+        "wall_seconds": 2.8948911670595407,
+        "successful_requests_per_second": 0.3454361294748572
+      },
+      "unit": "requests/second",
+      "n": 1,
+      "method": "Sequential RAG batch including logging, excluding initialization, ingestion and judge; not load capacity. Monotonic interval is authoritative; wall-clock timestamps span a longer unexplained interval and are not substituted for measured service durations.",
+      "artifact": "answers.jsonl"
+    },
+    "ingestion": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No fresh ingestion; source/index hashes and chunk snapshots verified against the baseline."
+    },
+    "update_delete": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "This live pass queries a copied index; lifecycle checks are separate offline records."
+    },
+    "model_loading": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Local reranking disabled; no local inference model loaded."
+    },
+    "personal_error_abstention": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 1,
+      "method": "Personal/API-error unavailable facts, excluding document clarifications.",
+      "artifact": "manual-review.json"
+    },
+    "scope_clarification": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No applicable reviewed observations in this workload."
+    },
+    "functional_case_pass_rate": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 1,
+      "method": "Frozen strict required-point and source gates AND service completion; retain failures.",
+      "artifact": "manual-review.json"
+    },
+    "english_compliance": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 1,
+      "method": "Manual full-output review, including retained partial answer.",
+      "artifact": "manual-review.json"
+    },
+    "named_source_compliance": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 1,
+      "method": "Attribution against exact file identities; separate from omitted answer points.",
+      "artifact": "manual-review.json"
+    },
+    "original_rubric_correctness": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 1,
+      "method": "Historical rubric retained separately; not the revised acceptance denominator.",
+      "artifact": "manual-review.json"
+    },
+    "scope_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No successful timed observations.",
+      "method": "Identity lookup and resolution."
+    },
+    "attempt_duration_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 2.893413749989122,
+        "p50": 2.893413749989122,
+        "p95": 2.893413749989122
+      },
+      "unit": "seconds",
+      "n": 1,
+      "method": "All attempts to terminal complete/error, including failure; this is not complete-answer latency. Median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "failed_total_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No failed attempts in this recovery workload."
+    },
+    "failed_first_delta_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No failed attempts in this recovery workload."
+    },
+    "failed_generation_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No failed attempts in this recovery workload."
+    },
+    "failed_generation_first_delta_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No failed attempts in this recovery workload."
+    },
+    "missing_generation_usage": {
+      "status": "measured",
+      "value": 0,
+      "unit": "calls",
+      "n": 1,
+      "method": "All generation calls have final reported usage.",
+      "artifact": "calls.jsonl"
+    }
+  },
+  "cases": [
+    {
+      "case_id": "accept-unspecified-api-error",
+      "service_status": "ok",
+      "pass": true,
+      "points": [
+        {
+          "reference": "The saved guide does not specify the exact HTTP status code or JSON error body; do not invent either.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": [
+        "Complete abstention on both exact HTTP status and JSON payload, with a supported extra support-status claim. Repeated absence statements are scored as abstention, not positive source claims. This recovery does not replace the failed attempt."
+      ]
+    }
+  ],
+  "limitations": [
+    "Development/regression set; not held-out accuracy.",
+    "LLM judgments are assessments, not human ground truth; inventory misclassification and semantic errors remain possible.",
+    "In-process production streaming service, excluding app HTTP transport; no warmup, caches and host/provider load uncontrolled.",
+    "Single failed-case recovery, not a repeat of the full suite."
+  ],
+  "reviewer": "Codex implementer, not independent human review",
+  "review_protocol": "PLAN.md"
+}

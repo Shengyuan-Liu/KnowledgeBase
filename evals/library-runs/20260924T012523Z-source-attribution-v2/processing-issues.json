@@ -1,0 +1,23 @@
+[
+  {
+    "stage": "judge result serialization",
+    "failure": "AttributeError: rating is already a dict, so .model_dump() is invalid.",
+    "affected_responses": 18,
+    "resolution": "Use rating directly; offline revalidate existing raw responses, preserving original records and invalid quotes. No API retry."
+  },
+  {
+    "stage": "judge evidence validation",
+    "failure": "18 raw judgments failed quote/schema provenance validation.",
+    "resolution": "Retained invalid without repair; excluded from judge-subset metrics."
+  },
+  {
+    "stage": "metric aggregation",
+    "failure": "ZeroDivisionError at citation coverage: all provenance-valid judgments have empty claim lists.",
+    "resolution": "Report unavailable claim-level metrics, not a fabricated score."
+  },
+  {
+    "stage": "offline prompt regression",
+    "failure": "Literal assertion expected the superseded explicit-relationship wording.",
+    "resolution": "Updated to the revised equivalent rule; retained failed log and rerun results."
+  }
+]

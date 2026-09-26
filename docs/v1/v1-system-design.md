@@ -1,8 +1,9 @@
 # KnowledgeBase v1 System Design
 
-Status: planned architecture. These diagrams describe the target v1 pipeline,
-not implemented components or measured results. The existing
-[MVP system map](../mvp/mvp-system-design.md) remains the implementation reference.
+Status: the structural parent-child and hybrid retrieval paths are implemented.
+Semantic child boundaries are implemented as an opt-in experiment. Reranking and
+packing improvements are on `v1` awaiting user acceptance. See the
+[version status](README.md) for merge boundaries; diagrams do not establish quality.
 
 ## Ingestion
 
@@ -17,17 +18,17 @@ flowchart TD
     Structural --> Children["Children with parent IDs and source offsets"]
     Semantic --> Children
     Children --> SQLite["SQLite: source, parents, children, metadata"]
-    SQLite --> BM25["BM25 index of child search text"]
-    SQLite --> Embed["Child embeddings"]
+    Children --> Embed["Child embeddings"]
     Embed --> Chroma["Chroma: child vectors and file IDs"]
-    BM25 --> Ready["Mark Ready after both indexes are usable"]
+    SQLite --> Ready["Mark Ready after source storage and vector indexing succeed"]
     Chroma --> Ready
 ```
 
 Canonical source text and exact spans live in SQLite. Derived index text and
 embeddings aid search without replacing evidence. Parsing and chunking are backend
-modules, not separate deployed services. Ingestion failure keeps the file ineligible
-and triggers cleanup of both indexes and partial chunk records.
+modules, not separate deployed services. BM25 reads Ready canonical children from
+SQLite for each query, with no separate persisted lexical index. Ingestion failure
+keeps the file ineligible and triggers vector and partial-record cleanup.
 
 ## Retrieval and Answering
 
@@ -42,11 +43,11 @@ flowchart TD
     Query --> Vector
     Lexical --> RRF["RRF fusion by child ID"]
     Vector --> RRF
-    RRF --> Rerank["Rerank fused children against retrieval question"]
+    RRF --> Rerank["Optional local BGE reranking; otherwise retain RRF order"]
     Query --> Rerank
     Rerank --> Select["Select children and load parents"]
-    Select --> Pack["Deduplicate parents and apply evidence budget"]
-    Pack --> Evidence["Numbered exact parent excerpts"]
+    Select --> Pack["Whole parents, then fitting selected children; budget includes identity labels"]
+    Pack --> Evidence["Numbered exact source excerpts"]
     Evidence --> Generate["Grounded answer generation"]
     Question --> Generate
     Generate --> Stream["Stream answer to React workspace"]

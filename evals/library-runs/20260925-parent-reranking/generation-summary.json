@@ -1,0 +1,404 @@
+{
+  "semantic-child-4096": {
+    "metric_inventory": {
+      "recall_at_k": {
+        "status": "measured",
+        "value": 0.4054232804232804,
+        "unit": "fraction",
+        "n": 21,
+        "method": "K=5 unique frozen parser blocks induced by final evidence order; binary gold-overlap proxy, incomplete relevance labels; source order within region. Not native child ranking.",
+        "artifact": "semantic-child-4096.jsonl",
+        "origin": "Earlier full 24-case offline frozen-route retrieval comparison; not remeasured by generation."
+      },
+      "precision_at_k": {
+        "status": "measured",
+        "value": 0.2285714285714286,
+        "unit": "fraction",
+        "n": 21,
+        "method": "K=5 unique frozen parser blocks induced by final evidence order; binary gold-overlap proxy, incomplete relevance labels; source order within region. Not native child ranking.",
+        "artifact": "semantic-child-4096.jsonl",
+        "origin": "Earlier full 24-case offline frozen-route retrieval comparison; not remeasured by generation."
+      },
+      "hit_rate_at_k": {
+        "status": "measured",
+        "value": 0.47619047619047616,
+        "unit": "fraction",
+        "n": 21,
+        "method": "K=5 unique frozen parser blocks induced by final evidence order; binary gold-overlap proxy, incomplete relevance labels; source order within region. Not native child ranking.",
+        "artifact": "semantic-child-4096.jsonl",
+        "origin": "Earlier full 24-case offline frozen-route retrieval comparison; not remeasured by generation."
+      },
+      "mrr_at_k": {
+        "status": "measured",
+        "value": 0.3523809523809524,
+        "unit": "fraction",
+        "n": 21,
+        "method": "K=5 unique frozen parser blocks induced by final evidence order; binary gold-overlap proxy, incomplete relevance labels; source order within region. Not native child ranking.",
+        "artifact": "semantic-child-4096.jsonl",
+        "origin": "Earlier full 24-case offline frozen-route retrieval comparison; not remeasured by generation."
+      },
+      "ndcg_at_k": {
+        "status": "measured",
+        "value": 0.3728692431864195,
+        "unit": "fraction",
+        "n": 21,
+        "method": "K=5 unique frozen parser blocks induced by final evidence order; binary gold-overlap proxy, incomplete relevance labels; source order within region. Not native child ranking.",
+        "artifact": "semantic-child-4096.jsonl",
+        "origin": "Earlier full 24-case offline frozen-route retrieval comparison; not remeasured by generation."
+      },
+      "final_evidence_coverage": {
+        "status": "measured",
+        "value": {
+          "annotated_char_recall": 0.9520546113511735,
+          "full_evidence_recall": 0.7142857142857143
+        },
+        "unit": "fraction",
+        "n": 21,
+        "method": "Macro-average annotated source spans; final actually supplied exact evidence.",
+        "artifact": "semantic-child-4096.jsonl",
+        "origin": "Earlier full 24-case offline frozen-route retrieval comparison; not remeasured by generation."
+      },
+      "answer_correctness": {
+        "status": "measured",
+        "value": 0.6666666666666666,
+        "unit": "fraction",
+        "n": 6,
+        "method": "Manual expected-point correctness, 0/1/2 normalized, six points across two questions; Codex, not independent.",
+        "artifact": "manual-review.json"
+      },
+      "faithfulness": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "This limited manual protocol scores required reference points and inspects additional failures; no exhaustive atomic-claim/citation inventory or independently frozen full-answer rubric. Point support is not full-answer quality."
+      },
+      "answer_completeness": {
+        "status": "measured",
+        "value": 0.6666666666666666,
+        "unit": "fraction",
+        "n": 6,
+        "method": "Required facts actually supplied, not just mentioned as missing; differs from v11 attempted-point completeness.",
+        "artifact": "manual-review.json"
+      },
+      "answer_relevance": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "This limited manual protocol scores required reference points and inspects additional failures; no exhaustive atomic-claim/citation inventory or independently frozen full-answer rubric. Point support is not full-answer quality."
+      },
+      "citation_support": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "This limited manual protocol scores required reference points and inspects additional failures; no exhaustive atomic-claim/citation inventory or independently frozen full-answer rubric. Point support is not full-answer quality."
+      },
+      "citation_coverage": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "This limited manual protocol scores required reference points and inspects additional failures; no exhaustive atomic-claim/citation inventory or independently frozen full-answer rubric. Point support is not full-answer quality."
+      },
+      "abstention": {
+        "appropriate_on_unanswerable": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Both probe questions are answerable."
+        },
+        "partial_refusal_on_answerable": {
+          "status": "measured",
+          "value": 1.0,
+          "unit": "fraction",
+          "n": 2,
+          "method": "Both control refusals reflect missing retrieved evidence; new contexts remove the gap.",
+          "artifact": "manual-review.json"
+        },
+        "incorrect_despite_sufficient_context": {
+          "status": "measured",
+          "value": 0,
+          "unit": "fraction",
+          "n": 2,
+          "method": "No refusal contradicting supplied evidence among required points; distinguish retrieval-caused refusal.",
+          "artifact": "manual-review.json"
+        }
+      },
+      "first_answer_delta_latency": {
+        "status": "measured",
+        "value": {
+          "mean": 1.209873103944119,
+          "p50": 1.209873103944119,
+          "p95": 1.6345425829058513
+        },
+        "unit": "seconds",
+        "n": 2,
+        "method": "Generation stream start to first nonempty delta; excludes HTTP RAG service and retrieval.",
+        "artifact": "answers.jsonl"
+      },
+      "complete_response_latency": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "No end-to-end HTTP RAG request. Generation completion is recorded separately as stage latency."
+      },
+      "stage_latency": {
+        "generation_completion": {
+          "status": "measured",
+          "value": {
+            "mean": 3.7727948959800415,
+            "p50": 3.7727948959800415,
+            "p95": 4.166836082935333
+          },
+          "unit": "seconds",
+          "n": 2,
+          "method": "Successful observations; median P50, nearest-rank P95.",
+          "artifact": "answers.jsonl"
+        },
+        "scope": "Provider generation only, no queue/load study; two requests per variant, alternating control/treatment by question."
+      },
+      "token_usage_and_cost": {
+        "status": "measured",
+        "value": {
+          "input_tokens": 6636,
+          "output_tokens": 423,
+          "total_tokens": 7059
+        },
+        "unit": "tokens",
+        "n": 2,
+        "artifact": "generation-calls.jsonl",
+        "billed_cost": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Actual provider billing unavailable."
+        }
+      },
+      "reliability": {
+        "status": "measured",
+        "value": {
+          "success": 2,
+          "error": 0,
+          "timeout": 0,
+          "retry": 0
+        },
+        "unit": "requests",
+        "n": 2,
+        "method": "All planned requests retained; SDK retries disabled.",
+        "artifact": "generation-answers.jsonl"
+      },
+      "concurrency_and_throughput": {
+        "status": "measured",
+        "value": {
+          "concurrency": 1,
+          "all_variants_wall_seconds": 16.278920583077706,
+          "all_variants_requests_per_second": 0.2457165375054466
+        },
+        "unit": "requests/second",
+        "n": 4,
+        "method": "Sequential four-request generation probe; combined population, not per-variant load capacity.",
+        "artifact": "generation-run.json"
+      },
+      "ingestion_and_index": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "No new retrieval, embedding, ingestion, load, or lifecycle measurement in this generation-only probe."
+      }
+    },
+    "resolved_models": [
+      "gpt-4.1-2025-04-14"
+    ]
+  },
+  "semantic-parent-6144": {
+    "metric_inventory": {
+      "recall_at_k": {
+        "status": "measured",
+        "value": 0.453042328042328,
+        "unit": "fraction",
+        "n": 21,
+        "method": "K=5 unique frozen parser blocks induced by final evidence order; binary gold-overlap proxy, incomplete relevance labels; source order within region. Not native child ranking.",
+        "artifact": "semantic-parent-6144.jsonl",
+        "origin": "Earlier full 24-case offline frozen-route retrieval comparison; not remeasured by generation."
+      },
+      "precision_at_k": {
+        "status": "measured",
+        "value": 0.24761904761904763,
+        "unit": "fraction",
+        "n": 21,
+        "method": "K=5 unique frozen parser blocks induced by final evidence order; binary gold-overlap proxy, incomplete relevance labels; source order within region. Not native child ranking.",
+        "artifact": "semantic-parent-6144.jsonl",
+        "origin": "Earlier full 24-case offline frozen-route retrieval comparison; not remeasured by generation."
+      },
+      "hit_rate_at_k": {
+        "status": "measured",
+        "value": 0.5714285714285714,
+        "unit": "fraction",
+        "n": 21,
+        "method": "K=5 unique frozen parser blocks induced by final evidence order; binary gold-overlap proxy, incomplete relevance labels; source order within region. Not native child ranking.",
+        "artifact": "semantic-parent-6144.jsonl",
+        "origin": "Earlier full 24-case offline frozen-route retrieval comparison; not remeasured by generation."
+      },
+      "mrr_at_k": {
+        "status": "measured",
+        "value": 0.3761904761904762,
+        "unit": "fraction",
+        "n": 21,
+        "method": "K=5 unique frozen parser blocks induced by final evidence order; binary gold-overlap proxy, incomplete relevance labels; source order within region. Not native child ranking.",
+        "artifact": "semantic-parent-6144.jsonl",
+        "origin": "Earlier full 24-case offline frozen-route retrieval comparison; not remeasured by generation."
+      },
+      "ndcg_at_k": {
+        "status": "measured",
+        "value": 0.3980185881933329,
+        "unit": "fraction",
+        "n": 21,
+        "method": "K=5 unique frozen parser blocks induced by final evidence order; binary gold-overlap proxy, incomplete relevance labels; source order within region. Not native child ranking.",
+        "artifact": "semantic-parent-6144.jsonl",
+        "origin": "Earlier full 24-case offline frozen-route retrieval comparison; not remeasured by generation."
+      },
+      "final_evidence_coverage": {
+        "status": "measured",
+        "value": {
+          "annotated_char_recall": 0.9996736589702211,
+          "full_evidence_recall": 0.7619047619047619
+        },
+        "unit": "fraction",
+        "n": 21,
+        "method": "Macro-average annotated source spans; final actually supplied exact evidence.",
+        "artifact": "semantic-parent-6144.jsonl",
+        "origin": "Earlier full 24-case offline frozen-route retrieval comparison; not remeasured by generation."
+      },
+      "answer_correctness": {
+        "status": "measured",
+        "value": 1.0,
+        "unit": "fraction",
+        "n": 6,
+        "method": "Manual expected-point correctness, 0/1/2 normalized, six points across two questions; Codex, not independent.",
+        "artifact": "manual-review.json"
+      },
+      "faithfulness": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "This limited manual protocol scores required reference points and inspects additional failures; no exhaustive atomic-claim/citation inventory or independently frozen full-answer rubric. Point support is not full-answer quality."
+      },
+      "answer_completeness": {
+        "status": "measured",
+        "value": 1.0,
+        "unit": "fraction",
+        "n": 6,
+        "method": "Required facts actually supplied, not just mentioned as missing; differs from v11 attempted-point completeness.",
+        "artifact": "manual-review.json"
+      },
+      "answer_relevance": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "This limited manual protocol scores required reference points and inspects additional failures; no exhaustive atomic-claim/citation inventory or independently frozen full-answer rubric. Point support is not full-answer quality."
+      },
+      "citation_support": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "This limited manual protocol scores required reference points and inspects additional failures; no exhaustive atomic-claim/citation inventory or independently frozen full-answer rubric. Point support is not full-answer quality."
+      },
+      "citation_coverage": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "This limited manual protocol scores required reference points and inspects additional failures; no exhaustive atomic-claim/citation inventory or independently frozen full-answer rubric. Point support is not full-answer quality."
+      },
+      "abstention": {
+        "appropriate_on_unanswerable": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Both probe questions are answerable."
+        },
+        "partial_refusal_on_answerable": {
+          "status": "measured",
+          "value": 0.0,
+          "unit": "fraction",
+          "n": 2,
+          "method": "Both control refusals reflect missing retrieved evidence; new contexts remove the gap.",
+          "artifact": "manual-review.json"
+        },
+        "incorrect_despite_sufficient_context": {
+          "status": "measured",
+          "value": 0,
+          "unit": "fraction",
+          "n": 2,
+          "method": "No refusal contradicting supplied evidence among required points; distinguish retrieval-caused refusal.",
+          "artifact": "manual-review.json"
+        }
+      },
+      "first_answer_delta_latency": {
+        "status": "measured",
+        "value": {
+          "mean": 0.9233365000109188,
+          "p50": 0.9233365000109188,
+          "p95": 1.0401244170498103
+        },
+        "unit": "seconds",
+        "n": 2,
+        "method": "Generation stream start to first nonempty delta; excludes HTTP RAG service and retrieval.",
+        "artifact": "answers.jsonl"
+      },
+      "complete_response_latency": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "No end-to-end HTTP RAG request. Generation completion is recorded separately as stage latency."
+      },
+      "stage_latency": {
+        "generation_completion": {
+          "status": "measured",
+          "value": {
+            "mean": 4.351138875004835,
+            "p50": 4.351138875004835,
+            "p95": 5.00886379100848
+          },
+          "unit": "seconds",
+          "n": 2,
+          "method": "Successful observations; median P50, nearest-rank P95.",
+          "artifact": "answers.jsonl"
+        },
+        "scope": "Provider generation only, no queue/load study; two requests per variant, alternating control/treatment by question."
+      },
+      "token_usage_and_cost": {
+        "status": "measured",
+        "value": {
+          "input_tokens": 12759,
+          "output_tokens": 503,
+          "total_tokens": 13262
+        },
+        "unit": "tokens",
+        "n": 2,
+        "artifact": "generation-calls.jsonl",
+        "billed_cost": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Actual provider billing unavailable."
+        }
+      },
+      "reliability": {
+        "status": "measured",
+        "value": {
+          "success": 2,
+          "error": 0,
+          "timeout": 0,
+          "retry": 0
+        },
+        "unit": "requests",
+        "n": 2,
+        "method": "All planned requests retained; SDK retries disabled.",
+        "artifact": "generation-answers.jsonl"
+      },
+      "concurrency_and_throughput": {
+        "status": "measured",
+        "value": {
+          "concurrency": 1,
+          "all_variants_wall_seconds": 16.278920583077706,
+          "all_variants_requests_per_second": 0.2457165375054466
+        },
+        "unit": "requests/second",
+        "n": 4,
+        "method": "Sequential four-request generation probe; combined population, not per-variant load capacity.",
+        "artifact": "generation-run.json"
+      },
+      "ingestion_and_index": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "No new retrieval, embedding, ingestion, load, or lifecycle measurement in this generation-only probe."
+      }
+    },
+    "resolved_models": [
+      "gpt-4.1-2025-04-14"
+    ]
+  }
+}

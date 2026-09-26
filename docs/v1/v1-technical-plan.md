@@ -2,7 +2,8 @@
 
 ## Scope and Architecture
 
-Status: planned. Implement the [product design](v1-product-design.md) using the
+Status: stages 1-5 and the frontend integration are implemented; see the [version status](README.md) for merge
+boundaries and remaining work. Continue the [product design](v1-product-design.md) using the
 existing React/TypeScript frontend, FastAPI services, SQLite/SQLAlchemy storage,
 Chroma vector index, provider interfaces, and ordinary Python orchestration.
 API, CLI, and evaluations must use the same retrieval implementation.
@@ -15,14 +16,15 @@ responsibilities without prescribing a new file for every step.
 
 1. Accept nonempty UTF-8 `.txt` and `.md` files through the existing upload workflow.
 2. Retain the decoded original text as the canonical source in SQLite. This is a
-   planned addition: the MVP stores canonical text in chunks rather than a full-document record.
+   implemented addition to the MVP, which stored canonical text only in chunks.
 3. Identify source spans and structural metadata. For Markdown, recognize headings,
    paragraphs, lists, fenced code, and tables; preserve heading paths. Do not execute
    code, render raw HTML, or fetch linked resources during ingestion.
 4. Create bounded parent regions, then split within each parent to create children.
 5. Store parents, children, their relationships, and the chunking configuration.
-6. Embed and index children in Chroma; index those same child IDs in BM25.
-7. Mark the file Ready only after canonical storage and both retrieval indexes are usable.
+6. Embed and index children in Chroma. BM25 deterministically scores those same
+   canonical child IDs from SQLite at query time; it has no separate persisted index.
+7. Mark the file Ready only after canonical storage and vector indexing succeed.
 
 Every parent and child belongs to one file. Each child belongs to exactly one
 parent and lies within its source range. Record half-open character offsets into
@@ -71,9 +73,12 @@ choice; evidence is required before making it the application default.
 6. Select a bounded number of children and load their canonical parents.
 7. Deduplicate parents by ID, rank each by its best selected child's rerank position,
    and retain all selected child associations. Use stable IDs to break remaining ties.
-8. Pack whole parents in that order within an evidence token budget. Skip a parent
-   that does not fit rather than silently truncating its evidence; record exclusions.
-9. Assign source numbers to the included parents and generate a grounded answer.
+8. Pack whole parents in that order within an evidence token budget. Retain complete
+   selected children of parents that did not fit when space remains. Never evict
+   admitted parents or silently truncate source text. Record exclusions and
+   unexpanded parents; `parent_first` retains the historical control.
+9. Assign source numbers to included excerpts and generate a grounded answer.
+   Filename and heading identity labels count toward the same context budget.
 10. Check source-number membership and persist the completed answer and evidence snapshot.
 
 Configure the parent limit so a single parent fits the evidence budget, allowing
@@ -106,9 +111,9 @@ Their scales and meanings differ; none is a correctness probability.
 
 ### Reranker
 
-Use a narrow query-plus-candidates interface returning scores tied to child IDs.
-Select a local or API-based model during implementation using measured quality,
-latency, input limits, and operating cost. Preserve the full scored input in run
+Use the implemented local BGE cross-encoder through a narrow query-plus-candidates
+interface returning raw logits tied to child IDs. Reranking is opt-in and only
+supported under hybrid retrieval. Preserve the full scored input in run
 metadata or a reproducible representation; do not silently truncate it.
 
 Include the heading path when useful and consistently available, separating it
@@ -131,7 +136,7 @@ reranker is a named evaluation configuration.
 These are logical requirements; they do not prescribe separate database tables
 for every record. Keep ORM objects within storage and expose application snapshots.
 
-Numbered citations refer to the parent excerpts actually supplied to generation.
+Numbered citations refer to the parent or selected-child excerpts actually supplied to generation.
 Child hits explain selection in diagnostics. A source may be supplied but not cited;
 the UI must distinguish those states. Citation membership checks do not validate
 claim support or quotation fidelity.
@@ -161,14 +166,14 @@ separately before switching the running application.
 
 ## Implementation Sequence
 
-| Stage | Deliverable | Verification focus |
+| Stage | Deliverable | Status / remaining verification |
 | --- | --- | --- |
-| 1 | TXT/Markdown source representation and structural sentence chunks | Exact spans, heading paths, oversized units, upload/delete behavior |
-| 2 | Parent-child storage and vector retrieval with parent expansion | Relationships, deduplication, context budget, saved evidence |
-| 3 | BM25 plus RRF over child IDs | Route eligibility, lexical fixtures, fusion ordering, restart and cleanup |
-| 4 | Reranker integration | Identity mapping, scored input limits, end-to-end diagnostics |
-| 5 | Semantic child-chunking strategy | Controlled comparison with the structural strategy |
-| 6 | Frontend integration and release evaluation | Real-provider workflows, held-out review, latency and cost |
+| 1 | TXT/Markdown source representation and structural sentence chunks | Merged; exact spans and live Markdown workflow recorded |
+| 2 | Parent-child storage and vector retrieval with parent expansion | Merged; relationships, budget, history and cleanup covered |
+| 3 | BM25 plus RRF over child IDs | Merged; route eligibility, fusion and development comparison recorded |
+| 4 | Reranker integration | Implemented on v1; local BGE and packing comparisons recorded; user acceptance pending |
+| 5 | Semantic child-chunking strategy | Implemented opt-in on v1; offline and paired live comparisons recorded; two evidence regressions, user acceptance pending |
+| 6 | Frontend integration and release evaluation | Frontend offline and real-provider workflows verified; paired live evaluation recorded; independent release evidence and user acceptance remain |
 
 Add relevant tests with each implemented stage and commit each completed change.
 This documentation does not authorize writing Python implementation beyond the

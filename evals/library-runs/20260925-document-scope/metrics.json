@@ -1,0 +1,934 @@
+{
+  "version": "automated-metrics-v1",
+  "metrics": {
+    "recall_at_k": {
+      "status": "measured",
+      "value": 0.9285714285714286,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "precision_at_k": {
+      "status": "measured",
+      "value": 0.2285714285714286,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "hit_rate_at_k": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "mrr_at_k": {
+      "status": "measured",
+      "value": 0.8571428571428571,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "ndcg_at_k": {
+      "status": "measured",
+      "value": 0.839286671415482,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "annotated_char_recall": {
+      "status": "measured",
+      "value": 0.9285714285714286,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Union of actual supplied source spans; average gold spans per answer then macro-average answerable cases.",
+      "artifact": "answers.jsonl"
+    },
+    "full_evidence_recall": {
+      "status": "measured",
+      "value": 0.9285714285714286,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Union of actual supplied source spans; average gold spans per answer then macro-average answerable cases.",
+      "artifact": "answers.jsonl"
+    },
+    "answer_correctness": {
+      "status": "measured",
+      "value": 0.9090909090909091,
+      "unit": "fraction",
+      "n": 22,
+      "method": "Micro-average v2 required points, 0/1/2; Codex, PLAN.md.",
+      "artifact": "manual-review.json"
+    },
+    "answer_completeness": {
+      "status": "measured",
+      "value": 0.9090909090909091,
+      "unit": "fraction",
+      "n": 22,
+      "method": "Required points addressed; distinct from correctness.",
+      "artifact": "manual-review.json"
+    },
+    "fully_correct_points": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No valid applicable LLM assessments; claim-free/citation-free answers are excluded."
+    },
+    "faithfulness": {
+      "status": "measured",
+      "value": 0.9642857142857143,
+      "unit": "fraction",
+      "n": 28,
+      "method": "Every inventoried factual claim occurrence including extras/repeats; absence statements scored as abstention.",
+      "artifact": "manual-review.json"
+    },
+    "answer_relevance": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 11,
+      "method": "0 off-topic, 1 extraneous, 2 responsive; independent from factual accuracy.",
+      "artifact": "manual-review.json"
+    },
+    "citation_support": {
+      "status": "measured",
+      "value": 0.9642857142857143,
+      "unit": "fraction",
+      "n": 28,
+      "method": "Semantically associated claim/citation pairs; not ID validity.",
+      "artifact": "manual-review.json"
+    },
+    "citation_coverage": {
+      "status": "measured",
+      "value": 0.9642857142857143,
+      "unit": "fraction",
+      "n": 28,
+      "method": "Factual claims with local supporting citations; claim-free refusals exempt.",
+      "artifact": "manual-review.json"
+    },
+    "appropriate_abstention": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 4,
+      "method": "Unavailable answers and unresolved scope; four cases, two of each, shown separately.",
+      "artifact": "manual-review.json"
+    },
+    "incorrect_abstention": {
+      "status": "measured",
+      "value": 0,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Answerable cases, including the FAQ comparison; denominator seven.",
+      "artifact": "manual-review.json"
+    },
+    "answerable_refusal": {
+      "status": "measured",
+      "value": 0,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Full/partial refusal on answerable questions.",
+      "artifact": "manual-review.json"
+    },
+    "strict_pass_rate": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No paid judge; use recorded manual functional protocol."
+    },
+    "contradicted_claims": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Support sufficiency recorded; no separate contradiction taxonomy."
+    },
+    "unsupported_claims": {
+      "status": "measured",
+      "value": 1,
+      "unit": "claims",
+      "n": 11,
+      "method": "Full claim inventory; Codex.",
+      "artifact": "manual-review.json"
+    },
+    "claim_count": {
+      "status": "measured",
+      "value": 28,
+      "unit": "claims",
+      "n": 11,
+      "method": "Full claim inventory; Codex.",
+      "artifact": "manual-review.json"
+    },
+    "first_delta_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.8668850076342509,
+        "p50": 0.8754741250304505,
+        "p95": 1.5274205419700593
+      },
+      "unit": "seconds",
+      "n": 11,
+      "method": "Successful observations; median P50, nearest-rank P95. In-process service, including queue/provider waits and persistence as applicable; excludes HTTP/browser. Includes two deterministic clarifications.",
+      "artifact": "answers.jsonl"
+    },
+    "total_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 1.577876750094054,
+        "p50": 1.8029906250303611,
+        "p95": 2.354291999945417
+      },
+      "unit": "seconds",
+      "n": 11,
+      "method": "Successful observations; median P50, nearest-rank P95. In-process service, including queue/provider waits and persistence as applicable; excludes HTTP/browser. Includes two deterministic clarifications.",
+      "artifact": "answers.jsonl"
+    },
+    "generation_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 1.5923992592530947,
+        "p50": 1.5808106670156121,
+        "p95": 1.9878801670856774
+      },
+      "unit": "seconds",
+      "n": 9,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "generation_first_delta_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.7283728749154963,
+        "p50": 0.6859823749400675,
+        "p95": 1.1901345420628786
+      },
+      "unit": "seconds",
+      "n": 9,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "retrieval_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.2694148864512416,
+        "p50": 0.2222767909988761,
+        "p95": 0.9703077499289066
+      },
+      "unit": "seconds",
+      "n": 11,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "embedding_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.31362139832021463,
+        "p50": 0.22671587497461587,
+        "p95": 0.9562897089635953
+      },
+      "unit": "seconds",
+      "n": 9,
+      "method": "Successful observations; median P50, nearest-rank P95. Only executed query embedding stages; skipped calls excluded, not zero durations.",
+      "artifact": "answers.jsonl"
+    },
+    "rerank_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No successful timed observations."
+    },
+    "packing_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.003267518658604887,
+        "p50": 0.00292899995110929,
+        "p95": 0.00816066691186279
+      },
+      "unit": "seconds",
+      "n": 9,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "search_fusion_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Production service exposes total retrieval, embedding, rerank and packing; search/fusion not independently timed."
+    },
+    "reliability": {
+      "status": "measured",
+      "value": {
+        "attempted": 11,
+        "planned": 11,
+        "success": 11,
+        "errors": 0,
+        "not_attempted": 0,
+        "success_rate": 1.0,
+        "timeouts": 0,
+        "retries": 0
+      },
+      "unit": "requests",
+      "n": 11,
+      "method": "All planned RAG requests; SDK retries disabled, partial answers do not succeed.",
+      "artifact": "answers.jsonl"
+    },
+    "judge_reliability": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No paid judge; use recorded manual functional protocol."
+    },
+    "judge_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No paid judge; use recorded manual functional protocol."
+    },
+    "token_usage": {
+      "ingestion": {
+        "status": "measured",
+        "value": {
+          "total_tokens": 26199,
+          "prompt_tokens": 26199
+        },
+        "unit": "tokens",
+        "n": 17,
+        "method": "Provider-reported totals for 17/17 calls; missing failed-call usage excluded, not zero billed cost.",
+        "artifact": "calls.jsonl"
+      },
+      "query_embedding": {
+        "status": "measured",
+        "value": {
+          "total_tokens": 289,
+          "prompt_tokens": 289
+        },
+        "unit": "tokens",
+        "n": 9,
+        "method": "Provider-reported totals for 9/9 calls; missing failed-call usage excluded, not zero billed cost.",
+        "artifact": "calls.jsonl"
+      },
+      "generation": {
+        "status": "measured",
+        "value": {
+          "input_tokens": 26935,
+          "output_tokens": 679,
+          "total_tokens": 27614
+        },
+        "unit": "tokens",
+        "n": 9,
+        "method": "Provider-reported totals for 9/9 calls; missing failed-call usage excluded, not zero billed cost.",
+        "artifact": "calls.jsonl"
+      },
+      "judge": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "No judge calls."
+      }
+    },
+    "cost": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Provider responses do not expose billed dollars; no inferred price substituted."
+    },
+    "evidence_tokens": {
+      "status": "measured",
+      "value": [
+        2184,
+        2184,
+        750,
+        2184,
+        786,
+        1042,
+        1121,
+        3779,
+        3167,
+        0,
+        0
+      ],
+      "unit": "tokens",
+      "n": 11,
+      "method": "Exact formatted supplied evidence tokens including metadata.",
+      "artifact": "answers.jsonl"
+    },
+    "concurrency_throughput": {
+      "status": "measured",
+      "value": {
+        "concurrency": 1,
+        "wall_seconds": 17.373616582946852,
+        "successful_requests_per_second": 0.6331439368126207
+      },
+      "unit": "requests/second",
+      "n": 11,
+      "method": "Sequential service batch including logging; not load capacity.",
+      "artifact": "run.json"
+    },
+    "ingestion": {
+      "status": "measured",
+      "value": {
+        "seconds": 8.765069875051267,
+        "files": [
+          {
+            "file_name": "anthropic_api.md",
+            "seconds": 2.329555333009921,
+            "bytes": 5643,
+            "indexing": {
+              "strategy": "parent_child",
+              "embedding_model": "text-embedding-3-small",
+              "chunk_max_tokens": 512,
+              "parent_max_tokens": 1536,
+              "tokenizer": "cl100k_base",
+              "chunk_size": 2048,
+              "overlap": 256,
+              "semantic": null
+            }
+          },
+          {
+            "file_name": "university-student-conduct-policy.txt",
+            "seconds": 0.6609402919420972,
+            "bytes": 21406,
+            "indexing": {
+              "strategy": "parent_child",
+              "embedding_model": "text-embedding-3-small",
+              "chunk_max_tokens": 512,
+              "parent_max_tokens": 1536,
+              "tokenizer": "cl100k_base",
+              "chunk_size": 2048,
+              "overlap": 256,
+              "semantic": null
+            }
+          },
+          {
+            "file_name": "student-resources-overview.txt",
+            "seconds": 0.68332324991934,
+            "bytes": 2275,
+            "indexing": {
+              "strategy": "parent_child",
+              "embedding_model": "text-embedding-3-small",
+              "chunk_max_tokens": 512,
+              "parent_max_tokens": 1536,
+              "tokenizer": "cl100k_base",
+              "chunk_size": 2048,
+              "overlap": 256,
+              "semantic": null
+            }
+          },
+          {
+            "file_name": "student-career-development-professional-development-overview.txt",
+            "seconds": 0.7179310409119353,
+            "bytes": 2860,
+            "indexing": {
+              "strategy": "parent_child",
+              "embedding_model": "text-embedding-3-small",
+              "chunk_max_tokens": 512,
+              "parent_max_tokens": 1536,
+              "tokenizer": "cl100k_base",
+              "chunk_size": 2048,
+              "overlap": 256,
+              "semantic": null
+            }
+          },
+          {
+            "file_name": "student-career-development-professional-career-information.txt",
+            "seconds": 0.1990599170094356,
+            "bytes": 873,
+            "indexing": {
+              "strategy": "parent_child",
+              "embedding_model": "text-embedding-3-small",
+              "chunk_max_tokens": 512,
+              "parent_max_tokens": 1536,
+              "tokenizer": "cl100k_base",
+              "chunk_size": 2048,
+              "overlap": 256,
+              "semantic": null
+            }
+          },
+          {
+            "file_name": "masters-in-data-science-tracks.txt",
+            "seconds": 0.2988216249505058,
+            "bytes": 4055,
+            "indexing": {
+              "strategy": "parent_child",
+              "embedding_model": "text-embedding-3-small",
+              "chunk_max_tokens": 512,
+              "parent_max_tokens": 1536,
+              "tokenizer": "cl100k_base",
+              "chunk_size": 2048,
+              "overlap": 256,
+              "semantic": null
+            }
+          },
+          {
+            "file_name": "masters-in-data-science-summer-research-initiative.txt",
+            "seconds": 0.1662063749972731,
+            "bytes": 1752,
+            "indexing": {
+              "strategy": "parent_child",
+              "embedding_model": "text-embedding-3-small",
+              "chunk_max_tokens": 512,
+              "parent_max_tokens": 1536,
+              "tokenizer": "cl100k_base",
+              "chunk_size": 2048,
+              "overlap": 256,
+              "semantic": null
+            }
+          },
+          {
+            "file_name": "masters-in-data-science-overview.txt",
+            "seconds": 0.2947050000075251,
+            "bytes": 2728,
+            "indexing": {
+              "strategy": "parent_child",
+              "embedding_model": "text-embedding-3-small",
+              "chunk_max_tokens": 512,
+              "parent_max_tokens": 1536,
+              "tokenizer": "cl100k_base",
+              "chunk_size": 2048,
+              "overlap": 256,
+              "semantic": null
+            }
+          },
+          {
+            "file_name": "masters-in-data-science-industry-concentration.txt",
+            "seconds": 0.37498254200909287,
+            "bytes": 3292,
+            "indexing": {
+              "strategy": "parent_child",
+              "embedding_model": "text-embedding-3-small",
+              "chunk_max_tokens": 512,
+              "parent_max_tokens": 1536,
+              "tokenizer": "cl100k_base",
+              "chunk_size": 2048,
+              "overlap": 256,
+              "semantic": null
+            }
+          },
+          {
+            "file_name": "masters-in-data-science-financial-aid-fellowships.txt",
+            "seconds": 0.24799566599540412,
+            "bytes": 4136,
+            "indexing": {
+              "strategy": "parent_child",
+              "embedding_model": "text-embedding-3-small",
+              "chunk_max_tokens": 512,
+              "parent_max_tokens": 1536,
+              "tokenizer": "cl100k_base",
+              "chunk_size": 2048,
+              "overlap": 256,
+              "semantic": null
+            }
+          },
+          {
+            "file_name": "masters-in-data-science-faq.txt",
+            "seconds": 0.6406075410777703,
+            "bytes": 15140,
+            "indexing": {
+              "strategy": "parent_child",
+              "embedding_model": "text-embedding-3-small",
+              "chunk_max_tokens": 512,
+              "parent_max_tokens": 1536,
+              "tokenizer": "cl100k_base",
+              "chunk_size": 2048,
+              "overlap": 256,
+              "semantic": null
+            }
+          },
+          {
+            "file_name": "masters-in-data-science-faq-general.txt",
+            "seconds": 0.558435249957256,
+            "bytes": 9840,
+            "indexing": {
+              "strategy": "parent_child",
+              "embedding_model": "text-embedding-3-small",
+              "chunk_max_tokens": 512,
+              "parent_max_tokens": 1536,
+              "tokenizer": "cl100k_base",
+              "chunk_size": 2048,
+              "overlap": 256,
+              "semantic": null
+            }
+          },
+          {
+            "file_name": "masters-in-data-science-capstone.txt",
+            "seconds": 0.2962297089397907,
+            "bytes": 9715,
+            "indexing": {
+              "strategy": "parent_child",
+              "embedding_model": "text-embedding-3-small",
+              "chunk_max_tokens": 512,
+              "parent_max_tokens": 1536,
+              "tokenizer": "cl100k_base",
+              "chunk_size": 2048,
+              "overlap": 256,
+              "semantic": null
+            }
+          },
+          {
+            "file_name": "masters-in-data-science-admissions-ambassadors.txt",
+            "seconds": 0.3023653330747038,
+            "bytes": 5917,
+            "indexing": {
+              "strategy": "parent_child",
+              "embedding_model": "text-embedding-3-small",
+              "chunk_max_tokens": 512,
+              "parent_max_tokens": 1536,
+              "tokenizer": "cl100k_base",
+              "chunk_size": 2048,
+              "overlap": 256,
+              "semantic": null
+            }
+          },
+          {
+            "file_name": "data-science-ms-bulletin.txt",
+            "seconds": 0.4166796669596806,
+            "bytes": 11433,
+            "indexing": {
+              "strategy": "parent_child",
+              "embedding_model": "text-embedding-3-small",
+              "chunk_max_tokens": 512,
+              "parent_max_tokens": 1536,
+              "tokenizer": "cl100k_base",
+              "chunk_size": 2048,
+              "overlap": 256,
+              "semantic": null
+            }
+          },
+          {
+            "file_name": "curriculum.txt",
+            "seconds": 0.31541195802856237,
+            "bytes": 9132,
+            "indexing": {
+              "strategy": "parent_child",
+              "embedding_model": "text-embedding-3-small",
+              "chunk_max_tokens": 512,
+              "parent_max_tokens": 1536,
+              "tokenizer": "cl100k_base",
+              "chunk_size": 2048,
+              "overlap": 256,
+              "semantic": null
+            }
+          },
+          {
+            "file_name": "admissions-requirements.txt",
+            "seconds": 0.24836391699500382,
+            "bytes": 8202,
+            "indexing": {
+              "strategy": "parent_child",
+              "embedding_model": "text-embedding-3-small",
+              "chunk_max_tokens": 512,
+              "parent_max_tokens": 1536,
+              "tokenizer": "cl100k_base",
+              "chunk_size": 2048,
+              "overlap": 256,
+              "semantic": null
+            }
+          }
+        ],
+        "index_bytes": 2418852,
+        "indexed_chunks": 92
+      },
+      "unit": "seconds/bytes/counts",
+      "n": 17,
+      "method": "Fresh isolated corpus upload to searchable; on-disk index size before queries.",
+      "artifact": "run.json"
+    },
+    "update_delete": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Evaluation creates a fresh isolated corpus; update/delete lifecycle is not exercised."
+    },
+    "model_loading": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Local reranking disabled; no local inference model loaded."
+    },
+    "functional_case_pass_rate": {
+      "status": "measured",
+      "value": 0.9090909090909091,
+      "unit": "fraction",
+      "n": 11,
+      "method": "PLAN.md required facts, claim/citation support, source scope and English.",
+      "artifact": "manual-review.json"
+    },
+    "english_compliance": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 11,
+      "method": "Manual full-output inspection; names/code preserved.",
+      "artifact": "manual-review.json"
+    },
+    "named_source_compliance": {
+      "status": "measured",
+      "value": 0.9090909090909091,
+      "unit": "fraction",
+      "n": 11,
+      "method": "Manual attribution against actual file identities.",
+      "artifact": "manual-review.json"
+    },
+    "personal_error_abstention": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 2,
+      "method": "Two unavailable personal/API-error questions.",
+      "artifact": "manual-review.json"
+    },
+    "scope_clarification": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 2,
+      "method": "Two unresolved document requests; no provider call.",
+      "artifact": "manual-review.json"
+    },
+    "original_rubric_correctness": {
+      "status": "measured",
+      "value": 0.9444444444444444,
+      "unit": "fraction",
+      "n": 18,
+      "method": "Original reference version for eight historical questions; optional awards details retained.",
+      "artifact": "manual-review.json"
+    },
+    "scope_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.001089484358089976,
+        "p50": 0.0011548754991963506,
+        "p95": 0.0013154579792171717
+      },
+      "unit": "seconds",
+      "n": 8,
+      "method": "Successful observations; median P50, nearest-rank P95. Identity lookup/resolution within retrieval; includes clarification paths.",
+      "artifact": "answers.jsonl"
+    },
+    "generated_service_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 1.9278512407715123,
+        "p50": 1.8083442079368979,
+        "p95": 2.354291999945417
+      },
+      "unit": "seconds",
+      "n": 9,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "generated_service_first_delta_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 1.0591663056725844,
+        "p50": 1.0682035411009565,
+        "p95": 1.5274205419700593
+      },
+      "unit": "seconds",
+      "n": 9,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    }
+  },
+  "cases": [
+    {
+      "case_id": "accept-load-hours",
+      "pass": true,
+      "points": [
+        {
+          "reference": "Full-time students register for 9 credits; part-time students register for less than 9 credits.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "Plan 10–15 hours per week per data science course, assuming all prerequisites are met.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": []
+    },
+    {
+      "case_id": "accept-independent-passfail",
+      "pass": true,
+      "points": [
+        {
+          "reference": "Up to 6 credits of independent study, DS-GA 1010, can count.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "Only one elective, excluding the One Data Science Elective requirement, and DS-GA 1009 may count pass/fail.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "Industry Concentration students can use the one-elective allowance for an Industry Concentration elective.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "Required degree courses cannot be taken pass/fail.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": []
+    },
+    {
+      "case_id": "accept-course-two-areas",
+      "pass": true,
+      "points": [
+        {
+          "reference": "DS-GA 1012 appears in both the Big Data and Natural Language Processing lists.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "The title is Large Language Models: Evaluation and Applications.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": []
+    },
+    {
+      "case_id": "accept-awards-jobs",
+      "pass": true,
+      "points": [
+        {
+          "reference": "All admission applicants are considered for tuition scholarships on a competitive basis.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "Recipients are notified in their admit letter.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "On-campus research or teaching positions are not guaranteed for any individual.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": [
+        "The original source-mixing defect is absent: only general-FAQ evidence is supplied, with no separate-application assertion. Requested v2 points are complete; optional limited-count and posting-cadence details from the original rubric are omitted."
+      ]
+    },
+    {
+      "case_id": "accept-beta-header-scope",
+      "pass": true,
+      "points": [
+        {
+          "reference": "anthropic-beta is ignored for /messages but required for Files API endpoints with files-api-2025-04-14.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "anthropic-version is ignored.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": []
+    },
+    {
+      "case_id": "accept-message-subfields",
+      "pass": true,
+      "points": [
+        {
+          "reference": "Text content citations are ignored.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "The id field of tool_use content is fully supported.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "The is_error field of tool_result content is ignored.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": []
+    },
+    {
+      "case_id": "accept-unspecified-api-error",
+      "pass": true,
+      "points": [
+        {
+          "reference": "The saved guide does not specify the exact HTTP status code or JSON error body; do not invent either.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": [
+        "Exact HTTP error code and JSON payload are both explicitly unavailable; neither is invented."
+      ]
+    },
+    {
+      "case_id": "accept-personal-study-approval",
+      "pass": true,
+      "points": [
+        {
+          "reference": "The provided public documents do not establish the user’s proposal approval status or assigned supervisor; explicitly acknowledge the missing personal information without inventing it.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": [
+        "Claim-free abstention on both personal facts; valid citations accompany evidence-absence statements, not positive factual claims. No contact advice invented."
+      ]
+    },
+    {
+      "case_id": "scope-compare-faqs",
+      "pass": false,
+      "points": [
+        {
+          "reference": "The admissions FAQ explicitly states that no separate scholarship application process is needed.",
+          "correctness": 0,
+          "present": false
+        },
+        {
+          "reference": "The general FAQ does not include that statement; do not infer that it requires a separate application.",
+          "correctness": 0,
+          "present": false
+        }
+      ],
+      "findings": [
+        "FAIL: 50% gold evidence coverage. Restricting eligible files to both requested documents does not ensure both survive global top-K. Generation then misidentifies the only supplied FAQ. Preserve this before any ranking/identity correction."
+      ]
+    },
+    {
+      "case_id": "scope-ambiguous-faq",
+      "pass": true,
+      "points": [
+        {
+          "reference": "Ask the user to identify the intended FAQ; do not select one arbitrarily or answer the substantive question.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": [
+        "Correct deterministic clarification; no embedding/generation call and no evidence. Scope status/candidates are preserved in events and the completed snapshot."
+      ]
+    },
+    {
+      "case_id": "scope-missing-file",
+      "pass": true,
+      "points": [
+        {
+          "reference": "State that the specified ready document was not found and request a filename or upload; do not answer from other documents.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": [
+        "Correct deterministic clarification; no embedding/generation call and no evidence. Scope status/candidates are preserved in events and the completed snapshot."
+      ]
+    }
+  ],
+  "limitations": [
+    "Development/regression set; not held-out accuracy.",
+    "LLM judgments are assessments, not human ground truth; inventory misclassification and semantic errors remain possible.",
+    "In-process production streaming service, excluding app HTTP transport; no warmup, caches and host/provider load uncontrolled."
+  ],
+  "reviewer": "Codex implementer, not independent human review",
+  "review_protocol": "PLAN.md"
+}

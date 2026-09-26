@@ -1,0 +1,315 @@
+[
+  {
+    "id": "alternative-preserved",
+    "category": "correct",
+    "origin": "Codex-authored minimal regression derived from protocol-4 development failures; synthetic, not human labels or held-out data.",
+    "question": "Which transcripts must be submitted?",
+    "answerable": true,
+    "expected_answer_points": [
+      "Translated undergraduate or graduate transcripts."
+    ],
+    "answer": "Submit translated undergraduate or graduate transcripts. [1]",
+    "sources": [
+      {
+        "source_id": 1,
+        "file_name": "fixture.md",
+        "text": "Submit undergraduate or graduate transcripts; either is sufficient. Transcripts must be translated."
+      }
+    ],
+    "expected": {
+      "unit_verdicts": {
+        "u1": "supported"
+      },
+      "abstains": false,
+      "appropriate_abstention": false
+    },
+    "label_reason": "The answer preserves the supplied fact and its qualifiers."
+  },
+  {
+    "id": "alternative-changed-to-both",
+    "category": "incorrect",
+    "origin": "Codex-authored minimal regression derived from protocol-4 development failures; synthetic, not human labels or held-out data.",
+    "question": "Which transcripts must be submitted?",
+    "answerable": true,
+    "expected_answer_points": [
+      "Translated undergraduate or graduate transcripts."
+    ],
+    "answer": "Both undergraduate and graduate transcripts must be submitted, translated. [1]",
+    "sources": [
+      {
+        "source_id": 1,
+        "file_name": "fixture.md",
+        "text": "Submit undergraduate or graduate transcripts; either is sufficient. Transcripts must be translated."
+      }
+    ],
+    "expected": {
+      "unit_verdicts": {
+        "u1": "contradicted"
+      },
+      "abstains": false,
+      "appropriate_abstention": false
+    },
+    "label_reason": "The answer changes a fact or adds unsupported detail."
+  },
+  {
+    "id": "qualifier-preserved",
+    "category": "correct",
+    "origin": "Codex-authored minimal regression derived from protocol-4 development failures; synthetic, not human labels or held-out data.",
+    "question": "Which physics course qualifies?",
+    "answerable": true,
+    "expected_answer_points": [
+      "An advanced mathematically intensive physics course."
+    ],
+    "answer": "A mathematically intensive advanced physics course qualifies. [1]",
+    "sources": [
+      {
+        "source_id": 1,
+        "file_name": "fixture.md",
+        "text": "An advanced physics course qualifies only if it is mathematically intensive."
+      }
+    ],
+    "expected": {
+      "unit_verdicts": {
+        "u1": "supported"
+      },
+      "abstains": false,
+      "appropriate_abstention": false
+    },
+    "label_reason": "The answer preserves the supplied fact and its qualifiers."
+  },
+  {
+    "id": "qualifier-removed",
+    "category": "incorrect",
+    "origin": "Codex-authored minimal regression derived from protocol-4 development failures; synthetic, not human labels or held-out data.",
+    "question": "Which physics course qualifies?",
+    "answerable": true,
+    "expected_answer_points": [
+      "An advanced mathematically intensive physics course."
+    ],
+    "answer": "Any advanced physics course qualifies, regardless of its mathematical content. [1]",
+    "sources": [
+      {
+        "source_id": 1,
+        "file_name": "fixture.md",
+        "text": "An advanced physics course qualifies only if it is mathematically intensive."
+      }
+    ],
+    "expected": {
+      "unit_verdicts": {
+        "u1": "contradicted"
+      },
+      "abstains": false,
+      "appropriate_abstention": false
+    },
+    "label_reason": "The answer changes a fact or adds unsupported detail."
+  },
+  {
+    "id": "course-types-preserved",
+    "category": "correct",
+    "origin": "Codex-authored minimal regression derived from protocol-4 development failures; synthetic, not human labels or held-out data.",
+    "question": "What is the first-semester plan?",
+    "answerable": true,
+    "expected_answer_points": [
+      "Two required courses and one elective.",
+      "Nine credits."
+    ],
+    "answer": "The first semester has two required courses and one elective, totaling nine credits. [1]",
+    "sources": [
+      {
+        "source_id": 1,
+        "file_name": "fixture.md",
+        "text": "First semester: two required courses and one elective. Total: nine credits."
+      }
+    ],
+    "expected": {
+      "unit_verdicts": {
+        "u1": "supported"
+      },
+      "abstains": false,
+      "appropriate_abstention": false
+    },
+    "label_reason": "The answer preserves the supplied fact and its qualifiers."
+  },
+  {
+    "id": "elective-called-required",
+    "category": "incorrect",
+    "origin": "Codex-authored minimal regression derived from protocol-4 development failures; synthetic, not human labels or held-out data.",
+    "question": "What is the first-semester plan?",
+    "answerable": true,
+    "expected_answer_points": [
+      "Two required courses and one elective.",
+      "Nine credits."
+    ],
+    "answer": "The first semester has three required courses, totaling nine credits. [1]",
+    "sources": [
+      {
+        "source_id": 1,
+        "file_name": "fixture.md",
+        "text": "First semester: two required courses and one elective. Total: nine credits."
+      }
+    ],
+    "expected": {
+      "unit_verdicts": {
+        "u1": "contradicted"
+      },
+      "abstains": false,
+      "appropriate_abstention": false
+    },
+    "label_reason": "The answer changes a fact or adds unsupported detail."
+  },
+  {
+    "id": "installation-is-factual",
+    "category": "correct",
+    "origin": "Codex-authored minimal regression derived from protocol-4 development failures; synthetic, not human labels or held-out data.",
+    "question": "What SDK should I install and how?",
+    "answerable": true,
+    "expected_answer_points": [
+      "Anthropic SDK with pip install anthropic."
+    ],
+    "answer": "Install the Anthropic SDK using pip install anthropic. [1]",
+    "sources": [
+      {
+        "source_id": 1,
+        "file_name": "fixture.md",
+        "text": "Install the Anthropic SDK with pip install anthropic."
+      }
+    ],
+    "expected": {
+      "unit_verdicts": {
+        "u1": "supported"
+      },
+      "abstains": false,
+      "appropriate_abstention": false
+    },
+    "label_reason": "The answer preserves the supplied fact and its qualifiers."
+  },
+  {
+    "id": "unsupported-installation-detail",
+    "category": "incorrect",
+    "origin": "Codex-authored minimal regression derived from protocol-4 development failures; synthetic, not human labels or held-out data.",
+    "question": "What SDK should I install and how?",
+    "answerable": true,
+    "expected_answer_points": [
+      "Anthropic SDK with pip install anthropic."
+    ],
+    "answer": "Install the Anthropic SDK using pip install anthropic; it requires exactly Python 3.12. [1]",
+    "sources": [
+      {
+        "source_id": 1,
+        "file_name": "fixture.md",
+        "text": "Install the Anthropic SDK with pip install anthropic."
+      }
+    ],
+    "expected": {
+      "unit_verdicts": {
+        "u1": "insufficient"
+      },
+      "abstains": false,
+      "appropriate_abstention": false
+    },
+    "label_reason": "The answer changes a fact or adds unsupported detail."
+  },
+  {
+    "id": "personal-schedule-refusal",
+    "category": "refusal",
+    "origin": "Codex-authored minimal regression derived from protocol-4 development failures; synthetic, not human labels or held-out data.",
+    "question": "What room and time is my first class next Monday?",
+    "answerable": false,
+    "expected_answer_points": [
+      "The supplied evidence cannot determine the personal room or time."
+    ],
+    "answer": "The sources do not give your first class room or start time, so I cannot determine them.",
+    "sources": [
+      {
+        "source_id": 1,
+        "file_name": "fixture.md",
+        "text": "Sample first-semester plan: Introduction to Data Science. This document does not list meeting times or rooms."
+      }
+    ],
+    "expected": {
+      "unit_verdicts": {},
+      "abstains": true,
+      "appropriate_abstention": true
+    },
+    "label_reason": "The requested personal information is absent from the supplied document."
+  },
+  {
+    "id": "personal-schedule-invented",
+    "category": "incorrect",
+    "origin": "Codex-authored minimal regression derived from protocol-4 development failures; synthetic, not human labels or held-out data.",
+    "question": "What room and time is my first class next Monday?",
+    "answerable": false,
+    "expected_answer_points": [
+      "The supplied evidence cannot determine the personal room or time."
+    ],
+    "answer": "Your first class next Monday starts at 9 a.m. in room 101. [1]",
+    "sources": [
+      {
+        "source_id": 1,
+        "file_name": "fixture.md",
+        "text": "Sample first-semester plan: Introduction to Data Science. This document does not list meeting times or rooms."
+      }
+    ],
+    "expected": {
+      "unit_verdicts": {
+        "u1": "insufficient"
+      },
+      "abstains": false,
+      "appropriate_abstention": false
+    },
+    "label_reason": "The answer changes a fact or adds unsupported detail."
+  },
+  {
+    "id": "main-requirements-paraphrase",
+    "category": "correct",
+    "origin": "Codex-authored minimal regression derived from protocol-4 development failures; synthetic, not human labels or held-out data.",
+    "question": "What are the academic progress requirements?",
+    "answerable": true,
+    "expected_answer_points": [
+      "Cumulative GPA of 3.0.",
+      "Complete at least 66 percent of attempted credits."
+    ],
+    "answer": "The main academic progress requirements are a cumulative GPA of 3.0 and completion of at least 66 percent of attempted credits. [1]",
+    "sources": [
+      {
+        "source_id": 1,
+        "file_name": "fixture.md",
+        "text": "Students must maintain a cumulative GPA of 3.0 and complete at least 66 percent of attempted credits."
+      }
+    ],
+    "expected": {
+      "unit_verdicts": {
+        "u1": "supported"
+      },
+      "abstains": false,
+      "appropriate_abstention": false
+    },
+    "label_reason": "The answer preserves the supplied fact and its qualifiers."
+  },
+  {
+    "id": "source-provenance",
+    "category": "correct",
+    "origin": "Codex-authored minimal regression derived from protocol-4 development failures; synthetic, not human labels or held-out data.",
+    "question": "How many credits are required and which source says so?",
+    "answerable": true,
+    "expected_answer_points": [
+      "36 credits according to fixture.md."
+    ],
+    "answer": "According to fixture.md, the program requires 36 credits. [1]",
+    "sources": [
+      {
+        "source_id": 1,
+        "file_name": "fixture.md",
+        "text": "The program requires 36 credits."
+      }
+    ],
+    "expected": {
+      "unit_verdicts": {
+        "u1": "supported"
+      },
+      "abstains": false,
+      "appropriate_abstention": false
+    },
+    "label_reason": "The answer preserves the supplied fact and its qualifiers."
+  }
+]

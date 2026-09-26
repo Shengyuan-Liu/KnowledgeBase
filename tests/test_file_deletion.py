@@ -29,7 +29,7 @@ def test_delete_removes_only_target_and_new_answers_use_remaining_file(storage, 
     llm.generate.return_value = "Keep this source. [1]"
     answer = answer_question("What remains?", sessions, embeddings, store, llm)
     assert [source.file_id for source in answer.sources] == [kept]
-    prompt = llm.generate.call_args.args[0][1]["content"]
+    prompt = llm.generate.call_args.args[0][0]["content"]
     assert "Keep this source." in prompt
     assert "First." not in prompt and "Second." not in prompt
 

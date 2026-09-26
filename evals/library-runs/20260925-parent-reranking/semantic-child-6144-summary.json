@@ -1,0 +1,185 @@
+{
+  "metric_inventory": {
+    "recall_at_k": {
+      "status": "measured",
+      "value": 0.4054232804232804,
+      "unit": "fraction",
+      "n": 21,
+      "method": "K=5 unique frozen parser blocks induced by final evidence order; binary gold-overlap proxy, incomplete relevance labels; source order within region. Not native child ranking.",
+      "artifact": "semantic-child-6144.jsonl"
+    },
+    "precision_at_k": {
+      "status": "measured",
+      "value": 0.2285714285714286,
+      "unit": "fraction",
+      "n": 21,
+      "method": "K=5 unique frozen parser blocks induced by final evidence order; binary gold-overlap proxy, incomplete relevance labels; source order within region. Not native child ranking.",
+      "artifact": "semantic-child-6144.jsonl"
+    },
+    "hit_rate_at_k": {
+      "status": "measured",
+      "value": 0.47619047619047616,
+      "unit": "fraction",
+      "n": 21,
+      "method": "K=5 unique frozen parser blocks induced by final evidence order; binary gold-overlap proxy, incomplete relevance labels; source order within region. Not native child ranking.",
+      "artifact": "semantic-child-6144.jsonl"
+    },
+    "mrr_at_k": {
+      "status": "measured",
+      "value": 0.3523809523809524,
+      "unit": "fraction",
+      "n": 21,
+      "method": "K=5 unique frozen parser blocks induced by final evidence order; binary gold-overlap proxy, incomplete relevance labels; source order within region. Not native child ranking.",
+      "artifact": "semantic-child-6144.jsonl"
+    },
+    "ndcg_at_k": {
+      "status": "measured",
+      "value": 0.3728692431864195,
+      "unit": "fraction",
+      "n": 21,
+      "method": "K=5 unique frozen parser blocks induced by final evidence order; binary gold-overlap proxy, incomplete relevance labels; source order within region. Not native child ranking.",
+      "artifact": "semantic-child-6144.jsonl"
+    },
+    "final_evidence_coverage": {
+      "status": "measured",
+      "value": {
+        "annotated_char_recall": 0.9520546113511735,
+        "full_evidence_recall": 0.7142857142857143
+      },
+      "unit": "fraction",
+      "n": 21,
+      "method": "Macro-average annotated source spans; final actually supplied exact evidence.",
+      "artifact": "semantic-child-6144.jsonl"
+    },
+    "answer_correctness": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No generation, provider calls, ingestion or lifecycle exercised in this frozen-route retrieval replay."
+    },
+    "faithfulness": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No generation, provider calls, ingestion or lifecycle exercised in this frozen-route retrieval replay."
+    },
+    "answer_completeness": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No generation, provider calls, ingestion or lifecycle exercised in this frozen-route retrieval replay."
+    },
+    "answer_relevance": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No generation, provider calls, ingestion or lifecycle exercised in this frozen-route retrieval replay."
+    },
+    "citation_support": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No generation, provider calls, ingestion or lifecycle exercised in this frozen-route retrieval replay."
+    },
+    "citation_coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No generation, provider calls, ingestion or lifecycle exercised in this frozen-route retrieval replay."
+    },
+    "abstention": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No generation, provider calls, ingestion or lifecycle exercised in this frozen-route retrieval replay."
+    },
+    "first_answer_delta_latency": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No generation, provider calls, ingestion or lifecycle exercised in this frozen-route retrieval replay."
+    },
+    "complete_response_latency": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No generation, provider calls, ingestion or lifecycle exercised in this frozen-route retrieval replay."
+    },
+    "stage_latency": {
+      "status": "measured",
+      "value": {
+        "replay_retrieval": {
+          "status": "measured",
+          "value": {
+            "mean": 0.029445017348431673,
+            "p50": 0.017447916499804705,
+            "p95": 0.10960420803166926
+          },
+          "unit": "seconds",
+          "n": 24,
+          "method": "Successful observations; median P50, nearest-rank P95.",
+          "artifact": "answers.jsonl"
+        },
+        "reranking": {
+          "status": "measured",
+          "value": {
+            "mean": 0.0003901770881687601,
+            "p50": 0.00040581251960247755,
+            "p95": 0.000512541038915515
+          },
+          "unit": "seconds",
+          "n": 24,
+          "method": "Successful observations; median P50, nearest-rank P95.",
+          "artifact": "answers.jsonl"
+        },
+        "packing": {
+          "status": "measured",
+          "value": {
+            "mean": 0.0012270467365548636,
+            "p50": 0.000912124989554286,
+            "p95": 0.002664624946191907
+          },
+          "unit": "seconds",
+          "n": 24,
+          "method": "Successful observations; median P50, nearest-rank P95.",
+          "artifact": "answers.jsonl"
+        }
+      },
+      "method": "Single sequential local replay, no embedding; excludes separate model loading. Cached score rows are not inference latency. P50 median/P95 nearest rank.",
+      "artifact": "semantic-child-6144.jsonl"
+    },
+    "token_usage_and_cost": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No generation, provider calls, ingestion or lifecycle exercised in this frozen-route retrieval replay."
+    },
+    "reliability": {
+      "status": "measured",
+      "value": {
+        "success": 24,
+        "error": 0,
+        "timeout": 0,
+        "retries": 0
+      },
+      "unit": "requests",
+      "n": 24,
+      "method": "Local replay only; all planned queries retained.",
+      "artifact": "semantic-child-6144.jsonl"
+    },
+    "concurrency_and_throughput": {
+      "status": "measured",
+      "value": {
+        "concurrency": 1,
+        "wall_seconds": 0.7823727909708396,
+        "successful_requests_per_second": 30.675913422575203
+      },
+      "unit": "requests/second",
+      "n": 24,
+      "method": "Local replay including analysis/logging, mixed cached/inference states; not service capacity.",
+      "artifact": "semantic-child-6144.jsonl"
+    },
+    "ingestion_and_index": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No generation, provider calls, ingestion or lifecycle exercised in this frozen-route retrieval replay."
+    }
+  },
+  "limitations": [
+    "All cases are development cases; no independent human labels.",
+    "Saved vector routes; BM25/RRF recomputed; no new embedding or ingestion.",
+    "Parent/child scoring use different pair/input caps; budgets compared separately.",
+    "Single pass; cached scores excluded from inference speed claims."
+  ],
+  "per_case_artifact": "semantic-child-6144.jsonl"
+}

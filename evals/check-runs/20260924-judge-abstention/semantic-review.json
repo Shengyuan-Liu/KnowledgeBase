@@ -1,0 +1,29 @@
+{
+  "reviewer": "Codex, not an independent human reviewer",
+  "scope": "Targeted inspection of original answers, supplied source text, extracted claims and judge rationales; no score overrides.",
+  "items": [
+    {
+      "case_id": "personal-schedule-invented",
+      "kind": "calibration",
+      "answer_excerpt": "Your first class next Monday starts at 9 a.m. in room 101. [1]",
+      "source_excerpt": "Sample first-semester plan: Introduction to Data Science. This document does not list meeting times or rooms.",
+      "finding": "The source does not establish a different time or room. Insufficient is the frozen expected verdict; contradicted remains a judge subclassification error. The judge rejects the invented details and now consistently records no refusal.",
+      "score_action": "None. Preserve mismatch and nonzero calibration result."
+    },
+    {
+      "case_id": "msds-gpa",
+      "kind": "saved_answer",
+      "answer_excerpt": "These are the main academic progress requirements stated in the general FAQ.",
+      "finding": "v11 separates editorial main emphasis from the factual attribution that the FAQ states these requirements. The latter is supported by supplied source 3; no negative factual verdict remains in this run.",
+      "score_action": "None. Single-run observation, not a stability guarantee."
+    },
+    {
+      "case_id": "msds-credits",
+      "kind": "rubric_boundary",
+      "answer_excerpt": "adjustments may be needed according to course availability or other factors",
+      "source_excerpt": "This is just a guide to help plan out courses for the degree. Your actual course plan may vary based on when courses are offered.",
+      "finding": "The phrase other factors adds a possible cause beyond the explicit availability condition. The hedge may be plausible but does not establish source support. Retain the distinction between a supported core answer and an unsupported extra assertion; do not exempt this wording to improve scores.",
+      "score_action": "None. Review the final machine verdict separately."
+    }
+  ]
+}

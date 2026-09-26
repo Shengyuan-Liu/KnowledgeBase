@@ -18,13 +18,24 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `OPENAI_MAX_RETRIES` | `2` | API/CLI SDK retry limit |
 | `DATA_DIR` | `data/v1` | Application storage; isolated evaluation indexes live under `<DATA_DIR>/evals/<run-id>` |
 | `ANSWER_MODEL` | `gpt-4.1` | JSON/streamed answers, CLI, evaluation generation, live smoke test |
+| `ANSWER_REASONING_EFFORT` | Blank: omit provider parameter | Optional `none`, `low`, `medium`, `high`, `xhigh` for compatible answer models; API, CLI, evaluation and live smoke test |
 | `EMBEDDING_MODEL` | `text-embedding-3-small` | Both document and query embeddings in every entry point |
+| `RERANK_ENABLED` | `false` | Optional reranking in API, streamed chat, CLI, and evaluations; requires hybrid retrieval |
+| `RERANK_MODEL` | `BAAI/bge-reranker-v2-m3` | Local cross-encoder model ID or model directory, independent of ANSWER_MODEL |
+| `RERANK_DEVICE` | `auto` | Select available CUDA, MPS, or CPU; accepts explicit `cuda`, `mps`, or `cpu` |
+| `RERANK_BATCH_SIZE` | `4` | Local inference batch size |
+| `RERANK_MAX_PAIR_TOKENS` | `1024` | Per-pair limit using the model tokenizer; oversize fails without truncation |
+| `RERANK_CANDIDATE_LIMIT` | `20` | Maximum leading RRF candidates scored before top-k selection |
+| `RERANK_MAX_INPUT_TOKENS` | `16384` | Aggregate rerank pair-text budget; oversize fails without truncation |
 | `RESOLVER_MODEL` | Blank: use `ANSWER_MODEL` | Follow-up question rewriting in API and CLI |
-| `CHUNKING_STRATEGY` | `parent_child` | `structural`, `parent_child`, or the MVP `character` baseline, for new uploads |
+| `CHUNKING_STRATEGY` | `parent_child` | `structural`, `parent_child`, experimental `semantic`, or the MVP `character` baseline, for new uploads |
+| `SEMANTIC_SIMILARITY_THRESHOLD` | `0.5` | Split paragraph sentences below this cosine similarity; range [-1, 1] |
+| `SEMANTIC_BATCH_SIZE` | `32` | Maximum sentence inputs per semantic embedding call |
 | `CHUNK_MAX_TOKENS` | `512` | Structural chunk or child token limit; experimental starting value |
 | `CHUNK_TOKENIZER` | `cl100k_base` | tiktoken encoding for splitting and evidence packing |
-| `PARENT_MAX_TOKENS` | `1536` | Parent token limit in `parent_child` mode |
-| `EVIDENCE_MAX_TOKENS` | `4096` | Exact numbered evidence budget, including labels and separators, for all strategies |
+| `PARENT_MAX_TOKENS` | `1536` | Parent token limit in `parent_child` and `semantic` modes |
+| `EVIDENCE_PACKING_STRATEGY` | `parent_then_child` | Keep admitted parents, then fit whole children of omitted parents; `parent_first` is the control |
+| `EVIDENCE_MAX_TOKENS` | `4096` | Exact evidence budget, including source file/heading metadata, labels and separators, for all strategies |
 | `CHUNK_SIZE` | `2048` | Maximum characters per chunk in `character` mode only |
 | `CHUNK_OVERLAP` | `256` | Character overlap in `character` mode only |
 | `RETRIEVAL_STRATEGY` | `hybrid` | BM25 + vector + RRF; `vector` selects the vector-only control |
@@ -36,7 +47,10 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `HISTORY_LIMIT` | `10` | Recent individual messages supplied to the follow-up resolver |
 | `EVAL_TIMEOUT_SECONDS` | `60` | Evaluation/LLM-judge/live-smoke SDK timeout |
 | `EVAL_MAX_RETRIES` | `0` | Evaluation/LLM-judge/live-smoke SDK retry limit |
-| `JUDGE_MODEL` | `gpt-4.1-mini` | Model selected by `grade --judge-model` when no model value is supplied |
+| `JUDGE_MODEL` | `gpt-5.4-mini` | Model for `make eval` and `grade --judge-model` without an explicit model |
+| `JUDGE_REASONING_EFFORT` | `high` | Reasoning level for evaluation/calibration; `off` omits the API option for non-reasoning models |
+| `JUDGE_CONCURRENCY` | `4` | Concurrent answer reviews in `make eval`; RAG requests remain sequential |
+| `JUDGE_TIMEOUT_SECONDS` | `180` | Per-call timeout for the three-stage judge; separate from RAG request timeout |
 
 Model availability still depends on the configured provider/account. `JUDGE_MODEL`
 is a configuration default, not a claim that the judge is calibrated. The recorded
@@ -45,7 +59,7 @@ is a configuration default, not a claim that the judge is calibrated. The record
 Blank values use their defaults. Chunk size/token limit, top-k, history limit and
 timeouts must be positive; overlap/retries must be nonnegative. In character mode,
 overlap must be less than chunk size. These constraints are validated when settings load.
-In parent-child mode, the child limit must not exceed the parent limit, and the
+In parent-child and semantic modes, the child limit must not exceed the parent limit, and the
 parent limit must be below the evidence budget. Evidence is packed as whole
 regions; see [parent-child retrieval](parent-child-retrieval.md). The budget does
 not count system instructions, questions, or generated answers.
@@ -90,17 +104,26 @@ uv run --locked python -m evals.evaluate grade evals/runs/<run-id> --reviewer ex
 Retrieval settings take effect after restart and do not require re-uploading files.
 See [hybrid retrieval](hybrid-retrieval.md) for route and selection semantics.
 
-The interactive CLI supports `--model`, `--top-k`, and `--data-dir`. Evaluation runs
+The interactive CLI supports `--model`, `--top-k`, `--data-dir`, `--rerank` /
+`--no-rerank`, `--rerank-model`, and `--evidence-packing-strategy`. Evaluation runs
 also support `--embedding-model`, `--chunking-strategy`, `--chunk-max-tokens`,
 `--chunk-tokenizer`, `--parent-max-tokens`, `--evidence-max-tokens`, `--chunk-size`,
 `--overlap`, `--retrieval-strategy`, `--retrieval-candidate-limit`, `--bm25-k1`,
-`--bm25-b`, and `--rrf-k`. Character size and overlap apply only to character mode. Explicit overrides
+`--bm25-b`, `--rrf-k`, `--rerank` / `--no-rerank`, `--rerank-model`,
+`--rerank-candidate-limit`, and `--rerank-max-input-tokens`. Character size and overlap apply only to character mode. Explicit overrides
 are validated together with the remaining configured values. A blank resolver model
-follows the effective answer model, including a `--model` override.
+follows the effective answer model, including a `--model` override. A blank rerank
+model uses the BGE default independently of the answer model. Setting a rerank model alone does not enable scoring.
+Set `RERANK_ENABLED=true` and restart to use the integrated pipeline without
+re-uploading files. `RETRIEVAL_STRATEGY=vector` requires reranking to be disabled.
+Each nonempty scoring window runs local cross-encoder inference before answer
+generation. Initial startup downloads and loads model weights; subsequent runs
+reuse the Hugging Face cache. See [reranking](reranking.md) for score semantics and
+the two distinct token budgets.
 
 Evaluation metadata records the resolved generation model, embedding model, chunking,
-top-k, timeout, and retries. Historical run artifacts are unchanged. Setting
-`JUDGE_MODEL` alone never starts grading. Human grading, report rendering, comparison,
+top-k, rerank options and effective model, timeout, and retries. Historical run artifacts are unchanged. Setting
+`JUDGE_MODEL` alone never starts grading; `make eval` explicitly starts both RAG evaluation and model grading. Human grading, report rendering, comparison,
 and history listing remain offline and do not load credentials.
 
 ## Changes that affect stored data
@@ -129,5 +152,20 @@ API/CLI/evaluation drift without making every chunking or storage call load sett
 Prompt text, HTTP routes, SSE event names, database schema/filenames, the cosine
 index contract, and development-server ports remain implementation or launcher
 settings. They are not model-tuning options; changing these contracts is not an
-`.env` switch. No hybrid-search/reranker settings are introduced before those
-components exist.
+`.env` switch.
+
+### Parent scoring option
+
+`RERANK_UNIT` defaults to `child`. Set it to `parent` with reranking enabled to
+score unique whole-parent regions from the fused candidates. This changes the
+meaning of the rerank candidate cap to unique regions; raw route windows remain
+child-based. See [parent reranking](parent-reranking.md) for scoring provenance,
+input limits and the separately measured evidence-budget tradeoff. The API, CLI
+and evaluation entry points receive this option through `Settings`.
+
+`ANSWER_REASONING_EFFORT` is optional and must be supported by the selected answer
+model. Blank omits the parameter entirely, preserving non-reasoning model calls.
+A separate `RESOLVER_MODEL` does not receive this setting; when the resolver shares
+the answer client, it also shares that client's reasoning option. Judge reasoning
+remains controlled separately by `JUDGE_REASONING_EFFORT`. Model comparison records
+do not silently change the local `.env` or the checked-in default model.

@@ -1,0 +1,73 @@
+........................................................................ [ 13%]
+........................................................................ [ 26%]
+..........................................FF............................ [ 40%]
+........................................................................ [ 53%]
+.................................s...................................... [ 66%]
+........................................................................ [ 80%]
+........................................................................ [ 93%]
+....................................                                     [100%]
+=================================== FAILURES ===================================
+_______ test_init_db_adds_conversation_tables_to_existing_file_database ________
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-142/test_init_db_adds_conversation0')
+
+    def test_init_db_adds_conversation_tables_to_existing_file_database(tmp_path):
+        engine = build_engine(f"sqlite:///{tmp_path / 'existing.db'}")
+        try:
+            FileRecord.__table__.create(engine)
+            ChunkRecord.__table__.create(engine)
+            sessions = build_session_factory(engine)
+            with sessions.begin() as session:
+                session.add(FileRecord(file_id="keep", file_name="notes.txt"))
+            init_db(engine)
+            with sessions.begin() as session:
+                create_conversation(session, "chat-1")
+                save_message(session, "chat-1", "user", "Persist across connections.")
+            engine.dispose()
+            init_db(engine)
+            with sessions() as reader:
+                assert get_file(reader, "keep").file_name == "notes.txt"
+                assert get_messages(reader, "chat-1")[0].content == "Persist across connections."
+>           assert set(inspect(engine).get_table_names()) == {
+                "files", "chunks", "conversations", "messages", "answer_snapshots",
+                "document_sources", "chunk_structures", "parent_chunks", "child_parents", "retrieval_snapshots",
+            }
+E           AssertionError: assert {'answer_snap...indexes', ...} == {'answer_snap...sources', ...}
+E             
+E             Extra items in the left set:
+E             'document_indexes'
+E             Use -v to get more diff
+
+tests/test_conversation_storage.py:148: AssertionError
+____________ test_build_engine_does_not_create_database_until_used _____________
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-142/test_build_engine_does_not_cre0')
+
+    def test_build_engine_does_not_create_database_until_used(tmp_path):
+        path = tmp_path / "knowledgebase.db"
+        engine = build_engine(f"sqlite:///{path}")
+        try:
+            assert not path.exists()
+            init_db(engine)
+            assert path.exists()
+>           assert set(inspect(engine).get_table_names()) == {
+                "files", "chunks", "conversations", "messages", "answer_snapshots",
+                "document_sources", "chunk_structures", "parent_chunks", "child_parents", "retrieval_snapshots",
+            }
+E           AssertionError: assert {'answer_snap...indexes', ...} == {'answer_snap...sources', ...}
+E             
+E             Extra items in the left set:
+E             'document_indexes'
+E             Use -v to get more diff
+
+tests/test_database.py:20: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_conversation_storage.py::test_init_db_adds_conversation_tables_to_existing_file_database
+FAILED tests/test_database.py::test_build_engine_does_not_create_database_until_used
+2 failed, 537 passed, 1 skipped, 1 warning in 15.48s

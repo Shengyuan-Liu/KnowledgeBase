@@ -1,0 +1,66 @@
+{
+  "evaluated_at": "2026-09-25T18:36:54.716485+00:00",
+  "status": "failed",
+  "gates": {
+    "generation_success": true,
+    "citation_ids": true,
+    "required_fact_correctness_and_scope": false,
+    "claim_support": true,
+    "associated_citation_support": false,
+    "citation_coverage": true,
+    "abstention": true,
+    "generation_latency": true,
+    "input_budget": true
+  },
+  "cases_passed": 4,
+  "cases_total": 5,
+  "per_case": [
+    {
+      "case_id": "accept-beta-header-scope",
+      "before_pass": false,
+      "after_pass": true,
+      "findings": [
+        "The contradictory Yes and unsupported all-endpoint version scope are absent. All three header facts and the contrast are supported."
+      ]
+    },
+    {
+      "case_id": "accept-independent-passfail",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": []
+    },
+    {
+      "case_id": "accept-awards-jobs",
+      "before_pass": false,
+      "after_pass": false,
+      "findings": [
+        "Only remaining failing case: wrong-FAQ support for the extra application-process statement and omission of the limited number of awards."
+      ]
+    },
+    {
+      "case_id": "accept-unspecified-api-error",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": [
+        "All excerpts inspected; exact status/body appropriately withheld."
+      ]
+    },
+    {
+      "case_id": "accept-personal-study-approval",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": [
+        "Both personal facts explicitly unknown, no contact advice. Shared paragraph [2][1] assigned to the two supported clauses respectively."
+      ]
+    }
+  ],
+  "resolved_models_before": [
+    "gpt-5.4-mini-2026-03-17"
+  ],
+  "resolved_models_after": [
+    "gpt-5.4-mini-2026-03-17"
+  ],
+  "reviewer": "Codex; not independent human review",
+  "paid_judge_calls": 0,
+  "decision": "Do not claim acceptance; retain failed gates and actual answers. No same-configuration retries or answer repair."
+}

@@ -1,0 +1,29 @@
+{
+  "checked_at": "2026-09-24T19:47:54.422161+00:00",
+  "checks": [
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "exit_code": 2,
+      "output": "evals/check-runs/20260924-judge-calibration/baseline-calibration-2.log:73: new blank line at EOF.\nevals/check-runs/20260924-judge-calibration/baseline-calibration.log:73: new blank line at EOF.\nevals/check-runs/20260924-judge-calibration/current-calibration-3.log:75: new blank line at EOF.\nevals/check-runs/20260924-judge-calibration/current-calibration-4.log:76: new blank line at EOF.\nevals/check-runs/20260924-judge-calibration/current-calibration-5.log:76: new blank line at EOF.\nevals/check-runs/20260924-judge-calibration/final-saved-regrade.log:72: new blank line at EOF.\nevals/check-runs/20260924-judge-calibration/high-calibration-1.log:77: new blank line at EOF.\nevals/check-runs/20260924-judge-calibration/high-saved-regrade.log:72: new blank line at EOF.\n"
+    },
+    {
+      "command": [
+        "git",
+        "-c",
+        "core.whitespace=-blank-at-eof",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "exit_code": 0,
+      "output": ""
+    }
+  ],
+  "decision": "Preserve original console logs byte-for-byte, including their final empty line. Disable only blank-at-EOF warnings for the scoped second check; no repository-wide Git setting was changed.",
+  "scope": "Formatting review only; runtime/quality/provider measurements not applicable."
+}

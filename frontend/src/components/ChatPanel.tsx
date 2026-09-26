@@ -3,6 +3,7 @@ import type { ChatMessage, Source } from "../types";
 import type { useChat } from "../hooks/useChat";
 import { AnswerText } from "./AnswerText";
 import { Icon } from "./Icon";
+import { RetrievalDetails } from "./RetrievalDetails";
 import common from "../Workspace.module.css";
 import styles from "../Chat.module.css";
 
@@ -204,7 +205,7 @@ export function ChatPanel({
                   No evidence snapshot was recorded for this message.
                 </p>
               )}
-              {(message.retrievalQuestion || message.debug) && (
+              {(message.retrievalQuestion || message.debug || message.retrieval) && (
                 <details className={styles.disclosure}>
                   <summary>Debug details</summary>
                   <p>
@@ -213,7 +214,7 @@ export function ChatPanel({
                   </p>
                   {message.debug && (
                     <p>
-                      Generation time:{" "}
+                      Answer preparation time:{" "}
                       {message.debug.elapsed_seconds.toFixed(2)} s (before
                       saving).
                     </p>
@@ -222,6 +223,7 @@ export function ChatPanel({
                     Cosine distance: smaller is nearer, not a correctness
                     probability.
                   </p>
+                  <RetrievalDetails data={message.retrieval} />
                   <ul>
                     {message.sources?.map((source) => (
                       <li key={source.source_id}>
@@ -232,6 +234,13 @@ export function ChatPanel({
                             {" · "}RRF rank {source.fusion.rank} (score {source.fusion.rrf_score.toFixed(6)})
                             {" · "}BM25 rank {source.fusion.bm25_rank ?? "—"}
                             {" · "}Vector rank {source.fusion.vector_rank ?? "—"}
+                          </span>
+                        )}
+                        {source.rerank && (
+                          <span>
+                            {" · "}Rerank rank {source.rerank.rerank_rank} ({source.rerank.score_kind === "logit"
+                              ? `logit ${source.rerank.rerank_score.toFixed(4)}`
+                              : `relevance ${source.rerank.rerank_score}/3`})
                           </span>
                         )}
                       </li>
@@ -297,6 +306,7 @@ export function ChatPanel({
           />
           {chat.activeId ? (
             <button
+              key="stop"
               type="button"
               className={styles.stopButton}
               onClick={chat.stop}
@@ -305,6 +315,7 @@ export function ChatPanel({
             </button>
           ) : (
             <button
+              key="send"
               type="submit"
               aria-label="Send question"
               disabled={!canSend}

@@ -1,0 +1,66 @@
+{
+  "evaluated_at": "2026-09-25T18:41:17.802052+00:00",
+  "status": "failed",
+  "gates": {
+    "generation_success": true,
+    "citation_ids": true,
+    "required_fact_correctness_and_scope": false,
+    "claim_support": true,
+    "associated_citation_support": true,
+    "citation_coverage": true,
+    "abstention": true,
+    "generation_latency": true,
+    "input_budget": true
+  },
+  "cases_passed": 4,
+  "cases_total": 5,
+  "per_case": [
+    {
+      "case_id": "accept-beta-header-scope",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": [
+        "Correct contrast, source status, scope and citations in this sample."
+      ]
+    },
+    {
+      "case_id": "accept-independent-passfail",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": []
+    },
+    {
+      "case_id": "accept-awards-jobs",
+      "before_pass": false,
+      "after_pass": false,
+      "findings": [
+        "Wrong-document application-process addition is absent. The answer is supported but incomplete under the unchanged frozen references: limited scholarships, competitive positions and semester-by-semester postings are omitted. Do not relax the required-point gate after seeing this output."
+      ]
+    },
+    {
+      "case_id": "accept-unspecified-api-error",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": [
+        "Exact error status/body explicitly unknown, no error payload invented."
+      ]
+    },
+    {
+      "case_id": "accept-personal-study-approval",
+      "before_pass": true,
+      "after_pass": true,
+      "findings": [
+        "Personal facts appropriately withheld and no inapplicable contact advice. Additional output-language defect: the approval-status bullet contains a non-English word. This is recorded separately from the unchanged factual/abstention rubric, not silently corrected."
+      ]
+    }
+  ],
+  "resolved_models_before": [
+    "gpt-5.4-mini-2026-03-17"
+  ],
+  "resolved_models_after": [
+    "gpt-5.4-mini-2026-03-17"
+  ],
+  "reviewer": "Codex; not independent human review",
+  "paid_judge_calls": 0,
+  "decision": "Do not claim acceptance; retain failed gates and actual answers. No same-configuration retries or answer repair."
+}

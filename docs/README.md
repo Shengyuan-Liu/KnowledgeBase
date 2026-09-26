@@ -2,11 +2,12 @@
 
 ## v1 Design
 
-The [v1 design set](v1/README.md) defines the planned next version: TXT/Markdown,
+The [v1 design set](v1/README.md) tracks the ongoing version: TXT/Markdown,
 structure-aware and parent-child chunking, BM25/vector retrieval with RRF and
 reranking, and an evaluated semantic-chunking option. It includes product,
-technical, frontend, system, and evaluation plans. These are specifications,
-not implementation or quality results.
+technical, frontend, system, and evaluation plans. Its status page separates
+merged features, implemented changes awaiting acceptance, and remaining work.
+Design goals alone do not establish implementation or measured quality.
 
 ## Project Organization
 
@@ -14,10 +15,13 @@ not implementation or quality results.
 
 ## Implemented Components
 
+- [Experimental semantic chunking](semantic-chunking.md): opt-in sentence-similarity child boundaries inside unchanged structural parents, with persisted configuration and boundary traces.
+
 - [Document parsing](document-parsing.md): TXT/Markdown structural blocks and exact source offsets, connected to uploads.
 - [Structural chunking](structural-chunking.md): sentence/structure boundaries, shared token budgets, and exact source chunks in ingestion.
-- [Parent-child chunking](parent-child-chunking.md): standalone bounded section parents and structural children with exact source containment; ingestion and retrieval integration are pending.
+- [Parent-child chunking](parent-child-chunking.md): bounded section parents and structural children with exact source containment, integrated with uploads and retrieval.
 - [Parent-child storage](parent-child-storage.md): persisted parents and child relationships, mixed-type reads, transactional cleanup, and existing-schema compatibility.
+- [Reranking](reranking.md): optional relevance scoring before child selection in API, streaming chat, CLI, and evaluations; exact input traces and separate route scores.
 - [Document storage](document-storage.md): canonical TXT/Markdown sources, persisted parser blocks, structural chunk metadata, and transactional cleanup.
 
 - [Runtime configuration](configuration.md): shared `.env` settings, precedence, model selection, and reindexing requirements.

@@ -56,11 +56,19 @@ export function EvidencePanel({
                 <strong>{source.file_name}</strong>
               </div>
               <p className={styles.chunkLabel}>
-                {source.parent_id ? "Parent passage" : "Chunk"} {source.chunk_id}
+                {source.parent_id === source.chunk_id ? "Parent passage" : "Chunk"} {source.chunk_id}
               </p>
               {!!source.heading_path?.length && (
                 <p className={styles.chunkLabel}>{source.heading_path.join(" › ")}</p>
               )}
+              <p className={styles.chunkLabel}>
+                {source.start_line != null && source.end_line != null
+                  ? `Lines ${source.start_line}–${source.end_line}` : "Source location: Not recorded"}
+                {" · "}{message.citationCheck
+                  ? message.citationCheck.valid_source_ids.includes(source.source_id)
+                    ? "Cited in this answer" : "Additional supplied evidence"
+                  : "Citation status: Not recorded"}
+              </p>
               {source.file_deleted && (
                 <p className={styles.deleted}>
                   Source deleted · Historical excerpt

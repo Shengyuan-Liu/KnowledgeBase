@@ -1,0 +1,190 @@
+........................................................................ [ 13%]
+........................................................................ [ 26%]
+........................................................................ [ 39%]
+........................................................................ [ 52%]
+...........................F.FF...s..................................... [ 66%]
+........................................................................ [ 79%]
+........................................................................ [ 92%]
+........................................                                 [100%]
+=================================== FAILURES ===================================
+_______ test_ready_filter_precedes_both_route_limits_and_bm25_statistics _______
+
+storage = (sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-...pire_on_commit=True), <knowledgebase.storage.vectordb.ChromaStore object at 0x33322c8c0>, Collection(name=test-chunks))
+embeddings = <Mock spec='EmbeddingClient' id='6050255872'>
+
+    def test_ready_filter_precedes_both_route_limits_and_bm25_statistics(storage, embeddings):
+        sessions, store, _ = storage
+        options = RetrievalOptions(candidate_limit=1)
+        with sessions.begin() as session:
+            add_flat(session, store, "ready", "needle", [0, 1])
+        with sessions() as session:
+            baseline = retrieve_evidence("needle", session, embeddings, store, retrieval_options=options)
+        with sessions.begin() as session:
+            for status in ("processing", "failed"):
+                add_flat(session, store, status, "needle needle needle", [1, 0], status)
+        with sessions() as session:
+            result = retrieve_evidence("needle", session, embeddings, store, retrieval_options=options)
+>       assert result.model_dump(exclude={"diagnostics": {"packing_seconds"}}) == baseline.model_dump(exclude={"diagnostics": {"packing_seconds"}})
+E       AssertionError: assert {'chunks': [{...': None, ...}} == {'chunks': [{...': None, ...}}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing items:
+E         {'diagnostics': {'retrieval_seconds': None, 'embedding_seconds': 1.0500079952180386e-05, 'rerank': None, 'rerank_seconds': None, ...}} != {'diagnostics': {'retrieval_seconds': None, 'embedding_seconds': 1.3708951883018017e-05, 'rerank': None, 'rerank_seconds': None, ...}}
+E         Use -v to get more diff
+
+tests/test_hybrid_retrieval.py:69: AssertionError
+____ test_lexical_only_parent_evidence_survives_restart_and_deletion[False] ____
+
+configured_app = (<fastapi.applications.FastAPI object at 0x334e16e90>, <Mock spec='EmbeddingClient' id='6050263264'>, <MagicMock id='6050259904'>)
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-145/test_lexical_only_parent_evide0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x334e016a0>
+streaming = False
+
+    @pytest.mark.parametrize("streaming", [False, True])
+    def test_lexical_only_parent_evidence_survives_restart_and_deletion(configured_app, tmp_path, monkeypatch, streaming):
+        app, embeddings, sdk = configured_app
+        (tmp_path / ".env").write_text(
+            "RETRIEVAL_STRATEGY=hybrid\nRETRIEVAL_CANDIDATE_LIMIT=1\nRETRIEVAL_TOP_K=2\n"
+        )
+        sdk.responses.create.return_value = Mock(output_text="Keep the orchid indoors. [1] [2]")
+        prompts = []
+    
+        async def stream(messages):
+            prompts.append(messages)
+            yield "Keep the orchid indoors. [1] [2]"
+    
+        streamer = Mock()
+        streamer.stream = stream
+        monkeypatch.setattr(api_module, "StreamingLLMClient", Mock(return_value=streamer))
+        text = "# Orchid\r\n\r\nKeep the orchid indoors.\r\n"
+    
+        def ask(client):
+            response = client.post("/api/chat/stream" if streaming else "/api/chat",
+                                   json={"question": "orchid", "request_id": "hybrid-test"})
+            assert response.status_code == 200
+            if not streaming:
+                return response.json()
+            events = [{"event": frame.split("\n")[0].removeprefix("event: "), **json.loads(frame.split("\ndata: ")[1])}
+                      for frame in response.text.strip().split("\n\n")]
+            assert events[-1]["event"] == "complete"
+            assert next(e["sources"] for e in events if e["event"] == "sources") == events[-1]["sources"]
+            return events[-1]
+    
+        with TestClient(app) as client:
+            lexical_id = client.post("/api/files", files={"file": ("orchid.md", text.encode())}).json()["file_id"]
+            other_id = client.post("/api/files", files={"file": ("other.txt", b"Visit the library.")}).json()["file_id"]
+            with app.state.resources.sessions() as session:
+                children = get_chunks(session, lexical_id)
+            app.state.resources.store.upsert_chunks(children, [[0, 1] for _ in children])
+            first = ask(client)
+            source = next(s for s in first["sources"] if s["file_id"] == lexical_id)
+            assert source["distance"] is None
+            assert source["fusion"]["vector_rank"] is None
+            assert source["fusion"]["bm25_rank"] == 1
+            assert source["fusion"]["rrf_score"] == pytest.approx(1 / 61)
+            assert source["text"] == text
+            assert source["parent_id"] == source["chunk_id"]
+            assert source["matched_child_ids"] == [children[0].chunk_id]
+            assert first["retrieval"]["options"]["strategy"] == "hybrid"
+            prompt = prompts[-1] if streaming else sdk.responses.create.call_args.kwargs["input"]
+            assert text in prompt[-1]["content"]
+            before_embedding_calls = embeddings.embed_documents.call_count
+        reopened = api_module.create_app()
+        with TestClient(reopened) as client:
+            after = ask(client)
+            assert after["sources"] == first["sources"]
+>           assert {k: v for k, v in after["retrieval"].items() if k != "packing_seconds"} == {
+                k: v for k, v in first["retrieval"].items() if k != "packing_seconds"
+            }
+E           AssertionError: assert {'retrieval_s...s': None, ...} == {'retrieval_s...s': None, ...}
+E             
+E             Omitting 14 identical items, use -vv to show
+E             Differing items:
+E             {'retrieval_seconds': 0.0022478329483419657} != {'retrieval_seconds': 0.002425542101264}
+E             {'embedding_seconds': 9.874929673969746e-06} != {'embedding_seconds': 1.3041077181696892e-05}
+E             Use -v to get more diff
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_hybrid_retrieval.py:149: AssertionError
+____ test_lexical_only_parent_evidence_survives_restart_and_deletion[True] _____
+
+configured_app = (<fastapi.applications.FastAPI object at 0x368614cd0>, <Mock spec='EmbeddingClient' id='6050257552'>, <MagicMock id='6050253184'>)
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-145/test_lexical_only_parent_evide1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x334e27a80>
+streaming = True
+
+    @pytest.mark.parametrize("streaming", [False, True])
+    def test_lexical_only_parent_evidence_survives_restart_and_deletion(configured_app, tmp_path, monkeypatch, streaming):
+        app, embeddings, sdk = configured_app
+        (tmp_path / ".env").write_text(
+            "RETRIEVAL_STRATEGY=hybrid\nRETRIEVAL_CANDIDATE_LIMIT=1\nRETRIEVAL_TOP_K=2\n"
+        )
+        sdk.responses.create.return_value = Mock(output_text="Keep the orchid indoors. [1] [2]")
+        prompts = []
+    
+        async def stream(messages):
+            prompts.append(messages)
+            yield "Keep the orchid indoors. [1] [2]"
+    
+        streamer = Mock()
+        streamer.stream = stream
+        monkeypatch.setattr(api_module, "StreamingLLMClient", Mock(return_value=streamer))
+        text = "# Orchid\r\n\r\nKeep the orchid indoors.\r\n"
+    
+        def ask(client):
+            response = client.post("/api/chat/stream" if streaming else "/api/chat",
+                                   json={"question": "orchid", "request_id": "hybrid-test"})
+            assert response.status_code == 200
+            if not streaming:
+                return response.json()
+            events = [{"event": frame.split("\n")[0].removeprefix("event: "), **json.loads(frame.split("\ndata: ")[1])}
+                      for frame in response.text.strip().split("\n\n")]
+            assert events[-1]["event"] == "complete"
+            assert next(e["sources"] for e in events if e["event"] == "sources") == events[-1]["sources"]
+            return events[-1]
+    
+        with TestClient(app) as client:
+            lexical_id = client.post("/api/files", files={"file": ("orchid.md", text.encode())}).json()["file_id"]
+            other_id = client.post("/api/files", files={"file": ("other.txt", b"Visit the library.")}).json()["file_id"]
+            with app.state.resources.sessions() as session:
+                children = get_chunks(session, lexical_id)
+            app.state.resources.store.upsert_chunks(children, [[0, 1] for _ in children])
+            first = ask(client)
+            source = next(s for s in first["sources"] if s["file_id"] == lexical_id)
+            assert source["distance"] is None
+            assert source["fusion"]["vector_rank"] is None
+            assert source["fusion"]["bm25_rank"] == 1
+            assert source["fusion"]["rrf_score"] == pytest.approx(1 / 61)
+            assert source["text"] == text
+            assert source["parent_id"] == source["chunk_id"]
+            assert source["matched_child_ids"] == [children[0].chunk_id]
+            assert first["retrieval"]["options"]["strategy"] == "hybrid"
+            prompt = prompts[-1] if streaming else sdk.responses.create.call_args.kwargs["input"]
+            assert text in prompt[-1]["content"]
+            before_embedding_calls = embeddings.embed_documents.call_count
+        reopened = api_module.create_app()
+        with TestClient(reopened) as client:
+            after = ask(client)
+            assert after["sources"] == first["sources"]
+>           assert {k: v for k, v in after["retrieval"].items() if k != "packing_seconds"} == {
+                k: v for k, v in first["retrieval"].items() if k != "packing_seconds"
+            }
+E           AssertionError: assert {'retrieval_s...s': None, ...} == {'retrieval_s...s': None, ...}
+E             
+E             Omitting 14 identical items, use -vv to show
+E             Differing items:
+E             {'retrieval_seconds': 0.0019956249743700027} != {'retrieval_seconds': 0.0024047920014709234}
+E             {'embedding_seconds': 9.333016350865364e-06} != {'embedding_seconds': 1.2959004379808903e-05}
+E             Use -v to get more diff
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_hybrid_retrieval.py:149: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_hybrid_retrieval.py::test_ready_filter_precedes_both_route_limits_and_bm25_statistics
+FAILED tests/test_hybrid_retrieval.py::test_lexical_only_parent_evidence_survives_restart_and_deletion[False]
+FAILED tests/test_hybrid_retrieval.py::test_lexical_only_parent_evidence_survives_restart_and_deletion[True]
+3 failed, 540 passed, 1 skipped, 1 warning in 15.62s

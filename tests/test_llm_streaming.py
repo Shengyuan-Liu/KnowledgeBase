@@ -42,13 +42,14 @@ def client(body, requests):
 
 
 @pytest.mark.anyio
-async def test_provider_yields_before_completion_and_closes():
+@pytest.mark.parametrize("reasoning_effort", [None, "low"])
+async def test_provider_yields_before_completion_and_closes(reasoning_effort):
     body = EventBody("response.completed")
     body.wait = anyio.Event()
     requests = []
     messages = [{"role": "user", "content": "Hours?"}]
     async with client(body, requests) as sdk:
-        async with aclosing(StreamingLLMClient(sdk, "test-model").stream(messages)) as stream:
+        async with aclosing(StreamingLLMClient(sdk, "test-model", reasoning_effort=reasoning_effort).stream(messages)) as stream:
             assert await anext(stream) == "  Café"
             assert await anext(stream) == " 🙂\n[1]"
             assert not body.closed
@@ -56,7 +57,8 @@ async def test_provider_yields_before_completion_and_closes():
             with pytest.raises(StopAsyncIteration):
                 await anext(stream)
     assert body.closed
-    assert requests == [{"model": "test-model", "input": messages, "stream": True}]
+    options = {"reasoning": {"effort": reasoning_effort}} if reasoning_effort is not None else {}
+    assert requests == [{"model": "test-model", "input": messages, "stream": True, **options}]
 
 
 @pytest.mark.anyio
@@ -87,3 +89,50 @@ async def test_cancelling_provider_wait_closes_upstream_connection():
             await waiting.wait()
             tasks.cancel_scope.cancel()
     assert body.closed
+
+
+@pytest.mark.anyio
+async def test_read_timeout_after_partial_output_closes_without_replaying_request():
+    from openai import APITimeoutError
+
+    class TimeoutBody(EventBody):
+        async def __aiter__(self):
+            async for part in super().__aiter__():
+                yield part
+            raise httpx2.ReadTimeout('Private transport diagnostic')
+
+    body, requests, parts = TimeoutBody(None), [], []
+    async with client(body, requests) as sdk:
+        with pytest.raises(APITimeoutError):
+            async for part in StreamingLLMClient(sdk, 'test-model').stream([]):
+                parts.append(part)
+    assert parts == ['  Café', ' 🙂\n[1]']
+    assert body.closed and len(requests) == 1
+
+
+@pytest.mark.anyio
+@pytest.mark.filterwarnings('error::pytest.PytestUnraisableExceptionWarning')
+async def test_repeated_recorded_sdk_streams_release_connections_during_collection():
+    """Investigate the observed BoundAsyncStream finalizer warning without live calls."""
+    import gc
+    from types import SimpleNamespace
+    from evals.automatic import RecordedResponses
+
+    bodies, requests, calls = [], [], []
+    async def handle(request):
+        requests.append(json.loads(request.content))
+        body = EventBody('response.completed')
+        bodies.append(body)
+        return httpx2.Response(200, headers={'content-type':'text/event-stream'}, stream=body)
+
+    async with AsyncOpenAI(api_key='test-only-key', base_url='https://api.openai.test/v1',
+                           http_client=httpx2.AsyncClient(transport=httpx2.MockTransport(handle))) as sdk:
+        recorded = RecordedResponses(sdk, calls)
+        provider = StreamingLLMClient(SimpleNamespace(responses=recorded), 'test-model')
+        for _ in range(25):
+            assert ''.join([s async for s in provider.stream([])]) == '  Café 🙂\n[1]'
+            assert bodies[-1].closed
+            gc.collect()
+            await anyio.sleep(0)
+    assert len(requests) == len(calls) == 25
+    assert all(c['status'] == 'ok' and c['finished_at'] for c in calls)

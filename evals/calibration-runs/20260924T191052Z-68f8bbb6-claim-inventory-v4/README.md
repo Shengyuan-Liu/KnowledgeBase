@@ -1,0 +1,59 @@
+# Judge calibration
+
+Synthetic development regressions with Codex-authored labels; not human annotation or held-out accuracy.
+Raw answers, sources and labels are frozen before grading; labels are not sent to the judge.
+A single stochastic pass does not establish grader stability. Citation scope remains same-line.
+
+Metric | Value | N / status
+--- | --- | ---
+recall_at_k | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+precision_at_k | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+hit_rate_at_k | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+mrr_at_k | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+ndcg_at_k | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+annotated_char_recall | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+full_evidence_recall | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+answer_correctness | 0.7727 | 11
+answer_completeness | 0.8636 | 11
+fully_correct_points | 0.7727 | 11
+faithfulness | 0.6296 | 9
+answer_relevance | 1.0000 | 11
+citation_support | 0.6296 | 9
+citation_coverage | 0.6296 | 9
+appropriate_abstention | 0.5000 | 2
+incorrect_abstention | 0 | 9
+answerable_refusal | 0 | 9
+strict_pass_rate | unavailable | Run or judgments incomplete; no full-set pass rate.
+contradicted_claims | 3 | 11
+unsupported_claims | 8 | 11
+claim_count | 20 | 11
+first_delta_seconds | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+total_seconds | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+generation_seconds | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+generation_first_delta_seconds | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+retrieval_seconds | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+embedding_seconds | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+rerank_seconds | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+packing_seconds | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+search_fusion_seconds | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+reliability | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+judge_reliability | {"reviewed": 12, "valid": 11, "invalid_or_error": 1, "pending": 1} | 12
+judge_seconds | mean=12.058s, p50=9.578s, p95=21.622s | 12
+token_usage.ingestion | not_applicable | Judge-only calibration; this provider stage was not run.
+token_usage.query_embedding | not_applicable | Judge-only calibration; this provider stage was not run.
+token_usage.generation | not_applicable | Judge-only calibration; this provider stage was not run.
+token_usage.judge | {"input_tokens": 36963, "output_tokens": 17592, "total_tokens": 54555} | 24
+cost | unavailable | Provider responses do not expose billed dollars; no inferred price substituted.
+evidence_tokens | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+concurrency_throughput | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+ingestion | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+update_delete | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+model_loading | not_applicable | Fixed synthetic answers and sources; no RAG generation, retrieval or ingestion executed.
+calibration_agreement | 0.7500 | 12
+correct_answer_rejection | {"mismatched": 2, "pending": 0, "passed": 4} | 6
+known_error_miss | {"mismatched": 0, "pending": 1, "passed": 4} | 5
+refusal_mismatch | {"mismatched": 0, "pending": 0, "passed": 1} | 1
+judge_stage_seconds.inventory | mean=3.325s, p50=3.263s, p95=4.894s | 12
+judge_stage_seconds.assessment | mean=8.729s, p50=6.327s, p95=19.106s | 12
+judge_call_reliability | {"attempts": 24, "success": 24, "errors": 0, "timeouts": 0, "retries": 0} | 24
+judge_throughput | {"concurrency": 4, "wall_seconds": 49.227551000076346, "valid_reviews_per_second": 0.2234521071337256} | 12

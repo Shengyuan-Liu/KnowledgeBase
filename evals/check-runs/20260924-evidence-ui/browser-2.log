@@ -1,0 +1,60 @@
+
+> knowledgebase-frontend@0.1.0 test:e2e
+> playwright test
+
+
+Running 10 tests using 1 worker
+
+  ✓   1 e2e/chat.spec.ts:18:3 › streams, restores, selects evidence, and retains deleted excerpts at 1440px (3.1s)
+  ✘   2 e2e/chat.spec.ts:18:3 › streams, restores, selects evidence, and retains deleted excerpts at 900px (30.1s)
+  ✓   3 e2e/chat.spec.ts:18:3 › streams, restores, selects evidence, and retains deleted excerpts at 390px (3.1s)
+  ✓   4 e2e/chat.spec.ts:109:1 › stopping keeps partial output locally and does not save an unfinished turn (1.7s)
+  ✓   5 e2e/chat.spec.ts:138:1 › an unknown saved conversation offers retry or a fresh start (207ms)
+  ✓   6 e2e/library.spec.ts:9:3 › real file API and responsive library at 1440px (635ms)
+  ✓   7 e2e/library.spec.ts:9:3 › real file API and responsive library at 1024px (637ms)
+  ✓   8 e2e/library.spec.ts:9:3 › real file API and responsive library at 390px (750ms)
+  ✓   9 e2e/library.spec.ts:91:1 › backend rejects invalid UTF-8 and empty uploads (174ms)
+  ✓  10 e2e/markdown.spec.ts:3:1 › uploads Markdown, inspects exact evidence, restores history, and deletes its source (1.9s)
+
+
+  1) e2e/chat.spec.ts:18:3 › streams, restores, selects evidence, and retains deleted excerpts at 900px 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: /Library/ })
+
+
+      73 |     if (width < 1200) {
+      74 |       await page.keyboard.press("Escape");
+    > 75 |       await page.getByRole("button", { name: /Library/ }).click();
+         |                                                           ^
+      76 |     }
+      77 |     await page.getByRole("button", { name: "hours.txt Ready" }).click();
+      78 |     await page.getByRole("button", { name: "Delete", exact: true }).click();
+        at /Users/lucas/Documents/Projects/KnowledgeBase/frontend/e2e/chat.spec.ts:75:59
+
+    Error Context: test-results/chat-streams-restores-sele-f27e6-s-deleted-excerpts-at-900px/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/chat-streams-restores-sele-f27e6-s-deleted-excerpts-at-900px/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/chat-streams-restores-sele-f27e6-s-deleted-excerpts-at-900px/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e/chat.spec.ts:18:3 › streams, restores, selects evidence, and retains deleted excerpts at 900px 
+  9 passed (45.3s)
+[WebServer] INFO:     Started server process [89685]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+[WebServer] (node:89727) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+(node:89728) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:89812) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

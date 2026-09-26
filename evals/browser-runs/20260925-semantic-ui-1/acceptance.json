@@ -1,0 +1,1913 @@
+{
+  "started_at": "2026-09-25T00:36:37.890Z",
+  "status": "passed",
+  "fixture": "# Training lab\n\n## Hours\n\nThe training lab opens at 9 AM on weekdays. It closes at 6 PM. Weekend visits require a reservation.\n\n## Contact\n\nFor reservation questions, email lab@example.test.\n",
+  "questions": [
+    "According to the training lab document, what time does the lab open and close on weekdays? Cite the document.",
+    "What about visiting on weekends? Cite the document."
+  ],
+  "fixture_sha256": "0f8f50b0c4e2107752890252617e13a306f4aa7f73ede0ffec64981f23a94e6d",
+  "answers": [
+    {
+      "question": "According to the training lab document, what time does the lab open and close on weekdays? Cite the document.",
+      "ui_complete_ms": 1820,
+      "saved": {
+        "conversation_id": "4ef8612125d54b65a1384ea05d46eafb",
+        "created_at": "2026-09-25T00:36:40.394346",
+        "messages": [
+          {
+            "message_id": 1,
+            "conversation_id": "4ef8612125d54b65a1384ea05d46eafb",
+            "role": "user",
+            "content": "According to the training lab document, what time does the lab open and close on weekdays? Cite the document.",
+            "created_at": "2026-09-25T00:36:40.396844",
+            "retrieval_question": null,
+            "sources": null,
+            "citation_check": null,
+            "retrieval": null
+          },
+          {
+            "message_id": 2,
+            "conversation_id": "4ef8612125d54b65a1384ea05d46eafb",
+            "role": "assistant",
+            "content": "According to the training lab document, the lab opens at 9 AM and closes at 6 PM on weekdays [1].",
+            "created_at": "2026-09-25T00:36:40.397881",
+            "retrieval_question": "According to the training lab document, what time does the lab open and close on weekdays? Cite the document.",
+            "sources": [
+              {
+                "source_id": 1,
+                "file_id": "6183ba6e590744c49235d2df98874bb9",
+                "file_name": "training-lab.md",
+                "chunk_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                "text": "## Hours\n\nThe training lab opens at 9 AM on weekdays. It closes at 6 PM. Weekend visits require a reservation.\n",
+                "distance": 0.26115673780441284,
+                "fusion": {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "rrf_score": 0.03278688524590164,
+                  "rank": 1,
+                  "bm25_score": 4.835695643934596,
+                  "bm25_rank": 1,
+                  "vector_distance": 0.26115673780441284,
+                  "vector_rank": 1
+                },
+                "rerank": {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "rrf_score": 0.03278688524590164,
+                  "rank": 1,
+                  "bm25_score": 4.835695643934596,
+                  "bm25_rank": 1,
+                  "vector_distance": 0.26115673780441284,
+                  "vector_rank": 1,
+                  "rerank_score": 3.923302412033081,
+                  "rerank_rank": 1,
+                  "score_kind": "logit"
+                },
+                "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                "matched_child_ids": [
+                  "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "6183ba6e590744c49235d2df98874bb9:child:3",
+                  "6183ba6e590744c49235d2df98874bb9:child:1",
+                  "6183ba6e590744c49235d2df98874bb9:child:4"
+                ],
+                "start_offset": 16,
+                "end_offset": 127,
+                "start_line": 3,
+                "end_line": 5,
+                "heading_path": [
+                  "Training lab",
+                  "Hours"
+                ],
+                "source_block_indices": [
+                  1,
+                  2
+                ],
+                "token_count": 27,
+                "tokenizer": "cl100k_base",
+                "max_tokens": 1536,
+                "file_deleted": false
+              },
+              {
+                "source_id": 2,
+                "file_id": "6183ba6e590744c49235d2df98874bb9",
+                "file_name": "training-lab.md",
+                "chunk_id": "6183ba6e590744c49235d2df98874bb9:parent:0",
+                "text": "# Training lab\n",
+                "distance": 0.491388201713562,
+                "fusion": {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "rrf_score": 0.03225806451612903,
+                  "rank": 2,
+                  "bm25_score": 2.54513060615019,
+                  "bm25_rank": 2,
+                  "vector_distance": 0.491388201713562,
+                  "vector_rank": 2
+                },
+                "rerank": {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "rrf_score": 0.03225806451612903,
+                  "rank": 2,
+                  "bm25_score": 2.54513060615019,
+                  "bm25_rank": 2,
+                  "vector_distance": 0.491388201713562,
+                  "vector_rank": 2,
+                  "rerank_score": -3.0074620246887207,
+                  "rerank_rank": 4,
+                  "score_kind": "logit"
+                },
+                "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:0",
+                "matched_child_ids": [
+                  "6183ba6e590744c49235d2df98874bb9:child:0"
+                ],
+                "start_offset": 0,
+                "end_offset": 15,
+                "start_line": 1,
+                "end_line": 1,
+                "heading_path": [
+                  "Training lab"
+                ],
+                "source_block_indices": [
+                  0
+                ],
+                "token_count": 4,
+                "tokenizer": "cl100k_base",
+                "max_tokens": 1536,
+                "file_deleted": false
+              }
+            ],
+            "citation_check": {
+              "valid_source_ids": [
+                1
+              ],
+              "invalid_source_ids": [],
+              "no_citations": false
+            },
+            "retrieval": {
+              "retrieval_seconds": 0.6326466669561341,
+              "embedding_seconds": 0.19109458301682025,
+              "rerank": {
+                "question": "According to the training lab document, what time does the lab open and close on weekdays? Cite the document.",
+                "model": "BAAI/bge-reranker-v2-m3",
+                "prompt_version": "cross-encoder-pairs-v1",
+                "score_kind": "logit",
+                "model_revision": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+                "device": "mps",
+                "max_pair_tokens": 1024,
+                "batch_size": 4,
+                "tokenizer": "cl100k_base",
+                "input_tokens": 254,
+                "candidate_limit": 20,
+                "max_input_tokens": 16384,
+                "top_k": 5,
+                "candidates": [
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                    "rrf_score": 0.03278688524590164,
+                    "rank": 1,
+                    "bm25_score": 4.835695643934596,
+                    "bm25_rank": 1,
+                    "vector_distance": 0.26115673780441284,
+                    "vector_rank": 1,
+                    "text": "The training lab opens at 9 AM on weekdays. ",
+                    "heading_path": [
+                      "Training lab",
+                      "Hours"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                    "rrf_score": 0.03225806451612903,
+                    "rank": 2,
+                    "bm25_score": 2.54513060615019,
+                    "bm25_rank": 2,
+                    "vector_distance": 0.491388201713562,
+                    "vector_rank": 2,
+                    "text": "# Training lab\n",
+                    "heading_path": [
+                      "Training lab"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:6",
+                    "rrf_score": 0.03149801587301587,
+                    "rank": 3,
+                    "bm25_score": 0.6565678198577003,
+                    "bm25_rank": 3,
+                    "vector_distance": 0.626274585723877,
+                    "vector_rank": 4,
+                    "text": "For reservation questions, email lab@example.test.\n",
+                    "heading_path": [
+                      "Training lab",
+                      "Contact"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                    "rrf_score": 0.015873015873015872,
+                    "rank": 4,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.5921061038970947,
+                    "vector_rank": 3,
+                    "text": "It closes at 6 PM. ",
+                    "heading_path": [
+                      "Training lab",
+                      "Hours"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                    "rrf_score": 0.015384615384615385,
+                    "rank": 5,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6590151786804199,
+                    "vector_rank": 5,
+                    "text": "## Hours\n",
+                    "heading_path": [
+                      "Training lab",
+                      "Hours"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                    "rrf_score": 0.015151515151515152,
+                    "rank": 6,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.8042006492614746,
+                    "vector_rank": 6,
+                    "text": "Weekend visits require a reservation.\n",
+                    "heading_path": [
+                      "Training lab",
+                      "Hours"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:5",
+                    "rrf_score": 0.014925373134328358,
+                    "rank": 7,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.8240834474563599,
+                    "vector_rank": 7,
+                    "text": "## Contact\n",
+                    "heading_path": [
+                      "Training lab",
+                      "Contact"
+                    ]
+                  }
+                ],
+                "matches": [
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                    "rrf_score": 0.03278688524590164,
+                    "rank": 1,
+                    "bm25_score": 4.835695643934596,
+                    "bm25_rank": 1,
+                    "vector_distance": 0.26115673780441284,
+                    "vector_rank": 1,
+                    "rerank_score": 3.923302412033081,
+                    "rerank_rank": 1,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                    "rrf_score": 0.015873015873015872,
+                    "rank": 4,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.5921061038970947,
+                    "vector_rank": 3,
+                    "rerank_score": 0.290551096200943,
+                    "rerank_rank": 2,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                    "rrf_score": 0.015384615384615385,
+                    "rank": 5,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6590151786804199,
+                    "vector_rank": 5,
+                    "rerank_score": -1.5145061016082764,
+                    "rerank_rank": 3,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                    "rrf_score": 0.03225806451612903,
+                    "rank": 2,
+                    "bm25_score": 2.54513060615019,
+                    "bm25_rank": 2,
+                    "vector_distance": 0.491388201713562,
+                    "vector_rank": 2,
+                    "rerank_score": -3.0074620246887207,
+                    "rerank_rank": 4,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                    "rrf_score": 0.015151515151515152,
+                    "rank": 6,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.8042006492614746,
+                    "vector_rank": 6,
+                    "rerank_score": -3.046090841293335,
+                    "rerank_rank": 5,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:5",
+                    "rrf_score": 0.014925373134328358,
+                    "rank": 7,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.8240834474563599,
+                    "vector_rank": 7,
+                    "rerank_score": -5.984523773193359,
+                    "rerank_rank": 6,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:6",
+                    "rrf_score": 0.03149801587301587,
+                    "rank": 3,
+                    "bm25_score": 0.6565678198577003,
+                    "bm25_rank": 3,
+                    "vector_distance": 0.626274585723877,
+                    "vector_rank": 4,
+                    "rerank_score": -6.320070266723633,
+                    "rerank_rank": 7,
+                    "score_kind": "logit"
+                  }
+                ]
+              },
+              "rerank_seconds": 0.4326249590376392,
+              "options": {
+                "strategy": "hybrid",
+                "packing_strategy": "parent_then_child",
+                "candidate_limit": 20,
+                "bm25_k1": 1.2,
+                "bm25_b": 0.75,
+                "rrf_k": 60,
+                "rerank_enabled": true,
+                "rerank_candidate_limit": 20,
+                "rerank_max_input_tokens": 16384
+              },
+              "top_k": 5,
+              "vector_matches": [
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "distance": 0.26115673780441284
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "distance": 0.491388201713562
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                  "distance": 0.5921061038970947
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:6",
+                  "distance": 0.626274585723877
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                  "distance": 0.6590151786804199
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                  "distance": 0.8042006492614746
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:5",
+                  "distance": 0.8240834474563599
+                }
+              ],
+              "bm25_matches": [
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "score": 4.835695643934596,
+                  "rank": 1
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "score": 2.54513060615019,
+                  "rank": 2
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:6",
+                  "score": 0.6565678198577003,
+                  "rank": 3
+                }
+              ],
+              "fused_matches": [
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "rrf_score": 0.03278688524590164,
+                  "rank": 1,
+                  "bm25_score": 4.835695643934596,
+                  "bm25_rank": 1,
+                  "vector_distance": 0.26115673780441284,
+                  "vector_rank": 1
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "rrf_score": 0.03225806451612903,
+                  "rank": 2,
+                  "bm25_score": 2.54513060615019,
+                  "bm25_rank": 2,
+                  "vector_distance": 0.491388201713562,
+                  "vector_rank": 2
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:6",
+                  "rrf_score": 0.03149801587301587,
+                  "rank": 3,
+                  "bm25_score": 0.6565678198577003,
+                  "bm25_rank": 3,
+                  "vector_distance": 0.626274585723877,
+                  "vector_rank": 4
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                  "rrf_score": 0.015873015873015872,
+                  "rank": 4,
+                  "bm25_score": null,
+                  "bm25_rank": null,
+                  "vector_distance": 0.5921061038970947,
+                  "vector_rank": 3
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                  "rrf_score": 0.015384615384615385,
+                  "rank": 5,
+                  "bm25_score": null,
+                  "bm25_rank": null,
+                  "vector_distance": 0.6590151786804199,
+                  "vector_rank": 5
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                  "rrf_score": 0.015151515151515152,
+                  "rank": 6,
+                  "bm25_score": null,
+                  "bm25_rank": null,
+                  "vector_distance": 0.8042006492614746,
+                  "vector_rank": 6
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:5",
+                  "rrf_score": 0.014925373134328358,
+                  "rank": 7,
+                  "bm25_score": null,
+                  "bm25_rank": null,
+                  "vector_distance": 0.8240834474563599,
+                  "vector_rank": 7
+                }
+              ],
+              "candidates": [
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "distance": 0.26115673780441284,
+                  "fusion": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                    "rrf_score": 0.03278688524590164,
+                    "rank": 1,
+                    "bm25_score": 4.835695643934596,
+                    "bm25_rank": 1,
+                    "vector_distance": 0.26115673780441284,
+                    "vector_rank": 1
+                  },
+                  "rerank": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                    "rrf_score": 0.03278688524590164,
+                    "rank": 1,
+                    "bm25_score": 4.835695643934596,
+                    "bm25_rank": 1,
+                    "vector_distance": 0.26115673780441284,
+                    "vector_rank": 1,
+                    "rerank_score": 3.923302412033081,
+                    "rerank_rank": 1,
+                    "score_kind": "logit"
+                  },
+                  "file_id": "6183ba6e590744c49235d2df98874bb9",
+                  "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                  "text": "The training lab opens at 9 AM on weekdays. ",
+                  "start_offset": 26,
+                  "end_offset": 70
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                  "distance": 0.5921061038970947,
+                  "fusion": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                    "rrf_score": 0.015873015873015872,
+                    "rank": 4,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.5921061038970947,
+                    "vector_rank": 3
+                  },
+                  "rerank": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                    "rrf_score": 0.015873015873015872,
+                    "rank": 4,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.5921061038970947,
+                    "vector_rank": 3,
+                    "rerank_score": 0.290551096200943,
+                    "rerank_rank": 2,
+                    "score_kind": "logit"
+                  },
+                  "file_id": "6183ba6e590744c49235d2df98874bb9",
+                  "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                  "text": "It closes at 6 PM. ",
+                  "start_offset": 70,
+                  "end_offset": 89
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                  "distance": 0.6590151786804199,
+                  "fusion": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                    "rrf_score": 0.015384615384615385,
+                    "rank": 5,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6590151786804199,
+                    "vector_rank": 5
+                  },
+                  "rerank": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                    "rrf_score": 0.015384615384615385,
+                    "rank": 5,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6590151786804199,
+                    "vector_rank": 5,
+                    "rerank_score": -1.5145061016082764,
+                    "rerank_rank": 3,
+                    "score_kind": "logit"
+                  },
+                  "file_id": "6183ba6e590744c49235d2df98874bb9",
+                  "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                  "text": "## Hours\n",
+                  "start_offset": 16,
+                  "end_offset": 25
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "distance": 0.491388201713562,
+                  "fusion": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                    "rrf_score": 0.03225806451612903,
+                    "rank": 2,
+                    "bm25_score": 2.54513060615019,
+                    "bm25_rank": 2,
+                    "vector_distance": 0.491388201713562,
+                    "vector_rank": 2
+                  },
+                  "rerank": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                    "rrf_score": 0.03225806451612903,
+                    "rank": 2,
+                    "bm25_score": 2.54513060615019,
+                    "bm25_rank": 2,
+                    "vector_distance": 0.491388201713562,
+                    "vector_rank": 2,
+                    "rerank_score": -3.0074620246887207,
+                    "rerank_rank": 4,
+                    "score_kind": "logit"
+                  },
+                  "file_id": "6183ba6e590744c49235d2df98874bb9",
+                  "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:0",
+                  "text": "# Training lab\n",
+                  "start_offset": 0,
+                  "end_offset": 15
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                  "distance": 0.8042006492614746,
+                  "fusion": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                    "rrf_score": 0.015151515151515152,
+                    "rank": 6,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.8042006492614746,
+                    "vector_rank": 6
+                  },
+                  "rerank": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                    "rrf_score": 0.015151515151515152,
+                    "rank": 6,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.8042006492614746,
+                    "vector_rank": 6,
+                    "rerank_score": -3.046090841293335,
+                    "rerank_rank": 5,
+                    "score_kind": "logit"
+                  },
+                  "file_id": "6183ba6e590744c49235d2df98874bb9",
+                  "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                  "text": "Weekend visits require a reservation.\n",
+                  "start_offset": 89,
+                  "end_offset": 127
+                }
+              ],
+              "excluded": [],
+              "unexpanded_parents": [],
+              "packing_seconds": 0.0001193339703604579,
+              "context_format": "source-metadata-v1",
+              "evidence_tokens": 88,
+              "max_tokens": 4096,
+              "tokenizer": "cl100k_base"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "question": "What about visiting on weekends? Cite the document.",
+      "ui_complete_ms": 2321,
+      "saved": {
+        "conversation_id": "4ef8612125d54b65a1384ea05d46eafb",
+        "created_at": "2026-09-25T00:36:40.394346",
+        "messages": [
+          {
+            "message_id": 1,
+            "conversation_id": "4ef8612125d54b65a1384ea05d46eafb",
+            "role": "user",
+            "content": "According to the training lab document, what time does the lab open and close on weekdays? Cite the document.",
+            "created_at": "2026-09-25T00:36:40.396844",
+            "retrieval_question": null,
+            "sources": null,
+            "citation_check": null,
+            "retrieval": null
+          },
+          {
+            "message_id": 2,
+            "conversation_id": "4ef8612125d54b65a1384ea05d46eafb",
+            "role": "assistant",
+            "content": "According to the training lab document, the lab opens at 9 AM and closes at 6 PM on weekdays [1].",
+            "created_at": "2026-09-25T00:36:40.397881",
+            "retrieval_question": "According to the training lab document, what time does the lab open and close on weekdays? Cite the document.",
+            "sources": [
+              {
+                "source_id": 1,
+                "file_id": "6183ba6e590744c49235d2df98874bb9",
+                "file_name": "training-lab.md",
+                "chunk_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                "text": "## Hours\n\nThe training lab opens at 9 AM on weekdays. It closes at 6 PM. Weekend visits require a reservation.\n",
+                "distance": 0.26115673780441284,
+                "fusion": {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "rrf_score": 0.03278688524590164,
+                  "rank": 1,
+                  "bm25_score": 4.835695643934596,
+                  "bm25_rank": 1,
+                  "vector_distance": 0.26115673780441284,
+                  "vector_rank": 1
+                },
+                "rerank": {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "rrf_score": 0.03278688524590164,
+                  "rank": 1,
+                  "bm25_score": 4.835695643934596,
+                  "bm25_rank": 1,
+                  "vector_distance": 0.26115673780441284,
+                  "vector_rank": 1,
+                  "rerank_score": 3.923302412033081,
+                  "rerank_rank": 1,
+                  "score_kind": "logit"
+                },
+                "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                "matched_child_ids": [
+                  "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "6183ba6e590744c49235d2df98874bb9:child:3",
+                  "6183ba6e590744c49235d2df98874bb9:child:1",
+                  "6183ba6e590744c49235d2df98874bb9:child:4"
+                ],
+                "start_offset": 16,
+                "end_offset": 127,
+                "start_line": 3,
+                "end_line": 5,
+                "heading_path": [
+                  "Training lab",
+                  "Hours"
+                ],
+                "source_block_indices": [
+                  1,
+                  2
+                ],
+                "token_count": 27,
+                "tokenizer": "cl100k_base",
+                "max_tokens": 1536,
+                "file_deleted": false
+              },
+              {
+                "source_id": 2,
+                "file_id": "6183ba6e590744c49235d2df98874bb9",
+                "file_name": "training-lab.md",
+                "chunk_id": "6183ba6e590744c49235d2df98874bb9:parent:0",
+                "text": "# Training lab\n",
+                "distance": 0.491388201713562,
+                "fusion": {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "rrf_score": 0.03225806451612903,
+                  "rank": 2,
+                  "bm25_score": 2.54513060615019,
+                  "bm25_rank": 2,
+                  "vector_distance": 0.491388201713562,
+                  "vector_rank": 2
+                },
+                "rerank": {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "rrf_score": 0.03225806451612903,
+                  "rank": 2,
+                  "bm25_score": 2.54513060615019,
+                  "bm25_rank": 2,
+                  "vector_distance": 0.491388201713562,
+                  "vector_rank": 2,
+                  "rerank_score": -3.0074620246887207,
+                  "rerank_rank": 4,
+                  "score_kind": "logit"
+                },
+                "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:0",
+                "matched_child_ids": [
+                  "6183ba6e590744c49235d2df98874bb9:child:0"
+                ],
+                "start_offset": 0,
+                "end_offset": 15,
+                "start_line": 1,
+                "end_line": 1,
+                "heading_path": [
+                  "Training lab"
+                ],
+                "source_block_indices": [
+                  0
+                ],
+                "token_count": 4,
+                "tokenizer": "cl100k_base",
+                "max_tokens": 1536,
+                "file_deleted": false
+              }
+            ],
+            "citation_check": {
+              "valid_source_ids": [
+                1
+              ],
+              "invalid_source_ids": [],
+              "no_citations": false
+            },
+            "retrieval": {
+              "retrieval_seconds": 0.6326466669561341,
+              "embedding_seconds": 0.19109458301682025,
+              "rerank": {
+                "question": "According to the training lab document, what time does the lab open and close on weekdays? Cite the document.",
+                "model": "BAAI/bge-reranker-v2-m3",
+                "prompt_version": "cross-encoder-pairs-v1",
+                "score_kind": "logit",
+                "model_revision": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+                "device": "mps",
+                "max_pair_tokens": 1024,
+                "batch_size": 4,
+                "tokenizer": "cl100k_base",
+                "input_tokens": 254,
+                "candidate_limit": 20,
+                "max_input_tokens": 16384,
+                "top_k": 5,
+                "candidates": [
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                    "rrf_score": 0.03278688524590164,
+                    "rank": 1,
+                    "bm25_score": 4.835695643934596,
+                    "bm25_rank": 1,
+                    "vector_distance": 0.26115673780441284,
+                    "vector_rank": 1,
+                    "text": "The training lab opens at 9 AM on weekdays. ",
+                    "heading_path": [
+                      "Training lab",
+                      "Hours"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                    "rrf_score": 0.03225806451612903,
+                    "rank": 2,
+                    "bm25_score": 2.54513060615019,
+                    "bm25_rank": 2,
+                    "vector_distance": 0.491388201713562,
+                    "vector_rank": 2,
+                    "text": "# Training lab\n",
+                    "heading_path": [
+                      "Training lab"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:6",
+                    "rrf_score": 0.03149801587301587,
+                    "rank": 3,
+                    "bm25_score": 0.6565678198577003,
+                    "bm25_rank": 3,
+                    "vector_distance": 0.626274585723877,
+                    "vector_rank": 4,
+                    "text": "For reservation questions, email lab@example.test.\n",
+                    "heading_path": [
+                      "Training lab",
+                      "Contact"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                    "rrf_score": 0.015873015873015872,
+                    "rank": 4,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.5921061038970947,
+                    "vector_rank": 3,
+                    "text": "It closes at 6 PM. ",
+                    "heading_path": [
+                      "Training lab",
+                      "Hours"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                    "rrf_score": 0.015384615384615385,
+                    "rank": 5,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6590151786804199,
+                    "vector_rank": 5,
+                    "text": "## Hours\n",
+                    "heading_path": [
+                      "Training lab",
+                      "Hours"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                    "rrf_score": 0.015151515151515152,
+                    "rank": 6,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.8042006492614746,
+                    "vector_rank": 6,
+                    "text": "Weekend visits require a reservation.\n",
+                    "heading_path": [
+                      "Training lab",
+                      "Hours"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:5",
+                    "rrf_score": 0.014925373134328358,
+                    "rank": 7,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.8240834474563599,
+                    "vector_rank": 7,
+                    "text": "## Contact\n",
+                    "heading_path": [
+                      "Training lab",
+                      "Contact"
+                    ]
+                  }
+                ],
+                "matches": [
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                    "rrf_score": 0.03278688524590164,
+                    "rank": 1,
+                    "bm25_score": 4.835695643934596,
+                    "bm25_rank": 1,
+                    "vector_distance": 0.26115673780441284,
+                    "vector_rank": 1,
+                    "rerank_score": 3.923302412033081,
+                    "rerank_rank": 1,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                    "rrf_score": 0.015873015873015872,
+                    "rank": 4,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.5921061038970947,
+                    "vector_rank": 3,
+                    "rerank_score": 0.290551096200943,
+                    "rerank_rank": 2,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                    "rrf_score": 0.015384615384615385,
+                    "rank": 5,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6590151786804199,
+                    "vector_rank": 5,
+                    "rerank_score": -1.5145061016082764,
+                    "rerank_rank": 3,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                    "rrf_score": 0.03225806451612903,
+                    "rank": 2,
+                    "bm25_score": 2.54513060615019,
+                    "bm25_rank": 2,
+                    "vector_distance": 0.491388201713562,
+                    "vector_rank": 2,
+                    "rerank_score": -3.0074620246887207,
+                    "rerank_rank": 4,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                    "rrf_score": 0.015151515151515152,
+                    "rank": 6,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.8042006492614746,
+                    "vector_rank": 6,
+                    "rerank_score": -3.046090841293335,
+                    "rerank_rank": 5,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:5",
+                    "rrf_score": 0.014925373134328358,
+                    "rank": 7,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.8240834474563599,
+                    "vector_rank": 7,
+                    "rerank_score": -5.984523773193359,
+                    "rerank_rank": 6,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:6",
+                    "rrf_score": 0.03149801587301587,
+                    "rank": 3,
+                    "bm25_score": 0.6565678198577003,
+                    "bm25_rank": 3,
+                    "vector_distance": 0.626274585723877,
+                    "vector_rank": 4,
+                    "rerank_score": -6.320070266723633,
+                    "rerank_rank": 7,
+                    "score_kind": "logit"
+                  }
+                ]
+              },
+              "rerank_seconds": 0.4326249590376392,
+              "options": {
+                "strategy": "hybrid",
+                "packing_strategy": "parent_then_child",
+                "candidate_limit": 20,
+                "bm25_k1": 1.2,
+                "bm25_b": 0.75,
+                "rrf_k": 60,
+                "rerank_enabled": true,
+                "rerank_candidate_limit": 20,
+                "rerank_max_input_tokens": 16384
+              },
+              "top_k": 5,
+              "vector_matches": [
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "distance": 0.26115673780441284
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "distance": 0.491388201713562
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                  "distance": 0.5921061038970947
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:6",
+                  "distance": 0.626274585723877
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                  "distance": 0.6590151786804199
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                  "distance": 0.8042006492614746
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:5",
+                  "distance": 0.8240834474563599
+                }
+              ],
+              "bm25_matches": [
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "score": 4.835695643934596,
+                  "rank": 1
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "score": 2.54513060615019,
+                  "rank": 2
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:6",
+                  "score": 0.6565678198577003,
+                  "rank": 3
+                }
+              ],
+              "fused_matches": [
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "rrf_score": 0.03278688524590164,
+                  "rank": 1,
+                  "bm25_score": 4.835695643934596,
+                  "bm25_rank": 1,
+                  "vector_distance": 0.26115673780441284,
+                  "vector_rank": 1
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "rrf_score": 0.03225806451612903,
+                  "rank": 2,
+                  "bm25_score": 2.54513060615019,
+                  "bm25_rank": 2,
+                  "vector_distance": 0.491388201713562,
+                  "vector_rank": 2
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:6",
+                  "rrf_score": 0.03149801587301587,
+                  "rank": 3,
+                  "bm25_score": 0.6565678198577003,
+                  "bm25_rank": 3,
+                  "vector_distance": 0.626274585723877,
+                  "vector_rank": 4
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                  "rrf_score": 0.015873015873015872,
+                  "rank": 4,
+                  "bm25_score": null,
+                  "bm25_rank": null,
+                  "vector_distance": 0.5921061038970947,
+                  "vector_rank": 3
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                  "rrf_score": 0.015384615384615385,
+                  "rank": 5,
+                  "bm25_score": null,
+                  "bm25_rank": null,
+                  "vector_distance": 0.6590151786804199,
+                  "vector_rank": 5
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                  "rrf_score": 0.015151515151515152,
+                  "rank": 6,
+                  "bm25_score": null,
+                  "bm25_rank": null,
+                  "vector_distance": 0.8042006492614746,
+                  "vector_rank": 6
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:5",
+                  "rrf_score": 0.014925373134328358,
+                  "rank": 7,
+                  "bm25_score": null,
+                  "bm25_rank": null,
+                  "vector_distance": 0.8240834474563599,
+                  "vector_rank": 7
+                }
+              ],
+              "candidates": [
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "distance": 0.26115673780441284,
+                  "fusion": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                    "rrf_score": 0.03278688524590164,
+                    "rank": 1,
+                    "bm25_score": 4.835695643934596,
+                    "bm25_rank": 1,
+                    "vector_distance": 0.26115673780441284,
+                    "vector_rank": 1
+                  },
+                  "rerank": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                    "rrf_score": 0.03278688524590164,
+                    "rank": 1,
+                    "bm25_score": 4.835695643934596,
+                    "bm25_rank": 1,
+                    "vector_distance": 0.26115673780441284,
+                    "vector_rank": 1,
+                    "rerank_score": 3.923302412033081,
+                    "rerank_rank": 1,
+                    "score_kind": "logit"
+                  },
+                  "file_id": "6183ba6e590744c49235d2df98874bb9",
+                  "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                  "text": "The training lab opens at 9 AM on weekdays. ",
+                  "start_offset": 26,
+                  "end_offset": 70
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                  "distance": 0.5921061038970947,
+                  "fusion": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                    "rrf_score": 0.015873015873015872,
+                    "rank": 4,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.5921061038970947,
+                    "vector_rank": 3
+                  },
+                  "rerank": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                    "rrf_score": 0.015873015873015872,
+                    "rank": 4,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.5921061038970947,
+                    "vector_rank": 3,
+                    "rerank_score": 0.290551096200943,
+                    "rerank_rank": 2,
+                    "score_kind": "logit"
+                  },
+                  "file_id": "6183ba6e590744c49235d2df98874bb9",
+                  "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                  "text": "It closes at 6 PM. ",
+                  "start_offset": 70,
+                  "end_offset": 89
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                  "distance": 0.6590151786804199,
+                  "fusion": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                    "rrf_score": 0.015384615384615385,
+                    "rank": 5,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6590151786804199,
+                    "vector_rank": 5
+                  },
+                  "rerank": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                    "rrf_score": 0.015384615384615385,
+                    "rank": 5,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6590151786804199,
+                    "vector_rank": 5,
+                    "rerank_score": -1.5145061016082764,
+                    "rerank_rank": 3,
+                    "score_kind": "logit"
+                  },
+                  "file_id": "6183ba6e590744c49235d2df98874bb9",
+                  "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                  "text": "## Hours\n",
+                  "start_offset": 16,
+                  "end_offset": 25
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "distance": 0.491388201713562,
+                  "fusion": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                    "rrf_score": 0.03225806451612903,
+                    "rank": 2,
+                    "bm25_score": 2.54513060615019,
+                    "bm25_rank": 2,
+                    "vector_distance": 0.491388201713562,
+                    "vector_rank": 2
+                  },
+                  "rerank": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                    "rrf_score": 0.03225806451612903,
+                    "rank": 2,
+                    "bm25_score": 2.54513060615019,
+                    "bm25_rank": 2,
+                    "vector_distance": 0.491388201713562,
+                    "vector_rank": 2,
+                    "rerank_score": -3.0074620246887207,
+                    "rerank_rank": 4,
+                    "score_kind": "logit"
+                  },
+                  "file_id": "6183ba6e590744c49235d2df98874bb9",
+                  "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:0",
+                  "text": "# Training lab\n",
+                  "start_offset": 0,
+                  "end_offset": 15
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                  "distance": 0.8042006492614746,
+                  "fusion": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                    "rrf_score": 0.015151515151515152,
+                    "rank": 6,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.8042006492614746,
+                    "vector_rank": 6
+                  },
+                  "rerank": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                    "rrf_score": 0.015151515151515152,
+                    "rank": 6,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.8042006492614746,
+                    "vector_rank": 6,
+                    "rerank_score": -3.046090841293335,
+                    "rerank_rank": 5,
+                    "score_kind": "logit"
+                  },
+                  "file_id": "6183ba6e590744c49235d2df98874bb9",
+                  "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                  "text": "Weekend visits require a reservation.\n",
+                  "start_offset": 89,
+                  "end_offset": 127
+                }
+              ],
+              "excluded": [],
+              "unexpanded_parents": [],
+              "packing_seconds": 0.0001193339703604579,
+              "context_format": "source-metadata-v1",
+              "evidence_tokens": 88,
+              "max_tokens": 4096,
+              "tokenizer": "cl100k_base"
+            }
+          },
+          {
+            "message_id": 3,
+            "conversation_id": "4ef8612125d54b65a1384ea05d46eafb",
+            "role": "user",
+            "content": "What about visiting on weekends? Cite the document.",
+            "created_at": "2026-09-25T00:36:42.681580",
+            "retrieval_question": null,
+            "sources": null,
+            "citation_check": null,
+            "retrieval": null
+          },
+          {
+            "message_id": 4,
+            "conversation_id": "4ef8612125d54b65a1384ea05d46eafb",
+            "role": "assistant",
+            "content": "Weekend visits to the training lab require a reservation. The document does not specify the exact opening or closing times for weekends, only that visits are by reservation [1].",
+            "created_at": "2026-09-25T00:36:42.682531",
+            "retrieval_question": "What are the lab's opening and closing times on weekends according to the training lab document? Cite the document.",
+            "sources": [
+              {
+                "source_id": 1,
+                "file_id": "6183ba6e590744c49235d2df98874bb9",
+                "file_name": "training-lab.md",
+                "chunk_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                "text": "## Hours\n\nThe training lab opens at 9 AM on weekdays. It closes at 6 PM. Weekend visits require a reservation.\n",
+                "distance": 0.3253108859062195,
+                "fusion": {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "rrf_score": 0.03278688524590164,
+                  "rank": 1,
+                  "bm25_score": 3.6812291380230984,
+                  "bm25_rank": 1,
+                  "vector_distance": 0.3253108859062195,
+                  "vector_rank": 1
+                },
+                "rerank": {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "rrf_score": 0.03278688524590164,
+                  "rank": 1,
+                  "bm25_score": 3.6812291380230984,
+                  "bm25_rank": 1,
+                  "vector_distance": 0.3253108859062195,
+                  "vector_rank": 1,
+                  "rerank_score": -0.24117636680603027,
+                  "rerank_rank": 1,
+                  "score_kind": "logit"
+                },
+                "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                "matched_child_ids": [
+                  "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "6183ba6e590744c49235d2df98874bb9:child:4",
+                  "6183ba6e590744c49235d2df98874bb9:child:3",
+                  "6183ba6e590744c49235d2df98874bb9:child:1"
+                ],
+                "start_offset": 16,
+                "end_offset": 127,
+                "start_line": 3,
+                "end_line": 5,
+                "heading_path": [
+                  "Training lab",
+                  "Hours"
+                ],
+                "source_block_indices": [
+                  1,
+                  2
+                ],
+                "token_count": 27,
+                "tokenizer": "cl100k_base",
+                "max_tokens": 1536,
+                "file_deleted": false
+              },
+              {
+                "source_id": 2,
+                "file_id": "6183ba6e590744c49235d2df98874bb9",
+                "file_name": "training-lab.md",
+                "chunk_id": "6183ba6e590744c49235d2df98874bb9:parent:0",
+                "text": "# Training lab\n",
+                "distance": 0.525902271270752,
+                "fusion": {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "rrf_score": 0.03225806451612903,
+                  "rank": 2,
+                  "bm25_score": 2.54513060615019,
+                  "bm25_rank": 2,
+                  "vector_distance": 0.525902271270752,
+                  "vector_rank": 2
+                },
+                "rerank": {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "rrf_score": 0.03225806451612903,
+                  "rank": 2,
+                  "bm25_score": 2.54513060615019,
+                  "bm25_rank": 2,
+                  "vector_distance": 0.525902271270752,
+                  "vector_rank": 2,
+                  "rerank_score": -1.8713620901107788,
+                  "rerank_rank": 5,
+                  "score_kind": "logit"
+                },
+                "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:0",
+                "matched_child_ids": [
+                  "6183ba6e590744c49235d2df98874bb9:child:0"
+                ],
+                "start_offset": 0,
+                "end_offset": 15,
+                "start_line": 1,
+                "end_line": 1,
+                "heading_path": [
+                  "Training lab"
+                ],
+                "source_block_indices": [
+                  0
+                ],
+                "token_count": 4,
+                "tokenizer": "cl100k_base",
+                "max_tokens": 1536,
+                "file_deleted": false
+              }
+            ],
+            "citation_check": {
+              "valid_source_ids": [
+                1
+              ],
+              "invalid_source_ids": [],
+              "no_citations": false
+            },
+            "retrieval": {
+              "retrieval_seconds": 0.33349433296825737,
+              "embedding_seconds": 0.16161399998236448,
+              "rerank": {
+                "question": "What are the lab's opening and closing times on weekends according to the training lab document? Cite the document.",
+                "model": "BAAI/bge-reranker-v2-m3",
+                "prompt_version": "cross-encoder-pairs-v1",
+                "score_kind": "logit",
+                "model_revision": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+                "device": "mps",
+                "max_pair_tokens": 1024,
+                "batch_size": 4,
+                "tokenizer": "cl100k_base",
+                "input_tokens": 254,
+                "candidate_limit": 20,
+                "max_input_tokens": 16384,
+                "top_k": 5,
+                "candidates": [
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                    "rrf_score": 0.03278688524590164,
+                    "rank": 1,
+                    "bm25_score": 3.6812291380230984,
+                    "bm25_rank": 1,
+                    "vector_distance": 0.3253108859062195,
+                    "vector_rank": 1,
+                    "text": "The training lab opens at 9 AM on weekdays. ",
+                    "heading_path": [
+                      "Training lab",
+                      "Hours"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                    "rrf_score": 0.03225806451612903,
+                    "rank": 2,
+                    "bm25_score": 2.54513060615019,
+                    "bm25_rank": 2,
+                    "vector_distance": 0.525902271270752,
+                    "vector_rank": 2,
+                    "text": "# Training lab\n",
+                    "heading_path": [
+                      "Training lab"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:6",
+                    "rrf_score": 0.031746031746031744,
+                    "rank": 3,
+                    "bm25_score": 0.6565678198577003,
+                    "bm25_rank": 3,
+                    "vector_distance": 0.5963537693023682,
+                    "vector_rank": 3,
+                    "text": "For reservation questions, email lab@example.test.\n",
+                    "heading_path": [
+                      "Training lab",
+                      "Contact"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                    "rrf_score": 0.015625,
+                    "rank": 4,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6219345331192017,
+                    "vector_rank": 4,
+                    "text": "It closes at 6 PM. ",
+                    "heading_path": [
+                      "Training lab",
+                      "Hours"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                    "rrf_score": 0.015384615384615385,
+                    "rank": 5,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6653900146484375,
+                    "vector_rank": 5,
+                    "text": "## Hours\n",
+                    "heading_path": [
+                      "Training lab",
+                      "Hours"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                    "rrf_score": 0.015151515151515152,
+                    "rank": 6,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6723514795303345,
+                    "vector_rank": 6,
+                    "text": "Weekend visits require a reservation.\n",
+                    "heading_path": [
+                      "Training lab",
+                      "Hours"
+                    ]
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:5",
+                    "rrf_score": 0.014925373134328358,
+                    "rank": 7,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.783074676990509,
+                    "vector_rank": 7,
+                    "text": "## Contact\n",
+                    "heading_path": [
+                      "Training lab",
+                      "Contact"
+                    ]
+                  }
+                ],
+                "matches": [
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                    "rrf_score": 0.03278688524590164,
+                    "rank": 1,
+                    "bm25_score": 3.6812291380230984,
+                    "bm25_rank": 1,
+                    "vector_distance": 0.3253108859062195,
+                    "vector_rank": 1,
+                    "rerank_score": -0.24117636680603027,
+                    "rerank_rank": 1,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                    "rrf_score": 0.015151515151515152,
+                    "rank": 6,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6723514795303345,
+                    "vector_rank": 6,
+                    "rerank_score": -0.4156051278114319,
+                    "rerank_rank": 2,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                    "rrf_score": 0.015625,
+                    "rank": 4,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6219345331192017,
+                    "vector_rank": 4,
+                    "rerank_score": -0.8382061719894409,
+                    "rerank_rank": 3,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                    "rrf_score": 0.015384615384615385,
+                    "rank": 5,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6653900146484375,
+                    "vector_rank": 5,
+                    "rerank_score": -1.4656504392623901,
+                    "rerank_rank": 4,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                    "rrf_score": 0.03225806451612903,
+                    "rank": 2,
+                    "bm25_score": 2.54513060615019,
+                    "bm25_rank": 2,
+                    "vector_distance": 0.525902271270752,
+                    "vector_rank": 2,
+                    "rerank_score": -1.8713620901107788,
+                    "rerank_rank": 5,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:5",
+                    "rrf_score": 0.014925373134328358,
+                    "rank": 7,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.783074676990509,
+                    "vector_rank": 7,
+                    "rerank_score": -5.249902248382568,
+                    "rerank_rank": 6,
+                    "score_kind": "logit"
+                  },
+                  {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:6",
+                    "rrf_score": 0.031746031746031744,
+                    "rank": 3,
+                    "bm25_score": 0.6565678198577003,
+                    "bm25_rank": 3,
+                    "vector_distance": 0.5963537693023682,
+                    "vector_rank": 3,
+                    "rerank_score": -5.678014755249023,
+                    "rerank_rank": 7,
+                    "score_kind": "logit"
+                  }
+                ]
+              },
+              "rerank_seconds": 0.1683932909509167,
+              "options": {
+                "strategy": "hybrid",
+                "packing_strategy": "parent_then_child",
+                "candidate_limit": 20,
+                "bm25_k1": 1.2,
+                "bm25_b": 0.75,
+                "rrf_k": 60,
+                "rerank_enabled": true,
+                "rerank_candidate_limit": 20,
+                "rerank_max_input_tokens": 16384
+              },
+              "top_k": 5,
+              "vector_matches": [
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "distance": 0.3253108859062195
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "distance": 0.525902271270752
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:6",
+                  "distance": 0.5963537693023682
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                  "distance": 0.6219345331192017
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                  "distance": 0.6653900146484375
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                  "distance": 0.6723514795303345
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:5",
+                  "distance": 0.783074676990509
+                }
+              ],
+              "bm25_matches": [
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "score": 3.6812291380230984,
+                  "rank": 1
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "score": 2.54513060615019,
+                  "rank": 2
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:6",
+                  "score": 0.6565678198577003,
+                  "rank": 3
+                }
+              ],
+              "fused_matches": [
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "rrf_score": 0.03278688524590164,
+                  "rank": 1,
+                  "bm25_score": 3.6812291380230984,
+                  "bm25_rank": 1,
+                  "vector_distance": 0.3253108859062195,
+                  "vector_rank": 1
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "rrf_score": 0.03225806451612903,
+                  "rank": 2,
+                  "bm25_score": 2.54513060615019,
+                  "bm25_rank": 2,
+                  "vector_distance": 0.525902271270752,
+                  "vector_rank": 2
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:6",
+                  "rrf_score": 0.031746031746031744,
+                  "rank": 3,
+                  "bm25_score": 0.6565678198577003,
+                  "bm25_rank": 3,
+                  "vector_distance": 0.5963537693023682,
+                  "vector_rank": 3
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                  "rrf_score": 0.015625,
+                  "rank": 4,
+                  "bm25_score": null,
+                  "bm25_rank": null,
+                  "vector_distance": 0.6219345331192017,
+                  "vector_rank": 4
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                  "rrf_score": 0.015384615384615385,
+                  "rank": 5,
+                  "bm25_score": null,
+                  "bm25_rank": null,
+                  "vector_distance": 0.6653900146484375,
+                  "vector_rank": 5
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                  "rrf_score": 0.015151515151515152,
+                  "rank": 6,
+                  "bm25_score": null,
+                  "bm25_rank": null,
+                  "vector_distance": 0.6723514795303345,
+                  "vector_rank": 6
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:5",
+                  "rrf_score": 0.014925373134328358,
+                  "rank": 7,
+                  "bm25_score": null,
+                  "bm25_rank": null,
+                  "vector_distance": 0.783074676990509,
+                  "vector_rank": 7
+                }
+              ],
+              "candidates": [
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                  "distance": 0.3253108859062195,
+                  "fusion": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                    "rrf_score": 0.03278688524590164,
+                    "rank": 1,
+                    "bm25_score": 3.6812291380230984,
+                    "bm25_rank": 1,
+                    "vector_distance": 0.3253108859062195,
+                    "vector_rank": 1
+                  },
+                  "rerank": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:2",
+                    "rrf_score": 0.03278688524590164,
+                    "rank": 1,
+                    "bm25_score": 3.6812291380230984,
+                    "bm25_rank": 1,
+                    "vector_distance": 0.3253108859062195,
+                    "vector_rank": 1,
+                    "rerank_score": -0.24117636680603027,
+                    "rerank_rank": 1,
+                    "score_kind": "logit"
+                  },
+                  "file_id": "6183ba6e590744c49235d2df98874bb9",
+                  "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                  "text": "The training lab opens at 9 AM on weekdays. ",
+                  "start_offset": 26,
+                  "end_offset": 70
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                  "distance": 0.6723514795303345,
+                  "fusion": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                    "rrf_score": 0.015151515151515152,
+                    "rank": 6,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6723514795303345,
+                    "vector_rank": 6
+                  },
+                  "rerank": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:4",
+                    "rrf_score": 0.015151515151515152,
+                    "rank": 6,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6723514795303345,
+                    "vector_rank": 6,
+                    "rerank_score": -0.4156051278114319,
+                    "rerank_rank": 2,
+                    "score_kind": "logit"
+                  },
+                  "file_id": "6183ba6e590744c49235d2df98874bb9",
+                  "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                  "text": "Weekend visits require a reservation.\n",
+                  "start_offset": 89,
+                  "end_offset": 127
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                  "distance": 0.6219345331192017,
+                  "fusion": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                    "rrf_score": 0.015625,
+                    "rank": 4,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6219345331192017,
+                    "vector_rank": 4
+                  },
+                  "rerank": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:3",
+                    "rrf_score": 0.015625,
+                    "rank": 4,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6219345331192017,
+                    "vector_rank": 4,
+                    "rerank_score": -0.8382061719894409,
+                    "rerank_rank": 3,
+                    "score_kind": "logit"
+                  },
+                  "file_id": "6183ba6e590744c49235d2df98874bb9",
+                  "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                  "text": "It closes at 6 PM. ",
+                  "start_offset": 70,
+                  "end_offset": 89
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                  "distance": 0.6653900146484375,
+                  "fusion": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                    "rrf_score": 0.015384615384615385,
+                    "rank": 5,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6653900146484375,
+                    "vector_rank": 5
+                  },
+                  "rerank": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:1",
+                    "rrf_score": 0.015384615384615385,
+                    "rank": 5,
+                    "bm25_score": null,
+                    "bm25_rank": null,
+                    "vector_distance": 0.6653900146484375,
+                    "vector_rank": 5,
+                    "rerank_score": -1.4656504392623901,
+                    "rerank_rank": 4,
+                    "score_kind": "logit"
+                  },
+                  "file_id": "6183ba6e590744c49235d2df98874bb9",
+                  "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:1",
+                  "text": "## Hours\n",
+                  "start_offset": 16,
+                  "end_offset": 25
+                },
+                {
+                  "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                  "distance": 0.525902271270752,
+                  "fusion": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                    "rrf_score": 0.03225806451612903,
+                    "rank": 2,
+                    "bm25_score": 2.54513060615019,
+                    "bm25_rank": 2,
+                    "vector_distance": 0.525902271270752,
+                    "vector_rank": 2
+                  },
+                  "rerank": {
+                    "chunk_id": "6183ba6e590744c49235d2df98874bb9:child:0",
+                    "rrf_score": 0.03225806451612903,
+                    "rank": 2,
+                    "bm25_score": 2.54513060615019,
+                    "bm25_rank": 2,
+                    "vector_distance": 0.525902271270752,
+                    "vector_rank": 2,
+                    "rerank_score": -1.8713620901107788,
+                    "rerank_rank": 5,
+                    "score_kind": "logit"
+                  },
+                  "file_id": "6183ba6e590744c49235d2df98874bb9",
+                  "parent_id": "6183ba6e590744c49235d2df98874bb9:parent:0",
+                  "text": "# Training lab\n",
+                  "start_offset": 0,
+                  "end_offset": 15
+                }
+              ],
+              "excluded": [],
+              "unexpanded_parents": [],
+              "packing_seconds": 0.00011487503070384264,
+              "context_format": "source-metadata-v1",
+              "evidence_tokens": 88,
+              "max_tokens": 4096,
+              "tokenizer": "cl100k_base"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "steps": [
+    {
+      "name": "upload-ready",
+      "at": "2026-09-25T00:36:38.764Z",
+      "details": {
+        "elapsed_ms": 833
+      }
+    },
+    {
+      "name": "saved-answer-and-source-lines-verified",
+      "at": "2026-09-25T00:36:40.626Z",
+      "details": {
+        "question": "According to the training lab document, what time does the lab open and close on weekdays? Cite the document."
+      }
+    },
+    {
+      "name": "saved-answer-and-source-lines-verified",
+      "at": "2026-09-25T00:36:42.966Z",
+      "details": {
+        "question": "What about visiting on weekends? Cite the document."
+      }
+    },
+    {
+      "name": "refresh-restored-diagnostics-and-lines",
+      "at": "2026-09-25T00:36:43.146Z"
+    },
+    {
+      "name": "deletion-retains-historical-evidence",
+      "at": "2026-09-25T00:36:43.404Z"
+    },
+    {
+      "name": "finished",
+      "at": "2026-09-25T00:36:43.405Z"
+    }
+  ],
+  "browserErrors": []
+}

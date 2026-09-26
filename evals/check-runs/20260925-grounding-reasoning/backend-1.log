@@ -1,0 +1,389 @@
+........................................................................ [ 12%]
+........................................................................ [ 25%]
+............FFFF........................................................ [ 38%]
+........................................................................ [ 51%]
+...........................................s............................ [ 64%]
+........................................................................ [ 76%]
+........................................................................ [ 89%]
+..........................................................               [100%]
+=================================== FAILURES ===================================
+____________ test_cli_indexes_and_reuses_local_data[txt-structural] ____________
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-156/test_cli_indexes_and_reuses_lo0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x114549a90>
+capsys = <_pytest.capture.CaptureFixture object at 0x11e7bc550>, suffix = 'txt'
+strategy = 'structural'
+
+    @pytest.mark.parametrize("strategy", ["structural", "parent_child"])
+    @pytest.mark.parametrize("suffix", ["txt", "md"])
+    def test_cli_indexes_and_reuses_local_data(tmp_path, monkeypatch, capsys, suffix, strategy):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+        (tmp_path / ".env").write_text(f"OPENAI_API_KEY=test-only-key\nANSWER_MODEL=test-configured-model\nCHUNKING_STRATEGY={strategy}\n", encoding="utf-8")
+        path = tmp_path / f"hours.{suffix}"
+        text = ("# Hours\n\n" if suffix == "md" else "") + "The café closes at 5 PM."
+        path.write_text(text, encoding="utf-8")
+        embeddings = Mock()
+        embeddings.embed_documents.return_value = [[1.0, 0.0]]
+        embeddings.embed_query.return_value = [1.0, 0.0]
+        llm = Mock()
+        llm.generate.return_value = "At 5 PM. [1]"
+        embedding_class = Mock(return_value=embeddings)
+        llm_class = Mock(return_value=llm)
+        sdk = Mock()
+        sdk.__enter__ = Mock(return_value=sdk)
+        sdk.__exit__ = Mock(return_value=False)
+        sdk_class = Mock(return_value=sdk)
+        monkeypatch.setattr(cli, "OpenAI", sdk_class)
+        monkeypatch.setattr(cli, "EmbeddingClient", embedding_class)
+        monkeypatch.setattr(cli, "LLMClient", llm_class)
+    
+        monkeypatch.setattr(sys, "argv", ["main.py", str(path), "--top-k", "1"])
+        monkeypatch.setattr("builtins.input", Mock(side_effect=["When does the café close?", "exit"]))
+        cli.cli()
+    
+        embeddings.embed_documents.assert_called_once_with([text])
+        sdk_class.assert_called_once_with(api_key="test-only-key", base_url=None, timeout=600, max_retries=2)
+>       llm_class.assert_called_once_with(sdk, model="test-configured-model")
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_cli.py:114: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Users/lucas/miniconda3/lib/python3.13/unittest/mock.py:991: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Mock id='4789257952'>, args = (<Mock id='4789267024'>,)
+kwargs = {'model': 'test-configured-model'}
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\n  Actual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+>           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: mock(<Mock id='4789267024'>, model='test-configured-model')
+E             Actual: mock(<Mock id='4789267024'>, model='test-configured-model', reasoning_effort=None)
+
+/Users/lucas/miniconda3/lib/python3.13/unittest/mock.py:979: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Indexed hours.txt (7e4d4e69f01f49b699e3916b8313b004)
+KnowledgeBase — ask a question, or type exit / quit to leave.
+
+Conversation: 96d571e621a74527b01dd5fb95315abd
+
+Answer:
+At 5 PM. [1]
+
+Citation check — valid source IDs: [1]; invalid source IDs: []
+
+Retrieved chunks:
+
+[1] hours.txt
+Chunk ID: 7e4d4e69f01f49b699e3916b8313b004:structural:0
+The café closes at 5 PM.
+Goodbye.
+___________ test_cli_indexes_and_reuses_local_data[txt-parent_child] ___________
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-156/test_cli_indexes_and_reuses_lo1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x11e7f90f0>
+capsys = <_pytest.capture.CaptureFixture object at 0x11e7bc750>, suffix = 'txt'
+strategy = 'parent_child'
+
+    @pytest.mark.parametrize("strategy", ["structural", "parent_child"])
+    @pytest.mark.parametrize("suffix", ["txt", "md"])
+    def test_cli_indexes_and_reuses_local_data(tmp_path, monkeypatch, capsys, suffix, strategy):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+        (tmp_path / ".env").write_text(f"OPENAI_API_KEY=test-only-key\nANSWER_MODEL=test-configured-model\nCHUNKING_STRATEGY={strategy}\n", encoding="utf-8")
+        path = tmp_path / f"hours.{suffix}"
+        text = ("# Hours\n\n" if suffix == "md" else "") + "The café closes at 5 PM."
+        path.write_text(text, encoding="utf-8")
+        embeddings = Mock()
+        embeddings.embed_documents.return_value = [[1.0, 0.0]]
+        embeddings.embed_query.return_value = [1.0, 0.0]
+        llm = Mock()
+        llm.generate.return_value = "At 5 PM. [1]"
+        embedding_class = Mock(return_value=embeddings)
+        llm_class = Mock(return_value=llm)
+        sdk = Mock()
+        sdk.__enter__ = Mock(return_value=sdk)
+        sdk.__exit__ = Mock(return_value=False)
+        sdk_class = Mock(return_value=sdk)
+        monkeypatch.setattr(cli, "OpenAI", sdk_class)
+        monkeypatch.setattr(cli, "EmbeddingClient", embedding_class)
+        monkeypatch.setattr(cli, "LLMClient", llm_class)
+    
+        monkeypatch.setattr(sys, "argv", ["main.py", str(path), "--top-k", "1"])
+        monkeypatch.setattr("builtins.input", Mock(side_effect=["When does the café close?", "exit"]))
+        cli.cli()
+    
+        embeddings.embed_documents.assert_called_once_with([text])
+        sdk_class.assert_called_once_with(api_key="test-only-key", base_url=None, timeout=600, max_retries=2)
+>       llm_class.assert_called_once_with(sdk, model="test-configured-model")
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_cli.py:114: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Users/lucas/miniconda3/lib/python3.13/unittest/mock.py:991: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Mock id='4789261312'>, args = (<Mock id='4789269040'>,)
+kwargs = {'model': 'test-configured-model'}
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\n  Actual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+>           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: mock(<Mock id='4789269040'>, model='test-configured-model')
+E             Actual: mock(<Mock id='4789269040'>, model='test-configured-model', reasoning_effort=None)
+
+/Users/lucas/miniconda3/lib/python3.13/unittest/mock.py:979: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Indexed hours.txt (13712aa0b4224452a7ca622b1a078cab)
+KnowledgeBase — ask a question, or type exit / quit to leave.
+
+Conversation: dfcc1a8d398541ef89136cd82293db11
+
+Answer:
+At 5 PM. [1]
+
+Citation check — valid source IDs: [1]; invalid source IDs: []
+
+Retrieved chunks:
+
+[1] hours.txt
+Chunk ID: 13712aa0b4224452a7ca622b1a078cab:parent:0
+The café closes at 5 PM.
+Goodbye.
+____________ test_cli_indexes_and_reuses_local_data[md-structural] _____________
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-156/test_cli_indexes_and_reuses_lo2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x114549c50>
+capsys = <_pytest.capture.CaptureFixture object at 0x11d8d4140>, suffix = 'md'
+strategy = 'structural'
+
+    @pytest.mark.parametrize("strategy", ["structural", "parent_child"])
+    @pytest.mark.parametrize("suffix", ["txt", "md"])
+    def test_cli_indexes_and_reuses_local_data(tmp_path, monkeypatch, capsys, suffix, strategy):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+        (tmp_path / ".env").write_text(f"OPENAI_API_KEY=test-only-key\nANSWER_MODEL=test-configured-model\nCHUNKING_STRATEGY={strategy}\n", encoding="utf-8")
+        path = tmp_path / f"hours.{suffix}"
+        text = ("# Hours\n\n" if suffix == "md" else "") + "The café closes at 5 PM."
+        path.write_text(text, encoding="utf-8")
+        embeddings = Mock()
+        embeddings.embed_documents.return_value = [[1.0, 0.0]]
+        embeddings.embed_query.return_value = [1.0, 0.0]
+        llm = Mock()
+        llm.generate.return_value = "At 5 PM. [1]"
+        embedding_class = Mock(return_value=embeddings)
+        llm_class = Mock(return_value=llm)
+        sdk = Mock()
+        sdk.__enter__ = Mock(return_value=sdk)
+        sdk.__exit__ = Mock(return_value=False)
+        sdk_class = Mock(return_value=sdk)
+        monkeypatch.setattr(cli, "OpenAI", sdk_class)
+        monkeypatch.setattr(cli, "EmbeddingClient", embedding_class)
+        monkeypatch.setattr(cli, "LLMClient", llm_class)
+    
+        monkeypatch.setattr(sys, "argv", ["main.py", str(path), "--top-k", "1"])
+        monkeypatch.setattr("builtins.input", Mock(side_effect=["When does the café close?", "exit"]))
+        cli.cli()
+    
+        embeddings.embed_documents.assert_called_once_with([text])
+        sdk_class.assert_called_once_with(api_key="test-only-key", base_url=None, timeout=600, max_retries=2)
+>       llm_class.assert_called_once_with(sdk, model="test-configured-model")
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_cli.py:114: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Users/lucas/miniconda3/lib/python3.13/unittest/mock.py:991: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Mock id='4789266688'>, args = (<Mock id='4789267360'>,)
+kwargs = {'model': 'test-configured-model'}
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\n  Actual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+>           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: mock(<Mock id='4789267360'>, model='test-configured-model')
+E             Actual: mock(<Mock id='4789267360'>, model='test-configured-model', reasoning_effort=None)
+
+/Users/lucas/miniconda3/lib/python3.13/unittest/mock.py:979: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Indexed hours.md (8836112e29da48c88fa41fb9f91310ac)
+KnowledgeBase — ask a question, or type exit / quit to leave.
+
+Conversation: 97c4dc6ac9bc4033aea11e962ff38fbf
+
+Answer:
+At 5 PM. [1]
+
+Citation check — valid source IDs: [1]; invalid source IDs: []
+
+Retrieved chunks:
+
+[1] hours.md
+Chunk ID: 8836112e29da48c88fa41fb9f91310ac:structural:0
+# Hours
+
+The café closes at 5 PM.
+Goodbye.
+___________ test_cli_indexes_and_reuses_local_data[md-parent_child] ____________
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-156/test_cli_indexes_and_reuses_lo3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x11e7f92b0>
+capsys = <_pytest.capture.CaptureFixture object at 0x11da959a0>, suffix = 'md'
+strategy = 'parent_child'
+
+    @pytest.mark.parametrize("strategy", ["structural", "parent_child"])
+    @pytest.mark.parametrize("suffix", ["txt", "md"])
+    def test_cli_indexes_and_reuses_local_data(tmp_path, monkeypatch, capsys, suffix, strategy):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+        (tmp_path / ".env").write_text(f"OPENAI_API_KEY=test-only-key\nANSWER_MODEL=test-configured-model\nCHUNKING_STRATEGY={strategy}\n", encoding="utf-8")
+        path = tmp_path / f"hours.{suffix}"
+        text = ("# Hours\n\n" if suffix == "md" else "") + "The café closes at 5 PM."
+        path.write_text(text, encoding="utf-8")
+        embeddings = Mock()
+        embeddings.embed_documents.return_value = [[1.0, 0.0]]
+        embeddings.embed_query.return_value = [1.0, 0.0]
+        llm = Mock()
+        llm.generate.return_value = "At 5 PM. [1]"
+        embedding_class = Mock(return_value=embeddings)
+        llm_class = Mock(return_value=llm)
+        sdk = Mock()
+        sdk.__enter__ = Mock(return_value=sdk)
+        sdk.__exit__ = Mock(return_value=False)
+        sdk_class = Mock(return_value=sdk)
+        monkeypatch.setattr(cli, "OpenAI", sdk_class)
+        monkeypatch.setattr(cli, "EmbeddingClient", embedding_class)
+        monkeypatch.setattr(cli, "LLMClient", llm_class)
+    
+        monkeypatch.setattr(sys, "argv", ["main.py", str(path), "--top-k", "1"])
+        monkeypatch.setattr("builtins.input", Mock(side_effect=["When does the café close?", "exit"]))
+        cli.cli()
+    
+        embeddings.embed_documents.assert_called_once_with([text])
+        sdk_class.assert_called_once_with(api_key="test-only-key", base_url=None, timeout=600, max_retries=2)
+>       llm_class.assert_called_once_with(sdk, model="test-configured-model")
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_cli.py:114: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Users/lucas/miniconda3/lib/python3.13/unittest/mock.py:991: in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Mock id='4795538736'>, args = (<Mock id='4795543776'>,)
+kwargs = {'model': 'test-configured-model'}
+
+    def assert_called_with(self, /, *args, **kwargs):
+        """assert that the last call was made with the specified arguments.
+    
+        Raises an AssertionError if the args and keyword args passed in are
+        different to the last call to the mock."""
+        if self.call_args is None:
+            expected = self._format_mock_call_signature(args, kwargs)
+            actual = 'not called.'
+            error_message = ('expected call not found.\nExpected: %s\n  Actual: %s'
+                    % (expected, actual))
+            raise AssertionError(error_message)
+    
+        def _error_message():
+            msg = self._format_mock_failure_message(args, kwargs)
+            return msg
+        expected = self._call_matcher(_Call((args, kwargs), two=True))
+        actual = self._call_matcher(self.call_args)
+        if actual != expected:
+            cause = expected if isinstance(expected, Exception) else None
+>           raise AssertionError(_error_message()) from cause
+E           AssertionError: expected call not found.
+E           Expected: mock(<Mock id='4795543776'>, model='test-configured-model')
+E             Actual: mock(<Mock id='4795543776'>, model='test-configured-model', reasoning_effort=None)
+
+/Users/lucas/miniconda3/lib/python3.13/unittest/mock.py:979: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Indexed hours.md (c73144b2c7964e38ba808c2f3fc5a35e)
+KnowledgeBase — ask a question, or type exit / quit to leave.
+
+Conversation: 36d109b5bb994ffdb75a9d8f8df3987d
+
+Answer:
+At 5 PM. [1]
+
+Citation check — valid source IDs: [1]; invalid source IDs: []
+
+Retrieved chunks:
+
+[1] hours.md
+Chunk ID: c73144b2c7964e38ba808c2f3fc5a35e:parent:0
+# Hours
+
+The café closes at 5 PM.
+Goodbye.
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_cli.py::test_cli_indexes_and_reuses_local_data[txt-structural]
+FAILED tests/test_cli.py::test_cli_indexes_and_reuses_local_data[txt-parent_child]
+FAILED tests/test_cli.py::test_cli_indexes_and_reuses_local_data[md-structural]
+FAILED tests/test_cli.py::test_cli_indexes_and_reuses_local_data[md-parent_child]
+4 failed, 557 passed, 1 skipped, 1 warning in 13.88s

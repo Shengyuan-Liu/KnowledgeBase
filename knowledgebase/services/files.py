@@ -10,6 +10,7 @@ from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.config import (
     DEFAULT_CHUNK_SIZE, DEFAULT_OVERLAP, DEFAULT_CHUNKING_STRATEGY,
     DEFAULT_CHUNK_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER, DEFAULT_PARENT_MAX_TOKENS,
+    DEFAULT_SEMANTIC_SIMILARITY_THRESHOLD, DEFAULT_SEMANTIC_BATCH_SIZE,
 )
 from knowledgebase.rag.chunking import split_parent_child, split_structured, split_text
 from knowledgebase.rag.parsing import parse_markdown, parse_txt
@@ -61,10 +62,13 @@ def ingest_file(
     chunk_size: int = DEFAULT_CHUNK_SIZE,
     overlap: int = DEFAULT_OVERLAP,
     *,
-    chunking_strategy: Literal["structural", "character", "parent_child"] = DEFAULT_CHUNKING_STRATEGY,
+    chunking_strategy: Literal["structural", "character", "parent_child", "semantic"] = DEFAULT_CHUNKING_STRATEGY,
     chunk_max_tokens: int = DEFAULT_CHUNK_MAX_TOKENS,
     chunk_tokenizer: str = DEFAULT_CHUNK_TOKENIZER,
     parent_max_tokens: int = DEFAULT_PARENT_MAX_TOKENS,
+    semantic_similarity_threshold: float = DEFAULT_SEMANTIC_SIMILARITY_THRESHOLD,
+    semantic_batch_size: int = DEFAULT_SEMANTIC_BATCH_SIZE,
+    embedding_model: str | None = None,
 ) -> str:
     """Index a UTF-8 TXT/Markdown file and return its generated file ID.
 
@@ -90,7 +94,18 @@ def ingest_file(
     try:
         blocks = parse_markdown(text) if source_format == "md" else parse_txt(text)
         hierarchy = None
-        if chunking_strategy == "parent_child":
+        semantic = None
+        if chunking_strategy == "semantic":
+            from knowledgebase.rag.semantic_chunking import split_semantic
+
+            hierarchy, semantic = split_semantic(
+                text, blocks, file_id, embedding_client.embed_documents,
+                parent_max_tokens=parent_max_tokens, child_max_tokens=chunk_max_tokens,
+                encoding_name=chunk_tokenizer, similarity_threshold=semantic_similarity_threshold,
+                batch_size=semantic_batch_size,
+            )
+            chunks = hierarchy.children
+        elif chunking_strategy == "parent_child":
             hierarchy = split_parent_child(
                 text, blocks, file_id, parent_max_tokens=parent_max_tokens,
                 child_max_tokens=chunk_max_tokens, encoding_name=chunk_tokenizer,
@@ -103,10 +118,15 @@ def ingest_file(
         elif chunking_strategy == "character":
             chunks = split_text(text, file_id, chunk_size=chunk_size, overlap=overlap)
         else:
-            raise ValueError("chunking_strategy must be structural, character, or parent_child.")
+            raise ValueError("chunking_strategy must be structural, character, parent_child, or semantic.")
         embeddings = embedding_client.embed_documents([chunk.text for chunk in chunks])
         with session_factory.begin() as session:
-            save_document_source(session, file_id, source_format, text, blocks)
+            save_document_source(session, file_id, source_format, text, blocks, indexing={
+                "strategy": chunking_strategy, "embedding_model": embedding_model,
+                "chunk_max_tokens": chunk_max_tokens, "parent_max_tokens": parent_max_tokens,
+                "tokenizer": chunk_tokenizer, "chunk_size": chunk_size, "overlap": overlap,
+                "semantic": semantic,
+            })
             if hierarchy is not None:
                 save_parent_child_chunks(session, hierarchy)
             else:

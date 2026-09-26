@@ -1,5 +1,12 @@
 # Chat API
 
+New source snapshots include optional one-based `start_line` and `end_line`
+computed from the canonical document. Missing historical locations remain null.
+The saved `retrieval` diagnostics also include optional `retrieval_seconds`
+(retrieval plus source lookup) and `embedding_seconds`; existing rerank/packing
+durations remain separate nested stages. These fields survive conversation
+restoration and deletion. See the [frontend guide](frontend.md) for their display.
+
 Start the local API with `make api`, using `OPENAI_API_KEY` in `.env`. File upload
 and chat share the same SQLite database, Chroma collection, and embedding client.
 The API uses `gpt-4.1` by default (`ANSWER_MODEL` in `.env`), retrieves up to five chunks, and uses up to ten recent

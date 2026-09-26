@@ -6,10 +6,22 @@ and source-grounded answers.
 The [v1 design documents](docs/v1/README.md) define the ongoing version.
 TXT/Markdown parsing, structural chunking, and source storage are connected to
 uploads. [Parent-child retrieval](docs/parent-child-retrieval.md) is the default
-strategy. Hybrid search and reranking remain planned.
+strategy.
+An opt-in [semantic child-chunking experiment](docs/semantic-chunking.md) is
+available with `CHUNKING_STRATEGY=semantic`; it adds sentence embedding calls
+during ingestion and retains the same parents. The
+[first paired live comparison](evals/library-runs/20260925T002400Z-semantic-acceptance/README.md)
+found two material evidence regressions; its quality advantage is unproven.
 [Hybrid retrieval](docs/hybrid-retrieval.md) is now the default: [BM25](docs/bm25.md)
 and vector candidates are combined with [RRF](docs/rrf.md) before parent expansion.
-`RETRIEVAL_STRATEGY=vector` retains the vector-only control; reranking is still pending.
+`RETRIEVAL_STRATEGY=vector` retains the vector-only control.
+Set `RERANK_ENABLED=true` to score a bounded fused-child window with the
+[local BGE cross-encoder](docs/reranking.md) before top-k selection and parent expansion. API,
+streaming chat, CLI, and evaluations share this path. Reranking defaults to off;
+the vector-only control requires it to remain off.
+
+[Answer grounding](docs/answer-grounding.md) defines claim-local citations,
+source-behavior fidelity and how answers handle missing personal information.
 
 ## Run the local application
 
@@ -156,7 +168,21 @@ Seven development questions passed direct evidence review; broader accuracy and
 comparative retrieval quality were not measured in that Markdown-only check.
 The later [paired hybrid comparison](evals/library-runs/20260923T221737Z-hybrid/README.md)
 records 18 questions per mode against the active library, including both gains
-and a prerequisite-question budget regression.
+and a prerequisite-question budget regression. The subsequent
+[paired rerank comparison](evals/library-runs/20260924T000238Z-rerank/README.md)
+records the original LLM scoring pipeline. The current
+[dedicated BGE comparison](evals/library-runs/20260924T002009Z-bge-serialized/README.md)
+records the local cross-encoder, a corrected MPS concurrency failure, and a CPT
+evidence regression alongside the prerequisite improvement. The subsequent
+[packing comparison](evals/library-runs/20260924T004817Z-child-first/README.md)
+keeps admitted parents and uses remaining space for whole selected children; it
+also records first-delta and full-completion latency over real HTTP streams.
+The [multi-source generation comparison](evals/library-runs/20260924T012523Z-source-attribution-v2/README.md)
+records the revised comparison prompt, improved CPT fact coverage, remaining
+source-label errors, longer generation time, and unavailable claim-level scores.
+The [source identity comparison](evals/library-runs/20260924T150609Z-source-metadata-v2/README.md)
+adds budgeted file-name and heading-path labels, with unchanged source slices and
+recorded coverage, attribution, citation-format and latency results.
 
 Run the frozen NYU question set, grade answers with human review or an LLM judge, and
 compare recorded experiments using the [evaluation guide](evals/README.md).
@@ -179,3 +205,21 @@ To explicitly send one real generation request using the `.env` credentials and
 ```bash
 make test-live
 ```
+
+## Automated evaluation
+
+Run `make eval` to evaluate the production RAG pipeline and LLM judge on the frozen
+18-case benchmark, print metrics and compare a previous run. It uses `.env` and
+makes provider API calls. See [metric definitions and saved records](evals/metrics.md).
+Run `make eval-calibrate` to check the judge against
+[fixed development calibration cases](evals/calibration/README.md) without running RAG.
+
+Current v1 acceptance status: [merge readiness](docs/v1/merge-readiness.md),
+including experimental parent scoring, recorded tradeoffs and the completed
+[original Codex acceptance with one scope failure](evals/library-runs/20260925-v1-codex-acceptance/README.md),
+and [latest awake-host acceptance with 11/11 strict cases](evals/library-runs/20260926-comparison-awake/README.md).
+[Document-scoped answers](docs/document-scope.md) now restrict explicitly named
+files before ranking and preserve their identity in evidence. The attribution
+regression and comparison completeness are verified; the latest bounded run meets
+latency gates. Historical failures and a non-fatal stream-cleanup warning remain
+visible in the report. Merge requires explicit user approval.

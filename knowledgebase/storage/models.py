@@ -60,6 +60,17 @@ class DocumentSourceRecord(Base):
     blocks: Mapped[list[dict]] = mapped_column(JSON)
 
 
+class DocumentIndexRecord(Base):
+    """Optional per-file indexing configuration and semantic boundary diagnostics."""
+
+    __tablename__ = "document_indexes"
+
+    file_id: Mapped[str] = mapped_column(
+        ForeignKey("document_sources.file_id", ondelete="CASCADE"), primary_key=True,
+    )
+    details: Mapped[dict] = mapped_column(JSON)
+
+
 class ChunkStructureRecord(Base):
     """Structural metadata supplements a canonical chunk without changing MVP columns."""
 

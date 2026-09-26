@@ -241,8 +241,9 @@ def run(args):
               "chunk_size": "chunk_size", "overlap": "chunk_overlap", "top_k": "retrieval_top_k",
               "chunking_strategy": "chunking_strategy", "chunk_max_tokens": "chunk_max_tokens",
               "chunk_tokenizer": "chunk_tokenizer", "parent_max_tokens": "parent_max_tokens",
-              "evidence_max_tokens": "evidence_max_tokens"}
-    fields.update({name: name for name in ("retrieval_strategy", "retrieval_candidate_limit", "bm25_k1", "bm25_b", "rrf_k")})
+              "evidence_max_tokens": "evidence_max_tokens", "evidence_packing_strategy": "evidence_packing_strategy"}
+    fields.update({name: name for name in ("retrieval_strategy", "retrieval_candidate_limit", "bm25_k1", "bm25_b", "rrf_k",
+                                               "rerank_enabled", "rerank_model", "rerank_candidate_limit", "rerank_max_input_tokens")})
     settings = Settings(**{field: getattr(args, name) for name, field in fields.items()
                            if getattr(args, name) is not None})
     for name, field in fields.items():
@@ -256,13 +257,18 @@ def run(args):
         "status": "running", "git": revision, "rubric": RUBRIC,
         "cases_sha256": digest(args.cases.read_bytes()),
         "corpus_sha256": digest(json.dumps(manifest, sort_keys=True).encode()),
-        "config": {"model": args.model, "embedding_model": args.embedding_model,
+        "config": {"model": args.model, "answer_reasoning_effort": settings.answer_reasoning_effort, "embedding_model": args.embedding_model,
                    "chunk_size": args.chunk_size, "overlap": args.overlap, "top_k": args.top_k,
                    "chunking_strategy": args.chunking_strategy, "chunk_max_tokens": args.chunk_max_tokens,
+                   "semantic_similarity_threshold": settings.semantic_similarity_threshold,
+                   "semantic_batch_size": settings.semantic_batch_size,
                    "chunk_tokenizer": args.chunk_tokenizer,
                    "parent_max_tokens": args.parent_max_tokens, "evidence_max_tokens": args.evidence_max_tokens,
                    "effective_overlap": args.overlap if args.chunking_strategy == "character" else 0,
                    "retrieval_options": settings.retrieval_options.model_dump(),
+                   "rerank_model": settings.rerank_model if settings.rerank_enabled else None,
+                   "rerank_device": settings.rerank_device, "rerank_batch_size": settings.rerank_batch_size,
+                   "rerank_max_pair_tokens": settings.rerank_max_pair_tokens,
                    "distance": "cosine", "question_order": "dataset order",
                    "timeout_seconds": settings.eval_timeout_seconds, "max_retries": settings.eval_max_retries},
     }
@@ -281,6 +287,7 @@ def run(args):
         from openai import OpenAI
         from knowledgebase.providers.embeddings import EmbeddingClient
         from knowledgebase.providers.llm import LLMClient
+        from knowledgebase.providers.reranker import RerankerClient
         from knowledgebase.services.chat import answer_question
         from knowledgebase.services.files import ingest_file
         from knowledgebase.storage.database import build_engine, build_session_factory, init_db
@@ -299,17 +306,23 @@ def run(args):
         with OpenAI(api_key=settings.openai_api_key, base_url=settings.openai_base_url,
                     timeout=settings.eval_timeout_seconds, max_retries=settings.eval_max_retries) as sdk:
             embeddings = EmbeddingClient(sdk, model=args.embedding_model)
-            llm = LLMClient(sdk, model=args.model)
+            llm = LLMClient(sdk, model=args.model, reasoning_effort=settings.answer_reasoning_effort)
+            reranker = RerankerClient(
+                settings.rerank_model, device=settings.rerank_device,
+                batch_size=settings.rerank_batch_size, max_pair_tokens=settings.rerank_max_pair_tokens,
+            ) if settings.rerank_enabled else None
             for name, content in documents.items():
                 ingest_file(name, content.encode(), sessions, embeddings, store,
                             chunk_size=args.chunk_size, overlap=args.overlap,
                             chunking_strategy=args.chunking_strategy, chunk_max_tokens=args.chunk_max_tokens,
-                            chunk_tokenizer=args.chunk_tokenizer, parent_max_tokens=args.parent_max_tokens)
+                            chunk_tokenizer=args.chunk_tokenizer, parent_max_tokens=args.parent_max_tokens,
+                            semantic_similarity_threshold=settings.semantic_similarity_threshold,
+                            semantic_batch_size=settings.semantic_batch_size, embedding_model=settings.embedding_model)
             def ask(question):
                 result = answer_question(
                     question, sessions, embeddings, store, llm, top_k=args.top_k,
                     evidence_max_tokens=args.evidence_max_tokens, encoding_name=args.chunk_tokenizer,
-                    retrieval_options=settings.retrieval_options,
+                    retrieval_options=settings.retrieval_options, reranker_client=reranker,
                 ).model_dump()
                 # Existing evaluation rows reserve "retrieval" for recall metrics.
                 result["retrieval_diagnostics"] = result.pop("retrieval")
@@ -632,7 +645,7 @@ def main():
     runner.add_argument("--embedding-model", help="Override EMBEDDING_MODEL")
     runner.add_argument("--chunk-size", type=int, help="Override CHUNK_SIZE")
     runner.add_argument("--overlap", type=int, help="Override CHUNK_OVERLAP")
-    runner.add_argument("--chunking-strategy", choices=["structural", "character", "parent_child"], help="Override CHUNKING_STRATEGY")
+    runner.add_argument("--chunking-strategy", choices=["structural", "character", "parent_child", "semantic"], help="Override CHUNKING_STRATEGY")
     runner.add_argument("--chunk-max-tokens", type=int, help="Override CHUNK_MAX_TOKENS for structural chunks or children")
     runner.add_argument("--chunk-tokenizer", help="Override CHUNK_TOKENIZER")
     runner.add_argument("--parent-max-tokens", type=int, help="Override PARENT_MAX_TOKENS")
@@ -643,6 +656,11 @@ def main():
     runner.add_argument("--bm25-k1", type=float, help="Override BM25_K1")
     runner.add_argument("--bm25-b", type=float, help="Override BM25_B")
     runner.add_argument("--rrf-k", type=float, help="Override RRF_K")
+    runner.add_argument("--rerank", dest="rerank_enabled", action=argparse.BooleanOptionalAction, default=None, help="Override RERANK_ENABLED")
+    runner.add_argument("--rerank-model", help="Override RERANK_MODEL")
+    runner.add_argument("--evidence-packing-strategy", choices=["parent_then_child", "parent_first"], help="Override EVIDENCE_PACKING_STRATEGY")
+    runner.add_argument("--rerank-candidate-limit", type=int, help="Override RERANK_CANDIDATE_LIMIT")
+    runner.add_argument("--rerank-max-input-tokens", type=int, help="Override RERANK_MAX_INPUT_TOKENS")
     grader = sub.add_parser("grade", help="Append human or LLM reviews; preserve earlier ratings.")
     grader.add_argument("run_dir", type=Path)
     grader.add_argument("--reviewer", required=True)

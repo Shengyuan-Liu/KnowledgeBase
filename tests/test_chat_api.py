@@ -45,13 +45,14 @@ def test_upload_question_followup_and_persisted_exchange(api):
     assert first["question"] == first["retrieval_question"] == question
     assert first["answer"] == "The library closes at 5 PM. [1]"
     assert first["sources"] == [{
+        "document_labels": [],
         "source_id": 1, "file_id": file_id, "file_name": "hours.txt",
         "chunk_id": f"{file_id}:parent:0", "text": "The library closes at 5 PM.",
         "fusion": {"chunk_id": f"{file_id}:child:0", "rrf_score": pytest.approx(2 / 61),
                    "rank": 1, "bm25_score": pytest.approx(0.5753641449035618), "bm25_rank": 1,
                    "vector_distance": pytest.approx(0.0), "vector_rank": 1},
-        "distance": pytest.approx(0.0), "parent_id": f"{file_id}:parent:0", "matched_child_ids": [f"{file_id}:child:0"],
-        "start_offset": 0, "end_offset": 27, "heading_path": [], "source_block_indices": [0],
+        "rerank": None, "distance": pytest.approx(0.0), "parent_id": f"{file_id}:parent:0", "matched_child_ids": [f"{file_id}:child:0"],
+        "start_offset": 0, "end_offset": 27, "start_line": 1, "end_line": 1, "heading_path": [], "source_block_indices": [0],
         "token_count": 8, "tokenizer": "cl100k_base", "max_tokens": 1536,
     }]
     assert first["citation_check"] == {

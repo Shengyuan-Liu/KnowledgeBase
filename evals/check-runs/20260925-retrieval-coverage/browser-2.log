@@ -1,0 +1,65 @@
+
+> knowledgebase-frontend@0.1.0 test:e2e
+> playwright test
+
+
+Running 10 tests using 1 worker
+
+  ✓   1 e2e/chat.spec.ts:18:3 › streams, restores, selects evidence, and retains deleted excerpts at 1440px (3.1s)
+  ✓   2 e2e/chat.spec.ts:18:3 › streams, restores, selects evidence, and retains deleted excerpts at 900px (3.5s)
+  ✓   3 e2e/chat.spec.ts:18:3 › streams, restores, selects evidence, and retains deleted excerpts at 390px (3.0s)
+  ✘   4 e2e/chat.spec.ts:109:1 › stopping keeps partial output locally and does not save an unfinished turn (6.6s)
+  ✓   5 e2e/chat.spec.ts:138:1 › an unknown saved conversation offers retry or a fresh start (270ms)
+  ✓   6 e2e/library.spec.ts:9:3 › real file API and responsive library at 1440px (710ms)
+  ✓   7 e2e/library.spec.ts:9:3 › real file API and responsive library at 1024px (753ms)
+  ✓   8 e2e/library.spec.ts:9:3 › real file API and responsive library at 390px (831ms)
+  ✓   9 e2e/library.spec.ts:91:1 › backend rejects invalid UTF-8 and empty uploads (198ms)
+  ✓  10 e2e/markdown.spec.ts:3:1 › uploads Markdown, inspects exact evidence, restores history, and deletes its source (1.9s)
+
+
+  1) e2e/chat.spec.ts:109:1 › stopping keeps partial output locally and does not save an unfinished turn 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Interrupted', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('Interrupted', { exact: true }) with timeout 5000ms
+      - waiting for getByText('Interrupted', { exact: true })
+
+
+      125 |   await expect(page.getByText("Answering…", { exact: true })).toBeVisible();
+      126 |   await page.getByRole("button", { name: "Stop", exact: true }).click();
+    > 127 |   await expect(page.getByText("Interrupted", { exact: true })).toBeVisible();
+          |                                                                ^
+      128 |   await expect(composer).toHaveValue("Stop this question");
+      129 |   const history = await (await request.get(`/api/conversations/${id}`)).json();
+      130 |   expect(history.messages).toHaveLength(2);
+        at /Users/lucas/Documents/Projects/KnowledgeBase/frontend/e2e/chat.spec.ts:127:64
+
+    Error Context: test-results/chat-stopping-keeps-partia-c1894-not-save-an-unfinished-turn/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/chat-stopping-keeps-partia-c1894-not-save-an-unfinished-turn/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/chat-stopping-keeps-partia-c1894-not-save-an-unfinished-turn/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e/chat.spec.ts:109:1 › stopping keeps partial output locally and does not save an unfinished turn 
+  9 passed (24.0s)
+[WebServer] INFO:     Started server process [9737]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+[WebServer] (node:9782) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+(node:9783) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:9816) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

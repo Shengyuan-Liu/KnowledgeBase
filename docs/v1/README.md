@@ -19,11 +19,58 @@ child-only indexing, parent expansion/deduplication, evidence budgets, and saved
 diagnostics across API, CLI, and evaluation. It is the default strategy at the user's request and covered by offline
 workflow tests. Real-library comparisons are recorded separately; choosing a
 default does not establish a general quality improvement.
-The remaining hybrid-search and reranking pipeline is planned;
-these documents do not claim that the full version is implemented or its quality measured.
-The standalone [BM25 scorer](../bm25.md) ranks supplied children locally, and
-[RRF fusion](../rrf.md) combines lexical and vector route ranks while preserving
-their separate scores. Service integration and live hybrid acceptance remain pending.
+[Hybrid retrieval](../hybrid-retrieval.md) combines [BM25](../bm25.md) and vector
+candidates through [RRF](../rrf.md) across the shared service path. Markdown
+ingestion was merged into `main` at `282158a`; parent-child and hybrid retrieval
+were merged at `cd10620`.
+
+The `v1` branch also implements optional [local BGE reranking](../reranking.md),
+parent-then-child evidence packing, budgeted source identity, and
+[automatic evaluation](../../evals/metrics.md). These changes have recorded checks
+and development comparisons, but user acceptance and merge approval remain
+outstanding. Reranking remains disabled by default in shared settings.
+
+## Remaining Work
+
+See the current [merge-readiness assessment](merge-readiness.md). The completed
+[document-scope feature](../document-scope.md) fixes attribution and multi-document
+candidate starvation. The [latest awake-host acceptance](../../evals/library-runs/20260926-comparison-awake/README.md)
+passes 11/11 frozen strict cases and original latency gates. The prior slow/error
+calls coincide with host sleep; prior failed results remain intact. Backend checks
+pass (593 passed, 1 skipped). Earlier frontend 42-test and 12 distinct browser
+scenario evidence remains linked; these were not rerun for this backend correction.
+A non-fatal stream finalizer warning and wording limitations remain documented.
+The user explicitly authorized merging this reviewed default v1 snapshot into
+`main` on 2026-09-26. Future feature merges require separate approval. Codex
+completed source review, not independent human review.
+
+1. Accept the opt-in [semantic child-chunking strategy](../semantic-chunking.md),
+   now implemented inside unchanged parent regions. Structural parent-child
+   chunking remains the default and control. The
+   [paired live comparison](../../evals/library-runs/20260925T002400Z-semantic-acceptance/README.md)
+   records two substantive evidence regressions. The subsequent
+   [parent-scoring and budget comparison](../../evals/library-runs/20260925-parent-reranking/README.md)
+   recovers both with higher compute/context cost; semantic chunking remains experimental.
+2. Accept the completed frontend source locations and recorded retrieval
+   diagnostics, verified with [offline checks](../../evals/check-runs/20260924-evidence-ui/README.md)
+   and a [real-provider browser workflow](../../evals/browser-runs/20260925-semantic-ui-1/README.md).
+3. Complete acceptance of [generation grounding](../answer-grounding.md): the
+   fixed-context prompt comparison improves citation coverage on valid pairs, but
+   retains list-level failures and a qualification regression. The
+   [assessment supplement](../../evals/library-runs/20260925-review-supplement-3/README.md)
+   reaches 23/24 valid reviews; one metadata/source-line validation failure remains.
+   The two observed semantic evidence omissions have a measured opt-in solution,
+   not a new default or a general release-quality guarantee.
+   Six newly frozen questions on familiar documents
+   supplement the development set; an independent release population and human
+   review remain outstanding. Do not rerun paid evaluation after intermediate edits.
+
+The current judge protocol is frozen at `claim-inventory-v11`. Its
+[review](../../evals/check-runs/20260924-judge-abstention/REVIEW.md) retains one
+calibration label mismatch and disputed judgments. Valid judgments are not proof
+of answer correctness. Development results are not held-out release accuracy.
+Run full evaluation only at feature acceptance or on explicit request, following
+the [measurement policy](../../evals/measurement-policy.md).
 
 v1 adds Markdown support, structure-aware and sentence-aware chunking, parent-child
 retrieval, BM25/vector hybrid search, RRF fusion, and reranking. Embedding-based
