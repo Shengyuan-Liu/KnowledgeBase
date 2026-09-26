@@ -1,0 +1,454 @@
+{
+  "derived_at": "2026-09-26T18:25:46.644514+00:00",
+  "basis": "run.json + review.json; original artifacts retained",
+  "metric_inventory": {
+    "recall_at_k": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Selected pre-expansion top-5 children; post-run binary overlap with spans derived from frozen expected facts. Precision divides by K even with fewer results. Macro-average, misses zero; diagnostic labels are not exhaustive semantic relevance.",
+      "artifact": "review.json"
+    },
+    "precision_at_k": {
+      "status": "measured",
+      "value": 0.26666666666666666,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Selected pre-expansion top-5 children; post-run binary overlap with spans derived from frozen expected facts. Precision divides by K even with fewer results. Macro-average, misses zero; diagnostic labels are not exhaustive semantic relevance.",
+      "artifact": "review.json"
+    },
+    "hit_rate_at_k": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Selected pre-expansion top-5 children; post-run binary overlap with spans derived from frozen expected facts. Precision divides by K even with fewer results. Macro-average, misses zero; diagnostic labels are not exhaustive semantic relevance.",
+      "artifact": "review.json"
+    },
+    "mrr_at_k": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Selected pre-expansion top-5 children; post-run binary overlap with spans derived from frozen expected facts. Precision divides by K even with fewer results. Macro-average, misses zero; diagnostic labels are not exhaustive semantic relevance.",
+      "artifact": "review.json"
+    },
+    "ndcg_at_k": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Selected pre-expansion top-5 children; post-run binary overlap with spans derived from frozen expected facts. Precision divides by K even with fewer results. Macro-average, misses zero; diagnostic labels are not exhaustive semantic relevance.",
+      "artifact": "review.json"
+    },
+    "annotated_char_recall": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "All four annotated question-specific spans fully contained in actual supplied context; macro-average over questions. Span labels derived after run from frozen facts.",
+      "artifact": "review.json"
+    },
+    "full_evidence_recall": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "All four annotated question-specific spans fully contained in actual supplied context; macro-average over questions. Span labels derived after run from frozen facts.",
+      "artifact": "review.json"
+    },
+    "answer_correctness": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Codex manual review, macro-average over 3 answers. Six expected points, eight factual claims and eight supporting claim-citation pairs. Rubric and evidence in review.json; not independent accuracy.",
+      "artifact": "review.json"
+    },
+    "answer_completeness": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Codex manual review, macro-average over 3 answers. Six expected points, eight factual claims and eight supporting claim-citation pairs. Rubric and evidence in review.json; not independent accuracy.",
+      "artifact": "review.json"
+    },
+    "fully_correct_points": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Codex manual review, macro-average over 3 answers. Six expected points, eight factual claims and eight supporting claim-citation pairs. Rubric and evidence in review.json; not independent accuracy.",
+      "artifact": "review.json"
+    },
+    "faithfulness": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Codex manual review, macro-average over 3 answers. Six expected points, eight factual claims and eight supporting claim-citation pairs. Rubric and evidence in review.json; not independent accuracy.",
+      "artifact": "review.json"
+    },
+    "answer_relevance": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Codex manual review, macro-average over 3 answers. Six expected points, eight factual claims and eight supporting claim-citation pairs. Rubric and evidence in review.json; not independent accuracy.",
+      "artifact": "review.json"
+    },
+    "citation_support": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Codex manual review, macro-average over 3 answers. Six expected points, eight factual claims and eight supporting claim-citation pairs. Rubric and evidence in review.json; not independent accuracy.",
+      "artifact": "review.json"
+    },
+    "citation_coverage": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Codex manual review, macro-average over 3 answers. Six expected points, eight factual claims and eight supporting claim-citation pairs. Rubric and evidence in review.json; not independent accuracy.",
+      "artifact": "review.json"
+    },
+    "appropriate_abstention": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No judge or unanswerable case in this workflow."
+    },
+    "incorrect_abstention": {
+      "status": "measured",
+      "value": 0.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "No refusal in three answerable cases; cancelled turn is not an abstention.",
+      "artifact": "review.json"
+    },
+    "answerable_refusal": {
+      "status": "measured",
+      "value": 0.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "No refusal in three answerable cases; cancelled turn is not an abstention.",
+      "artifact": "review.json"
+    },
+    "strict_pass_rate": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Codex manual review, macro-average over 3 answers. Six expected points, eight factual claims and eight supporting claim-citation pairs. Rubric and evidence in review.json; not independent accuracy.",
+      "artifact": "review.json"
+    },
+    "contradicted_claims": {
+      "status": "measured",
+      "value": 0,
+      "unit": "claims",
+      "n": 8,
+      "method": "Eight factual claim units manually inspected.",
+      "artifact": "review.json"
+    },
+    "unsupported_claims": {
+      "status": "measured",
+      "value": 0,
+      "unit": "claims",
+      "n": 8,
+      "method": "Eight factual claim units manually inspected.",
+      "artifact": "review.json"
+    },
+    "claim_count": {
+      "status": "measured",
+      "value": 8,
+      "unit": "claims",
+      "n": 3,
+      "method": "Two weekday, two weekend and four comparison claim units.",
+      "artifact": "review.json"
+    },
+    "first_delta_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "UI completion includes browser polling; exact transport/generation start and first delta are not instrumented."
+    },
+    "total_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "UI completion includes browser polling; exact transport/generation start and first delta are not instrumented."
+    },
+    "generation_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "UI completion includes browser polling; exact transport/generation start and first delta are not instrumented."
+    },
+    "generation_first_delta_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "UI completion includes browser polling; exact transport/generation start and first delta are not instrumented."
+    },
+    "retrieval_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.46054151363205165,
+        "p50": 0.4355897499481216,
+        "p95": 0.5127465829718858
+      },
+      "unit": "seconds",
+      "n": 3,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "acceptance.json"
+    },
+    "embedding_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.45092563901562244,
+        "p50": 0.42861233302392066,
+        "p95": 0.5058997500455007
+      },
+      "unit": "seconds",
+      "n": 3,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "acceptance.json"
+    },
+    "rerank_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Disabled reranking, no personal-error/ambiguous-scope case, and no previous rubric in this new workflow."
+    },
+    "packing_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.0002719996652255456,
+        "p50": 0.00023316603619605303,
+        "p95": 0.0004202499985694885
+      },
+      "unit": "seconds",
+      "n": 3,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "acceptance.json"
+    },
+    "search_fusion_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No independent search/fusion timer."
+    },
+    "reliability": {
+      "status": "measured",
+      "value": {
+        "workflow_pass": 1,
+        "workflow_fail": 0,
+        "workflow_skip": 0,
+        "completed_answers": 3,
+        "answer_errors": 0,
+        "answer_timeouts": 0,
+        "intentional_cancellations": 1,
+        "uploads_ready": 2,
+        "deletions_verified": 2,
+        "test_retries": 0,
+        "sdk_retries": 0,
+        "raw_sse_body_observations_failed": 4,
+        "upstream_actual_counts": "unavailable"
+      },
+      "unit": "outcomes",
+      "n": 1,
+      "method": "One sequential workflow, four user submissions: three complete and one intentionally cancelled. Body-observer failures are instrumentation gaps, not answer failures.",
+      "artifact": "acceptance.json"
+    },
+    "judge_reliability": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No judge or unanswerable case in this workflow."
+    },
+    "judge_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No judge or unanswerable case in this workflow."
+    },
+    "token_usage": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Unmodified production API does not expose actual upstream usage or billed cost; not inferred from call upper bounds."
+    },
+    "cost": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Unmodified production API does not expose actual upstream usage or billed cost; not inferred from call upper bounds."
+    },
+    "evidence_tokens": {
+      "status": "measured",
+      "value": [
+        75,
+        75,
+        189
+      ],
+      "unit": "tokens",
+      "n": 3,
+      "method": "Actual supplied evidence including labels.",
+      "artifact": "acceptance.json"
+    },
+    "concurrency_throughput": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "One sequential workflow includes UI inspection and lifecycle actions; not a throughput workload."
+    },
+    "ingestion": {
+      "status": "measured",
+      "value": {
+        "mean": 1.067,
+        "p50": 1.067,
+        "p95": 1.327
+      },
+      "unit": "seconds",
+      "n": 2,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "acceptance.json",
+      "scope": "File input to visible Ready, two synthetic files; includes browser polling."
+    },
+    "update_delete": {
+      "status": "measured",
+      "value": {
+        "deletion_verified": true,
+        "update": "not_applicable; no update endpoint"
+      },
+      "unit": "checks",
+      "n": 1,
+      "method": "Live SQLite tables and file list empty; historical snapshots retained.",
+      "artifact": "acceptance.json"
+    },
+    "model_loading": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Startup not separately timed; reranking disabled, no local reranker loaded."
+    },
+    "functional_case_pass_rate": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Codex manual review, macro-average over 3 answers. Six expected points, eight factual claims and eight supporting claim-citation pairs. Rubric and evidence in review.json; not independent accuracy.",
+      "artifact": "review.json"
+    },
+    "english_compliance": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Codex manual review, macro-average over 3 answers. Six expected points, eight factual claims and eight supporting claim-citation pairs. Rubric and evidence in review.json; not independent accuracy.",
+      "artifact": "review.json"
+    },
+    "named_source_compliance": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 3,
+      "method": "Codex manual review, macro-average over 3 answers. Six expected points, eight factual claims and eight supporting claim-citation pairs. Rubric and evidence in review.json; not independent accuracy.",
+      "artifact": "review.json"
+    },
+    "personal_error_abstention": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Disabled reranking, no personal-error/ambiguous-scope case, and no previous rubric in this new workflow."
+    },
+    "scope_clarification": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Disabled reranking, no personal-error/ambiguous-scope case, and no previous rubric in this new workflow."
+    },
+    "original_rubric_correctness": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Disabled reranking, no personal-error/ambiguous-scope case, and no previous rubric in this new workflow."
+    },
+    "scope_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.0004545556924616297,
+        "p50": 0.0003759170649573207,
+        "p95": 0.0007342910394072533
+      },
+      "unit": "seconds",
+      "n": 3,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "acceptance.json"
+    },
+    "generated_service_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "This bounded browser workflow does not instrument or annotate this metric; exact answers and diagnostics are retained for separate review."
+    },
+    "generated_service_first_delta_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "This bounded browser workflow does not instrument or annotate this metric; exact answers and diagnostics are retained for separate review."
+    },
+    "total_wall_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "This bounded browser workflow does not instrument or annotate this metric; exact answers and diagnostics are retained for separate review."
+    },
+    "first_delta_wall_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "This bounded browser workflow does not instrument or annotate this metric; exact answers and diagnostics are retained for separate review."
+    },
+    "generation_wall_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "This bounded browser workflow does not instrument or annotate this metric; exact answers and diagnostics are retained for separate review."
+    },
+    "generation_first_delta_wall_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "This bounded browser workflow does not instrument or annotate this metric; exact answers and diagnostics are retained for separate review."
+    },
+    "stream_open_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "This bounded browser workflow does not instrument or annotate this metric; exact answers and diagnostics are retained for separate review."
+    },
+    "stream_open_wall_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "This bounded browser workflow does not instrument or annotate this metric; exact answers and diagnostics are retained for separate review."
+    },
+    "max_service_clock_difference": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "This bounded browser workflow does not instrument or annotate this metric; exact answers and diagnostics are retained for separate review."
+    },
+    "runtime_warnings": {
+      "status": "measured",
+      "value": {
+        "browser_javascript_errors": 0,
+        "stream_finalizer_warnings_in_log": 0,
+        "node_color_configuration_warning": 1
+      },
+      "unit": "observed log counts",
+      "n": 1,
+      "method": "Manual inspection of browser.log and acceptance browserErrors; not proof of absence in other runs.",
+      "artifact": "browser.log"
+    },
+    "ui_complete_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 2.826,
+        "p50": 2.83,
+        "p95": 3.325
+      },
+      "unit": "seconds",
+      "n": 3,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "acceptance.json",
+      "scope": "Composer fill/submit to visible Completed; browser polling included, server startup excluded. Not HTTP completion."
+    },
+    "index_bytes": {
+      "status": "measured",
+      "value": 944292,
+      "unit": "bytes",
+      "n": 1,
+      "method": "All files under isolated DATA_DIR after ingestion, including SQLite/WAL and vector index overhead; not marginal content size.",
+      "artifact": "storage-before-deletion.json"
+    }
+  }
+}

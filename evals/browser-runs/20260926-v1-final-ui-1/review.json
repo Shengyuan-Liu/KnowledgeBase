@@ -1,0 +1,224 @@
+{
+  "reviewed_at": "2026-09-26T18:25:46.644167+00:00",
+  "reviewer": "Codex implementer; not independent human or separate API judge",
+  "protocol": "Frozen PLAN.md expected facts; manually inspect every factual claim and citation including extra details. Correctness 0/1/2, relevance 0/1/2. Strict pass requires all expected facts correct and present, every factual claim supported/cited, direct relevance, no refusal.",
+  "scope": "Three completed answers; cancelled turn excluded from answer quality and recorded separately in reliability.",
+  "annotation_timing": "Fact expectations frozen before calls. Exact source spans and child overlap labels derived afterward; diagnostic only.",
+  "cases": [
+    {
+      "question": "According to the general guide, when does the lab open and close on weekdays?",
+      "claims": [
+        {
+          "answer_quote": "the lab opens at 9 AM",
+          "citation_id": 1,
+          "source_file": "general-guide.txt",
+          "source_quote": "opens at 9 AM",
+          "verdict": "supported",
+          "citation_support": true,
+          "review_note": "Exact source fact and document attribution match."
+        },
+        {
+          "answer_quote": "closes at 6 PM on weekdays",
+          "citation_id": 1,
+          "source_file": "general-guide.txt",
+          "source_quote": "closes at 6 PM on weekdays",
+          "verdict": "supported",
+          "citation_support": true,
+          "review_note": "Exact source fact and document attribution match."
+        }
+      ],
+      "expected_points": [
+        {
+          "point": "Weekday opening is 9 AM",
+          "present": true,
+          "correctness": 2
+        },
+        {
+          "point": "Weekday closing is 6 PM",
+          "present": true,
+          "correctness": 2
+        }
+      ],
+      "relevance": 2,
+      "abstains": false,
+      "strict_pass": true,
+      "gold_spans": [
+        {
+          "file": "general-guide.txt",
+          "start_offset": 26,
+          "end_offset": 79
+        }
+      ],
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.2,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "gold_overlap_ids": [
+          "9346e165dff64ff08da789321e35db0e:child:0"
+        ],
+        "relevance": [
+          1
+        ],
+        "k": 5
+      },
+      "full_evidence_coverage": 1.0
+    },
+    {
+      "question": "What about on weekends?",
+      "claims": [
+        {
+          "answer_quote": "on weekends the lab opens at 10 AM",
+          "citation_id": 1,
+          "source_file": "general-guide.txt",
+          "source_quote": "On weekends, the lab opens at 10 AM",
+          "verdict": "supported",
+          "citation_support": true,
+          "review_note": "Exact source fact and document attribution match."
+        },
+        {
+          "answer_quote": "closes at 2 PM",
+          "citation_id": 1,
+          "source_file": "general-guide.txt",
+          "source_quote": "closes at 2 PM",
+          "verdict": "supported",
+          "citation_support": true,
+          "review_note": "Exact source fact and document attribution match."
+        }
+      ],
+      "expected_points": [
+        {
+          "point": "Weekend opening is 10 AM",
+          "present": true,
+          "correctness": 2
+        },
+        {
+          "point": "Weekend closing is 2 PM",
+          "present": true,
+          "correctness": 2
+        }
+      ],
+      "relevance": 2,
+      "abstains": false,
+      "strict_pass": true,
+      "gold_spans": [
+        {
+          "file": "general-guide.txt",
+          "start_offset": 80,
+          "end_offset": 136
+        }
+      ],
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.2,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "gold_overlap_ids": [
+          "9346e165dff64ff08da789321e35db0e:child:0"
+        ],
+        "relevance": [
+          1
+        ],
+        "k": 5
+      },
+      "full_evidence_coverage": 1.0
+    },
+    {
+      "question": "According to the general guide and access guide, which document explicitly requires a reservation for weekend visits?",
+      "claims": [
+        {
+          "answer_quote": "Weekend visits require a confirmed reservation.",
+          "citation_id": 1,
+          "source_file": "access-guide.md",
+          "source_quote": "Weekend visits require a confirmed reservation.",
+          "verdict": "supported",
+          "citation_support": true,
+          "review_note": "Exact source fact and document attribution match."
+        },
+        {
+          "answer_quote": "Submit a reservation request at least 24 hours in advance",
+          "citation_id": 1,
+          "source_file": "access-guide.md",
+          "source_quote": "Submit a reservation request at least 24 hours in advance",
+          "verdict": "supported",
+          "citation_support": true,
+          "review_note": "Exact source fact and document attribution match."
+        },
+        {
+          "answer_quote": "does not mention any requirement for a reservation for weekend visits",
+          "citation_id": 2,
+          "source_file": "general-guide.txt",
+          "source_quote": "Title: General Lab Guide\n\nThe lab opens at 9 AM and closes at 6 PM on weekdays.\nOn weekends, the lab opens at 10 AM and closes at 2 PM.\n",
+          "verdict": "supported",
+          "citation_support": true,
+          "review_note": "Absence reviewed against the full tiny General fixture; weekend-only wording is interpreted within the question, not as denying its weekday information."
+        },
+        {
+          "answer_quote": "it only provides the weekend opening and closing times",
+          "citation_id": 2,
+          "source_file": "general-guide.txt",
+          "source_quote": "On weekends, the lab opens at 10 AM and closes at 2 PM.",
+          "verdict": "supported",
+          "citation_support": true,
+          "review_note": "Absence reviewed against the full tiny General fixture; weekend-only wording is interpreted within the question, not as denying its weekday information."
+        }
+      ],
+      "expected_points": [
+        {
+          "point": "Access explicitly requires a weekend reservation",
+          "present": true,
+          "correctness": 2
+        },
+        {
+          "point": "General does not specify a weekend reservation requirement",
+          "present": true,
+          "correctness": 2
+        }
+      ],
+      "relevance": 2,
+      "abstains": false,
+      "strict_pass": true,
+      "gold_spans": [
+        {
+          "file": "access-guide.md",
+          "start_offset": 45,
+          "end_offset": 152
+        },
+        {
+          "file": "general-guide.txt",
+          "start_offset": 0,
+          "end_offset": 136
+        }
+      ],
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "gold_overlap_ids": [
+          "9346e165dff64ff08da789321e35db0e:child:0",
+          "e14adb5995994b85a24683d949938f85:child:1"
+        ],
+        "relevance": [
+          1,
+          1,
+          0
+        ],
+        "k": 5
+      },
+      "full_evidence_coverage": 1.0
+    }
+  ],
+  "visual_review": {
+    "screenshots": [
+      "comparison-evidence.png",
+      "deleted-evidence.png"
+    ],
+    "result": "Readable three-column desktop layout; comparison citations, heading/line locations and deleted historical label visible. No mobile/responsive coverage claimed."
+  },
+  "transport_observer_correction": "All four response.text() calls failed to provide bodies. The original harness hardcoded cancellation in the error, incorrectly including three completed requests. Cause was not captured; no conclusion about transport failure follows. Complete saved answers/evidence are verified. Future harness retains actual errors; no paid rerun.",
+  "cancellation": "Stop after Answering status; no proof that first answer text had arrived. No unfinished turn persisted."
+}

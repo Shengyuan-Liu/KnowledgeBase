@@ -3,7 +3,9 @@
 A TXT and Markdown knowledge base with structural chunking, hybrid retrieval,
 and source-grounded answers.
 
-The [v1 design documents](docs/v1/README.md) define the ongoing version.
+The [v1 release summary](docs/v1/release-summary.md) records the delivered version,
+accepted defaults, experiments, verification and known limits. The implementation
+was merged locally at `483a156`; independent release-quality validation remains open.
 TXT/Markdown parsing, structural chunking, and source storage are connected to
 uploads. [Parent-child retrieval](docs/parent-child-retrieval.md) is the default
 strategy.

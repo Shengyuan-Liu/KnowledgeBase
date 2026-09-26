@@ -1,13 +1,14 @@
 # Documentation
 
-## v1 Design
+## v1 Release and Design
 
-The [v1 design set](v1/README.md) tracks the ongoing version: TXT/Markdown,
-structure-aware and parent-child chunking, BM25/vector retrieval with RRF and
-reranking, and an evaluated semantic-chunking option. It includes product,
-technical, frontend, system, and evaluation plans. Its status page separates
-merged features, implemented changes awaiting acceptance, and remaining work.
-Design goals alone do not establish implementation or measured quality.
+Start with the [v1 release summary](v1/release-summary.md): delivered features,
+default settings, retained experiments, acceptance evidence and remaining validation.
+The implementation was merged locally at `483a156`; the final real-provider UI
+workflow passes. [Known issues](v1/known-issues.md) remain explicit, including the
+nonfatal stream warning and independent held-out/human quality validation.
+The [v1 design set](v1/README.md) retains product, technical, frontend, system and
+evaluation references. Design goals alone do not establish measured quality.
 
 ## Project Organization
 

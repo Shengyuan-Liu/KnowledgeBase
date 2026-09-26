@@ -7,9 +7,11 @@ more relevant evidence and supplying enough surrounding context to interpret it.
 v1 improves the existing personal knowledge base; it does not add a separate
 agent product or change the local deployment model.
 
-Status: planned. The [technical plan](v1-technical-plan.md) describes proposed
-implementation, and the [evaluation plan](v1-evaluation-plan.md) defines how to
-test the expected benefits.
+Status: the scoped implementation was accepted and merged locally at `483a156`
+on 2026-09-26. This document retains the product goals and acceptance scenarios.
+See the [release summary](release-summary.md) for delivered defaults, opt-in
+experiments and evidence. The [evaluation plan](v1-evaluation-plan.md) still
+distinguishes functional acceptance from pending independent quality validation.
 
 ## Motivation
 

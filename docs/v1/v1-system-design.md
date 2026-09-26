@@ -1,9 +1,10 @@
 # KnowledgeBase v1 System Design
 
-Status: the structural parent-child and hybrid retrieval paths are implemented.
-Semantic child boundaries are implemented as an opt-in experiment. Reranking and
-packing improvements are on `v1` awaiting user acceptance. See the
-[version status](README.md) for merge boundaries; diagrams do not establish quality.
+Status: the v1 implementation, including optional reranking, semantic child
+boundaries and packing improvements, was merged locally at `483a156`. Structural
+parent-child/hybrid retrieval remains the default; reranking is off and semantic
+chunking remains experimental. See the [release summary](release-summary.md) for
+acceptance evidence and open validation gaps; diagrams do not establish quality.
 
 ## Ingestion
 

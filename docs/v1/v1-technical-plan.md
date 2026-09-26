@@ -2,8 +2,10 @@
 
 ## Scope and Architecture
 
-Status: stages 1-5 and the frontend integration are implemented; see the [version status](README.md) for merge
-boundaries and remaining work. Continue the [product design](v1-product-design.md) using the
+Status: stages 1-5 and frontend integration are implemented and merged locally
+at `483a156`; default functional acceptance passes. Independent quality validation
+remains open. See the [release summary](release-summary.md) for current evidence.
+The [product design](v1-product-design.md) uses the
 existing React/TypeScript frontend, FastAPI services, SQLite/SQLAlchemy storage,
 Chroma vector index, provider interfaces, and ordinary Python orchestration.
 API, CLI, and evaluations must use the same retrieval implementation.
@@ -171,9 +173,9 @@ separately before switching the running application.
 | 1 | TXT/Markdown source representation and structural sentence chunks | Merged; exact spans and live Markdown workflow recorded |
 | 2 | Parent-child storage and vector retrieval with parent expansion | Merged; relationships, budget, history and cleanup covered |
 | 3 | BM25 plus RRF over child IDs | Merged; route eligibility, fusion and development comparison recorded |
-| 4 | Reranker integration | Implemented on v1; local BGE and packing comparisons recorded; user acceptance pending |
-| 5 | Semantic child-chunking strategy | Implemented opt-in on v1; offline and paired live comparisons recorded; two evidence regressions, user acceptance pending |
-| 6 | Frontend integration and release evaluation | Frontend offline and real-provider workflows verified; paired live evaluation recorded; independent release evidence and user acceptance remain |
+| 4 | Reranker integration | Merged; local BGE and packing comparisons recorded; reranking remains off by default |
+| 5 | Semantic child-chunking strategy | Merged as an opt-in experiment; paired comparisons retain two evidence regressions; no default promotion |
+| 6 | Frontend integration and release evaluation | Merged and functionally accepted; final default real-provider UI workflow passed; independent held-out/human quality evidence remains open |
 
 Add relevant tests with each implemented stage and commit each completed change.
 This documentation does not authorize writing Python implementation beyond the
