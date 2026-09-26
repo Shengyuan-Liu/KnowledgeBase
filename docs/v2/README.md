@@ -61,6 +61,10 @@ combines all three; stage completion does not establish a general quality gain.
 | Quality, latency, and cost thresholds | Freeze from development evidence before held-out evaluation | Evaluation preparation |
 | v2 development branch | Use `v2` for all v2 implementation and documentation commits | Confirmed by the user on 2026-09-26 |
 
+Keep only `main` and the active version branch, currently `v2`, locally and on
+GitHub. The retired `v1` branch had no commits outside `main`; its release history
+remains available in Git and the v1 documentation.
+
 Follow [AGENTS.md](../../AGENTS.md) for English project text, Python ownership,
 verification, and commits. This document request authorizes documentation, not
 Python implementation. User acceptance and explicit feature-specific merge
