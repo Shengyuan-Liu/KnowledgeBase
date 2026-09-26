@@ -1,0 +1,760 @@
+{
+  "version": "automated-metrics-v1",
+  "metrics": {
+    "recall_at_k": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "precision_at_k": {
+      "status": "measured",
+      "value": 0.2571428571428572,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "hit_rate_at_k": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "mrr_at_k": {
+      "status": "measured",
+      "value": 0.8571428571428571,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "ndcg_at_k": {
+      "status": "measured",
+      "value": 0.8945513581632736,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "annotated_char_recall": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Union of actual supplied source spans; average gold spans per answer then macro-average answerable cases.",
+      "artifact": "answers.jsonl"
+    },
+    "full_evidence_recall": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Union of actual supplied source spans; average gold spans per answer then macro-average answerable cases.",
+      "artifact": "answers.jsonl"
+    },
+    "answer_correctness": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 22,
+      "method": "Micro-average v2 required points, 0/1/2; Codex, PLAN.md.",
+      "artifact": "manual-review.json"
+    },
+    "answer_completeness": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 22,
+      "method": "Required points addressed; distinct from correctness.",
+      "artifact": "manual-review.json"
+    },
+    "fully_correct_points": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 22,
+      "method": "Frozen v2 expected points, explicit Codex review.",
+      "artifact": "manual-review.json"
+    },
+    "faithfulness": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 26,
+      "method": "Every inventoried factual claim occurrence including extras/repeats; absence statements scored as abstention.",
+      "artifact": "manual-review.json"
+    },
+    "answer_relevance": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 11,
+      "method": "0 off-topic, 1 extraneous, 2 responsive; independent from factual accuracy.",
+      "artifact": "manual-review.json"
+    },
+    "citation_support": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 26,
+      "method": "Semantically associated claim/citation pairs; not ID validity.",
+      "artifact": "manual-review.json"
+    },
+    "citation_coverage": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 26,
+      "method": "Factual claims with local supporting citations; claim-free refusals exempt.",
+      "artifact": "manual-review.json"
+    },
+    "appropriate_abstention": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 4,
+      "method": "Unavailable answers and unresolved scope; four cases, two of each, shown separately.",
+      "artifact": "manual-review.json"
+    },
+    "incorrect_abstention": {
+      "status": "measured",
+      "value": 0,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Answerable cases, including the FAQ comparison; denominator seven.",
+      "artifact": "manual-review.json"
+    },
+    "answerable_refusal": {
+      "status": "measured",
+      "value": 0,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Full/partial refusal on answerable questions.",
+      "artifact": "manual-review.json"
+    },
+    "strict_pass_rate": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No paid judge; use recorded manual functional protocol."
+    },
+    "contradicted_claims": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Support sufficiency recorded; no separate contradiction taxonomy."
+    },
+    "unsupported_claims": {
+      "status": "measured",
+      "value": 0,
+      "unit": "claims",
+      "n": 11,
+      "method": "Full claim inventory; Codex.",
+      "artifact": "manual-review.json"
+    },
+    "claim_count": {
+      "status": "measured",
+      "value": 26,
+      "unit": "claims",
+      "n": 11,
+      "method": "Full claim inventory; Codex.",
+      "artifact": "manual-review.json"
+    },
+    "first_delta_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 1.2846929924774237,
+        "p50": 1.380807499983348,
+        "p95": 3.596310541033745
+      },
+      "unit": "seconds",
+      "n": 11,
+      "method": "Successful observations; median P50, nearest-rank P95. In-process service, including queue/provider waits and persistence as applicable; excludes HTTP/browser. Includes two deterministic clarifications.",
+      "artifact": "answers.jsonl"
+    },
+    "total_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 1.756865984918973,
+        "p50": 1.921936999890022,
+        "p95": 4.016444750013761
+      },
+      "unit": "seconds",
+      "n": 11,
+      "method": "Successful observations; median P50, nearest-rank P95. In-process service, including queue/provider waits and persistence as applicable; excludes HTTP/browser. Includes two deterministic clarifications.",
+      "artifact": "answers.jsonl"
+    },
+    "generation_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 1.6219993149214942,
+        "p50": 1.5594023329904303,
+        "p95": 2.433578583993949
+      },
+      "unit": "seconds",
+      "n": 9,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "generation_first_delta_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 1.0503541204638571,
+        "p50": 1.0652830840554088,
+        "p95": 2.0228350840043277
+      },
+      "unit": "seconds",
+      "n": 9,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "retrieval_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.4237745718776502,
+        "p50": 0.45242991705890745,
+        "p95": 1.5659582919906825
+      },
+      "unit": "seconds",
+      "n": 11,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "embedding_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.4954727915788276,
+        "p50": 0.4661322500323877,
+        "p95": 1.4949787079822272
+      },
+      "unit": "seconds",
+      "n": 9,
+      "method": "Successful observations; median P50, nearest-rank P95. Only executed query embedding stages; skipped calls excluded, not zero durations.",
+      "artifact": "answers.jsonl"
+    },
+    "rerank_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Local reranking disabled."
+    },
+    "packing_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.008492615888826549,
+        "p50": 0.0027604170609265566,
+        "p95": 0.052574874949641526
+      },
+      "unit": "seconds",
+      "n": 9,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "search_fusion_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Production service exposes total retrieval, embedding, rerank and packing; search/fusion not independently timed."
+    },
+    "reliability": {
+      "status": "measured",
+      "value": {
+        "attempted": 11,
+        "planned": 11,
+        "success": 11,
+        "errors": 0,
+        "not_attempted": 0,
+        "success_rate": 1.0,
+        "timeouts": 0,
+        "retries": 0
+      },
+      "unit": "requests",
+      "n": 11,
+      "method": "All planned RAG requests; SDK retries disabled, partial answers do not succeed.",
+      "artifact": "answers.jsonl"
+    },
+    "judge_reliability": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No paid judge; use recorded manual functional protocol."
+    },
+    "judge_seconds": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No paid judge; use recorded manual functional protocol."
+    },
+    "token_usage": {
+      "ingestion": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "Verified existing index copied; no ingestion calls."
+      },
+      "query_embedding": {
+        "status": "measured",
+        "value": {
+          "total_tokens": 289,
+          "prompt_tokens": 289
+        },
+        "unit": "tokens",
+        "n": 9,
+        "method": "Provider-reported totals for 9/9 calls; missing failed-call usage excluded, not zero billed cost.",
+        "artifact": "calls.jsonl"
+      },
+      "generation": {
+        "status": "measured",
+        "value": {
+          "input_tokens": 28843,
+          "output_tokens": 896,
+          "total_tokens": 29739
+        },
+        "unit": "tokens",
+        "n": 9,
+        "method": "Provider-reported totals for 9/9 calls; missing failed-call usage excluded, not zero billed cost.",
+        "artifact": "calls.jsonl"
+      },
+      "judge": {
+        "status": "not_applicable",
+        "value": null,
+        "reason": "No judge calls."
+      }
+    },
+    "cost": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Provider responses do not expose billed dollars; no inferred price substituted."
+    },
+    "evidence_tokens": {
+      "status": "measured",
+      "value": [
+        2262,
+        2262,
+        782,
+        2262,
+        906,
+        1042,
+        1121,
+        3779,
+        4095,
+        0,
+        0
+      ],
+      "unit": "tokens",
+      "n": 11,
+      "method": "Exact formatted supplied evidence tokens including metadata.",
+      "artifact": "answers.jsonl"
+    },
+    "concurrency_throughput": {
+      "status": "measured",
+      "value": {
+        "concurrency": 1,
+        "wall_seconds": 19.34419545903802,
+        "successful_requests_per_second": 0.5686460325162072
+      },
+      "unit": "requests/second",
+      "n": 11,
+      "method": "Sequential service batch including logging; not load capacity.",
+      "artifact": "run.json"
+    },
+    "ingestion": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "No fresh ingestion; unchanged source/index snapshots verified against the baseline."
+    },
+    "update_delete": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Not exercised by this live query batch; see offline workflow checks."
+    },
+    "model_loading": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Local reranking disabled; no local inference model loaded."
+    },
+    "functional_case_pass_rate": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 11,
+      "method": "PLAN.md required facts, claim/citation support, source scope and English.",
+      "artifact": "manual-review.json"
+    },
+    "english_compliance": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 11,
+      "method": "Manual full-output inspection; names/code preserved.",
+      "artifact": "manual-review.json"
+    },
+    "named_source_compliance": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 11,
+      "method": "Manual attribution against actual file identities.",
+      "artifact": "manual-review.json"
+    },
+    "personal_error_abstention": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 2,
+      "method": "Two unavailable personal/API-error questions.",
+      "artifact": "manual-review.json"
+    },
+    "scope_clarification": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 2,
+      "method": "Two unresolved document requests; no provider call.",
+      "artifact": "manual-review.json"
+    },
+    "original_rubric_correctness": {
+      "status": "measured",
+      "value": 0.9722222222222222,
+      "unit": "fraction",
+      "n": 18,
+      "method": "Original reference version for eight historical questions; optional awards details retained.",
+      "artifact": "manual-review.json"
+    },
+    "scope_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.0011886038701049984,
+        "p50": 0.0011944369762204587,
+        "p95": 0.0014995000092312694
+      },
+      "unit": "seconds",
+      "n": 8,
+      "method": "Successful observations; median P50, nearest-rank P95. Identity lookup/resolution within retrieval; includes clarification paths.",
+      "artifact": "answers.jsonl"
+    },
+    "generated_service_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 2.1460539398895992,
+        "p50": 2.00711579201743,
+        "p95": 4.016444750013761
+      },
+      "unit": "seconds",
+      "n": 9,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "generated_service_first_delta_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 1.569522162123273,
+        "p50": 1.52643812505994,
+        "p95": 3.596310541033745
+      },
+      "unit": "seconds",
+      "n": 9,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "total_wall_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 1.756853168660944,
+        "p50": 1.9219229221343994,
+        "p95": 4.016416072845459
+      },
+      "unit": "seconds",
+      "n": 11,
+      "method": "Successful observations; median P50, nearest-rank P95. Wall elapsed, including any suspension/clock change; no transitions recorded during this batch.",
+      "artifact": "answers.jsonl"
+    },
+    "first_delta_wall_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 1.2846836176785557,
+        "p50": 1.3807978630065918,
+        "p95": 3.5962839126586914
+      },
+      "unit": "seconds",
+      "n": 11,
+      "method": "Successful observations; median P50, nearest-rank P95. Wall elapsed, including any suspension/clock change; no transitions recorded during this batch.",
+      "artifact": "answers.jsonl"
+    },
+    "generation_wall_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 1.62198895878262,
+        "p50": 1.5593931674957275,
+        "p95": 2.433562755584717
+      },
+      "unit": "seconds",
+      "n": 9,
+      "method": "Successful observations; median P50, nearest-rank P95. Wall elapsed, including any suspension/clock change; no transitions recorded during this batch.",
+      "artifact": "answers.jsonl"
+    },
+    "generation_first_delta_wall_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 1.0503471427493625,
+        "p50": 1.0652761459350586,
+        "p95": 2.0228207111358643
+      },
+      "unit": "seconds",
+      "n": 9,
+      "method": "Successful observations; median P50, nearest-rank P95. Wall elapsed, including any suspension/clock change; no transitions recorded during this batch.",
+      "artifact": "answers.jsonl"
+    },
+    "stream_open_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.829461754558401,
+        "p50": 0.8762725420529023,
+        "p95": 1.7472077499842271
+      },
+      "unit": "seconds",
+      "n": 9,
+      "method": "Successful observations; median P50, nearest-rank P95. SDK create to receiving the streaming response; not first answer delta.",
+      "artifact": "calls.jsonl"
+    },
+    "stream_open_wall_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.8294566737280952,
+        "p50": 0.8762679100036621,
+        "p95": 1.7471957206726074
+      },
+      "unit": "seconds",
+      "n": 9,
+      "method": "Successful observations; median P50, nearest-rank P95. SDK create to receiving the streaming response; not first answer delta.",
+      "artifact": "calls.jsonl"
+    },
+    "max_service_clock_difference": {
+      "status": "measured",
+      "value": 2.8677168302237988e-05,
+      "unit": "seconds",
+      "n": 11,
+      "method": "Maximum absolute active/wall elapsed divergence; not adjusted away.",
+      "artifact": "answers.jsonl"
+    },
+    "runtime_warnings": {
+      "status": "measured",
+      "value": {
+        "unraisable_async_generator_warnings": 1
+      },
+      "unit": "warnings",
+      "n": 1,
+      "method": "Raw stderr inspection; request success does not erase runtime warnings.",
+      "artifact": "run.log"
+    }
+  },
+  "cases": [
+    {
+      "case_id": "accept-load-hours",
+      "pass": true,
+      "points": [
+        {
+          "reference": "Full-time students register for 9 credits; part-time students register for less than 9 credits.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "Plan 10–15 hours per week per data science course, assuming all prerequisites are met.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": []
+    },
+    {
+      "case_id": "accept-independent-passfail",
+      "pass": true,
+      "points": [
+        {
+          "reference": "Up to 6 credits of independent study, DS-GA 1010, can count.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "Only one elective, excluding the One Data Science Elective requirement, and DS-GA 1009 may count pass/fail.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "Industry Concentration students can use the one-elective allowance for an Industry Concentration elective.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "Required degree courses cannot be taken pass/fail.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": []
+    },
+    {
+      "case_id": "accept-course-two-areas",
+      "pass": true,
+      "points": [
+        {
+          "reference": "DS-GA 1012 appears in both the Big Data and Natural Language Processing lists.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "The title is Large Language Models: Evaluation and Applications.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": []
+    },
+    {
+      "case_id": "accept-awards-jobs",
+      "pass": true,
+      "points": [
+        {
+          "reference": "All admission applicants are considered for tuition scholarships on a competitive basis.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "Recipients are notified in their admit letter.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "On-campus research or teaching positions are not guaranteed for any individual.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": [
+        "All requested v2 facts present, with only General FAQ evidence. Original optional scholarship-count detail still omitted and retained as a partial original-rubric point."
+      ]
+    },
+    {
+      "case_id": "accept-beta-header-scope",
+      "pass": true,
+      "points": [
+        {
+          "reference": "anthropic-beta is ignored for /messages but required for Files API endpoints with files-api-2025-04-14.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "anthropic-version is ignored.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": []
+    },
+    {
+      "case_id": "accept-message-subfields",
+      "pass": true,
+      "points": [
+        {
+          "reference": "Text content citations are ignored.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "The id field of tool_use content is fully supported.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "The is_error field of tool_result content is ignored.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": []
+    },
+    {
+      "case_id": "accept-unspecified-api-error",
+      "pass": true,
+      "points": [
+        {
+          "reference": "The saved guide does not specify the exact HTTP status code or JSON error body; do not invent either.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": [
+        "Exact HTTP status and JSON body are explicitly withheld. The support-status fact occurs twice; both occurrences are reviewed. Redundant closing summary is a style miss, not a new factual/abstention failure."
+      ]
+    },
+    {
+      "case_id": "accept-personal-study-approval",
+      "pass": true,
+      "points": [
+        {
+          "reference": "The provided public documents do not establish the user’s proposal approval status or assigned supervisor; explicitly acknowledge the missing personal information without inventing it.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": [
+        "Both personal facts are withheld with no invented supervisor, approval or contact advice. Absence statements are reviewed as abstention, not positive facts; source IDs on them do not prove unseen personal information."
+      ]
+    },
+    {
+      "case_id": "scope-compare-faqs",
+      "pass": true,
+      "points": [
+        {
+          "reference": "The admissions FAQ explicitly states that no separate scholarship application process is needed.",
+          "correctness": 2,
+          "present": true
+        },
+        {
+          "reference": "The general FAQ does not include that statement; do not infer that it requires a separate application.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": [
+        "Both frozen points now explicit: Admissions contains the statement, General does not state it. Both gold spans are supplied in correctly labeled sources; the quoted General paragraph does not imply an opposite application rule. The final summary repeats the conclusion. Page-wide absence wording is broader than the requested excerpt wording, but matches the inspected frozen General FAQ; do not generalize to current websites or unseen documents."
+      ]
+    },
+    {
+      "case_id": "scope-ambiguous-faq",
+      "pass": true,
+      "points": [
+        {
+          "reference": "Ask the user to identify the intended FAQ; do not select one arbitrarily or answer the substantive question.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": [
+        "Deterministic scope clarification, no evidence or provider calls; filenames describe actual library state."
+      ]
+    },
+    {
+      "case_id": "scope-missing-file",
+      "pass": true,
+      "points": [
+        {
+          "reference": "State that the specified ready document was not found and request a filename or upload; do not answer from other documents.",
+          "correctness": 2,
+          "present": true
+        }
+      ],
+      "findings": [
+        "Deterministic scope clarification, no evidence or provider calls; filenames describe actual library state."
+      ]
+    }
+  ],
+  "limitations": [
+    "Development/regression set; not held-out accuracy.",
+    "LLM judgments are assessments, not human ground truth; inventory misclassification and semantic errors remain possible.",
+    "In-process production streaming service, excluding app HTTP transport; no warmup, caches and host/provider load uncontrolled.",
+    "A non-fatal BoundAsyncStream async-generator finalizer warning remains in run.log; not reproduced in 25 offline SDK streams with forced collection. All requests completed and persisted, but absence of a resource leak is not established for every provider transport.",
+    "Some responses repeat their conclusion; comparison absence is phrased page-wide but matches this inspected frozen document. These style/wording limits are not a changed factual rubric.",
+    "Host was kept awake for this batch; previous performance is sleep-confounded, so the comparison is descriptive, not isolated provider improvement."
+  ],
+  "reviewer": "Codex implementer, not independent human review",
+  "review_protocol": "PLAN.md"
+}

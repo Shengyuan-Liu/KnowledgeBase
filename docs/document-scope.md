@@ -100,3 +100,12 @@ coverage. Strict acceptance still records a missing explicit contrast point,
 slow generations and one stream timeout. The [bounded recovery](../evals/library-runs/20260925-scope-timeout-recovery/README.md)
 passes that failed request separately; it does not erase first-pass reliability
 or authorize a merge.
+
+
+The subsequent [awake-host acceptance](../evals/library-runs/20260926-comparison-awake/README.md)
+passes all 11 unchanged strict cases, including both comparison points, and the
+original latency gates. Host power logs explain a confound in the previous timing
+sample; old failures remain unchanged. The generation format now explicitly
+preserves one item per compared document. The new report retains a non-fatal
+stream-finalizer warning and wording limitations; success supports the default
+path's merge recommendation, subject to explicit user approval.

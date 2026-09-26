@@ -98,3 +98,12 @@ and the first pass retains a stream timeout and two slow completed generations.
 One bounded recovery passes separately. Combined strict case coverage is 10/11,
 service completion 11/12 attempts. Original answers, criteria, failures and missing
 failed-request usage remain visible; no prompt/model retuning or merge followed.
+
+
+The subsequent [awake-host acceptance](../evals/library-runs/20260926-comparison-awake/README.md)
+passes all 11 unchanged strict cases, including both comparison points, and the
+original latency gates. Host power logs explain a confound in the previous timing
+sample; old failures remain unchanged. The generation format now explicitly
+preserves one item per compared document. The new report retains a non-fatal
+stream-finalizer warning and wording limitations; success supports the default
+path's merge recommendation, subject to explicit user approval.

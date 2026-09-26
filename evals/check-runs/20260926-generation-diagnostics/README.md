@@ -52,3 +52,14 @@ measurement inventory. Mocked timings are not production latency. The diagnosis
 reuses historical paid observations and makes no new provider requests. This
 change requires no frontend implementation or index migration. Work remains on
 `v1`; no merge authorized.
+
+- `stream-cleanup-1`: 12 passed after the live log exposed a non-fatal async stream
+  finalizer warning. Includes 25 repeated real-SDK/mock-HTTP streams with forced
+  collection and unraisable warnings treated as failures; warning not reproduced.
+- `artifact-audit-1`: six checks of frozen inputs, real corpus scope, raw streams,
+  provider usage, claim offsets, saved conversations and complete inventories.
+  This is evidence-integrity verification, not additional quality sampling.
+
+The [one live acceptance](../../library-runs/20260926-comparison-awake/README.md)
+passes 11/11 strict cases and timing gates. Its finalizer warning is retained;
+no additional provider calls were made to try to remove it.
