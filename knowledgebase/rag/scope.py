@@ -56,7 +56,7 @@ def document_references(question: str) -> list[str]:
     if stop is None:
         return []
     clause = rest[:stop]
-    if not re.search(r'\b(?:faqs?|guides?|documents?|files?|pages?)\b|\.(?:md|txt)\b|["`]', clause, re.I):
+    if not re.search(r'\b(?:faqs?|guides?|documents?|files?|pages?)\b|\.(?:md|txt|pdf)\b|["`]', clause, re.I):
         return []
     parts = re.split(r'\s+and\s+(?=(?:[^"`]*["`][^"`]*["`])*[^"`]*$)', clause, flags=re.I)
     return [re.sub(r'^(?:(?:the|saved|uploaded)\s+)+', '', part.strip(), flags=re.I).strip('"` ')

@@ -1,6 +1,7 @@
 """Execute independent queries, merge child ranks, then pack one evidence set."""
 
 from time import perf_counter
+from collections.abc import Callable
 from typing import Literal
 
 from pydantic import BaseModel, Field
@@ -133,6 +134,8 @@ def retrieve_plan(
     retrieval_options: RetrievalOptions | None = None,
     reranker_client: RerankerClient | None = None,
     file_ids: list[str] | None = None,
+    allowed_file_ids: list[str] | None = None,
+    checkpoint: Callable[[], object] | None = None,
 ) -> PlannedEvidence:
     """Execute a caller-supplied plan without generation, retries or extra rounds.
 
@@ -140,6 +143,8 @@ def retrieve_plan(
     Provider/schema errors propagate; no partial result is presented as success.
     """
     started = perf_counter()
+    if checkpoint:
+        checkpoint()
     if top_k <= 0 or evidence_max_tokens <= 0:
         raise ValueError("top_k and evidence_max_tokens must be positive.")
     options = retrieval_options or RetrievalOptions()
@@ -147,7 +152,7 @@ def retrieve_plan(
     if options.rerank_enabled and reranker_client is None:
         raise ValueError("Enabled reranking requires a reranker client.")
     ready, scope = resolve_ready_scope(plan.resolved_question, session, file_ids=file_ids,
-                                       scope_question=plan.original_question)
+                                       scope_question=plan.original_question, allowed_file_ids=allowed_file_ids)
     trace = PlanTrace(
         plan=plan, allowed_file_ids=list(ready), document_scope=scope,
         cross_query_rrf_k=options.rrf_k,
@@ -166,6 +171,8 @@ def retrieve_plan(
                 raise ValueError(f"Query {query.query_id} attempts to expand the allowed ready-file scope.")
         runs_by_key = {}
         for query in plan.queries:
+            if checkpoint:
+                checkpoint()
             selected_files = query.file_ids if query.file_ids is not None else scope.file_ids if scope else None
             key = (query.text.strip(), tuple(sorted(set(selected_files))) if selected_files is not None else None)
             if key in runs_by_key:
@@ -182,6 +189,8 @@ def retrieve_plan(
                 prioritize_scope=plan.route == "direct",
                 scope_question=plan.original_question if plan.route == "direct" else None,
             )
+            if checkpoint:
+                checkpoint()
             candidates.diagnostics.retrieval_seconds = perf_counter() - query_started
             run = QueryRun(query_ids=[query.query_id], requirement_ids=list(dict.fromkeys(query.requirement_ids)),
                            text=query.text, requested_file_ids=selected_files, result=candidates,
@@ -189,6 +198,8 @@ def retrieve_plan(
             trace.runs.append(run)
             runs_by_key[key] = run
     merge_started = perf_counter()
+    if checkpoint:
+        checkpoint()
     trace.merged = merge_query_runs(trace.runs, k=options.rrf_k)
     trace.selected_ids = ([hit.chunk.chunk_id for hit in trace.runs[0].result.hits]
                           if plan.route == "direct" and trace.runs else
@@ -218,4 +229,6 @@ def retrieve_plan(
             budget_excluded_ids=[identity for identity in selected_ids if identity not in supplied],
         ))
     trace.total_seconds = perf_counter() - started
+    if checkpoint:
+        checkpoint()
     return PlannedEvidence(evidence=evidence, trace=trace)

@@ -52,3 +52,27 @@ def direct_plan(question: str, *, resolved_question: str | None = None) -> Retri
         requirements=[AnswerRequirement(requirement_id="answer", description=question)],
         queries=[PlannedQuery(query_id="direct", text=resolved, requirement_ids=["answer"])],
     )
+
+
+class DraftQuery(PlanRecord):
+    query_id: str = Field(min_length=1)
+    text: str = Field(pattern=r"\S")
+    requirement_ids: list[str] = Field(min_length=1)
+
+
+class PlanDecision(PlanRecord):
+    """Model output cannot replace questions or authorize file identities."""
+    route: Literal["direct", "decomposed", "needs_narrowing"]
+    requirements: list[AnswerRequirement] = Field(max_length=6)
+    queries: list[DraftQuery] = Field(max_length=6)
+
+    def to_plan(self, original: str, resolved: str) -> RetrievalPlan | None:
+        if self.route in {"direct", "needs_narrowing"}:
+            if self.requirements or self.queries:
+                raise ValueError("Direct and narrowing decisions must have empty requirement/query lists.")
+            return direct_plan(original, resolved_question=resolved) if self.route == "direct" else None
+        return RetrievalPlan(
+            original_question=original, resolved_question=resolved, route="decomposed",
+            requirements=self.requirements,
+            queries=[PlannedQuery(**query.model_dump()) for query in self.queries],
+        )

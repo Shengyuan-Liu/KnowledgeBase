@@ -1,7 +1,8 @@
 import { expect, test } from "@playwright/test";
 import path from "node:path";
 
-test("PDF upload, page links, reload and historical evidence after deletion", async ({ page, request }, testInfo) => {
+for (const planned of [false, true]) {
+test(`PDF upload, page links, reload and historical evidence after deletion (planned=${planned})`, async ({ page, request }, testInfo) => {
   for (const file of await (await request.get("/api/files")).json()) await request.delete(`/api/files/${file.file_id}`);
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("/");
@@ -9,6 +10,7 @@ test("PDF upload, page links, reload and historical evidence after deletion", as
   await expect(page.getByText("apple-fy24.pdf is ready.")).toBeVisible();
   await expect(page.getByText("Ready · 4 pages · Review extraction")).toBeVisible();
   const composer = page.getByRole("textbox", { name: "Ask about your documents" });
+  if (planned) await page.getByRole("checkbox", { name: "Plan complex questions" }).check();
   await composer.fill("What were total net sales?");
   await composer.press("Enter");
   await expect(page.getByText("Completed", { exact: true })).toBeVisible();
@@ -45,3 +47,4 @@ test("PDF upload, page links, reload and historical evidence after deletion", as
   await expect(evidence.getByText(/original unavailable/).first()).toBeVisible();
   expect((await request.get(href.split("#")[0])).status()).toBe(404);
 });
+}

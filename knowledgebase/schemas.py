@@ -265,6 +265,7 @@ class DocumentScope(BaseModel):
 
 
 class RetrievalDiagnostics(BaseModel):
+    planning: dict[str, Any] | None = None
     document_scope: DocumentScope | None = None
     scope_seconds: float | None = None
     retrieval_seconds: float | None = None
@@ -346,6 +347,7 @@ class ChatRequest(BaseModel):
 
     question: str = Field(pattern=r"\S")
     conversation_id: str | None = None
+    retrieval_mode: Literal["single", "planned"] | None = None
     file_ids: list[str] | None = Field(default=None, min_length=1)
 
 
@@ -356,7 +358,7 @@ class StreamChatRequest(ChatRequest):
 class ChatStreamEvent(BaseModel):
     """Application event; HTTP framing belongs to the API layer."""
 
-    event: Literal["start", "sources", "answer_delta", "debug", "complete", "error"]
+    event: Literal["start", "progress", "sources", "answer_delta", "debug", "complete", "error"]
     request_id: str
     data: dict[str, Any]
 

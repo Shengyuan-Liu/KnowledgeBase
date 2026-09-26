@@ -18,6 +18,7 @@ from knowledgebase.providers.reranker import RerankerClient
 from knowledgebase.storage.runtime import open_storage
 from knowledgebase.storage.pdf_assets import PdfAssets
 from knowledgebase.services.pdf import LocalPdfParser
+from knowledgebase.providers.planner import PlannerClient
 
 
 def create_app(data_dir: Path | None = None, frontend_dir: Path | None = None) -> FastAPI:
@@ -35,6 +36,8 @@ def create_app(data_dir: Path | None = None, frontend_dir: Path | None = None) -
                 async with AsyncOpenAI(**sdk_options) as streaming_sdk:
                     app.state.resources = AppResources(
                         settings=settings,
+                        planner=PlannerClient(sdk, settings.planner_model or settings.answer_model,
+                                              settings.planning, settings.chunk_tokenizer),
                         assets=PdfAssets(directory),
                         pdf_parser=LocalPdfParser(settings.pdf_model_dir),
                         reranker=RerankerClient(

@@ -54,12 +54,29 @@ class RetrievalOptions(BaseModel):
         return self
 
 
+class PlanningOptions(BaseModel):
+    request_timeout_seconds: float = Field(default=180, gt=0)
+    answer_reserve_seconds: float = Field(default=60, gt=0)
+    planner_timeout_seconds: float = Field(default=30, gt=0)
+    max_input_tokens: int = Field(default=8192, gt=0)
+    max_output_tokens: int = Field(default=2048, gt=0)
+    answer_max_input_tokens: int = Field(default=16384, gt=0)
+    answer_max_output_tokens: int = Field(default=4096, gt=0)
+
+    @model_validator(mode="after")
+    def reserve_fits(self) -> Self:
+        if self.answer_reserve_seconds >= self.request_timeout_seconds:
+            raise ValueError("The final-answer reserve must be smaller than the request deadline.")
+        return self
+
+
 class Settings(BaseSettings):
     """Read .env from the working directory; environment variables take precedence."""
 
     model_config = SettingsConfigDict(
         env_file=".env", env_file_encoding="utf-8", env_ignore_empty=True,
         hide_input_in_errors=True,
+        env_nested_delimiter="__",
     )
 
     openai_api_key: str = Field(repr=False)
@@ -73,6 +90,9 @@ class Settings(BaseSettings):
     answer_reasoning_effort: Literal["none", "low", "medium", "high", "xhigh"] | None = None
     embedding_model: str = DEFAULT_EMBEDDING_MODEL
     resolver_model: str | None = None
+    retrieval_mode: Literal["single", "planned"] = "single"
+    planner_model: str | None = None
+    planning: PlanningOptions = Field(default_factory=PlanningOptions)
     rerank_model: str = DEFAULT_RERANK_MODEL
     rerank_device: Literal["auto", "cpu", "mps", "cuda"] = "auto"
     rerank_batch_size: int = Field(default=4, gt=0)

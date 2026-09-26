@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import type { ChatMessage } from "../types";
 import { originalPdfUrl } from "../api/files";
 import { Icon } from "./Icon";
+import { SearchPlan } from "./SearchPlan";
 import common from "../Workspace.module.css";
 import styles from "../Chat.module.css";
 
@@ -42,8 +43,10 @@ export function EvidencePanel({
           </button>
         )}
       </header>
+      <div className={styles.evidenceList}>
+      {message?.retrieval?.planning && <SearchPlan planning={message.retrieval.planning} />}
       {message?.sources?.length ? (
-        <div className={styles.evidenceList}>
+        <>
           <p className={styles.sourceNote}>
             Original excerpts supplied to this answer. A citation does not
             guarantee support.
@@ -107,7 +110,7 @@ export function EvidencePanel({
               )}
             </div>
           ))}
-        </div>
+        </>
       ) : (
         <div className={common.evidenceEmpty}>
           <span className={common.smallIllustration}>
@@ -129,6 +132,7 @@ export function EvidencePanel({
           </p>
         </div>
       )}
+      </div>
       {pdfView && <Suspense fallback={<p role="status">Opening PDF viewer…</p>}>
         <PdfViewer {...pdfView} onClose={() => setPdfView(null)} />
       </Suspense>}

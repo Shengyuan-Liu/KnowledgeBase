@@ -116,8 +116,10 @@ export function chatReducer(state: ChatState, action: Action): ChatState {
         messages: state.messages.map((message) => {
           if (message.key !== event.request_id) return message;
           switch (event.event) {
+            case "progress":
+              return { ...message, progress: event.message };
             case "sources":
-              return { ...message, sources: event.sources };
+              return { ...message, sources: event.sources, retrieval: event.retrieval };
             case "answer_delta":
               return {
                 ...message,

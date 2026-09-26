@@ -79,6 +79,7 @@ export async function streamAnswer(
   requestId: string,
   signal: AbortSignal,
   onEvent: (event: StreamEvent) => void,
+  retrievalMode: "single" | "planned" = "single",
 ) {
   const response = await request("/chat/stream", {
     method: "POST",
@@ -87,6 +88,7 @@ export async function streamAnswer(
     body: JSON.stringify({
       question,
       request_id: requestId,
+      retrieval_mode: retrievalMode,
       ...(conversationId ? { conversation_id: conversationId } : {}),
     }),
   });

@@ -13,9 +13,18 @@ from knowledgebase.services.chat import (
 router = APIRouter(prefix="/api/chat", tags=["chat"])
 
 
+def planning_arguments(body, resources):
+    if (body.retrieval_mode or resources.settings.retrieval_mode) == "single":
+        return {}
+    if resources.planner is None:
+        raise RuntimeError("The planner is not configured.")
+    return {"planner_client": resources.planner, "planning_options": resources.settings.planning}
+
+
 @router.post("", response_model=ConversationAnswer, responses={
     404: {"description": "Conversation not found"},
     500: {"description": "Answer processing failed"},
+    504: {"description": "Planned request deadline reached"},
 })
 def chat(body: ChatRequest, resources: Resources):
     """Return the complete answer after the conversation exchange is saved."""
@@ -31,9 +40,12 @@ def chat(body: ChatRequest, resources: Resources):
             retrieval_options=resources.settings.retrieval_options,
             reranker_client=resources.reranker,
             file_ids=body.file_ids,
+            **planning_arguments(body, resources),
         )
     except ConversationNotFoundError as error:
         raise HTTPException(status_code=404, detail="Conversation not found.") from error
+    except TimeoutError as error:
+        raise HTTPException(status_code=504, detail="The planned request timed out. Please retry or narrow the question.") from error
     except Exception as error:
         raise HTTPException(status_code=500, detail="Answer processing failed.") from error
 
@@ -55,6 +67,7 @@ async def stream_chat(body: StreamChatRequest, resources: Resources):
             retrieval_options=resources.settings.retrieval_options,
             reranker_client=resources.reranker,
             file_ids=body.file_ids,
+            **planning_arguments(body, resources),
         )
     except ConversationNotFoundError as error:
         raise HTTPException(status_code=404, detail="Conversation not found.") from error

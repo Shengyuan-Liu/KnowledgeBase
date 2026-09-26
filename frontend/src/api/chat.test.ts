@@ -92,6 +92,7 @@ describe("chat SSE transport", () => {
       question: "When?",
       conversation_id: "conversation-1",
       request_id: "request-1",
+      retrieval_mode: "single",
     });
     expect(options.signal).toBe(controller.signal);
   });

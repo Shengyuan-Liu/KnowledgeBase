@@ -6,8 +6,10 @@ and source-grounded answers.
 The v2 [PDF integration](docs/pdf-integration.md) supports upload, local extraction,
 page citations and original-page viewing, with recorded parser fidelity limits.
 Follow its one-time model setup before uploading PDFs.
-The v2 [independent plan executor](docs/planned-retrieval.md) is available as a
-standalone backend component; automatic planning is not yet active in chat.
+The v2 [automatic planner](docs/planned-retrieval.md) is available in chat through
+**Plan complex questions**. It searches up to six independent answer points and
+saves the plan with the evidence. The default remains a single search; dependent
+queries and sufficiency-driven extra rounds remain planned.
 
 The [v1 release summary](docs/v1/release-summary.md) records the delivered version,
 accepted defaults, experiments, verification and known limits. The implementation

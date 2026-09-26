@@ -1,7 +1,8 @@
 # KnowledgeBase v2 Technical Plan
 
 Status: implementation guidance; the linked PDF contracts are implemented,
-while the retrieval controller below remains proposed.
+and independent automatic planning is integrated; dependent retrieval and
+sufficiency control below remain proposed.
 Use the current [project structure](../project-structure.md) and accepted
 [v1 behavior](../v1/release-summary.md) as the baseline.
 
@@ -10,8 +11,9 @@ contract and a retained parser comparison. Its fidelity failures remain open;
 the [stage 2 integration](../pdf-integration.md) now connects uploads, source
 storage, retrieval and original-page navigation. The stage 3a
 [independent plan executor](../planned-retrieval.md) is now implemented and tested
-as a standalone component. Automatic planning, dependent queries and live
-controller integration remain proposed.
+with stage 3b automatic planning, chat/CLI integration, request limits, streaming
+progress and saved traces. Dependent queries and sufficiency-driven additional
+rounds remain proposed. Live planner quality has not been evaluated.
 
 ## Architecture and Ownership
 

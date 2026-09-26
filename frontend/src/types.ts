@@ -59,6 +59,17 @@ export interface Source {
 }
 
 export interface RetrievalDiagnostics {
+  planning?: {
+    version: number;
+    message: string | null;
+    planner: { route: string; model: string; seconds: number } | null;
+    trace: {
+      plan: { route: string; requirements: { requirement_id: string; description: string }[] };
+      runs: { query_ids: string[]; text: string }[];
+      requirements: { requirement_id: string; supplied_ids: string[]; budget_excluded_ids: string[] }[];
+      stop_reason: string;
+    } | null;
+  } | null;
   document_scope?: {
     status: "resolved" | "ambiguous" | "not_found";
     references: string[];
@@ -113,7 +124,8 @@ export interface AnswerDebug {
 
 export type StreamEvent = { request_id: string } & (
   | { event: "start"; conversation_id: string | null }
-  | { event: "sources"; sources: Source[] }
+  | { event: "progress"; stage: "planning" | "retrieving"; message: string }
+  | { event: "sources"; sources: Source[]; retrieval?: RetrievalDiagnostics }
   | { event: "answer_delta"; delta: string }
   | ({ event: "debug" } & AnswerDebug)
   | ({ event: "complete" } & CompletedAnswer)
@@ -134,6 +146,7 @@ export interface SavedConversation {
 }
 
 export interface ChatMessage {
+  progress?: string;
   retrieval?: RetrievalDiagnostics | null;
   key: string;
   messageId?: number;

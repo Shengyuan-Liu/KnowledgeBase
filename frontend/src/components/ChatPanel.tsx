@@ -130,7 +130,7 @@ export function ChatPanel({
                 </span>
                 <span role="status">
                   {message.status === "pending"
-                    ? "Searching your documents…"
+                    ? message.progress || "Searching your documents…"
                     : message.status === "streaming"
                       ? "Answering…"
                       : message.status === "complete"
@@ -276,6 +276,12 @@ export function ChatPanel({
           }
         }}
       >
+        <label className={styles.planningOption}>
+          <input type="checkbox" checked={chat.planSearch} disabled={busy}
+            onChange={event => chat.setPlanSearch(event.target.checked)} />
+          Plan complex questions
+          <span>May run several searches</span>
+        </label>
         <div className={common.composer}>
           <textarea
             aria-label="Ask about your documents"

@@ -4,6 +4,8 @@ from contextlib import asynccontextmanager
 import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from time import sleep
+from types import SimpleNamespace
 from unittest.mock import Mock
 
 import anyio
@@ -13,6 +15,8 @@ from knowledgebase.api.app import create_app
 from knowledgebase.api.dependencies import AppResources
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
+from knowledgebase.providers.planner import PlannerClient
+from knowledgebase.config import PlanningOptions
 from knowledgebase.storage.runtime import open_storage
 from knowledgebase.storage.pdf_assets import PdfAssets
 from knowledgebase.rag.pdf_models import PdfExtraction
@@ -33,6 +37,20 @@ async def stream_fixture(messages):
     yield "[1]"
 
 
+def plan_fixture(**kwargs):
+    question = json.loads(kwargs["input"][-1]["content"])["original_question"]
+    sleep(2 if question.startswith("Stop planning") else 0.3)
+    decision = {"route": "decomposed", "requirements": [
+        {"requirement_id": "hours", "description": "Closing hours"},
+        {"requirement_id": "access", "description": "Library access"},
+    ], "queries": [
+        {"query_id": "hours", "text": "library closing hours", "requirement_ids": ["hours"]},
+        {"query_id": "access", "text": "library access", "requirement_ids": ["access"]},
+    ]}
+    return SimpleNamespace(status="completed", output_text=json.dumps(decision),
+                           model="offline-planner", id="offline-plan", usage=None)
+
+
 @asynccontextmanager
 async def lifespan(app):
     with TemporaryDirectory(prefix="knowledgebase-browser-") as directory:
@@ -44,6 +62,11 @@ async def lifespan(app):
             llm.generate.side_effect = lambda messages: json.loads(messages[-1]["content"])["question"]
             streaming_llm = Mock(spec=StreamingLLMClient)
             streaming_llm.stream.side_effect = stream_fixture
+            for provider in (embeddings, llm, streaming_llm):
+                provider.bounded.return_value = provider
+            planner_sdk = Mock()
+            planner_sdk.with_options.return_value = planner_sdk
+            planner_sdk.responses.create.side_effect = plan_fixture
             reranker = Mock(model="offline-reranker", model_revision="test-revision", device="cpu", max_pair_tokens=1024, batch_size=4)
             reranker.score.side_effect = lambda question, candidates: [
                 RelevanceScore(chunk_id=c.chunk_id, score=3.25) for c in candidates
@@ -62,6 +85,7 @@ async def lifespan(app):
                 embeddings=embeddings,
                 llm=llm,
                 streaming_llm=streaming_llm,
+                planner=PlannerClient(planner_sdk, "offline-planner", PlanningOptions(), "cl100k_base"),
                 reranker=reranker,
             )
             yield

@@ -13,18 +13,22 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from knowledgebase.config import (
     DEFAULT_TOP_K, DEFAULT_HISTORY_LIMIT, DEFAULT_EVIDENCE_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER,
-    RetrievalOptions,
+    RetrievalOptions, PlanningOptions,
 )
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.providers.reranker import RerankerClient
+from knowledgebase.providers.planner import PlannerClient
+from knowledgebase.services.planning import RequestControl, PreparedPlanning, prepare_planning, NARROWING_MESSAGE
+from knowledgebase.rag.planned_retrieval import retrieve_plan
+from knowledgebase.rag.context import build_context
 from knowledgebase.rag.citations import validate_citations
 from knowledgebase.rag.generation import generate_answer, stream_answer
 from knowledgebase.rag.query import resolve_question
 from knowledgebase.rag.retrieval import retrieve_evidence
 from knowledgebase.schemas import (
     AnswerSource, ChatAnswer, ChatStreamEvent, ConversationAnswer, MessageInfo,
-    RetrievedChunk, RetrievalDiagnostics, StructuredChunk,
+    RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, StructuredChunk,
 )
 from knowledgebase.storage.operations import (
     create_conversation,
@@ -54,6 +58,9 @@ def answer_question(
     retrieval_options: RetrievalOptions | None = None,
     reranker_client: RerankerClient | None = None,
     file_ids: list[str] | None = None,
+    planner_client: PlannerClient | None = None,
+    planning_options: PlanningOptions | None = None,
+    _control: RequestControl | None = None,
 ) -> ChatAnswer:
     """Return an answer and sources in the same order used by the prompt.
 
@@ -61,14 +68,22 @@ def answer_question(
     include every retrieved excerpt, regardless of which ones the model cites.
     Source IDs are one-based and local to this answer.
     """
+    control = _control or (RequestControl(planning_options or PlanningOptions(), encoding_name) if planner_client else None)
+    prepared = prepare_planning(question, retrieval_question or question, session_factory, file_ids, planner_client, control) if planner_client else None
+    if control:
+        embedding_client = embedding_client.bounded(control.before_answer)
+        llm_client = llm_client.bounded(control.generation_limits())
     chunks, sources, diagnostics = _retrieve_evidence(
         retrieval_question or question, session_factory, embedding_client, vector_store, top_k,
         evidence_max_tokens, encoding_name, retrieval_options, reranker_client,
-        file_ids, question,
+        file_ids, question, prepared, control,
     )
     scope = diagnostics.document_scope
-    answer = (scope.message if scope and scope.status != "resolved" else
+    message = scope.message if scope and scope.status != "resolved" else (diagnostics.planning or {}).get("message")
+    answer = (message if message else
               generate_answer(question, chunks, llm_client, retrieval_question=retrieval_question))
+    if control:
+        control.remaining()
     return ChatAnswer(
         answer=answer, sources=sources,
         citation_check=validate_citations(answer, sources), retrieval=diagnostics,
@@ -82,15 +97,41 @@ def _retrieve_evidence(
     reranker_client: RerankerClient | None,
     file_ids: list[str] | None = None,
     scope_question: str | None = None,
+    prepared: PreparedPlanning | None = None,
+    control: RequestControl | None = None,
 ) -> tuple[list[RetrievedChunk], list[AnswerSource], RetrievalDiagnostics]:
     started = perf_counter()
     with session_factory() as session:
-        evidence = retrieve_evidence(
-            question, session, embedding_client, vector_store, top_k=top_k,
-            evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
-            retrieval_options=retrieval_options, reranker_client=reranker_client,
-            file_ids=file_ids, scope_question=scope_question,
-        )
+        trace = None
+        if prepared is not None:
+            control.before_answer()
+            if prepared.plan is None:
+                evidence = RetrievedEvidence(chunks=[], diagnostics=RetrievalDiagnostics(
+                    max_tokens=evidence_max_tokens, tokenizer=encoding_name,
+                    options=retrieval_options or RetrievalOptions(), top_k=top_k,
+                ))
+            else:
+                planned = retrieve_plan(
+                    prepared.plan, session, embedding_client, vector_store, top_k=top_k,
+                    evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
+                    retrieval_options=retrieval_options, reranker_client=reranker_client,
+                    file_ids=file_ids, allowed_file_ids=prepared.allowed_file_ids, checkpoint=control.before_answer,
+                )
+                evidence, trace = planned.evidence, planned.trace.model_dump(mode="json")
+            evidence.diagnostics.planning = {
+                "version": 1, "planner": prepared.record, "trace": trace,
+                "limits": control.options.model_dump(),
+                "message": NARROWING_MESSAGE if prepared.plan is None else None,
+                "context": build_context(evidence.chunks),
+            }
+            control.before_answer()
+        else:
+            evidence = retrieve_evidence(
+                question, session, embedding_client, vector_store, top_k=top_k,
+                evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
+                retrieval_options=retrieval_options, reranker_client=reranker_client,
+                file_ids=file_ids, scope_question=scope_question,
+            )
         chunks = evidence.chunks
         line_starts = {}
         for file_id in {item.chunk.file_id for item in chunks}:
@@ -138,6 +179,8 @@ def answer_in_conversation(
     retrieval_options: RetrievalOptions | None = None,
     reranker_client: RerankerClient | None = None,
     file_ids: list[str] | None = None,
+    planner_client: PlannerClient | None = None,
+    planning_options: PlanningOptions | None = None,
 ) -> ConversationAnswer:
     """Resolve a follow-up, retrieve fresh evidence, and save a completed exchange.
 
@@ -145,6 +188,9 @@ def answer_in_conversation(
     Model calls run outside history/write sessions. Only successful exchanges
     are saved, with the original question, answer, and evidence in one transaction.
     """
+    control = RequestControl(planning_options or PlanningOptions(), encoding_name) if planner_client else None
+    if control:
+        resolver_client = (resolver_client or llm_client).bounded(control.generation_limits(resolver=True))
     history = _load_history(session_factory, conversation_id, history_limit)
     retrieval_question = resolve_question(question, history, resolver_client or llm_client)
     result = answer_question(
@@ -152,9 +198,11 @@ def answer_in_conversation(
         llm_client, top_k=top_k, retrieval_question=retrieval_question,
         evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
         retrieval_options=retrieval_options, reranker_client=reranker_client,
-        file_ids=file_ids,
+        file_ids=file_ids, planner_client=planner_client, planning_options=planning_options, _control=control,
     )
 
+    if control:
+        control.remaining()
     return _save_exchange(question, retrieval_question, result, session_factory, conversation_id)
 
 
@@ -208,6 +256,8 @@ async def stream_answer_in_conversation(
     retrieval_options: RetrievalOptions | None = None,
     reranker_client: RerankerClient | None = None,
     file_ids: list[str] | None = None,
+    planner_client: PlannerClient | None = None,
+    planning_options: PlanningOptions | None = None,
 ) -> AsyncGenerator[ChatStreamEvent]:
     """Validate the conversation before streaming; persist only a completed answer.
 
@@ -215,6 +265,11 @@ async def stream_answer_in_conversation(
     transaction is shielded; a disconnect after commit can lose delivery of the
     completion event, but never stores a partial answer.
     """
+    control = RequestControl(planning_options or PlanningOptions(), encoding_name) if planner_client else None
+    if control:
+        resolver_client = (resolver_client or llm_client).bounded(control.generation_limits(resolver=True))
+        embedding_client = embedding_client.bounded(control.before_answer)
+        streaming_client = streaming_client.bounded(control.generation_limits())
     history = await anyio.to_thread.run_sync(_load_history, session_factory, conversation_id, history_limit)
 
     async def events():
@@ -224,20 +279,35 @@ async def stream_answer_in_conversation(
         started = perf_counter()
         yield event("start", conversation_id=conversation_id)
         try:
-            retrieval_question = await anyio.to_thread.run_sync(
-                resolve_question, question, history, resolver_client or llm_client, abandon_on_cancel=True,
-            )
-            chunks, sources, diagnostics = await anyio.to_thread.run_sync(
-                _retrieve_evidence, retrieval_question, session_factory, embedding_client,
-                vector_store, top_k, evidence_max_tokens, encoding_name, retrieval_options, reranker_client,
-                file_ids, question, abandon_on_cancel=True,
-            )
-            yield event("sources", sources=[source.model_dump() for source in sources])
+            prepared = None
+            if control:
+                yield event("progress", stage="planning", message="Planning the search…")
+                retrieval_question = await control.run_search(resolve_question, question, history, resolver_client)
+                prepared = await control.run_search(prepare_planning, question, retrieval_question, session_factory,
+                                                    file_ids, planner_client, control)
+                yield event("progress", stage="retrieving", message="Searching for each answer point…")
+                chunks, sources, diagnostics = await control.run_search(
+                    _retrieve_evidence, retrieval_question, session_factory, embedding_client,
+                    vector_store, top_k, evidence_max_tokens, encoding_name, retrieval_options, reranker_client,
+                    file_ids, question, prepared, control,
+                )
+            else:
+                retrieval_question = await anyio.to_thread.run_sync(
+                    resolve_question, question, history, resolver_client or llm_client, abandon_on_cancel=True,
+                )
+                chunks, sources, diagnostics = await anyio.to_thread.run_sync(
+                    _retrieve_evidence, retrieval_question, session_factory, embedding_client,
+                    vector_store, top_k, evidence_max_tokens, encoding_name, retrieval_options, reranker_client,
+                    file_ids, question, abandon_on_cancel=True,
+                )
+            yield event("sources", sources=[source.model_dump() for source in sources],
+                        **({"retrieval": diagnostics.model_dump(mode="json")} if control else {}))
             parts = []
             scope = diagnostics.document_scope
-            if scope and scope.status != "resolved":
-                parts.append(scope.message)
-                yield event("answer_delta", delta=scope.message)
+            message = scope.message if scope and scope.status != "resolved" else (diagnostics.planning or {}).get("message")
+            if message:
+                parts.append(message)
+                yield event("answer_delta", delta=message)
             else:
                 async with aclosing(stream_answer(question, chunks, streaming_client, retrieval_question=retrieval_question)) as stream:
                     async for delta in stream:
@@ -252,11 +322,18 @@ async def stream_answer_in_conversation(
                         elapsed_seconds=perf_counter() - started)
             # Let a queued disconnect cancel this turn before beginning the commit.
             await anyio.lowlevel.checkpoint()
+            if control:
+                control.remaining()
             saved = await anyio.to_thread.run_sync(
                 _save_exchange, question, retrieval_question, result, session_factory, conversation_id,
             )
             yield event("complete", **saved.model_dump(mode="json"))
+        except TimeoutError:
+            yield event("error", message="The planned request timed out. Please retry or narrow the question.")
         except Exception:
             yield event("error", message="Answer processing failed.")
+        finally:
+            if control:
+                control.cancelled.set()
 
     return events()

@@ -13,6 +13,7 @@ from knowledgebase.providers.reranker import RerankerClient
 from knowledgebase.storage.vectordb import ChromaStore
 from knowledgebase.storage.pdf_assets import PdfAssets
 from knowledgebase.services.pdf import LocalPdfParser
+from knowledgebase.providers.planner import PlannerClient
 
 
 @dataclass
@@ -27,6 +28,7 @@ class AppResources:
     reranker: RerankerClient | None = None
     assets: PdfAssets | None = None
     pdf_parser: LocalPdfParser | None = None
+    planner: PlannerClient | None = None
 
 
 def get_resources(request: Request) -> AppResources:

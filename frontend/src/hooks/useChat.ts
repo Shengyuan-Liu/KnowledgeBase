@@ -13,6 +13,7 @@ export function useChat() {
     initialChat(localStorage.getItem(CONVERSATION_KEY)),
   );
   const [draft, setDraft] = useState("");
+  const [planSearch, setPlanSearch] = useState(false);
   const work = useRef<{ id: string; controller: AbortController } | null>(null);
 
   const restore = useCallback(async (id: string) => {
@@ -111,6 +112,7 @@ export function useChat() {
             setDraft("");
           }
         },
+        planSearch ? "planned" : "single",
       );
     } catch (error) {
       if (work.current === task)
@@ -142,5 +144,5 @@ export function useChat() {
     });
   }
 
-  return { ...state, draft, setDraft, send, stop, reset, restore };
+  return { ...state, draft, setDraft, planSearch, setPlanSearch, send, stop, reset, restore };
 }
