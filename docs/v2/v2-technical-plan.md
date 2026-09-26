@@ -4,6 +4,10 @@ Status: proposed implementation guidance, not an implemented API or schema.
 Use the current [project structure](../project-structure.md) and accepted
 [v1 behavior](../v1/release-summary.md) as the baseline.
 
+The standalone stage 1 [PDF adapter](../pdf-parsing.md) now has an implemented
+contract and a retained parser comparison. Its fidelity failures remain open;
+the integration and controller stages below are still proposed.
+
 ## Architecture and Ownership
 
 Retain FastAPI, ordinary Python services, SQLite, Chroma, and the React workspace.

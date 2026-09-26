@@ -1,7 +1,8 @@
 # KnowledgeBase v2 Evaluation Plan
 
-Status: proposed protocol. No v2 tests, parser benchmark, paid calls, or quality
-results are reported here. Follow the complete
+Status: proposed acceptance protocol. A scoped
+[parser comparison and adapter check](../../evals/check-runs/20260926-pdf-parser-selection/README.md)
+is now recorded; no integrated acceptance or paid evaluation is implied. Follow the complete
 [measurement policy](../../evals/measurement-policy.md).
 
 ## Populations and Ground Truth

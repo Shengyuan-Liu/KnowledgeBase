@@ -3,6 +3,10 @@
 A TXT and Markdown knowledge base with structural chunking, hybrid retrieval,
 and source-grounded answers.
 
+The v2 [standalone PDF parser](docs/pdf-parsing.md) adds local extraction and page
+provenance with recorded fidelity limits. PDF upload and page viewing are not yet
+connected to the application.
+
 The [v1 release summary](docs/v1/release-summary.md) records the delivered version,
 accepted defaults, experiments, verification and known limits. The implementation
 was merged locally at `483a156`; independent release-quality validation remains open.

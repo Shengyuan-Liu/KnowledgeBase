@@ -1,8 +1,9 @@
 # KnowledgeBase v2
 
-Status: design only, prepared on 2026-09-26. The user confirmed the three feature
-areas below. No v2 implementation, parser selection, quality result, or merge is
-implied by this documentation.
+Status: designs prepared on 2026-09-26; the standalone stage 1
+[PDF adapter](../pdf-parsing.md) is implemented with a recorded parser selection
+and unresolved fidelity limits. Upload/page viewing and the retrieval controller
+remain planned. No feature acceptance or merge is implied.
 
 ## Confirmed Feature Areas
 
@@ -16,8 +17,8 @@ implied by this documentation.
    with supported facts and clearly stated remaining gaps.
 
 The core PDF scope is digitally generated English documents, including
-representative multi-column pages and tables. The user's main PDF population has
-not been specified. On 2026-09-26, the user confirmed that OCR, visual chart/figure
+representative multi-column pages and tables. The user requested papers, lecture
+material and company/technical reports. On 2026-09-26, the user confirmed that OCR, visual chart/figure
 understanding, and mathematical formula understanding can be deferred. They are
 outside v2; text captions and supported table structures remain in scope.
 
@@ -53,10 +54,10 @@ combines all three; stage completion does not establish a general quality gain.
 
 | Decision | Current position | Resolve by |
 | --- | --- | --- |
-| Representative PDF population | Papers, lecture notes, and reports are candidate fixtures, not confirmed user priorities | Before parser selection |
+| Representative PDF population | Papers, lecture material, and company/technical reports; five development documents frozen | Confirmed by the user on 2026-09-26 |
 | OCR and mixed scanned pages | OCR deferred by the user; disclose content that is not indexed | Confirmed for v2; revisit in a later version |
 | Figures and formulas | Text captions may be indexed; visual interpretation and formula reasoning are deferred by the user | Confirmed for v2; revisit in a later version |
-| Parser and page viewer | Evaluate against source fidelity, page mapping, local resources, and licensing | PDF implementation stage |
+| Parser and page viewer | Docling selected for the standalone adapter with known table/order failures; viewer still undecided | See [PDF parsing](../pdf-parsing.md) |
 | Query/checker models and limits | Bounded controller proposed; numerical limits in the technical plan are starting settings | Before live acceptance |
 | Quality, latency, and cost thresholds | Freeze from development evidence before held-out evaluation | Evaluation preparation |
 | v2 development branch | Use `v2` for all v2 implementation and documentation commits | Confirmed by the user on 2026-09-26 |
@@ -66,8 +67,8 @@ GitHub. The retired `v1` branch had no commits outside `main`; its release histo
 remains available in Git and the v1 documentation.
 
 Follow [AGENTS.md](../../AGENTS.md) for English project text, Python ownership,
-verification, and commits. This document request authorizes documentation, not
-Python implementation. User acceptance and explicit feature-specific merge
+verification, and commits. The user subsequently requested implementation of the
+standalone PDF stage. User acceptance and explicit feature-specific merge
 authorization remain separate from passing checks. No merge is part of this task.
 
 ## Documentation Verification

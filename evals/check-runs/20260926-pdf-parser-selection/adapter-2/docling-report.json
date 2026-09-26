@@ -1,0 +1,4357 @@
+{
+  "schema_version": 1,
+  "source_hash": "82dd470712ce8389f19f20eb9330475e2166a281f8c7990a9f1d0763d73b4d22",
+  "extraction_hash": "3f47be52a9081e7a1f8b7435e6c2384e294e079d361cd7be6e6eb27d6ca565d2",
+  "revision_id": "465e6af6115cfe4152acba513d9e852cada5231fe2e4abe1bb4ea14977f28f45",
+  "text": "arXiv:2408.09869v5 [cs.CL] 9 Dec 2024\n\nDocling Technical Report\n\nVersion 1.0\n\nChristophAuer MaksymLysak AhmedNassar MicheleDolfi NikolaosLivathinos PanosVagenas CesarBerrospiRamis MatteoOmenetti FabianLindlbauer KasperDinkla LokeshMishra YusikKim ShubhamGupta RafaelTeixeiradeLima ValeryWeber LucasMorin IngmarMeijer ViktorKuropiatnyk PeterW.J.Staar\n\nAI4KGroup, IBMResearch R¨uschlikon, Switzerland\n\nAbstract\n\nThis technical report introduces Docling, an easy to use, self-contained, MITlicensed open-source package for PDF document conversion. It is powered by state-of-the-art specialized AI models for layout analysis (DocLayNet) and table structure recognition (TableFormer), and runs efficiently on commodity hardware in a small resource budget. The code interface allows for easy extensibility and addition of new features and models.\n\n1 Introduction\n\nConverting PDF documents back into a machine-processable format has been a major challenge for decades due to their huge variability in formats, weak standardization and printing-optimized characteristic, which discards most structural features and metadata. With the advent of LLMs and popular application patterns such as retrieval-augmented generation (RAG), leveraging the rich content embedded in PDFs has become ever more relevant. In the past decade, several powerful document understanding solutions have emerged on the market, most of which are commercial software, cloud offerings [3] and most recently, multi-modal vision-language models. As of today, only a handful of open-source tools cover PDF conversion, leaving a significant feature and quality gap to proprietary solutions.\n\nWith Docling, we open-source a very capable and efficient document conversion tool which builds on the powerful, specialized AI models and datasets for layout analysis and table structure recognitionwedevelopedandpresentedintherecentpast [12,13,9].Doclingisdesignedasasimple, self-contained python library with permissive license, running entirely locally on commodity hardware. Its code architecture allows for easy extensibility and addition of new features and models.\n\nDocling Technical Report\n\n1\n\nHere is what Docling delivers today:\n\n· Converts PDF documents to JSON or Markdown format, stable and lightning fast\n\n· Understands detailed page layout, reading order, locates figures and recovers table structures\n\n· Extracts metadata from the document, such as title, authors, references and language\n\n· Optionally applies OCR, e.g. for scanned PDFs\n\n· Can be configured to be optimal for batch-mode (i.e high throughput, low time-to-solution) or interactive mode (compromise on efficiency, low time-to-solution)\n\n· Can leverage different accelerators (GPU, MPS, etc).\n\n2 GettingStarted\n\nTo use Docling, you can simply install the docling package from PyPI. Documentation and examples are available in our GitHub repository at github.com/DS4SD/docling. All required model assets 1 are downloaded to a local huggingface datasets cache on first use, unless you choose to pre-install the model assets in advance.\n\nDocling provides an easy code interface to convert PDF documents from file system, URLs or binary streams, and retrieve the output in either JSON or Markdown format. For convenience, separate methods are offered to convert single documents or batches of documents. A basic usage example is illustrated below. Further examples are available in the Doclign code repository.\n\nfrom docling.document_converter import DocumentConverter source = \"https://arxiv.org/pdf/2206.01062\" # PDF path or URL converter = DocumentConverter() result = converter.convert_single(source) print(result.render_as_markdown()) # output: \"## DocLayNet: A Large Human-Annotated Dataset for Document-Layout Analysis [...]\"\n\nOptionally, you can configure custom pipeline features and runtime options, such as turning on or off features (e.g. OCR, table structure recognition), enforcing limits on the input document size, and defining the budget of CPU threads. Advanced usage examples and options are documented in the README file. Docling also provides a Dockerfile to demonstrate how to install and run it inside a container.\n\n3 Processingpipeline\n\nDocling implements a linear pipeline of operations, which execute sequentially on each given document (see Fig. 1). Each document is first parsed by a PDF backend, which retrieves the programmatic text tokens, consisting of string content and its coordinates on the page, and also renders a bitmap image of each page to support downstream operations. Then, the standard model pipeline applies a sequence of AI models independently on every page in the document to extract features and content, such as layout and table structures. Finally, the results from all pages are aggregated and passed through a post-processing stage, which augments metadata, detects the document language, infers reading-order and eventually assembles a typed document object which can be serialized to JSON or Markdown.\n\n3.1 PDFbackends\n\nTwo basic requirements to process PDF documents in our pipeline are a) to retrieve all text content and their geometric coordinates on each page and b) to render the visual representation of each page as it would appear in a PDF viewer. Both these requirements are encapsulated in Docling's PDF backend interface. While there are several open-source PDF parsing libraries available for python, we faced major obstacles with all of them for different reasons, among which were restrictive licensing (e.g. pymupdf [7]), poor speed or unrecoverable quality issues, such as merged text cells across far-apart text tokens or table columns (pypdfium, PyPDF) [15, 14].\n\n1 see huggingface.co/ds4sd/docling-models/\n\n2\n\nFigure 1: Sketch of Docling's default processing pipeline. The inner part of the model pipeline is easily customizable and extensible.\n\nWe therefore decided to provide multiple backend choices, and additionally open-source a custombuilt PDF parser, which is based on the low-level qpdf [4] library. It is made available in a separate package named docling-parse and powers the default PDF backend in Docling. As an alternative, we provide a PDF backend relying on pypdfium, which may be a safe backup choice in certain cases, e.g. if issues are seen with particular font encodings.\n\n3.2 AImodels\n\nAs part of Docling, we initially release two highly capable AI models to the open-source community, which have been developed and published recently by our team. The first model is a layout analysis model, an accurate object-detector for page elements [13]. The second model is TableFormer [12, 9], a state-of-the-art table structure recognition model. We provide the pre-trained weights (hosted on huggingface) and a separate package for the inference code as docling-ibm-models. Both models are also powering the open-access deepsearch-experience, our cloud-native service for knowledge exploration tasks.\n\nLayout Analysis Model\n\nOur layout analysis model is an object-detector which predicts the bounding-boxes and classes of various elements on the image of a given page. Its architecture is derived from RT-DETR [16] and re-trained on DocLayNet [13], our popular human-annotated dataset for document-layout analysis, among other proprietary datasets. For inference, our implementation relies on the onnxruntime [5].\n\nThe Docling pipeline feeds page images at 72 dpi resolution, which can be processed on a single CPU with sub-second latency. All predicted bounding-box proposals for document elements are post-processed to remove overlapping proposals based on confidence and size, and then intersected with the text tokens in the PDF to group them into meaningful and complete units such as paragraphs, section titles, list items, captions, figures or tables.\n\nTable Structure Recognition\n\nThe TableFormer model [12], first published in 2022 and since refined with a custom structure token language [9], is a vision-transformer model for table structure recovery. It can predict the logical row and column structure of a given table based on an input image, and determine which table cells belong to column headers, row headers or the table body. Compared to earlier approaches, TableFormer handles many characteristics of tables, such as partial or no borderlines, empty cells, rows or columns, cell spans and hierarchy both on column-heading or row-heading level, tables with inconsistent indentation or alignment and other complexities. For inference, our implementation relies on PyTorch [2].\n\n3\n\nThe Docling pipeline feeds all table objects detected in the layout analysis to the TableFormer model, by providing an image-crop of the table and the included text cells. TableFormer structure predictions are matched back to the PDF cells in post-processing to avoid expensive re-transcription text in the table image. Typical tables require between 2 and 6 seconds to be processed on a standard CPU, strongly depending on the amount of included table cells.\n\nOCR\n\nDocling provides optional support for OCR, for example to cover scanned PDFs or content in bitmaps images embedded on a page. In our initial release, we rely on EasyOCR [1], a popular thirdparty OCR library with support for many languages. Docling, by default, feeds a high-resolution page image (216 dpi) to the OCR engine, to allow capturing small print detail in decent quality. While EasyOCR delivers reasonable transcription quality, we observe that it runs fairly slow on CPU (upwards of 30 seconds per page).\n\nWe are actively seeking collaboration from the open-source community to extend Docling with additional OCR backends and speed improvements.\n\n3.3 Assembly\n\nIn the final pipeline stage, Docling assembles all prediction results produced on each page into a well-defined datatype that encapsulates a converted document, as defined in the auxiliary package docling-core. The generated document object is passed through a post-processing model which leverages several algorithms to augment features, such as detection of the document language, correcting the reading order, matching figures with captions and labelling metadata such as title, authors and references. The final output can then be serialized to JSON or transformed into a Markdown representation at the users request.\n\n3.4 Extensibility\n\nDocling provides a straight-forward interface to extend its capabilities, namely the model pipeline. Amodel pipeline constitutes the central part in the processing, following initial document parsing and preceding output assembly, and can be fully customized by sub-classing from an abstract baseclass (BaseModelPipeline) or cloning the default model pipeline. This effectively allows to fully customize the chain of models, add or replace models, and introduce additional pipeline configuration parameters. To use a custom model pipeline, the custom pipeline class to instantiate can be provided as an argument to the main document conversion methods. We invite everyone in the community to propose additional or alternative models and improvements.\n\nImplementations of model classes must satisfy the python Callable interface. The __call__ method must accept an iterator over page objects, and produce another iterator over the page objects which were augmented with the additional features predicted by the model, by extending the provided PagePredictions data model accordingly.\n\n4 Performance\n\nIn this section, we establish some reference numbers for the processing speed of Docling and the resource budget it requires. All tests in this section are run with default options on our standard test set distributed with Docling, which consists of three papers from arXiv and two IBM Redbooks, with a total of 225 pages. Measurements were taken using both available PDF backends on two different hardware systems: one MacBook Pro M3 Max, and one bare-metal server running Ubuntu 20.04 LTS on an Intel Xeon E5-2690 CPU. For reproducibility, we fixed the thread budget (through setting OMP NUM THREADS environment variable) once to 4 (Docling default) and once to 16 (equal to full core count on the test hardware). All results are shown in Table 1.\n\nIf you need to run Docling in very low-resource environments, please consider configuring the pypdfium backend. While it is faster and more memory efficient than the default docling-parse backend, it will come at the expense of worse quality results, especially in table structure recovery.\n\nEstablishing GPU acceleration support for the AI models is currently work-in-progress and largely untested, but may work implicitly when CUDA is available and discovered by the onnxruntime and torch runtimes backing the Docling pipeline. We will deliver updates on this topic at in a future version of this report.\n\n4\n\nCPU\tThread budget\tnative backend\tpypdfium backend\nTTS\tPages/s\tMem\tTTS\tPages/s\tMem\nApple M3 Max\t4 16\t177s 167s\t1.27 1.34\t6.20GB\t103s 92 s\t2.18 2.45\t2.56GB\n(16 cores) Intel(R) Xeon E5-2690 (16 cores)\t4 16\t375s 244s\t0.60 0.92\t6.16GB\t239s 143s\t0.94 1.57\t2.42GB\n\nTable 1: Runtime characteristics of Docling with the standard model pipeline and settings, on our test dataset of 225 pages, on two different systems. OCR is disabled. We show the time-to-solution (TTS), computed throughput in pages per second, and the peak memory used (resident set size) for both the Docling-native PDF backend and for the pypdfium backend, using 4 and 16 threads.\n\n5 Applications\n\nThanks to the high-quality, richly structured document conversion achieved by Docling, its output qualifies for numerous downstream applications. For example, Docling can provide a base for detailed enterprise document search, passage retrieval or classification use-cases, or support knowledge extraction pipelines, allowing specific treatment of different structures in the document, such as tables, figures, section structure or references. For popular generative AI application patterns, such as retrieval-augmented generation (RAG), we provide quackling, an open-source package which capitalizes on Docling's feature-rich document output to enable document-native optimized vector embedding and chunking. It plugs in seamlessly with LLM frameworks such as LlamaIndex [8]. Since Docling is fast, stable and cheap to run, it also makes for an excellent choice to build document-derived datasets. With its powerful table structure recognition, it provides significant benefit to automated knowledge-base construction [11, 10]. Docling is also integrated within the open IBM data prep kit [6], which implements scalable data transforms to build large-scale multi-modal training datasets.\n\n6 Futureworkandcontributions\n\nDocling is designed to allow easy extension of the model library and pipelines. In the future, we plan to extend Docling with several more models, such as a figure-classifier model, an equationrecognition model, a code-recognition model and more. This will help improve the quality of conversion for specific types of content, as well as augment extracted document metadata with additional information. Further investment into testing and optimizing GPU acceleration as well as improving the Docling-native PDF backend are on our roadmap, too.\n\nWe encourage everyone to propose or implement additional features and models, and will gladly take your inputs and contributions under review. The codebase of Docling is open for use and contribution, under the MIT license agreement and in alignment with our contributing guidelines included in the Docling repository. If you use Docling in your projects, please consider citing this technical report.\n\nReferences\n\n[1] J. AI. Easyocr: Ready-to-use ocr with 80+ supported languages. https://github.com/ JaidedAI/EasyOCR, 2024. Version: 1.7.0.\n\n[2] J. Ansel, E. Yang, H. He, N. Gimelshein, A. Jain, M. Voznesensky, B. Bao, P. Bell, D. Berard, E. Burovski, G. Chauhan, A. Chourdia, W. Constable, A. Desmaison, Z. DeVito, E. Ellison, W. Feng, J. Gong, M. Gschwind, B. Hirsh, S. Huang, K. Kalambarkar, L. Kirsch, M. Lazos, M. Lezcano, Y. Liang, J. Liang, Y. Lu, C. Luk, B. Maher, Y. Pan, C. Puhrsch, M. Reso, M. Saroufim, M. Y. Siraichi, H. Suk, M. Suo, P. Tillet, E. Wang, X. Wang, W. Wen, S. Zhang, X. Zhao, K. Zhou, R. Zou, A. Mathews, G. Chanan, P. Wu, and S. Chintala. Pytorch 2: Faster\n\n5\n\nmachine learning through dynamic python bytecode transformation and graph compilation. In Proceedings of the 29th ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2 (ASPLOS '24). ACM, 4 2024. doi: 10.1145/3620665.3640366. URL https://pytorch.org/assets/pytorch2-2.pdf.\n\n[3] C. Auer, M. Dolfi, A. Carvalho, C. B. Ramis, and P. W. Staar. Delivering document conversion as a cloud service with high throughput and responsiveness. In 2022 IEEE 15th International Conference on Cloud Computing (CLOUD), pages 363-373. IEEE, 2022.\n\n[4] J. Berkenbilt. Qpdf: A content-preserving pdf document transformer, 2024. URL https: //github.com/qpdf/qpdf.\n\n[5] O. R. developers. Onnx runtime. https://onnxruntime.ai/, 2024. Version: 1.18.1.\n\n[6] IBM. Data Prep Kit: a community project to democratize and accelerate unstructured data preparation for LLM app developers, 2024. URL https://github.com/IBM/ data-prep-kit.\n\n[7] A. S. Inc. PyMuPDF, 2024. URL https://github.com/pymupdf/PyMuPDF.\n\n[8] J. Liu. LlamaIndex, 11 2022. URL https://github.com/jerryjliu/llama_index.\n\n[9] M. Lysak, A. Nassar, N. Livathinos, C. Auer, and P. Staar. Optimized Table Tokenization for Table Structure Recognition. In Document Analysis and Recognition - ICDAR 2023: 17th International Conference, San Jos´e, CA, USA, August 21-26, 2023, Proceedings, Part II, pages 37-50, Berlin, Heidelberg, Aug. 2023. Springer-Verlag. ISBN978-3-031-41678-1. doi: 10. 1007/978-3-031-41679-8 3. URL https://doi.org/10.1007/978-3-031-41679-8_3.\n\n[10] L. Mishra, S. Dhibi, Y. Kim, C. Berrospi Ramis, S. Gupta, M. Dolfi, and P. Staar. Statements: Universal information extraction from tables with large language models for ESG KPIs. InD.Stammbach,J.Ni,T.Schimanski,K.Dutia,A.Singh,J.Bingler,C.Christiaen, N. Kushwaha, V. Muccione, S. A. Vaghefi, and M. Leippold, editors, Proceedings of the 1st Workshop on Natural Language Processing Meets Climate Change (ClimateNLP 2024), pages 193-214, Bangkok, Thailand, Aug. 2024. Association for Computational Linguistics. URL https://aclanthology.org/2024.climatenlp-1.15.\n\n[11] L. Morin, V. Weber, G. I. Meijer, F. Yu, and P. W. J. Staar. Patcid: an open-access dataset of chemical structures in patent documents. Nature Communications, 15(1):6532, August 2024. ISSN2041-1723. doi: 10.1038/s41467-024-50779-y. URLhttps://doi.org/10.1038/ s41467-024-50779-y.\n\n[12] A. Nassar, N. Livathinos, M. Lysak, and P. Staar. Tableformer: Table structure understanding withtransformers. InProceedingsof theIEEE/CVFConferenceonComputerVisionand Pattern Recognition, pages 4614-4623, 2022.\n\n[13] B. Pfitzmann, C. Auer, M. Dolfi, A. S. Nassar, and P. Staar. Doclaynet: a large humanannotated dataset for document-layout segmentation. pages 3743-3751, 2022.\n\n[14] pypdf Maintainers. pypdf: A Pure-Python PDF Library, 2024. URL https://github.com/ py-pdf/pypdf.\n\n[15] P. Team. PyPDFium2: Python bindings for PDFium, 2024. URL https://github.com/ pypdfium2-team/pypdfium2.\n\n[16] Y. Zhao, W. Lv, S. Xu, J. Wei, G. Wang, Q. Dang, Y. Liu, and J. Chen. Detrs beat yolos on real-time object detection, 2023.\n\n6\n\nAppendix\n\nIn this section, we illustrate a few examples of Docling's output in Markdown and JSON.\n\n1 INTRODUCTION\n\nDespite the substantial improvements achieved with machine-learning (ML) approaches and deep neural networks in recent years, document conversion remains a challenging problem, as demonstrated by the numerous public competitions held on this topic [1-4]. The challenge originates from the huge variability in PDF documents regarding layout, language and formats (scanned, programmatic or a combination of both). Engineering a single ML model that can be applied on all types of documents and provides high-quality layout segmentation remains to this day extremely challenging [5]. To highlight the variability in document layouts, we show a few example documents from the DocLayNet dataset in Figure 1. Figure 2: Title page of the DocLayNet paper (arxiv.org/pdf/2206.01062) - left PDF, right rendered Markdown. If recognized, metadata such as authors are appearing first under the title. Text content inside figures is currently dropped, the caption is retained and linked to the figure in the JSON representation (not shown).\n\n7\n\nKDD '22, August 14-18, 2022, Washington, DC, USA Birgit Pfitzmann, Christoph Auer, Michele Dolfi, Ahmed S. Nassar, and Peter Staar\n\nhuman\tMRCNN R50 R101\tFRCNN R101\tYOLO v5x6\nCaption Footnote Formula List-item Page-footer Page-header Picture Section-header Table Text Title All\t84-89 83-91 83-85 87-88 93-94 85-89 69-71 83-84 77-81 84-86 60-72 82-83\t68.4 70.9 60.1 81.2 61.6 71.9 71.7 67.6 82.2 84.6 76.7 72.4\t71.5 71.8 63.4 80.8 59.3 70.0 72.7 69.3 82.9 85.8 80.4 73.5\t70.1 73.7 63.5 81.0 58.9 72.0 72.0 68.4 82.2 85.4 79.9 73.4\t77.7 77.2 66.2 86.2 61.1 67.9 77.1 74.6 86.3 88.1 82.7 76.8\n\nTable 2: Prediction performance (mAP@0.5-0.95) of object detection networks on DocLayNet test set. The MRCNN (Mask R-CNN) and FRCNN (Faster R-CNN) models with ResNet-50 or ResNet-101 backbone were trained based on the network architectures from the detectron2 model zoo (Mask R-CNN R50, R101-FPN 3x, Faster R-CNN R101-FPN 3x), with default con￿gurations. The YOLO implementation utilized was YOLOv5x6 [13]. All models were initialised using pre-trained weights from the COCO 2017 dataset.\n\nto avoid this at any cost in order to have clear, unbiased baseline numbers for human document-layout annotation. Third, we introduced the feature of snapping boxes around text segments to obtain a pixel-accurate annotation and again reduce time and e￿ort. The CCS annotation tool automatically shrinks every user-drawn box to the minimum bounding-box around the enclosed text-cells for all purely text-based segments, which excludes only Table and Picture. For the latter, we instructed annotation sta￿ to minimise inclusion of surrounding whitespace while including all graphical lines. A downside of snapping boxes to enclosed text cells is that some wrongly parsed PDF pages cannot be annotated correctly and need to be skipped. Fourth, we established a way to ￿ag pages as rejected for cases where no valid annotation according to the label guidelines could be achieved. Example cases for this would be PDF pages that render incorrectly or contain layouts that are impossible to capture with non-overlapping rectangles. Such rejected pages are not contained in the ￿nal dataset. With all these measures in place, experienced annotation sta￿ managed to annotate a single page in a typical timeframe of 20s to 60s, depending on its complexity.\n\n5 EXPERIMENTS\n\nThe primary goal of DocLayNet is to obtain high-quality ML models capable of accurate document-layout analysis on a wide variety of challenging layouts. As discussed in Section 2, object detection models are currently the easiest to use, due to the standardisation of ground-truth data in COCO format [16] and the availability of general frameworks such as detectron2 [17]. Furthermore, baseline numbers in PubLayNet and DocBank were obtained using standard object detection models such as Mask R-CNN and Faster R-CNN. As such, we will relate to these object detection methods in this paper and leave the detailed evaluation of more recent methods mentioned in Section 2 for future work.\n\nFigure 5: Prediction performance (mAP@0.5-0.95) of a Mask R-CNN network with ResNet50 backbone trained on increasing fractions of the DocLayNet dataset. The learning curve ￿attens around the 80% mark, indicating that increasing the size of the DocLayNet dataset with similar data will not yield signi￿cantly better predictions.\n\nIn this section, we will present several aspects related to the performance of object detection models on DocLayNet. Similarly as in PubLayNet, we will evaluate the quality of their predictions using mean average precision (mAP) with 10 overlaps that range from 0.5 to 0.95 in steps of 0.05 (mAP@0.5-0.95). These scores are computed by leveraging the evaluation code provided by the COCO API [16].\n\nBaselines for Object Detection\n\nIn Table 2, we present baseline experiments (given in mAP) on Mask R-CNN [12], Faster R-CNN [11], and YOLOv5 [13]. Both training and evaluation were performed on RGB images with dimensions of 1025⇥1025 pixels. For training, we only used one annotation in case of redundantly annotated pages. As one can observe, the variation in mAP between the models is rather low, but overall between 6 and 10% lower than the mAP computed from the pairwise human annotations on triple-annotated pages. This gives a good indication that the DocLayNet dataset poses a worthwhile challenge for the research community to close the gap between human recognition and ML approaches. It is interesting to see that Mask R-CNN and Faster R-CNN produce very comparable mAP scores, indicating that pixel-based image segmentation derived from bounding-boxes does not help to obtain better predictions. On the other hand, the more recent Yolov5x model does very well and even out-performs humans on selected labels such as Text, Table and Picture. This is not entirely surprising, as Text, Table and Picture are abundant and the most visually distinctive in a document.\n\nFigure 3: Page 6 of the DocLayNet paper. If recognized, metadata such as authors are appearing first under the title. Elements recognized as page headers or footers are suppressed in Markdown to deliver uninterrupted content in reading order. Tables are inserted in reading order. The paragraph in '5. Experiments' wrapping over the column end is broken up in two and interrupted by the table.\n\n8\n\nwe distributed the annotation workload and performed continuous\n\nonly. For phases three and four, a group of 40 dedicated annotators\n\nquality controls. Phase one and two required a small team of experts\n\nwere assembled and supervised.\n\nwhile coverage ensures that all meaningful items on a page can\n\nto a document category, such as Abstract in the Scienti￿c Articles\n\nbe annotated. We refrained from class labels that are very speci￿c\n\ncategory. We also avoided class labels that are tightly linked to the\n\nteria for documents were described in Section 3. A large e￿ort went into ensuring that all documents are free to use. The data sources in DocBank, are often only distinguishable by discriminating on 3 https://arxiv.org/ Figure 4: Table 1 from the DocLayNet paper in the original PDF (A), as rendered Markdown (B) and in JSON representation (C). Spanning table cells, such as the multi-column header 'triple interannotator mAP@0.5-0.95 (%)', is repeated for each column in the Markdown representation (B), which guarantees that every data point can be traced back to row and column headings only by its grid coordinates in the table. In the JSON representation, the span information is reflected in the fields of each table cell (C).\n\nsemantics of the text. Labels such as Author and A￿liation, as seen\n\nPhase 1: Data selection and preparation. Our inclusion cri-\n\n9",
+  "pages": [
+    {
+      "page_index": 0,
+      "width": 612.0,
+      "height": 792.0,
+      "printed_label": null
+    },
+    {
+      "page_index": 1,
+      "width": 612.0,
+      "height": 792.0,
+      "printed_label": null
+    },
+    {
+      "page_index": 2,
+      "width": 612.0,
+      "height": 792.0,
+      "printed_label": null
+    },
+    {
+      "page_index": 3,
+      "width": 612.0,
+      "height": 792.0,
+      "printed_label": null
+    },
+    {
+      "page_index": 4,
+      "width": 612.0,
+      "height": 792.0,
+      "printed_label": null
+    },
+    {
+      "page_index": 5,
+      "width": 612.0,
+      "height": 792.0,
+      "printed_label": null
+    },
+    {
+      "page_index": 6,
+      "width": 612.0,
+      "height": 792.0,
+      "printed_label": null
+    },
+    {
+      "page_index": 7,
+      "width": 612.0,
+      "height": 792.0,
+      "printed_label": null
+    },
+    {
+      "page_index": 8,
+      "width": 612.0,
+      "height": 792.0,
+      "printed_label": null
+    }
+  ],
+  "blocks": [
+    {
+      "source_ref": "#/texts/0",
+      "kind": "paragraph",
+      "label": "page_header",
+      "text": "arXiv:2408.09869v5 [cs.CL] 9 Dec 2024",
+      "start_offset": 0,
+      "end_offset": 37,
+      "heading_path": [],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 0,
+          "end_offset": 37,
+          "page_index": 0,
+          "bbox": [
+            18.759999999999998,
+            216.15999999999997,
+            36.206559297218156,
+            555.0
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/1",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "Docling Technical Report",
+      "start_offset": 39,
+      "end_offset": 63,
+      "heading_path": [
+        "Docling Technical Report"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 39,
+          "end_offset": 63,
+          "page_index": 0,
+          "bbox": [
+            212.59,
+            225.36037399999998,
+            399.4115208,
+            240.83701860000008
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/2",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "Version 1.0",
+      "start_offset": 65,
+      "end_offset": 76,
+      "heading_path": [
+        "Version 1.0"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 65,
+          "end_offset": 76,
+          "page_index": 0,
+          "bbox": [
+            283.31,
+            280.0223474,
+            328.6896429999999,
+            288.57422560707965
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/3",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "ChristophAuer MaksymLysak AhmedNassar MicheleDolfi NikolaosLivathinos PanosVagenas CesarBerrospiRamis MatteoOmenetti FabianLindlbauer KasperDinkla LokeshMishra YusikKim ShubhamGupta RafaelTeixeiradeLima ValeryWeber LucasMorin IngmarMeijer ViktorKuropiatnyk PeterW.J.Staar",
+      "start_offset": 78,
+      "end_offset": 349,
+      "heading_path": [
+        "Version 1.0"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 78,
+          "end_offset": 349,
+          "page_index": 0,
+          "bbox": [
+            113.643,
+            310.467806,
+            498.3587615999998,
+            352.1511834
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/4",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "AI4KGroup, IBMResearch R¨uschlikon, Switzerland",
+      "start_offset": 351,
+      "end_offset": 398,
+      "heading_path": [
+        "Version 1.0"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 351,
+          "end_offset": 398,
+          "page_index": 0,
+          "bbox": [
+            249.28300000000002,
+            364.4553474,
+            362.71716359999994,
+            383.91622560707964
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/5",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "Abstract",
+      "start_offset": 400,
+      "end_offset": 408,
+      "heading_path": [
+        "Abstract"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 400,
+          "end_offset": 408,
+          "page_index": 0,
+          "bbox": [
+            283.758,
+            398.840912,
+            328.24329919999997,
+            409.58863679999996
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/6",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "This technical report introduces Docling, an easy to use, self-contained, MITlicensed open-source package for PDF document conversion. It is powered by state-of-the-art specialized AI models for layout analysis (DocLayNet) and table structure recognition (TableFormer), and runs efficiently on commodity hardware in a small resource budget. The code interface allows for easy extensibility and addition of new features and models.",
+      "start_offset": 410,
+      "end_offset": 840,
+      "heading_path": [
+        "Abstract"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 410,
+          "end_offset": 840,
+          "page_index": 0,
+          "bbox": [
+            143.86499999999995,
+            427.9870206,
+            468.1376673999998,
+            491.2632256070796
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/7",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "1 Introduction",
+      "start_offset": 842,
+      "end_offset": 856,
+      "heading_path": [
+        "1 Introduction"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 842,
+          "end_offset": 856,
+          "page_index": 0,
+          "bbox": [
+            107.99999999999994,
+            524.197912,
+            190.8136704,
+            534.9456367999999
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/8",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Converting PDF documents back into a machine-processable format has been a major challenge for decades due to their huge variability in formats, weak standardization and printing-optimized characteristic, which discards most structural features and metadata. With the advent of LLMs and popular application patterns such as retrieval-augmented generation (RAG), leveraging the rich content embedded in PDFs has become ever more relevant. In the past decade, several powerful document understanding solutions have emerged on the market, most of which are commercial software, cloud offerings [3] and most recently, multi-modal vision-language models. As of today, only a handful of open-source tools cover PDF conversion, leaving a significant feature and quality gap to proprietary solutions.",
+      "start_offset": 858,
+      "end_offset": 1650,
+      "heading_path": [
+        "1 Introduction"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 858,
+          "end_offset": 1650,
+          "page_index": 0,
+          "bbox": [
+            107.99999999999994,
+            552.6303473999999,
+            504.0033874,
+            648.4542256070795
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/9",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "With Docling, we open-source a very capable and efficient document conversion tool which builds on the powerful, specialized AI models and datasets for layout analysis and table structure recognitionwedevelopedandpresentedintherecentpast [12,13,9].Doclingisdesignedasasimple, self-contained python library with permissive license, running entirely locally on commodity hardware. Its code architecture allows for easy extensibility and addition of new features and models.",
+      "start_offset": 1652,
+      "end_offset": 2123,
+      "heading_path": [
+        "1 Introduction"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 1652,
+          "end_offset": 2123,
+          "page_index": 0,
+          "bbox": [
+            107.99999999999993,
+            656.1120205999999,
+            504.00338739999944,
+            708.4792256070796
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/10",
+      "kind": "paragraph",
+      "label": "page_footer",
+      "text": "Docling Technical Report",
+      "start_offset": 2125,
+      "end_offset": 2149,
+      "heading_path": [
+        "1 Introduction"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 2125,
+          "end_offset": 2149,
+          "page_index": 0,
+          "bbox": [
+            107.99999999999993,
+            734.0398736,
+            200.5063488,
+            741.7366154902654
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/11",
+      "kind": "paragraph",
+      "label": "page_footer",
+      "text": "1",
+      "start_offset": 2151,
+      "end_offset": 2152,
+      "heading_path": [
+        "1 Introduction"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 2151,
+          "end_offset": 2152,
+          "page_index": 0,
+          "bbox": [
+            303.5089999999999,
+            743.4023473999999,
+            308.4902999999999,
+            751.9542256070796
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/12",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Here is what Docling delivers today:",
+      "start_offset": 2154,
+      "end_offset": 2190,
+      "heading_path": [
+        "1 Introduction"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 2154,
+          "end_offset": 2190,
+          "page_index": 1,
+          "bbox": [
+            108.0,
+            75.47734739999999,
+            253.97201520000007,
+            84.02922560707964
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/13",
+      "kind": "list",
+      "label": "list_item",
+      "text": "· Converts PDF documents to JSON or Markdown format, stable and lightning fast",
+      "start_offset": 2192,
+      "end_offset": 2270,
+      "heading_path": [
+        "1 Introduction"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 2192,
+          "end_offset": 2270,
+          "page_index": 1,
+          "bbox": [
+            135.397,
+            96.77034739999999,
+            468.3969049999996,
+            105.32222560707964
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/14",
+      "kind": "list",
+      "label": "list_item",
+      "text": "· Understands detailed page layout, reading order, locates figures and recovers table structures",
+      "start_offset": 2272,
+      "end_offset": 2368,
+      "heading_path": [
+        "1 Introduction"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 2272,
+          "end_offset": 2368,
+          "page_index": 1,
+          "bbox": [
+            135.397,
+            111.63434740000002,
+            504.00323739999953,
+            131.09522560707967
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/15",
+      "kind": "list",
+      "label": "list_item",
+      "text": "· Extracts metadata from the document, such as title, authors, references and language",
+      "start_offset": 2370,
+      "end_offset": 2456,
+      "heading_path": [
+        "1 Introduction"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 2370,
+          "end_offset": 2456,
+          "page_index": 1,
+          "bbox": [
+            135.397,
+            137.40734740000005,
+            480.8501549999997,
+            145.9592256070797
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/16",
+      "kind": "list",
+      "label": "list_item",
+      "text": "· Optionally applies OCR, e.g. for scanned PDFs",
+      "start_offset": 2458,
+      "end_offset": 2505,
+      "heading_path": [
+        "1 Introduction"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 2458,
+          "end_offset": 2505,
+          "page_index": 1,
+          "bbox": [
+            135.397,
+            152.27134740000008,
+            333.46345059999993,
+            160.82322560707973
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/17",
+      "kind": "list",
+      "label": "list_item",
+      "text": "· Can be configured to be optimal for batch-mode (i.e high throughput, low time-to-solution) or interactive mode (compromise on efficiency, low time-to-solution)",
+      "start_offset": 2507,
+      "end_offset": 2668,
+      "heading_path": [
+        "1 Introduction"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 2507,
+          "end_offset": 2668,
+          "page_index": 1,
+          "bbox": [
+            135.397,
+            167.13434740000014,
+            504.00323739999936,
+            186.59522560707978
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/18",
+      "kind": "list",
+      "label": "list_item",
+      "text": "· Can leverage different accelerators (GPU, MPS, etc).",
+      "start_offset": 2670,
+      "end_offset": 2724,
+      "heading_path": [
+        "1 Introduction"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 2670,
+          "end_offset": 2724,
+          "page_index": 1,
+          "bbox": [
+            135.397,
+            192.90734740000016,
+            355.41105840000006,
+            201.45922560707982
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/19",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "2 GettingStarted",
+      "start_offset": 2726,
+      "end_offset": 2742,
+      "heading_path": [
+        "2 GettingStarted"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 2726,
+          "end_offset": 2742,
+          "page_index": 1,
+          "bbox": [
+            108.0,
+            219.5099120000001,
+            205.29141760000007,
+            230.2576368000001
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/20",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "To use Docling, you can simply install the docling package from PyPI. Documentation and examples are available in our GitHub repository at github.com/DS4SD/docling. All required model assets 1 are downloaded to a local huggingface datasets cache on first use, unless you choose to pre-install the model assets in advance.",
+      "start_offset": 2744,
+      "end_offset": 3065,
+      "heading_path": [
+        "2 GettingStarted"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 2744,
+          "end_offset": 3065,
+          "page_index": 1,
+          "bbox": [
+            107.99999999999997,
+            244.18002060000015,
+            504.00344259999963,
+            285.6382256070798
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/21",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Docling provides an easy code interface to convert PDF documents from file system, URLs or binary streams, and retrieve the output in either JSON or Markdown format. For convenience, separate methods are offered to convert single documents or batches of documents. A basic usage example is illustrated below. Further examples are available in the Doclign code repository.",
+      "start_offset": 3067,
+      "end_offset": 3438,
+      "heading_path": [
+        "2 GettingStarted"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 3067,
+          "end_offset": 3438,
+          "page_index": 1,
+          "bbox": [
+            108.0,
+            293.47534740000015,
+            504.00338739999967,
+            334.7542256070798
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/22",
+      "kind": "code",
+      "label": "code",
+      "text": "from docling.document_converter import DocumentConverter source = \"https://arxiv.org/pdf/2206.01062\" # PDF path or URL converter = DocumentConverter() result = converter.convert_single(source) print(result.render_as_markdown()) # output: \"## DocLayNet: A Large Human-Annotated Dataset for Document-Layout Analysis [...]\"",
+      "start_offset": 3440,
+      "end_offset": 3760,
+      "heading_path": [
+        "2 GettingStarted"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 3440,
+          "end_offset": 3760,
+          "page_index": 1,
+          "bbox": [
+            108.753,
+            343.08852960000013,
+            491.3364559999996,
+            410.33354080000015
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/23",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Optionally, you can configure custom pipeline features and runtime options, such as turning on or off features (e.g. OCR, table structure recognition), enforcing limits on the input document size, and defining the budget of CPU threads. Advanced usage examples and options are documented in the README file. Docling also provides a Dockerfile to demonstrate how to install and run it inside a container.",
+      "start_offset": 3762,
+      "end_offset": 4165,
+      "heading_path": [
+        "2 GettingStarted"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 3762,
+          "end_offset": 4165,
+          "page_index": 1,
+          "bbox": [
+            107.99999999999999,
+            424.16334740000013,
+            504.0033873999996,
+            476.35122560707975
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/24",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "3 Processingpipeline",
+      "start_offset": 4167,
+      "end_offset": 4187,
+      "heading_path": [
+        "3 Processingpipeline"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 4167,
+          "end_offset": 4187,
+          "page_index": 1,
+          "bbox": [
+            108.0,
+            494.4019120000001,
+            223.69047040000004,
+            505.14963680000005
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/25",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Docling implements a linear pipeline of operations, which execute sequentially on each given document (see Fig. 1). Each document is first parsed by a PDF backend, which retrieves the programmatic text tokens, consisting of string content and its coordinates on the page, and also renders a bitmap image of each page to support downstream operations. Then, the standard model pipeline applies a sequence of AI models independently on every page in the document to extract features and content, such as layout and table structures. Finally, the results from all pages are aggregated and passed through a post-processing stage, which augments metadata, detects the document language, infers reading-order and eventually assembles a typed document object which can be serialized to JSON or Markdown.",
+      "start_offset": 4189,
+      "end_offset": 4985,
+      "heading_path": [
+        "3 Processingpipeline"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 4189,
+          "end_offset": 4985,
+          "page_index": 1,
+          "bbox": [
+            108.0,
+            519.2513474000001,
+            504.0033873999997,
+            615.0762256070797
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/26",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "3.1 PDFbackends",
+      "start_offset": 4987,
+      "end_offset": 5002,
+      "heading_path": [
+        "3.1 PDFbackends"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 4987,
+          "end_offset": 5002,
+          "page_index": 1,
+          "bbox": [
+            108.0,
+            630.5658060000001,
+            192.03453100000004,
+            639.5221834
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/27",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Two basic requirements to process PDF documents in our pipeline are a) to retrieve all text content and their geometric coordinates on each page and b) to render the visual representation of each page as it would appear in a PDF viewer. Both these requirements are encapsulated in Docling's PDF backend interface. While there are several open-source PDF parsing libraries available for python, we faced major obstacles with all of them for different reasons, among which were restrictive licensing (e.g. pymupdf [7]), poor speed or unrecoverable quality issues, such as merged text cells across far-apart text tokens or table columns (pypdfium, PyPDF) [15, 14].",
+      "start_offset": 5004,
+      "end_offset": 5665,
+      "heading_path": [
+        "3.1 PDFbackends"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 5004,
+          "end_offset": 5491,
+          "page_index": 1,
+          "bbox": [
+            108.0,
+            650.9293474,
+            504.00338739999967,
+            703.1182256070797
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        },
+        {
+          "start_offset": 5492,
+          "end_offset": 5665,
+          "page_index": 2,
+          "bbox": [
+            108.0,
+            267.5953473999999,
+            504.0033873999996,
+            287.0572256070796
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/28",
+      "kind": "paragraph",
+      "label": "footnote",
+      "text": "1 see huggingface.co/ds4sd/docling-models/",
+      "start_offset": 5667,
+      "end_offset": 5709,
+      "heading_path": [
+        "3.1 PDFbackends"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 5667,
+          "end_offset": 5709,
+          "page_index": 1,
+          "bbox": [
+            120.653,
+            712.2995824,
+            276.4612032000001,
+            721.8596154902655
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/29",
+      "kind": "paragraph",
+      "label": "page_footer",
+      "text": "2",
+      "start_offset": 5711,
+      "end_offset": 5712,
+      "heading_path": [
+        "3.1 PDFbackends"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 5711,
+          "end_offset": 5712,
+          "page_index": 1,
+          "bbox": [
+            303.509,
+            743.4023474,
+            308.4903,
+            751.9542256070797
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/30",
+      "kind": "paragraph",
+      "label": "caption",
+      "text": "Figure 1: Sketch of Docling's default processing pipeline. The inner part of the model pipeline is easily customizable and extensible.",
+      "start_offset": 5714,
+      "end_offset": 5848,
+      "heading_path": [
+        "3.1 PDFbackends"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 5714,
+          "end_offset": 5848,
+          "page_index": 2,
+          "bbox": [
+            108.0,
+            221.99734739999997,
+            504.00338739999944,
+            241.4582256070796
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/46",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "We therefore decided to provide multiple backend choices, and additionally open-source a custombuilt PDF parser, which is based on the low-level qpdf [4] library. It is made available in a separate package named docling-parse and powers the default PDF backend in Docling. As an alternative, we provide a PDF backend relying on pypdfium, which may be a safe backup choice in certain cases, e.g. if issues are seen with particular font encodings.",
+      "start_offset": 5850,
+      "end_offset": 6295,
+      "heading_path": [
+        "3.1 PDFbackends"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 5850,
+          "end_offset": 6295,
+          "page_index": 2,
+          "bbox": [
+            108.0,
+            294.8933473999999,
+            504.0033873999993,
+            347.08122560707955
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/47",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "3.2 AImodels",
+      "start_offset": 6297,
+      "end_offset": 6309,
+      "heading_path": [
+        "3.2 AImodels"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 6297,
+          "end_offset": 6309,
+          "page_index": 2,
+          "bbox": [
+            108.00000000000003,
+            365.5738059999999,
+            173.86274860000006,
+            374.5301833999999
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/48",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "As part of Docling, we initially release two highly capable AI models to the open-source community, which have been developed and published recently by our team. The first model is a layout analysis model, an accurate object-detector for page elements [13]. The second model is TableFormer [12, 9], a state-of-the-art table structure recognition model. We provide the pre-trained weights (hosted on huggingface) and a separate package for the inference code as docling-ibm-models. Both models are also powering the open-access deepsearch-experience, our cloud-native service for knowledge exploration tasks.",
+      "start_offset": 6311,
+      "end_offset": 6918,
+      "heading_path": [
+        "3.2 AImodels"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 6311,
+          "end_offset": 6918,
+          "page_index": 2,
+          "bbox": [
+            108.0,
+            387.1273473999999,
+            504.00338739999984,
+            461.13422560707954
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/49",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "Layout Analysis Model",
+      "start_offset": 6920,
+      "end_offset": 6941,
+      "heading_path": [
+        "Layout Analysis Model"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 6920,
+          "end_offset": 6941,
+          "page_index": 2,
+          "bbox": [
+            108.0,
+            478.2818059999999,
+            206.28104900000005,
+            487.2381833999999
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/50",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Our layout analysis model is an object-detector which predicts the bounding-boxes and classes of various elements on the image of a given page. Its architecture is derived from RT-DETR [16] and re-trained on DocLayNet [13], our popular human-annotated dataset for document-layout analysis, among other proprietary datasets. For inference, our implementation relies on the onnxruntime [5].",
+      "start_offset": 6943,
+      "end_offset": 7331,
+      "heading_path": [
+        "Layout Analysis Model"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 6943,
+          "end_offset": 7331,
+          "page_index": 2,
+          "bbox": [
+            108.0,
+            498.4903473999999,
+            504.00338739999967,
+            539.7692256070795
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/51",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "The Docling pipeline feeds page images at 72 dpi resolution, which can be processed on a single CPU with sub-second latency. All predicted bounding-box proposals for document elements are post-processed to remove overlapping proposals based on confidence and size, and then intersected with the text tokens in the PDF to group them into meaningful and complete units such as paragraphs, section titles, list items, captions, figures or tables.",
+      "start_offset": 7333,
+      "end_offset": 7776,
+      "heading_path": [
+        "Layout Analysis Model"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 7333,
+          "end_offset": 7776,
+          "page_index": 2,
+          "bbox": [
+            108.0,
+            547.6063473999999,
+            504.0033873999996,
+            599.7942256070795
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/52",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "Table Structure Recognition",
+      "start_offset": 7778,
+      "end_offset": 7805,
+      "heading_path": [
+        "Table Structure Recognition"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 7778,
+          "end_offset": 7805,
+          "page_index": 2,
+          "bbox": [
+            108.0,
+            616.9418059999998,
+            228.10910560000008,
+            625.8981833999999
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/53",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "The TableFormer model [12], first published in 2022 and since refined with a custom structure token language [9], is a vision-transformer model for table structure recovery. It can predict the logical row and column structure of a given table based on an input image, and determine which table cells belong to column headers, row headers or the table body. Compared to earlier approaches, TableFormer handles many characteristics of tables, such as partial or no borderlines, empty cells, rows or columns, cell spans and hierarchy both on column-heading or row-heading level, tables with inconsistent indentation or alignment and other complexities. For inference, our implementation relies on PyTorch [2].",
+      "start_offset": 7807,
+      "end_offset": 8513,
+      "heading_path": [
+        "Table Structure Recognition"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 7807,
+          "end_offset": 8513,
+          "page_index": 2,
+          "bbox": [
+            108.0,
+            637.1503473999999,
+            504.00338739999984,
+            722.0662256070794
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/54",
+      "kind": "paragraph",
+      "label": "page_footer",
+      "text": "3",
+      "start_offset": 8515,
+      "end_offset": 8516,
+      "heading_path": [
+        "Table Structure Recognition"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 8515,
+          "end_offset": 8516,
+          "page_index": 2,
+          "bbox": [
+            303.509,
+            743.4023473999998,
+            308.4903,
+            751.9542256070795
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/55",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "The Docling pipeline feeds all table objects detected in the layout analysis to the TableFormer model, by providing an image-crop of the table and the included text cells. TableFormer structure predictions are matched back to the PDF cells in post-processing to avoid expensive re-transcription text in the table image. Typical tables require between 2 and 6 seconds to be processed on a standard CPU, strongly depending on the amount of included table cells.",
+      "start_offset": 8518,
+      "end_offset": 8977,
+      "heading_path": [
+        "Table Structure Recognition"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 8518,
+          "end_offset": 8977,
+          "page_index": 3,
+          "bbox": [
+            108.0,
+            75.47734739999999,
+            504.0033873999996,
+            127.6652256070796
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/56",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "OCR",
+      "start_offset": 8979,
+      "end_offset": 8982,
+      "heading_path": [
+        "OCR"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 8979,
+          "end_offset": 8982,
+          "page_index": 3,
+          "bbox": [
+            108.0,
+            141.3658059999999,
+            130.1368972,
+            150.32218339999986
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/57",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Docling provides optional support for OCR, for example to cover scanned PDFs or content in bitmaps images embedded on a page. In our initial release, we rely on EasyOCR [1], a popular thirdparty OCR library with support for many languages. Docling, by default, feeds a high-resolution page image (216 dpi) to the OCR engine, to allow capturing small print detail in decent quality. While EasyOCR delivers reasonable transcription quality, we observe that it runs fairly slow on CPU (upwards of 30 seconds per page).",
+      "start_offset": 8984,
+      "end_offset": 9499,
+      "heading_path": [
+        "OCR"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 8984,
+          "end_offset": 9499,
+          "page_index": 3,
+          "bbox": [
+            108.0,
+            160.3843473999999,
+            504.0033873999996,
+            223.4822256070795
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/58",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "We are actively seeking collaboration from the open-source community to extend Docling with additional OCR backends and speed improvements.",
+      "start_offset": 9501,
+      "end_offset": 9640,
+      "heading_path": [
+        "OCR"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 9501,
+          "end_offset": 9640,
+          "page_index": 3,
+          "bbox": [
+            108.00000000000006,
+            231.31834739999988,
+            504.00338739999955,
+            250.77922560707952
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/59",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "3.3 Assembly",
+      "start_offset": 9642,
+      "end_offset": 9654,
+      "heading_path": [
+        "3.3 Assembly"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 9642,
+          "end_offset": 9654,
+          "page_index": 3,
+          "bbox": [
+            108.00000000000006,
+            265.82480599999985,
+            171.3720986000001,
+            274.7811833999998
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/60",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "In the final pipeline stage, Docling assembles all prediction results produced on each page into a well-defined datatype that encapsulates a converted document, as defined in the auxiliary package docling-core. The generated document object is passed through a post-processing model which leverages several algorithms to augment features, such as detection of the document language, correcting the reading order, matching figures with captions and labelling metadata such as title, authors and references. The final output can then be serialized to JSON or transformed into a Markdown representation at the users request.",
+      "start_offset": 9656,
+      "end_offset": 10277,
+      "heading_path": [
+        "3.3 Assembly"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 9656,
+          "end_offset": 10277,
+          "page_index": 3,
+          "bbox": [
+            108.00000000000006,
+            286.1883473999999,
+            504.0033873999997,
+            360.1952256070795
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/61",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "3.4 Extensibility",
+      "start_offset": 10279,
+      "end_offset": 10296,
+      "heading_path": [
+        "3.4 Extensibility"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 10279,
+          "end_offset": 10296,
+          "page_index": 3,
+          "bbox": [
+            108.00000000000006,
+            375.24080599999985,
+            184.1142640000001,
+            384.19718339999986
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/62",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Docling provides a straight-forward interface to extend its capabilities, namely the model pipeline. Amodel pipeline constitutes the central part in the processing, following initial document parsing and preceding output assembly, and can be fully customized by sub-classing from an abstract baseclass (BaseModelPipeline) or cloning the default model pipeline. This effectively allows to fully customize the chain of models, add or replace models, and introduce additional pipeline configuration parameters. To use a custom model pipeline, the custom pipeline class to instantiate can be provided as an argument to the main document conversion methods. We invite everyone in the community to propose additional or alternative models and improvements.",
+      "start_offset": 10298,
+      "end_offset": 11048,
+      "heading_path": [
+        "3.4 Extensibility"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 10298,
+          "end_offset": 11048,
+          "page_index": 3,
+          "bbox": [
+            108.00000000000004,
+            395.6043473999999,
+            504.0033873999997,
+            480.5202256070795
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/63",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Implementations of model classes must satisfy the python Callable interface. The __call__ method must accept an iterator over page objects, and produce another iterator over the page objects which were augmented with the additional features predicted by the model, by extending the provided PagePredictions data model accordingly.",
+      "start_offset": 11050,
+      "end_offset": 11380,
+      "heading_path": [
+        "3.4 Extensibility"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 11050,
+          "end_offset": 11380,
+          "page_index": 3,
+          "bbox": [
+            107.99999999999994,
+            488.35634739999983,
+            504.00338739999955,
+            529.6352256070795
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/64",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "4 Performance",
+      "start_offset": 11382,
+      "end_offset": 11395,
+      "heading_path": [
+        "4 Performance"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 11382,
+          "end_offset": 11395,
+          "page_index": 3,
+          "bbox": [
+            107.99999999999994,
+            547.2419119999997,
+            191.78204160000004,
+            557.9896367999997
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/65",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "In this section, we establish some reference numbers for the processing speed of Docling and the resource budget it requires. All tests in this section are run with default options on our standard test set distributed with Docling, which consists of three papers from arXiv and two IBM Redbooks, with a total of 225 pages. Measurements were taken using both available PDF backends on two different hardware systems: one MacBook Pro M3 Max, and one bare-metal server running Ubuntu 20.04 LTS on an Intel Xeon E5-2690 CPU. For reproducibility, we fixed the thread budget (through setting OMP NUM THREADS environment variable) once to 4 (Docling default) and once to 16 (equal to full core count on the test hardware). All results are shown in Table 1.",
+      "start_offset": 11397,
+      "end_offset": 12146,
+      "heading_path": [
+        "4 Performance"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 11397,
+          "end_offset": 12146,
+          "page_index": 3,
+          "bbox": [
+            107.99999999999994,
+            571.6463473999997,
+            504.0033873999996,
+            656.5622256070797
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/66",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "If you need to run Docling in very low-resource environments, please consider configuring the pypdfium backend. While it is faster and more memory efficient than the default docling-parse backend, it will come at the expense of worse quality results, especially in table structure recovery.",
+      "start_offset": 12148,
+      "end_offset": 12438,
+      "heading_path": [
+        "4 Performance"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 12148,
+          "end_offset": 12438,
+          "page_index": 3,
+          "bbox": [
+            107.99999999999994,
+            664.3983474,
+            504.0033873999995,
+            694.7682256070797
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/67",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Establishing GPU acceleration support for the AI models is currently work-in-progress and largely untested, but may work implicitly when CUDA is available and discovered by the onnxruntime and torch runtimes backing the Docling pipeline. We will deliver updates on this topic at in a future version of this report.",
+      "start_offset": 12440,
+      "end_offset": 12754,
+      "heading_path": [
+        "4 Performance"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 12440,
+          "end_offset": 12632,
+          "page_index": 3,
+          "bbox": [
+            107.99999999999994,
+            702.6053474,
+            504.00338739999944,
+            722.0662256070797
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        },
+        {
+          "start_offset": 12633,
+          "end_offset": 12754,
+          "page_index": 4,
+          "bbox": [
+            108.0,
+            75.47734739999999,
+            504.00338739999955,
+            94.93822560707963
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/68",
+      "kind": "paragraph",
+      "label": "page_footer",
+      "text": "4",
+      "start_offset": 12756,
+      "end_offset": 12757,
+      "heading_path": [
+        "4 Performance"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 12756,
+          "end_offset": 12757,
+          "page_index": 3,
+          "bbox": [
+            303.5089999999999,
+            743.4023474,
+            308.4902999999999,
+            751.9542256070797
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/tables/0",
+      "kind": "table",
+      "label": "table",
+      "text": "CPU\tThread budget\tnative backend\tpypdfium backend\nTTS\tPages/s\tMem\tTTS\tPages/s\tMem\nApple M3 Max\t4 16\t177s 167s\t1.27 1.34\t6.20GB\t103s 92 s\t2.18 2.45\t2.56GB\n(16 cores) Intel(R) Xeon E5-2690 (16 cores)\t4 16\t375s 244s\t0.60 0.92\t6.16GB\t239s 143s\t0.94 1.57\t2.42GB",
+      "start_offset": 12759,
+      "end_offset": 13015,
+      "heading_path": [
+        "4 Performance"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 12759,
+          "end_offset": 13015,
+          "page_index": 4,
+          "bbox": [
+            133.46286010742188,
+            157.01661682128906,
+            478.2607727050781,
+            249.614990234375
+          ],
+          "precision": "table",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": {
+        "table_id": "#/tables/0",
+        "rows": 4,
+        "columns": 8,
+        "cells": [
+          {
+            "text": "CPU",
+            "start_offset": 12759,
+            "end_offset": 12762,
+            "row_start": 0,
+            "row_end": 1,
+            "column_start": 0,
+            "column_end": 1,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12759,
+                "end_offset": 12762,
+                "page_index": 4,
+                "bbox": [
+                  134.524,
+                  166.18234740000003,
+                  153.90125700000002,
+                  174.73422560707968
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "Thread budget",
+            "start_offset": 12763,
+            "end_offset": 12776,
+            "row_start": 0,
+            "row_end": 1,
+            "column_start": 1,
+            "column_end": 2,
+            "column_header": true,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12763,
+                "end_offset": 12776,
+                "page_index": 4,
+                "bbox": [
+                  207.90800000000002,
+                  160.72734739999999,
+                  236.12208320000005,
+                  180.18822560707963
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "native backend",
+            "start_offset": 12777,
+            "end_offset": 12791,
+            "row_start": 0,
+            "row_end": 1,
+            "column_start": 2,
+            "column_end": 5,
+            "column_header": true,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12777,
+                "end_offset": 12791,
+                "page_index": 4,
+                "bbox": [
+                  272.67,
+                  160.72734739999999,
+                  332.2064975999999,
+                  169.27922560707964
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "pypdfium backend",
+            "start_offset": 12792,
+            "end_offset": 12808,
+            "row_start": 0,
+            "row_end": 1,
+            "column_start": 5,
+            "column_end": 8,
+            "column_header": true,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12792,
+                "end_offset": 12808,
+                "page_index": 4,
+                "bbox": [
+                  383.28474779999993,
+                  160.72734739999999,
+                  456.96813739999976,
+                  169.27922560707964
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "TTS",
+            "start_offset": 12809,
+            "end_offset": 12812,
+            "row_start": 1,
+            "row_end": 2,
+            "column_start": 2,
+            "column_end": 3,
+            "column_header": true,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12809,
+                "end_offset": 12812,
+                "page_index": 4,
+                "bbox": [
+                  249.876,
+                  176.43934739999997,
+                  267.5895028,
+                  184.99122560707963
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "Pages/s",
+            "start_offset": 12813,
+            "end_offset": 12820,
+            "row_start": 1,
+            "row_end": 2,
+            "column_start": 3,
+            "column_end": 4,
+            "column_header": true,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12813,
+                "end_offset": 12820,
+                "page_index": 4,
+                "bbox": [
+                  281.33789079999997,
+                  176.43934739999997,
+                  311.0762517999999,
+                  184.99122560707963
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "Mem",
+            "start_offset": 12821,
+            "end_offset": 12824,
+            "row_start": 1,
+            "row_end": 2,
+            "column_start": 4,
+            "column_end": 5,
+            "column_header": true,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12821,
+                "end_offset": 12824,
+                "page_index": 4,
+                "bbox": [
+                  329.3974731999999,
+                  176.43934739999997,
+                  350.42852179999994,
+                  184.99122560707963
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "TTS",
+            "start_offset": 12825,
+            "end_offset": 12828,
+            "row_start": 1,
+            "row_end": 2,
+            "column_start": 5,
+            "column_end": 6,
+            "column_header": true,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12825,
+                "end_offset": 12828,
+                "page_index": 4,
+                "bbox": [
+                  370.55297379999996,
+                  176.43934739999997,
+                  388.2664765999999,
+                  184.99122560707963
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "Pages/s",
+            "start_offset": 12829,
+            "end_offset": 12836,
+            "row_start": 1,
+            "row_end": 2,
+            "column_start": 6,
+            "column_end": 7,
+            "column_header": true,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12829,
+                "end_offset": 12836,
+                "page_index": 4,
+                "bbox": [
+                  402.0148645999999,
+                  176.43934739999997,
+                  431.75322559999984,
+                  184.99122560707963
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "Mem",
+            "start_offset": 12837,
+            "end_offset": 12840,
+            "row_start": 1,
+            "row_end": 2,
+            "column_start": 7,
+            "column_end": 8,
+            "column_header": true,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12837,
+                "end_offset": 12840,
+                "page_index": 4,
+                "bbox": [
+                  450.07444699999985,
+                  176.43934739999997,
+                  471.10549559999987,
+                  184.99122560707963
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "Apple M3 Max",
+            "start_offset": 12841,
+            "end_offset": 12853,
+            "row_start": 2,
+            "row_end": 3,
+            "column_start": 0,
+            "column_end": 1,
+            "column_header": false,
+            "row_header": true,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12841,
+                "end_offset": 12853,
+                "page_index": 4,
+                "bbox": [
+                  134.524,
+                  192.35034740000003,
+                  195.95339160000003,
+                  200.90222560707969
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "4 16",
+            "start_offset": 12854,
+            "end_offset": 12858,
+            "row_start": 2,
+            "row_end": 3,
+            "column_start": 1,
+            "column_end": 2,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12854,
+                "end_offset": 12858,
+                "page_index": 4,
+                "bbox": [
+                  207.90800000000002,
+                  192.35034740000003,
+                  217.87060000000002,
+                  211.81122560707968
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "177s 167s",
+            "start_offset": 12859,
+            "end_offset": 12868,
+            "row_start": 2,
+            "row_end": 3,
+            "column_start": 2,
+            "column_end": 3,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12859,
+                "end_offset": 12868,
+                "page_index": 4,
+                "bbox": [
+                  248.0772032,
+                  192.35034740000003,
+                  269.38720459999996,
+                  211.81122560707968
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "1.27 1.34",
+            "start_offset": 12869,
+            "end_offset": 12878,
+            "row_start": 2,
+            "row_end": 3,
+            "column_start": 3,
+            "column_end": 4,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12869,
+                "end_offset": 12878,
+                "page_index": 4,
+                "bbox": [
+                  287.4992114,
+                  192.35034740000003,
+                  304.9337613999999,
+                  211.81122560707968
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "6.20GB",
+            "start_offset": 12879,
+            "end_offset": 12885,
+            "row_start": 2,
+            "row_end": 3,
+            "column_start": 4,
+            "column_end": 5,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12879,
+                "end_offset": 12885,
+                "page_index": 4,
+                "bbox": [
+                  323.036,
+                  197.80534740000007,
+                  356.79925139999995,
+                  206.35722560707973
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "103s 92 s",
+            "start_offset": 12886,
+            "end_offset": 12895,
+            "row_start": 2,
+            "row_end": 3,
+            "column_start": 5,
+            "column_end": 6,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12886,
+                "end_offset": 12895,
+                "page_index": 4,
+                "bbox": [
+                  368.754,
+                  192.35034740000003,
+                  390.06400139999994,
+                  211.81122560707968
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "2.18 2.45",
+            "start_offset": 12896,
+            "end_offset": 12905,
+            "row_start": 2,
+            "row_end": 3,
+            "column_start": 6,
+            "column_end": 7,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12896,
+                "end_offset": 12905,
+                "page_index": 4,
+                "bbox": [
+                  408.16622259999986,
+                  192.35034740000003,
+                  425.6105581999999,
+                  211.81122560707968
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "2.56GB",
+            "start_offset": 12906,
+            "end_offset": 12912,
+            "row_start": 2,
+            "row_end": 3,
+            "column_start": 7,
+            "column_end": 8,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12906,
+                "end_offset": 12912,
+                "page_index": 4,
+                "bbox": [
+                  443.713,
+                  197.80534740000007,
+                  477.47625139999997,
+                  206.35722560707973
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "(16 cores) Intel(R) Xeon E5-2690 (16 cores)",
+            "start_offset": 12913,
+            "end_offset": 12956,
+            "row_start": 3,
+            "row_end": 4,
+            "column_start": 0,
+            "column_end": 1,
+            "column_header": false,
+            "row_header": true,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12913,
+                "end_offset": 12956,
+                "page_index": 4,
+                "bbox": [
+                  134.524,
+                  203.25934740000002,
+                  190.13523320000004,
+                  249.5402256070796
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "4 16",
+            "start_offset": 12957,
+            "end_offset": 12961,
+            "row_start": 3,
+            "row_end": 4,
+            "column_start": 1,
+            "column_end": 2,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12957,
+                "end_offset": 12961,
+                "page_index": 4,
+                "bbox": [
+                  207.90800000000002,
+                  219.17034739999997,
+                  217.87060000000002,
+                  238.6312256070796
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "375s 244s",
+            "start_offset": 12962,
+            "end_offset": 12971,
+            "row_start": 3,
+            "row_end": 4,
+            "column_start": 2,
+            "column_end": 3,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12962,
+                "end_offset": 12971,
+                "page_index": 4,
+                "bbox": [
+                  248.0772032,
+                  219.17034739999997,
+                  269.38720459999996,
+                  238.6312256070796
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "0.60 0.92",
+            "start_offset": 12972,
+            "end_offset": 12981,
+            "row_start": 3,
+            "row_end": 4,
+            "column_start": 3,
+            "column_end": 4,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12972,
+                "end_offset": 12981,
+                "page_index": 4,
+                "bbox": [
+                  287.4992114,
+                  219.17034739999997,
+                  304.9337613999999,
+                  238.6312256070796
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "6.16GB",
+            "start_offset": 12982,
+            "end_offset": 12988,
+            "row_start": 3,
+            "row_end": 4,
+            "column_start": 4,
+            "column_end": 5,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12982,
+                "end_offset": 12988,
+                "page_index": 4,
+                "bbox": [
+                  323.036,
+                  224.6253474,
+                  356.79925139999995,
+                  233.17722560707966
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "239s 143s",
+            "start_offset": 12989,
+            "end_offset": 12998,
+            "row_start": 3,
+            "row_end": 4,
+            "column_start": 5,
+            "column_end": 6,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12989,
+                "end_offset": 12998,
+                "page_index": 4,
+                "bbox": [
+                  368.754,
+                  219.17034739999997,
+                  390.06417839999983,
+                  238.6312256070796
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "0.94 1.57",
+            "start_offset": 12999,
+            "end_offset": 13008,
+            "row_start": 3,
+            "row_end": 4,
+            "column_start": 6,
+            "column_end": 7,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 12999,
+                "end_offset": 13008,
+                "page_index": 4,
+                "bbox": [
+                  408.16622259999986,
+                  219.17034739999997,
+                  425.6105581999999,
+                  238.6312256070796
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "2.42GB",
+            "start_offset": 13009,
+            "end_offset": 13015,
+            "row_start": 3,
+            "row_end": 4,
+            "column_start": 7,
+            "column_end": 8,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 13009,
+                "end_offset": 13015,
+                "page_index": 4,
+                "bbox": [
+                  443.713,
+                  224.6253474,
+                  477.47625139999997,
+                  233.17722560707966
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          }
+        ],
+        "caption_refs": [
+          "#/texts/69"
+        ],
+        "note_refs": []
+      }
+    },
+    {
+      "source_ref": "#/texts/69",
+      "kind": "paragraph",
+      "label": "caption",
+      "text": "Table 1: Runtime characteristics of Docling with the standard model pipeline and settings, on our test dataset of 225 pages, on two different systems. OCR is disabled. We show the time-to-solution (TTS), computed throughput in pages per second, and the peak memory used (resident set size) for both the Docling-native PDF backend and for the pypdfium backend, using 4 and 16 threads.",
+      "start_offset": 13017,
+      "end_offset": 13400,
+      "heading_path": [
+        "4 Performance"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 13017,
+          "end_offset": 13400,
+          "page_index": 4,
+          "bbox": [
+            108.0,
+            106.65234739999994,
+            504.0033873999995,
+            147.93122560707957
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/70",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "5 Applications",
+      "start_offset": 13402,
+      "end_offset": 13416,
+      "heading_path": [
+        "5 Applications"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 13402,
+          "end_offset": 13416,
+          "page_index": 4,
+          "bbox": [
+            108.00000000000001,
+            263.37191199999995,
+            190.072448,
+            274.11963679999997
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/71",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Thanks to the high-quality, richly structured document conversion achieved by Docling, its output qualifies for numerous downstream applications. For example, Docling can provide a base for detailed enterprise document search, passage retrieval or classification use-cases, or support knowledge extraction pipelines, allowing specific treatment of different structures in the document, such as tables, figures, section structure or references. For popular generative AI application patterns, such as retrieval-augmented generation (RAG), we provide quackling, an open-source package which capitalizes on Docling's feature-rich document output to enable document-native optimized vector embedding and chunking. It plugs in seamlessly with LLM frameworks such as LlamaIndex [8]. Since Docling is fast, stable and cheap to run, it also makes for an excellent choice to build document-derived datasets. With its powerful table structure recognition, it provides significant benefit to automated knowledge-base construction [11, 10]. Docling is also integrated within the open IBM data prep kit [6], which implements scalable data transforms to build large-scale multi-modal training datasets.",
+      "start_offset": 13418,
+      "end_offset": 14606,
+      "heading_path": [
+        "5 Applications"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 13418,
+          "end_offset": 14606,
+          "page_index": 4,
+          "bbox": [
+            108.00000000000001,
+            287.9603474,
+            504.00338739999984,
+            427.4212256070796
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/72",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "6 Futureworkandcontributions",
+      "start_offset": 14608,
+      "end_offset": 14636,
+      "heading_path": [
+        "6 Futureworkandcontributions"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 14608,
+          "end_offset": 14636,
+          "page_index": 4,
+          "bbox": [
+            108.00000000000006,
+            445.2119119999999,
+            283.77730560000015,
+            455.9596367999999
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/73",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Docling is designed to allow easy extension of the model library and pipelines. In the future, we plan to extend Docling with several more models, such as a figure-classifier model, an equationrecognition model, a code-recognition model and more. This will help improve the quality of conversion for specific types of content, as well as augment extracted document metadata with additional information. Further investment into testing and optimizing GPU acceleration as well as improving the Docling-native PDF backend are on our roadmap, too.",
+      "start_offset": 14638,
+      "end_offset": 15181,
+      "heading_path": [
+        "6 Futureworkandcontributions"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 14638,
+          "end_offset": 15181,
+          "page_index": 4,
+          "bbox": [
+            108.00000000000006,
+            469.8003473999999,
+            504.00338739999984,
+            532.8972256070795
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/74",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "We encourage everyone to propose or implement additional features and models, and will gladly take your inputs and contributions under review. The codebase of Docling is open for use and contribution, under the MIT license agreement and in alignment with our contributing guidelines included in the Docling repository. If you use Docling in your projects, please consider citing this technical report.",
+      "start_offset": 15183,
+      "end_offset": 15584,
+      "heading_path": [
+        "6 Futureworkandcontributions"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 15183,
+          "end_offset": 15584,
+          "page_index": 4,
+          "bbox": [
+            108.00000000000006,
+            540.3458059999998,
+            504.00338739999967,
+            592.9222256070794
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/75",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "References",
+      "start_offset": 15586,
+      "end_offset": 15596,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 15586,
+          "end_offset": 15596,
+          "page_index": 4,
+          "bbox": [
+            108.00000000000009,
+            610.7119119999998,
+            163.54385920000016,
+            621.4596367999998
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/76",
+      "kind": "list",
+      "label": "list_item",
+      "text": "[1] J. AI. Easyocr: Ready-to-use ocr with 80+ supported languages. https://github.com/ JaidedAI/EasyOCR, 2024. Version: 1.7.0.",
+      "start_offset": 15598,
+      "end_offset": 15724,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 15598,
+          "end_offset": 15724,
+          "page_index": 4,
+          "bbox": [
+            112.98100000000008,
+            629.8213473999998,
+            504.00093500000014,
+            649.4276971999998
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/77",
+      "kind": "list",
+      "label": "list_item",
+      "text": "[2] J. Ansel, E. Yang, H. He, N. Gimelshein, A. Jain, M. Voznesensky, B. Bao, P. Bell, D. Berard, E. Burovski, G. Chauhan, A. Chourdia, W. Constable, A. Desmaison, Z. DeVito, E. Ellison, W. Feng, J. Gong, M. Gschwind, B. Hirsh, S. Huang, K. Kalambarkar, L. Kirsch, M. Lazos, M. Lezcano, Y. Liang, J. Liang, Y. Lu, C. Luk, B. Maher, Y. Pan, C. Puhrsch, M. Reso, M. Saroufim, M. Y. Siraichi, H. Suk, M. Suo, P. Tillet, E. Wang, X. Wang, W. Wen, S. Zhang, X. Zhao, K. Zhou, R. Zou, A. Mathews, G. Chanan, P. Wu, and S. Chintala. Pytorch 2: Faster",
+      "start_offset": 15726,
+      "end_offset": 16269,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 15726,
+          "end_offset": 16269,
+          "page_index": 4,
+          "bbox": [
+            112.98100000000001,
+            658.9683473999999,
+            504.0033958000001,
+            722.0662256070794
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/78",
+      "kind": "paragraph",
+      "label": "page_footer",
+      "text": "5",
+      "start_offset": 16271,
+      "end_offset": 16272,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 16271,
+          "end_offset": 16272,
+          "page_index": 4,
+          "bbox": [
+            303.509,
+            743.4023473999998,
+            308.4903,
+            751.9542256070795
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/79",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "machine learning through dynamic python bytecode transformation and graph compilation. In Proceedings of the 29th ACM International Conference on Architectural Support for Programming Languages and Operating Systems, Volume 2 (ASPLOS '24). ACM, 4 2024. doi: 10.1145/3620665.3640366. URL https://pytorch.org/assets/pytorch2-2.pdf.",
+      "start_offset": 16274,
+      "end_offset": 16603,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 16274,
+          "end_offset": 16603,
+          "page_index": 5,
+          "bbox": [
+            129.579,
+            75.47734739999999,
+            504.0033957999995,
+            116.90169719999994
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/80",
+      "kind": "list",
+      "label": "list_item",
+      "text": "[3] C. Auer, M. Dolfi, A. Carvalho, C. B. Ramis, and P. W. Staar. Delivering document conversion as a cloud service with high throughput and responsiveness. In 2022 IEEE 15th International Conference on Cloud Computing (CLOUD), pages 363-373. IEEE, 2022.",
+      "start_offset": 16605,
+      "end_offset": 16859,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 16605,
+          "end_offset": 16859,
+          "page_index": 5,
+          "bbox": [
+            112.981,
+            127.08334739999998,
+            504.00308739999963,
+            157.45322560707962
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/81",
+      "kind": "list",
+      "label": "list_item",
+      "text": "[4] J. Berkenbilt. Qpdf: A content-preserving pdf document transformer, 2024. URL https: //github.com/qpdf/qpdf.",
+      "start_offset": 16861,
+      "end_offset": 16973,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 16861,
+          "end_offset": 16973,
+          "page_index": 5,
+          "bbox": [
+            112.981,
+            167.78034739999998,
+            504.00019000000003,
+            187.38769719999993
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/82",
+      "kind": "list",
+      "label": "list_item",
+      "text": "[5] O. R. developers. Onnx runtime. https://onnxruntime.ai/, 2024. Version: 1.18.1.",
+      "start_offset": 16975,
+      "end_offset": 17058,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 16975,
+          "end_offset": 17058,
+          "page_index": 5,
+          "bbox": [
+            112.98100000000002,
+            197.56934739999997,
+            478.8865877999998,
+            206.26669719999995
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/83",
+      "kind": "list",
+      "label": "list_item",
+      "text": "[6] IBM. Data Prep Kit: a community project to democratize and accelerate unstructured data preparation for LLM app developers, 2024. URL https://github.com/IBM/ data-prep-kit.",
+      "start_offset": 17060,
+      "end_offset": 17236,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 17060,
+          "end_offset": 17236,
+          "page_index": 5,
+          "bbox": [
+            112.981,
+            216.4483474,
+            504.00308739999946,
+            246.96369719999996
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/84",
+      "kind": "list",
+      "label": "list_item",
+      "text": "[7] A. S. Inc. PyMuPDF, 2024. URL https://github.com/pymupdf/PyMuPDF.",
+      "start_offset": 17238,
+      "end_offset": 17307,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 17238,
+          "end_offset": 17307,
+          "page_index": 5,
+          "bbox": [
+            112.981,
+            257.1453474,
+            447.42465,
+            265.8426972
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/85",
+      "kind": "list",
+      "label": "list_item",
+      "text": "[8] J. Liu. LlamaIndex, 11 2022. URL https://github.com/jerryjliu/llama_index.",
+      "start_offset": 17309,
+      "end_offset": 17387,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 17309,
+          "end_offset": 17387,
+          "page_index": 5,
+          "bbox": [
+            112.981,
+            276.0253474,
+            483.89765,
+            284.72269719999997
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/86",
+      "kind": "list",
+      "label": "list_item",
+      "text": "[9] M. Lysak, A. Nassar, N. Livathinos, C. Auer, and P. Staar. Optimized Table Tokenization for Table Structure Recognition. In Document Analysis and Recognition - ICDAR 2023: 17th International Conference, San Jos´e, CA, USA, August 21-26, 2023, Proceedings, Part II, pages 37-50, Berlin, Heidelberg, Aug. 2023. Springer-Verlag. ISBN978-3-031-41678-1. doi: 10. 1007/978-3-031-41679-8 3. URL https://doi.org/10.1007/978-3-031-41679-8_3.",
+      "start_offset": 17389,
+      "end_offset": 17825,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 17389,
+          "end_offset": 17825,
+          "page_index": 5,
+          "bbox": [
+            112.981,
+            294.9043474,
+            504.00468599999914,
+            347.2376972
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/87",
+      "kind": "list",
+      "label": "list_item",
+      "text": "[10] L. Mishra, S. Dhibi, Y. Kim, C. Berrospi Ramis, S. Gupta, M. Dolfi, and P. Staar. Statements: Universal information extraction from tables with large language models for ESG KPIs. InD.Stammbach,J.Ni,T.Schimanski,K.Dutia,A.Singh,J.Bingler,C.Christiaen, N. Kushwaha, V. Muccione, S. A. Vaghefi, and M. Leippold, editors, Proceedings of the 1st Workshop on Natural Language Processing Meets Climate Change (ClimateNLP 2024), pages 193-214, Bangkok, Thailand, Aug. 2024. Association for Computational Linguistics. URL https://aclanthology.org/2024.climatenlp-1.15.",
+      "start_offset": 17827,
+      "end_offset": 18392,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 17827,
+          "end_offset": 18392,
+          "page_index": 5,
+          "bbox": [
+            107.99999999999994,
+            357.41934740000005,
+            504.00339579999974,
+            431.5716972
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/88",
+      "kind": "list",
+      "label": "list_item",
+      "text": "[11] L. Morin, V. Weber, G. I. Meijer, F. Yu, and P. W. J. Staar. Patcid: an open-access dataset of chemical structures in patent documents. Nature Communications, 15(1):6532, August 2024. ISSN2041-1723. doi: 10.1038/s41467-024-50779-y. URLhttps://doi.org/10.1038/ s41467-024-50779-y.",
+      "start_offset": 18394,
+      "end_offset": 18678,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 18394,
+          "end_offset": 18678,
+          "page_index": 5,
+          "bbox": [
+            107.99999999999994,
+            441.75334740000005,
+            504.0033873999999,
+            483.1776972
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/89",
+      "kind": "list",
+      "label": "list_item",
+      "text": "[12] A. Nassar, N. Livathinos, M. Lysak, and P. Staar. Tableformer: Table structure understanding withtransformers. InProceedingsof theIEEE/CVFConferenceonComputerVisionand Pattern Recognition, pages 4614-4623, 2022.",
+      "start_offset": 18680,
+      "end_offset": 18896,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 18680,
+          "end_offset": 18896,
+          "page_index": 5,
+          "bbox": [
+            107.99999999999997,
+            493.35934740000005,
+            504.0033873999996,
+            523.7302256070798
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/90",
+      "kind": "list",
+      "label": "list_item",
+      "text": "[13] B. Pfitzmann, C. Auer, M. Dolfi, A. S. Nassar, and P. Staar. Doclaynet: a large humanannotated dataset for document-layout segmentation. pages 3743-3751, 2022.",
+      "start_offset": 18898,
+      "end_offset": 19062,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 18898,
+          "end_offset": 19062,
+          "page_index": 5,
+          "bbox": [
+            107.99999999999999,
+            534.0573474,
+            504.0033873999997,
+            553.5182256070797
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/91",
+      "kind": "list",
+      "label": "list_item",
+      "text": "[14] pypdf Maintainers. pypdf: A Pure-Python PDF Library, 2024. URL https://github.com/ py-pdf/pypdf.",
+      "start_offset": 19064,
+      "end_offset": 19165,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 19064,
+          "end_offset": 19165,
+          "page_index": 5,
+          "bbox": [
+            107.99999999999997,
+            563.8453474,
+            504.00093500000014,
+            583.4516972
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/92",
+      "kind": "list",
+      "label": "list_item",
+      "text": "[15] P. Team. PyPDFium2: Python bindings for PDFium, 2024. URL https://github.com/ pypdfium2-team/pypdfium2.",
+      "start_offset": 19167,
+      "end_offset": 19275,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 19167,
+          "end_offset": 19275,
+          "page_index": 5,
+          "bbox": [
+            108.00000000000001,
+            593.6333474,
+            504.00093500000014,
+            613.2396972
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/93",
+      "kind": "list",
+      "label": "list_item",
+      "text": "[16] Y. Zhao, W. Lv, S. Xu, J. Wei, G. Wang, Q. Dang, Y. Liu, and J. Chen. Detrs beat yolos on real-time object detection, 2023.",
+      "start_offset": 19277,
+      "end_offset": 19405,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 19277,
+          "end_offset": 19405,
+          "page_index": 5,
+          "bbox": [
+            108.00000000000003,
+            623.4223474,
+            504.00338739999944,
+            642.8832256070796
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/94",
+      "kind": "paragraph",
+      "label": "page_footer",
+      "text": "6",
+      "start_offset": 19407,
+      "end_offset": 19408,
+      "heading_path": [
+        "References"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 19407,
+          "end_offset": 19408,
+          "page_index": 5,
+          "bbox": [
+            303.509,
+            743.4023473999999,
+            308.4903,
+            751.9542256070796
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/95",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "Appendix",
+      "start_offset": 19410,
+      "end_offset": 19418,
+      "heading_path": [
+        "Appendix"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 19410,
+          "end_offset": 19418,
+          "page_index": 6,
+          "bbox": [
+            108.0,
+            73.71391199999994,
+            157.53039360000002,
+            84.46163679999995
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/96",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "In this section, we illustrate a few examples of Docling's output in Markdown and JSON.",
+      "start_offset": 19420,
+      "end_offset": 19507,
+      "heading_path": [
+        "Appendix"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 19420,
+          "end_offset": 19507,
+          "page_index": 6,
+          "bbox": [
+            108.0,
+            98.59034740000004,
+            463.7544833999996,
+            107.1422256070797
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/434",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "1 INTRODUCTION",
+      "start_offset": 19509,
+      "end_offset": 19523,
+      "heading_path": [
+        "Appendix"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 19509,
+          "end_offset": 19523,
+          "page_index": 6,
+          "bbox": [
+            329.60160378558874,
+            363.46322786772987,
+            373.37544134870427,
+            368.03655480273
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/435",
+      "kind": "paragraph",
+      "label": "caption",
+      "text": "Despite the substantial improvements achieved with machine-learning (ML) approaches and deep neural networks in recent years, document conversion remains a challenging problem, as demonstrated by the numerous public competitions held on this topic [1-4]. The challenge originates from the huge variability in PDF documents regarding layout, language and formats (scanned, programmatic or a combination of both). Engineering a single ML model that can be applied on all types of documents and provides high-quality layout segmentation remains to this day extremely challenging [5]. To highlight the variability in document layouts, we show a few example documents from the DocLayNet dataset in Figure 1. Figure 2: Title page of the DocLayNet paper (arxiv.org/pdf/2206.01062) - left PDF, right rendered Markdown. If recognized, metadata such as authors are appearing first under the title. Text content inside figures is currently dropped, the caption is retained and linked to the figure in the JSON representation (not shown).",
+      "start_offset": 19525,
+      "end_offset": 20551,
+      "heading_path": [
+        "Appendix"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 19525,
+          "end_offset": 20551,
+          "page_index": 6,
+          "bbox": [
+            108.0,
+            372.9493474,
+            527.5914786784119,
+            414.2292256070797
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/436",
+      "kind": "paragraph",
+      "label": "page_footer",
+      "text": "7",
+      "start_offset": 20553,
+      "end_offset": 20554,
+      "heading_path": [
+        "Appendix"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 20553,
+          "end_offset": 20554,
+          "page_index": 6,
+          "bbox": [
+            303.509,
+            743.4023474,
+            308.4903,
+            751.9542256070797
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/437",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "KDD '22, August 14-18, 2022, Washington, DC, USA Birgit Pfitzmann, Christoph Auer, Michele Dolfi, Ahmed S. Nassar, and Peter Staar",
+      "start_offset": 20556,
+      "end_offset": 20686,
+      "heading_path": [
+        "Appendix"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 20556,
+          "end_offset": 20686,
+          "page_index": 7,
+          "bbox": [
+            122.99872750652476,
+            228.89535249337746,
+            338.602622454351,
+            233.34502135897924
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/tables/1",
+      "kind": "table",
+      "label": "table",
+      "text": "human\tMRCNN R50 R101\tFRCNN R101\tYOLO v5x6\nCaption Footnote Formula List-item Page-footer Page-header Picture Section-header Table Text Title All\t84-89 83-91 83-85 87-88 93-94 85-89 69-71 83-84 77-81 84-86 60-72 82-83\t68.4 70.9 60.1 81.2 61.6 71.9 71.7 67.6 82.2 84.6 76.7 72.4\t71.5 71.8 63.4 80.8 59.3 70.0 72.7 69.3 82.9 85.8 80.4 73.5\t70.1 73.7 63.5 81.0 58.9 72.0 72.0 68.4 82.2 85.4 79.9 73.4\t77.7 77.2 66.2 86.2 61.1 67.9 77.1 74.6 86.3 88.1 82.7 76.8",
+      "start_offset": 20688,
+      "end_offset": 21144,
+      "heading_path": [
+        "Appendix"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 20688,
+          "end_offset": 21144,
+          "page_index": 7,
+          "bbox": [
+            125.1145248413086,
+            286.78131103515625,
+            222.85659790039062,
+            354.2778015136719
+          ],
+          "precision": "table",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": {
+        "table_id": "#/tables/1",
+        "rows": 2,
+        "columns": 6,
+        "cells": [
+          {
+            "text": "human",
+            "start_offset": 20688,
+            "end_offset": 20693,
+            "row_start": 0,
+            "row_end": 1,
+            "column_start": 1,
+            "column_end": 2,
+            "column_header": true,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 20688,
+                "end_offset": 20693,
+                "page_index": 7,
+                "bbox": [
+                  156.58157632103783,
+                  286.9111355336971,
+                  167.53519700828141,
+                  292.2078128569199
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "MRCNN R50 R101",
+            "start_offset": 20694,
+            "end_offset": 20708,
+            "row_start": 0,
+            "row_end": 1,
+            "column_start": 2,
+            "column_end": 4,
+            "column_header": true,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 20694,
+                "end_offset": 20708,
+                "page_index": 7,
+                "bbox": [
+                  171.9814627503183,
+                  286.9111355336971,
+                  189.83762747455475,
+                  296.8921515762072
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "FRCNN R101",
+            "start_offset": 20709,
+            "end_offset": 20719,
+            "row_start": 0,
+            "row_end": 1,
+            "column_start": 4,
+            "column_end": 5,
+            "column_header": true,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 20709,
+                "end_offset": 20719,
+                "page_index": 7,
+                "bbox": [
+                  194.0961578807691,
+                  286.9111355336971,
+                  206.03859387147975,
+                  296.8921515762072
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "YOLO v5x6",
+            "start_offset": 20720,
+            "end_offset": 20729,
+            "row_start": 0,
+            "row_end": 1,
+            "column_start": 5,
+            "column_end": 6,
+            "column_header": true,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 20720,
+                "end_offset": 20729,
+                "page_index": 7,
+                "bbox": [
+                  210.29663186431657,
+                  286.9111355336971,
+                  219.76319697890426,
+                  296.8921515762072
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "Caption Footnote Formula List-item Page-footer Page-header Picture Section-header Table Text Title All",
+            "start_offset": 20730,
+            "end_offset": 20832,
+            "row_start": 1,
+            "row_end": 2,
+            "column_start": 0,
+            "column_end": 1,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 20730,
+                "end_offset": 20832,
+                "page_index": 7,
+                "bbox": [
+                  128.9252131660666,
+                  296.44993495514217,
+                  152.32334273066493,
+                  353.44446017339607
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "84-89 83-91 83-85 87-88 93-94 85-89 69-71 83-84 77-81 84-86 60-72 82-83",
+            "start_offset": 20833,
+            "end_offset": 20904,
+            "row_start": 1,
+            "row_end": 2,
+            "column_start": 1,
+            "column_end": 2,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 20833,
+                "end_offset": 20904,
+                "page_index": 7,
+                "bbox": [
+                  157.84637769619718,
+                  296.44993495514217,
+                  166.27047086294363,
+                  353.44446017339607
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "68.4 70.9 60.1 81.2 61.6 71.9 71.7 67.6 82.2 84.6 76.7 72.4",
+            "start_offset": 20905,
+            "end_offset": 20964,
+            "row_start": 1,
+            "row_end": 2,
+            "column_start": 2,
+            "column_end": 3,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 20905,
+                "end_offset": 20964,
+                "page_index": 7,
+                "bbox": [
+                  171.79381563855927,
+                  296.44993495514217,
+                  177.9834928288666,
+                  353.44446017339607
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "71.5 71.8 63.4 80.8 59.3 70.0 72.7 69.3 82.9 85.8 80.4 73.5",
+            "start_offset": 20965,
+            "end_offset": 21024,
+            "row_start": 1,
+            "row_end": 2,
+            "column_start": 3,
+            "column_end": 4,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 20965,
+                "end_offset": 21024,
+                "page_index": 7,
+                "bbox": [
+                  182.94673243347836,
+                  296.44993495514217,
+                  189.1364096237857,
+                  353.44446017339607
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "70.1 73.7 63.5 81.0 58.9 72.0 72.0 68.4 82.2 85.4 79.9 73.4",
+            "start_offset": 21025,
+            "end_offset": 21084,
+            "row_start": 1,
+            "row_end": 2,
+            "column_start": 4,
+            "column_end": 5,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 21025,
+                "end_offset": 21084,
+                "page_index": 7,
+                "bbox": [
+                  196.9741123198715,
+                  296.44993495514217,
+                  203.16378951017882,
+                  353.44446017339607
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          },
+          {
+            "text": "77.7 77.2 66.2 86.2 61.1 67.9 77.1 74.6 86.3 88.1 82.7 76.8",
+            "start_offset": 21085,
+            "end_offset": 21144,
+            "row_start": 1,
+            "row_end": 2,
+            "column_start": 5,
+            "column_end": 6,
+            "column_header": false,
+            "row_header": false,
+            "row_section": false,
+            "regions": [
+              {
+                "start_offset": 21085,
+                "end_offset": 21144,
+                "page_index": 7,
+                "bbox": [
+                  211.93665086535748,
+                  296.44993495514217,
+                  218.1263280556648,
+                  353.44446017339607
+                ],
+                "precision": "cell",
+                "coordinate_system": "top_left_pdf_points"
+              }
+            ]
+          }
+        ],
+        "caption_refs": [
+          "#/texts/438"
+        ],
+        "note_refs": []
+      }
+    },
+    {
+      "source_ref": "#/texts/438",
+      "kind": "paragraph",
+      "label": "caption",
+      "text": "Table 2: Prediction performance (mAP@0.5-0.95) of object detection networks on DocLayNet test set. The MRCNN (Mask R-CNN) and FRCNN (Faster R-CNN) models with ResNet-50 or ResNet-101 backbone were trained based on the network architectures from the detectron2 model zoo (Mask R-CNN R50, R101-FPN 3x, Faster R-CNN R101-FPN 3x), with default con￿gurations. The YOLO implementation utilized was YOLOv5x6 [13]. All models were initialised using pre-trained weights from the COCO 2017 dataset.",
+      "start_offset": 21146,
+      "end_offset": 21634,
+      "heading_path": [
+        "Appendix"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 21146,
+          "end_offset": 21634,
+          "page_index": 7,
+          "bbox": [
+            122.87220462479203,
+            239.8973144961476,
+            226.3759181282956,
+            282.5149694332891
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/439",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "to avoid this at any cost in order to have clear, unbiased baseline numbers for human document-layout annotation. Third, we introduced the feature of snapping boxes around text segments to obtain a pixel-accurate annotation and again reduce time and e￿ort. The CCS annotation tool automatically shrinks every user-drawn box to the minimum bounding-box around the enclosed text-cells for all purely text-based segments, which excludes only Table and Picture. For the latter, we instructed annotation sta￿ to minimise inclusion of surrounding whitespace while including all graphical lines. A downside of snapping boxes to enclosed text cells is that some wrongly parsed PDF pages cannot be annotated correctly and need to be skipped. Fourth, we established a way to ￿ag pages as rejected for cases where no valid annotation according to the label guidelines could be achieved. Example cases for this would be PDF pages that render incorrectly or contain layouts that are impossible to capture with non-overlapping rectangles. Such rejected pages are not contained in the ￿nal dataset. With all these measures in place, experienced annotation sta￿ managed to annotate a single page in a typical timeframe of 20s to 60s, depending on its complexity.",
+      "start_offset": 21636,
+      "end_offset": 22882,
+      "heading_path": [
+        "Appendix"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 21636,
+          "end_offset": 22882,
+          "page_index": 7,
+          "bbox": [
+            122.88374556332846,
+            360.8389682607364,
+            226.33636551615695,
+            450.45331508896334
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/440",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "5 EXPERIMENTS",
+      "start_offset": 22884,
+      "end_offset": 22897,
+      "heading_path": [
+        "5 EXPERIMENTS"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 22884,
+          "end_offset": 22897,
+          "page_index": 7,
+          "bbox": [
+            122.99872750652476,
+            453.9065382099799,
+            163.04465184815228,
+            460.16429676452856
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/441",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "The primary goal of DocLayNet is to obtain high-quality ML models capable of accurate document-layout analysis on a wide variety of challenging layouts. As discussed in Section 2, object detection models are currently the easiest to use, due to the standardisation of ground-truth data in COCO format [16] and the availability of general frameworks such as detectron2 [17]. Furthermore, baseline numbers in PubLayNet and DocBank were obtained using standard object detection models such as Mask R-CNN and Faster R-CNN. As such, we will relate to these object detection methods in this paper and leave the detailed evaluation of more recent methods mentioned in Section 2 for future work.",
+      "start_offset": 22899,
+      "end_offset": 23586,
+      "heading_path": [
+        "5 EXPERIMENTS"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 22899,
+          "end_offset": 23483,
+          "page_index": 7,
+          "bbox": [
+            122.86451066576774,
+            464.4193190673816,
+            226.2816357388952,
+            507.1902787027351
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        },
+        {
+          "start_offset": 23484,
+          "end_offset": 23586,
+          "page_index": 7,
+          "bbox": [
+            235.91056828312725,
+            366.43162158705775,
+            338.6031767750325,
+            376.4126376295678
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/442",
+      "kind": "paragraph",
+      "label": "caption",
+      "text": "Figure 5: Prediction performance (mAP@0.5-0.95) of a Mask R-CNN network with ResNet50 backbone trained on increasing fractions of the DocLayNet dataset. The learning curve ￿attens around the 80% mark, indicating that increasing the size of the DocLayNet dataset with similar data will not yield signi￿cantly better predictions.",
+      "start_offset": 23588,
+      "end_offset": 23915,
+      "heading_path": [
+        "5 EXPERIMENTS"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 23588,
+          "end_offset": 23915,
+          "page_index": 7,
+          "bbox": [
+            235.91056828312725,
+            322.02733498524583,
+            339.2877589048981,
+            350.59240120669335
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/443",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "In this section, we will present several aspects related to the performance of object detection models on DocLayNet. Similarly as in PubLayNet, we will evaluate the quality of their predictions using mean average precision (mAP) with 10 overlaps that range from 0.5 to 0.95 in steps of 0.05 (mAP@0.5-0.95). These scores are computed by leveraging the evaluation code provided by the COCO API [16].",
+      "start_offset": 23917,
+      "end_offset": 24314,
+      "heading_path": [
+        "5 EXPERIMENTS"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 23917,
+          "end_offset": 24314,
+          "page_index": 7,
+          "bbox": [
+            235.77635144237024,
+            375.8002990256324,
+            338.7025227418122,
+            409.20258122241125
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/444",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "Baselines for Object Detection",
+      "start_offset": 24316,
+      "end_offset": 24346,
+      "heading_path": [
+        "Baselines for Object Detection"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 24316,
+          "end_offset": 24346,
+          "page_index": 7,
+          "bbox": [
+            235.91056828312725,
+            414.87764873277496,
+            299.55598297093286,
+            421.13540728732363
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/445",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "In Table 2, we present baseline experiments (given in mAP) on Mask R-CNN [12], Faster R-CNN [11], and YOLOv5 [13]. Both training and evaluation were performed on RGB images with dimensions of 1025⇥1025 pixels. For training, we only used one annotation in case of redundantly annotated pages. As one can observe, the variation in mAP between the models is rather low, but overall between 6 and 10% lower than the mAP computed from the pairwise human annotations on triple-annotated pages. This gives a good indication that the DocLayNet dataset poses a worthwhile challenge for the research community to close the gap between human recognition and ML approaches. It is interesting to see that Mask R-CNN and Faster R-CNN produce very comparable mAP scores, indicating that pixel-based image segmentation derived from bounding-boxes does not help to obtain better predictions. On the other hand, the more recent Yolov5x model does very well and even out-performs humans on selected labels such as Text, Table and Picture. This is not entirely surprising, as Text, Table and Picture are abundant and the most visually distinctive in a document.",
+      "start_offset": 24348,
+      "end_offset": 25489,
+      "heading_path": [
+        "Baselines for Object Detection"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 24348,
+          "end_offset": 25489,
+          "page_index": 7,
+          "bbox": [
+            235.822515196516,
+            421.14977584128997,
+            338.70006534430263,
+            506.0793565080615
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/446",
+      "kind": "paragraph",
+      "label": "caption",
+      "text": "Figure 3: Page 6 of the DocLayNet paper. If recognized, metadata such as authors are appearing first under the title. Elements recognized as page headers or footers are suppressed in Markdown to deliver uninterrupted content in reading order. Tables are inserted in reading order. The paragraph in '5. Experiments' wrapping over the column end is broken up in two and interrupted by the table.",
+      "start_offset": 25491,
+      "end_offset": 25884,
+      "heading_path": [
+        "Baselines for Object Detection"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 25491,
+          "end_offset": 25884,
+          "page_index": 7,
+          "bbox": [
+            108.0,
+            525.5763474,
+            504.0033873999996,
+            566.8552256070797
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/447",
+      "kind": "paragraph",
+      "label": "page_footer",
+      "text": "8",
+      "start_offset": 25886,
+      "end_offset": 25887,
+      "heading_path": [
+        "Baselines for Object Detection"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 25886,
+          "end_offset": 25887,
+          "page_index": 7,
+          "bbox": [
+            303.509,
+            743.4023473999999,
+            308.4903,
+            751.9542256070796
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/727",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "we distributed the annotation workload and performed continuous",
+      "start_offset": 25889,
+      "end_offset": 25952,
+      "heading_path": [
+        "Baselines for Object Detection"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 25889,
+          "end_offset": 25952,
+          "page_index": 8,
+          "bbox": [
+            88.50696709383965,
+            485.13162793834385,
+            211.36118069901192,
+            491.459417134119
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/728",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "only. For phases three and four, a group of 40 dedicated annotators",
+      "start_offset": 25954,
+      "end_offset": 26021,
+      "heading_path": [
+        "Baselines for Object Detection"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 25954,
+          "end_offset": 26021,
+          "page_index": 8,
+          "bbox": [
+            88.67599474002452,
+            496.324119430056,
+            211.35952134592813,
+            502.6519086258311
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/729",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "quality controls. Phase one and two required a small team of experts",
+      "start_offset": 26023,
+      "end_offset": 26091,
+      "heading_path": [
+        "Baselines for Object Detection"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 26023,
+          "end_offset": 26091,
+          "page_index": 8,
+          "bbox": [
+            88.67599474002452,
+            490.7278736841999,
+            211.36010842745583,
+            497.05566287997505
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/730",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "were assembled and supervised.",
+      "start_offset": 26093,
+      "end_offset": 26123,
+      "heading_path": [
+        "Baselines for Object Detection"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 26093,
+          "end_offset": 26123,
+          "page_index": 8,
+          "bbox": [
+            88.50696709383965,
+            501.920365175912,
+            148.31472732330843,
+            508.2481543716872
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/731",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "while coverage ensures that all meaningful items on a page can",
+      "start_offset": 26125,
+      "end_offset": 26187,
+      "heading_path": [
+        "Baselines for Object Detection"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 26125,
+          "end_offset": 26187,
+          "page_index": 8,
+          "bbox": [
+            223.4002205851053,
+            482.8827123196971,
+            346.2533820835663,
+            489.2105015154722
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/732",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "to a document category, such as Abstract in the Scienti￿c Articles",
+      "start_offset": 26189,
+      "end_offset": 26255,
+      "heading_path": [
+        "Baselines for Object Detection"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 26189,
+          "end_offset": 26255,
+          "page_index": 8,
+          "bbox": [
+            223.5697588888315,
+            494.0752038114092,
+            346.25265090367253,
+            500.654822533789
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/733",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "be annotated. We refrained from class labels that are very speci￿c",
+      "start_offset": 26257,
+      "end_offset": 26323,
+      "heading_path": [
+        "Baselines for Object Detection"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 26257,
+          "end_offset": 26323,
+          "page_index": 8,
+          "bbox": [
+            223.5697588888315,
+            488.4789580655531,
+            346.25389616864123,
+            494.80674726132827
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/734",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "category. We also avoided class labels that are tightly linked to the",
+      "start_offset": 26325,
+      "end_offset": 26394,
+      "heading_path": [
+        "Baselines for Object Detection"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 26325,
+          "end_offset": 26394,
+          "page_index": 8,
+          "bbox": [
+            223.5697588888315,
+            499.67144955726525,
+            346.2555611665335,
+            505.9992387530404
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/735",
+      "kind": "paragraph",
+      "label": "caption",
+      "text": "teria for documents were described in Section 3. A large e￿ort went into ensuring that all documents are free to use. The data sources in DocBank, are often only distinguishable by discriminating on 3 https://arxiv.org/ Figure 4: Table 1 from the DocLayNet paper in the original PDF (A), as rendered Markdown (B) and in JSON representation (C). Spanning table cells, such as the multi-column header 'triple interannotator mAP@0.5-0.95 (%)', is repeated for each column in the Markdown representation (B), which guarantees that every data point can be traced back to row and column headings only by its grid coordinates in the table. In the JSON representation, the span information is reflected in the fields of each table cell (C).",
+      "start_offset": 26396,
+      "end_offset": 27128,
+      "heading_path": [
+        "Baselines for Object Detection"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 26396,
+          "end_offset": 27128,
+          "page_index": 8,
+          "bbox": [
+            88.67599474002452,
+            510.8634303960213,
+            504.0033873999996,
+            577.9582256070796
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/736",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "semantics of the text. Labels such as Author and A￿liation, as seen",
+      "start_offset": 27130,
+      "end_offset": 27197,
+      "heading_path": [
+        "Baselines for Object Detection"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 27130,
+          "end_offset": 27197,
+          "page_index": 8,
+          "bbox": [
+            223.5697588888315,
+            505.26718465016523,
+            346.2533979016945,
+            511.846803372545
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/737",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Phase 1: Data selection and preparation. Our inclusion cri-",
+      "start_offset": 27199,
+      "end_offset": 27258,
+      "heading_path": [
+        "Baselines for Object Detection"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 27199,
+          "end_offset": 27258,
+          "page_index": 8,
+          "bbox": [
+            93.76367582443478,
+            507.5166109217681,
+            212.13278793195144,
+            514.1694891427965
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/738",
+      "kind": "paragraph",
+      "label": "page_footer",
+      "text": "9",
+      "start_offset": 27260,
+      "end_offset": 27261,
+      "heading_path": [
+        "Baselines for Object Detection"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 27260,
+          "end_offset": 27261,
+          "page_index": 8,
+          "bbox": [
+            303.509,
+            743.4023473999999,
+            308.4903,
+            751.9542256070796
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    }
+  ],
+  "parser": {
+    "name": "docling",
+    "package_versions": [
+      [
+        "docling",
+        "2.130.0"
+      ],
+      [
+        "docling-core",
+        "2.99.0"
+      ],
+      [
+        "docling-parse",
+        "7.22.0"
+      ],
+      [
+        "docling-ibm-models",
+        "4.0.3"
+      ],
+      [
+        "torch",
+        "2.14.0"
+      ]
+    ],
+    "settings_json": "{\"accelerator_options\":{\"cuda_use_flash_attention2\":false,\"device\":\"cpu\",\"num_threads\":4},\"allow_external_plugins\":false,\"batch_polling_interval_seconds\":0.5,\"chart_extraction_options\":{\"chart2code\":false,\"chart2csv\":true,\"chart2summary\":false,\"engine_options\":{\"compile_model\":false,\"device\":null,\"engine_type\":\"transformers\",\"llm_int8_threshold\":6.0,\"load_in_8bit\":true,\"quantized\":false,\"torch_dtype\":null,\"trust_remote_code\":true,\"use_kv_cache\":true},\"model_spec\":{\"api_overrides\":{\"api_lmstudio\":{\"params\":{\"model\":\"granite-vision-4.1-4b\"}},\"api_ollama\":{\"params\":{\"model\":\"granite-vision-4.1-4b\"}},\"api_openai\":{\"params\":{\"model\":\"granite-vision-4.1-4b\"}}},\"default_repo_id\":\"ibm-granite/granite-vision-4.1-4b\",\"engine_overrides\":{\"transformers\":{\"extra_config\":{\"transformers_model_type\":\"automodel-imagetexttotext\"},\"min_engine_version\":null,\"repo_id\":null,\"revision\":null,\"torch_dtype\":\"bfloat16\"}},\"extra_generation_config\":{},\"max_new_tokens\":4096,\"name\":\"Granite-Vision-4.1-4B\",\"prompt\":\"<chart2csv>\",\"response_format\":\"plaintext\",\"revision\":\"dd48e97503de471803850df70843cf9eb5da8712\",\"stop_strings\":[],\"supported_engines\":[\"api_ollama\",\"transformers\",\"api_openai\",\"api_lmstudio\"],\"temperature\":0.0,\"trust_remote_code\":true},\"output_format\":\"granite_vision_charts\",\"use_natural_language_prompts\":false},\"code_formula_options\":{\"engine_options\":{\"engine_type\":\"auto_inline\",\"prefer_vllm\":false},\"extract_code\":true,\"extract_formulas\":true,\"max_size\":null,\"model_spec\":{\"api_overrides\":{},\"default_repo_id\":\"docling-project/CodeFormulaV2\",\"engine_overrides\":{\"transformers\":{\"extra_config\":{\"extra_generation_config\":{\"skip_special_tokens\":false},\"torch_dtype\":\"bfloat16\",\"transformers_model_type\":\"automodel-imagetexttotext\"},\"min_engine_version\":null,\"repo_id\":null,\"revision\":null,\"torch_dtype\":null}},\"extra_generation_config\":{},\"max_new_tokens\":4096,\"name\":\"CodeFormulaV2\",\"prompt\":\"\",\"response_format\":\"plaintext\",\"revision\":\"main\",\"stop_strings\":[\"</doctag>\",\"<end_of_utterance>\"],\"supported_engines\":null,\"temperature\":0.0,\"trust_remote_code\":false},\"scale\":2.0},\"do_chart_extraction\":false,\"do_code_enrichment\":false,\"do_formula_enrichment\":false,\"do_ocr\":false,\"do_picture_classification\":false,\"do_picture_description\":false,\"do_table_structure\":true,\"document_timeout\":null,\"enable_remote_services\":false,\"force_backend_text\":false,\"generate_page_images\":false,\"generate_parsed_pages\":false,\"generate_picture_images\":false,\"generate_table_images\":false,\"heading_hierarchy_options\":{\"bookmark_match_threshold\":0.8,\"enabled\":false,\"max_level\":6,\"numbering_schemes\":null,\"style_size_tolerance\":0.05,\"use_bookmarks\":true,\"use_font_style\":true,\"use_numbering\":true,\"use_style\":true},\"images_scale\":1.0,\"layout_batch_size\":4,\"layout_options\":{\"create_orphan_clusters\":true,\"engine_options\":{\"compile_model\":false,\"engine_type\":\"transformers\",\"score_threshold\":0.3,\"torch_dtype\":null},\"keep_empty_clusters\":false,\"model_spec\":{\"engine_overrides\":{\"onnxruntime\":{\"extra_config\":{\"model_filename\":\"model.onnx\"},\"min_engine_version\":null,\"repo_id\":\"docling-project/docling-layout-heron-onnx\",\"revision\":null,\"torch_dtype\":null}},\"name\":\"layout_heron\",\"repo_id\":\"docling-project/docling-layout-heron\",\"revision\":\"main\"},\"skip_cell_assignment\":false},\"ocr_batch_size\":4,\"ocr_options\":{\"force_full_page_ocr\":false,\"lang\":[],\"mode\":\"default\",\"scale\":3.0},\"picture_classification_options\":{\"engine_options\":{\"compile_model\":false,\"engine_type\":\"transformers\",\"top_k\":null,\"torch_dtype\":null},\"model_spec\":{\"engine_overrides\":{},\"name\":\"document_figure_classifier_v2\",\"repo_id\":\"docling-project/DocumentFigureClassifier-v2.5\",\"revision\":\"main\"}},\"picture_description_options\":{\"batch_size\":8,\"classification_allow\":null,\"classification_deny\":null,\"classification_min_confidence\":0.0,\"engine_options\":{\"engine_type\":\"auto_inline\",\"prefer_vllm\":false},\"generation_config\":{\"do_sample\":false,\"max_new_tokens\":200},\"model_spec\":{\"api_overrides\":{\"api_lmstudio\":{\"params\":{\"model\":\"smolvlm-256m-instruct\"}}},\"default_repo_id\":\"HuggingFaceTB/SmolVLM-256M-Instruct\",\"engine_overrides\":{\"mlx\":{\"extra_config\":{},\"min_engine_version\":null,\"repo_id\":\"moot20/SmolVLM-256M-Instruct-MLX\",\"revision\":null,\"torch_dtype\":null},\"transformers\":{\"extra_config\":{\"transformers_model_type\":\"automodel-imagetexttotext\"},\"min_engine_version\":null,\"repo_id\":null,\"revision\":null,\"torch_dtype\":\"bfloat16\"}},\"extra_generation_config\":{},\"max_new_tokens\":4096,\"name\":\"SmolVLM-256M-Instruct\",\"prompt\":\"Describe this image in a few sentences.\",\"response_format\":\"plaintext\",\"revision\":\"main\",\"stop_strings\":[],\"supported_engines\":null,\"temperature\":0.0,\"trust_remote_code\":false},\"picture_area_threshold\":0.05,\"prompt\":\"Describe this image in a few sentences.\",\"scale\":2.0},\"queue_max_size\":100,\"stage_shutdown_timeout_seconds\":15.0,\"table_batch_size\":4,\"table_structure_options\":{\"do_cell_matching\":true,\"mode\":\"accurate\"}}",
+    "model_file_hashes": [
+      [
+        "docling-project--docling-layout-heron/.gitattributes",
+        "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+      ],
+      [
+        "docling-project--docling-layout-heron/README.md",
+        "175700839bc7808eac6af1d0c23e4f483606ab2276fe01122f4093e61a1a65b6"
+      ],
+      [
+        "docling-project--docling-layout-heron/config.json",
+        "fdea30805ce2f5666b147fca941dcdd27ad468e27d6ed21902207d3da056a97d"
+      ],
+      [
+        "docling-project--docling-layout-heron/docling_heron_400.png",
+        "e7f78610372b32a7938e480d2c7fa1c3037ee170bd82282a5bd026232f6e6f9e"
+      ],
+      [
+        "docling-project--docling-layout-heron/model.safetensors",
+        "00333a43451945aaf89db8ca9c0a17e75d1537c17db60fdb91aa95f4c7929e0c"
+      ],
+      [
+        "docling-project--docling-layout-heron/preprocessor_config.json",
+        "cd38cd59999e7a95d68e487fbe5132df3d4e5c32a0836add57e6126ba0c4eaf1"
+      ],
+      [
+        "docling-project--docling-layout-heron-onnx/.gitattributes",
+        "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+      ],
+      [
+        "docling-project--docling-layout-heron-onnx/README.md",
+        "48de0f07390f6823a225ce8aab348e7b57408534b56b71f1433ed6280456597f"
+      ],
+      [
+        "docling-project--docling-layout-heron-onnx/config.json",
+        "c6e67b6cdf64fa245779d0409bb994aa96e8c1790e15ec07a65843628e232180"
+      ],
+      [
+        "docling-project--docling-layout-heron-onnx/model.onnx",
+        "59c81a3a2923042d85034ffc487f8f47e4854117e879aef89b2b9f728fb4922a"
+      ],
+      [
+        "docling-project--docling-layout-heron-onnx/preprocessor_config.json",
+        "54d086cf0d7d371f7fac36e5d3a0dae31e211298affc816106cc376506799d58"
+      ],
+      [
+        "docling-project--docling-models/.gitattributes",
+        "360aba3ff7ce75396f13f0a77925fe9e79997e8d4bac064595ebb00c82700386"
+      ],
+      [
+        "docling-project--docling-models/.gitignore",
+        "b44b404189eaff3631c470946e7350c2e88cead304d332a8ad50325e6f56e95d"
+      ],
+      [
+        "docling-project--docling-models/README.md",
+        "d17f233378eff1240b623b36da76ee8b40afcca05d505949713bf03f7e00822a"
+      ],
+      [
+        "docling-project--docling-models/config.json",
+        "9c34024dc28ff47b75818f415e769809798c29bf9bde6f2ccc63a4acb62396d9"
+      ],
+      [
+        "docling-project--docling-models/model_artifacts/tableformer/accurate/tableformer_accurate.safetensors",
+        "2a7d6c924b3cd12fb99a09280ca9c33a89c5d60b93253617d2e088c1a40374d9"
+      ],
+      [
+        "docling-project--docling-models/model_artifacts/tableformer/accurate/tm_config.json",
+        "984e122ceb8ccf84d84c9d2882f6f2302a44b4f1e577babd6289892c36f3cffd"
+      ],
+      [
+        "docling-project--docling-models/model_artifacts/tableformer/fast/tableformer_fast.safetensors",
+        "3119563aab5a7c96fda4d621119b63fd8806272b86c30936d15507616422f718"
+      ],
+      [
+        "docling-project--docling-models/model_artifacts/tableformer/fast/tm_config.json",
+        "dca6762508dddfae6d57d6cb4ef822c6000119dff0f3b6489db7413118c2622a"
+      ]
+    ]
+  },
+  "warnings": [
+    {
+      "code": "scope",
+      "message": "OCR, visual figure/chart interpretation, and formula understanding are disabled. Reading order, spacing and table structure are parser estimates; review the original pages.",
+      "page_indices": [],
+      "source_ref": null
+    },
+    {
+      "code": "printed_labels_unavailable",
+      "message": "Printed page labels are not extracted; page indices refer to physical PDF pages.",
+      "page_indices": [],
+      "source_ref": null
+    },
+    {
+      "code": "picture_not_interpreted",
+      "message": "Picture content is omitted; native captions are retained.",
+      "page_indices": [
+        0
+      ],
+      "source_ref": "#/pictures/0"
+    },
+    {
+      "code": "picture_not_interpreted",
+      "message": "Picture content is omitted; native captions are retained.",
+      "page_indices": [
+        2
+      ],
+      "source_ref": "#/pictures/1"
+    },
+    {
+      "code": "table_structure_unverified",
+      "message": "Extracted cell/header associations are unverified. Dense and merged tables can lose values or group rows incorrectly; consult the original page.",
+      "page_indices": [
+        4
+      ],
+      "source_ref": "#/tables/0"
+    },
+    {
+      "code": "picture_not_interpreted",
+      "message": "Picture content is omitted; native captions are retained.",
+      "page_indices": [
+        6
+      ],
+      "source_ref": "#/pictures/2"
+    },
+    {
+      "code": "table_structure_unverified",
+      "message": "Extracted cell/header associations are unverified. Dense and merged tables can lose values or group rows incorrectly; consult the original page.",
+      "page_indices": [
+        7
+      ],
+      "source_ref": "#/tables/1"
+    },
+    {
+      "code": "picture_not_interpreted",
+      "message": "Picture content is omitted; native captions are retained.",
+      "page_indices": [
+        7
+      ],
+      "source_ref": "#/pictures/3"
+    },
+    {
+      "code": "table_structure_unverified",
+      "message": "Extracted cell/header associations are unverified. Dense and merged tables can lose values or group rows incorrectly; consult the original page.",
+      "page_indices": [
+        7
+      ],
+      "source_ref": "#/tables/2"
+    },
+    {
+      "code": "picture_not_interpreted",
+      "message": "Picture content is omitted; native captions are retained.",
+      "page_indices": [
+        8
+      ],
+      "source_ref": "#/pictures/4"
+    }
+  ],
+  "serialization": "Block separator: two newlines; table cells: tabs/newlines; separators are synthetic."
+}

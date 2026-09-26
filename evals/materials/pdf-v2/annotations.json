@@ -1,0 +1,16 @@
+{
+  "reviewer": "Codex (model), original-page visual inspection",
+  "population": "Development-only checkpoints; not exhaustive character or cell labels and not held-out acceptance",
+  "coordinate_system": "Approximate fractions of original page width/height; top-left origin",
+  "checks": [
+    {"id":"paper-order","file":"doclaynet.pdf","page":2,"region":[0.07,0.10,0.92,0.91],"expected":"Read the complete left column through Redundant Annotations before its right-column continuation This enables experimentation, then Pre-defined Train and Related Work."},
+    {"id":"paper-fact","file":"doclaynet.pdf","page":1,"region":[0.08,0.31,0.50,0.68],"expected":"The abstract associates 80863 manually annotated pages with 11 distinct classes."},
+    {"id":"paper-caption","file":"doclaynet.pdf","page":1,"region":[0.52,0.68,0.92,0.71],"expected":"Figure 1 caption survives; visual contents of its four thumbnails are outside scope."},
+    {"id":"lecture-text","file":"ml-lecture.pdf","page":3,"region":[0.08,0.16,0.95,0.91],"expected":"Logistics: No required book; Reading assignments on class homepage; Guest Lecturers Yaoliang Yu and Andrew Wilson."},
+    {"id":"lecture-image","file":"ml-lecture.pdf","page":2,"region":[0.20,0.35,0.81,0.91],"expected":"Class webpage label and URL are native text. Embedded browser screenshot is omitted and explicitly disclosed; do not invent its text."},
+    {"id":"report-table","file":"background-checks.pdf","page":1,"region":[0.03,0.04,0.97,0.15],"expected":"November 2015; Alabama Permit 18,870, Handgun 23,022, Long Gun 22,650, Totals 71,137. Preserve the distinction between base columns and grouped Pre-Pawn columns."},
+    {"id":"report-note","file":"background-checks.pdf","page":1,"region":[0.05,0.79,0.91,0.90],"expected":"Disclaimer distinguishes background checks from firearms sold; report contains notes for Other and Multiple."},
+    {"id":"technical-table","file":"docling-report.pdf","page":5,"region":[0.17,0.19,0.80,0.31],"expected":"Apple M3 Max, 4 threads, native backend TTS 177 s, 1.27 pages/s and 6.20 GB; pypdfium backend 103 s, 2.18 pages/s and 2.56 GB. Multi-level headers and merged CPU/memory cells matter."},
+    {"id":"cross-page","file":"docling-report.pdf","pages":[4,5],"expected":"Last paragraph of page 4 ends with pytorch and continues on page 5 with torch runtimes backing the Docling pipeline. Preserve both page locations without claiming PDF byte offsets."}
+  ]
+}

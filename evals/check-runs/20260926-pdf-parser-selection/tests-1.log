@@ -1,0 +1,67 @@
+F.F..................................................................... [ 84%]
+.............                                                            [100%]
+=================================== FAILURES ===================================
+______ test_frozen_documents_preserve_exact_slices_and_regions[doclaynet] ______
+
+name = 'doclaynet'
+
+    @pytest.mark.parametrize("name", ["doclaynet", "ml-lecture", "docling-report", "background-checks"])
+    def test_frozen_documents_preserve_exact_slices_and_regions(name):
+        doc = DoclingDocument.model_validate_json((FROZEN / f"{name}-docling.json").read_text())
+        source = (ROOT / f"evals/materials/pdf-v2/{name}.pdf").read_bytes()
+        result = adapt_pdf_document(doc, source, IDENTITY)
+        assert result.source_hash == sha256(source).hexdigest()
+        assert result.extraction_hash == sha256(result.text.encode()).hexdigest()
+        assert PdfExtraction.model_validate_json(result.model_dump_json()) == result
+        assert result == adapt_pdf_document(doc, source, IDENTITY)
+        previous_end = 0
+        pages = {p.page_index: p for p in result.pages}
+        for block in result.blocks:
+            assert block.start_offset >= previous_end
+            assert block.text == result.text[block.start_offset:block.end_offset]
+            assert not result.text[previous_end:block.start_offset].strip()
+            previous_end = block.end_offset
+            for r in block.regions:
+>               assert block.start_offset <= r.start_offset <= r.end_offset <= block.end_offset
+E               AssertionError: assert 6452 <= 6448
+E                +  where 6452 = PdfRegion(start_offset=6304, end_offset=6452, page_index=1, bbox=(64.708, 584.949176, 295.56161785599994, 614.731118107846), precision='block', coordinate_system='top_left_pdf_points').end_offset
+E                +  and   6448 = PdfBlock(source_ref='#/texts/302', kind='list', label='list_item', text='Human Annotation: In contrast to PubLayNet an...9176, 295.56161785599994, 614.731118107846), precision='block', coordinate_system='top_left_pdf_points'),), table=None).end_offset
+
+tests/test_pdf.py:57: AssertionError
+___ test_frozen_documents_preserve_exact_slices_and_regions[docling-report] ____
+
+name = 'docling-report'
+
+    @pytest.mark.parametrize("name", ["doclaynet", "ml-lecture", "docling-report", "background-checks"])
+    def test_frozen_documents_preserve_exact_slices_and_regions(name):
+        doc = DoclingDocument.model_validate_json((FROZEN / f"{name}-docling.json").read_text())
+        source = (ROOT / f"evals/materials/pdf-v2/{name}.pdf").read_bytes()
+        result = adapt_pdf_document(doc, source, IDENTITY)
+        assert result.source_hash == sha256(source).hexdigest()
+        assert result.extraction_hash == sha256(result.text.encode()).hexdigest()
+        assert PdfExtraction.model_validate_json(result.model_dump_json()) == result
+        assert result == adapt_pdf_document(doc, source, IDENTITY)
+        previous_end = 0
+        pages = {p.page_index: p for p in result.pages}
+        for block in result.blocks:
+            assert block.start_offset >= previous_end
+            assert block.text == result.text[block.start_offset:block.end_offset]
+            assert not result.text[previous_end:block.start_offset].strip()
+            previous_end = block.end_offset
+            for r in block.regions:
+>               assert block.start_offset <= r.start_offset <= r.end_offset <= block.end_offset
+E               AssertionError: assert 7206 <= 7202
+E                +  where 7206 = PdfRegion(start_offset=7080, end_offset=7206, page_index=4, bbox=(112.98100000000008, 629.8213473999998, 504.00093500000014, 649.4276971999998), precision='block', coordinate_system='top_left_pdf_points').end_offset
+E                +  and   7202 = PdfBlock(source_ref='#/texts/21', kind='list', label='list_item', text='J. AI. Easyocr: Ready-to-use ocr with 80+ supp...998, 504.00093500000014, 649.4276971999998), precision='block', coordinate_system='top_left_pdf_points'),), table=None).end_offset
+
+tests/test_pdf.py:57: AssertionError
+=============================== warnings summary ===============================
+tests/test_pdf.py::test_parser_disables_deferred_features_and_rejects_partial_conversion
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/pydantic/main.py:475: DeprecationWarning: `force_full_page_ocr` is deprecated; set `mode=OcrMode.FULL_PAGE` instead.
+    return self.__pydantic_serializer__.to_python(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_pdf.py::test_frozen_documents_preserve_exact_slices_and_regions[doclaynet]
+FAILED tests/test_pdf.py::test_frozen_documents_preserve_exact_slices_and_regions[docling-report]
+2 failed, 83 passed, 1 warning in 29.21s

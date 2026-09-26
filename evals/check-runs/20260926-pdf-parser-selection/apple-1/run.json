@@ -1,0 +1,46 @@
+{
+  "command": [
+    "evals/check-runs/20260926-pdf-parser-selection/compare.py",
+    "apple-1",
+    "--apple"
+  ],
+  "timestamp": "2026-09-26T20:48:35Z",
+  "commit": "c514062238a9f52cd3f5138ced82171eff29620d",
+  "script_sha256": "dea1bb6992363bcc1cfaf945a7b6f6f679ea42fcdb244a63c488d5bde0ec34db",
+  "device": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "concurrency": 1,
+  "retries": 0,
+  "versions": {
+    "docling": "2.130.0",
+    "docling-core": "2.99.0",
+    "docling-ibm-models": "4.0.3",
+    "docling-parse": "7.22.0",
+    "pdfplumber": "0.11.10",
+    "torch": "2.14.0"
+  },
+  "cases": [
+    {
+      "parser": "pdfplumber",
+      "case": "apple-fy24",
+      "page_range": [
+        1,
+        1
+      ],
+      "seconds": 0.12639812496490777,
+      "status": "success"
+    },
+    {
+      "parser": "docling",
+      "case": "apple-fy24",
+      "page_range": [
+        1,
+        1
+      ],
+      "seconds": 4.174993249936961,
+      "status": "success",
+      "errors": []
+    }
+  ],
+  "total_seconds": 5.8875884169247,
+  "process_peak_rss_bytes_macos": 1532051456
+}
