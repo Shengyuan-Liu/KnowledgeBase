@@ -1,0 +1,71 @@
+# KnowledgeBase v2
+
+Status: design only, prepared on 2026-09-26. The user confirmed the three feature
+areas below. No v2 implementation, parser selection, quality result, or merge is
+implied by this documentation.
+
+## Confirmed Feature Areas
+
+1. **PDF ingestion and page citations:** ask grounded questions over PDF content
+   and navigate from an answer to the corresponding original page.
+2. **Query decomposition and multi-hop retrieval:** cover multiple question
+   requirements and retrieve further evidence when a later query depends on an
+   earlier finding.
+3. **Evidence sufficiency assessment and bounded supplementary retrieval:**
+   identify missing support, search for it within explicit limits, and answer
+   with supported facts and clearly stated remaining gaps.
+
+The proposed core PDF scope is digitally generated English documents, including
+representative multi-column pages and tables. The user's main PDF population has
+not been specified. OCR, visual chart understanding, and mathematical formula
+understanding are not confirmed requirements; see the scope decisions below.
+
+## Design Set
+
+| Document | Purpose |
+| --- | --- |
+| [Product design](v2-product-design.md) | User workflows, scope, exclusions, and functional acceptance |
+| [Technical plan](v2-technical-plan.md) | Source contracts, bounded retrieval controller, module responsibilities, and implementation stages |
+| [Frontend design](v2-frontend-design.md) | PDF navigation, progress, missing-information presentation, and history |
+| [System design](v2-system-design.md) | Ingestion, retrieval state flow, storage, and lifecycle boundaries |
+| [Evaluation plan](v2-evaluation-plan.md) | Frozen comparisons, PDF fidelity, multi-hop evidence, quality, latency, and cost |
+
+## Baseline and Non-goals
+
+Build on the accepted [v1 release](../v1/release-summary.md): source-preserving
+TXT/Markdown ingestion, structural parent-child chunks, BM25/vector RRF,
+budgeted evidence, document scope, streaming, and saved evidence. Reranking stays
+disabled and semantic chunking stays experimental unless separately evaluated
+and accepted. v2 does not rename those existing features as new work.
+
+Retain the local, single-user, English-only product. Hosted deployment, accounts,
+web search, remote connectors, GraphRAG, whole-library thematic summaries, and
+autonomous external actions are outside this plan. The multi-hop controller is
+a bounded local-library workflow, not a requirement for a multi-agent framework.
+
+## Proposed Sequence and Open Decisions
+
+Deliver PDF ingestion/page navigation first, decomposition and multi-hop retrieval
+second, and sufficiency-driven supplementary retrieval third. Each stage has its
+own scoped checks and an acceptance comparison when ready. The final release
+combines all three; stage completion does not establish a general quality gain.
+
+| Decision | Current position | Resolve by |
+| --- | --- | --- |
+| Representative PDF population | Papers, lecture notes, and reports are candidate fixtures, not confirmed user priorities | Before parser selection |
+| OCR and mixed scanned pages | Deferred from the proposed core; disclose content that is not indexed | Before freezing PDF acceptance |
+| Figures and formulas | Text captions may be indexed; visual interpretation and formula reasoning are deferred | A separate scope decision |
+| Parser and page viewer | Evaluate against source fidelity, page mapping, local resources, and licensing | PDF implementation stage |
+| Query/checker models and limits | Bounded controller proposed; numerical limits in the technical plan are starting settings | Before live acceptance |
+| Quality, latency, and cost thresholds | Freeze from development evidence before held-out evaluation | Evaluation preparation |
+| v2 implementation branch | Not selected by this design; these documents are committed on the current `v1` branch | Before implementation |
+
+Follow [AGENTS.md](../../AGENTS.md) for English project text, Python ownership,
+verification, and commits. This document request authorizes documentation, not
+Python implementation. User acceptance and explicit feature-specific merge
+authorization remain separate from passing checks. No merge is part of this task.
+
+## Documentation Verification
+
+The [design review record](../../evals/check-runs/20260926T195804Z-v2-design/README.md)
+records content, links, and formatting checks. It is not a runtime or RAG evaluation.
