@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from knowledgebase.services.files import recover_interrupted_files
 from knowledgebase.storage.database import build_engine, build_session_factory, init_db
 from knowledgebase.storage.vectordb import ChromaStore
+from knowledgebase.storage.pdf_assets import PdfAssets
 
 
 @contextmanager
@@ -31,7 +32,7 @@ def open_storage(data_dir: Path) -> Iterator[tuple[sessionmaker[Session], Chroma
                 configuration={"hnsw": {"space": "cosine"}},
             )
             sessions, store = build_session_factory(engine), ChromaStore(collection)
-            recover_interrupted_files(sessions, store)
+            recover_interrupted_files(sessions, store, assets=PdfAssets(directory))
             yield sessions, store
         finally:
             engine.dispose()

@@ -125,7 +125,7 @@ def test_same_filename_gets_distinct_file_ids(storage, embeddings):
 @pytest.mark.parametrize(
     ("name", "content", "error_type"),
     [
-        ("notes.pdf", b"Text.", InvalidUploadError),
+        ("notes.docx", b"Text.", InvalidUploadError),
         ("notes.txt", b"\xff", InvalidUploadError),
         ("notes.txt", b"", InvalidUploadError),
         ("notes.txt", b" \r\n\t", InvalidUploadError),

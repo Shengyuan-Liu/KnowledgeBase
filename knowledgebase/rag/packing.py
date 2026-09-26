@@ -4,7 +4,7 @@ from time import perf_counter
 
 import tiktoken
 
-from knowledgebase.rag.context import CONTEXT_FORMAT, LABELED_CONTEXT_FORMAT, build_context
+from knowledgebase.rag.context import CONTEXT_FORMAT, LABELED_CONTEXT_FORMAT, PDF_CONTEXT_FORMAT, build_context
 from knowledgebase.schemas import ExcludedEvidence, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics
 
 
@@ -19,7 +19,8 @@ def pack_evidence(
     for the same parent. Parent-first alone remains available as the control.
     """
     started = perf_counter()
-    diagnostics.context_format = LABELED_CONTEXT_FORMAT if any(c.document_labels for c in selected) else CONTEXT_FORMAT
+    diagnostics.context_format = (PDF_CONTEXT_FORMAT if any(c.pdf for c in selected) else
+                                  LABELED_CONTEXT_FORMAT if any(c.document_labels for c in selected) else CONTEXT_FORMAT)
     encoding = tiktoken.get_encoding(diagnostics.tokenizer)
 
     def tokens(regions):

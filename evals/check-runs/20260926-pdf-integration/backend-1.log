@@ -1,0 +1,262 @@
+........................................................................ [ 11%]
+...............F........................................................ [ 23%]
+...........................................FF........................... [ 35%]
+........................................................................ [ 46%]
+.......................................................................s [ 58%]
+........................................................................ [ 70%]
+...........................F............................................ [ 81%]
+............................................................FF.......... [ 93%]
+........................................                                 [100%]
+=================================== FAILURES ===================================
+_____________ test_upload_question_followup_and_persisted_exchange _____________
+
+api = (<starlette.testclient.TestClient object at 0x3163c2270>, AppResources(sessions=sessionmaker(class_='Session', bind=En...dgebase.services.pdf.LocalPdfParser object at 0x3164fd400>), <MagicMock name='mock.responses.create' id='13259233936'>)
+
+    def test_upload_question_followup_and_persisted_exchange(api):
+        client, resources, generate = api
+        file_id = upload(client)
+        generate.side_effect = [SimpleNamespace(output_text=text) for text in (
+            "The library closes at 5 PM. [1]",
+            "When does the library close?",
+            "At 5 PM. [1]",
+        )]
+        question = "  When does the library close?\n"
+        response = client.post("/api/chat", json={"question": question})
+        assert response.status_code == 200
+        assert response.headers["content-type"] == "application/json"
+        first = response.json()
+        assert first["question"] == first["retrieval_question"] == question
+        assert first["answer"] == "The library closes at 5 PM. [1]"
+>       assert first["sources"] == [{
+            "document_labels": [],
+            "source_id": 1, "file_id": file_id, "file_name": "hours.txt",
+            "chunk_id": f"{file_id}:parent:0", "text": "The library closes at 5 PM.",
+            "fusion": {"chunk_id": f"{file_id}:child:0", "rrf_score": pytest.approx(2 / 61),
+                       "rank": 1, "bm25_score": pytest.approx(0.5753641449035618), "bm25_rank": 1,
+                       "vector_distance": pytest.approx(0.0), "vector_rank": 1},
+            "rerank": None, "distance": pytest.approx(0.0), "parent_id": f"{file_id}:parent:0", "matched_child_ids": [f"{file_id}:child:0"],
+            "start_offset": 0, "end_offset": 27, "start_line": 1, "end_line": 1, "heading_path": [], "source_block_indices": [0],
+            "token_count": 8, "tokenizer": "cl100k_base", "max_tokens": 1536,
+        }]
+E       AssertionError: assert [{'source_id'...fd8dca', ...}] == [{'document_l...rs.txt', ...}]
+E         
+E         At index 0 diff: {'source_id': 1, 'pdf': None, 'document_labels': [], 'file_id': 'bb230647e6964b95b5c0d19047fd8dca', 'file_name': 'hours.txt', 'chunk_id': 'bb230647e6964b95b5c0d19047fd8dca:parent:0', 'text': 'The library closes at 5 PM.', 'distance': 0.0, 'fusion': {'chunk_id': 'bb230647e6964b95b5c0d19047fd8dca:child:0', 'rrf_score': 0.03278688524590164, 'rank': 1, 'bm25_score': 0.5753641449035618, 'bm25_rank': 1, 'vector_distance': 0.0, 'vector_rank': 1}, 'rerank': None, 'parent_id': 'bb230647e6964b95b5c0d19047fd8dca:parent:0', 'matched_child_ids': ['bb230647e6964b95b5...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_chat_api.py:47: AssertionError
+_______ test_init_db_adds_conversation_tables_to_existing_file_database ________
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-172/test_init_db_adds_conversation0')
+
+    def test_init_db_adds_conversation_tables_to_existing_file_database(tmp_path):
+        engine = build_engine(f"sqlite:///{tmp_path / 'existing.db'}")
+        try:
+            FileRecord.__table__.create(engine)
+            ChunkRecord.__table__.create(engine)
+            sessions = build_session_factory(engine)
+            with sessions.begin() as session:
+                session.add(FileRecord(file_id="keep", file_name="notes.txt"))
+            init_db(engine)
+            with sessions.begin() as session:
+                create_conversation(session, "chat-1")
+                save_message(session, "chat-1", "user", "Persist across connections.")
+            engine.dispose()
+            init_db(engine)
+            with sessions() as reader:
+                assert get_file(reader, "keep").file_name == "notes.txt"
+                assert get_messages(reader, "chat-1")[0].content == "Persist across connections."
+>           assert set(inspect(engine).get_table_names()) == {
+                "files", "chunks", "conversations", "messages", "answer_snapshots",
+                "document_sources", "document_indexes", "chunk_structures", "parent_chunks", "child_parents", "retrieval_snapshots",
+            }
+E           AssertionError: assert {'answer_snap...indexes', ...} == {'answer_snap...indexes', ...}
+E             
+E             Extra items in the left set:
+E             'pdf_sources'
+E             Use -v to get more diff
+
+tests/test_conversation_storage.py:148: AssertionError
+____________ test_build_engine_does_not_create_database_until_used _____________
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-172/test_build_engine_does_not_cre0')
+
+    def test_build_engine_does_not_create_database_until_used(tmp_path):
+        path = tmp_path / "knowledgebase.db"
+        engine = build_engine(f"sqlite:///{path}")
+        try:
+            assert not path.exists()
+            init_db(engine)
+            assert path.exists()
+>           assert set(inspect(engine).get_table_names()) == {
+                "files", "chunks", "conversations", "messages", "answer_snapshots",
+                "document_sources", "document_indexes", "chunk_structures", "parent_chunks", "child_parents", "retrieval_snapshots",
+            }
+E           AssertionError: assert {'answer_snap...indexes', ...} == {'answer_snap...indexes', ...}
+E             
+E             Extra items in the left set:
+E             'pdf_sources'
+E             Use -v to get more diff
+
+tests/test_database.py:20: AssertionError
+____ test_restart_cleanup_removes_abandoned_hierarchy_but_keeps_ready_data _____
+
+storage = (sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-...pire_on_commit=True), <knowledgebase.storage.vectordb.ChromaStore object at 0x35af81f90>, Collection(name=test-chunks))
+
+    def test_restart_cleanup_removes_abandoned_hierarchy_but_keeps_ready_data(storage):
+        sessions, store, collection = storage
+        with sessions.begin() as session:
+            abandoned = store_document(session)
+            kept = store_document(session, "keep")
+            update_file_status(session, "keep", "ready")
+            for chunks in (abandoned, kept):
+                store.upsert_chunks(chunks.children, [[1.0, 0.0] for _ in chunks.children])
+        recover_interrupted_files(sessions, store)
+        with sessions() as reader:
+            assert get_file(reader, "file-1").status == "failed"
+            assert get_parents(reader, "file-1") == get_chunks(reader, "file-1") == []
+>           assert get_document_source(reader, "file-1").text == SOURCE
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AttributeError: 'NoneType' object has no attribute 'text'
+
+tests/test_parent_child_storage.py:293: AttributeError
+______ test_cli_uses_settings_and_explicit_arguments_override_them[False] ______
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-172/test_cli_uses_settings_and_exp0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x3ce6b4670>
+override = False
+
+    @pytest.mark.parametrize("override", [False, True])
+    def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkeypatch, override):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test")
+        (tmp_path / ".env").write_text(
+            "ANSWER_MODEL=file-answer\nANSWER_REASONING_EFFORT=low\nEMBEDDING_MODEL=file-embedding\nRESOLVER_MODEL=file-resolver\n"
+            "CHUNK_SIZE=12\nCHUNK_OVERLAP=3\nRETRIEVAL_TOP_K=2\nHISTORY_LIMIT=1\n"
+            "CHUNKING_STRATEGY=structural\nCHUNK_MAX_TOKENS=17\nCHUNK_TOKENIZER=o200k_base\n"
+            "PARENT_MAX_TOKENS=33\nEVIDENCE_MAX_TOKENS=113\n"
+            "RETRIEVAL_STRATEGY=vector\nRETRIEVAL_CANDIDATE_LIMIT=7\nBM25_K1=0.9\nBM25_B=0.4\nRRF_K=10\n"
+        )
+        source = tmp_path / "notes.md"
+        source.write_text("Example text")
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        monkeypatch.setattr(cli, "OpenAI", Mock(return_value=sdk))
+        embeddings = Mock()
+        monkeypatch.setattr(cli, "EmbeddingClient", Mock(return_value=embeddings))
+        llm, resolver = Mock(), Mock()
+        llm_factory = Mock(side_effect=[llm, resolver])
+        monkeypatch.setattr(cli, "LLMClient", llm_factory)
+        ingest = Mock(return_value="file")
+        monkeypatch.setattr(cli, "ingest_file", ingest)
+        answer = Mock(return_value=ConversationAnswer(
+            answer="Answer", sources=[], citation_check=CitationCheck(valid_source_ids=[], invalid_source_ids=[], no_citations=True),
+            conversation_id="conversation", message_id=1, question="Question", retrieval_question="Question",
+        ))
+        monkeypatch.setattr(cli, "answer_in_conversation", answer)
+        monkeypatch.setattr(cli, "run_chat_loop", lambda ask: ask("Question"))
+        argv = ["main.py", str(source)]
+        if override:
+            argv += ["--model", "argument-answer", "--top-k", "4", "--evidence-packing-strategy", "parent_first"]
+        monkeypatch.setattr(sys, "argv", argv)
+        cli.cli()
+        assert llm_factory.call_args_list[0].kwargs["model"] == ("argument-answer" if override else "file-answer")
+        assert llm_factory.call_args_list[1].kwargs["model"] == "file-resolver"
+        assert llm_factory.call_args_list[0].kwargs["reasoning_effort"] == "low"
+        assert "reasoning_effort" not in llm_factory.call_args_list[1].kwargs
+        cli.EmbeddingClient.assert_called_once_with(sdk, model="file-embedding")
+>       assert ingest.call_args.kwargs == {
+            "chunk_size": 12, "overlap": 3, "chunking_strategy": "structural",
+            "chunk_max_tokens": 17, "chunk_tokenizer": "o200k_base", "parent_max_tokens": 33,
+            "semantic_similarity_threshold": 0.5, "semantic_batch_size": 32, "embedding_model": "file-embedding",
+        }
+E       AssertionError: assert {'chunk_size'...ens': 17, ...} == {'chunk_size'...ens': 17, ...}
+E         
+E         Omitting 9 identical items, use -vv to show
+E         Left contains 2 more items:
+E         {'assets': <knowledgebase.storage.pdf_assets.PdfAssets object at 0x353ef4730>,
+E          'pdf_parser': <knowledgebase.services.pdf.LocalPdfParser object at 0x316ce6690>}
+E         Use -v to get more diff
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_runtime_settings.py:146: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Indexed notes.md (file)
+______ test_cli_uses_settings_and_explicit_arguments_override_them[True] _______
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-172/test_cli_uses_settings_and_exp1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x353f0f4d0>
+override = True
+
+    @pytest.mark.parametrize("override", [False, True])
+    def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkeypatch, override):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test")
+        (tmp_path / ".env").write_text(
+            "ANSWER_MODEL=file-answer\nANSWER_REASONING_EFFORT=low\nEMBEDDING_MODEL=file-embedding\nRESOLVER_MODEL=file-resolver\n"
+            "CHUNK_SIZE=12\nCHUNK_OVERLAP=3\nRETRIEVAL_TOP_K=2\nHISTORY_LIMIT=1\n"
+            "CHUNKING_STRATEGY=structural\nCHUNK_MAX_TOKENS=17\nCHUNK_TOKENIZER=o200k_base\n"
+            "PARENT_MAX_TOKENS=33\nEVIDENCE_MAX_TOKENS=113\n"
+            "RETRIEVAL_STRATEGY=vector\nRETRIEVAL_CANDIDATE_LIMIT=7\nBM25_K1=0.9\nBM25_B=0.4\nRRF_K=10\n"
+        )
+        source = tmp_path / "notes.md"
+        source.write_text("Example text")
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        monkeypatch.setattr(cli, "OpenAI", Mock(return_value=sdk))
+        embeddings = Mock()
+        monkeypatch.setattr(cli, "EmbeddingClient", Mock(return_value=embeddings))
+        llm, resolver = Mock(), Mock()
+        llm_factory = Mock(side_effect=[llm, resolver])
+        monkeypatch.setattr(cli, "LLMClient", llm_factory)
+        ingest = Mock(return_value="file")
+        monkeypatch.setattr(cli, "ingest_file", ingest)
+        answer = Mock(return_value=ConversationAnswer(
+            answer="Answer", sources=[], citation_check=CitationCheck(valid_source_ids=[], invalid_source_ids=[], no_citations=True),
+            conversation_id="conversation", message_id=1, question="Question", retrieval_question="Question",
+        ))
+        monkeypatch.setattr(cli, "answer_in_conversation", answer)
+        monkeypatch.setattr(cli, "run_chat_loop", lambda ask: ask("Question"))
+        argv = ["main.py", str(source)]
+        if override:
+            argv += ["--model", "argument-answer", "--top-k", "4", "--evidence-packing-strategy", "parent_first"]
+        monkeypatch.setattr(sys, "argv", argv)
+        cli.cli()
+        assert llm_factory.call_args_list[0].kwargs["model"] == ("argument-answer" if override else "file-answer")
+        assert llm_factory.call_args_list[1].kwargs["model"] == "file-resolver"
+        assert llm_factory.call_args_list[0].kwargs["reasoning_effort"] == "low"
+        assert "reasoning_effort" not in llm_factory.call_args_list[1].kwargs
+        cli.EmbeddingClient.assert_called_once_with(sdk, model="file-embedding")
+>       assert ingest.call_args.kwargs == {
+            "chunk_size": 12, "overlap": 3, "chunking_strategy": "structural",
+            "chunk_max_tokens": 17, "chunk_tokenizer": "o200k_base", "parent_max_tokens": 33,
+            "semantic_similarity_threshold": 0.5, "semantic_batch_size": 32, "embedding_model": "file-embedding",
+        }
+E       AssertionError: assert {'chunk_size'...ens': 17, ...} == {'chunk_size'...ens': 17, ...}
+E         
+E         Omitting 9 identical items, use -vv to show
+E         Left contains 2 more items:
+E         {'assets': <knowledgebase.storage.pdf_assets.PdfAssets object at 0x3540761c0>,
+E          'pdf_parser': <knowledgebase.services.pdf.LocalPdfParser object at 0x354099790>}
+E         Use -v to get more diff
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_runtime_settings.py:146: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Indexed notes.md (file)
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+tests/test_pdf.py::test_parser_disables_deferred_features_and_rejects_partial_conversion
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/pydantic/main.py:475: DeprecationWarning: `force_full_page_ocr` is deprecated; set `mode=OcrMode.FULL_PAGE` instead.
+    return self.__pydantic_serializer__.to_python(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_chat_api.py::test_upload_question_followup_and_persisted_exchange
+FAILED tests/test_conversation_storage.py::test_init_db_adds_conversation_tables_to_existing_file_database
+FAILED tests/test_database.py::test_build_engine_does_not_create_database_until_used
+FAILED tests/test_parent_child_storage.py::test_restart_cleanup_removes_abandoned_hierarchy_but_keeps_ready_data
+FAILED tests/test_runtime_settings.py::test_cli_uses_settings_and_explicit_arguments_override_them[False]
+FAILED tests/test_runtime_settings.py::test_cli_uses_settings_and_explicit_arguments_override_them[True]
+6 failed, 609 passed, 1 skipped, 2 warnings in 22.63s

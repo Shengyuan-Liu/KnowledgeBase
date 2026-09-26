@@ -130,7 +130,7 @@ export function Workspace() {
       )}
       <footer className={styles.pageFooter}>
         <span>Keep your sources close.</span>
-        <span>TXT and Markdown knowledge base</span>
+        <span>TXT, Markdown and PDF knowledge base</span>
       </footer>
     </div>
   );

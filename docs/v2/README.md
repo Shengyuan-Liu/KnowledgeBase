@@ -1,9 +1,9 @@
 # KnowledgeBase v2
 
-Status: designs prepared on 2026-09-26; the standalone stage 1
-[PDF adapter](../pdf-parsing.md) is implemented with a recorded parser selection
-and unresolved fidelity limits. Upload/page viewing and the retrieval controller
-remain planned. No feature acceptance or merge is implied.
+Status: designs prepared on 2026-09-26; the stage 1 [PDF adapter](../pdf-parsing.md)
+and stage 2 [PDF integration](../pdf-integration.md) are implemented with recorded
+checks and unresolved parser fidelity limits. The retrieval controller remains
+planned. No feature acceptance or merge is implied.
 
 ## Confirmed Feature Areas
 
@@ -57,7 +57,7 @@ combines all three; stage completion does not establish a general quality gain.
 | Representative PDF population | Papers, lecture material, and company/technical reports; five development documents frozen | Confirmed by the user on 2026-09-26 |
 | OCR and mixed scanned pages | OCR deferred by the user; disclose content that is not indexed | Confirmed for v2; revisit in a later version |
 | Figures and formulas | Text captions may be indexed; visual interpretation and formula reasoning are deferred by the user | Confirmed for v2; revisit in a later version |
-| Parser and page viewer | Docling selected for the standalone adapter with known table/order failures; viewer still undecided | See [PDF parsing](../pdf-parsing.md) |
+| Parser and page viewer | Docling with known table/order failures; bundled PDF.js page viewer | See [PDF parsing](../pdf-parsing.md) |
 | Query/checker models and limits | Bounded controller proposed; numerical limits in the technical plan are starting settings | Before live acceptance |
 | Quality, latency, and cost thresholds | Freeze from development evidence before held-out evaluation | Evaluation preparation |
 | v2 development branch | Use `v2` for all v2 implementation and documentation commits | Confirmed by the user on 2026-09-26 |
@@ -68,7 +68,7 @@ remains available in Git and the v1 documentation.
 
 Follow [AGENTS.md](../../AGENTS.md) for English project text, Python ownership,
 verification, and commits. The user subsequently requested implementation of the
-standalone PDF stage. User acceptance and explicit feature-specific merge
+PDF adapter and integration stages. User acceptance and explicit feature-specific merge
 authorization remain separate from passing checks. No merge is part of this task.
 
 ## Documentation Verification

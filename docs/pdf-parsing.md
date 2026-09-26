@@ -1,8 +1,7 @@
 # PDF Parsing and Page Provenance
 
-Status: standalone v2 adapter implemented on `v2`. PDF upload, persistence,
-retrieval and page viewing are still stage 2 work. This is not a claim of general
-PDF fidelity or user acceptance.
+Status: v2 adapter and [stage 2 integration](pdf-integration.md) implemented on
+`v2`. This is not a claim of general PDF fidelity or user acceptance.
 
 ## Selection and Scope
 
@@ -29,8 +28,9 @@ uv sync --locked --extra pdf
 uv run --locked --extra pdf docling-tools models download layout tableformer --output-dir data/pdf-models
 ```
 
-`data/` is ignored by Git. Pass the model directory explicitly; application
-Settings integration belongs to the ingestion stage. No credentials are required.
+`data/` is ignored by Git. Standalone callers pass the model directory explicitly;
+the application uses `PDF_MODEL_DIR` (default `data/pdf-models`). Parsing itself
+requires no credentials.
 
 ```python
 from pathlib import Path
@@ -48,7 +48,7 @@ print(extraction.warnings)
 Reuse a parser across sequential documents. Construction hashes local model files;
 the first parse loads models. Missing assets and conversion failures remain errors.
 Partial conversion is rejected. No fallback parser is configured. Installing this
-extra does not enable PDF uploads or import Docling in existing application routes.
+extra enables the lazy application parser; Docling is imported on the first PDF upload.
 
 ## Module Responsibilities
 
@@ -99,9 +99,9 @@ have explicit scope warnings. Pages without mapped text receive
 `no_extracted_text`, without guessing whether they are blank or scanned. Valid
 slices and page boxes alone never establish original-page fidelity.
 
-Stage 2 must connect storage and page viewing and preserve table headers when
-splitting oversized tables. The current chunker does not yet do that for these
-PDF records. The eventual upload UI must surface extraction limitations.
+The [stage 2 integration](pdf-integration.md) now connects storage and page
+viewing, splits oversized tables at row boundaries when possible, preserves
+separately located headers, and surfaces extraction limitations in the UI.
 
 ## Verification
 

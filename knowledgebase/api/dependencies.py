@@ -11,6 +11,8 @@ from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.providers.reranker import RerankerClient
 from knowledgebase.storage.vectordb import ChromaStore
+from knowledgebase.storage.pdf_assets import PdfAssets
+from knowledgebase.services.pdf import LocalPdfParser
 
 
 @dataclass
@@ -23,6 +25,8 @@ class AppResources:
     settings: Settings
     resolver_llm: LLMClient | None = None
     reranker: RerankerClient | None = None
+    assets: PdfAssets | None = None
+    pdf_parser: LocalPdfParser | None = None
 
 
 def get_resources(request: Request) -> AppResources:

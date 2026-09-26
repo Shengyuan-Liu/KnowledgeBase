@@ -43,9 +43,9 @@ export function useLibrary() {
   async function upload(file: File) {
     setActionError("");
     setNotice("");
-    if (!/\.(txt|md)$/i.test(file.name)) {
+    if (!/\.(txt|md|pdf)$/i.test(file.name)) {
       setActionError(
-        "Only .txt and .md files are supported. Choose a UTF-8 file.",
+        "Only .txt, .md and .pdf files are supported. Text files must use UTF-8.",
       );
       return;
     }

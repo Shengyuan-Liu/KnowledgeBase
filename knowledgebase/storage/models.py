@@ -169,3 +169,16 @@ class RetrievalSnapshotRecord(Base):
         ForeignKey("answer_snapshots.message_id", ondelete="CASCADE"), primary_key=True,
     )
     diagnostics: Mapped[dict] = mapped_column(JSON)
+
+
+class PdfSourceRecord(Base):
+    """Additive v2 source table; legacy TXT/Markdown constraints stay unchanged."""
+
+    __tablename__ = "pdf_sources"
+    file_id: Mapped[str] = mapped_column(ForeignKey("files.file_id", ondelete="CASCADE"), primary_key=True)
+    revision_id: Mapped[str]
+    source_hash: Mapped[str]
+    page_count: Mapped[int]
+    warnings: Mapped[list[dict]] = mapped_column(JSON)
+    extraction: Mapped[dict] = mapped_column(JSON)
+    indexing: Mapped[dict] = mapped_column(JSON)

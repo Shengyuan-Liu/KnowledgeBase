@@ -6,12 +6,58 @@ from pydantic import BaseModel, Field
 from knowledgebase.config import RetrievalOptions
 
 
+class PdfRegion(BaseModel):
+    model_config = {"frozen": True}
+    start_offset: int
+    end_offset: int
+    page_index: int
+    bbox: tuple[float, float, float, float]
+    precision: Literal["block", "cell", "table"]
+    coordinate_system: Literal["top_left_pdf_points"] = "top_left_pdf_points"
+
+
+class PdfWarning(BaseModel):
+    model_config = {"frozen": True}
+    code: str
+    message: str
+    page_indices: tuple[int, ...] = ()
+    source_ref: str | None = None
+
+
+class PdfSupplement(BaseModel):
+    """Separately located source text, never spliced into a canonical chunk."""
+    role: Literal["column_header", "row_header", "caption", "note"]
+    table_id: str
+    text: str
+    start_offset: int
+    end_offset: int
+    regions: list[PdfRegion]
+
+
+class PdfTableSpan(BaseModel):
+    table_id: str
+    # [row start, row end, column start, column end, character start, character end]
+    cells: list[tuple[int, int, int, int, int, int]]
+
+
+class PdfEvidence(BaseModel):
+    revision_id: str
+    source_hash: str
+    page_count: int
+    regions: list[PdfRegion]
+    tables: list[PdfTableSpan] = Field(default_factory=list)
+    supplements: list[PdfSupplement] = Field(default_factory=list)
+    warnings: list[PdfWarning] = Field(default_factory=list)
+
+
 class FileInfo(BaseModel):
     file_id: str
     file_name: str
     status: str
     error_message: str | None
     created_at: datetime
+    page_count: int | None = None
+    extraction_warnings: list[PdfWarning] = Field(default_factory=list)
 
 
 class Chunk(BaseModel):
@@ -83,7 +129,7 @@ class DocumentSource(BaseModel):
     """Canonical document and parser output, independent of a database session."""
 
     file_id: str
-    source_format: Literal["txt", "md"]
+    source_format: Literal["txt", "md", "pdf"]
     text: str
     source_hash: str
     blocks: list[SourceBlock]
@@ -168,6 +214,7 @@ class RerankResult(BaseModel):
 class RetrievedChunk(BaseModel):
     """Canonical evidence with the highest-ranked child's retrieval provenance."""
 
+    pdf: PdfEvidence | None = None
     document_labels: list[str] = Field(default_factory=list)
     chunk: Chunk
     file_name: str
@@ -248,6 +295,7 @@ class AnswerSource(BaseModel):
     """One retrieved excerpt, numbered within the current answer."""
 
     source_id: int
+    pdf: PdfEvidence | None = None
     document_labels: list[str] = Field(default_factory=list)
     file_id: str
     file_name: str

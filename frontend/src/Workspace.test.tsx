@@ -46,7 +46,7 @@ async function openLibrary() {
 }
 
 function upload(name = "notes.txt") {
-  fireEvent.change(screen.getByLabelText("Choose TXT or Markdown file"), {
+  fireEvent.change(screen.getByLabelText("Choose TXT, Markdown or PDF file"), {
     target: {
       files: [new File(["Example notes"], name, { type: "text/plain" })],
     },
@@ -79,8 +79,8 @@ describe("library workspace", () => {
 
   it("accepts Markdown and displays its file type", async () => {
     await openLibrary();
-    const input = screen.getByLabelText("Choose TXT or Markdown file");
-    expect(input).toHaveAttribute("accept", ".txt,.md");
+    const input = screen.getByLabelText("Choose TXT, Markdown or PDF file");
+    expect(input).toHaveAttribute("accept", ".txt,.md,.pdf");
     upload("Guide.MD");
     await screen.findByText("Guide.MD is ready.");
     expect(within(screen.getByRole("button", { name: "Guide.MD Ready" })).getByText("MD"))
@@ -112,9 +112,9 @@ describe("library workspace", () => {
 
   it("rejects unsupported file selection without posting to the server", async () => {
     await openLibrary();
-    upload("notes.pdf");
+    upload("notes.docx");
     expect(await screen.findByRole("alert")).toHaveTextContent(
-      "Only .txt and .md files",
+      "Only .txt, .md and .pdf files",
     );
     expect(
       fetchMock.mock.calls.some(([, options]) => options?.method === "POST"),

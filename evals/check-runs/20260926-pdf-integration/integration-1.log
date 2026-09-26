@@ -1,0 +1,29 @@
+.F.......                                                                [100%]
+=================================== FAILURES ===================================
+_______________ test_streaming_and_history_share_pdf_provenance ________________
+
+pdf_api = (<starlette.testclient.TestClient object at 0x126f9efd0>, AppResources(sessions=sessionmaker(class_='Session', bind=En...ts.PdfAssets object at 0x127e65480>, pdf_parser=<Mock id='4964161856'>), <Mock spec='EmbeddingClient' id='4945119280'>)
+
+    def test_streaming_and_history_share_pdf_provenance(pdf_api):
+        client, resources, _ = pdf_api
+        file = upload_pdf(client)
+        async def stream(_messages):
+            yield "Net sales were 94,930 million. [1]"
+        resources.streaming_llm.stream = stream
+        result = client.post("/api/chat/stream", json={"question": "Net sales?", "file_ids": [file["file_id"]]})
+        import json
+        events = [json.loads(line[6:]) for line in result.text.splitlines() if line.startswith("data: ")]
+>       sources = next(e["sources"] for e in events if e["event"] == "sources")
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       StopIteration
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_pdf_integration.py:98: StopIteration
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_pdf_integration.py::test_streaming_and_history_share_pdf_provenance
+1 failed, 8 passed, 1 warning in 0.48s

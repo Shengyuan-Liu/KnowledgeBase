@@ -16,6 +16,8 @@ from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.providers.reranker import RerankerClient
 from knowledgebase.storage.runtime import open_storage
+from knowledgebase.storage.pdf_assets import PdfAssets
+from knowledgebase.services.pdf import LocalPdfParser
 
 
 def create_app(data_dir: Path | None = None, frontend_dir: Path | None = None) -> FastAPI:
@@ -33,6 +35,8 @@ def create_app(data_dir: Path | None = None, frontend_dir: Path | None = None) -
                 async with AsyncOpenAI(**sdk_options) as streaming_sdk:
                     app.state.resources = AppResources(
                         settings=settings,
+                        assets=PdfAssets(directory),
+                        pdf_parser=LocalPdfParser(settings.pdf_model_dir),
                         reranker=RerankerClient(
                             settings.rerank_model, device=settings.rerank_device,
                             batch_size=settings.rerank_batch_size, max_pair_tokens=settings.rerank_max_pair_tokens,

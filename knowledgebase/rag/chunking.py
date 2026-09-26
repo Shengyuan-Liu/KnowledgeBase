@@ -139,8 +139,15 @@ def _pack_units(
 
 def _block_units(
     text: str, block: SourceBlock, max_tokens: int, encoding: tiktoken.Encoding,
+    row_spans: list[tuple[int, int]] | None = None,
 ) -> Iterator[tuple[int, int]]:
     """Apply the same structure-specific split policy at either chunking level."""
+    if row_spans is not None and _token_count(block.text, encoding) > max_tokens:
+        for row_start, row_end in row_spans:
+            start, end = max(block.start_offset, row_start), min(block.end_offset, row_end)
+            if start < end:
+                yield from _bounded_units(text, start, end, ("words", "characters"), max_tokens, encoding)
+        return
     if block.kind == "paragraph":
         stages = ("sentences", "clauses", "words", "characters")
     elif block.kind == "list":
@@ -157,6 +164,7 @@ def _block_units(
 def split_structured(
     text: str, blocks: list[SourceBlock], file_id: str, *,
     max_tokens: int, encoding_name: str,
+    table_row_spans: dict[int, list[tuple[int, int]]] | None = None,
 ) -> list[StructuredChunk]:
     """Build nonoverlapping chunks from this source's ordered parser output.
 
@@ -189,7 +197,8 @@ def split_structured(
     for group in groups:
         units: list[tuple[int, int]] = []
         for block_index in group:
-            units.extend(_block_units(text, blocks[block_index], max_tokens, encoding))
+            units.extend(_block_units(text, blocks[block_index], max_tokens, encoding,
+                                      (table_row_spans or {}).get(block_index)))
         for start, end in _pack_units(text, units, max_tokens, encoding):
             excerpt = text[start:end]
             index = len(chunks)
@@ -210,6 +219,7 @@ def split_structured(
 def split_parent_child(
     text: str, blocks: list[SourceBlock], file_id: str, *,
     parent_max_tokens: int, child_max_tokens: int, encoding_name: str,
+    table_row_spans: dict[int, list[tuple[int, int]]] | None = None,
 ) -> ParentChildChunks:
     """Build bounded section parents, then structural children within each parent.
 
@@ -238,7 +248,8 @@ def split_parent_child(
     for section in sections:
         units = (
             span for i in section
-            for span in _block_units(text, blocks[i], parent_max_tokens, encoding)
+            for span in _block_units(text, blocks[i], parent_max_tokens, encoding,
+                                     (table_row_spans or {}).get(i))
         )
         for start, end in _pack_units(text, units, parent_max_tokens, encoding):
             parent = ParentChunk(
@@ -264,6 +275,9 @@ def split_parent_child(
                 }))
             for chunk in split_structured(
                 text, clipped, file_id, max_tokens=child_max_tokens, encoding_name=encoding_name,
+                table_row_spans={local: table_row_spans[original]
+                                 for local, original in enumerate(parent.source_block_indices)
+                                 if table_row_spans and original in table_row_spans},
             ):
                 children.append(ChildChunk(**{
                     **chunk.model_dump(),

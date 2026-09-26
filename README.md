@@ -1,11 +1,11 @@
 # KnowledgeBase
 
-A TXT and Markdown knowledge base with structural chunking, hybrid retrieval,
+A TXT, Markdown and PDF knowledge base with structural chunking, hybrid retrieval,
 and source-grounded answers.
 
-The v2 [standalone PDF parser](docs/pdf-parsing.md) adds local extraction and page
-provenance with recorded fidelity limits. PDF upload and page viewing are not yet
-connected to the application.
+The v2 [PDF integration](docs/pdf-integration.md) supports upload, local extraction,
+page citations and original-page viewing, with recorded parser fidelity limits.
+Follow its one-time model setup before uploading PDFs.
 
 The [v1 release summary](docs/v1/release-summary.md) records the delivered version,
 accepted defaults, experiments, verification and known limits. The implementation
@@ -48,7 +48,7 @@ DATA_DIR=data/v1 make app
 ```
 
 Open <http://127.0.0.1:8000>. This builds the React interface and serves it together
-with the API from one local process. Upload a UTF-8 TXT or Markdown file, wait for Ready, ask a
+with the API from one local process. Upload a UTF-8 TXT/Markdown file or a digital PDF, wait for Ready, ask a
 question, and click its source citation to inspect the original text. Follow-up
 questions share the current conversation; refresh restores completed messages.
 Uploads and questions use real model APIs and incur provider charges.
@@ -70,7 +70,8 @@ against the same data. See the [frontend guide](docs/frontend.md) for details.
 
 Run from the repository root with `OPENAI_API_KEY` in `.env`.
 
-Index one or more UTF-8 TXT or Markdown files, then enter the question loop:
+Index one or more TXT/Markdown files or digital PDFs, then enter the question loop
+(PDFs require the [local model setup](docs/pdf-integration.md)):
 
 ```bash
 uv run python main.py --data-dir data/v1 notes.txt handbook.md
@@ -149,7 +150,7 @@ DATA_DIR=data/v1 make api
 ```
 
 Open [interactive API documentation](http://127.0.0.1:8000/docs) after startup.
-Upload, list, and delete TXT/Markdown files through `/api/files`. Upload waits for indexing
+Upload, list, and delete TXT/Markdown/PDF files through `/api/files`. Upload waits for indexing
 and returns `201` when ready. API and CLI share `DATA_DIR` from `.env` (default `data/v1`),
 unless explicitly overridden as above.
 See the [file API guide](docs/file-api.md) for requests and error codes.

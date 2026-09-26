@@ -11,6 +11,7 @@ from knowledgebase.config import (
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.reranker import RerankerClient
 from knowledgebase.rag.packing import pack_evidence
+from knowledgebase.rag.pdf_evidence import pdf_evidence
 from knowledgebase.rag.bm25 import search_bm25
 from knowledgebase.rag.fusion import fuse_rrf
 from knowledgebase.rag.reranking import rerank
@@ -21,7 +22,7 @@ from knowledgebase.schemas import (
 )
 from knowledgebase.storage.vectordb import ChromaStore
 from knowledgebase.storage.operations import (
-    get_chunks_by_ids, get_chunks_for_files, get_files, get_parents_by_ids, get_source_texts,
+    get_chunks_by_ids, get_chunks_for_files, get_files, get_parents_by_ids, get_source_texts, get_pdf_extraction,
 )
 
 
@@ -211,4 +212,9 @@ def retrieve_evidence(
                 document_labels=identity_labels_for_chunk,
             )
 
+    pdfs = {identity: get_pdf_extraction(session, identity) for identity in {c.file_id for c in chunks}}
+    for region in [*child_hits, *regions.values()]:
+        pdf = pdfs[region.chunk.file_id]
+        if pdf is not None:
+            region.pdf = pdf_evidence(pdf, region.chunk.start_offset, region.chunk.end_offset)
     return pack_evidence(child_hits, list(regions.values()), diagnostics)

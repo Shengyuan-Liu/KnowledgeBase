@@ -67,6 +67,7 @@ class Settings(BaseSettings):
     openai_timeout_seconds: float = Field(default=600, gt=0)
     openai_max_retries: int = Field(default=2, ge=0)
     data_dir: Path = Path("data/v1")
+    pdf_model_dir: Path = Path("data/pdf-models")
 
     answer_model: str = DEFAULT_ANSWER_MODEL
     answer_reasoning_effort: Literal["none", "low", "medium", "high", "xhigh"] | None = None

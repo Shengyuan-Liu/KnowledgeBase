@@ -1,3 +1,21 @@
+export interface PdfRegion {
+  page_index: number;
+  start_offset: number;
+  end_offset: number;
+  bbox: [number, number, number, number];
+  precision: "block" | "cell" | "table";
+}
+
+export interface PdfWarning { code: string; message: string; page_indices: number[]; }
+export interface PdfEvidence {
+  revision_id: string;
+  source_hash: string;
+  page_count: number;
+  regions: PdfRegion[];
+  warnings: PdfWarning[];
+  supplements: { role: string; table_id: string; text: string; start_offset: number; end_offset: number; regions: PdfRegion[] }[];
+}
+
 /** File metadata returned by the FastAPI file endpoints. */
 export interface FileInfo {
   file_id: string;
@@ -5,6 +23,8 @@ export interface FileInfo {
   status: "processing" | "ready" | "failed";
   error_message: string | null;
   created_at: string;
+  page_count?: number | null;
+  extraction_warnings?: PdfWarning[];
 }
 
 export interface FusedMatch {
@@ -18,6 +38,7 @@ export interface FusedMatch {
 }
 
 export interface Source {
+  pdf?: PdfEvidence | null;
   document_labels?: string[];
   source_id: number;
   file_id: string;

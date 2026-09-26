@@ -92,7 +92,7 @@ export function LibraryPanel({
             </span>
             <h3>A home for your notes</h3>
             <p>
-              Upload your first TXT or Markdown file to start building your knowledge base.
+              Upload your first TXT, Markdown or PDF file to start building your knowledge base.
             </p>
           </div>
         ) : (
@@ -111,13 +111,14 @@ export function LibraryPanel({
                   }
                 >
                   <span className={styles.fileBadge}>
-                    {file.file_name.toLowerCase().endsWith(".md") ? "MD" : "TXT"}
+                    {file.file_name.toLowerCase().endsWith(".pdf") ? "PDF" : file.file_name.toLowerCase().endsWith(".md") ? "MD" : "TXT"}
                   </span>
                   <span className={styles.fileText}>
                     <strong>{file.file_name}</strong>
                     <span className={`${styles.status} ${styles[file.status]}`}>
                       <span className={styles.dot} />
-                      {statusLabels[file.status]}
+                      {statusLabels[file.status]}{file.page_count != null ? ` · ${file.page_count} pages` : ""}
+                      {!!file.extraction_warnings?.length && " · Review extraction"}
                     </span>
                   </span>
                 </button>
@@ -154,6 +155,11 @@ export function LibraryPanel({
                       <Icon name="trash" size={15} />
                       Delete
                     </button>
+                    {!!file.extraction_warnings?.length && (
+                      <details><summary>Extraction limitations</summary>
+                        <ul>{[...new Set(file.extraction_warnings.map(w => w.message))].map(message => <li key={message}>{message}</li>)}</ul>
+                      </details>
+                    )}
                     {file.status === "processing" && (
                       <p>Wait for processing before deleting.</p>
                     )}
@@ -179,8 +185,8 @@ export function LibraryPanel({
         <input
           ref={input}
           type="file"
-          accept=".txt,.md"
-          aria-label="Choose TXT or Markdown file"
+          accept=".txt,.md,.pdf"
+          aria-label="Choose TXT, Markdown or PDF file"
           hidden
           onChange={(event) => {
             const file = event.target.files?.[0];
@@ -196,7 +202,7 @@ export function LibraryPanel({
           <Icon name="upload" size={18} />
           {busy ? "Working…" : "Upload file"}
         </button>
-        <p>TXT and Markdown · UTF-8 · Indexed for search</p>
+        <p>TXT / Markdown (UTF-8) · PDF (digital text)</p>
       </footer>
       {deleting && (
         <Modal

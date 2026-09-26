@@ -14,11 +14,16 @@ from knowledgebase.api.dependencies import AppResources
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.storage.runtime import open_storage
+from knowledgebase.storage.pdf_assets import PdfAssets
+from knowledgebase.rag.pdf_models import PdfExtraction
 from knowledgebase.schemas import RelevanceScore
 
 
 async def stream_fixture(messages):
     """Keep the cancellation fixture open until the browser disconnects."""
+    if "total net sales" in messages[0]["content"].lower():
+        yield "Total net sales were 94,930 million. [1]"
+        return
     yield "The library "
     if messages[0]["content"].startswith("Question:\nStop this question\n"):
         await anyio.sleep_forever()
@@ -48,6 +53,10 @@ async def lifespan(app):
                     _env_file=None, openai_api_key="offline-browser-test",
                     chunking_strategy="parent_child", chunk_max_tokens=16, rerank_enabled=True,
                 ),
+                assets=PdfAssets(Path(directory)),
+                pdf_parser=Mock(parse=Mock(return_value=PdfExtraction.model_validate_json(
+                    (Path(__file__).resolve().parents[1] / "evals/check-runs/20260926-pdf-parser-selection/adapter-2/apple-fy24.json").read_text()
+                ))),
                 sessions=sessions,
                 store=store,
                 embeddings=embeddings,

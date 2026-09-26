@@ -14,6 +14,8 @@ from knowledgebase.schemas import ChatAnswer, ConversationAnswer
 from knowledgebase.services.chat import answer_in_conversation
 from knowledgebase.services.files import ingest_file
 from knowledgebase.storage.runtime import open_storage
+from knowledgebase.storage.pdf_assets import PdfAssets
+from knowledgebase.services.pdf import LocalPdfParser
 
 
 def run_chat_loop(ask: Callable[[str], ChatAnswer]) -> None:
@@ -88,6 +90,7 @@ def cli() -> None:
                 batch_size=settings.rerank_batch_size, max_pair_tokens=settings.rerank_max_pair_tokens,
             ) if settings.rerank_enabled else None
             resolver = LLMClient(sdk, model=settings.resolver_model) if settings.resolver_model else None
+            pdf_parser = LocalPdfParser(settings.pdf_model_dir)
             for path in args.files:
                 file_id = ingest_file(
                     path.name, path.read_bytes(), sessions, embeddings, store,
@@ -99,6 +102,7 @@ def cli() -> None:
                     semantic_similarity_threshold=settings.semantic_similarity_threshold,
                     semantic_batch_size=settings.semantic_batch_size,
                     embedding_model=settings.embedding_model,
+                    assets=PdfAssets(args.data_dir), pdf_parser=pdf_parser,
                 )
                 print(f"Indexed {path.name} ({file_id})")
             conversation_id = args.conversation_id

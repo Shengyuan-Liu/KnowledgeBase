@@ -4,7 +4,7 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict
 
-from knowledgebase.schemas import BlockType, SourceBlock
+from knowledgebase.schemas import BlockType, SourceBlock, PdfRegion, PdfWarning
 
 
 class FrozenRecord(BaseModel):
@@ -16,17 +16,6 @@ class PdfPage(FrozenRecord):
     width: float
     height: float
     printed_label: str | None = None
-
-
-class PdfRegion(FrozenRecord):
-    """End-exclusive canonical character range; box precision is explicit."""
-
-    start_offset: int
-    end_offset: int
-    page_index: int
-    bbox: tuple[float, float, float, float]
-    precision: Literal["block", "cell", "table"]
-    coordinate_system: Literal["top_left_pdf_points"] = "top_left_pdf_points"
 
 
 class PdfCell(FrozenRecord):
@@ -63,13 +52,6 @@ class PdfBlock(FrozenRecord):
     heading_level: int | None
     regions: tuple[PdfRegion, ...]
     table: PdfTable | None = None
-
-
-class PdfWarning(FrozenRecord):
-    code: str
-    message: str
-    page_indices: tuple[int, ...] = ()
-    source_ref: str | None = None
 
 
 class PdfParserIdentity(FrozenRecord):

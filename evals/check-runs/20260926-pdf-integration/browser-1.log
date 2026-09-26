@@ -1,0 +1,53 @@
+
+> knowledgebase-frontend@0.1.0 test:e2e
+> playwright test pdf.spec.ts
+
+
+Running 1 test using 1 worker
+
+  ✘  1 e2e/pdf.spec.ts:4:1 › PDF upload, page links, reload and historical evidence after deletion (6.0s)
+
+
+  1) e2e/pdf.spec.ts:4:1 › PDF upload, page links, reload and historical evidence after deletion ───
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /\/api\/files\/eb1f5544299948eda0dba39c00bf10fe\/original\?revision=de76f69979fcece2f1d55a531cbd865aaa5df1fb5a0ccafc9b3ad54453f9756f#page=3$/
+    Received string:  "about:blank"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 5000ms
+        14 × locator resolved to <html>…</html>
+           - unexpected value "about:blank"
+
+
+      25 |   await link.click();
+      26 |   const popup = await popupPromise;
+    > 27 |   await expect(popup).toHaveURL(new RegExp(href.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "$"));
+         |                       ^
+      28 |   await popup.close();
+      29 |   await page.screenshot({ path: testInfo.outputPath("pdf-evidence.png"), fullPage: true });
+      30 |   await page.reload();
+        at /Users/lucas/Documents/Projects/KnowledgeBase/frontend/e2e/pdf.spec.ts:27:23
+
+    Error Context: test-results/pdf-PDF-upload-page-links--4a421-cal-evidence-after-deletion/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/pdf-PDF-upload-page-links--4a421-cal-evidence-after-deletion/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/pdf-PDF-upload-page-links--4a421-cal-evidence-after-deletion/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e/pdf.spec.ts:4:1 › PDF upload, page links, reload and historical evidence after deletion ────
+[WebServer] INFO:     Started server process [69581]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+[WebServer] (node:69638) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+(node:69642) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

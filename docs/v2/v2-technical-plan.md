@@ -1,12 +1,14 @@
 # KnowledgeBase v2 Technical Plan
 
-Status: proposed implementation guidance, not an implemented API or schema.
+Status: implementation guidance; the linked PDF contracts are implemented,
+while the retrieval controller below remains proposed.
 Use the current [project structure](../project-structure.md) and accepted
 [v1 behavior](../v1/release-summary.md) as the baseline.
 
 The standalone stage 1 [PDF adapter](../pdf-parsing.md) now has an implemented
 contract and a retained parser comparison. Its fidelity failures remain open;
-the integration and controller stages below are still proposed.
+the [stage 2 integration](../pdf-integration.md) now connects uploads, source
+storage, retrieval and original-page navigation. Controller stages remain proposed.
 
 ## Architecture and Ownership
 

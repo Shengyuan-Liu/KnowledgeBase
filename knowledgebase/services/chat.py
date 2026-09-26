@@ -95,11 +95,11 @@ def _retrieve_evidence(
         line_starts = {}
         for file_id in {item.chunk.file_id for item in chunks}:
             document = get_document_source(session, file_id)
-            if document is not None:
+            if document is not None and document.source_format != "pdf":
                 line_starts[file_id] = [0, *(m.end() for m in re.finditer(r"\r\n|\r|\n", document.text))]
         sources = [
             AnswerSource(
-                source_id=number,
+                source_id=number, pdf=item.pdf,
                 file_id=item.chunk.file_id,
                 file_name=item.file_name,
                 document_labels=item.document_labels,
