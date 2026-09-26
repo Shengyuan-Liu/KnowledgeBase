@@ -32,15 +32,16 @@ outstanding. Reranking remains disabled by default in shared settings.
 
 ## Remaining Work
 
-See the current [merge-readiness assessment](merge-readiness.md). The original
-service acceptance remains 7/8. The latest [question-aligned correction](../../evals/library-runs/20260925-answer-focus/README.md)
-reaches 4/5 on current default GPT-4.1: all requested facts are present, but one
-answer still blends distinct FAQ sources without identifying the other document.
-The audit also corrects two overly broad reference points in a new rubric version;
-all old scores remain intact. No non-English text appeared in this five-case pass.
-Full backend checks pass (561 passed, 1 skipped). Local settings are unchanged;
-no candidate promotion or merge is authorized. Codex completed the delegated audit;
-independent human review remains unperformed.
+See the current [merge-readiness assessment](merge-readiness.md). The completed
+[document-scope feature](../document-scope.md) fixes cross-file attribution and
+multi-document candidate starvation. The [final acceptance record](../../evals/library-runs/20260925-document-representation/README.md)
+retains a stream timeout, two slow completed generations and one omitted explicit
+contrast point. With one separately recorded recovery, service completion is 11/12
+attempts and strict quality covers 10/11 distinct cases; full acceptance remains
+failed. Backend checks pass (589 passed, 1 skipped), frontend 42 passed, and all
+12 distinct browser scenarios passed across retained runs. Settings are unchanged;
+no merge is authorized. Codex completed the source audit; independent human review
+remains unperformed.
 
 1. Accept the opt-in [semantic child-chunking strategy](../semantic-chunking.md),
    now implemented inside unchanged parent regions. Structural parent-child

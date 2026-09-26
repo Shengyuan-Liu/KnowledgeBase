@@ -42,3 +42,8 @@ mocked provider fixtures and are not live answer-quality or production metrics.
   cases/corpus and correctly resolved references before the correction replay.
 - `representation-browser-1`: both scope workflows pass after metadata/selection
   changes; `representation-build-1`: TypeScript and production build pass.
+
+- `final-artifact-audit-1`: 7 passed. Checks frozen cases/index/product hashes,
+  exact failed/recovery provider inputs, stream concatenation including the partial
+  failure, reviewed source quotes/offsets, both FAQ representatives, complete metric
+  inventories and the unchanged failed full-suite gates. No provider calls.

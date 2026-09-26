@@ -217,4 +217,7 @@ Run `make eval-calibrate` to check the judge against
 Current v1 acceptance status: [merge readiness](docs/v1/merge-readiness.md),
 including experimental parent scoring, recorded tradeoffs and the completed
 [original Codex acceptance with one scope failure](evals/library-runs/20260925-v1-codex-acceptance/README.md),
-and [latest question-aligned correction and remaining source-scope failure](evals/library-runs/20260925-answer-focus/README.md).
+and [document-scope correction with retained timeout and acceptance gaps](evals/library-runs/20260925-document-representation/README.md).
+[Document-scoped answers](docs/document-scope.md) now restrict explicitly named
+files before ranking and preserve their identity in evidence. The attribution
+regression is fixed; frozen completeness and latency gates remain unmet.

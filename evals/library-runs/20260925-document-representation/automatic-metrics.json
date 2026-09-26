@@ -1,0 +1,589 @@
+{
+  "version": "automated-metrics-v1",
+  "metrics": {
+    "recall_at_k": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "precision_at_k": {
+      "status": "measured",
+      "value": 0.2571428571428572,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "hit_rate_at_k": {
+      "status": "measured",
+      "value": 1,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "mrr_at_k": {
+      "status": "measured",
+      "value": 0.8571428571428571,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "ndcg_at_k": {
+      "status": "measured",
+      "value": 0.8945513581632736,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Selected pre-expansion top-5 children; binary nonempty gold-span overlap proxy; labels are NOT exhaustive semantic relevance. Macro-average answerable cases; precision divides by K, misses zero.",
+      "artifact": "answers.jsonl"
+    },
+    "annotated_char_recall": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Union of actual supplied source spans; average gold spans per answer then macro-average answerable cases.",
+      "artifact": "answers.jsonl"
+    },
+    "full_evidence_recall": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction",
+      "n": 7,
+      "method": "Union of actual supplied source spans; average gold spans per answer then macro-average answerable cases.",
+      "artifact": "answers.jsonl"
+    },
+    "answer_correctness": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No valid applicable LLM assessments; claim-free/citation-free answers are excluded."
+    },
+    "answer_completeness": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No valid applicable LLM assessments; claim-free/citation-free answers are excluded."
+    },
+    "fully_correct_points": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No valid applicable LLM assessments; claim-free/citation-free answers are excluded."
+    },
+    "faithfulness": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No valid applicable LLM assessments; claim-free/citation-free answers are excluded."
+    },
+    "answer_relevance": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No valid applicable LLM assessments; claim-free/citation-free answers are excluded."
+    },
+    "citation_support": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No valid applicable LLM assessments; claim-free/citation-free answers are excluded."
+    },
+    "citation_coverage": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No valid applicable LLM assessments; claim-free/citation-free answers are excluded."
+    },
+    "appropriate_abstention": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No valid applicable LLM assessments; claim-free/citation-free answers are excluded."
+    },
+    "incorrect_abstention": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No valid applicable LLM assessments; claim-free/citation-free answers are excluded."
+    },
+    "answerable_refusal": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No valid applicable LLM assessments; claim-free/citation-free answers are excluded."
+    },
+    "strict_pass_rate": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Run or judgments incomplete; no full-set pass rate."
+    },
+    "contradicted_claims": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No valid claim assessments."
+    },
+    "unsupported_claims": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No valid claim assessments."
+    },
+    "claim_count": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No valid claim assessments."
+    },
+    "first_delta_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 5.053403879026883,
+        "p50": 1.718380104051903,
+        "p95": 38.992948750033975
+      },
+      "unit": "seconds",
+      "n": 10,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "total_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 10.443125591811258,
+        "p50": 3.5062278330442496,
+        "p95": 46.242318292031996
+      },
+      "unit": "seconds",
+      "n": 10,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "generation_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 12.530608792018029,
+        "p50": 3.1871992500382476,
+        "p95": 46.03329845902044
+      },
+      "unit": "seconds",
+      "n": 8,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "generation_first_delta_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 5.798381552376668,
+        "p50": 1.1470513960230164,
+        "p95": 38.43377883406356
+      },
+      "unit": "seconds",
+      "n": 8,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "retrieval_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.4145956585067324,
+        "p50": 0.29338091699173674,
+        "p95": 1.4283353339415044
+      },
+      "unit": "seconds",
+      "n": 10,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "embedding_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.49594658862042706,
+        "p50": 0.39232666697353125,
+        "p95": 1.3462167920079082
+      },
+      "unit": "seconds",
+      "n": 8,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "rerank_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No successful timed observations."
+    },
+    "packing_seconds": {
+      "status": "measured",
+      "value": {
+        "mean": 0.009819937477004714,
+        "p50": 0.0023616664693690836,
+        "p95": 0.057127166888676584
+      },
+      "unit": "seconds",
+      "n": 8,
+      "method": "Successful observations; median P50, nearest-rank P95.",
+      "artifact": "answers.jsonl"
+    },
+    "search_fusion_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Production service exposes total retrieval, embedding, rerank and packing; search/fusion not independently timed."
+    },
+    "reliability": {
+      "status": "measured",
+      "value": {
+        "attempted": 11,
+        "planned": 11,
+        "success": 10,
+        "errors": 1,
+        "not_attempted": 0,
+        "success_rate": 0.9090909090909091,
+        "timeouts": 1,
+        "retries": 0
+      },
+      "unit": "requests",
+      "n": 11,
+      "method": "All planned RAG requests; SDK retries disabled, partial answers do not succeed.",
+      "artifact": "answers.jsonl"
+    },
+    "judge_reliability": {
+      "status": "measured",
+      "value": {
+        "reviewed": 0,
+        "valid": 0,
+        "invalid_or_error": 0,
+        "pending": 10
+      },
+      "unit": "reviews",
+      "n": 0,
+      "method": "No automatic repair/retry. Invalid review remains pending; protocol defines judgment stages.",
+      "artifact": "reviews.jsonl"
+    },
+    "judge_seconds": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "No successful timed observations."
+    },
+    "token_usage": {
+      "ingestion": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "No provider usage recorded for this stage."
+      },
+      "query_embedding": {
+        "status": "measured",
+        "value": {
+          "total_tokens": 289,
+          "prompt_tokens": 289
+        },
+        "unit": "tokens",
+        "n": 9,
+        "method": "Provider-reported totals for 9/9 calls; missing failed-call usage excluded, not zero billed cost.",
+        "artifact": "calls.jsonl"
+      },
+      "generation": {
+        "status": "measured",
+        "value": {
+          "input_tokens": 25979,
+          "output_tokens": 617,
+          "total_tokens": 26596
+        },
+        "unit": "tokens",
+        "n": 8,
+        "method": "Provider-reported totals for 8/9 calls; missing failed-call usage excluded, not zero billed cost.",
+        "artifact": "calls.jsonl"
+      },
+      "judge": {
+        "status": "unavailable",
+        "value": null,
+        "reason": "No provider usage recorded for this stage."
+      }
+    },
+    "cost": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Provider responses do not expose billed dollars; no inferred price substituted."
+    },
+    "evidence_tokens": {
+      "status": "measured",
+      "value": [
+        2262,
+        2262,
+        782,
+        2262,
+        906,
+        1042,
+        3779,
+        4095,
+        0,
+        0
+      ],
+      "unit": "tokens",
+      "n": 10,
+      "method": "Exact formatted supplied evidence tokens including metadata.",
+      "artifact": "answers.jsonl"
+    },
+    "concurrency_throughput": {
+      "status": "measured",
+      "value": {
+        "concurrency": 1,
+        "wall_seconds": 166.62610820797272,
+        "successful_requests_per_second": 0.06001460459917001
+      },
+      "unit": "requests/second",
+      "n": 10,
+      "method": "Sequential RAG batch including logging, excluding initialization, ingestion and judge; not load capacity.",
+      "artifact": "answers.jsonl"
+    },
+    "ingestion": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Historical generation replay did not ingest documents."
+    },
+    "update_delete": {
+      "status": "not_applicable",
+      "value": null,
+      "reason": "Evaluation creates a fresh isolated corpus; update/delete lifecycle is not exercised."
+    },
+    "model_loading": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Model loading not recorded."
+    }
+  },
+  "cases": [
+    {
+      "case_id": "accept-load-hours",
+      "category": "frozen-functional-acceptance",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.2,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "gold_overlap_ids": [
+          "4e907d26256a4539beca23aca3d355f9:child:0"
+        ],
+        "relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": null
+    },
+    {
+      "case_id": "accept-independent-passfail",
+      "category": "frozen-functional-acceptance",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.2,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 0.5,
+        "ndcg_at_k": 0.6309297535714575,
+        "gold_overlap_ids": [
+          "4e907d26256a4539beca23aca3d355f9:child:2"
+        ],
+        "relevance": [
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": null
+    },
+    {
+      "case_id": "accept-course-two-areas",
+      "category": "frozen-functional-acceptance",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "gold_overlap_ids": [
+          "dd9e8685f9734881a30b51d5b23a46e2:child:0",
+          "dd9e8685f9734881a30b51d5b23a46e2:child:1"
+        ],
+        "relevance": [
+          1,
+          1
+        ],
+        "k": 5
+      },
+      "quality": null
+    },
+    {
+      "case_id": "accept-awards-jobs",
+      "category": "frozen-functional-acceptance",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.2,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "gold_overlap_ids": [
+          "4e907d26256a4539beca23aca3d355f9:child:2"
+        ],
+        "relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": null
+    },
+    {
+      "case_id": "accept-beta-header-scope",
+      "category": "frozen-functional-acceptance",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.2,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 0.5,
+        "ndcg_at_k": 0.6309297535714575,
+        "gold_overlap_ids": [
+          "1667c9a636fa4de0b8d659fc57a59e53:child:18"
+        ],
+        "relevance": [
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": null
+    },
+    {
+      "case_id": "accept-message-subfields",
+      "category": "frozen-functional-acceptance",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.2,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "gold_overlap_ids": [
+          "1667c9a636fa4de0b8d659fc57a59e53:child:27"
+        ],
+        "relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": null
+    },
+    {
+      "case_id": "accept-unspecified-api-error",
+      "category": "frozen-functional-acceptance",
+      "status": "error",
+      "coverage": null,
+      "ranking": null,
+      "quality": null
+    },
+    {
+      "case_id": "accept-personal-study-approval",
+      "category": "frozen-functional-acceptance",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": null,
+        "full_evidence_recall": null
+      },
+      "ranking": null,
+      "quality": null
+    },
+    {
+      "case_id": "scope-compare-faqs",
+      "category": "document-scope",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": 1.0,
+        "full_evidence_recall": 1.0
+      },
+      "ranking": {
+        "recall_at_k": 1.0,
+        "precision_at_k": 0.4,
+        "hit_rate_at_k": 1,
+        "mrr_at_k": 1.0,
+        "ndcg_at_k": 1.0,
+        "gold_overlap_ids": [
+          "4e907d26256a4539beca23aca3d355f9:child:2",
+          "5108eeb1ada14e35b217c40091ab0008:child:5"
+        ],
+        "relevance": [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "k": 5
+      },
+      "quality": null
+    },
+    {
+      "case_id": "scope-ambiguous-faq",
+      "category": "document-scope",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": null,
+        "full_evidence_recall": null
+      },
+      "ranking": null,
+      "quality": null
+    },
+    {
+      "case_id": "scope-missing-file",
+      "category": "document-scope",
+      "status": "ok",
+      "coverage": {
+        "annotated_char_recall": null,
+        "full_evidence_recall": null
+      },
+      "ranking": null,
+      "quality": null
+    }
+  ],
+  "limitations": [
+    "Development/regression set; not held-out accuracy.",
+    "LLM judgments are assessments, not human ground truth; inventory misclassification and semantic errors remain possible.",
+    "In-process production streaming service, excluding app HTTP transport; no warmup, caches and host/provider load uncontrolled."
+  ]
+}

@@ -81,3 +81,20 @@ or semantic validation. The [bounded default-model verification](../evals/librar
 passes 4/5: all requested facts and factual citations are supported, but the awards
 answer still blends documents without identifying the other FAQ. No non-English
 output was observed in this five-case sample. This is not full acceptance.
+
+
+## Document selection and representation
+
+The [document-scope implementation](document-scope.md) now enforces recognized
+file restrictions before ranking and carries identity labels into budgeted source
+metadata. Explicit multi-file requests select representatives before additional
+same-file hits. The [completed comparison](../evals/library-runs/20260925-document-representation/README.md)
+shows correct General-versus-Admissions attribution and 100% annotated comparison
+evidence coverage, up from 50% before the representation correction.
+
+This fixes the observed source attribution defect, but does not establish complete
+acceptance: the comparison omits its frozen explicit General-FAQ absence point,
+and the first pass retains a stream timeout and two slow completed generations.
+One bounded recovery passes separately. Combined strict case coverage is 10/11,
+service completion 11/12 attempts. Original answers, criteria, failures and missing
+failed-request usage remain visible; no prompt/model retuning or merge followed.

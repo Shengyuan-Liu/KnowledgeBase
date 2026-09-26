@@ -93,3 +93,10 @@ matching, vector/BM25 filtering, API/streaming/history parity and browser workfl
 
 The [initial live acceptance](../evals/library-runs/20260925-document-scope/README.md)
 retains the multi-document candidate-starvation failure that motivated this correction.
+
+The [final correction report](../evals/library-runs/20260925-document-representation/README.md)
+confirms both FAQ sources and correct attribution, with full annotated comparison
+coverage. Strict acceptance still records a missing explicit contrast point,
+slow generations and one stream timeout. The [bounded recovery](../evals/library-runs/20260925-scope-timeout-recovery/README.md)
+passes that failed request separately; it does not erase first-pass reliability
+or authorize a merge.
