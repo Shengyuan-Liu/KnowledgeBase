@@ -1,7 +1,7 @@
 # v1 Merge Readiness — 2026-09-26
 
-**The current default v1 path is ready for user acceptance and a feature-specific
-merge decision.** The [single awake-host acceptance](../../evals/library-runs/20260926-comparison-awake/README.md)
+**The user accepted the current default v1 path and explicitly authorized its
+merge into `main` on 2026-09-26.** The [single awake-host acceptance](../../evals/library-runs/20260926-comparison-awake/README.md)
 passes all 11 service requests and all 11 frozen strict reviews on its first pass.
 Every required v2 answer point is present; all 26 inventoried factual claim units
 and associated citations are supported. Seven answerable questions have full
@@ -87,5 +87,8 @@ limitations. Do not add more retrieval work or repeat paid sampling to erase
 historical failures. Original 7/8, 4/5, scope failures and the separate timeout
 recovery remain intact; the new pass is its own evidence under unchanged references.
 
-All work remains on `v1`. This recommendation is **not authorization**: only the
-user's explicit feature-specific approval permits a merge into `main`.
+The user explicitly authorized merging the reviewed `v1` snapshot (`8b9bb9c`)
+into `main`. This approval covers the current work and its documented limitations;
+subsequent features require separate approval. Continue development on `v1` after
+the merge. Historical acceptance artifacts retain their original authorization
+state and are not rewritten.

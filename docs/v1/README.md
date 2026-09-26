@@ -40,8 +40,9 @@ calls coincide with host sleep; prior failed results remain intact. Backend chec
 pass (593 passed, 1 skipped). Earlier frontend 42-test and 12 distinct browser
 scenario evidence remains linked; these were not rerun for this backend correction.
 A non-fatal stream finalizer warning and wording limitations remain documented.
-The default path is recommended for user acceptance/merge review; no merge is
-authorized. Codex completed source review, not independent human review.
+The user explicitly authorized merging this reviewed default v1 snapshot into
+`main` on 2026-09-26. Future feature merges require separate approval. Codex
+completed source review, not independent human review.
 
 1. Accept the opt-in [semantic child-chunking strategy](../semantic-chunking.md),
    now implemented inside unchanged parent regions. Structural parent-child
