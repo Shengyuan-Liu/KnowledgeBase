@@ -83,12 +83,12 @@ under the same global evidence budget; contexts are never concatenated.
 | --- | --- |
 | Six total query nodes | Initial plus dependent nodes; validation rejects oversized plans |
 | `PLANNING__MAX_ROUNDS=3` | May be lowered to 1 or 2; hard maximum is 3 |
-| One planning call | Same opt-in planner; now uses `dependent-planner-v2` |
+| One planning call | Same opt-in planner; now uses `dependent-planner-v3` |
 | At most two binding calls | One per subsequent round, using `dependency-targets-v1` and the same planner model |
 | Existing per-call caps | Planner/binding calls share input/output and timeout controls |
 | Existing request deadline | Includes resolution, planning, binding, retrieval and final generation; retains the answer-time reserve |
 | Existing evidence budget | Default 4096 tokens including labels and PDF supplements, independently enforced on every repack |
-| Zero planned-provider retries | No schema repair, fallback model or additional planning loop |
+| Zero planned-provider retries | No fallback model or additional planning loop; one recorded coverage query can complete an unassigned decomposed requirement within the existing limit |
 
 The round limit does not multiply token budgets or extend the total deadline.
 Cancellation during binding prevents later queries and persistence. Already

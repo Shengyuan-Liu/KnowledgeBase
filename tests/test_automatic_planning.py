@@ -1,6 +1,7 @@
 """Bounded planner and real chat/storage integration with offline provider responses."""
 
 from contextlib import aclosing
+from pathlib import Path
 import json
 from threading import Event
 from types import SimpleNamespace
@@ -67,6 +68,7 @@ def test_real_sdk_planning_schema_limits_identity_and_usage():
     assert result.record["model"] == "resolved-planner-model"
     assert result.record["usage"]["total_tokens"] == 77
     assert result.record["billed_cost"] is None
+    assert "added_coverage_query" not in result.record
 
 
 @pytest.mark.parametrize("output,status", [
@@ -83,6 +85,43 @@ def test_invalid_or_incomplete_planning_has_no_repair_or_fallback(output, status
         PlannerClient(sdk, "model", PlanningOptions(), "cl100k_base").plan("Question", "Question", lambda: 20)
     sdk.responses.create.assert_called_once()
     assert sdk.with_options.call_args.kwargs["max_retries"] == 0
+
+
+
+def recorded_orphan_plan():
+    path = Path(__file__).resolve().parents[1] / "evals/library-runs/20260927-table-cell-context-acceptance/metrics/planner-failure-replay.json"
+    record = json.loads(path.read_text())
+    return record["original_output"]
+
+
+def test_recorded_unassigned_comparison_gets_one_auditable_scoped_query():
+    output = recorded_orphan_plan()
+    sdk = Mock()
+    sdk.with_options.return_value = sdk
+    sdk.responses.create.return_value = response(output)
+    question = 'In "background-checks.pdf", compare the Totals values for Alabama, Alaska and Arizona for November 2015.'
+    result = PlannerClient(sdk, "model", PlanningOptions(), "cl100k_base").plan(question, question, lambda: 20)
+    original = json.loads(output)
+    assert len(result.plan.queries) == 4
+    assert [q.model_dump(exclude={"file_ids"}) for q in result.plan.queries[:3]] == original["queries"]
+    assert [r.model_dump() for r in result.plan.requirements] == original["requirements"]
+    added = result.plan.queries[-1]
+    assert added.text == question and added.requirement_ids == ["r4"] and added.file_ids is None
+    assert result.record["output_text"] == output
+    assert result.record["added_coverage_query"]["query"] == added.model_dump(exclude={"file_ids"})
+    assert result.record["prompt_version"] == "dependent-planner-v3"
+    sdk.responses.create.assert_called_once()
+
+
+def test_orphan_coverage_does_not_exceed_the_existing_six_query_limit():
+    decision = json.loads(recorded_orphan_plan())
+    decision["queries"] += [{**decision["queries"][0], "query_id": f"additional-{n}"} for n in range(3)]
+    sdk = Mock()
+    sdk.with_options.return_value = sdk
+    sdk.responses.create.return_value = response(json.dumps(decision))
+    with pytest.raises(ValueError, match="address every requirement"):
+        PlannerClient(sdk, "model", PlanningOptions(), "cl100k_base").plan("Original", "Resolved", lambda: 20)
+    sdk.responses.create.assert_called_once()
 
 
 def test_input_cap_rejects_before_model_call():
@@ -165,6 +204,25 @@ def test_stream_sources_complete_and_history_agree(planned_api):
     assert sources["retrieval"] == complete["retrieval"]
     saved = client.get(f"/api/conversations/{complete['conversation_id']}").json()["messages"][-1]
     assert saved["retrieval"] == complete["retrieval"]
+
+
+def test_added_comparison_query_executes_and_survives_saved_history(planned_api):
+    client, resources, _, decisions, file_id = planned_api
+    # Replay the observed missing association against this fixture's ready file.
+    decisions[0] = json.loads(recorded_orphan_plan().replace("background-checks.pdf", "experiment.txt"))
+    question = 'In "experiment.txt", compare the Totals values for Alabama, Alaska and Arizona for November 2015.'
+    result = client.post("/api/chat/stream", json={"question": question, "request_id": "coverage-stream",
+        "retrieval_mode": "planned", "file_ids": [file_id]})
+    complete = events_from(result)[-1]
+    assert complete["event"] == "complete"
+    planning = complete["retrieval"]["planning"]
+    assert len(planning["trace"]["runs"]) == 4
+    assert planning["trace"]["allowed_file_ids"] == [file_id]
+    assert resources.embeddings.embed_query.call_count == 4
+    added = planning["planner"]["added_coverage_query"]["query"]
+    assert added["text"] == question and added["requirement_ids"] == ["r4"]
+    saved = client.get(f"/api/conversations/{complete['conversation_id']}").json()["messages"][-1]
+    assert saved["retrieval"]["planning"] == planning
 
 
 def test_followup_resolves_before_planning(planned_api):

@@ -149,7 +149,11 @@ The existing evaluation runner does not yet select this controller automatically
 3. Call `PLANNER_MODEL` once, defaulting to `ANSWER_MODEL`, using strict Responses
    API JSON schema. The configured provider/model must support
    [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
-   No compatibility fallback, repair, second planning attempt or guessed intermediate
+   For the observed decomposed-plan coverage gap, an unaddressed requirement gets
+   one additional query using the unchanged resolved question if the six-query
+   limit permits it. The original model output and added query are both recorded.
+   Unknown requirement IDs and exhausted query slots still fail validation.
+   No fallback model, second planning attempt or guessed intermediate
    facts are introduced. A direct decision searches the resolved question unchanged.
 4. Validate up to six requirements and six total initial/dependent queries. Original/resolved
    questions are set by the application; the model cannot override them or file IDs.

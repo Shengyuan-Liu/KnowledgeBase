@@ -52,13 +52,13 @@ def test_table_serialization_preserves_every_coordinate_and_canonical_blank(dens
     for expected in gold["table"]["rows"]:
         line = next(line for line in readings if f'"{expected["label"]}"' in line)
         pairs = json.loads(line.split("): ", 1)[1])
-        assert pairs == [[" > ".join(path), value] for path, value in
+        assert pairs == [[" > ".join(path), value if value is not None else {"state": "blank"}] for path, value in
                          zip(gold["table"]["header_paths"][1:], expected["values"][1:], strict=True)]
     alabama = next(line for line in readings if '"Alabama"' in line)
     assert '["Pre-Pawn > Handgun","14"]' in alabama
     assert '["Redemption > Handgun","2,179"]' in alabama
-    assert '["Rentals > Handgun",null]' in alabama
-    assert '["Rentals > Long Gun",null]' in alabama
+    assert '["Rentals > Handgun",{"state":"blank"}]' in alabama
+    assert '["Rentals > Long Gun",{"state":"blank"}]' in alabama
     assert '["Admin","0"]' in alabama
     headers = sorted((cell for cell in cells if cell[0] < label[0] and cell[3] - cell[2] < 25
                       and extraction.text[cell[4]:cell[5]].strip()), key=lambda cell: (cell[0], cell[2]))
@@ -79,7 +79,7 @@ def test_partial_cell_is_not_reported_as_a_complete_value_or_blank(dense_inputs)
     assert '["Handgun",' not in reading
     assert '["Redemption > Handgun",' not in reading
     assert '["Pre-Pawn > Handgun","14"]' in reading
-    assert 'null' not in reading
+    assert 'state' not in reading
     assert any(s.role == "row_header" and s.text == "Alabama" for s in evidence.supplements)
 
 
@@ -123,4 +123,4 @@ def test_observed_rankings_supply_target_rows_with_headers_and_page(sessions, de
     assert all(hit.chunk.text == extraction.text[hit.chunk.start_offset:hit.chunk.end_offset] for hit in packed.chunks)
     assert target.parent_id not in {hit.chunk.chunk_id for hit in packed.chunks}
     assert len(tiktoken.get_encoding("cl100k_base").encode_ordinary(context)) == packed.diagnostics.evidence_tokens <= 4096
-    assert packed.diagnostics.context_format == "source-metadata-pdf-v3"
+    assert packed.diagnostics.context_format == "source-metadata-pdf-v4"

@@ -53,7 +53,7 @@ def _table_reading(table: PdfTable, start: int, end: int) -> str:
             path = [" ".join(h.text.split()) for h in headers
                     if h.column_start <= cell.column_start and cell.column_end <= h.column_end]
             column = " > ".join(path) or f"Column {cell.column_start}:{cell.column_end}"
-            values.append([column, cell.text if cell.text else None])
+            values.append([column, cell.text if cell.text else {"state": "blank"}])
         label = " / ".join(c.text for c in labels)
         bounds = f"{min(c.start_offset for c in cells)}:{max(c.end_offset for c in cells)}"
         lines.append(f"Row {row_start}:{row_end} {json.dumps(label, ensure_ascii=False)} "

@@ -140,3 +140,9 @@ remains below acceptance: five of six requests completed; completed answers scor
 improved to 4/4, but single mode still omits both known blanks and a separate
 planned request failed on an unaddressed comparison requirement. This run has one
 Codex reviewer and no independent second review; all failures remain recorded.
+
+The [blank-cell and planner regression](../../evals/check-runs/20260927-blank-plan/README.md)
+addresses the two remaining failures: explicit blank observations and an auditable,
+bounded query for unaddressed decomposed requirements. Its offline checks pass;
+the [matched acceptance protocol](../../evals/library-runs/20260927-blank-plan-acceptance/protocol.md)
+keeps the same questions, source facts, index and scoring rules.

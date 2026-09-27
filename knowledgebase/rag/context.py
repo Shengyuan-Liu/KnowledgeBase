@@ -6,7 +6,7 @@ from collections.abc import Callable
 from knowledgebase.schemas import RetrievedChunk, StructuredChunk
 
 
-PDF_CONTEXT_FORMAT = "source-metadata-pdf-v3"
+PDF_CONTEXT_FORMAT = "source-metadata-pdf-v4"
 CONTEXT_FORMAT = "source-metadata-v1"
 LABELED_CONTEXT_FORMAT = "source-metadata-v2"
 
@@ -32,8 +32,11 @@ def build_context(chunks: list[RetrievedChunk], *,
             for table in item.pdf.tables:
                 if table.reading is not None:
                     context += (f"\nTable readings for {table.table_id} derived from source cells: "
-                                "each row lists [full column header, value]; null means an empty extracted cell, "
-                                "not zero or a missing excerpt. Only complete supplied cells are listed. "
+                                'each row lists [full column header, value]. {"state":"blank"} '
+                                "means the source cell is blank: report it as blank, not unknown, unavailable, "
+                                "or numeric zero. Legacy null markers have the same meaning. "
+                                "These markers describe cell contents, not missing excerpts. "
+                                "Only complete supplied cells are listed. "
                                 "Bounds are exclusive." + ("\n" + table.reading if table.reading else ""))
                 else:
                     # Saved evidence from earlier versions has coordinates but no reading aid.
