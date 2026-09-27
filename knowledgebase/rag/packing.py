@@ -1,4 +1,4 @@
-"""Keep admitted parent context and fill unused space with complete selected hits."""
+"""Pack parent context or complete child hits in selected relevance order."""
 
 from time import perf_counter
 
@@ -11,12 +11,13 @@ from knowledgebase.schemas import ExcludedEvidence, RetrievedChunk, RetrievedEvi
 def pack_evidence(
     selected: list[RetrievedChunk], expanded: list[RetrievedChunk], diagnostics: RetrievalDiagnostics,
 ) -> RetrievedEvidence:
-    """Pack whole parents, then retain selected children of parents that did not fit.
+    """Try each parent and its child fallback before lower-ranked evidence.
 
     Expanded regions are deduplicated and follow their best selected child's rank.
-    The second pass never evicts an admitted parent. Every trial counts the actual
-    numbered context in selected-hit order; parent and child text never coexist
-    for the same parent. Parent-first alone remains available as the control.
+    A rejected parent is tried only once; its selected children may fit separately.
+    Every trial counts the actual numbered context in selected-hit order. Parent
+    and child text never coexist for the same parent. Parent-first alone remains
+    available as the control.
     """
     started = perf_counter()
     diagnostics.context_format = (PDF_CONTEXT_FORMAT if any(c.pdf for c in selected) else
@@ -33,32 +34,29 @@ def pack_evidence(
         )
 
     packed: list[RetrievedChunk] = []
-    for region in expanded:
-        if tokens([*packed, region]) <= diagnostics.max_tokens:
-            packed.append(region)
-    admitted = {region.chunk.chunk_id for region in packed}
-    parents = {region.parent_id: region for region in packed if region.parent_id is not None}
-    retained = {region.chunk.chunk_id for region in packed if region.parent_id is None}
     parent_first = diagnostics.options.packing_strategy == "parent_first"
-    if not parent_first:
-        def plan(child_ids):
-            regions, seen = [], set()
-            for child in selected:
-                if child.parent_id in parents:
-                    if child.parent_id not in seen:
-                        regions.append(parents[child.parent_id])
-                        seen.add(child.parent_id)
-                elif child.chunk.chunk_id in child_ids:
-                    regions.append(child)
-            return regions
-
+    admitted: set[str] = set()
+    if parent_first:
+        for region in expanded:
+            if tokens([*packed, region]) <= diagnostics.max_tokens:
+                packed.append(region)
+                admitted.add(region.chunk.chunk_id)
+    else:
+        by_id = {region.chunk.chunk_id: region for region in expanded}
+        attempted: set[str] = set()
         for child in selected:
-            if child.parent_id in parents or child.chunk.chunk_id in retained:
+            identity = child.parent_id or child.chunk.chunk_id
+            if identity in admitted:
                 continue
-            trial = plan(retained | {child.chunk.chunk_id})
-            if tokens(trial) <= diagnostics.max_tokens:
-                retained.add(child.chunk.chunk_id)
-                packed = trial
+            if identity not in attempted:
+                attempted.add(identity)
+                region = by_id[identity]
+                if tokens([*packed, region]) <= diagnostics.max_tokens:
+                    packed.append(region)
+                    admitted.add(identity)
+                    continue
+            if child.parent_id is not None and tokens([*packed, child]) <= diagnostics.max_tokens:
+                packed.append(child)
 
     represented = {region.chunk.chunk_id for region in packed}
     represented.update(child_id for region in packed for child_id in region.matched_child_ids)

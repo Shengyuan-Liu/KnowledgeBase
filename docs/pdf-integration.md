@@ -5,8 +5,11 @@ decision. This connects the [PDF adapter](pdf-parsing.md) to the existing librar
 Opt-in [query planning](planned-retrieval.md) and
 [sufficiency control](evidence-sufficiency.md) are implemented. The first
 [live PDF comparison](../evals/library-runs/20260927-v2-pdf-live/README.md) verifies
-original delivery and saved-history lifecycle, but fails answer-quality gates
-because of dense-table extraction and financial evidence-packing limitations.
+original delivery and saved-history lifecycle, but fails answer-quality gates.
+Financial evidence packing has since been repaired in an
+[offline frozen-candidate comparison](../evals/check-runs/20260927-pdf-evidence-packing/README.md);
+live answers have not been re-evaluated. Dense-table extraction and assessor
+quote-selection limitations remain unresolved.
 
 ## Use
 
@@ -64,12 +67,19 @@ where possible; a row exceeding the token limit splits further. Cell row/column
 spans remain attached to supplied evidence.
 
 Before evidence packing, add separately located column headers, intersecting row
-headers, and parser-associated captions/notes. These carry their own source spans
+headers, and parser-associated captions/notes. Also retain an immediately preceding
+paragraph when it shares the table's heading path and first physical page, excluding
+running page headers/footers. This `preceding_text` supplement preserves nearby
+units such as the financial statement's `(In millions, ...)` without labeling
+the paragraph as a verified semantic unit definition. These carry their own source spans
 and physical pages; they are not inserted into the canonical body slice. All
 metadata, warnings and supplementary text count toward the actual context budget.
 The diagnostic context format is `source-metadata-pdf-v1` when PDF hits are present.
-Unassociated unit text or notes remain ordinary prose; semantic association is not
-inferred. Oversized evidence can be excluded rather than silently exceed the budget.
+Text already inside the excerpt or linked as a caption/note is not repeated as
+preceding text. Other unassociated units/notes remain ordinary prose. Oversized
+evidence can be excluded rather than silently exceed the budget. Existing extraction
+revisions and chunks do not change; no reindex is required. Historical snapshots
+keep the evidence originally supplied.
 
 ## Module Responsibilities
 

@@ -1,6 +1,6 @@
 """Locate PDF evidence and retain separately cited table context before packing."""
 
-from knowledgebase.rag.pdf_models import PdfExtraction
+from knowledgebase.rag.pdf_models import PdfBlock, PdfExtraction
 from knowledgebase.schemas import PdfEvidence, PdfSupplement, PdfTableSpan
 
 
@@ -17,11 +17,24 @@ def table_rows(extraction: PdfExtraction) -> dict[int, list[tuple[int, int]]]:
     return result
 
 
+def _preceding_table_text(extraction: PdfExtraction, index: int) -> PdfBlock | None:
+    """Keep an adjacent paragraph as context without inferring what it means."""
+    if index == 0:
+        return None
+    previous, table = extraction.blocks[index - 1:index + 1]
+    pages = {r.page_index for r in table.regions}
+    if (previous.kind == "paragraph" and previous.label not in {"page_header", "page_footer"}
+            and previous.heading_path == table.heading_path
+            and pages and {r.page_index for r in previous.regions} == {min(pages)}):
+        return previous
+    return None
+
+
 def pdf_evidence(extraction: PdfExtraction, start: int, end: int) -> PdfEvidence:
     supplements = []
     tables = []
     by_ref = {b.source_ref: b for b in extraction.blocks}
-    for block in extraction.blocks:
+    for index, block in enumerate(extraction.blocks):
         if block.table is None or block.end_offset <= start or end <= block.start_offset:
             continue
         table = block.table
@@ -50,6 +63,15 @@ def pdf_evidence(extraction: PdfExtraction, start: int, end: int) -> PdfEvidence
                         start_offset=associated.start_offset, end_offset=associated.end_offset,
                         regions=list(associated.regions),
                     ))
+        previous = _preceding_table_text(extraction, index)
+        if (previous is not None
+                and previous.source_ref not in (*table.caption_refs, *table.note_refs)
+                and not (start <= previous.start_offset and previous.end_offset <= end)):
+            supplements.append(PdfSupplement(
+                role="preceding_text", table_id=table.table_id, text=previous.text,
+                start_offset=previous.start_offset, end_offset=previous.end_offset,
+                regions=list(previous.regions),
+            ))
         tables.append(PdfTableSpan(table_id=table.table_id, cells=[
             (c.row_start, c.row_end, c.column_start, c.column_end, c.start_offset, c.end_offset)
             for c in cells

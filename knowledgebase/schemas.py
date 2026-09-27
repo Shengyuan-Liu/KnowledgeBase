@@ -26,7 +26,7 @@ class PdfWarning(BaseModel):
 
 class PdfSupplement(BaseModel):
     """Separately located source text, never spliced into a canonical chunk."""
-    role: Literal["column_header", "row_header", "caption", "note"]
+    role: Literal["column_header", "row_header", "caption", "note", "preceding_text"]
     table_id: str
     text: str
     start_offset: int

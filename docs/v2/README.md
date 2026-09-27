@@ -12,6 +12,10 @@ evidence and runs bounded gap searches through the same opt-in mode. The first
 [live PDF development comparison](../../evals/library-runs/20260927-v2-pdf-live/README.md)
 is recorded, including targeted repairs and a frozen replay. Acceptance gates
 still fail; no feature acceptance or merge is implied.
+The next [financial packing repair](../../evals/check-runs/20260927-pdf-evidence-packing/README.md)
+now retains selected sales rows with their period headers and nearby units in the
+same 4,096-token budget. Its checks are offline; live quote selection and dense-table
+fidelity remain outstanding.
 
 ## Confirmed Feature Areas
 

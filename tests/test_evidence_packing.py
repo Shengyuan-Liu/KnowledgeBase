@@ -50,10 +50,26 @@ def test_preserves_parent_and_two_whole_siblings_without_duplicate_evidence():
     assert all(s.chunk.chunk_id != 'b:parent:0' for s in new.chunks)
     assert new.diagnostics.packing_seconds >= 0
     short = pack(selected, expanded, budget - 1)
-    assert a_parent in short.chunks and flat in short.chunks
-    assert c not in short.chunks
-    assert [s.chunk_id for s in short.diagnostics.excluded] == ['b:child:1']
+    assert short.chunks == [a_parent, b, c]
+    assert [s.chunk_id for s in short.diagnostics.excluded] == ['flat']
     assert short.diagnostics.evidence_tokens <= budget - 1
+
+
+def test_high_ranked_child_is_considered_before_a_lower_ranked_parent():
+    """The live financial failure packed cash flows before selected sales rows."""
+    sales = region('sales:child:0', 'Total net sales: 94,930.', 'sales:parent:0', ['sales:child:0'])
+    sales_parent = region('sales:parent:0', sales.chunk.text + 'Other rows. ' * 200,
+                          sales.parent_id, sales.matched_child_ids)
+    cash = region('cash:child:0', 'Cash flow totals.', 'cash:parent:0', ['cash:child:0'])
+    cash_parent = region('cash:parent:0', cash.chunk.text + 'Other cash flows. ' * 20,
+                         cash.parent_id, cash.matched_child_ids)
+    budget = tokens([cash_parent])
+    assert tokens([sales, cash_parent]) > budget
+    result = pack([sales, cash], [sales_parent, cash_parent], budget)
+    assert result.chunks == [sales, cash]
+    assert result.diagnostics.excluded == []
+    assert {p.chunk_id for p in result.diagnostics.unexpanded_parents} == {sales.parent_id, cash.parent_id}
+    assert pack([sales, cash], [sales_parent, cash_parent], budget, 'parent_first').chunks == [cash_parent]
 
 
 def test_oversize_parent_keeps_complete_code_child_and_ample_budget_deduplicates():

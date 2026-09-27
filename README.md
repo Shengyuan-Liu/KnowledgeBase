@@ -190,6 +190,10 @@ evidence regression alongside the prerequisite improvement. The subsequent
 [packing comparison](evals/library-runs/20260924T004817Z-child-first/README.md)
 keeps admitted parents and uses remaining space for whole selected children; it
 also records first-delta and full-completion latency over real HTTP streams.
+The later [v2 financial packing repair](evals/check-runs/20260927-pdf-evidence-packing/README.md)
+tries child fallback before lower-ranked parents and retains adjacent PDF table
+context. Its frozen-candidate comparison measures evidence coverage offline,
+without new answer generation or paid provider calls.
 The [multi-source generation comparison](evals/library-runs/20260924T012523Z-source-attribution-v2/README.md)
 records the revised comparison prompt, improved CPT fact coverage, remaining
 source-label errors, longer generation time, and unavailable claim-level scores.

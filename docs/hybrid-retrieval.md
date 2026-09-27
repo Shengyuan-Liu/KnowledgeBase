@@ -20,8 +20,9 @@ passing tests and merging still requires explicit approval. Optional
    the resulting order; with reranking disabled, select directly from RRF.
 4. Expand parents, deduplicate by the highest-ranked selected child, and pack
    whole regions within the exact numbered `EVIDENCE_MAX_TOKENS` budget. The default
-   `parent_then_child` policy fills unused space with complete selected children
-   of omitted parents, while retaining all admitted parents. See
+   `parent_then_child` policy tries a parent's whole child immediately when the
+   parent does not fit, before considering lower-ranked evidence. Admitted parents
+   represent all their selected children. See
    [parent-child retrieval](parent-child-retrieval.md). Deduplication and budget
    exclusion can reduce the source count. No additional children are selected to
    fill unused slots, and source text is never truncated by retrieval.
