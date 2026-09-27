@@ -1,0 +1,256 @@
+{
+  "reviewer": "Codex model reviewer /root/financial_protocol; requested by root after its independent raw-reference inspection",
+  "reviewed_at": "2026-09-27T17:56:11.283373+00:00",
+  "code_version": "8f24ba3a87c270f8c9fa11c727ac7467db9c0915",
+  "review_scope": "Offline semantic audit of the three raw planned-mode evidence-assessment outputs, separately from the already frozen final-answer review. No model calls or historical rescoring.",
+  "source_artifact": "server-observations.jsonl",
+  "source_artifact_sha256": "9c00bb0397180ebcc85a22c601b7313301dfcfe46ab3851d14e5e031d3b8e07f",
+  "final_answer_review_artifact": "reviewed-cases.json",
+  "final_answer_review_sha256": "a443abd30c3097c1aa5668344a3c3c0e954a31c032f2bdc2534bdca60071835e",
+  "method": "Inspect each stated requirement against only its selected passage texts, using their actual source/table/location provenance to associate a selected header with its column. Do not borrow the text of unselected passages. Compare this narrow reference bundle with the full context actually supplied to the assessor and answer generator. Report descriptive judgments, not newly invented quality scores.",
+  "observations": [
+    {
+      "request": "apple-sales-planned",
+      "call_id": "eb55acf0140b41bb98804410f8021604",
+      "input_line": 17,
+      "output_line": 18,
+      "file_name": "apple-fy24.pdf",
+      "source_id": 1,
+      "physical_page": 1,
+      "table_id": "#/tables/0",
+      "requirements": [
+        {
+          "requirement_id": "req1",
+          "description": "Find total net sales for the three months ended September 28, 2024, and state the units.",
+          "assessor_status": "supported",
+          "selected_passages": [
+            {
+              "evidence_id": "p6",
+              "text": "Total net sales (1)\t94,930\t89,498\t391,035\t383,285"
+            },
+            {
+              "evidence_id": "p28",
+              "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)"
+            }
+          ],
+          "reference_bundle_judgment": "Does not independently establish the requested period-specific amount.",
+          "selected_bundle_contains": [
+            "total net sales row with four amounts",
+            "units in millions"
+          ],
+          "missing_from_selected_bundle": [
+            {
+              "evidence_id": "p1",
+              "text": "Three Months Ended\tTwelve Months Ended",
+              "role": "three-month versus twelve-month column group names"
+            },
+            {
+              "evidence_id": "p2",
+              "text": "September 28, 2024\tSeptember 30, 2023\tSeptember 28, 2024\tSeptember 30, 2023",
+              "role": "2024 versus 2023 date columns"
+            }
+          ],
+          "observation": "Both req1 and req2 choose exactly p6 and p28. These exact passages establish amounts and units but do not identify which amount belongs to three versus twelve months or to September 28, 2024. Those required distinctions are visible in unselected p1 and p2. The full-context supported verdict is plausible, but this selected bundle is not a self-contained record of its support."
+        },
+        {
+          "requirement_id": "req2",
+          "description": "Find total net sales for the twelve months ended September 28, 2024, and state the units.",
+          "assessor_status": "supported",
+          "selected_passages": [
+            {
+              "evidence_id": "p6",
+              "text": "Total net sales (1)\t94,930\t89,498\t391,035\t383,285"
+            },
+            {
+              "evidence_id": "p28",
+              "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)"
+            }
+          ],
+          "reference_bundle_judgment": "Does not independently establish the requested period-specific amount.",
+          "selected_bundle_contains": [
+            "total net sales row with four amounts",
+            "units in millions"
+          ],
+          "missing_from_selected_bundle": [
+            {
+              "evidence_id": "p1",
+              "text": "Three Months Ended\tTwelve Months Ended",
+              "role": "three-month versus twelve-month column group names"
+            },
+            {
+              "evidence_id": "p2",
+              "text": "September 28, 2024\tSeptember 30, 2023\tSeptember 28, 2024\tSeptember 30, 2023",
+              "role": "2024 versus 2023 date columns"
+            }
+          ],
+          "observation": "Both req1 and req2 choose exactly p6 and p28. These exact passages establish amounts and units but do not identify which amount belongs to three versus twelve months or to September 28, 2024. Those required distinctions are visible in unselected p1 and p2. The full-context supported verdict is plausible, but this selected bundle is not a self-contained record of its support."
+        }
+      ],
+      "full_context_has_required_period_date_values_and_units": true,
+      "final_answer_source_has_required_period_date_values_and_units": true
+    },
+    {
+      "request": "apple-income-planned",
+      "call_id": "5d01cd78175e463d98e7e8574c36310c",
+      "input_line": 28,
+      "output_line": 29,
+      "file_name": "apple-fy24.pdf",
+      "source_id": 1,
+      "physical_page": 1,
+      "table_id": "#/tables/0",
+      "requirements": [
+        {
+          "requirement_id": "answer",
+          "description": "In \"apple-fy24.pdf\", what was net income for the three and twelve months ended September 28, 2024? Include units.",
+          "assessor_status": "supported",
+          "selected_passages": [
+            {
+              "evidence_id": "p20",
+              "text": "Net income\t$ 14,736\t$ 22,956\t$ 93,736\t$ 96,995"
+            },
+            {
+              "evidence_id": "p1",
+              "text": "Three Months Ended\tTwelve Months Ended"
+            },
+            {
+              "evidence_id": "p2",
+              "text": "September 28, 2024\tSeptember 30, 2023\tSeptember 28, 2024\tSeptember 30, 2023"
+            },
+            {
+              "evidence_id": "p28",
+              "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)"
+            }
+          ],
+          "reference_bundle_judgment": "Contains the required income row, both period groups, date row and applicable units.",
+          "selected_bundle_contains": [
+            "net income row",
+            "three-month and twelve-month column groups",
+            "2024 and 2023 date columns",
+            "units in millions"
+          ],
+          "missing_from_selected_bundle": [],
+          "observation": "p20 supplies the income values; p1 and p2 bind the 2024 values to the correct periods; p28 supplies the same-table units. Located table metadata retains the column associations. This selected bundle preserves the semantic dimensions required by this question."
+        }
+      ],
+      "full_context_has_required_period_date_values_and_units": true,
+      "final_answer_source_has_required_period_date_values_and_units": true
+    },
+    {
+      "request": "apparent-conflict-planned",
+      "call_id": "1bceadc712a1424d983025001c6f6459",
+      "input_line": 57,
+      "output_line": 58,
+      "file_name": "apple-fy24.pdf",
+      "source_id": 1,
+      "physical_page": 1,
+      "table_id": "#/tables/0",
+      "requirements": [
+        {
+          "requirement_id": "r1",
+          "description": "Find the total net sales figure of 94,930 in \"apple-fy24.pdf\" and identify its reporting period.",
+          "assessor_status": "supported",
+          "selected_passages": [
+            {
+              "evidence_id": "p6",
+              "text": "Total net sales\t$ 94,930\t$ 89,498\t$ 391,035\t$ 383,285"
+            },
+            {
+              "evidence_id": "p13",
+              "text": "Total net sales\t$ 94,930\t$ 89,498\t$ 391,035\t$ 383,285"
+            },
+            {
+              "evidence_id": "p14",
+              "text": "Three Months Ended"
+            },
+            {
+              "evidence_id": "p16",
+              "text": "September 28, 2024"
+            }
+          ],
+          "reference_bundle_judgment": "Contains the requested period distinction when read with the selected passages location and table-column provenance.",
+          "selected_bundle_contains": [
+            "two repeated net sales total rows",
+            "the relevant period header or both period headers",
+            "the corresponding September 28, 2024 date header or both located date headers"
+          ],
+          "missing_from_selected_bundle": [],
+          "observation": "p6 and p13 are equivalent total-net-sales rows repeated under segment/category breakdowns in the same table, not conflicting facts. Selected period and date headers have the table-column positions needed to bind each amount. The question asks for the period distinction; selected units are not required for that distinction. Units used in the final answer remain available in unselected p20 within the full cited source."
+        },
+        {
+          "requirement_id": "r2",
+          "description": "Find the total net sales figure of 391,035 in \"apple-fy24.pdf\" and identify its reporting period.",
+          "assessor_status": "supported",
+          "selected_passages": [
+            {
+              "evidence_id": "p6",
+              "text": "Total net sales\t$ 94,930\t$ 89,498\t$ 391,035\t$ 383,285"
+            },
+            {
+              "evidence_id": "p13",
+              "text": "Total net sales\t$ 94,930\t$ 89,498\t$ 391,035\t$ 383,285"
+            },
+            {
+              "evidence_id": "p15",
+              "text": "Twelve Months Ended"
+            },
+            {
+              "evidence_id": "p18",
+              "text": "September 28, 2024"
+            }
+          ],
+          "reference_bundle_judgment": "Contains the requested period distinction when read with the selected passages location and table-column provenance.",
+          "selected_bundle_contains": [
+            "two repeated net sales total rows",
+            "the relevant period header or both period headers",
+            "the corresponding September 28, 2024 date header or both located date headers"
+          ],
+          "missing_from_selected_bundle": [],
+          "observation": "p6 and p13 are equivalent total-net-sales rows repeated under segment/category breakdowns in the same table, not conflicting facts. Selected period and date headers have the table-column positions needed to bind each amount. The question asks for the period distinction; selected units are not required for that distinction. Units used in the final answer remain available in unselected p20 within the full cited source."
+        },
+        {
+          "requirement_id": "r3",
+          "description": "Determine whether the figures 94,930 and 391,035 represent the same or different periods, and if they are contradictory.",
+          "assessor_status": "supported",
+          "selected_passages": [
+            {
+              "evidence_id": "p6",
+              "text": "Total net sales\t$ 94,930\t$ 89,498\t$ 391,035\t$ 383,285"
+            },
+            {
+              "evidence_id": "p13",
+              "text": "Total net sales\t$ 94,930\t$ 89,498\t$ 391,035\t$ 383,285"
+            },
+            {
+              "evidence_id": "p14",
+              "text": "Three Months Ended"
+            },
+            {
+              "evidence_id": "p15",
+              "text": "Twelve Months Ended"
+            },
+            {
+              "evidence_id": "p16",
+              "text": "September 28, 2024"
+            },
+            {
+              "evidence_id": "p18",
+              "text": "September 28, 2024"
+            }
+          ],
+          "reference_bundle_judgment": "Contains the requested period distinction when read with the selected passages location and table-column provenance.",
+          "selected_bundle_contains": [
+            "two repeated net sales total rows",
+            "the relevant period header or both period headers",
+            "the corresponding September 28, 2024 date header or both located date headers"
+          ],
+          "missing_from_selected_bundle": [],
+          "observation": "p6 and p13 are equivalent total-net-sales rows repeated under segment/category breakdowns in the same table, not conflicting facts. Selected period and date headers have the table-column positions needed to bind each amount. The question asks for the period distinction; selected units are not required for that distinction. Units used in the final answer remain available in unselected p20 within the full cited source."
+        }
+      ],
+      "full_context_has_required_period_date_values_and_units": true,
+      "final_answer_source_has_required_period_date_values_and_units": true
+    }
+  ],
+  "conclusion": "The selected-ID mechanism prevents fabricated quote text in this run, but exact valid IDs do not guarantee that each selected reference bundle contains all semantic qualifiers. Apple sales req1 and req2 both omit available period/date headers. This is an observed auditability limitation of assessor reference selection, not an observed wrong final answer: full page-1 source context and final cited source retain the required headers and units.",
+  "metric_effect": "No final-answer correctness, faithfulness, supplied-evidence coverage or citation scores are changed. The planned-income first-bullet inline-citation gap remains independently recorded in reviewed-cases.json. No new aggregate assessor score is assigned."
+}

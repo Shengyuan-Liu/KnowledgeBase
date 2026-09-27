@@ -198,7 +198,10 @@ context. Its frozen-candidate comparison measures evidence coverage offline,
 without new answer generation or paid provider calls.
 The [assessor passage repair](evals/check-runs/20260927-assessment-passages/README.md)
 replaces free-form quote copying with source passage selection, with frozen offline
-contract checks and unchanged answer evidence. Its live quality remains unverified.
+contract checks and unchanged answer evidence. The subsequent
+[financial live replay](evals/library-runs/20260927-financial-acceptance/README.md)
+completes six targeted requests with correct requested facts, while retaining one
+planned-answer inline-citation gap. This does not establish overall v2 acceptance.
 The [multi-source generation comparison](evals/library-runs/20260924T012523Z-source-attribution-v2/README.md)
 records the revised comparison prompt, improved CPT fact coverage, remaining
 source-label errors, longer generation time, and unavailable claim-level scores.

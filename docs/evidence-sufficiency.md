@@ -3,8 +3,11 @@
 Status: v2 stage 4 implemented, offline-tested and development-evaluated with
 real PDFs. The [live comparison](../evals/library-runs/20260927-v2-pdf-live/README.md)
 does **not** pass acceptance: that repaired planned mode completed 15/16 turns.
-Financial packing and assessor quote selection have since received offline
-repairs; their live effect remains unverified. **Plan complex questions**
+Financial packing and assessor quote selection have since received repairs and a
+[six-request financial replay](../evals/library-runs/20260927-financial-acceptance/README.md).
+All six requests complete with correct requested facts, but one planned income
+bullet still lacks an inline citation, so the scoped citation gate fails.
+**Plan complex questions**
 and API/CLI `planned` mode now assess each required point after packing evidence,
 then search for remaining gaps within the same request limits. Ordinary `single`
 mode remains available. Live quality, latency and token usage are recorded;
@@ -89,7 +92,9 @@ source-derived targets and selects passage IDs instead of generating free-form
 quotes. Dependency target binding remains on its existing separate contract.
 The [offline passage comparison](../evals/check-runs/20260927-assessment-passages/README.md)
 retains the prior live quote failure and checks the new contract on frozen inputs.
-Hand-authored passage selections do not establish live model accuracy.
+Hand-authored passage selections do not establish live model accuracy. The later
+financial replay records real ID selections and source-supported requested facts
+on three development questions; it does not establish general assessor accuracy.
 The existing request deadline includes assessment and
 supplementary retrieval; limits do not restart between rounds. An empty context
 gets a deterministic all-missing assessment. A refresh with no eligible new query
@@ -145,7 +150,8 @@ retains failed attempts, a targeted repair, same-question replay, reviewed answe
 and citations, separate streaming/completion timings and actual provider usage.
 It exposes false support, incorrect abstention and unnecessary supplementary work.
 It does not establish genuine-conflict accuracy, a held-out quality gain or a
-production latency target. The later financial packing and passage-selection
-repairs require live acceptance before claiming an answer-quality improvement.
-Dense-table omissions remain unresolved. OCR, visual figure interpretation and formula
+production latency target. The later financial repair replay recovers the missing
+sales evidence and completes the formerly failing income request, while retaining
+an unresolved inline-citation coverage gap. Dense-table omissions remain unresolved.
+OCR, visual figure interpretation and formula
 understanding remain outside v2; existing PDF extraction fidelity limits remain.

@@ -10,7 +10,9 @@ Financial evidence packing has since been repaired in an
 [offline frozen-candidate comparison](../evals/check-runs/20260927-pdf-evidence-packing/README.md);
 the assessor now selects source passage IDs in a separate
 [offline contract repair](../evals/check-runs/20260927-assessment-passages/README.md).
-Live answers have not been re-evaluated. Dense-table extraction remains unresolved.
+The subsequent [financial live replay](../evals/library-runs/20260927-financial-acceptance/README.md)
+completes all six targeted requests with correct requested facts and one remaining
+inline-citation gap. Dense-table extraction and broader v2 acceptance remain unresolved.
 
 ## Use
 

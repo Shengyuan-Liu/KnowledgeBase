@@ -1,0 +1,1558 @@
+{
+  "reviewer": "Codex model reviewer /root/financial_protocol; independently reviewed by root Codex model; no human or paid judge",
+  "reviewed_at": "2026-09-27T17:53:57.482736+00:00",
+  "code_version": "8f24ba3a87c270f8c9fa11c727ac7467db9c0915",
+  "rubric": "protocol.md; scalar values 0 / 0.5 / 1. Correctness and completeness are frozen requested-point coverage, including failed cases as zero; contextual details not requested are not required. Citation and faithfulness units are factual claim groups (paragraph/bullet), not token counts. Missing-information claims are scored separately. Compound claim groups receive partial support when a material qualifier is unsupported. Citation support pools the cited passages for one claim; citation coverage requires a supporting inline citation on that claim group. Claim-free answers have no citation/faithfulness denominator; they still affect correctness, abstention and reliability.",
+  "rubric_source": "../20260927-v2-pdf-live/protocol.md and ../20260927-v2-pdf-live/reviewed-cases.json; no historical rescoring",
+  "review_scope": "Six original financial case/arm answers. Original page 1 image was visually reviewed; every answer and actual supplied source body, table context, page region and supplement was inspected. Streamed deltas, final answer and saved answer were checked for identity. Provider/schema success is not used as semantic correctness.",
+  "original_page_artifact": "../20260927-v2-pdf-live/source-review/apple-fy24-1.png",
+  "original_page_sha256": "f8c1b247a6c06dd34a3cc471dc397c69678496b23707697c6f517eaed0576cae",
+  "facts": {
+    "apple_sales_q": {
+      "file": "apple-fy24.pdf",
+      "physical_pages": [
+        1
+      ],
+      "expected": "Three months ended September 28, 2024 total net sales are 94,930 million dollars.",
+      "anchors": [
+        "Total net sales",
+        "94,930"
+      ]
+    },
+    "apple_sales_y": {
+      "file": "apple-fy24.pdf",
+      "physical_pages": [
+        1
+      ],
+      "expected": "Twelve months ended September 28, 2024 total net sales are 391,035 million dollars.",
+      "anchors": [
+        "Total net sales",
+        "391,035"
+      ]
+    },
+    "apple_units": {
+      "file": "apple-fy24.pdf",
+      "physical_pages": [
+        1
+      ],
+      "expected": "Sales and income figures are in millions; share counts and per-share amounts have exceptions.",
+      "anchors": [
+        "In millions"
+      ]
+    },
+    "apple_income_q": {
+      "file": "apple-fy24.pdf",
+      "physical_pages": [
+        1
+      ],
+      "expected": "Three months ended September 28, 2024 net income is 14,736 million dollars.",
+      "anchors": [
+        "Net income",
+        "14,736"
+      ]
+    },
+    "apple_income_y": {
+      "file": "apple-fy24.pdf",
+      "physical_pages": [
+        1
+      ],
+      "expected": "Twelve months ended September 28, 2024 net income is 93,736 million dollars.",
+      "anchors": [
+        "Net income",
+        "93,736"
+      ]
+    }
+  },
+  "grouping_decisions": [
+    "Claim units remain factual paragraphs or bullets, not sentences or tokens. A trailing citation covers its own paragraph; a citation in a later bullet does not cover an earlier bullet.",
+    "The single apparent-conflict introductory framing repeats its scored final conclusion and is retained separately, excluded from the denominator exactly as in the historical review. Its absence of an inline citation is visible and does not silently change historical denominators.",
+    "Quarter/full-year and fiscal-Q4 wording is accepted as a reasonable inference from the same-ending three- and twelve-month financial periods. These are not verbatim source labels; no new calendar-day dates are inferred.",
+    "94.93 billion and rounded 391.04 billion are correct arithmetic conversions of 94,930 and 391,035 million. Extra conversions do not create additional requested gold points."
+  ],
+  "baseline_comparison": {
+    "artifact": "../20260927-v2-pdf-live/reviewed-cases.json",
+    "pass_name": "repair",
+    "rows_selected": [
+      [
+        "apple-sales",
+        "single"
+      ],
+      [
+        "apple-sales",
+        "planned"
+      ],
+      [
+        "apple-income",
+        "single"
+      ],
+      [
+        "apple-income",
+        "planned"
+      ],
+      [
+        "apparent-conflict",
+        "single"
+      ],
+      [
+        "apparent-conflict",
+        "planned"
+      ]
+    ],
+    "historical_scores_preserved": true,
+    "clarifications": [
+      "Historical apple-sales single shares a generic sales-source note with planned, but its actual supplied evidence lacks the requested sales values and the answer abstains. Its zero point/evidence scores are retained; the shared note must not be read as evidence that the single answer had sales support.",
+      "Historical income single was supported by page 4 GAAP reconciliation, not the annotated page 1 literal anchor. Its semantic evidence score remains 1. The current source is page 1; literal anchor improvement does not alone establish answer improvement.",
+      "Historical apparent-conflict single was factually correct against the original page but cited income reconciliation that lacked sales figures. Those zero context/citation scores remain distinct from reference correctness 1.",
+      "Historical planned-income error remains in correctness/completeness denominators as zero; no answer claims means it has no faithfulness/citation claim denominator."
+    ]
+  },
+  "rows": [
+    {
+      "pass_name": "financial_acceptance",
+      "case_id": "apple-sales",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "apple-sales-single.json",
+      "source_artifact_sha256": "c7b91c3b21389dc783080c0a27e81c35428e1e75aeefd08268234128709a2f86",
+      "points": [
+        {
+          "fact_id": "apple_sales_q",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Source 1 is page 1 statement-of-operations child 2. The Total net sales row reports 94,930 and 391,035 under the correct three- and twelve-month September 28, 2024 columns. Its exact same-table preceding-text supplement explicitly supplies millions."
+        },
+        {
+          "fact_id": "apple_sales_y",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Source 1 is page 1 statement-of-operations child 2. The Total net sales row reports 94,930 and 391,035 under the correct three- and twelve-month September 28, 2024 columns. Its exact same-table preceding-text supplement explicitly supplies millions."
+        },
+        {
+          "fact_id": "apple_units",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Source 1 is page 1 statement-of-operations child 2. The Total net sales row reports 94,930 and 391,035 under the correct three- and twelve-month September 28, 2024 columns. Its exact same-table preceding-text supplement explicitly supplies millions."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "The total net sales for the three months ended September 28, 2024, were $94,930 million (dollars in millions) [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "apple-sales-single.json#answer.sources",
+          "source_provenance": [
+            {
+              "source_id": 1,
+              "file_name": "apple-fy24.pdf",
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+              "physical_pages": [
+                1
+              ],
+              "start_offset": 170,
+              "end_offset": 1334,
+              "table_ids": [
+                "#/tables/0"
+              ],
+              "supplements": [
+                {
+                  "role": "preceding_text",
+                  "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+                  "start_offset": 73,
+                  "end_offset": 168,
+                  "physical_pages": [
+                    1
+                  ]
+                }
+              ]
+            }
+          ],
+          "available_supporting_source_ids": [
+            1
+          ],
+          "note": "Source 1 is page 1 statement-of-operations child 2. The Total net sales row reports 94,930 and 391,035 under the correct three- and twelve-month September 28, 2024 columns. Its exact same-table preceding-text supplement explicitly supplies millions."
+        },
+        {
+          "text": "The total net sales for the twelve months ended September 28, 2024, were $391,035 million (dollars in millions) [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "apple-sales-single.json#answer.sources",
+          "source_provenance": [
+            {
+              "source_id": 1,
+              "file_name": "apple-fy24.pdf",
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+              "physical_pages": [
+                1
+              ],
+              "start_offset": 170,
+              "end_offset": 1334,
+              "table_ids": [
+                "#/tables/0"
+              ],
+              "supplements": [
+                {
+                  "role": "preceding_text",
+                  "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+                  "start_offset": 73,
+                  "end_offset": 168,
+                  "physical_pages": [
+                    1
+                  ]
+                }
+              ]
+            }
+          ],
+          "available_supporting_source_ids": [
+            1
+          ],
+          "note": "Source 1 is page 1 statement-of-operations child 2. The Total net sales row reports 94,930 and 391,035 under the correct three- and twelve-month September 28, 2024 columns. Its exact same-table preceding-text supplement explicitly supplies millions."
+        }
+      ],
+      "excluded_repeated_claim_groups": [],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Source 1 is page 1 statement-of-operations child 2. The Total net sales row reports 94,930 and 391,035 under the correct three- and twelve-month September 28, 2024 columns. Its exact same-table preceding-text supplement explicitly supplies millions.",
+      "streamed_answer_matches_final": true,
+      "saved_answer_matches_final": true,
+      "history_matches": true,
+      "source_provenance": {
+        "source_id": 1,
+        "file_name": "apple-fy24.pdf",
+        "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+        "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "physical_pages": [
+          1
+        ],
+        "start_offset": 170,
+        "end_offset": 1334,
+        "table_ids": [
+          "#/tables/0"
+        ],
+        "supplements": [
+          {
+            "role": "preceding_text",
+            "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+            "start_offset": 73,
+            "end_offset": 168,
+            "physical_pages": [
+              1
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pass_name": "financial_acceptance",
+      "case_id": "apple-sales",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "apple-sales-planned.json",
+      "source_artifact_sha256": "7326f17fdb76399c478853c2f008084769c31ad8630412e1d089b106149a1768",
+      "points": [
+        {
+          "fact_id": "apple_sales_q",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Source 1 is page 1 statement-of-operations child 2. The Total net sales row reports 94,930 and 391,035 under the correct three- and twelve-month September 28, 2024 columns. Its exact same-table preceding-text supplement explicitly supplies millions."
+        },
+        {
+          "fact_id": "apple_sales_y",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Source 1 is page 1 statement-of-operations child 2. The Total net sales row reports 94,930 and 391,035 under the correct three- and twelve-month September 28, 2024 columns. Its exact same-table preceding-text supplement explicitly supplies millions."
+        },
+        {
+          "fact_id": "apple_units",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Source 1 is page 1 statement-of-operations child 2. The Total net sales row reports 94,930 and 391,035 under the correct three- and twelve-month September 28, 2024 columns. Its exact same-table preceding-text supplement explicitly supplies millions."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "For the three months ended September 28, 2024, Apple's total net sales were $94,930 million (or $94.93 billion) [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "apple-sales-planned.json#answer.sources",
+          "source_provenance": [
+            {
+              "source_id": 1,
+              "file_name": "apple-fy24.pdf",
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+              "physical_pages": [
+                1
+              ],
+              "start_offset": 170,
+              "end_offset": 1334,
+              "table_ids": [
+                "#/tables/0"
+              ],
+              "supplements": [
+                {
+                  "role": "preceding_text",
+                  "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+                  "start_offset": 73,
+                  "end_offset": 168,
+                  "physical_pages": [
+                    1
+                  ]
+                }
+              ]
+            }
+          ],
+          "available_supporting_source_ids": [
+            1
+          ],
+          "note": "Source 1 is page 1 statement-of-operations child 2. The Total net sales row reports 94,930 and 391,035 under the correct three- and twelve-month September 28, 2024 columns. Its exact same-table preceding-text supplement explicitly supplies millions. The billion-dollar equivalent is a correct arithmetic conversion (391.04 is rounded to two decimals)."
+        },
+        {
+          "text": "For the twelve months ended September 28, 2024, Apple's total net sales were $391,035 million (or $391.04 billion) [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "apple-sales-planned.json#answer.sources",
+          "source_provenance": [
+            {
+              "source_id": 1,
+              "file_name": "apple-fy24.pdf",
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+              "physical_pages": [
+                1
+              ],
+              "start_offset": 170,
+              "end_offset": 1334,
+              "table_ids": [
+                "#/tables/0"
+              ],
+              "supplements": [
+                {
+                  "role": "preceding_text",
+                  "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+                  "start_offset": 73,
+                  "end_offset": 168,
+                  "physical_pages": [
+                    1
+                  ]
+                }
+              ]
+            }
+          ],
+          "available_supporting_source_ids": [
+            1
+          ],
+          "note": "Source 1 is page 1 statement-of-operations child 2. The Total net sales row reports 94,930 and 391,035 under the correct three- and twelve-month September 28, 2024 columns. Its exact same-table preceding-text supplement explicitly supplies millions. The billion-dollar equivalent is a correct arithmetic conversion (391.04 is rounded to two decimals)."
+        },
+        {
+          "text": "The units are millions, as stated in the source [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "apple-sales-planned.json#answer.sources",
+          "source_provenance": [
+            {
+              "source_id": 1,
+              "file_name": "apple-fy24.pdf",
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+              "physical_pages": [
+                1
+              ],
+              "start_offset": 170,
+              "end_offset": 1334,
+              "table_ids": [
+                "#/tables/0"
+              ],
+              "supplements": [
+                {
+                  "role": "preceding_text",
+                  "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+                  "start_offset": 73,
+                  "end_offset": 168,
+                  "physical_pages": [
+                    1
+                  ]
+                }
+              ]
+            }
+          ],
+          "available_supporting_source_ids": [
+            1
+          ],
+          "note": "Source 1 is page 1 statement-of-operations child 2. The Total net sales row reports 94,930 and 391,035 under the correct three- and twelve-month September 28, 2024 columns. Its exact same-table preceding-text supplement explicitly supplies millions."
+        }
+      ],
+      "excluded_repeated_claim_groups": [],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Source 1 is page 1 statement-of-operations child 2. The Total net sales row reports 94,930 and 391,035 under the correct three- and twelve-month September 28, 2024 columns. Its exact same-table preceding-text supplement explicitly supplies millions.",
+      "streamed_answer_matches_final": true,
+      "saved_answer_matches_final": true,
+      "history_matches": true,
+      "source_provenance": {
+        "source_id": 1,
+        "file_name": "apple-fy24.pdf",
+        "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+        "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "physical_pages": [
+          1
+        ],
+        "start_offset": 170,
+        "end_offset": 1334,
+        "table_ids": [
+          "#/tables/0"
+        ],
+        "supplements": [
+          {
+            "role": "preceding_text",
+            "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+            "start_offset": 73,
+            "end_offset": 168,
+            "physical_pages": [
+              1
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pass_name": "financial_acceptance",
+      "case_id": "apple-income",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "apple-income-single.json",
+      "source_artifact_sha256": "5ea164ac92d1c396f436e99345a14043b0445bcae0764caba1d44c63e7a67557",
+      "points": [
+        {
+          "fact_id": "apple_income_q",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Source 1 is page 1 statement-of-operations child 2. Its Net income row reports 14,736 and 93,736 under the correct three- and twelve-month September 28, 2024 columns, and its preceding-text supplement states millions. These are reported income values, not the larger adjusted non-GAAP amounts."
+        },
+        {
+          "fact_id": "apple_income_y",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Source 1 is page 1 statement-of-operations child 2. Its Net income row reports 14,736 and 93,736 under the correct three- and twelve-month September 28, 2024 columns, and its preceding-text supplement states millions. These are reported income values, not the larger adjusted non-GAAP amounts."
+        },
+        {
+          "fact_id": "apple_units",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Source 1 is page 1 statement-of-operations child 2. Its Net income row reports 14,736 and 93,736 under the correct three- and twelve-month September 28, 2024 columns, and its preceding-text supplement states millions. These are reported income values, not the larger adjusted non-GAAP amounts."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "For the three months ended September 28, 2024, Apple’s net income was $14,736 million. For the twelve months ended September 28, 2024, Apple’s net income was $93,736 million [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "apple-income-single.json#answer.sources",
+          "source_provenance": [
+            {
+              "source_id": 1,
+              "file_name": "apple-fy24.pdf",
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+              "physical_pages": [
+                1
+              ],
+              "start_offset": 170,
+              "end_offset": 1334,
+              "table_ids": [
+                "#/tables/0"
+              ],
+              "supplements": [
+                {
+                  "role": "preceding_text",
+                  "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+                  "start_offset": 73,
+                  "end_offset": 168,
+                  "physical_pages": [
+                    1
+                  ]
+                }
+              ]
+            }
+          ],
+          "available_supporting_source_ids": [
+            1
+          ],
+          "note": "Source 1 is page 1 statement-of-operations child 2. Its Net income row reports 14,736 and 93,736 under the correct three- and twelve-month September 28, 2024 columns, and its preceding-text supplement states millions. These are reported income values, not the larger adjusted non-GAAP amounts. Both amounts form a single paragraph whose ending [1] supports that paragraph."
+        }
+      ],
+      "excluded_repeated_claim_groups": [],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Source 1 is page 1 statement-of-operations child 2. Its Net income row reports 14,736 and 93,736 under the correct three- and twelve-month September 28, 2024 columns, and its preceding-text supplement states millions. These are reported income values, not the larger adjusted non-GAAP amounts.",
+      "streamed_answer_matches_final": true,
+      "saved_answer_matches_final": true,
+      "history_matches": true,
+      "source_provenance": {
+        "source_id": 1,
+        "file_name": "apple-fy24.pdf",
+        "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+        "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "physical_pages": [
+          1
+        ],
+        "start_offset": 170,
+        "end_offset": 1334,
+        "table_ids": [
+          "#/tables/0"
+        ],
+        "supplements": [
+          {
+            "role": "preceding_text",
+            "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+            "start_offset": 73,
+            "end_offset": 168,
+            "physical_pages": [
+              1
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pass_name": "financial_acceptance",
+      "case_id": "apple-income",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "apple-income-planned.json",
+      "source_artifact_sha256": "3500890d751820178bb622d2d2d301ec281f0d6b0fa29e49ec442ce89e83595d",
+      "points": [
+        {
+          "fact_id": "apple_income_q",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Source 1 is page 1 statement-of-operations child 2. Its Net income row reports 14,736 and 93,736 under the correct three- and twelve-month September 28, 2024 columns, and its preceding-text supplement states millions. These are reported income values, not the larger adjusted non-GAAP amounts."
+        },
+        {
+          "fact_id": "apple_income_y",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Source 1 is page 1 statement-of-operations child 2. Its Net income row reports 14,736 and 93,736 under the correct three- and twelve-month September 28, 2024 columns, and its preceding-text supplement states millions. These are reported income values, not the larger adjusted non-GAAP amounts."
+        },
+        {
+          "fact_id": "apple_units",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Source 1 is page 1 statement-of-operations child 2. Its Net income row reports 14,736 and 93,736 under the correct three- and twelve-month September 28, 2024 columns, and its preceding-text supplement states millions. These are reported income values, not the larger adjusted non-GAAP amounts."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "Net income for the three months ended September 28, 2024, was $14,736 million.",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [],
+          "citation_support": null,
+          "citation_coverage": 0,
+          "supporting_evidence_artifact": "apple-income-planned.json#answer.sources",
+          "source_provenance": [],
+          "available_supporting_source_ids": [
+            1
+          ],
+          "note": "Source 1 is page 1 statement-of-operations child 2. Its Net income row reports 14,736 and 93,736 under the correct three- and twelve-month September 28, 2024 columns, and its preceding-text supplement states millions. These are reported income values, not the larger adjusted non-GAAP amounts. The first bullet has no inline citation. A citation on the second bullet does not cover it under the frozen per-bullet rule; context support remains full."
+        },
+        {
+          "text": "Net income for the twelve months ended September 28, 2024, was $93,736 million [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "apple-income-planned.json#answer.sources",
+          "source_provenance": [
+            {
+              "source_id": 1,
+              "file_name": "apple-fy24.pdf",
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+              "physical_pages": [
+                1
+              ],
+              "start_offset": 170,
+              "end_offset": 1334,
+              "table_ids": [
+                "#/tables/0"
+              ],
+              "supplements": [
+                {
+                  "role": "preceding_text",
+                  "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+                  "start_offset": 73,
+                  "end_offset": 168,
+                  "physical_pages": [
+                    1
+                  ]
+                }
+              ]
+            }
+          ],
+          "available_supporting_source_ids": [
+            1
+          ],
+          "note": "Source 1 is page 1 statement-of-operations child 2. Its Net income row reports 14,736 and 93,736 under the correct three- and twelve-month September 28, 2024 columns, and its preceding-text supplement states millions. These are reported income values, not the larger adjusted non-GAAP amounts."
+        }
+      ],
+      "excluded_repeated_claim_groups": [],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Source 1 is page 1 statement-of-operations child 2. Its Net income row reports 14,736 and 93,736 under the correct three- and twelve-month September 28, 2024 columns, and its preceding-text supplement states millions. These are reported income values, not the larger adjusted non-GAAP amounts. Residual presentation failure: the first bullet is correctly grounded but lacks its own inline citation.",
+      "streamed_answer_matches_final": true,
+      "saved_answer_matches_final": true,
+      "history_matches": true,
+      "source_provenance": {
+        "source_id": 1,
+        "file_name": "apple-fy24.pdf",
+        "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+        "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "physical_pages": [
+          1
+        ],
+        "start_offset": 170,
+        "end_offset": 1334,
+        "table_ids": [
+          "#/tables/0"
+        ],
+        "supplements": [
+          {
+            "role": "preceding_text",
+            "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+            "start_offset": 73,
+            "end_offset": 168,
+            "physical_pages": [
+              1
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pass_name": "financial_acceptance",
+      "case_id": "apparent-conflict",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "apparent-conflict-single.json",
+      "source_artifact_sha256": "6da31edb79a9f60e4d210faaf668641c7e3e25148c3037e8a674769ef0cca573",
+      "points": [
+        {
+          "fact_id": "apple_sales_q",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Source 1 is the page 1 net-sales table continuation. Its exact column-header supplements bind 94,930 to three months and 391,035 to twelve months ended September 28, 2024; the same-table preceding paragraph supplies millions. The explanation is a period distinction, not an actual contradiction. The answer cites source 1, not an unrelated reconciliation."
+        },
+        {
+          "fact_id": "apple_sales_y",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Source 1 is the page 1 net-sales table continuation. Its exact column-header supplements bind 94,930 to three months and 391,035 to twelve months ended September 28, 2024; the same-table preceding paragraph supplies millions. The explanation is a period distinction, not an actual contradiction. The answer cites source 1, not an unrelated reconciliation."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "The figure 94,930 (in millions of dollars) refers to Apple's total net sales for the three months ended September 28, 2024, i.e., the fourth fiscal quarter of 2024 [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "apparent-conflict-single.json#answer.sources",
+          "source_provenance": [
+            {
+              "source_id": 1,
+              "file_name": "apple-fy24.pdf",
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+              "physical_pages": [
+                1
+              ],
+              "start_offset": 1335,
+              "end_offset": 1874,
+              "table_ids": [
+                "#/tables/0"
+              ],
+              "supplements": [
+                {
+                  "role": "column_header",
+                  "text": "Three Months Ended",
+                  "start_offset": 170,
+                  "end_offset": 188,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "Twelve Months Ended",
+                  "start_offset": 189,
+                  "end_offset": 208,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 28, 2024",
+                  "start_offset": 209,
+                  "end_offset": 227,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 30, 2023",
+                  "start_offset": 228,
+                  "end_offset": 246,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 28, 2024",
+                  "start_offset": 247,
+                  "end_offset": 265,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 30, 2023",
+                  "start_offset": 266,
+                  "end_offset": 284,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "preceding_text",
+                  "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+                  "start_offset": 73,
+                  "end_offset": 168,
+                  "physical_pages": [
+                    1
+                  ]
+                }
+              ]
+            }
+          ],
+          "available_supporting_source_ids": [
+            1
+          ],
+          "note": "Source 1 is the page 1 net-sales table continuation. Its exact column-header supplements bind 94,930 to three months and 391,035 to twelve months ended September 28, 2024; the same-table preceding paragraph supplies millions. The explanation is a period distinction, not an actual contradiction. The answer cites source 1, not an unrelated reconciliation. Fiscal-quarter/year wording is a reasonable inference from the paired same-ending periods; those labels are not quoted directly."
+        },
+        {
+          "text": "The figure 391,035 (in millions of dollars) refers to Apple's total net sales for the twelve months ended September 28, 2024, i.e., the entire fiscal year 2024 [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "apparent-conflict-single.json#answer.sources",
+          "source_provenance": [
+            {
+              "source_id": 1,
+              "file_name": "apple-fy24.pdf",
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+              "physical_pages": [
+                1
+              ],
+              "start_offset": 1335,
+              "end_offset": 1874,
+              "table_ids": [
+                "#/tables/0"
+              ],
+              "supplements": [
+                {
+                  "role": "column_header",
+                  "text": "Three Months Ended",
+                  "start_offset": 170,
+                  "end_offset": 188,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "Twelve Months Ended",
+                  "start_offset": 189,
+                  "end_offset": 208,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 28, 2024",
+                  "start_offset": 209,
+                  "end_offset": 227,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 30, 2023",
+                  "start_offset": 228,
+                  "end_offset": 246,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 28, 2024",
+                  "start_offset": 247,
+                  "end_offset": 265,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 30, 2023",
+                  "start_offset": 266,
+                  "end_offset": 284,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "preceding_text",
+                  "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+                  "start_offset": 73,
+                  "end_offset": 168,
+                  "physical_pages": [
+                    1
+                  ]
+                }
+              ]
+            }
+          ],
+          "available_supporting_source_ids": [
+            1
+          ],
+          "note": "Source 1 is the page 1 net-sales table continuation. Its exact column-header supplements bind 94,930 to three months and 391,035 to twelve months ended September 28, 2024; the same-table preceding paragraph supplies millions. The explanation is a period distinction, not an actual contradiction. The answer cites source 1, not an unrelated reconciliation. Fiscal-quarter/year wording is a reasonable inference from the paired same-ending periods; those labels are not quoted directly."
+        },
+        {
+          "text": "Thus, each number represents net sales for its respective period—quarter and year—and both are accurately reported for those specific timeframes [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "apparent-conflict-single.json#answer.sources",
+          "source_provenance": [
+            {
+              "source_id": 1,
+              "file_name": "apple-fy24.pdf",
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+              "physical_pages": [
+                1
+              ],
+              "start_offset": 1335,
+              "end_offset": 1874,
+              "table_ids": [
+                "#/tables/0"
+              ],
+              "supplements": [
+                {
+                  "role": "column_header",
+                  "text": "Three Months Ended",
+                  "start_offset": 170,
+                  "end_offset": 188,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "Twelve Months Ended",
+                  "start_offset": 189,
+                  "end_offset": 208,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 28, 2024",
+                  "start_offset": 209,
+                  "end_offset": 227,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 30, 2023",
+                  "start_offset": 228,
+                  "end_offset": 246,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 28, 2024",
+                  "start_offset": 247,
+                  "end_offset": 265,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 30, 2023",
+                  "start_offset": 266,
+                  "end_offset": 284,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "preceding_text",
+                  "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+                  "start_offset": 73,
+                  "end_offset": 168,
+                  "physical_pages": [
+                    1
+                  ]
+                }
+              ]
+            }
+          ],
+          "available_supporting_source_ids": [
+            1
+          ],
+          "note": "Source 1 is the page 1 net-sales table continuation. Its exact column-header supplements bind 94,930 to three months and 391,035 to twelve months ended September 28, 2024; the same-table preceding paragraph supplies millions. The explanation is a period distinction, not an actual contradiction. The answer cites source 1, not an unrelated reconciliation. Fiscal-quarter/year wording is a reasonable inference from the paired same-ending periods; those labels are not quoted directly."
+        }
+      ],
+      "excluded_repeated_claim_groups": [
+        {
+          "text": "No, the 2024 total net sales figures of 94,930 and 391,035 are not contradictory; they each refer to different reporting periods:",
+          "reason": "Repeated introductory framing of the same no-contradiction conclusion explicitly scored in the final paragraph, excluded consistently with the historical review.",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [],
+          "citation_support": null,
+          "citation_coverage": 0
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Source 1 is the page 1 net-sales table continuation. Its exact column-header supplements bind 94,930 to three months and 391,035 to twelve months ended September 28, 2024; the same-table preceding paragraph supplies millions. The explanation is a period distinction, not an actual contradiction. The answer cites source 1, not an unrelated reconciliation.",
+      "streamed_answer_matches_final": true,
+      "saved_answer_matches_final": true,
+      "history_matches": true,
+      "source_provenance": {
+        "source_id": 1,
+        "file_name": "apple-fy24.pdf",
+        "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+        "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "physical_pages": [
+          1
+        ],
+        "start_offset": 1335,
+        "end_offset": 1874,
+        "table_ids": [
+          "#/tables/0"
+        ],
+        "supplements": [
+          {
+            "role": "column_header",
+            "text": "Three Months Ended",
+            "start_offset": 170,
+            "end_offset": 188,
+            "physical_pages": [
+              1
+            ]
+          },
+          {
+            "role": "column_header",
+            "text": "Twelve Months Ended",
+            "start_offset": 189,
+            "end_offset": 208,
+            "physical_pages": [
+              1
+            ]
+          },
+          {
+            "role": "column_header",
+            "text": "September 28, 2024",
+            "start_offset": 209,
+            "end_offset": 227,
+            "physical_pages": [
+              1
+            ]
+          },
+          {
+            "role": "column_header",
+            "text": "September 30, 2023",
+            "start_offset": 228,
+            "end_offset": 246,
+            "physical_pages": [
+              1
+            ]
+          },
+          {
+            "role": "column_header",
+            "text": "September 28, 2024",
+            "start_offset": 247,
+            "end_offset": 265,
+            "physical_pages": [
+              1
+            ]
+          },
+          {
+            "role": "column_header",
+            "text": "September 30, 2023",
+            "start_offset": 266,
+            "end_offset": 284,
+            "physical_pages": [
+              1
+            ]
+          },
+          {
+            "role": "preceding_text",
+            "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+            "start_offset": 73,
+            "end_offset": 168,
+            "physical_pages": [
+              1
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pass_name": "financial_acceptance",
+      "case_id": "apparent-conflict",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "apparent-conflict-planned.json",
+      "source_artifact_sha256": "b00697db5bce4f7b9b6f8d09583dc3aac38fcc526fba51ef3fcde48bd4d354ae",
+      "points": [
+        {
+          "fact_id": "apple_sales_q",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Source 1 is the page 1 net-sales table continuation. Its exact column-header supplements bind 94,930 to three months and 391,035 to twelve months ended September 28, 2024; the same-table preceding paragraph supplies millions. The explanation is a period distinction, not an actual contradiction. The answer cites source 1, not an unrelated reconciliation."
+        },
+        {
+          "fact_id": "apple_sales_y",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Source 1 is the page 1 net-sales table continuation. Its exact column-header supplements bind 94,930 to three months and 391,035 to twelve months ended September 28, 2024; the same-table preceding paragraph supplies millions. The explanation is a period distinction, not an actual contradiction. The answer cites source 1, not an unrelated reconciliation."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "The total net sales figure of $94,930 (in millions) in \"apple-fy24.pdf\" represents Apple's net sales for the \"Three Months Ended September 28, 2024,\" i.e., the fourth quarter of fiscal year 2024 [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "apparent-conflict-planned.json#answer.sources",
+          "source_provenance": [
+            {
+              "source_id": 1,
+              "file_name": "apple-fy24.pdf",
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+              "physical_pages": [
+                1
+              ],
+              "start_offset": 1335,
+              "end_offset": 1874,
+              "table_ids": [
+                "#/tables/0"
+              ],
+              "supplements": [
+                {
+                  "role": "column_header",
+                  "text": "Three Months Ended",
+                  "start_offset": 170,
+                  "end_offset": 188,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "Twelve Months Ended",
+                  "start_offset": 189,
+                  "end_offset": 208,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 28, 2024",
+                  "start_offset": 209,
+                  "end_offset": 227,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 30, 2023",
+                  "start_offset": 228,
+                  "end_offset": 246,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 28, 2024",
+                  "start_offset": 247,
+                  "end_offset": 265,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 30, 2023",
+                  "start_offset": 266,
+                  "end_offset": 284,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "preceding_text",
+                  "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+                  "start_offset": 73,
+                  "end_offset": 168,
+                  "physical_pages": [
+                    1
+                  ]
+                }
+              ]
+            }
+          ],
+          "available_supporting_source_ids": [
+            1
+          ],
+          "note": "Source 1 is the page 1 net-sales table continuation. Its exact column-header supplements bind 94,930 to three months and 391,035 to twelve months ended September 28, 2024; the same-table preceding paragraph supplies millions. The explanation is a period distinction, not an actual contradiction. The answer cites source 1, not an unrelated reconciliation. Fiscal-quarter/year wording is a reasonable inference from the paired same-ending periods; those labels are not quoted directly."
+        },
+        {
+          "text": "The total net sales figure of $391,035 (in millions) in \"apple-fy24.pdf\" represents Apple's net sales for the \"Twelve Months Ended September 28, 2024,\" i.e., the entire fiscal year 2024 [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "apparent-conflict-planned.json#answer.sources",
+          "source_provenance": [
+            {
+              "source_id": 1,
+              "file_name": "apple-fy24.pdf",
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+              "physical_pages": [
+                1
+              ],
+              "start_offset": 1335,
+              "end_offset": 1874,
+              "table_ids": [
+                "#/tables/0"
+              ],
+              "supplements": [
+                {
+                  "role": "column_header",
+                  "text": "Three Months Ended",
+                  "start_offset": 170,
+                  "end_offset": 188,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "Twelve Months Ended",
+                  "start_offset": 189,
+                  "end_offset": 208,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 28, 2024",
+                  "start_offset": 209,
+                  "end_offset": 227,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 30, 2023",
+                  "start_offset": 228,
+                  "end_offset": 246,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 28, 2024",
+                  "start_offset": 247,
+                  "end_offset": 265,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 30, 2023",
+                  "start_offset": 266,
+                  "end_offset": 284,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "preceding_text",
+                  "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+                  "start_offset": 73,
+                  "end_offset": 168,
+                  "physical_pages": [
+                    1
+                  ]
+                }
+              ]
+            }
+          ],
+          "available_supporting_source_ids": [
+            1
+          ],
+          "note": "Source 1 is the page 1 net-sales table continuation. Its exact column-header supplements bind 94,930 to three months and 391,035 to twelve months ended September 28, 2024; the same-table preceding paragraph supplies millions. The explanation is a period distinction, not an actual contradiction. The answer cites source 1, not an unrelated reconciliation. Fiscal-quarter/year wording is a reasonable inference from the paired same-ending periods; those labels are not quoted directly."
+        },
+        {
+          "text": "These figures are not contradictory because they refer to different reporting periods: $94,930 is for the most recent quarter, while $391,035 is for the entire fiscal year [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "apparent-conflict-planned.json#answer.sources",
+          "source_provenance": [
+            {
+              "source_id": 1,
+              "file_name": "apple-fy24.pdf",
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+              "physical_pages": [
+                1
+              ],
+              "start_offset": 1335,
+              "end_offset": 1874,
+              "table_ids": [
+                "#/tables/0"
+              ],
+              "supplements": [
+                {
+                  "role": "column_header",
+                  "text": "Three Months Ended",
+                  "start_offset": 170,
+                  "end_offset": 188,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "Twelve Months Ended",
+                  "start_offset": 189,
+                  "end_offset": 208,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 28, 2024",
+                  "start_offset": 209,
+                  "end_offset": 227,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 30, 2023",
+                  "start_offset": 228,
+                  "end_offset": 246,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 28, 2024",
+                  "start_offset": 247,
+                  "end_offset": 265,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "column_header",
+                  "text": "September 30, 2023",
+                  "start_offset": 266,
+                  "end_offset": 284,
+                  "physical_pages": [
+                    1
+                  ]
+                },
+                {
+                  "role": "preceding_text",
+                  "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+                  "start_offset": 73,
+                  "end_offset": 168,
+                  "physical_pages": [
+                    1
+                  ]
+                }
+              ]
+            }
+          ],
+          "available_supporting_source_ids": [
+            1
+          ],
+          "note": "Source 1 is the page 1 net-sales table continuation. Its exact column-header supplements bind 94,930 to three months and 391,035 to twelve months ended September 28, 2024; the same-table preceding paragraph supplies millions. The explanation is a period distinction, not an actual contradiction. The answer cites source 1, not an unrelated reconciliation. Fiscal-quarter/year wording is a reasonable inference from the paired same-ending periods; those labels are not quoted directly."
+        }
+      ],
+      "excluded_repeated_claim_groups": [],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Source 1 is the page 1 net-sales table continuation. Its exact column-header supplements bind 94,930 to three months and 391,035 to twelve months ended September 28, 2024; the same-table preceding paragraph supplies millions. The explanation is a period distinction, not an actual contradiction. The answer cites source 1, not an unrelated reconciliation.",
+      "streamed_answer_matches_final": true,
+      "saved_answer_matches_final": true,
+      "history_matches": true,
+      "source_provenance": {
+        "source_id": 1,
+        "file_name": "apple-fy24.pdf",
+        "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+        "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "physical_pages": [
+          1
+        ],
+        "start_offset": 1335,
+        "end_offset": 1874,
+        "table_ids": [
+          "#/tables/0"
+        ],
+        "supplements": [
+          {
+            "role": "column_header",
+            "text": "Three Months Ended",
+            "start_offset": 170,
+            "end_offset": 188,
+            "physical_pages": [
+              1
+            ]
+          },
+          {
+            "role": "column_header",
+            "text": "Twelve Months Ended",
+            "start_offset": 189,
+            "end_offset": 208,
+            "physical_pages": [
+              1
+            ]
+          },
+          {
+            "role": "column_header",
+            "text": "September 28, 2024",
+            "start_offset": 209,
+            "end_offset": 227,
+            "physical_pages": [
+              1
+            ]
+          },
+          {
+            "role": "column_header",
+            "text": "September 30, 2023",
+            "start_offset": 228,
+            "end_offset": 246,
+            "physical_pages": [
+              1
+            ]
+          },
+          {
+            "role": "column_header",
+            "text": "September 28, 2024",
+            "start_offset": 247,
+            "end_offset": 265,
+            "physical_pages": [
+              1
+            ]
+          },
+          {
+            "role": "column_header",
+            "text": "September 30, 2023",
+            "start_offset": 266,
+            "end_offset": 284,
+            "physical_pages": [
+              1
+            ]
+          },
+          {
+            "role": "preceding_text",
+            "text": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+            "start_offset": 73,
+            "end_offset": 168,
+            "physical_pages": [
+              1
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "reconciliation": {
+    "independent_root_review": "Root independently agreed on all requested amounts, periods and units, the planned-income first-bullet citation gap, the disclosed fiscal-period inference, and repeated-framing exclusion. No scoring disagreement remained."
+  }
+}

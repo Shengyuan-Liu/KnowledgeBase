@@ -17,7 +17,10 @@ now retains selected sales rows with their period headers and nearby units in th
 same 4,096-token budget. The subsequent
 [passage-selection repair](../../evals/check-runs/20260927-assessment-passages/README.md)
 replaces assessor-authored quotes with IDs resolved to exact source text and pages.
-Both checks are offline; live acceptance and dense-table fidelity remain outstanding.
+The subsequent [financial live replay](../../evals/library-runs/20260927-financial-acceptance/README.md)
+completes all six requests with correct requested facts, but a planned income
+bullet lacks an inline citation. That coverage gate, broader live acceptance and
+dense-table fidelity remain outstanding.
 
 ## Confirmed Feature Areas
 
@@ -72,7 +75,7 @@ combines all three; stage completion does not establish a general quality gain.
 | OCR and mixed scanned pages | OCR deferred by the user; disclose content that is not indexed | Confirmed for v2; revisit in a later version |
 | Figures and formulas | Text captions may be indexed; visual interpretation and formula reasoning are deferred by the user | Confirmed for v2; revisit in a later version |
 | Parser and page viewer | Docling with known table/order failures; bundled PDF.js page viewer | See [PDF parsing](../pdf-parsing.md) |
-| Query/checker models and limits | Live GPT-4.1 comparison recorded; packing and passage selection repaired offline; semantic decisions and unnecessary searches remain unverified | Live acceptance after scoped repairs |
+| Query/checker models and limits | Six-request financial replay completes with correct facts; one inline-citation gap remains; broader semantic decisions and unnecessary searches remain unverified | Resolve scoped failures before broader acceptance |
 | Quality, latency, and cost thresholds | Freeze from development evidence before held-out evaluation | Evaluation preparation |
 | v2 development branch | Use `v2` for all v2 implementation and documentation commits | Confirmed by the user on 2026-09-26 |
 
