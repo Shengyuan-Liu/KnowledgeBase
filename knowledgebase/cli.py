@@ -64,7 +64,7 @@ def cli() -> None:
     parser.add_argument("--rerank-model", help="Override RERANK_MODEL")
     parser.add_argument("--evidence-packing-strategy", choices=["parent_then_child", "parent_first"])
     parser.add_argument("--conversation-id", help="Resume a saved conversation in this data directory")
-    parser.add_argument("--retrieval-mode", choices=["single", "planned"], help="Use one search or an automatic independent-query plan")
+    parser.add_argument("--retrieval-mode", choices=["single", "planned"], help="Use one search or an bounded automatic query plan")
     args = parser.parse_args()
     overrides = {}
     if args.retrieval_mode is not None:

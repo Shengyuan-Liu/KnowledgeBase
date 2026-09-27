@@ -1,0 +1,577 @@
+{
+  "scope": "Override both comparison command inventories only. Other commands remain offline contract checks. Failed attempts are retained.",
+  "runs": {
+    "comparison-1": {
+      "fixture_sha256": "00fadf337c7a901bbf235327b1228676480894d953b878514776cee420701fe3",
+      "metric_inventory": {
+        "Recall@K": {
+          "status": "measured",
+          "value": {
+            "before_direct": 0.5416666666666666,
+            "after_dependent": 0.8333333333333334
+          },
+          "unit": "fraction",
+          "sample_count": 4,
+          "population": "Frozen offline span fixture",
+          "method": "Complete binary labels over five canonical spans, one child per span. Scope-only case labels one allowed span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro mean across four cases. No semantic answer scoring.",
+          "aggregation": "Macro mean across four cases per variant; K=3",
+          "artifact": "comparison-1-details.json",
+          "reason": "Fixed hand-authored plans/targets/vectors, not live model quality."
+        },
+        "Precision@K": {
+          "status": "measured",
+          "value": {
+            "before_direct": 0.3333333333333333,
+            "after_dependent": 0.5833333333333333
+          },
+          "unit": "fraction",
+          "sample_count": 4,
+          "population": "Frozen offline span fixture",
+          "method": "Complete binary labels over five canonical spans, one child per span. Scope-only case labels one allowed span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro mean across four cases. No semantic answer scoring.",
+          "aggregation": "Macro mean across four cases per variant; K=3",
+          "artifact": "comparison-1-details.json",
+          "reason": "Fixed hand-authored plans/targets/vectors, not live model quality."
+        },
+        "Hit Rate@K": {
+          "status": "measured",
+          "value": {
+            "before_direct": 1.0,
+            "after_dependent": 1.0
+          },
+          "unit": "fraction",
+          "sample_count": 4,
+          "population": "Frozen offline span fixture",
+          "method": "Complete binary labels over five canonical spans, one child per span. Scope-only case labels one allowed span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro mean across four cases. No semantic answer scoring.",
+          "aggregation": "Macro mean across four cases per variant; K=3",
+          "artifact": "comparison-1-details.json",
+          "reason": "Fixed hand-authored plans/targets/vectors, not live model quality."
+        },
+        "MRR": {
+          "status": "measured",
+          "value": {
+            "before_direct": 1.0,
+            "after_dependent": 1.0
+          },
+          "unit": "fraction",
+          "sample_count": 4,
+          "population": "Frozen offline span fixture",
+          "method": "Complete binary labels over five canonical spans, one child per span. Scope-only case labels one allowed span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro mean across four cases. No semantic answer scoring.",
+          "aggregation": "Macro mean across four cases per variant; K=3",
+          "artifact": "comparison-1-details.json",
+          "reason": "Fixed hand-authored plans/targets/vectors, not live model quality."
+        },
+        "NDCG@K": {
+          "status": "measured",
+          "value": {
+            "before_direct": 0.6379261612027428,
+            "after_dependent": 0.8673196815056892
+          },
+          "unit": "fraction",
+          "sample_count": 4,
+          "population": "Frozen offline span fixture",
+          "method": "Complete binary labels over five canonical spans, one child per span. Scope-only case labels one allowed span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro mean across four cases. No semantic answer scoring.",
+          "aggregation": "Macro mean across four cases per variant; K=3",
+          "artifact": "comparison-1-details.json",
+          "reason": "Fixed hand-authored plans/targets/vectors, not live model quality."
+        },
+        "Final evidence coverage": {
+          "status": "measured",
+          "value": {
+            "before_direct": 0.4583333333333333,
+            "after_dependent": 0.75
+          },
+          "unit": "fraction",
+          "sample_count": 4,
+          "population": "Frozen offline span fixture",
+          "method": "Complete binary labels over five canonical spans, one child per span. Scope-only case labels one allowed span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro mean across four cases. No semantic answer scoring.",
+          "aggregation": "Macro mean across four cases per variant; K=3",
+          "artifact": "comparison-1-details.json",
+          "reason": "Fixed hand-authored plans/targets/vectors, not live model quality."
+        },
+        "Answer correctness": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline adapter/contract checks; no live retrieval, answer, provider, ingestion or load workload.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-1.log"
+        },
+        "Faithfulness": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline adapter/contract checks; no live retrieval, answer, provider, ingestion or load workload.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-1.log"
+        },
+        "Answer completeness": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline adapter/contract checks; no live retrieval, answer, provider, ingestion or load workload.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-1.log"
+        },
+        "Answer relevance": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline adapter/contract checks; no live retrieval, answer, provider, ingestion or load workload.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-1.log"
+        },
+        "Citation support": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline adapter/contract checks; no live retrieval, answer, provider, ingestion or load workload.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-1.log"
+        },
+        "Citation coverage": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline adapter/contract checks; no live retrieval, answer, provider, ingestion or load workload.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-1.log"
+        },
+        "Abstention": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline adapter/contract checks; no live retrieval, answer, provider, ingestion or load workload.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-1.log"
+        },
+        "First-answer-delta latency": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Synchronous paired replay; browser durations are not streaming latency.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-1.log"
+        },
+        "Complete-response latency": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline service replay; no live model/HTTP completion measurement. Service durations are recorded separately.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-1.log"
+        },
+        "Stage latency": {
+          "status": "measured",
+          "value": {
+            "before_direct": {
+              "service_including_save": {
+                "count": 4,
+                "mean": 0.014050947997020558,
+                "p50": 0.0028714590007439256,
+                "p95": 0.04754075000528246
+              },
+              "retrieval_including_source_lookup": {
+                "count": 4,
+                "mean": 0.001960552210221067,
+                "p50": 0.001200667000375688,
+                "p95": 0.004106791922822595
+              }
+            },
+            "after_dependent": {
+              "service_including_save": {
+                "count": 4,
+                "mean": 0.005381364549975842,
+                "p50": 0.005009083077311516,
+                "p95": 0.008899374981410801
+              },
+              "retrieval_including_source_lookup": {
+                "count": 4,
+                "mean": 0.0027312395395711064,
+                "p50": 0.0023584578884765506,
+                "p95": 0.005009541171602905
+              }
+            }
+          },
+          "unit": "seconds",
+          "sample_count": 4,
+          "population": "Same four offline cases per variant",
+          "method": "perf_counter, nearest-rank percentiles; sequential before then after, local storage included, no provider queue/model loading. Per-query/planning/binding/packing times remain in traces. Mock generation not separately timed.",
+          "aggregation": "mean/P50/P95",
+          "artifact": "comparison-1-details.json",
+          "reason": "Diagnostic timing only; not production performance."
+        },
+        "Token usage and cost": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline SDK responses have no real usage/billing. Serialized input and evidence tokens are retained, separately from unavailable live whole-turn cost.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-1.log"
+        },
+        "Reliability": {
+          "status": "measured",
+          "value": {
+            "completed_exchanges": 8,
+            "errors": 0,
+            "timeouts": 0,
+            "retries": 0,
+            "success_rate": 1
+          },
+          "unit": "count and fraction",
+          "sample_count": 8,
+          "population": "Completed exchanges in comparison-1 only",
+          "method": "Service completion and exact saved-history assertions. Offline SDK cannot incur network retries. Earlier test failures retained separately.",
+          "aggregation": "counts",
+          "artifact": "comparison-1-details.json",
+          "reason": "Not provider reliability or production success rate."
+        },
+        "Concurrency and throughput": {
+          "status": "unavailable",
+          "value": null,
+          "unit": null,
+          "reason": "Concurrency is fixed at 1; no load workload or whole-workload timing interval for throughput.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-1.log"
+        },
+        "Ingestion and index": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Fixed five-span index controls retrieval; no ingestion/index performance benchmark. Separate tests check upload/deletion/history contracts.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-1.log"
+        }
+      },
+      "controls": "Identical corpus/questions/labels/vectors/top_k=3/budgets/options within each pair. Before replays the predecessor direct decision for dependent questions through the existing direct path; after replays a frozen dependency plan and literal target choices. Both use current code and prompt metadata, so this is a controller ablation, not a live model or old-binary comparison. Sequential concurrency one; no provider/model loading or queue. Cold tokenizer possible on first pair, baseline first, one pass. Mock timings do not establish production latency."
+    },
+    "comparison-2": {
+      "fixture_sha256": "00fadf337c7a901bbf235327b1228676480894d953b878514776cee420701fe3",
+      "metric_inventory": {
+        "Recall@K": {
+          "status": "measured",
+          "value": {
+            "before_direct": 0.5416666666666666,
+            "after_dependent": 0.8333333333333334
+          },
+          "unit": "fraction",
+          "sample_count": 4,
+          "population": "Frozen offline span fixture",
+          "method": "Complete binary labels over five canonical spans, one child per span. Scope-only case labels one allowed span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro mean across four cases. No semantic answer scoring.",
+          "aggregation": "Macro mean across four cases per variant; K=3",
+          "artifact": "comparison-2-details.json",
+          "reason": "Fixed hand-authored plans/targets/vectors, not live model quality."
+        },
+        "Precision@K": {
+          "status": "measured",
+          "value": {
+            "before_direct": 0.3333333333333333,
+            "after_dependent": 0.5833333333333333
+          },
+          "unit": "fraction",
+          "sample_count": 4,
+          "population": "Frozen offline span fixture",
+          "method": "Complete binary labels over five canonical spans, one child per span. Scope-only case labels one allowed span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro mean across four cases. No semantic answer scoring.",
+          "aggregation": "Macro mean across four cases per variant; K=3",
+          "artifact": "comparison-2-details.json",
+          "reason": "Fixed hand-authored plans/targets/vectors, not live model quality."
+        },
+        "Hit Rate@K": {
+          "status": "measured",
+          "value": {
+            "before_direct": 1.0,
+            "after_dependent": 1.0
+          },
+          "unit": "fraction",
+          "sample_count": 4,
+          "population": "Frozen offline span fixture",
+          "method": "Complete binary labels over five canonical spans, one child per span. Scope-only case labels one allowed span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro mean across four cases. No semantic answer scoring.",
+          "aggregation": "Macro mean across four cases per variant; K=3",
+          "artifact": "comparison-2-details.json",
+          "reason": "Fixed hand-authored plans/targets/vectors, not live model quality."
+        },
+        "MRR": {
+          "status": "measured",
+          "value": {
+            "before_direct": 1.0,
+            "after_dependent": 1.0
+          },
+          "unit": "fraction",
+          "sample_count": 4,
+          "population": "Frozen offline span fixture",
+          "method": "Complete binary labels over five canonical spans, one child per span. Scope-only case labels one allowed span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro mean across four cases. No semantic answer scoring.",
+          "aggregation": "Macro mean across four cases per variant; K=3",
+          "artifact": "comparison-2-details.json",
+          "reason": "Fixed hand-authored plans/targets/vectors, not live model quality."
+        },
+        "NDCG@K": {
+          "status": "measured",
+          "value": {
+            "before_direct": 0.6379261612027428,
+            "after_dependent": 0.8673196815056892
+          },
+          "unit": "fraction",
+          "sample_count": 4,
+          "population": "Frozen offline span fixture",
+          "method": "Complete binary labels over five canonical spans, one child per span. Scope-only case labels one allowed span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro mean across four cases. No semantic answer scoring.",
+          "aggregation": "Macro mean across four cases per variant; K=3",
+          "artifact": "comparison-2-details.json",
+          "reason": "Fixed hand-authored plans/targets/vectors, not live model quality."
+        },
+        "Final evidence coverage": {
+          "status": "measured",
+          "value": {
+            "before_direct": 0.4583333333333333,
+            "after_dependent": 0.75
+          },
+          "unit": "fraction",
+          "sample_count": 4,
+          "population": "Frozen offline span fixture",
+          "method": "Complete binary labels over five canonical spans, one child per span. Scope-only case labels one allowed span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro mean across four cases. No semantic answer scoring.",
+          "aggregation": "Macro mean across four cases per variant; K=3",
+          "artifact": "comparison-2-details.json",
+          "reason": "Fixed hand-authored plans/targets/vectors, not live model quality."
+        },
+        "Answer correctness": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline adapter/contract checks; no live retrieval, answer, provider, ingestion or load workload.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-2.log"
+        },
+        "Faithfulness": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline adapter/contract checks; no live retrieval, answer, provider, ingestion or load workload.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-2.log"
+        },
+        "Answer completeness": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline adapter/contract checks; no live retrieval, answer, provider, ingestion or load workload.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-2.log"
+        },
+        "Answer relevance": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline adapter/contract checks; no live retrieval, answer, provider, ingestion or load workload.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-2.log"
+        },
+        "Citation support": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline adapter/contract checks; no live retrieval, answer, provider, ingestion or load workload.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-2.log"
+        },
+        "Citation coverage": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline adapter/contract checks; no live retrieval, answer, provider, ingestion or load workload.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-2.log"
+        },
+        "Abstention": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline adapter/contract checks; no live retrieval, answer, provider, ingestion or load workload.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-2.log"
+        },
+        "First-answer-delta latency": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Synchronous paired replay; browser durations are not streaming latency.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-2.log"
+        },
+        "Complete-response latency": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline service replay; no live model/HTTP completion measurement. Service durations are recorded separately.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-2.log"
+        },
+        "Stage latency": {
+          "status": "measured",
+          "value": {
+            "before_direct": {
+              "service_including_save": {
+                "count": 4,
+                "mean": 0.014858124981401488,
+                "p50": 0.0033099580323323607,
+                "p95": 0.049794457969255745
+              },
+              "retrieval_including_source_lookup": {
+                "count": 4,
+                "mean": 0.0020849997526966035,
+                "p50": 0.0013539580395445228,
+                "p95": 0.004302541026845574
+              }
+            },
+            "after_dependent": {
+              "service_including_save": {
+                "count": 4,
+                "mean": 0.005432614503661171,
+                "p50": 0.00512812496162951,
+                "p95": 0.0088779580546543
+              },
+              "retrieval_including_source_lookup": {
+                "count": 4,
+                "mean": 0.0027694894815795124,
+                "p50": 0.00246233306825161,
+                "p95": 0.005052917986176908
+              }
+            }
+          },
+          "unit": "seconds",
+          "sample_count": 4,
+          "population": "Same four offline cases per variant",
+          "method": "perf_counter, nearest-rank percentiles; sequential before then after, local storage included, no provider queue/model loading. Per-query/planning/binding/packing times remain in traces. Mock generation not separately timed.",
+          "aggregation": "mean/P50/P95",
+          "artifact": "comparison-2-details.json",
+          "reason": "Diagnostic timing only; not production performance."
+        },
+        "Token usage and cost": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Offline SDK responses have no real usage/billing. Serialized input and evidence tokens are retained, separately from unavailable live whole-turn cost.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-2.log"
+        },
+        "Reliability": {
+          "status": "measured",
+          "value": {
+            "completed_exchanges": 8,
+            "errors": 0,
+            "timeouts": 0,
+            "retries": 0,
+            "success_rate": 1
+          },
+          "unit": "count and fraction",
+          "sample_count": 8,
+          "population": "Completed exchanges in comparison-2 only",
+          "method": "Service completion and exact saved-history assertions. Offline SDK cannot incur network retries. Earlier test failures retained separately.",
+          "aggregation": "counts",
+          "artifact": "comparison-2-details.json",
+          "reason": "Not provider reliability or production success rate."
+        },
+        "Concurrency and throughput": {
+          "status": "unavailable",
+          "value": null,
+          "unit": null,
+          "reason": "Concurrency is fixed at 1; no load workload or whole-workload timing interval for throughput.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-2.log"
+        },
+        "Ingestion and index": {
+          "status": "not_applicable",
+          "value": null,
+          "unit": null,
+          "reason": "Fixed five-span index controls retrieval; no ingestion/index performance benchmark. Separate tests check upload/deletion/history contracts.",
+          "sample_count": null,
+          "population": "offline tests",
+          "method": "not exercised",
+          "aggregation": "none",
+          "artifact": "comparison-2.log"
+        }
+      },
+      "controls": "Identical corpus/questions/labels/vectors/top_k=3/budgets/options within each pair. Before replays the predecessor direct decision for dependent questions through the existing direct path; after replays a frozen dependency plan and literal target choices. Both use current code and prompt metadata, so this is a controller ablation, not a live model or old-binary comparison. Sequential concurrency one; no provider/model loading or queue. Cold tokenizer possible on first pair, baseline first, one pass. Mock timings do not establish production latency."
+    }
+  },
+  "environment": {
+    "device": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.9",
+    "packages": {
+      "openai": "3.16.2",
+      "pydantic": "2.13.5",
+      "anyio": "4.15.1",
+      "chromadb": "1.5.9",
+      "tiktoken": "0.14.0",
+      "docling": "2.130.0"
+    },
+    "models": "offline-fixture/offline-planner/offline-answer; test doubles, no model revisions",
+    "concurrency": 1
+  }
+}

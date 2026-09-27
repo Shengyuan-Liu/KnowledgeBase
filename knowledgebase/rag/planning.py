@@ -22,21 +22,47 @@ class PlannedQuery(PlanRecord):
     file_ids: list[str] | None = None
 
 
+class DependentQuery(PlanRecord):
+    query_id: str = Field(min_length=1)
+    query_template: str = Field(min_length=1)
+    requirement_ids: list[str] = Field(min_length=1)
+    depends_on: list[str] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def one_target(self) -> Self:
+        if self.query_template.count("{target}") != 1:
+            raise ValueError("A dependent query needs exactly one {target} placeholder.")
+        return self
+
+
 class RetrievalPlan(PlanRecord):
     original_question: str = Field(min_length=1)
     resolved_question: str = Field(min_length=1)
-    route: Literal["direct", "decomposed"]
+    route: Literal["direct", "decomposed", "dependent"]
     requirements: list[AnswerRequirement] = Field(min_length=1, max_length=6)
     queries: list[PlannedQuery] = Field(min_length=1, max_length=6)
+    dependencies: list[DependentQuery] = Field(default_factory=list, max_length=5)
 
     @model_validator(mode="after")
     def consistent_references(self) -> Self:
         requirements = {item.requirement_id for item in self.requirements}
         if len(requirements) != len(self.requirements):
             raise ValueError("Requirement IDs must be unique.")
-        if len({query.query_id for query in self.queries}) != len(self.queries):
+        nodes = [*self.queries, *self.dependencies]
+        if len(nodes) > 6:
+            raise ValueError("A plan permits at most six queries including dependencies.")
+        if len({query.query_id for query in nodes}) != len(nodes):
             raise ValueError("Query IDs must be unique.")
-        addressed = {identity for query in self.queries for identity in query.requirement_ids}
+        depths = {query.query_id: 1 for query in self.queries}
+        for dependency in self.dependencies:
+            if not set(dependency.depends_on) <= depths.keys():
+                raise ValueError("Dependencies must reference earlier queries in topological order.")
+            depths[dependency.query_id] = 1 + max(depths[parent] for parent in dependency.depends_on)
+        if max(depths.values()) > 3:
+            raise ValueError("A dependency chain permits at most three retrieval rounds.")
+        if bool(self.dependencies) != (self.route == "dependent"):
+            raise ValueError("Only dependent plans may contain pending queries.")
+        addressed = {identity for query in nodes for identity in query.requirement_ids}
         if addressed != requirements:
             raise ValueError("Queries must reference known requirements and address every requirement.")
         if self.route == "direct" and (len(self.queries) != 1 or self.queries[0].text != self.resolved_question):
@@ -62,17 +88,19 @@ class DraftQuery(PlanRecord):
 
 class PlanDecision(PlanRecord):
     """Model output cannot replace questions or authorize file identities."""
-    route: Literal["direct", "decomposed", "needs_narrowing"]
+    route: Literal["direct", "decomposed", "dependent", "needs_narrowing"]
     requirements: list[AnswerRequirement] = Field(max_length=6)
     queries: list[DraftQuery] = Field(max_length=6)
+    dependencies: list[DependentQuery] = Field(max_length=5)
 
     def to_plan(self, original: str, resolved: str) -> RetrievalPlan | None:
         if self.route in {"direct", "needs_narrowing"}:
-            if self.requirements or self.queries:
+            if self.requirements or self.queries or self.dependencies:
                 raise ValueError("Direct and narrowing decisions must have empty requirement/query lists.")
             return direct_plan(original, resolved_question=resolved) if self.route == "direct" else None
         return RetrievalPlan(
-            original_question=original, resolved_question=resolved, route="decomposed",
+            original_question=original, resolved_question=resolved, route=self.route,
             requirements=self.requirements,
             queries=[PlannedQuery(**query.model_dump()) for query in self.queries],
+            dependencies=self.dependencies,
         )

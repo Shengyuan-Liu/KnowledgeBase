@@ -25,6 +25,9 @@ from knowledgebase.schemas import RelevanceScore
 
 async def stream_fixture(messages):
     """Keep the cancellation fixture open until the browser disconnects."""
+    if "prize winner" in messages[0]["content"].lower():
+        yield "Mira Cole works at Birch Institute. [2]"
+        return
     if "total net sales" in messages[0]["content"].lower():
         yield "Total net sales were 94,930 million. [1]"
         return
@@ -38,9 +41,28 @@ async def stream_fixture(messages):
 
 
 def plan_fixture(**kwargs):
-    question = json.loads(kwargs["input"][-1]["content"])["original_question"]
+    payload = json.loads(kwargs["input"][-1]["content"])
+    question = payload["original_question"]
     sleep(2 if question.startswith("Stop planning") else 0.3)
-    decision = {"route": "decomposed", "requirements": [
+    if kwargs["text"]["format"]["name"] == "dependency_targets":
+        if question.startswith("Stop binding"):
+            sleep(2)
+        item = payload["pending_queries"][0]
+        excerpt = item["evidence"][0]
+        decision = {"decisions": [{"query_id": item["query_id"], "status": "resolved", "target": "Mira Cole",
+            "references": [{"evidence_id": excerpt["evidence_id"], "quote": excerpt["text"]}]}]}
+        return SimpleNamespace(status="completed", output_text=json.dumps(decision),
+                               model="offline-planner", id="offline-binding", usage=None)
+    if "prize winner" in question.lower():
+        decision = {"route": "dependent", "requirements": [
+            {"requirement_id": "winner", "description": "Prize winner"},
+            {"requirement_id": "employer", "description": "Winner's institute"}],
+            "queries": [{"query_id": "winner", "text": 'In "award.txt", who won the Aster Prize?', "requirement_ids": ["winner"]}],
+            "dependencies": [{"query_id": "employer", "query_template": 'In "staff.txt", who employs {target}?',
+                "requirement_ids": ["employer"], "depends_on": ["winner"]}]}
+        return SimpleNamespace(status="completed", output_text=json.dumps(decision),
+                               model="offline-planner", id="offline-plan", usage=None)
+    decision = {"route": "decomposed", "dependencies": [], "requirements": [
         {"requirement_id": "hours", "description": "Closing hours"},
         {"requirement_id": "access", "description": "Library access"},
     ], "queries": [

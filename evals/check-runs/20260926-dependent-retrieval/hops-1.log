@@ -1,0 +1,323 @@
+FFFFFFFFFFF..FF                                                          [100%]
+=================================== FAILURES ===================================
+_________ test_three_hops_bind_exact_targets_and_persist_final_context _________
+
+hop_api = (<starlette.testclient.TestClient object at 0x138d31e80>, AppResources(sessions=sessionmaker(class_='Session', bind=En...one}, [], ['e4c615be1c4a4f098ef14906e3036422', '1c432ed022f04d9ea06133b78668c325', 'aa2997cdde044176b2bea83dcc14ec97'])
+
+    def test_three_hops_bind_exact_targets_and_persist_final_context(hop_api):
+        client, resources, sdk, _, bindings, _ = hop_api
+        answer = ask(client).json()
+>       planning = answer["retrieval"]["planning"]
+                   ^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'retrieval'
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py:96: KeyError
+____________ test_sse_publishes_only_final_sources_after_all_rounds ____________
+
+hop_api = (<starlette.testclient.TestClient object at 0x138c4dd10>, AppResources(sessions=sessionmaker(class_='Session', bind=En...one}, [], ['916e6b74848d4e9c8601472ad4279622', '7134063c9cb0474097d16097bb25dfa9', '449319f8e6c440d88ef2d70a5cbef439'])
+
+    def test_sse_publishes_only_final_sources_after_all_rounds(hop_api):
+        client, _, _, _, _, files = hop_api
+        events = events_from(client.post("/api/chat/stream", json={"question": QUESTION, "retrieval_mode": "planned", "request_id": "hops"}))
+>       assert [e["message"] for e in events if e["event"] == "progress" and e["message"].startswith("Searching round")] == [
+            "Searching round 1…", "Searching round 2…", "Searching round 3…"]
+E       AssertionError: assert ['Searching round 1…'] == ['Searching r...ing round 3…']
+E         
+E         Right contains 2 more items, first extra item: 'Searching round 2…'
+E         Use -v to get more diff
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py:115: AssertionError
+___________ test_unresolved_target_does_not_guess_or_search[missing] ___________
+
+hop_api = (<starlette.testclient.TestClient object at 0x1391c39d0>, AppResources(sessions=sessionmaker(class_='Session', bind=En...one}, [], ['ddb5e51965034524bc015c5e9dff2c37', '4eff6ec0de6340d3901340c294fbddf5', '3703d933d7b947c7a7aaf0bea42d631b'])
+status = 'missing'
+
+    @pytest.mark.parametrize("status", ["missing", "ambiguous"])
+    def test_unresolved_target_does_not_guess_or_search(hop_api, status):
+        client, resources, _, choices, bindings, _ = hop_api
+        choices["target_status"] = status
+        answer = ask(client).json()
+>       hops = answer["retrieval"]["planning"]["hops"]
+               ^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'retrieval'
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py:133: KeyError
+__________ test_unresolved_target_does_not_guess_or_search[ambiguous] __________
+
+hop_api = (<starlette.testclient.TestClient object at 0x1391aa3f0>, AppResources(sessions=sessionmaker(class_='Session', bind=En...one}, [], ['2b2fcf21cda4430ba4465e3482d42728', 'f75cc46470634d6b85b86e69934012a9', '66f54e9cc86940bb8bdff513f385e6b6'])
+status = 'ambiguous'
+
+    @pytest.mark.parametrize("status", ["missing", "ambiguous"])
+    def test_unresolved_target_does_not_guess_or_search(hop_api, status):
+        client, resources, _, choices, bindings, _ = hop_api
+        choices["target_status"] = status
+        answer = ask(client).json()
+>       hops = answer["retrieval"]["planning"]["hops"]
+               ^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'retrieval'
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py:133: KeyError
+___ test_invalid_target_is_an_error_without_repair_or_persistence[<lambda>0] ___
+
+hop_api = (<starlette.testclient.TestClient object at 0x1391a9ba0>, AppResources(sessions=sessionmaker(class_='Session', bind=En...one}, [], ['b42a0981746d457da2e143beb7427018', '6c480d9c56dc433b8d3b560e968d98d4', '6b260378ecf0499faf7fa8ddd1b725bc'])
+corrupt = <function <lambda> at 0x138c48fe0>
+
+    @pytest.mark.parametrize("corrupt", [
+        lambda d: d.update(target="Invented Institute"),
+        lambda d: d["references"][0].update(evidence_id="not-supplied"),
+        lambda d: d["references"][0].update(quote="Mira Cole won an unrelated award."),
+        lambda d: d.update(query_id="unplanned"),
+    ])
+    def test_invalid_target_is_an_error_without_repair_or_persistence(hop_api, corrupt):
+        client, resources, _, choices, bindings, _ = hop_api
+        choices["corrupt"] = corrupt
+        assert ask(client).status_code == 500
+>       assert len(bindings) == 1 and resources.embeddings.embed_query.call_count == 1
+E       assert (0 == 1)
+E        +  where 0 = len([])
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py:150: AssertionError
+___ test_invalid_target_is_an_error_without_repair_or_persistence[<lambda>1] ___
+
+hop_api = (<starlette.testclient.TestClient object at 0x1396997f0>, AppResources(sessions=sessionmaker(class_='Session', bind=En...one}, [], ['8b3854a032954fa998a120b322d88ee8', '4c5e248e6ac6410084fb18145bf5d174', '9a106ffb1efc4cd7a6f985254f288eb2'])
+corrupt = <function <lambda> at 0x138c49080>
+
+    @pytest.mark.parametrize("corrupt", [
+        lambda d: d.update(target="Invented Institute"),
+        lambda d: d["references"][0].update(evidence_id="not-supplied"),
+        lambda d: d["references"][0].update(quote="Mira Cole won an unrelated award."),
+        lambda d: d.update(query_id="unplanned"),
+    ])
+    def test_invalid_target_is_an_error_without_repair_or_persistence(hop_api, corrupt):
+        client, resources, _, choices, bindings, _ = hop_api
+        choices["corrupt"] = corrupt
+        assert ask(client).status_code == 500
+>       assert len(bindings) == 1 and resources.embeddings.embed_query.call_count == 1
+E       assert (0 == 1)
+E        +  where 0 = len([])
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py:150: AssertionError
+___ test_invalid_target_is_an_error_without_repair_or_persistence[<lambda>2] ___
+
+hop_api = (<starlette.testclient.TestClient object at 0x139e75e10>, AppResources(sessions=sessionmaker(class_='Session', bind=En...one}, [], ['ad7d80f1f601413b9201a736cbcebe2d', 'd743bae302334f198bd087bedb21b928', '33de93e011fc4f95abd5e1fd644c7d10'])
+corrupt = <function <lambda> at 0x138c49120>
+
+    @pytest.mark.parametrize("corrupt", [
+        lambda d: d.update(target="Invented Institute"),
+        lambda d: d["references"][0].update(evidence_id="not-supplied"),
+        lambda d: d["references"][0].update(quote="Mira Cole won an unrelated award."),
+        lambda d: d.update(query_id="unplanned"),
+    ])
+    def test_invalid_target_is_an_error_without_repair_or_persistence(hop_api, corrupt):
+        client, resources, _, choices, bindings, _ = hop_api
+        choices["corrupt"] = corrupt
+        assert ask(client).status_code == 500
+>       assert len(bindings) == 1 and resources.embeddings.embed_query.call_count == 1
+E       assert (0 == 1)
+E        +  where 0 = len([])
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py:150: AssertionError
+___ test_invalid_target_is_an_error_without_repair_or_persistence[<lambda>3] ___
+
+hop_api = (<starlette.testclient.TestClient object at 0x139e77ce0>, AppResources(sessions=sessionmaker(class_='Session', bind=En...one}, [], ['e228647f77f84cfc8f1abd0c303f9a0e', '280b03db8741489ebd3a4e2384f67025', 'cab281e843f2467786c215b80fab98fe'])
+corrupt = <function <lambda> at 0x138c491c0>
+
+    @pytest.mark.parametrize("corrupt", [
+        lambda d: d.update(target="Invented Institute"),
+        lambda d: d["references"][0].update(evidence_id="not-supplied"),
+        lambda d: d["references"][0].update(quote="Mira Cole won an unrelated award."),
+        lambda d: d.update(query_id="unplanned"),
+    ])
+    def test_invalid_target_is_an_error_without_repair_or_persistence(hop_api, corrupt):
+        client, resources, _, choices, bindings, _ = hop_api
+        choices["corrupt"] = corrupt
+        assert ask(client).status_code == 500
+>       assert len(bindings) == 1 and resources.embeddings.embed_query.call_count == 1
+E       assert (0 == 1)
+E        +  where 0 = len([])
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py:150: AssertionError
+________________ test_scope_cannot_expand_to_follow_the_target _________________
+
+hop_api = (<starlette.testclient.TestClient object at 0x1395268b0>, AppResources(sessions=sessionmaker(class_='Session', bind=En...one}, [], ['7b28f3401ed146748ad8f62bad4bacb0', 'fa99e3c06d0d4261b771a36c2716bd57', '004066b5806e4f9db0da427870ee9ef7'])
+
+    def test_scope_cannot_expand_to_follow_the_target(hop_api):
+        client, resources, _, _, _, files = hop_api
+        answer = ask(client, file_ids=[files[0]]).json()
+>       assert {s["file_id"] for s in answer["sources"]} == {files[0]}
+                                      ^^^^^^^^^^^^^^^^^
+E       KeyError: 'sources'
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py:158: KeyError
+_____________ test_deleted_bridge_is_ineligible_before_next_query ______________
+
+hop_api = (<starlette.testclient.TestClient object at 0x1395abf00>, AppResources(sessions=sessionmaker(class_='Session', bind=En...c0>}, [], ['ea762deabc7a4d0994560fde86f3bf14', 'baf64502ae96465b811102cf89aa4bd3', 'a9666a2fee84479187a4499552b3446f'])
+
+    def test_deleted_bridge_is_ineligible_before_next_query(hop_api):
+        client, resources, _, choices, _, files = hop_api
+        def delete_bridge():
+            with resources.sessions.begin() as session:
+                update_file_status(session, files[0], "failed")
+        choices["binding_hook"] = delete_bridge
+        answer = ask(client).json()
+>       hops = answer["retrieval"]["planning"]["hops"]
+               ^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'retrieval'
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py:171: KeyError
+_____ test_round_limit_and_budget_exclusion_do_not_bind_unseen_candidates ______
+
+hop_api = (<starlette.testclient.TestClient object at 0x1395ab790>, AppResources(sessions=sessionmaker(class_='Session', bind=En...one}, [], ['0ff8d108f5d5426e8d6437ad54898e8e', 'fb7699ffa59546c5a45a73eab5ce50c3', '51e3a23d1bd5410fba15a74715dd7479'])
+
+    def test_round_limit_and_budget_exclusion_do_not_bind_unseen_candidates(hop_api):
+        client, resources, _, _, bindings, _ = hop_api
+        resources.settings.planning.max_rounds = 1
+        answer = ask(client).json()
+>       assert answer["retrieval"]["planning"]["hops"]["stop_reason"] == "round_limit"
+               ^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'retrieval'
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py:181: KeyError
+________ test_stop_during_binding_never_starts_dependent_search[cancel] ________
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py", line 234, in test_stop_during_binding_never_starts_dependent_search
+  |     async with anyio.create_task_group() as tasks:
+  |                ~~~~~~~~~~~~~~~~~~~~~~~^^
+  |   File "/Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py", line 847, in __aexit__
+  |     raise BaseExceptionGroup(
+  |         "unhandled errors in a TaskGroup", self._exceptions
+  |     ) from None
+  | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py", line 236, in test_stop_during_binding_never_starts_dependent_search
+    |     assert await anyio.to_thread.run_sync(started.wait, 2)
+    | AssertionError: assert False
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py", line 241, in test_stop_during_binding_never_starts_dependent_search
+    assert await anyio.to_thread.run_sync(returned.wait, 2)
+AssertionError: assert False
+
+During handling of the above exception, another exception occurred:
+
+hop_api = (<starlette.testclient.TestClient object at 0x1395269c0>, AppResources(sessions=sessionmaker(class_='Session', bind=En...e0>}, [], ['e75390827eb3468b9ee93aae7f78d076', 'd5d54b7d61314f91bebc46da1ea448e8', '664721edcc7e409e9c53c50a5b56fc3b'])
+stop = 'cancel'
+
+    @pytest.mark.anyio
+    @pytest.mark.parametrize("stop", ["cancel", "timeout"])
+    async def test_stop_during_binding_never_starts_dependent_search(hop_api, stop):
+        _, resources, _, choices, _, _ = hop_api
+        started, release, returned = Event(), Event(), Event()
+        def wait_for_stop():
+            started.set()
+            release.wait(3)
+            returned.set()
+        choices["binding_hook"] = wait_for_stop
+        options = PlanningOptions(request_timeout_seconds=0.8, answer_reserve_seconds=0.1) if stop == "timeout" else PlanningOptions()
+        stream = await stream_answer_in_conversation(QUESTION, "stop-hops", resources.sessions,
+            resources.embeddings, resources.store, resources.llm, resources.streaming_llm,
+            planner_client=resources.planner, planning_options=options,
+            retrieval_options=resources.settings.retrieval_options, top_k=3)
+        events = []
+        async def consume():
+            async with aclosing(stream):
+                async for event in stream:
+                    events.append(event)
+        try:
+            async with anyio.create_task_group() as tasks:
+                tasks.start_soon(consume)
+                assert await anyio.to_thread.run_sync(started.wait, 2)
+                if stop == "cancel":
+                    tasks.cancel_scope.cancel()
+        finally:
+            release.set()
+>           assert await anyio.to_thread.run_sync(returned.wait, 2)
+E           assert False
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py:241: AssertionError
+_______ test_stop_during_binding_never_starts_dependent_search[timeout] ________
+  + Exception Group Traceback (most recent call last):
+  |   File "/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py", line 234, in test_stop_during_binding_never_starts_dependent_search
+  |     async with anyio.create_task_group() as tasks:
+  |                ~~~~~~~~~~~~~~~~~~~~~~~^^
+  |   File "/Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py", line 847, in __aexit__
+  |     raise BaseExceptionGroup(
+  |         "unhandled errors in a TaskGroup", self._exceptions
+  |     ) from None
+  | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py", line 236, in test_stop_during_binding_never_starts_dependent_search
+    |     assert await anyio.to_thread.run_sync(started.wait, 2)
+    | AssertionError: assert False
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py", line 241, in test_stop_during_binding_never_starts_dependent_search
+    assert await anyio.to_thread.run_sync(returned.wait, 2)
+AssertionError: assert False
+
+During handling of the above exception, another exception occurred:
+
+hop_api = (<starlette.testclient.TestClient object at 0x1395ab570>, AppResources(sessions=sessionmaker(class_='Session', bind=En...60>}, [], ['2b10aedd960a471e89edee0d16de1a33', '265d9ae7928e4f7cb37251b7af0c0842', '582d5ae73c264d248a0f4c7bf0ffd511'])
+stop = 'timeout'
+
+    @pytest.mark.anyio
+    @pytest.mark.parametrize("stop", ["cancel", "timeout"])
+    async def test_stop_during_binding_never_starts_dependent_search(hop_api, stop):
+        _, resources, _, choices, _, _ = hop_api
+        started, release, returned = Event(), Event(), Event()
+        def wait_for_stop():
+            started.set()
+            release.wait(3)
+            returned.set()
+        choices["binding_hook"] = wait_for_stop
+        options = PlanningOptions(request_timeout_seconds=0.8, answer_reserve_seconds=0.1) if stop == "timeout" else PlanningOptions()
+        stream = await stream_answer_in_conversation(QUESTION, "stop-hops", resources.sessions,
+            resources.embeddings, resources.store, resources.llm, resources.streaming_llm,
+            planner_client=resources.planner, planning_options=options,
+            retrieval_options=resources.settings.retrieval_options, top_k=3)
+        events = []
+        async def consume():
+            async with aclosing(stream):
+                async for event in stream:
+                    events.append(event)
+        try:
+            async with anyio.create_task_group() as tasks:
+                tasks.start_soon(consume)
+                assert await anyio.to_thread.run_sync(started.wait, 2)
+                if stop == "cancel":
+                    tasks.cancel_scope.cancel()
+        finally:
+            release.set()
+>           assert await anyio.to_thread.run_sync(returned.wait, 2)
+E           assert False
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py:241: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_dependent_retrieval.py::test_three_hops_bind_exact_targets_and_persist_final_context
+FAILED tests/test_dependent_retrieval.py::test_sse_publishes_only_final_sources_after_all_rounds
+FAILED tests/test_dependent_retrieval.py::test_unresolved_target_does_not_guess_or_search[missing]
+FAILED tests/test_dependent_retrieval.py::test_unresolved_target_does_not_guess_or_search[ambiguous]
+FAILED tests/test_dependent_retrieval.py::test_invalid_target_is_an_error_without_repair_or_persistence[<lambda>0]
+FAILED tests/test_dependent_retrieval.py::test_invalid_target_is_an_error_without_repair_or_persistence[<lambda>1]
+FAILED tests/test_dependent_retrieval.py::test_invalid_target_is_an_error_without_repair_or_persistence[<lambda>2]
+FAILED tests/test_dependent_retrieval.py::test_invalid_target_is_an_error_without_repair_or_persistence[<lambda>3]
+FAILED tests/test_dependent_retrieval.py::test_scope_cannot_expand_to_follow_the_target
+FAILED tests/test_dependent_retrieval.py::test_deleted_bridge_is_ineligible_before_next_query
+FAILED tests/test_dependent_retrieval.py::test_round_limit_and_budget_exclusion_do_not_bind_unseen_candidates
+FAILED tests/test_dependent_retrieval.py::test_stop_during_binding_never_starts_dependent_search[cancel]
+FAILED tests/test_dependent_retrieval.py::test_stop_during_binding_never_starts_dependent_search[timeout]
+13 failed, 2 passed, 1 warning in 8.69s

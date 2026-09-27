@@ -20,6 +20,7 @@ from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.providers.reranker import RerankerClient
 from knowledgebase.providers.planner import PlannerClient
 from knowledgebase.services.planning import RequestControl, PreparedPlanning, prepare_planning, NARROWING_MESSAGE
+from knowledgebase.services.hops import HopController
 from knowledgebase.rag.planned_retrieval import retrieve_plan
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.citations import validate_citations
@@ -73,10 +74,17 @@ def answer_question(
     if control:
         embedding_client = embedding_client.bounded(control.before_answer)
         llm_client = llm_client.bounded(control.generation_limits())
+    hops = None
+    if prepared and prepared.plan and prepared.plan.dependencies:
+        hops = HopController(prepared, session_factory, embedding_client, vector_store, planner_client, control,
+            top_k=top_k, evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
+            retrieval_options=retrieval_options, reranker_client=reranker_client, file_ids=file_ids)
+        while not hops.finished:
+            hops.step()
     chunks, sources, diagnostics = _retrieve_evidence(
         retrieval_question or question, session_factory, embedding_client, vector_store, top_k,
         evidence_max_tokens, encoding_name, retrieval_options, reranker_client,
-        file_ids, question, prepared, control,
+        file_ids, question, prepared, control, hops,
     )
     scope = diagnostics.document_scope
     message = scope.message if scope and scope.status != "resolved" else (diagnostics.planning or {}).get("message")
@@ -99,13 +107,16 @@ def _retrieve_evidence(
     scope_question: str | None = None,
     prepared: PreparedPlanning | None = None,
     control: RequestControl | None = None,
+    hops: HopController | None = None,
 ) -> tuple[list[RetrievedChunk], list[AnswerSource], RetrievalDiagnostics]:
     started = perf_counter()
     with session_factory() as session:
         trace = None
         if prepared is not None:
             control.before_answer()
-            if prepared.plan is None:
+            if hops is not None:
+                evidence, trace = hops.result.evidence, hops.result.trace.model_dump(mode="json")
+            elif prepared.plan is None:
                 evidence = RetrievedEvidence(chunks=[], diagnostics=RetrievalDiagnostics(
                     max_tokens=evidence_max_tokens, tokenizer=encoding_name,
                     options=retrieval_options or RetrievalOptions(), top_k=top_k,
@@ -119,7 +130,8 @@ def _retrieve_evidence(
                 )
                 evidence, trace = planned.evidence, planned.trace.model_dump(mode="json")
             evidence.diagnostics.planning = {
-                "version": 1, "planner": prepared.record, "trace": trace,
+                "version": 2 if hops else 1, "planner": prepared.record, "trace": trace,
+                **({"hops": hops.trace} if hops else {}),
                 "limits": control.options.model_dump(),
                 "message": NARROWING_MESSAGE if prepared.plan is None else None,
                 "context": build_context(evidence.chunks),
@@ -160,7 +172,7 @@ def _retrieve_evidence(
             for number, item in enumerate(chunks, start=1)
         ]
 
-    evidence.diagnostics.retrieval_seconds = perf_counter() - started
+    evidence.diagnostics.retrieval_seconds = perf_counter() - started + (hops.retrieval_seconds if hops else 0)
     return chunks, sources, evidence.diagnostics
 
 
@@ -285,11 +297,20 @@ async def stream_answer_in_conversation(
                 retrieval_question = await control.run_search(resolve_question, question, history, resolver_client)
                 prepared = await control.run_search(prepare_planning, question, retrieval_question, session_factory,
                                                     file_ids, planner_client, control)
-                yield event("progress", stage="retrieving", message="Searching for each answer point…")
+                hops = None
+                if prepared.plan and prepared.plan.dependencies:
+                    hops = HopController(prepared, session_factory, embedding_client, vector_store, planner_client, control,
+                        top_k=top_k, evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
+                        retrieval_options=retrieval_options, reranker_client=reranker_client, file_ids=file_ids)
+                    while not hops.finished:
+                        yield event("progress", stage="retrieving", message=f"Searching round {hops.round_index + 1}…")
+                        await control.run_search(hops.step)
+                if hops is None:
+                    yield event("progress", stage="retrieving", message="Searching for each answer point…")
                 chunks, sources, diagnostics = await control.run_search(
                     _retrieve_evidence, retrieval_question, session_factory, embedding_client,
                     vector_store, top_k, evidence_max_tokens, encoding_name, retrieval_options, reranker_client,
-                    file_ids, question, prepared, control,
+                    file_ids, question, prepared, control, hops,
                 )
             else:
                 retrieval_question = await anyio.to_thread.run_sync(

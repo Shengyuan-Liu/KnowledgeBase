@@ -20,9 +20,9 @@ from knowledgebase.services.chat import stream_answer_in_conversation
 from knowledgebase.services.planning import NARROWING_MESSAGE
 from knowledgebase.storage.models import MessageRecord
 
-DIRECT = {"route": "direct", "requirements": [], "queries": []}
+DIRECT = {"route": "direct", "requirements": [], "queries": [], "dependencies": []}
 DECOMPOSED = {
-    "route": "decomposed",
+    "route": "decomposed", "dependencies": [],
     "requirements": [{"requirement_id": "method", "description": "Training method"},
                      {"requirement_id": "result", "description": "Evaluation result"}],
     "queries": [{"query_id": "method", "text": "training method", "requirement_ids": ["method"]},

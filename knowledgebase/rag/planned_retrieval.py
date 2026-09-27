@@ -13,7 +13,7 @@ from knowledgebase.config import (
 )
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.reranker import RerankerClient
-from knowledgebase.rag.planning import RetrievalPlan
+from knowledgebase.rag.planning import PlannedQuery, RetrievalPlan
 from knowledgebase.rag.retrieval import retrieve_candidates, resolve_ready_scope, pack_retrieval_candidates
 from knowledgebase.schemas import (
     DocumentScope, RetrievedCandidates, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics,
@@ -22,6 +22,7 @@ from knowledgebase.storage.vectordb import ChromaStore
 
 
 class QueryRun(BaseModel):
+    round_index: int = 1
     query_ids: list[str]
     requirement_ids: list[str]
     text: str
@@ -136,6 +137,9 @@ def retrieve_plan(
     file_ids: list[str] | None = None,
     allowed_file_ids: list[str] | None = None,
     checkpoint: Callable[[], object] | None = None,
+    queries: list[PlannedQuery] | None = None,
+    previous_runs: list[QueryRun] | None = None,
+    round_index: int = 1,
 ) -> PlannedEvidence:
     """Execute a caller-supplied plan without generation, retries or extra rounds.
 
@@ -164,13 +168,21 @@ def retrieve_plan(
     )
     diagnostics = RetrievalDiagnostics(max_tokens=evidence_max_tokens, tokenizer=encoding_name,
                                        options=options, top_k=top_k, document_scope=scope)
+    # Each round rechecks Ready status. Raw prior results remain in round snapshots.
+    for previous in previous_runs or []:
+        run = previous.model_copy(deep=True)
+        run.result.hits = [hit for hit in run.result.hits if hit.chunk.file_id in ready]
+        run.result.diagnostics.candidates = [hit for hit in run.result.diagnostics.candidates if hit.file_id in ready]
+        trace.runs.append(run)
+    batch = plan.queries if queries is None else queries
     # Validate the entire explicit plan scope before making any provider call.
     if ready:
-        for query in plan.queries:
+        for query in batch:
             if query.file_ids is not None and not set(query.file_ids) <= ready.keys():
                 raise ValueError(f"Query {query.query_id} attempts to expand the allowed ready-file scope.")
-        runs_by_key = {}
-        for query in plan.queries:
+        runs_by_key = {(run.text.strip(), tuple(sorted(set(run.requested_file_ids)))
+                       if run.requested_file_ids is not None else None): run for run in trace.runs}
+        for query in batch:
             if checkpoint:
                 checkpoint()
             selected_files = query.file_ids if query.file_ids is not None else scope.file_ids if scope else None
@@ -193,6 +205,7 @@ def retrieve_plan(
                 checkpoint()
             candidates.diagnostics.retrieval_seconds = perf_counter() - query_started
             run = QueryRun(query_ids=[query.query_id], requirement_ids=list(dict.fromkeys(query.requirement_ids)),
+                           round_index=round_index,
                            text=query.text, requested_file_ids=selected_files, result=candidates,
                            seconds=candidates.diagnostics.retrieval_seconds)
             trace.runs.append(run)

@@ -3,8 +3,9 @@
 Status: v2 stage 3b integrates the independent executor with opt-in automatic
 planning in JSON/SSE chat and CLI. Completed answers retain their plan and exact
 evidence. Offline checks cover integration and request bounds; live planner and
-answer quality remain unmeasured. Evidence-dependent queries and sufficiency-driven
-extra rounds remain subsequent work. No feature acceptance or merge is implied.
+answer quality remain unmeasured. Stage 3c now adds [evidence-dependent
+queries](dependent-retrieval.md); sufficiency-driven extra rounds remain subsequent
+work. No feature acceptance or merge is implied.
 
 ## Contract and Module Responsibilities
 
@@ -20,11 +21,12 @@ extra rounds remain subsequent work. No feature acceptance or merge is implied.
 | `rag/planned_retrieval.py: retrieve_plan` | Execute queries sequentially, merge/select candidates and return evidence plus a versioned trace |
 | `merge_query_runs` | Combine query ranks while keeping this merge separate from within-query BM25/vector RRF |
 
-`RetrievalPlan` permits one to six requirements and one to six independent query
-records. Requirement/query IDs are unique; queries must reference existing
+`RetrievalPlan` permits one to six requirements and one to six query records in
+total, including dependencies. Requirement/query IDs are unique; queries must reference existing
 requirements and collectively address all of them. A direct plan queries the
-resolved question exactly once. Unknown fields, including dependent-query fields,
-are rejected. These bounds reject oversized plans instead of dropping tasks.
+resolved question exactly once. Independent plans reject dependency fields on
+query records; dependent plans use a separate validated dependency list. These
+bounds reject oversized plans instead of dropping tasks.
 Requirements express intended answer coverage; they do not establish support.
 
 ```python
@@ -145,22 +147,24 @@ The existing evaluation runner does not yet select this controller automatically
    [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
    No compatibility fallback, repair, second planning attempt or guessed intermediate
    facts are introduced. A direct decision searches the resolved question unchanged.
-4. Validate up to six requirements and six independent queries. Original/resolved
+4. Validate up to six requirements and six total initial/dependent queries. Original/resolved
    questions are set by the application; the model cannot override them or file IDs.
    A `needs_narrowing` decision returns a fixed request to split the question without
    searching or generating. Invalid/incomplete output fails without saving a turn.
 5. Execute the batch, pack one context, publish final numbered sources and generate
-   one answer. Requests requiring evidence-dependent hops currently use a direct
-   search; dependency resolution and sufficiency loops are not implemented.
+   one answer. Dependent plans invoke the bounded [multi-hop controller](dependent-retrieval.md);
+   general sufficiency assessment and supplementary searches remain unimplemented.
 
-`retrieval.planning` version 1 persists inside the existing diagnostics snapshot;
+`retrieval.planning` version 1 (independent) or version 2 (dependent) persists
+inside the existing diagnostics snapshot;
 no database migration or reindex is needed. It includes planner prompt/output,
 requested/resolved model, response ID, actual usage when provided, limits, exact
 supplied context and the executor trace. JSON answers, SSE `sources`/`complete`
 and restored history share that record. Deleted files keep their historical text
 and plan; original PDF availability follows the existing deletion contract.
 
-SSE adds `progress` with `stage=planning` or `retrieving` and a public message.
+SSE adds `progress` with `stage=planning` or `retrieving` and a public message;
+dependent requests report each round.
 These events contain no provisional citations. The final `sources` event follows
 all searches. Cancellation or failure before the final save never saves a partial
 answer. As before, disconnecting after the final transaction begins may lose the
@@ -174,11 +178,12 @@ SDK retries remain unchanged.
 
 | Setting | Default | Meaning |
 | --- | --- | --- |
+| `PLANNING__MAX_ROUNDS` | 3 | Maximum dependent retrieval rounds; range 1–3 |
 | `PLANNING__REQUEST_TIMEOUT_SECONDS` | 180 | Overall controller deadline from before history loading |
 | `PLANNING__ANSWER_RESERVE_SECONDS` | 60 | Stop planning/search before this final-answer time reserve |
 | `PLANNING__PLANNER_TIMEOUT_SECONDS` | 30 | Planner SDK timeout, also capped by remaining search time |
-| `PLANNING__MAX_INPUT_TOKENS` | 8192 | Per-call serialized planner input/schema or resolver-message cap |
-| `PLANNING__MAX_OUTPUT_TOKENS` | 2048 | Planner/resolver output cap |
+| `PLANNING__MAX_INPUT_TOKENS` | 8192 | Per-call serialized planner/binding input/schema or resolver-message cap |
+| `PLANNING__MAX_OUTPUT_TOKENS` | 2048 | Planner/binding/resolver output cap |
 | `PLANNING__ANSWER_MAX_INPUT_TOKENS` | 16384 | Serialized final-answer message cap |
 | `PLANNING__ANSWER_MAX_OUTPUT_TOKENS` | 4096 | Final-answer output cap |
 
@@ -202,7 +207,7 @@ is explicitly unavailable. Resolver/embedding/final-answer usage is not yet capt
 by this trace. Live acceptance must instrument those calls before making whole-turn
 cost or performance claims.
 
-## Stage 3b Verification
+## Stage 3b Verification (Historical)
 
 The [automatic planning run](../evals/check-runs/20260926-automatic-planning/README.md)
 retains backend/frontend/browser checks and a paired replay of the exact stage 3a
@@ -210,3 +215,6 @@ frozen corpus, questions, annotations and vectors. Planner responses are mocked
 hand-authored plans. Candidate metrics and final coverage match stage 3a; this
 validates integration, not the model's ability to plan or produce correct answers.
 The record preserves failed collection/runner attempts and remaining measurement gaps.
+
+The current stage 3c [dependent controller guide](dependent-retrieval.md) links its
+separate append-only verification and comparison records.

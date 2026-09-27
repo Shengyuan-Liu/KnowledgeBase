@@ -1,0 +1,95 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________________ test_direct_service_matches_api_controller __________________
+
+hop_api = (<starlette.testclient.TestClient object at 0x10f889e80>, AppResources(sessions=sessionmaker(class_='Session', bind=En...one}, [], ['70cf30e0b7694e77a06f5918c63bdc9c', '55b6ca02459b420f8cfc2d8bd56e2b8e', 'b6fc90cc192f4f1aab0f55c87aeff7bb'])
+
+    def test_direct_service_matches_api_controller(hop_api):
+        from knowledgebase.services.chat import answer_in_conversation
+        _, resources, _, _, _, _ = hop_api
+>       result = answer_in_conversation(QUESTION, resources.sessions, resources.embeddings, resources.store,
+            resources.llm, planner_client=resources.planner, planning_options=resources.settings.planning,
+            retrieval_options=resources.settings.retrieval_options, top_k=3)
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py:253: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Users/lucas/Documents/Projects/KnowledgeBase/knowledgebase/services/chat.py:208: in answer_in_conversation
+    result = answer_question(
+/Users/lucas/Documents/Projects/KnowledgeBase/knowledgebase/services/chat.py:83: in answer_question
+    hops.step()
+/Users/lucas/Documents/Projects/KnowledgeBase/knowledgebase/services/hops.py:114: in step
+    self.result = self.retrieve(queries)
+                  ^^^^^^^^^^^^^^^^^^^^^^
+/Users/lucas/Documents/Projects/KnowledgeBase/knowledgebase/services/hops.py:32: in retrieve
+    result = retrieve_plan(self.prepared.plan, session, self.embeddings, self.store,
+/Users/lucas/Documents/Projects/KnowledgeBase/knowledgebase/rag/planned_retrieval.py:196: in retrieve_plan
+    candidates = retrieve_candidates(
+/Users/lucas/Documents/Projects/KnowledgeBase/knowledgebase/rag/retrieval.py:120: in retrieve_candidates
+    matches = [match for group in groups for match in vector_store.search(
+/Users/lucas/Documents/Projects/KnowledgeBase/knowledgebase/storage/vectordb.py:35: in search
+    result = self._collection.query(
+/Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/chromadb/api/models/Collection.py:265: in query
+    query_results = self._client._query(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <chromadb.api.rust.RustBindingsAPI object at 0x10f829a90>
+collection_id = UUID('405a6fd7-e00e-4e93-82f3-fb51c7813320')
+query_embeddings = [array([1., 0., 0.], dtype=float32)], ids = None
+n_results = 1
+where = {'file_id': {'$in': ['b6fc90cc192f4f1aab0f55c87aeff7bb', '55b6ca02459b420f8cfc2d8bd56e2b8e', '70cf30e0b7694e77a06f5918c63bdc9c']}}
+where_document = None, include = ['distances'], tenant = 'default_tenant'
+database = 'default_database'
+
+    @override
+    def _query(
+        self,
+        collection_id: UUID,
+        query_embeddings: Embeddings,
+        ids: Optional[IDs] = None,
+        n_results: int = 10,
+        where: Optional[Where] = None,
+        where_document: Optional[WhereDocument] = None,
+        include: Include = IncludeMetadataDocumentsDistances,
+        tenant: str = DEFAULT_TENANT,
+        database: str = DEFAULT_DATABASE,
+    ) -> QueryResult:
+        query_amount = len(query_embeddings)
+        filtered_ids_amount = len(ids) if ids else 0
+        self.product_telemetry_client.capture(
+            CollectionQueryEvent(
+                collection_uuid=str(collection_id),
+                query_amount=query_amount,
+                filtered_ids_amount=filtered_ids_amount,
+                n_results=n_results,
+                with_metadata_filter=query_amount if where is not None else 0,
+                with_document_filter=query_amount if where_document is not None else 0,
+                include_metadatas=query_amount if "metadatas" in include else 0,
+                include_documents=query_amount if "documents" in include else 0,
+                include_uris=query_amount if "uris" in include else 0,
+                include_distances=query_amount if "distances" in include else 0,
+            )
+        )
+    
+>       rust_response = self.bindings.query(
+            str(collection_id),
+            ids,
+            query_embeddings,
+            n_results,
+            json.dumps(where) if where else None,
+            json.dumps(where_document) if where_document else None,
+            include,
+            tenant,
+            database,
+        )
+E       chromadb.errors.InvalidArgumentError: Collection expecting embedding with dimension of 2, got 3
+
+/Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/chromadb/api/rust.py:582: InvalidArgumentError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_dependent_retrieval.py::test_direct_service_matches_api_controller
+1 failed, 1 warning in 0.33s

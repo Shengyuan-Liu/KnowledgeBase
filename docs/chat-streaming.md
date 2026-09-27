@@ -37,7 +37,8 @@ followed by a blank line. Every data object contains the submitted `request_id`.
 
 Successful order is `start`, `sources`, text deltas, `debug`, then `complete`.
 Planned requests insert progress events before final sources and include the
-planning record in `sources.retrieval`. Failures during processing send `error` and end the stream. For example:
+planning record in `sources.retrieval`. [Dependent searches](dependent-retrieval.md)
+report each round before publishing that single final source list. Failures during processing send `error` and end the stream. For example:
 
 ```text
 event: answer_delta

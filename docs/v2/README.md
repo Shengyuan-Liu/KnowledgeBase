@@ -5,7 +5,9 @@ and stage 2 [PDF integration](../pdf-integration.md) are implemented with record
 checks and unresolved parser fidelity limits. Stage 3b [automatic independent
 planning](../planned-retrieval.md) now connects the stage 3a executor to JSON/SSE
 chat, CLI, progress display and saved history with bounded requests. It is opt-in
-and offline-tested. Dependent queries and sufficiency control remain planned. No feature acceptance or merge is implied.
+and offline-tested. Stage 3c [dependent retrieval](../dependent-retrieval.md) now
+binds follow-up targets to retained source quotes across at most three rounds.
+Sufficiency control remains planned. No feature acceptance or merge is implied.
 
 ## Confirmed Feature Areas
 

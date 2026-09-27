@@ -63,6 +63,15 @@ export interface RetrievalDiagnostics {
     version: number;
     message: string | null;
     planner: { route: string; model: string; seconds: number } | null;
+    hops?: {
+      rounds: { round_index: number }[];
+      stop_reason: string;
+      dependencies: {
+        query_id: string; depends_on: string[]; query_template: string; status: string;
+        target: string | null; query: string | null; references_in_final_context: boolean;
+        references: { evidence_id: string; quote: string; file_id: string; file_name: string; start_offset: number; end_offset: number }[];
+      }[];
+    };
     trace: {
       plan: { route: string; requirements: { requirement_id: string; description: string }[] };
       runs: { query_ids: string[]; text: string }[];

@@ -238,6 +238,15 @@ def test_pdf_supplements_remain_inside_final_shared_budget(storage, embeddings):
     assert result.evidence.chunks
     assert all(hit.pdf and hit.pdf.revision_id == extraction.revision_id for hit in result.evidence.chunks)
     assert any(hit.pdf.supplements for hit in result.evidence.chunks)
+    from knowledgebase.rag.dependencies import dependency_evidence, validate_binding, TargetDecision
+    excerpts = dependency_evidence(result, ["sales", "income"])
+    supplement = next(extra for hit in result.evidence.chunks for extra in hit.pdf.supplements)
+    excerpt = next(e for e in excerpts if e["start_offset"] == supplement.start_offset and e["text"] == supplement.text)
+    refs = validate_binding(TargetDecision(query_id="next", status="resolved", target=supplement.text,
+        references=[{"evidence_id": excerpt["evidence_id"], "quote": supplement.text}]), excerpts)
+    assert refs[0]["start_offset"] == supplement.start_offset
+    assert refs[0]["end_offset"] == supplement.end_offset
+    assert dependency_evidence(result, ["unrelated-query"]) == []
     assert len(tiktoken.get_encoding("cl100k_base").encode_ordinary(build_context(result.evidence.chunks))) <= 1800
 
 
