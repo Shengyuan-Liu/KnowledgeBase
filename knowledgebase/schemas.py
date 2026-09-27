@@ -241,11 +241,12 @@ class RetrievalCandidate(BaseModel):
 
 
 class ExcludedEvidence(BaseModel):
-    """An entire evidence region skipped because it cannot fit the remaining budget."""
+    """An omitted region; trial cost includes the other sources in that attempt."""
 
     chunk_id: str
     file_id: str
     token_count: int
+    trial_context_tokens: int | None = None
     reason: Literal["context_budget"] = "context_budget"
 
 

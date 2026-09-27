@@ -44,7 +44,9 @@ def test_financial_hits_keep_values_periods_units_and_exact_budget(sessions, fin
     context=build_context(result.chunks)
     expected=['14,736','93,736'] if case_id=='apple-income' else ['94,930','391,035']
     assert all(value in context for value in [*expected,'Three Months Ended','Twelve Months Ended','September 28, 2024','In millions'])
-    assert result.chunks[0].chunk.chunk_id == selected[0].chunk.chunk_id
+    first = result.chunks[0]
+    assert first.chunk.file_id == selected[0].chunk.file_id
+    assert first.chunk.start_offset <= selected[0].chunk.start_offset < selected[0].chunk.end_offset <= first.chunk.end_offset
     assert len(tiktoken.get_encoding('cl100k_base').encode_ordinary(context)) == result.diagnostics.evidence_tokens <= 4096
     for hit in result.chunks:
         assert hit.chunk.text == extraction.text[hit.chunk.start_offset:hit.chunk.end_offset]
@@ -52,4 +54,6 @@ def test_financial_hits_keep_values_periods_units_and_exact_budget(sessions, fin
         if hit.chunk.chunk_id != hit.parent_id:
             assert hit.parent_id not in {other.chunk.chunk_id for other in result.chunks}
     units=[extra for hit in result.chunks for extra in hit.pdf.supplements if extra.role=='preceding_text']
-    assert any('In millions' in extra.text and {r.page_index for r in extra.regions}=={0} for extra in units)
+    assert (any('In millions' in extra.text and {r.page_index for r in extra.regions}=={0} for extra in units)
+            or any('In millions' in hit.chunk.text and 0 in {r.page_index for r in hit.pdf.regions}
+                   for hit in result.chunks))

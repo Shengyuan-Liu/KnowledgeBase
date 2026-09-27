@@ -1,0 +1,2355 @@
+{
+  "phase": "after",
+  "commit": "b7924485f4eca9432ce6fcc66cfdfea286239d80",
+  "git_status": " M docs/document-scope.md\n M frontend/src/components/RetrievalDetails.test.tsx\n M frontend/src/components/RetrievalDetails.tsx\n M frontend/src/types.ts\n M knowledgebase/rag/context.py\n M knowledgebase/rag/packing.py\n M knowledgebase/rag/scope.py\n M knowledgebase/schemas.py\n M knowledgebase/services/chat.py\n M knowledgebase/services/planning.py\n M tests/test_automatic_planning.py\n M tests/test_document_scope.py\n M tests/test_evidence_packing.py\n M tests/test_parent_child_pipeline.py\n M tests/test_pdf_assessment.py\n M tests/test_pdf_packing.py\n?? evals/check-runs/20260927-table-context-scope/\n?? tests/test_dense_table_packing.py\n",
+  "frozen_artifact_hashes": {
+    "evals/library-runs/20260927-dense-table-acceptance/index-snapshot.json": "b036383594c5c2ac9f87c9cf5c9493e906c49d95c052babdd757d7876dd0b318",
+    "evals/library-runs/20260927-dense-table-acceptance/frozen-cases.json": "d6fc286067ca2b94dc2e1726a9e37fa267b3b23fdbea4bb918603b9a55040428",
+    "evals/library-runs/20260927-dense-table-acceptance/metrics/fact-labels.json": "c055abd0b875b77b334d15524a946f3690b6bf23427d986c3066ce0279546a0f",
+    "evals/library-runs/20260927-dense-table-acceptance/server-observations.jsonl": "950c4782af6fd861858ade838e1727fde244375313bf5edbaeaf1517163e05e0",
+    "/Users/lucas/Documents/Projects/KnowledgeBase/evals/check-runs/20260927-table-context-scope/frozen-inputs.json": "0303672ce731713f04423e16e15edfc16126a91f744be6696bf55edab756c488"
+  },
+  "source_hashes": {
+    "knowledgebase/rag/context.py": "336b6b62395243508269ba917bbd24e190669ac6915f00881dae56db49224a86",
+    "knowledgebase/rag/packing.py": "3e7630e5211cc0b1ebe86ffaf4eff85ce4557808dac7f93f069ac71e4388f758",
+    "knowledgebase/rag/pdf_evidence.py": "79fd7179acc840e85503a06b8cd9f378d6b66a9bffdd8776fe71aee4461c9a5d",
+    "knowledgebase/rag/scope.py": "14e34162fa6631f3bcee83fb81998fbcbc120f3b9e5263c19d6930ce8792eb82"
+  },
+  "source_hashes_after": {
+    "knowledgebase/rag/context.py": "336b6b62395243508269ba917bbd24e190669ac6915f00881dae56db49224a86",
+    "knowledgebase/rag/packing.py": "3e7630e5211cc0b1ebe86ffaf4eff85ce4557808dac7f93f069ac71e4388f758",
+    "knowledgebase/rag/pdf_evidence.py": "79fd7179acc840e85503a06b8cd9f378d6b66a9bffdd8776fe71aee4461c9a5d",
+    "knowledgebase/rag/scope.py": "14e34162fa6631f3bcee83fb81998fbcbc120f3b9e5263c19d6930ce8792eb82"
+  },
+  "device": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.9",
+  "tokenizer": "cl100k_base",
+  "concurrency": 1,
+  "model_calls": 0,
+  "results": [
+    {
+      "identity": "dense-table-single",
+      "case_id": "dense-table",
+      "arm": "single",
+      "question": "In \"background-checks.pdf\", report Alabama's Permit, Handgun, Long Gun and Totals values for November 2015. Do these statistics represent firearms sold?",
+      "original_stage_observation_line": 6,
+      "selected_rank_order": [
+        "6f664d31bed547c5a7920256fd940a6a:child:7",
+        "6f664d31bed547c5a7920256fd940a6a:child:0",
+        "6f664d31bed547c5a7920256fd940a6a:child:2",
+        "6f664d31bed547c5a7920256fd940a6a:child:1",
+        "6f664d31bed547c5a7920256fd940a6a:child:4"
+      ],
+      "expanded_order": [
+        "6f664d31bed547c5a7920256fd940a6a:parent:2",
+        "6f664d31bed547c5a7920256fd940a6a:parent:0",
+        "6f664d31bed547c5a7920256fd940a6a:parent:1"
+      ],
+      "packed_order": [
+        "6f664d31bed547c5a7920256fd940a6a:child:7",
+        "6f664d31bed547c5a7920256fd940a6a:child:0"
+      ],
+      "evidence_tokens": 3651,
+      "serialized_tokens": 3651,
+      "max_tokens": 4096,
+      "original_live_output_match": {
+        "chunks": false,
+        "evidence_tokens": false,
+        "excluded": false,
+        "unexpanded_parents": false,
+        "scope": true,
+        "scope_resolution": true
+      },
+      "scope": {
+        "references": [
+          "background-checks.pdf"
+        ],
+        "result": {
+          "status": "resolved",
+          "references": [
+            "background-checks.pdf"
+          ],
+          "file_ids": [
+            "6f664d31bed547c5a7920256fd940a6a"
+          ],
+          "matches": [
+            {
+              "file_id": "6f664d31bed547c5a7920256fd940a6a",
+              "file_name": "background-checks.pdf",
+              "labels": [
+                "background-checks"
+              ]
+            }
+          ],
+          "message": null
+        }
+      },
+      "scope_message_note": "Direct scope replay and planned caller can use different not-found messages; resolution status, references, file IDs and matches are compared separately from the message.",
+      "final_structural_coverage": {
+        "value": 1.0,
+        "facts": [
+          {
+            "fact_id": "alabama_permit",
+            "fully_covered": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      1,
+                      2,
+                      372,
+                      378
+                    ],
+                    "text": "18,870",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      1,
+                      2,
+                      172,
+                      178
+                    ],
+                    "text": "Permit",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  }
+                ],
+                "full_original_row_supplied": false,
+                "complete": false
+              },
+              {
+                "source_id": 2,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      1,
+                      2,
+                      372,
+                      378
+                    ],
+                    "text": "18,870",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      1,
+                      2,
+                      172,
+                      178
+                    ],
+                    "text": "Permit",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  }
+                ],
+                "full_original_row_supplied": true,
+                "complete": true
+              }
+            ]
+          },
+          {
+            "fact_id": "alabama_handgun",
+            "fully_covered": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      2,
+                      3,
+                      379,
+                      385
+                    ],
+                    "text": "23,022",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      2,
+                      3,
+                      179,
+                      186
+                    ],
+                    "text": "Handgun",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  }
+                ],
+                "full_original_row_supplied": false,
+                "complete": false
+              },
+              {
+                "source_id": 2,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      2,
+                      3,
+                      379,
+                      385
+                    ],
+                    "text": "23,022",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      2,
+                      3,
+                      179,
+                      186
+                    ],
+                    "text": "Handgun",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  }
+                ],
+                "full_original_row_supplied": true,
+                "complete": true
+              }
+            ]
+          },
+          {
+            "fact_id": "alabama_longgun",
+            "fully_covered": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      3,
+                      4,
+                      386,
+                      392
+                    ],
+                    "text": "22,650",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      3,
+                      4,
+                      187,
+                      195
+                    ],
+                    "text": "Long Gun",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  }
+                ],
+                "full_original_row_supplied": false,
+                "complete": false
+              },
+              {
+                "source_id": 2,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      3,
+                      4,
+                      386,
+                      392
+                    ],
+                    "text": "22,650",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      3,
+                      4,
+                      187,
+                      195
+                    ],
+                    "text": "Long Gun",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  }
+                ],
+                "full_original_row_supplied": true,
+                "complete": true
+              }
+            ]
+          },
+          {
+            "fact_id": "alabama_total",
+            "fully_covered": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      24,
+                      25,
+                      450,
+                      456
+                    ],
+                    "text": "71,137",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      24,
+                      25,
+                      357,
+                      363
+                    ],
+                    "text": "Totals",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  }
+                ],
+                "full_original_row_supplied": false,
+                "complete": false
+              },
+              {
+                "source_id": 2,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      24,
+                      25,
+                      450,
+                      456
+                    ],
+                    "text": "71,137",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      24,
+                      25,
+                      357,
+                      363
+                    ],
+                    "text": "Totals",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  }
+                ],
+                "full_original_row_supplied": true,
+                "complete": true
+              }
+            ]
+          },
+          {
+            "fact_id": "checks_not_sales",
+            "fully_covered": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "phrases_covered": [
+                  true,
+                  true,
+                  true
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 2,
+                "phrases_covered": [
+                  false,
+                  false,
+                  false
+                ],
+                "complete": false
+              }
+            ]
+          }
+        ],
+        "source_count": 2
+      },
+      "inventory": [
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:7",
+          "kind": "selected_child",
+          "body_tokens": 154,
+          "serialized_context_tokens": 305,
+          "cells": 0,
+          "supplements": 0
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:0",
+          "kind": "selected_child",
+          "body_tokens": 501,
+          "serialized_context_tokens": 3346,
+          "cells": 221,
+          "supplements": 0
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:2",
+          "kind": "selected_child",
+          "body_tokens": 497,
+          "serialized_context_tokens": 5232,
+          "cells": 271,
+          "supplements": 33
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:1",
+          "kind": "selected_child",
+          "body_tokens": 495,
+          "serialized_context_tokens": 5192,
+          "cells": 271,
+          "supplements": 33
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:4",
+          "kind": "selected_child",
+          "body_tokens": 504,
+          "serialized_context_tokens": 5239,
+          "cells": 271,
+          "supplements": 33
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:parent:2",
+          "kind": "expanded_parent",
+          "body_tokens": 397,
+          "serialized_context_tokens": 3382,
+          "cells": 146,
+          "supplements": 33
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:parent:0",
+          "kind": "expanded_parent",
+          "body_tokens": 1495,
+          "serialized_context_tokens": 10604,
+          "cells": 671,
+          "supplements": 0
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:parent:1",
+          "kind": "expanded_parent",
+          "body_tokens": 1514,
+          "serialized_context_tokens": 12549,
+          "cells": 721,
+          "supplements": 33
+        }
+      ],
+      "local_pack_seconds": 0.011078499956056476,
+      "local_scope_seconds": 0.00023962499108165503,
+      "query_not_rerun": true,
+      "answer_not_generated": true,
+      "scope_only_without_candidates": false
+    },
+    {
+      "identity": "dense-table-planned",
+      "case_id": "dense-table",
+      "arm": "planned",
+      "question": "In \"background-checks.pdf\", report Alabama's Permit, Handgun, Long Gun and Totals values for November 2015. Do these statistics represent firearms sold?",
+      "original_stage_observation_line": 29,
+      "selected_rank_order": [
+        "6f664d31bed547c5a7920256fd940a6a:child:0",
+        "6f664d31bed547c5a7920256fd940a6a:child:7",
+        "6f664d31bed547c5a7920256fd940a6a:child:2",
+        "6f664d31bed547c5a7920256fd940a6a:child:5",
+        "6f664d31bed547c5a7920256fd940a6a:child:4"
+      ],
+      "expanded_order": [
+        "6f664d31bed547c5a7920256fd940a6a:parent:0",
+        "6f664d31bed547c5a7920256fd940a6a:parent:2",
+        "6f664d31bed547c5a7920256fd940a6a:parent:1"
+      ],
+      "packed_order": [
+        "6f664d31bed547c5a7920256fd940a6a:child:0",
+        "6f664d31bed547c5a7920256fd940a6a:child:7"
+      ],
+      "evidence_tokens": 3651,
+      "serialized_tokens": 3651,
+      "max_tokens": 4096,
+      "original_live_output_match": {
+        "chunks": false,
+        "evidence_tokens": false,
+        "excluded": false,
+        "unexpanded_parents": false,
+        "scope": true,
+        "scope_resolution": true
+      },
+      "scope": {
+        "references": [
+          "background-checks.pdf"
+        ],
+        "result": {
+          "status": "resolved",
+          "references": [
+            "background-checks.pdf"
+          ],
+          "file_ids": [
+            "6f664d31bed547c5a7920256fd940a6a"
+          ],
+          "matches": [
+            {
+              "file_id": "6f664d31bed547c5a7920256fd940a6a",
+              "file_name": "background-checks.pdf",
+              "labels": [
+                "background-checks"
+              ]
+            }
+          ],
+          "message": null
+        }
+      },
+      "scope_message_note": "Direct scope replay and planned caller can use different not-found messages; resolution status, references, file IDs and matches are compared separately from the message.",
+      "final_structural_coverage": {
+        "value": 1.0,
+        "facts": [
+          {
+            "fact_id": "alabama_permit",
+            "fully_covered": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      1,
+                      2,
+                      372,
+                      378
+                    ],
+                    "text": "18,870",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      1,
+                      2,
+                      172,
+                      178
+                    ],
+                    "text": "Permit",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  }
+                ],
+                "full_original_row_supplied": true,
+                "complete": true
+              },
+              {
+                "source_id": 2,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      1,
+                      2,
+                      372,
+                      378
+                    ],
+                    "text": "18,870",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      1,
+                      2,
+                      172,
+                      178
+                    ],
+                    "text": "Permit",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  }
+                ],
+                "full_original_row_supplied": false,
+                "complete": false
+              }
+            ]
+          },
+          {
+            "fact_id": "alabama_handgun",
+            "fully_covered": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      2,
+                      3,
+                      379,
+                      385
+                    ],
+                    "text": "23,022",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      2,
+                      3,
+                      179,
+                      186
+                    ],
+                    "text": "Handgun",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  }
+                ],
+                "full_original_row_supplied": true,
+                "complete": true
+              },
+              {
+                "source_id": 2,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      2,
+                      3,
+                      379,
+                      385
+                    ],
+                    "text": "23,022",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      2,
+                      3,
+                      179,
+                      186
+                    ],
+                    "text": "Handgun",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  }
+                ],
+                "full_original_row_supplied": false,
+                "complete": false
+              }
+            ]
+          },
+          {
+            "fact_id": "alabama_longgun",
+            "fully_covered": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      3,
+                      4,
+                      386,
+                      392
+                    ],
+                    "text": "22,650",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      3,
+                      4,
+                      187,
+                      195
+                    ],
+                    "text": "Long Gun",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  }
+                ],
+                "full_original_row_supplied": true,
+                "complete": true
+              },
+              {
+                "source_id": 2,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      3,
+                      4,
+                      386,
+                      392
+                    ],
+                    "text": "22,650",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      3,
+                      4,
+                      187,
+                      195
+                    ],
+                    "text": "Long Gun",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  }
+                ],
+                "full_original_row_supplied": false,
+                "complete": false
+              }
+            ]
+          },
+          {
+            "fact_id": "alabama_total",
+            "fully_covered": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      24,
+                      25,
+                      450,
+                      456
+                    ],
+                    "text": "71,137",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      24,
+                      25,
+                      357,
+                      363
+                    ],
+                    "text": "Totals",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  }
+                ],
+                "full_original_row_supplied": true,
+                "complete": true
+              },
+              {
+                "source_id": 2,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      24,
+                      25,
+                      450,
+                      456
+                    ],
+                    "text": "71,137",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      24,
+                      25,
+                      357,
+                      363
+                    ],
+                    "text": "Totals",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  }
+                ],
+                "full_original_row_supplied": false,
+                "complete": false
+              }
+            ]
+          },
+          {
+            "fact_id": "checks_not_sales",
+            "fully_covered": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "phrases_covered": [
+                  false,
+                  false,
+                  false
+                ],
+                "complete": false
+              },
+              {
+                "source_id": 2,
+                "phrases_covered": [
+                  true,
+                  true,
+                  true
+                ],
+                "complete": true
+              }
+            ]
+          }
+        ],
+        "source_count": 2
+      },
+      "inventory": [
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:0",
+          "kind": "selected_child",
+          "body_tokens": 501,
+          "serialized_context_tokens": 3346,
+          "cells": 221,
+          "supplements": 0
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:7",
+          "kind": "selected_child",
+          "body_tokens": 154,
+          "serialized_context_tokens": 305,
+          "cells": 0,
+          "supplements": 0
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:2",
+          "kind": "selected_child",
+          "body_tokens": 497,
+          "serialized_context_tokens": 5232,
+          "cells": 271,
+          "supplements": 33
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:5",
+          "kind": "selected_child",
+          "body_tokens": 503,
+          "serialized_context_tokens": 5238,
+          "cells": 271,
+          "supplements": 33
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:4",
+          "kind": "selected_child",
+          "body_tokens": 504,
+          "serialized_context_tokens": 5239,
+          "cells": 271,
+          "supplements": 33
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:parent:0",
+          "kind": "expanded_parent",
+          "body_tokens": 1495,
+          "serialized_context_tokens": 10604,
+          "cells": 671,
+          "supplements": 0
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:parent:2",
+          "kind": "expanded_parent",
+          "body_tokens": 397,
+          "serialized_context_tokens": 3382,
+          "cells": 146,
+          "supplements": 33
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:parent:1",
+          "kind": "expanded_parent",
+          "body_tokens": 1514,
+          "serialized_context_tokens": 12549,
+          "cells": 721,
+          "supplements": 33
+        }
+      ],
+      "local_pack_seconds": 0.01114449999295175,
+      "local_scope_seconds": 1.8874998204410076e-05,
+      "query_not_rerun": true,
+      "answer_not_generated": true,
+      "scope_only_without_candidates": false
+    },
+    {
+      "identity": "state-totals-single",
+      "case_id": "state-totals",
+      "arm": "single",
+      "question": "In \"background-checks.pdf\", compare the Totals values for Alabama, Alaska and Arizona for November 2015.",
+      "original_stage_observation_line": 47,
+      "selected_rank_order": [
+        "6f664d31bed547c5a7920256fd940a6a:child:0",
+        "6f664d31bed547c5a7920256fd940a6a:child:7",
+        "6f664d31bed547c5a7920256fd940a6a:child:1",
+        "6f664d31bed547c5a7920256fd940a6a:child:5",
+        "6f664d31bed547c5a7920256fd940a6a:child:4"
+      ],
+      "expanded_order": [
+        "6f664d31bed547c5a7920256fd940a6a:parent:0",
+        "6f664d31bed547c5a7920256fd940a6a:parent:2",
+        "6f664d31bed547c5a7920256fd940a6a:parent:1"
+      ],
+      "packed_order": [
+        "6f664d31bed547c5a7920256fd940a6a:child:0",
+        "6f664d31bed547c5a7920256fd940a6a:child:7"
+      ],
+      "evidence_tokens": 3651,
+      "serialized_tokens": 3651,
+      "max_tokens": 4096,
+      "original_live_output_match": {
+        "chunks": false,
+        "evidence_tokens": false,
+        "excluded": false,
+        "unexpanded_parents": false,
+        "scope": true,
+        "scope_resolution": true
+      },
+      "scope": {
+        "references": [
+          "background-checks.pdf"
+        ],
+        "result": {
+          "status": "resolved",
+          "references": [
+            "background-checks.pdf"
+          ],
+          "file_ids": [
+            "6f664d31bed547c5a7920256fd940a6a"
+          ],
+          "matches": [
+            {
+              "file_id": "6f664d31bed547c5a7920256fd940a6a",
+              "file_name": "background-checks.pdf",
+              "labels": [
+                "background-checks"
+              ]
+            }
+          ],
+          "message": null
+        }
+      },
+      "scope_message_note": "Direct scope replay and planned caller can use different not-found messages; resolution status, references, file IDs and matches are compared separately from the message.",
+      "final_structural_coverage": {
+        "value": 1.0,
+        "facts": [
+          {
+            "fact_id": "alabama_total",
+            "fully_covered": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      24,
+                      25,
+                      450,
+                      456
+                    ],
+                    "text": "71,137",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      24,
+                      25,
+                      357,
+                      363
+                    ],
+                    "text": "Totals",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  }
+                ],
+                "full_original_row_supplied": true,
+                "complete": true
+              },
+              {
+                "source_id": 2,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      24,
+                      25,
+                      450,
+                      456
+                    ],
+                    "text": "71,137",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      24,
+                      25,
+                      357,
+                      363
+                    ],
+                    "text": "Totals",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  }
+                ],
+                "full_original_row_supplied": false,
+                "complete": false
+              }
+            ]
+          },
+          {
+            "fact_id": "alaska_total",
+            "fully_covered": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      7,
+                      8,
+                      0,
+                      1,
+                      457,
+                      463
+                    ],
+                    "text": "Alaska",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      7,
+                      8,
+                      24,
+                      25,
+                      527,
+                      532
+                    ],
+                    "text": "7,095",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      24,
+                      25,
+                      357,
+                      363
+                    ],
+                    "text": "Totals",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  }
+                ],
+                "full_original_row_supplied": true,
+                "complete": true
+              },
+              {
+                "source_id": 2,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      7,
+                      8,
+                      0,
+                      1,
+                      457,
+                      463
+                    ],
+                    "text": "Alaska",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      7,
+                      8,
+                      24,
+                      25,
+                      527,
+                      532
+                    ],
+                    "text": "7,095",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      24,
+                      25,
+                      357,
+                      363
+                    ],
+                    "text": "Totals",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  }
+                ],
+                "full_original_row_supplied": false,
+                "complete": false
+              }
+            ]
+          },
+          {
+            "fact_id": "arizona_total",
+            "fully_covered": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      8,
+                      9,
+                      0,
+                      1,
+                      533,
+                      540
+                    ],
+                    "text": "Arizona",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      8,
+                      9,
+                      24,
+                      25,
+                      609,
+                      615
+                    ],
+                    "text": "27,087",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      24,
+                      25,
+                      357,
+                      363
+                    ],
+                    "text": "Totals",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  }
+                ],
+                "full_original_row_supplied": true,
+                "complete": true
+              },
+              {
+                "source_id": 2,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      8,
+                      9,
+                      0,
+                      1,
+                      533,
+                      540
+                    ],
+                    "text": "Arizona",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      8,
+                      9,
+                      24,
+                      25,
+                      609,
+                      615
+                    ],
+                    "text": "27,087",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      24,
+                      25,
+                      357,
+                      363
+                    ],
+                    "text": "Totals",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": false,
+                    "text_supplied": false
+                  }
+                ],
+                "full_original_row_supplied": false,
+                "complete": false
+              }
+            ]
+          }
+        ],
+        "source_count": 2
+      },
+      "inventory": [
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:0",
+          "kind": "selected_child",
+          "body_tokens": 501,
+          "serialized_context_tokens": 3346,
+          "cells": 221,
+          "supplements": 0
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:7",
+          "kind": "selected_child",
+          "body_tokens": 154,
+          "serialized_context_tokens": 305,
+          "cells": 0,
+          "supplements": 0
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:1",
+          "kind": "selected_child",
+          "body_tokens": 495,
+          "serialized_context_tokens": 5192,
+          "cells": 271,
+          "supplements": 33
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:5",
+          "kind": "selected_child",
+          "body_tokens": 503,
+          "serialized_context_tokens": 5238,
+          "cells": 271,
+          "supplements": 33
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:4",
+          "kind": "selected_child",
+          "body_tokens": 504,
+          "serialized_context_tokens": 5239,
+          "cells": 271,
+          "supplements": 33
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:parent:0",
+          "kind": "expanded_parent",
+          "body_tokens": 1495,
+          "serialized_context_tokens": 10604,
+          "cells": 671,
+          "supplements": 0
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:parent:2",
+          "kind": "expanded_parent",
+          "body_tokens": 397,
+          "serialized_context_tokens": 3382,
+          "cells": 146,
+          "supplements": 33
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:parent:1",
+          "kind": "expanded_parent",
+          "body_tokens": 1514,
+          "serialized_context_tokens": 12549,
+          "cells": 721,
+          "supplements": 33
+        }
+      ],
+      "local_pack_seconds": 0.011194500024430454,
+      "local_scope_seconds": 2.037500962615013e-05,
+      "query_not_rerun": true,
+      "answer_not_generated": true,
+      "scope_only_without_candidates": false
+    },
+    {
+      "identity": "state-totals-planned",
+      "case_id": "state-totals",
+      "arm": "planned",
+      "question": "In \"background-checks.pdf\", compare the Totals values for Alabama, Alaska and Arizona for November 2015.",
+      "original_stage_observation_line": 44,
+      "selected_rank_order": [
+        "6f664d31bed547c5a7920256fd940a6a:child:0",
+        "6f664d31bed547c5a7920256fd940a6a:child:5",
+        "6f664d31bed547c5a7920256fd940a6a:child:4",
+        "6f664d31bed547c5a7920256fd940a6a:child:1",
+        "6f664d31bed547c5a7920256fd940a6a:child:2"
+      ],
+      "expanded_order": [
+        "6f664d31bed547c5a7920256fd940a6a:parent:0",
+        "6f664d31bed547c5a7920256fd940a6a:parent:1"
+      ],
+      "packed_order": [
+        "6f664d31bed547c5a7920256fd940a6a:child:0"
+      ],
+      "evidence_tokens": 3346,
+      "serialized_tokens": 3346,
+      "max_tokens": 4096,
+      "original_live_output_match": {
+        "chunks": false,
+        "evidence_tokens": false,
+        "excluded": false,
+        "unexpanded_parents": false,
+        "scope": true,
+        "scope_resolution": true
+      },
+      "scope": {
+        "references": [
+          "background-checks.pdf"
+        ],
+        "result": {
+          "status": "resolved",
+          "references": [
+            "background-checks.pdf"
+          ],
+          "file_ids": [
+            "6f664d31bed547c5a7920256fd940a6a"
+          ],
+          "matches": [
+            {
+              "file_id": "6f664d31bed547c5a7920256fd940a6a",
+              "file_name": "background-checks.pdf",
+              "labels": [
+                "background-checks"
+              ]
+            }
+          ],
+          "message": null
+        }
+      },
+      "scope_message_note": "Direct scope replay and planned caller can use different not-found messages; resolution status, references, file IDs and matches are compared separately from the message.",
+      "final_structural_coverage": {
+        "value": 1.0,
+        "facts": [
+          {
+            "fact_id": "alabama_total",
+            "fully_covered": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      0,
+                      1,
+                      364,
+                      371
+                    ],
+                    "text": "Alabama",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      6,
+                      7,
+                      24,
+                      25,
+                      450,
+                      456
+                    ],
+                    "text": "71,137",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      24,
+                      25,
+                      357,
+                      363
+                    ],
+                    "text": "Totals",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  }
+                ],
+                "full_original_row_supplied": true,
+                "complete": true
+              }
+            ]
+          },
+          {
+            "fact_id": "alaska_total",
+            "fully_covered": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      7,
+                      8,
+                      0,
+                      1,
+                      457,
+                      463
+                    ],
+                    "text": "Alaska",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      7,
+                      8,
+                      24,
+                      25,
+                      527,
+                      532
+                    ],
+                    "text": "7,095",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      24,
+                      25,
+                      357,
+                      363
+                    ],
+                    "text": "Totals",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  }
+                ],
+                "full_original_row_supplied": true,
+                "complete": true
+              }
+            ]
+          },
+          {
+            "fact_id": "arizona_total",
+            "fully_covered": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "table_id": "#/tables/0",
+                "cells": [
+                  {
+                    "cell": [
+                      8,
+                      9,
+                      0,
+                      1,
+                      533,
+                      540
+                    ],
+                    "text": "Arizona",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      8,
+                      9,
+                      24,
+                      25,
+                      609,
+                      615
+                    ],
+                    "text": "27,087",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      5,
+                      6,
+                      24,
+                      25,
+                      357,
+                      363
+                    ],
+                    "text": "Totals",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  },
+                  {
+                    "cell": [
+                      2,
+                      3,
+                      0,
+                      25,
+                      32,
+                      47
+                    ],
+                    "text": "November - 2015",
+                    "metadata_present": true,
+                    "text_supplied": true
+                  }
+                ],
+                "full_original_row_supplied": true,
+                "complete": true
+              }
+            ]
+          }
+        ],
+        "source_count": 1
+      },
+      "inventory": [
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:0",
+          "kind": "selected_child",
+          "body_tokens": 501,
+          "serialized_context_tokens": 3346,
+          "cells": 221,
+          "supplements": 0
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:5",
+          "kind": "selected_child",
+          "body_tokens": 503,
+          "serialized_context_tokens": 5238,
+          "cells": 271,
+          "supplements": 33
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:4",
+          "kind": "selected_child",
+          "body_tokens": 504,
+          "serialized_context_tokens": 5239,
+          "cells": 271,
+          "supplements": 33
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:1",
+          "kind": "selected_child",
+          "body_tokens": 495,
+          "serialized_context_tokens": 5192,
+          "cells": 271,
+          "supplements": 33
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:2",
+          "kind": "selected_child",
+          "body_tokens": 497,
+          "serialized_context_tokens": 5232,
+          "cells": 271,
+          "supplements": 33
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:parent:0",
+          "kind": "expanded_parent",
+          "body_tokens": 1495,
+          "serialized_context_tokens": 10604,
+          "cells": 671,
+          "supplements": 0
+        },
+        {
+          "chunk_id": "6f664d31bed547c5a7920256fd940a6a:parent:1",
+          "kind": "expanded_parent",
+          "body_tokens": 1514,
+          "serialized_context_tokens": 12549,
+          "cells": 721,
+          "supplements": 33
+        }
+      ],
+      "local_pack_seconds": 0.011261875042691827,
+      "local_scope_seconds": 2.1999934688210487e-05,
+      "query_not_rerun": true,
+      "answer_not_generated": true,
+      "scope_only_without_candidates": false
+    },
+    {
+      "identity": "grouped-and-blank-cells-single",
+      "case_id": "grouped-and-blank-cells",
+      "arm": "single",
+      "question": "In \"background-checks.pdf\" for November 2015, what is Alabama's Handgun value in the ungrouped column, and what is its Pre-Pawn Handgun value? What do Alabama's Rentals Handgun and Rentals Long Gun cells record? If the supplied excerpts do not establish a requested cell's contents, state that limitation.",
+      "original_stage_observation_line": 52,
+      "selected_rank_order": [],
+      "expanded_order": [],
+      "packed_order": [],
+      "evidence_tokens": 0,
+      "serialized_tokens": 0,
+      "max_tokens": 4096,
+      "original_live_output_match": {
+        "chunks": true,
+        "evidence_tokens": true,
+        "excluded": true,
+        "unexpanded_parents": true,
+        "scope": false,
+        "scope_resolution": false
+      },
+      "scope": {
+        "references": [
+          "background-checks.pdf"
+        ],
+        "result": {
+          "status": "resolved",
+          "references": [
+            "background-checks.pdf"
+          ],
+          "file_ids": [
+            "6f664d31bed547c5a7920256fd940a6a"
+          ],
+          "matches": [
+            {
+              "file_id": "6f664d31bed547c5a7920256fd940a6a",
+              "file_name": "background-checks.pdf",
+              "labels": [
+                "background-checks"
+              ]
+            }
+          ],
+          "message": null
+        }
+      },
+      "scope_message_note": "Direct scope replay and planned caller can use different not-found messages; resolution status, references, file IDs and matches are compared separately from the message.",
+      "final_structural_coverage": {
+        "value": 0.0,
+        "facts": [
+          {
+            "fact_id": "alabama_handgun",
+            "fully_covered": false,
+            "source_checks": []
+          },
+          {
+            "fact_id": "alabama_prepawn_handgun",
+            "fully_covered": false,
+            "source_checks": []
+          },
+          {
+            "fact_id": "alabama_rentals_handgun_blank",
+            "fully_covered": false,
+            "source_checks": []
+          },
+          {
+            "fact_id": "alabama_rentals_longgun_blank",
+            "fully_covered": false,
+            "source_checks": []
+          }
+        ],
+        "source_count": 0
+      },
+      "inventory": [],
+      "local_pack_seconds": 1.579197123646736e-05,
+      "local_scope_seconds": 1.4416058547794819e-05,
+      "query_not_rerun": true,
+      "answer_not_generated": true,
+      "scope_only_without_candidates": true
+    },
+    {
+      "identity": "grouped-and-blank-cells-planned",
+      "case_id": "grouped-and-blank-cells",
+      "arm": "planned",
+      "question": "In \"background-checks.pdf\" for November 2015, what is Alabama's Handgun value in the ungrouped column, and what is its Pre-Pawn Handgun value? What do Alabama's Rentals Handgun and Rentals Long Gun cells record? If the supplied excerpts do not establish a requested cell's contents, state that limitation.",
+      "original_stage_observation_line": 53,
+      "selected_rank_order": [],
+      "expanded_order": [],
+      "packed_order": [],
+      "evidence_tokens": 0,
+      "serialized_tokens": 0,
+      "max_tokens": 4096,
+      "original_live_output_match": {
+        "chunks": true,
+        "evidence_tokens": true,
+        "excluded": true,
+        "unexpanded_parents": true,
+        "scope": false,
+        "scope_resolution": false
+      },
+      "scope": {
+        "references": [
+          "background-checks.pdf"
+        ],
+        "result": {
+          "status": "resolved",
+          "references": [
+            "background-checks.pdf"
+          ],
+          "file_ids": [
+            "6f664d31bed547c5a7920256fd940a6a"
+          ],
+          "matches": [
+            {
+              "file_id": "6f664d31bed547c5a7920256fd940a6a",
+              "file_name": "background-checks.pdf",
+              "labels": [
+                "background-checks"
+              ]
+            }
+          ],
+          "message": null
+        }
+      },
+      "scope_message_note": "Direct scope replay and planned caller can use different not-found messages; resolution status, references, file IDs and matches are compared separately from the message.",
+      "final_structural_coverage": {
+        "value": 0.0,
+        "facts": [
+          {
+            "fact_id": "alabama_handgun",
+            "fully_covered": false,
+            "source_checks": []
+          },
+          {
+            "fact_id": "alabama_prepawn_handgun",
+            "fully_covered": false,
+            "source_checks": []
+          },
+          {
+            "fact_id": "alabama_rentals_handgun_blank",
+            "fully_covered": false,
+            "source_checks": []
+          },
+          {
+            "fact_id": "alabama_rentals_longgun_blank",
+            "fully_covered": false,
+            "source_checks": []
+          }
+        ],
+        "source_count": 0
+      },
+      "inventory": [],
+      "local_pack_seconds": 5.999929271638393e-06,
+      "local_scope_seconds": 8.750008419156075e-06,
+      "query_not_rerun": true,
+      "answer_not_generated": true,
+      "scope_only_without_candidates": true
+    }
+  ],
+  "method": "Reconstruct original production pack_retrieval_candidates inputs from the last observed retrieval stage, candidate provenance, unchanged frozen children/parents, original PDF extraction and labels; freeze those inputs once and call pack_evidence. Ranks, selected IDs, queries, corpus and annotations do not change. Scope is separately replayed from the six original questions. No retrieval, parsing, indexing, model answer, or sufficiency decision is rerun.",
+  "limitations": "Stored planned queries and selected ranks were produced under the old context/sufficiency cycle and remain fixed. The two originally scope-blocked cases have no recorded candidates; a corrected scope cannot demonstrate their retrieval or answer quality. Structural metadata coverage must be checked against actual serialized model text before calling it final model-context coverage. Local pack/scope timings are diagnostics, not production response latency."
+}

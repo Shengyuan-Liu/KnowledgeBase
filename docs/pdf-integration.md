@@ -23,6 +23,11 @@ then exposes two integration failures: the retrieved table excerpt is excluded
 by the final context budget, and a date qualifier after a quoted filename is
 misread as part of that filename. Only 2 of 24 requested point instances are
 answered correctly. The recovered parsing output alone does not pass live acceptance.
+The [context and scope repair](../evals/check-runs/20260927-table-context-scope/README.md)
+then restores all 16 annotated evidence points in the four frozen requests that
+actually retrieved candidates. Both formerly rejected questions resolve locally,
+but their old empty rankings cannot establish new answer quality or blank-cell
+interpretation. Real answer acceptance is recorded separately.
 
 ## Use
 
@@ -90,7 +95,15 @@ units such as the financial statement's `(In millions, ...)` without labeling
 the paragraph as a verified semantic unit definition. These carry their own source spans
 and physical pages; they are not inserted into the canonical body slice. All
 metadata, warnings and supplementary text count toward the actual context budget.
-The diagnostic context format is `source-metadata-pdf-v1` when PDF hits are present.
+The diagnostic context format is `source-metadata-pdf-v2` when PDF hits are present.
+Table coordinate JSON uses compact separators, retaining every cell tuple and
+its canonical bounds, including empty cells and merged headers. Source text,
+supplements, warnings and page metadata keep their existing representation.
+The default packer defers parents intersecting PDF tables until it has tried
+the selected children. It then attempts each whole table parent in selected-rank
+order, replacing its siblings only when every other retained source still fits.
+This also protects a selected table row from expansion of an earlier notes hit.
+Non-table parent behavior and the `parent_first` control are unchanged.
 Text already inside the excerpt or linked as a caption/note is not repeated as
 preceding text. Other unassociated units/notes remain ordinary prose. Oversized
 evidence can be excluded rather than silently exceed the budget. Existing extraction

@@ -228,6 +228,65 @@ def test_unresolved_scope_skips_planner_and_single_mode_is_unchanged(planned_api
     assert all("text" not in call.kwargs for call in sdk.responses.create.call_args_list)
 
 
+@pytest.mark.parametrize("endpoint", ["/api/chat", "/api/chat/stream"])
+@pytest.mark.parametrize("failure", ["missing_reference", "excluded_reference", "ambiguous_reference", "deleted_id"])
+def test_planned_scope_failure_preserves_initial_clarification_and_history(planned_api, endpoint, failure):
+    client, resources, sdk, _, file_id = planned_api
+    question = 'In "missing.pdf" for November 2015, explain the results.'
+    selected = [file_id]
+    status = "not_found"
+    if failure in {"excluded_reference", "ambiguous_reference"}:
+        extra = client.post("/api/files", files={"file": (
+            "experiment-guide.txt", b"Title: Experiment\n\nAn outside document.", "text/plain",
+        )}).json()["file_id"]
+        if failure == "excluded_reference":
+            question = 'In "experiment-guide.txt" for November 2015, explain the results.'
+        else:
+            question = 'In "experiment" for November 2015, explain the results.'
+            selected.append(extra)
+            status = "ambiguous"
+    elif failure == "deleted_id":
+        question = 'In "experiment.txt", explain the results.'
+        selected = ["deleted"]
+    request = {"question": question, "file_ids": selected, "retrieval_mode": "single"}
+    single = client.post("/api/chat", json=request).json()
+    result = client.post(endpoint, json={**request, "retrieval_mode": "planned", "request_id": "scope-failure"})
+    assert result.status_code == 200
+    answer = events_from(result)[-1] if endpoint.endswith("/stream") else result.json()
+    assert answer["answer"] == single["answer"]
+    assert answer["sources"] == []
+    scope = answer["retrieval"]["document_scope"]
+    assert scope == single["retrieval"]["document_scope"]
+    assert scope["status"] == status
+    assert answer["answer"] == scope["message"]
+    if failure == "ambiguous_reference":
+        assert {match["file_id"] for match in scope["matches"]} == set(selected)
+    elif failure != "deleted_id":
+        assert 'matching "' in answer["answer"]
+        assert "for November" not in answer["answer"]
+    saved = client.get(f"/api/conversations/{answer['conversation_id']}").json()["messages"][-1]
+    assert saved["content"] == answer["answer"]
+    assert saved["retrieval"] == answer["retrieval"]
+    sdk.responses.create.assert_not_called()
+    resources.embeddings.embed_query.assert_not_called()
+
+
+@pytest.mark.parametrize("mode", ["single", "planned"])
+def test_quoted_filename_scope_leaves_date_in_original_question(planned_api, mode):
+    client, _, sdk, _, file_id = planned_api
+    question = 'In "experiment.txt" for November 2015, explain the results.'
+    result = client.post("/api/chat", json={"question": question, "file_ids": [file_id], "retrieval_mode": mode})
+    assert result.status_code == 200
+    answer = result.json()
+    assert answer["retrieval"]["document_scope"]["file_ids"] == [file_id]
+    assert {source["file_id"] for source in answer["sources"]} == {file_id}
+    generation = [call.kwargs for call in sdk.responses.create.call_args_list if "text" not in call.kwargs][-1]
+    user_message = next(message for message in generation["input"] if message["role"] == "user")
+    assert user_message["content"].startswith(f"Question:\n{question}\n")
+    if mode == "planned":
+        assert answer["retrieval"]["planning"]["trace"]["plan"]["original_question"] == question
+
+
 def test_invalid_plan_never_persists_a_success(planned_api):
     client, resources, _, decisions, _ = planned_api
     decisions[0] = {"bad": "plan"}

@@ -10,7 +10,7 @@ from knowledgebase.api import app as api_module
 from knowledgebase.config import RetrievalOptions
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.packing import pack_evidence
-from knowledgebase.schemas import Chunk, RetrievedChunk, RetrievalDiagnostics, VectorMatch
+from knowledgebase.schemas import Chunk, ExcludedEvidence, RetrievedChunk, RetrievalDiagnostics, VectorMatch
 from knowledgebase.storage.operations import get_chunks
 
 
@@ -86,6 +86,53 @@ def test_oversize_parent_keeps_complete_code_child_and_ample_budget_deduplicates
     empty = pack([child], [parent], 1)
     assert empty.chunks == []
     assert empty.diagnostics.excluded[0].chunk_id == child.chunk.chunk_id
+    assert empty.diagnostics.excluded[0].trial_context_tokens == tokens([child])
+    assert small.diagnostics.unexpanded_parents[0].trial_context_tokens == tokens([parent])
+
+
+def test_exclusion_records_the_entire_attempted_context_and_old_snapshots_remain_readable():
+    first = region('first', 'A retained fact.')
+    second = region('second', 'Another fact.')
+    result = pack([first, second], [first, second], tokens([first, second]) - 1)
+    omitted = result.diagnostics.excluded[0]
+    assert omitted.chunk_id == 'second'
+    assert omitted.trial_context_tokens == tokens([first, second]) > result.diagnostics.max_tokens
+    assert omitted.token_count == len(tiktoken.get_encoding('cl100k_base').encode_ordinary(second.chunk.text))
+    old = omitted.model_dump(exclude={'trial_context_tokens'})
+    assert ExcludedEvidence.model_validate(old).trial_context_tokens is None
+
+
+def test_table_parent_upgrade_replaces_all_siblings_without_displacing_other_sources():
+    from knowledgebase.schemas import PdfEvidence, PdfRegion, PdfTableSpan
+
+    first = region('table:child:0', 'First table row.\n', 'table:parent:0', ['table:child:0'])
+    second = region('table:child:1', 'Second table row.\n', 'table:parent:0', ['table:child:1'],
+                    len(first.chunk.text))
+    parent = region('table:parent:0', first.chunk.text + second.chunk.text + 'Table detail. ' * 30,
+                    first.parent_id, [first.chunk.chunk_id, second.chunk.chunk_id])
+    cells = [(row, row + 1, 0, 1, hit.chunk.start_offset, hit.chunk.end_offset)
+             for row, hit in enumerate([first, second])]
+    for hit, selected_cells in [(first, cells[:1]), (second, cells[1:]), (parent, cells)]:
+        hit.pdf = PdfEvidence(revision_id='revision', source_hash='source', page_count=1,
+            regions=[PdfRegion(start_offset=hit.chunk.start_offset, end_offset=hit.chunk.end_offset,
+                               page_index=0, bbox=(0, 0, 100, 100), precision='table')],
+            tables=[PdfTableSpan(table_id='table', cells=selected_cells)])
+    unrelated = region('other', 'Another document fact.')
+    selected = [first, unrelated, second]
+    expanded = [parent, unrelated]
+    budget = tokens([parent, unrelated])
+    assert tokens(selected) < budget
+
+    upgraded = pack(selected, expanded, budget)
+    assert upgraded.chunks == [parent, unrelated]
+    assert upgraded.diagnostics.evidence_tokens == budget
+    assert upgraded.diagnostics.excluded == upgraded.diagnostics.unexpanded_parents == []
+
+    retained = pack(selected, expanded, budget - 1)
+    assert retained.chunks == selected
+    assert retained.diagnostics.excluded == []
+    assert retained.diagnostics.unexpanded_parents[0].chunk_id == parent.chunk.chunk_id
+    assert retained.diagnostics.unexpanded_parents[0].trial_context_tokens == budget
 
 
 def test_source_identity_is_in_budget_and_historical_format_is_unknown():

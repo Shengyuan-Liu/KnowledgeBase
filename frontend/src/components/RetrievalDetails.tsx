@@ -56,11 +56,19 @@ export function RetrievalDetails({ data }: { data?: RetrievalDiagnostics | null 
       ))}</ul> : <p>No selected children.</p>}
       <p><strong>Excluded by evidence budget:</strong></p>
       {data.excluded.length ? <ul>{data.excluded.map((region) => (
-        <li key={region.chunk_id}>{region.chunk_id} · {region.token_count} source-text tokens · {region.reason}</li>
+        <li key={region.chunk_id}>
+          {region.chunk_id} · {region.token_count} source-text tokens · {region.reason}
+          {region.trial_context_tokens != null &&
+            <> · Attempted full context: {region.trial_context_tokens} / {data.max_tokens} tokens</>}
+        </li>
       ))}</ul> : <p>No budget exclusions recorded.</p>}
       {!!data.unexpanded_parents?.length && <>
         <p><strong>Parents replaced by selected child evidence:</strong></p>
-        <ul>{data.unexpanded_parents.map((parent) => <li key={parent.chunk_id}>{parent.chunk_id}</li>)}</ul>
+        <ul>{data.unexpanded_parents.map((parent) => <li key={parent.chunk_id}>
+          {parent.chunk_id}
+          {parent.trial_context_tokens != null &&
+            <> · Attempted full context: {parent.trial_context_tokens} / {data.max_tokens} tokens</>}
+        </li>)}</ul>
       </>}
     </section>
   );

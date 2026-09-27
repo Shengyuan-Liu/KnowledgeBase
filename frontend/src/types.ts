@@ -108,8 +108,8 @@ export interface RetrievalDiagnostics {
   packing_seconds?: number | null;
   fused_matches: FusedMatch[];
   candidates: { chunk_id: string; parent_id?: string | null }[];
-  excluded: { chunk_id: string; token_count: number; reason: string }[];
-  unexpanded_parents?: { chunk_id: string; token_count: number }[];
+  excluded: { chunk_id: string; token_count: number; trial_context_tokens?: number | null; reason: string }[];
+  unexpanded_parents?: { chunk_id: string; token_count: number; trial_context_tokens?: number | null }[];
   rerank?: {
     model: string;
     model_revision?: string | null;

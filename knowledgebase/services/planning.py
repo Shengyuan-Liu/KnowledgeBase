@@ -11,6 +11,7 @@ from knowledgebase.providers.limits import GenerationLimits
 from knowledgebase.providers.planner import PlannerClient
 from knowledgebase.rag.planning import RetrievalPlan, direct_plan
 from knowledgebase.rag.retrieval import resolve_ready_scope
+from knowledgebase.schemas import DocumentScope
 
 NARROWING_MESSAGE = "This question needs more than six answer points or searches. Please narrow it or split it into smaller questions."
 
@@ -53,14 +54,18 @@ class PreparedPlanning:
     plan: RetrievalPlan | None
     allowed_file_ids: list[str]
     record: dict | None
+    scope_failure: DocumentScope | None = None
 
 
 def prepare_planning(original, resolved, sessions, file_ids, planner: PlannerClient, control: RequestControl) -> PreparedPlanning:
     control.before_answer()
     with sessions() as session:
-        ready, _ = resolve_ready_scope(resolved, session, file_ids=file_ids, scope_question=original)
+        ready, scope = resolve_ready_scope(resolved, session, file_ids=file_ids, scope_question=original)
     if not ready:
-        return PreparedPlanning(direct_plan(original, resolved_question=resolved), [], None)
+        return PreparedPlanning(
+            direct_plan(original, resolved_question=resolved), [], None,
+            scope if scope and scope.status != "resolved" else None,
+        )
     generated = planner.plan(original, resolved, control.before_answer)
     control.before_answer()
     return PreparedPlanning(generated.plan, list(ready), generated.record)

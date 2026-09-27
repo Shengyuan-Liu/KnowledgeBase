@@ -39,7 +39,7 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `CHUNK_MAX_TOKENS` | `512` | Structural chunk or child token limit; experimental starting value |
 | `CHUNK_TOKENIZER` | `cl100k_base` | tiktoken encoding for splitting and evidence packing |
 | `PARENT_MAX_TOKENS` | `1536` | Parent token limit in `parent_child` and `semantic` modes |
-| `EVIDENCE_PACKING_STRATEGY` | `parent_then_child` | In selected rank order, try each parent then its whole child immediately if needed; `parent_first` packs only parent/flat regions |
+| `EVIDENCE_PACKING_STRATEGY` | `parent_then_child` | Try non-table parents then whole child fallbacks; defer PDF table parent expansion until selected children are packed, preserving other retained hits. `parent_first` packs only parent/flat regions |
 | `EVIDENCE_MAX_TOKENS` | `4096` | Exact evidence budget, including source file/heading metadata, labels and separators, for all strategies |
 | `CHUNK_SIZE` | `2048` | Maximum characters per chunk in `character` mode only |
 | `CHUNK_OVERLAP` | `256` | Character overlap in `character` mode only |

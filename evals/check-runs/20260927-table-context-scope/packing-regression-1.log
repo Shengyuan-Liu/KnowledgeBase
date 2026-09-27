@@ -1,0 +1,251 @@
+.F.....................FFFFFF.....................                       [100%]
+=================================== FAILURES ===================================
+_ test_observed_rankings_supply_target_rows_with_headers_and_page[single-dense-table] _
+
+sessions = sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-216/test_observed_rankings_supply_0/knowledgebase.db), autoflush=True, expire_on_commit=True)
+dense_inputs = ({'file': {'file_id': '6f664d31bed547c5a7920256fd940a6a', 'file_name': 'background-checks.pdf', 'status': 'ready', 'er...en_before_acceptance_experiment': True, 'code_version_at_annotation': '9dcb7c50a02066bdb482a8c00f42c35f1c8e8865', ...})
+case_id = 'dense-table', arm = 'single'
+
+    @pytest.mark.parametrize("case_id", ["dense-table", "state-totals"])
+    @pytest.mark.parametrize("arm", ["single", "planned"])
+    def test_observed_rankings_supply_target_rows_with_headers_and_page(sessions, dense_inputs, case_id, arm):
+        document, rankings, _ = dense_inputs
+        extraction = PdfExtraction.model_validate(document["extraction"])
+        identity = document["file"]["file_id"]
+        children = {chunk["chunk_id"]: ChildChunk.model_validate(chunk) for chunk in document["chunks"]}
+        with sessions.begin() as session:
+            create_file(session, identity, "background-checks.pdf")
+            save_pdf_source(session, identity, extraction, indexing={})
+            save_parent_child_chunks(session, ParentChildChunks(
+                parents=[ParentChunk.model_validate(parent) for parent in document["parents"]], children=list(children.values())))
+        row = rankings[case_id + "-" + arm]
+        selected = [RetrievedChunk.model_validate({**hit, "chunk": children[hit["chunk_id"]],
+                    "file_name": "background-checks.pdf", "document_labels": ["background-checks"]}) for hit in row["candidates"]]
+        with sessions() as session:
+            packed = pack_retrieval_candidates(selected, session, RetrievalDiagnostics(
+                max_tokens=4096, tokenizer="cl100k_base", options=RetrievalOptions(packing_strategy="parent_then_child")))
+        context = build_context(packed.chunks)
+>       assert all(value in context for value in ["Alabama", "Alaska", "Arizona", "18,870", "23,022", "22,650", "71,137", "7,095", "27,087", "November - 2015"])
+E       assert False
+E        +  where False = all(<generator object test_observed_rankings_supply_target_rows_with_headers_and_page.<locals>.<genexpr> at 0x1210c9220>)
+
+tests/test_dense_table_packing.py:85: AssertionError
+_ test_financial_hits_keep_values_periods_units_and_exact_budget[single-apparent-conflict] _
+
+sessions = sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-216/test_financial_hits_keep_value0/knowledgebase.db), autoflush=True, expire_on_commit=True)
+financial_inputs = ({'file': {'file_id': '1459e2b88b634fc2bbfd307abe5ec136', 'file_name': 'apple-fy24.pdf', 'status': 'ready', 'error_mes...hs ended September 28, 2024? Include units.', 'facts': ['apple_income_q', 'apple_income_y', 'apple_units'], ...}, ...})
+case_id = 'apparent-conflict', arm = 'single'
+
+    @pytest.mark.parametrize('case_id',sorted(FINANCIAL))
+    @pytest.mark.parametrize('arm',['single','planned'])
+    def test_financial_hits_keep_values_periods_units_and_exact_budget(sessions, financial_inputs, case_id, arm):
+        document,rows=financial_inputs
+        row=rows[(case_id,arm)]
+        extraction=PdfExtraction.model_validate(document['extraction'])
+        identity=document['file']['file_id']
+        children={c['chunk_id']:ChildChunk.model_validate(c) for c in document['chunks']}
+        with sessions.begin() as session:
+            create_file(session,identity,'apple-fy24.pdf')
+            save_pdf_source(session,identity,extraction,indexing={})
+            save_parent_child_chunks(session,ParentChildChunks(
+                parents=[ParentChunk.model_validate(c) for c in document['parents']],children=list(children.values())))
+        selected=[RetrievedChunk.model_validate({**hit,'chunk':children[hit['chunk']['chunk_id']]}) for hit in row['selected']]
+        with sessions() as session:
+            result=pack_retrieval_candidates(selected,session,RetrievalDiagnostics.model_validate(row['diagnostics']))
+        context=build_context(result.chunks)
+        expected=['14,736','93,736'] if case_id=='apple-income' else ['94,930','391,035']
+        assert all(value in context for value in [*expected,'Three Months Ended','Twelve Months Ended','September 28, 2024','In millions'])
+>       assert result.chunks[0].chunk.chunk_id == selected[0].chunk.chunk_id
+E       AssertionError: assert '1459e2b88b63...c136:parent:1' == '1459e2b88b63...ec136:child:3'
+E         
+E         - 1459e2b88b634fc2bbfd307abe5ec136:child:3
+E         ?                                  ^^^^^ ^
+E         + 1459e2b88b634fc2bbfd307abe5ec136:parent:1
+E         ?                                  ^^^^^^ ^
+
+tests/test_pdf_packing.py:47: AssertionError
+_ test_financial_hits_keep_values_periods_units_and_exact_budget[single-apple-income] _
+
+sessions = sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-216/test_financial_hits_keep_value1/knowledgebase.db), autoflush=True, expire_on_commit=True)
+financial_inputs = ({'file': {'file_id': '1459e2b88b634fc2bbfd307abe5ec136', 'file_name': 'apple-fy24.pdf', 'status': 'ready', 'error_mes...hs ended September 28, 2024? Include units.', 'facts': ['apple_income_q', 'apple_income_y', 'apple_units'], ...}, ...})
+case_id = 'apple-income', arm = 'single'
+
+    @pytest.mark.parametrize('case_id',sorted(FINANCIAL))
+    @pytest.mark.parametrize('arm',['single','planned'])
+    def test_financial_hits_keep_values_periods_units_and_exact_budget(sessions, financial_inputs, case_id, arm):
+        document,rows=financial_inputs
+        row=rows[(case_id,arm)]
+        extraction=PdfExtraction.model_validate(document['extraction'])
+        identity=document['file']['file_id']
+        children={c['chunk_id']:ChildChunk.model_validate(c) for c in document['chunks']}
+        with sessions.begin() as session:
+            create_file(session,identity,'apple-fy24.pdf')
+            save_pdf_source(session,identity,extraction,indexing={})
+            save_parent_child_chunks(session,ParentChildChunks(
+                parents=[ParentChunk.model_validate(c) for c in document['parents']],children=list(children.values())))
+        selected=[RetrievedChunk.model_validate({**hit,'chunk':children[hit['chunk']['chunk_id']]}) for hit in row['selected']]
+        with sessions() as session:
+            result=pack_retrieval_candidates(selected,session,RetrievalDiagnostics.model_validate(row['diagnostics']))
+        context=build_context(result.chunks)
+        expected=['14,736','93,736'] if case_id=='apple-income' else ['94,930','391,035']
+        assert all(value in context for value in [*expected,'Three Months Ended','Twelve Months Ended','September 28, 2024','In millions'])
+>       assert result.chunks[0].chunk.chunk_id == selected[0].chunk.chunk_id
+E       AssertionError: assert '1459e2b88b63...c136:parent:1' == '1459e2b88b63...ec136:child:2'
+E         
+E         - 1459e2b88b634fc2bbfd307abe5ec136:child:2
+E         ?                                  ^^^^^ ^
+E         + 1459e2b88b634fc2bbfd307abe5ec136:parent:1
+E         ?                                  ^^^^^^ ^
+
+tests/test_pdf_packing.py:47: AssertionError
+_ test_financial_hits_keep_values_periods_units_and_exact_budget[single-apple-sales] _
+
+sessions = sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-216/test_financial_hits_keep_value2/knowledgebase.db), autoflush=True, expire_on_commit=True)
+financial_inputs = ({'file': {'file_id': '1459e2b88b634fc2bbfd307abe5ec136', 'file_name': 'apple-fy24.pdf', 'status': 'ready', 'error_mes...hs ended September 28, 2024? Include units.', 'facts': ['apple_income_q', 'apple_income_y', 'apple_units'], ...}, ...})
+case_id = 'apple-sales', arm = 'single'
+
+    @pytest.mark.parametrize('case_id',sorted(FINANCIAL))
+    @pytest.mark.parametrize('arm',['single','planned'])
+    def test_financial_hits_keep_values_periods_units_and_exact_budget(sessions, financial_inputs, case_id, arm):
+        document,rows=financial_inputs
+        row=rows[(case_id,arm)]
+        extraction=PdfExtraction.model_validate(document['extraction'])
+        identity=document['file']['file_id']
+        children={c['chunk_id']:ChildChunk.model_validate(c) for c in document['chunks']}
+        with sessions.begin() as session:
+            create_file(session,identity,'apple-fy24.pdf')
+            save_pdf_source(session,identity,extraction,indexing={})
+            save_parent_child_chunks(session,ParentChildChunks(
+                parents=[ParentChunk.model_validate(c) for c in document['parents']],children=list(children.values())))
+        selected=[RetrievedChunk.model_validate({**hit,'chunk':children[hit['chunk']['chunk_id']]}) for hit in row['selected']]
+        with sessions() as session:
+            result=pack_retrieval_candidates(selected,session,RetrievalDiagnostics.model_validate(row['diagnostics']))
+        context=build_context(result.chunks)
+        expected=['14,736','93,736'] if case_id=='apple-income' else ['94,930','391,035']
+        assert all(value in context for value in [*expected,'Three Months Ended','Twelve Months Ended','September 28, 2024','In millions'])
+>       assert result.chunks[0].chunk.chunk_id == selected[0].chunk.chunk_id
+E       AssertionError: assert '1459e2b88b63...c136:parent:1' == '1459e2b88b63...ec136:child:2'
+E         
+E         - 1459e2b88b634fc2bbfd307abe5ec136:child:2
+E         ?                                  ^^^^^ ^
+E         + 1459e2b88b634fc2bbfd307abe5ec136:parent:1
+E         ?                                  ^^^^^^ ^
+
+tests/test_pdf_packing.py:47: AssertionError
+_ test_financial_hits_keep_values_periods_units_and_exact_budget[planned-apparent-conflict] _
+
+sessions = sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-216/test_financial_hits_keep_value3/knowledgebase.db), autoflush=True, expire_on_commit=True)
+financial_inputs = ({'file': {'file_id': '1459e2b88b634fc2bbfd307abe5ec136', 'file_name': 'apple-fy24.pdf', 'status': 'ready', 'error_mes...hs ended September 28, 2024? Include units.', 'facts': ['apple_income_q', 'apple_income_y', 'apple_units'], ...}, ...})
+case_id = 'apparent-conflict', arm = 'planned'
+
+    @pytest.mark.parametrize('case_id',sorted(FINANCIAL))
+    @pytest.mark.parametrize('arm',['single','planned'])
+    def test_financial_hits_keep_values_periods_units_and_exact_budget(sessions, financial_inputs, case_id, arm):
+        document,rows=financial_inputs
+        row=rows[(case_id,arm)]
+        extraction=PdfExtraction.model_validate(document['extraction'])
+        identity=document['file']['file_id']
+        children={c['chunk_id']:ChildChunk.model_validate(c) for c in document['chunks']}
+        with sessions.begin() as session:
+            create_file(session,identity,'apple-fy24.pdf')
+            save_pdf_source(session,identity,extraction,indexing={})
+            save_parent_child_chunks(session,ParentChildChunks(
+                parents=[ParentChunk.model_validate(c) for c in document['parents']],children=list(children.values())))
+        selected=[RetrievedChunk.model_validate({**hit,'chunk':children[hit['chunk']['chunk_id']]}) for hit in row['selected']]
+        with sessions() as session:
+            result=pack_retrieval_candidates(selected,session,RetrievalDiagnostics.model_validate(row['diagnostics']))
+        context=build_context(result.chunks)
+        expected=['14,736','93,736'] if case_id=='apple-income' else ['94,930','391,035']
+        assert all(value in context for value in [*expected,'Three Months Ended','Twelve Months Ended','September 28, 2024','In millions'])
+>       assert result.chunks[0].chunk.chunk_id == selected[0].chunk.chunk_id
+E       AssertionError: assert '1459e2b88b63...c136:parent:1' == '1459e2b88b63...ec136:child:3'
+E         
+E         - 1459e2b88b634fc2bbfd307abe5ec136:child:3
+E         ?                                  ^^^^^ ^
+E         + 1459e2b88b634fc2bbfd307abe5ec136:parent:1
+E         ?                                  ^^^^^^ ^
+
+tests/test_pdf_packing.py:47: AssertionError
+_ test_financial_hits_keep_values_periods_units_and_exact_budget[planned-apple-income] _
+
+sessions = sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-216/test_financial_hits_keep_value4/knowledgebase.db), autoflush=True, expire_on_commit=True)
+financial_inputs = ({'file': {'file_id': '1459e2b88b634fc2bbfd307abe5ec136', 'file_name': 'apple-fy24.pdf', 'status': 'ready', 'error_mes...hs ended September 28, 2024? Include units.', 'facts': ['apple_income_q', 'apple_income_y', 'apple_units'], ...}, ...})
+case_id = 'apple-income', arm = 'planned'
+
+    @pytest.mark.parametrize('case_id',sorted(FINANCIAL))
+    @pytest.mark.parametrize('arm',['single','planned'])
+    def test_financial_hits_keep_values_periods_units_and_exact_budget(sessions, financial_inputs, case_id, arm):
+        document,rows=financial_inputs
+        row=rows[(case_id,arm)]
+        extraction=PdfExtraction.model_validate(document['extraction'])
+        identity=document['file']['file_id']
+        children={c['chunk_id']:ChildChunk.model_validate(c) for c in document['chunks']}
+        with sessions.begin() as session:
+            create_file(session,identity,'apple-fy24.pdf')
+            save_pdf_source(session,identity,extraction,indexing={})
+            save_parent_child_chunks(session,ParentChildChunks(
+                parents=[ParentChunk.model_validate(c) for c in document['parents']],children=list(children.values())))
+        selected=[RetrievedChunk.model_validate({**hit,'chunk':children[hit['chunk']['chunk_id']]}) for hit in row['selected']]
+        with sessions() as session:
+            result=pack_retrieval_candidates(selected,session,RetrievalDiagnostics.model_validate(row['diagnostics']))
+        context=build_context(result.chunks)
+        expected=['14,736','93,736'] if case_id=='apple-income' else ['94,930','391,035']
+        assert all(value in context for value in [*expected,'Three Months Ended','Twelve Months Ended','September 28, 2024','In millions'])
+>       assert result.chunks[0].chunk.chunk_id == selected[0].chunk.chunk_id
+E       AssertionError: assert '1459e2b88b63...c136:parent:1' == '1459e2b88b63...ec136:child:2'
+E         
+E         - 1459e2b88b634fc2bbfd307abe5ec136:child:2
+E         ?                                  ^^^^^ ^
+E         + 1459e2b88b634fc2bbfd307abe5ec136:parent:1
+E         ?                                  ^^^^^^ ^
+
+tests/test_pdf_packing.py:47: AssertionError
+_ test_financial_hits_keep_values_periods_units_and_exact_budget[planned-apple-sales] _
+
+sessions = sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-216/test_financial_hits_keep_value5/knowledgebase.db), autoflush=True, expire_on_commit=True)
+financial_inputs = ({'file': {'file_id': '1459e2b88b634fc2bbfd307abe5ec136', 'file_name': 'apple-fy24.pdf', 'status': 'ready', 'error_mes...hs ended September 28, 2024? Include units.', 'facts': ['apple_income_q', 'apple_income_y', 'apple_units'], ...}, ...})
+case_id = 'apple-sales', arm = 'planned'
+
+    @pytest.mark.parametrize('case_id',sorted(FINANCIAL))
+    @pytest.mark.parametrize('arm',['single','planned'])
+    def test_financial_hits_keep_values_periods_units_and_exact_budget(sessions, financial_inputs, case_id, arm):
+        document,rows=financial_inputs
+        row=rows[(case_id,arm)]
+        extraction=PdfExtraction.model_validate(document['extraction'])
+        identity=document['file']['file_id']
+        children={c['chunk_id']:ChildChunk.model_validate(c) for c in document['chunks']}
+        with sessions.begin() as session:
+            create_file(session,identity,'apple-fy24.pdf')
+            save_pdf_source(session,identity,extraction,indexing={})
+            save_parent_child_chunks(session,ParentChildChunks(
+                parents=[ParentChunk.model_validate(c) for c in document['parents']],children=list(children.values())))
+        selected=[RetrievedChunk.model_validate({**hit,'chunk':children[hit['chunk']['chunk_id']]}) for hit in row['selected']]
+        with sessions() as session:
+            result=pack_retrieval_candidates(selected,session,RetrievalDiagnostics.model_validate(row['diagnostics']))
+        context=build_context(result.chunks)
+        expected=['14,736','93,736'] if case_id=='apple-income' else ['94,930','391,035']
+        assert all(value in context for value in [*expected,'Three Months Ended','Twelve Months Ended','September 28, 2024','In millions'])
+>       assert result.chunks[0].chunk.chunk_id == selected[0].chunk.chunk_id
+E       AssertionError: assert '1459e2b88b63...c136:parent:1' == '1459e2b88b63...ec136:child:2'
+E         
+E         - 1459e2b88b634fc2bbfd307abe5ec136:child:2
+E         ?                                  ^^^^^ ^
+E         + 1459e2b88b634fc2bbfd307abe5ec136:parent:1
+E         ?                                  ^^^^^^ ^
+
+tests/test_pdf_packing.py:47: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_dense_table_packing.py::test_observed_rankings_supply_target_rows_with_headers_and_page[single-dense-table]
+FAILED tests/test_pdf_packing.py::test_financial_hits_keep_values_periods_units_and_exact_budget[single-apparent-conflict]
+FAILED tests/test_pdf_packing.py::test_financial_hits_keep_values_periods_units_and_exact_budget[single-apple-income]
+FAILED tests/test_pdf_packing.py::test_financial_hits_keep_values_periods_units_and_exact_budget[single-apple-sales]
+FAILED tests/test_pdf_packing.py::test_financial_hits_keep_values_periods_units_and_exact_budget[planned-apparent-conflict]
+FAILED tests/test_pdf_packing.py::test_financial_hits_keep_values_periods_units_and_exact_budget[planned-apple-income]
+FAILED tests/test_pdf_packing.py::test_financial_hits_keep_values_periods_units_and_exact_budget[planned-apple-sales]
+7 failed, 43 passed, 1 warning in 1.53s

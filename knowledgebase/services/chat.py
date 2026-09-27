@@ -119,10 +119,11 @@ def _retrieve_evidence(
             control.before_answer()
             if hops is not None:
                 evidence, trace = hops.result.evidence, hops.result.trace.model_dump(mode="json")
-            elif prepared.plan is None:
+            elif prepared.scope_failure is not None or prepared.plan is None:
                 evidence = RetrievedEvidence(chunks=[], diagnostics=RetrievalDiagnostics(
                     max_tokens=evidence_max_tokens, tokenizer=encoding_name,
                     options=retrieval_options or RetrievalOptions(), top_k=top_k,
+                    document_scope=prepared.scope_failure,
                 ))
             else:
                 planned = retrieve_plan(

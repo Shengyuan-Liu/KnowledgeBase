@@ -34,9 +34,10 @@ def prioritize_documents(chunk_ids: list[str], files_by_chunk: dict[str, str], l
 def document_references(question: str) -> list[str]:
     """Read a leading source clause, allowing quoted names and an 'and' list.
 
-    This is bounded syntax, not a general intent classifier. Quotes protect
-    punctuation and 'and' inside a title. Other questions remain unrestricted
-    unless the caller supplies explicit file IDs.
+    This is bounded syntax, not a general intent classifier. Quotes delimit
+    the identity before trailing qualifiers and protect punctuation and 'and'
+    inside a title. Other questions remain unrestricted unless the caller
+    supplies explicit file IDs.
     """
     prefix = re.match(r'^\s*(?:according to|in|from|using|compare)\s+(?:only\s+)?', question, re.I)
     if not prefix:
@@ -59,8 +60,12 @@ def document_references(question: str) -> list[str]:
     if not re.search(r'\b(?:faqs?|guides?|documents?|files?|pages?)\b|\.(?:md|txt|pdf)\b|["`]', clause, re.I):
         return []
     parts = re.split(r'\s+and\s+(?=(?:[^"`]*["`][^"`]*["`])*[^"`]*$)', clause, flags=re.I)
-    return [re.sub(r'^(?:(?:the|saved|uploaded)\s+)+', '', part.strip(), flags=re.I).strip('"` ')
-            for part in parts]
+    references = []
+    for part in parts:
+        name = re.sub(r'^(?:(?:the|saved|uploaded)\s+)+', '', part.strip(), flags=re.I)
+        quoted = re.match(r'^(["`])(.+?)\1(?=\s|$)', name)
+        references.append(quoted.group(2) if quoted else name.strip('"` '))
+    return references
 
 
 def identity_labels(file_name: str, source_text: str) -> list[str]:

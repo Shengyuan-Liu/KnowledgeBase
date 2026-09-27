@@ -40,6 +40,12 @@ context cost. Single-mode state totals are unsupported; planned mode withholds
 them. Both grouped/blank-cell requests stop at an incorrectly parsed filename
 reference. Evidence packing and quoted-filename scope handling now precede the
 remaining technical-table repair; blank-cell answer behavior is still untested.
+The following [context and scope repair](../../evals/check-runs/20260927-table-context-scope/README.md)
+keeps table metadata lossless while reducing its serialized cost, defers table
+parent expansion to preserve selected hits, and bounds quoted filename references.
+Offline evidence coverage improves from 2/16 to 16/16 on the four frozen requests
+with recorded candidates. Both original scope failures now resolve locally;
+their missing historical rankings and model answers still need a new live replay.
 
 ## Confirmed Feature Areas
 

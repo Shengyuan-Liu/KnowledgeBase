@@ -22,7 +22,9 @@ passing tests and merging still requires explicit approval. Optional
    whole regions within the exact numbered `EVIDENCE_MAX_TOKENS` budget. The default
    `parent_then_child` policy tries a parent's whole child immediately when the
    parent does not fit, before considering lower-ranked evidence. Admitted parents
-   represent all their selected children. See
+   represent all their selected children. PDF table parents instead wait until
+   complete selected children are packed, then replace their siblings only if the
+   full context fits without displacing unrelated retained sources. See
    [parent-child retrieval](parent-child-retrieval.md). Deduplication and budget
    exclusion can reduce the source count. No additional children are selected to
    fill unused slots, and source text is never truncated by retrieval.

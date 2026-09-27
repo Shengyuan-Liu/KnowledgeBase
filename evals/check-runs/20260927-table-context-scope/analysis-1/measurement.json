@@ -1,0 +1,327 @@
+{
+  "scope": "Offline replay of unchanged candidate selections and local scope parsing; no paid calls or live answer rerun",
+  "metric_inventory": {
+    "Recall@K": {
+      "status": "measured",
+      "value": {
+        "before": 1.0,
+        "after": 1.0
+      },
+      "unit": "ratio",
+      "sample_count": 4,
+      "population": "Four original question/mode selections with recorded retrieval candidates; two original scope failures excluded and separately disclosed",
+      "method": "Re-score unchanged K=5 selections against frozen source-bound facts (Recall) and exhaustive binary child labels within the one-file 10-child corpus (Precision, Hit, MRR, NDCG). Precision divides by five. MRR cutoff five; misses zero. Binary gain and log2 rank discount. These are frozen-rank diagnostics, not new retrieval performance.",
+      "aggregation": "macro mean",
+      "artifact": "comparison.json"
+    },
+    "Precision@K": {
+      "status": "measured",
+      "value": {
+        "before": 0.30000000000000004,
+        "after": 0.30000000000000004
+      },
+      "unit": "ratio",
+      "sample_count": 4,
+      "population": "Four original question/mode selections with recorded retrieval candidates; two original scope failures excluded and separately disclosed",
+      "method": "Re-score unchanged K=5 selections against frozen source-bound facts (Recall) and exhaustive binary child labels within the one-file 10-child corpus (Precision, Hit, MRR, NDCG). Precision divides by five. MRR cutoff five; misses zero. Binary gain and log2 rank discount. These are frozen-rank diagnostics, not new retrieval performance.",
+      "aggregation": "macro mean",
+      "artifact": "comparison.json"
+    },
+    "Hit Rate@K": {
+      "status": "measured",
+      "value": {
+        "before": 1,
+        "after": 1
+      },
+      "unit": "ratio",
+      "sample_count": 4,
+      "population": "Four original question/mode selections with recorded retrieval candidates; two original scope failures excluded and separately disclosed",
+      "method": "Re-score unchanged K=5 selections against frozen source-bound facts (Recall) and exhaustive binary child labels within the one-file 10-child corpus (Precision, Hit, MRR, NDCG). Precision divides by five. MRR cutoff five; misses zero. Binary gain and log2 rank discount. These are frozen-rank diagnostics, not new retrieval performance.",
+      "aggregation": "macro mean",
+      "artifact": "comparison.json"
+    },
+    "MRR": {
+      "status": "measured",
+      "value": {
+        "before": 1.0,
+        "after": 1.0
+      },
+      "unit": "ratio",
+      "sample_count": 4,
+      "population": "Four original question/mode selections with recorded retrieval candidates; two original scope failures excluded and separately disclosed",
+      "method": "Re-score unchanged K=5 selections against frozen source-bound facts (Recall) and exhaustive binary child labels within the one-file 10-child corpus (Precision, Hit, MRR, NDCG). Precision divides by five. MRR cutoff five; misses zero. Binary gain and log2 rank discount. These are frozen-rank diagnostics, not new retrieval performance.",
+      "aggregation": "macro mean",
+      "artifact": "comparison.json"
+    },
+    "NDCG@K": {
+      "status": "measured",
+      "value": {
+        "before": 1.0,
+        "after": 1.0
+      },
+      "unit": "ratio",
+      "sample_count": 4,
+      "population": "Four original question/mode selections with recorded retrieval candidates; two original scope failures excluded and separately disclosed",
+      "method": "Re-score unchanged K=5 selections against frozen source-bound facts (Recall) and exhaustive binary child labels within the one-file 10-child corpus (Precision, Hit, MRR, NDCG). Precision divides by five. MRR cutoff five; misses zero. Binary gain and log2 rank discount. These are frozen-rank diagnostics, not new retrieval performance.",
+      "aggregation": "macro mean",
+      "artifact": "comparison.json"
+    },
+    "Final evidence coverage": {
+      "status": "measured",
+      "value": {
+        "before": {
+          "covered": 2,
+          "total": 16,
+          "ratio": 0.125
+        },
+        "after": {
+          "covered": 12,
+          "total": 16,
+          "ratio": 0.75
+        }
+      },
+      "unit": "ratio with point numerator/denominator",
+      "sample_count": 4,
+      "population": "Sixteen requested fact instances across four original requests with recorded candidates",
+      "method": "Exact source-bound target cells, row labels, complete parent/leaf header paths and period cells must occur in packed evidence with matching tuples and source text; prose requires all original phrases. Audit the actual serialized body/pages/offsets/table JSON/supplements for lossless correspondence. Count all required points without partial credit.",
+      "aggregation": "micro across requested fact instances",
+      "artifact": "comparison.json"
+    },
+    "Answer correctness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "No model answer or provider call is made; offline serialization cannot establish live quality, latency, billing, or release acceptance.",
+      "artifact": "comparison.json"
+    },
+    "Faithfulness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "No model answer or provider call is made; offline serialization cannot establish live quality, latency, billing, or release acceptance.",
+      "artifact": "comparison.json"
+    },
+    "Answer completeness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "No model answer or provider call is made; offline serialization cannot establish live quality, latency, billing, or release acceptance.",
+      "artifact": "comparison.json"
+    },
+    "Answer relevance": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "No model answer or provider call is made; offline serialization cannot establish live quality, latency, billing, or release acceptance.",
+      "artifact": "comparison.json"
+    },
+    "Citation support": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "No model answer or provider call is made; offline serialization cannot establish live quality, latency, billing, or release acceptance.",
+      "artifact": "comparison.json"
+    },
+    "Citation coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "No model answer or provider call is made; offline serialization cannot establish live quality, latency, billing, or release acceptance.",
+      "artifact": "comparison.json"
+    },
+    "Abstention": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "No model answer or provider call is made; offline serialization cannot establish live quality, latency, billing, or release acceptance.",
+      "artifact": "comparison.json"
+    },
+    "First-answer-delta latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "No model answer or provider call is made; offline serialization cannot establish live quality, latency, billing, or release acceptance.",
+      "artifact": "comparison.json"
+    },
+    "Complete-response latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "No model answer or provider call is made; offline serialization cannot establish live quality, latency, billing, or release acceptance.",
+      "artifact": "comparison.json"
+    },
+    "Stage latency": {
+      "status": "measured",
+      "value": {
+        "before": {
+          "packing": {
+            "n": 4,
+            "mean": 0.010894562467001379,
+            "p50": 0.010775208473205566,
+            "p95": 0.011307212518295274,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "scope": {
+            "n": 6,
+            "mean": 5.5291670529792704e-05,
+            "p50": 1.9562547095119953e-05,
+            "p95": 0.0001861357595771551,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "after": {
+          "packing": {
+            "n": 4,
+            "mean": 0.010811437532538548,
+            "p50": 0.010867833567317575,
+            "p95": 0.011052434815792368,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "scope": {
+            "n": 6,
+            "mean": 5.1777829260875784e-05,
+            "p50": 1.547904685139656e-05,
+            "p95": 0.00018332345644012094,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        }
+      },
+      "unit": "seconds",
+      "sample_count": {
+        "packing_per_phase": 4,
+        "scope_per_phase": 6
+      },
+      "population": "One sequential local call per frozen input per phase",
+      "method": "perf_counter around pack_evidence and separately document_references plus resolve_document_scope. Tokenizer preloaded; includes actual context formatting/token counting; excludes model loading, queueing, retrieval, network and answer generation. Tiny single-pass diagnostics do not establish production latency or speedup.",
+      "aggregation": "arithmetic mean and linearly interpolated p50/p95",
+      "artifact": "comparison.json"
+    },
+    "Token usage and cost": {
+      "status": "measured",
+      "value": {
+        "evidence_tokens": {
+          "dense-table-single": {
+            "before": 305,
+            "after": 3382
+          },
+          "dense-table-planned": {
+            "before": 305,
+            "after": 3651
+          },
+          "state-totals-single": {
+            "before": 305,
+            "after": 3651
+          },
+          "state-totals-planned": {
+            "before": 0,
+            "after": 3346
+          },
+          "grouped-and-blank-cells-single": {
+            "before": 0,
+            "after": 0
+          },
+          "grouped-and-blank-cells-planned": {
+            "before": 0,
+            "after": 0
+          }
+        },
+        "provider_usage": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "No provider invoked"
+        },
+        "provider_cost": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "No provider invoked"
+        }
+      },
+      "unit": "local cl100k_base tokens; no provider billing",
+      "sample_count": 12,
+      "population": "Six serialized local evidence contexts per phase",
+      "method": "Actual numbered build_context output encoded with cl100k_base at unchanged max_tokens=4096. No API input/output tokens or model billing inferred.",
+      "aggregation": "none",
+      "artifact": "comparison.json"
+    },
+    "Reliability": {
+      "status": "measured",
+      "value": {
+        "baseline_cases": 6,
+        "after_cases": 6,
+        "local_case_errors": 0,
+        "baseline_preparation_attempts": 2,
+        "baseline_preparation_failed_attempts": 1,
+        "failure": "baseline-1 asserted equality of the planned caller's human-readable not-found message with direct scope resolution. All substantive scope fields matched; baseline-2 compares those separately and preserves the message difference.",
+        "provider_attempts": 0
+      },
+      "unit": "counts",
+      "sample_count": 12,
+      "population": "Completed local replay case executions in successful baseline-2 and after phases",
+      "method": "Successful case executions are not live HTTP reliability. Retain baseline-1 failure and partial outputs; no provider retry occurred.",
+      "aggregation": "none",
+      "artifact": "comparison.json"
+    },
+    "Concurrency and throughput": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Local replay is sequential (concurrency one); no HTTP workload, load capacity or production throughput is exercised.",
+      "artifact": "comparison.json"
+    },
+    "Ingestion and index": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Use the exact frozen one-file extraction and 10-child/5-parent index snapshot read-only; no parser, upload, reindex, update or deletion is performed.",
+      "artifact": "comparison.json"
+    }
+  }
+}
