@@ -1,0 +1,223 @@
+{
+  "source_artifact": "evals/library-runs/20260927-blank-plan-acceptance/grouped-and-blank-cells-planned.json",
+  "sha256": "807cbd12763ea06269f3fa9de9f229ce59c58f8dd1c9d45c7f934d8e3272ecd2",
+  "question": "In \"background-checks.pdf\" for November 2015, what is Alabama's Handgun value in the ungrouped column, and what is its Pre-Pawn Handgun value? What do Alabama's Rentals Handgun and Rentals Long Gun cells record? If the supplied excerpts do not establish a requested cell's contents, state that limitation.",
+  "original_decision": {
+    "route": "decomposed",
+    "requirements": [
+      {
+        "requirement_id": "R1",
+        "description": "Find Alabama's Handgun value in the ungrouped column for November 2015 in \"background-checks.pdf\"."
+      },
+      {
+        "requirement_id": "R2",
+        "description": "Find Alabama's Pre-Pawn Handgun value for November 2015 in \"background-checks.pdf\"."
+      },
+      {
+        "requirement_id": "R3",
+        "description": "Find the recorded value for Alabama's Rentals Handgun cell for November 2015 in \"background-checks.pdf\"."
+      },
+      {
+        "requirement_id": "R4",
+        "description": "Find the recorded value for Alabama's Rentals Long Gun cell for November 2015 in \"background-checks.pdf\"."
+      },
+      {
+        "requirement_id": "R5",
+        "description": "If the supplied excerpts do not establish a requested cell's contents, state that limitation."
+      }
+    ],
+    "queries": [
+      {
+        "query_id": "Q1",
+        "text": "In \"background-checks.pdf\" for November 2015, what is Alabama's Handgun value in the ungrouped column?",
+        "requirement_ids": [
+          "R1",
+          "R5"
+        ]
+      },
+      {
+        "query_id": "Q2",
+        "text": "In \"background-checks.pdf\" for November 2015, what is Alabama's Pre-Pawn Handgun value?",
+        "requirement_ids": [
+          "R2",
+          "R5"
+        ]
+      },
+      {
+        "query_id": "Q3",
+        "text": "In \"background-checks.pdf\" for November 2015, what does Alabama's Rentals Handgun cell record?",
+        "requirement_ids": [
+          "R3",
+          "R5"
+        ]
+      },
+      {
+        "query_id": "Q4",
+        "text": "In \"background-checks.pdf\" for November 2015, what does Alabama's Rentals Long Gun cell record?",
+        "requirement_ids": [
+          "R4",
+          "R5"
+        ]
+      }
+    ],
+    "dependencies": []
+  },
+  "original_assessment": {
+    "requirements": [
+      {
+        "requirement_id": "R1",
+        "status": "supported",
+        "gap": "",
+        "references": [
+          {
+            "evidence_id": "p5"
+          }
+        ]
+      },
+      {
+        "requirement_id": "R2",
+        "status": "supported",
+        "gap": "",
+        "references": [
+          {
+            "evidence_id": "p5"
+          }
+        ]
+      },
+      {
+        "requirement_id": "R3",
+        "status": "supported",
+        "gap": "",
+        "references": [
+          {
+            "evidence_id": "p5"
+          }
+        ]
+      },
+      {
+        "requirement_id": "R4",
+        "status": "supported",
+        "gap": "",
+        "references": [
+          {
+            "evidence_id": "p5"
+          }
+        ]
+      },
+      {
+        "requirement_id": "R5",
+        "status": "missing",
+        "gap": "All requested Alabama cell contents are established in the supplied excerpts. No limitations remain to state for the specified cells.",
+        "references": []
+      }
+    ],
+    "queries": []
+  },
+  "expected_decision": {
+    "route": "decomposed",
+    "requirements": [
+      {
+        "requirement_id": "R1",
+        "description": "Find Alabama's Handgun value in the ungrouped column for November 2015 in \"background-checks.pdf\"."
+      },
+      {
+        "requirement_id": "R2",
+        "description": "Find Alabama's Pre-Pawn Handgun value for November 2015 in \"background-checks.pdf\"."
+      },
+      {
+        "requirement_id": "R3",
+        "description": "Find the recorded value for Alabama's Rentals Handgun cell for November 2015 in \"background-checks.pdf\"."
+      },
+      {
+        "requirement_id": "R4",
+        "description": "Find the recorded value for Alabama's Rentals Long Gun cell for November 2015 in \"background-checks.pdf\"."
+      }
+    ],
+    "queries": [
+      {
+        "query_id": "Q1",
+        "text": "In \"background-checks.pdf\" for November 2015, what is Alabama's Handgun value in the ungrouped column?",
+        "requirement_ids": [
+          "R1"
+        ]
+      },
+      {
+        "query_id": "Q2",
+        "text": "In \"background-checks.pdf\" for November 2015, what is Alabama's Pre-Pawn Handgun value?",
+        "requirement_ids": [
+          "R2"
+        ]
+      },
+      {
+        "query_id": "Q3",
+        "text": "In \"background-checks.pdf\" for November 2015, what does Alabama's Rentals Handgun cell record?",
+        "requirement_ids": [
+          "R3"
+        ]
+      },
+      {
+        "query_id": "Q4",
+        "text": "In \"background-checks.pdf\" for November 2015, what does Alabama's Rentals Long Gun cell record?",
+        "requirement_ids": [
+          "R4"
+        ]
+      }
+    ],
+    "dependencies": [],
+    "answer_rules": [
+      "If the supplied excerpts do not establish a requested cell's contents, state that limitation."
+    ]
+  },
+  "expected_assessment": {
+    "requirements": [
+      {
+        "requirement_id": "R1",
+        "status": "supported",
+        "gap": "",
+        "references": [
+          {
+            "evidence_id": "p5"
+          }
+        ]
+      },
+      {
+        "requirement_id": "R2",
+        "status": "supported",
+        "gap": "",
+        "references": [
+          {
+            "evidence_id": "p5"
+          }
+        ]
+      },
+      {
+        "requirement_id": "R3",
+        "status": "supported",
+        "gap": "",
+        "references": [
+          {
+            "evidence_id": "p5"
+          }
+        ]
+      },
+      {
+        "requirement_id": "R4",
+        "status": "supported",
+        "gap": "",
+        "references": [
+          {
+            "evidence_id": "p5"
+          }
+        ]
+      }
+    ],
+    "queries": []
+  },
+  "classification_annotation": {
+    "reviewer": "Codex /root; manual development annotation, not a live model classification",
+    "rule_requirement_id": "R5",
+    "rule_text": "If the supplied excerpts do not establish a requested cell's contents, state that limitation.",
+    "reason": "This is an instruction for composing the answer if evidence is absent, not another fact about Alabama. R1-R4 remain the four factual requirements.",
+    "limitation": "The expected provider outputs are a controlled offline contract fixture. Passing this replay cannot establish that the revised model prompt will classify correctly on a future live call."
+  }
+}

@@ -21,7 +21,7 @@ from knowledgebase.services.chat import stream_answer_in_conversation
 from knowledgebase.services.planning import NARROWING_MESSAGE
 from knowledgebase.storage.models import MessageRecord
 
-DIRECT = {"route": "direct", "requirements": [], "queries": [], "dependencies": []}
+DIRECT = {"route": "direct", "requirements": [], "queries": [], "dependencies": [], "answer_rules": []}
 DECOMPOSED = {
     "route": "decomposed", "dependencies": [],
     "requirements": [{"requirement_id": "method", "description": "Training method"},
@@ -53,6 +53,7 @@ def test_real_sdk_planning_schema_limits_identity_and_usage():
         assert payload["text"]["format"]["strict"] is True
         schema = payload["text"]["format"]["schema"]
         assert set(schema["required"]) == set(schema["properties"])
+        assert "answer_rules" in schema["required"]
         assert "original_question" not in schema["properties"]
         assert "file_ids" not in schema["$defs"]["DraftQuery"]["properties"]
         return httpx2.Response(200, json=sdk_response(json.dumps(DECOMPOSED)))
@@ -109,7 +110,7 @@ def test_recorded_unassigned_comparison_gets_one_auditable_scoped_query():
     assert added.text == question and added.requirement_ids == ["r4"] and added.file_ids is None
     assert result.record["output_text"] == output
     assert result.record["added_coverage_query"]["query"] == added.model_dump(exclude={"file_ids"})
-    assert result.record["prompt_version"] == "dependent-planner-v3"
+    assert result.record["prompt_version"] == "dependent-planner-v4"
     sdk.responses.create.assert_called_once()
 
 

@@ -203,7 +203,7 @@ class HopController:
                         for s in self.states.values() if s["status"] != "executed"],
                     "remaining_rounds": self.control.options.max_rounds - self.round_index,
                     "remaining_queries": self.remaining_queries()},
-                self.control.before_answer, prompt_version="evidence-sufficiency-v3")
+                self.control.before_answer, prompt_version="evidence-sufficiency-v4")
         else:
             decision = SufficiencyAssessment(requirements=[{
                 "requirement_id": r.requirement_id, "status": "missing",

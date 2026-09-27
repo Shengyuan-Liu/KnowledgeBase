@@ -100,7 +100,18 @@ new candidates when supplementary searches run.
 | Provider retries | Zero; invalid schemas, unknown passage IDs and unbound targets fail without repair |
 
 The same planner model performs assessment with prompt version
-`evidence-sufficiency-v3`. It distinguishes question-provided file names from new
+`evidence-sufficiency-v4`. It scores only the supplied factual requirements;
+answering instructions remain outside that set. The planner separately records
+`answer_rules`, while original user instructions remain in the generation question.
+A factual conditional question still needs source evidence. Missing or partial
+factual points continue to trigger the existing bounded-search/abstention behavior.
+The [answer-rule regression](../evals/check-runs/20260927-answer-rules/README.md)
+replays the observed conditional-rule mistake with explicitly annotated provider
+outputs. It checks controller behavior and preservation of real missing-evidence
+handling, not live model classification accuracy. The new prompt has not yet had
+paid acceptance evaluation.
+
+The assessment contract distinguishes question-provided file names from new
 source-derived targets and selects passage IDs instead of generating free-form
 quotes. Dependency target binding remains on its existing separate contract.
 The [offline passage comparison](../evals/check-runs/20260927-assessment-passages/README.md)

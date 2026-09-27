@@ -449,3 +449,36 @@ def test_supplementary_target_must_occur_in_selected_passage():
     value['queries'][0]['target'] = 'Birch Institute'
     with pytest.raises(ValueError):
         validate_assessment(SufficiencyAssessment.model_validate(value), requirements, excerpts)
+
+
+@pytest.mark.parametrize("available", [True, False])
+def test_answer_rule_survives_history_without_masking_real_missing_evidence(assessed_api, available):
+    client, resources, sdk, choices, _, files, assessments = assessed_api
+    one_point(choices)
+    rule = "If the source does not establish the location, state that limitation."
+    choices["plan"]["answer_rules"] = [rule]
+    if available:
+        choices["plan"]["queries"][0]["text"] = "Where is Birch Institute located?"
+    else:
+        choices["assessment"] = missing
+    question = QUESTION + " " + rule
+    result = client.post("/api/chat", json={"question": question, "retrieval_mode": "planned",
+        "file_ids": [files[2] if available else files[0]]})
+    assert result.status_code == 200, result.text
+    answer = result.json()
+    planning = answer["retrieval"]["planning"]
+    assert planning["trace"]["plan"]["answer_rules"] == [rule]
+    assert len(assessments) == 1 and len(assessments[0]["requirements"]) == 1
+    assert ("Oslo" in assessments[0]["context"]) is available
+    status = planning["assessment"]["requirements"][0]["status"]
+    assert status == ("supported" if available else "missing")
+    assert planning["hops"]["stop_reason"] == ("requirements_supported" if available else "no_eligible_query")
+    assert planning["hops"]["supplementary_queries"] == []
+    if available:
+        generation = [call.kwargs for call in sdk.responses.create.call_args_list if "text" not in call.kwargs][-1]
+        assert question in generation["input"][0]["content"]
+    else:
+        assert answer["answer"] == INSUFFICIENT_EVIDENCE
+        assert all("text" in call.kwargs for call in sdk.responses.create.call_args_list)
+    saved = client.get(f"/api/conversations/{answer['conversation_id']}").json()["messages"][-1]
+    assert saved["retrieval"]["planning"] == planning

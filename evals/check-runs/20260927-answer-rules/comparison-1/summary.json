@@ -1,0 +1,258 @@
+{
+  "comparison_type": "controlled provider-output contract; both arms use current code",
+  "annotation": {
+    "reviewer": "Codex /root; manual development annotation, not a live model classification",
+    "rule_requirement_id": "R5",
+    "rule_text": "If the supplied excerpts do not establish a requested cell's contents, state that limitation.",
+    "reason": "This is an instruction for composing the answer if evidence is absent, not another fact about Alabama. R1-R4 remain the four factual requirements.",
+    "limitation": "The expected provider outputs are a controlled offline contract fixture. Passing this replay cannot establish that the revised model prompt will classify correctly on a future live call."
+  },
+  "rows": [
+    {
+      "arm": "recorded_classification",
+      "stop_reason": "no_eligible_query",
+      "requirements": 5,
+      "answer_rules": 0,
+      "queries": 4,
+      "context_sha256": "8e74d2fcb4c4026d8a1c07dc097d546dd4681e248b441de306cc746cc975d5e5",
+      "coverage": 1.0
+    },
+    {
+      "arm": "annotated_separation",
+      "stop_reason": "requirements_supported",
+      "requirements": 4,
+      "answer_rules": 1,
+      "queries": 4,
+      "context_sha256": "8e74d2fcb4c4026d8a1c07dc097d546dd4681e248b441de306cc746cc975d5e5",
+      "coverage": 1.0
+    }
+  ],
+  "metric_inventory": {
+    "Recall@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "Precision@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "Hit Rate@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "MRR": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "NDCG@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "Final evidence coverage": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "fraction of frozen facts",
+      "reason": null,
+      "sample_count": 4,
+      "numerator": 4,
+      "denominator": 4,
+      "population": "one question, identical evidence in both arms",
+      "method": "Original source-bound cell/header/row checks reused; exact replay context and catalog are identical. This is frozen supplied-evidence coverage, not a new retrieval measurement.",
+      "aggregation": "fully covered facts / four requested facts",
+      "artifact": "recorded_classification.json and annotated_separation.json"
+    },
+    "Answer correctness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "Faithfulness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "Answer completeness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "Answer relevance": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "Citation support": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "Citation coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "Abstention": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "First-answer-delta latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "Complete-response latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "Stage latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "Token usage and cost": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "Reliability": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "Concurrency and throughput": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    },
+    "Ingestion and index": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Controlled provider-output replay; no new retrieval, answer generation, provider calls or production workload.",
+      "sample_count": null,
+      "population": "offline replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": null
+    }
+  },
+  "live_classification_quality": {
+    "status": "unavailable",
+    "reason": "Revised prompts have not been called against a live model."
+  }
+}

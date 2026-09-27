@@ -155,3 +155,11 @@ coverage-query branch is validated by offline replay; current live plans already
 address every requirement. One conditional instruction is still incorrectly marked
 missing by the assessor, without affecting the final answer. Independent review,
 broader quality and user acceptance remain separate.
+
+The [answer-rule separation regression](../../evals/check-runs/20260927-answer-rules/README.md)
+adds an explicit plan field for user answering instructions, keeping them outside
+factual evidence requirements. Its 284 scoped tests pass. A controlled replay of
+the recorded conditional-instruction failure preserves all four facts and changes
+the stop reason to `requirements_supported` when supplied the annotated separated
+classification. Revised live-model classification remains unverified; the replay
+does not establish a semantic quality gain or general acceptance.

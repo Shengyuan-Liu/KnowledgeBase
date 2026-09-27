@@ -29,6 +29,13 @@ resolved question exactly once. Independent plans reject dependency fields on
 query records; dependent plans use a separate validated dependency list. These
 bounds reject oversized plans instead of dropping tasks.
 Requirements express intended answer coverage; they do not establish support.
+`answer_rules` separately retains user-provided answering instructions, such as
+stating a limitation if evidence is absent. These rules are not requirement IDs,
+evidence claims or search targets. They are retained in the plan/history; the
+original question still supplies the instructions to final generation. Conditions
+that require source facts, such as whether revenue declined and why, remain factual
+requirements. No string matching on "if" removes a requirement. Old plans without
+this field default to an empty list; historical requirements are not reclassified.
 
 ```python
 from knowledgebase.rag.planning import AnswerRequirement, PlannedQuery, RetrievalPlan
@@ -147,7 +154,8 @@ The existing evaluation runner does not yet select this controller automatically
    Ready files before planning; newly uploaded files cannot widen that boundary.
    Empty or unresolved scope skips the planner and preserves the existing response.
 3. Call `PLANNER_MODEL` once, defaulting to `ANSWER_MODEL`, using strict Responses
-   API JSON schema. The configured provider/model must support
+   API JSON schema, including an explicit `answer_rules` list (empty when absent).
+   The configured provider/model must support
    [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs).
    For the observed decomposed-plan coverage gap, an unaddressed requirement gets
    one additional query using the unchanged resolved question if the six-query

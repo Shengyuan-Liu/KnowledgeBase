@@ -42,6 +42,8 @@ class RetrievalPlan(PlanRecord):
     requirements: list[AnswerRequirement] = Field(min_length=1, max_length=6)
     queries: list[PlannedQuery] = Field(min_length=1, max_length=6)
     dependencies: list[DependentQuery] = Field(default_factory=list, max_length=5)
+    # Answer behavior is retained for traceability, not scored as source evidence.
+    answer_rules: list[str] = Field(default_factory=list, max_length=6)
 
     @model_validator(mode="after")
     def consistent_references(self) -> Self:
@@ -92,15 +94,18 @@ class PlanDecision(PlanRecord):
     requirements: list[AnswerRequirement] = Field(max_length=6)
     queries: list[DraftQuery] = Field(max_length=6)
     dependencies: list[DependentQuery] = Field(max_length=5)
+    answer_rules: list[str] = Field(default_factory=list, max_length=6)
 
     def to_plan(self, original: str, resolved: str) -> RetrievalPlan | None:
         if self.route in {"direct", "needs_narrowing"}:
             if self.requirements or self.queries or self.dependencies:
                 raise ValueError("Direct and narrowing decisions must have empty requirement/query lists.")
-            return direct_plan(original, resolved_question=resolved) if self.route == "direct" else None
+            return (direct_plan(original, resolved_question=resolved).model_copy(update={"answer_rules": self.answer_rules})
+                    if self.route == "direct" else None)
         return RetrievalPlan(
             original_question=original, resolved_question=resolved, route=self.route,
             requirements=self.requirements,
             queries=[PlannedQuery(**query.model_dump()) for query in self.queries],
             dependencies=self.dependencies,
+            answer_rules=self.answer_rules,
         )
