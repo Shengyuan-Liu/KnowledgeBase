@@ -1,0 +1,40 @@
+Traceback (most recent call last):
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/evals/check-runs/20260927-table-cell-context/compare.py", line 135, in <module>
+    main()
+    ~~~~^^
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/evals/check-runs/20260927-table-cell-context/compare.py", line 96, in main
+    hit.pdf = derive(extraction, hit.chunk.start_offset, hit.chunk.end_offset)
+              ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/evals/check-runs/20260927-table-cell-context/baseline-code/pdf_evidence.py", line 83, in pdf_evidence
+    return PdfEvidence(
+        revision_id=extraction.revision_id, source_hash=extraction.source_hash,
+        page_count=extraction.page_count, regions=regions, tables=tables,
+        supplements=supplements, warnings=warnings,
+    )
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/pydantic/main.py", line 263, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 8 validation errors for PdfEvidence
+regions.0
+  Input should be a valid dictionary or instance of PdfRegion [type=model_type, input_value=PdfRegion(start_offset=49...m='top_left_pdf_points'), input_type=PdfRegion]
+    For further information visit https://errors.pydantic.dev/2.13/v/model_type
+regions.1
+  Input should be a valid dictionary or instance of PdfRegion [type=model_type, input_value=PdfRegion(start_offset=50...m='top_left_pdf_points'), input_type=PdfRegion]
+    For further information visit https://errors.pydantic.dev/2.13/v/model_type
+regions.2
+  Input should be a valid dictionary or instance of PdfRegion [type=model_type, input_value=PdfRegion(start_offset=51...m='top_left_pdf_points'), input_type=PdfRegion]
+    For further information visit https://errors.pydantic.dev/2.13/v/model_type
+regions.3
+  Input should be a valid dictionary or instance of PdfRegion [type=model_type, input_value=PdfRegion(start_offset=54...m='top_left_pdf_points'), input_type=PdfRegion]
+    For further information visit https://errors.pydantic.dev/2.13/v/model_type
+warnings.0
+  Input should be a valid dictionary or instance of PdfWarning [type=model_type, input_value=PdfWarning(code='scope', ...ces=(), source_ref=None), input_type=PdfWarning]
+    For further information visit https://errors.pydantic.dev/2.13/v/model_type
+warnings.1
+  Input should be a valid dictionary or instance of PdfWarning [type=model_type, input_value=PdfWarning(code='printed_...ces=(), source_ref=None), input_type=PdfWarning]
+    For further information visit https://errors.pydantic.dev/2.13/v/model_type
+warnings.2
+  Input should be a valid dictionary or instance of PdfWarning [type=model_type, input_value=PdfWarning(code='native_t...source_ref='#/tables/0'), input_type=PdfWarning]
+    For further information visit https://errors.pydantic.dev/2.13/v/model_type
+warnings.3
+  Input should be a valid dictionary or instance of PdfWarning [type=model_type, input_value=PdfWarning(code='table_st...source_ref='#/tables/0'), input_type=PdfWarning]
+    For further information visit https://errors.pydantic.dev/2.13/v/model_type

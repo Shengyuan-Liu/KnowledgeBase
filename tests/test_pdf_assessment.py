@@ -72,18 +72,11 @@ def test_all_frozen_pdf_contexts_keep_metadata_and_only_select_supplied_text(fro
         annotated = assessment_context(result, catalog)
         current = build_context(result.evidence.chunks)
         assert re.sub(r"(?m)^\[p\d+\] ", "", annotated) == current
-        # Historical context keeps its original JSON spacing. Only that table
-        # serialization may change; canonical excerpts and other metadata do not.
-        old_lines, new_lines = row["context"].splitlines(keepends=True), current.splitlines(keepends=True)
-        assert len(old_lines) == len(new_lines)
-        for old, new in zip(old_lines, new_lines, strict=True):
-            if old.startswith("Table cells ["):
-                old_prefix, old_payload = old.split(": ", 1)
-                new_prefix, new_payload = new.split(": ", 1)
-                assert old_prefix == new_prefix
-                assert json.loads(old_payload) == json.loads(new_payload)
-            else:
-                assert old == new
+        # Derived table readings may change; canonical excerpts and supplements do not.
+        old_lines = [line for line in row["context"].splitlines() if not line.startswith("Table cells [")]
+        new_lines = [line for line in current.splitlines()
+                     if not line.startswith(("Table readings for ", "Row "))]
+        assert old_lines == new_lines
         assert len({e["evidence_id"] for e in catalog}) == len(catalog)
         assert len({(e["file_id"], e["start_offset"], e["end_offset"]) for e in catalog}) == len(catalog)
         by_id = {excerpt["evidence_id"]: excerpt for excerpt in catalog}

@@ -1,6 +1,8 @@
 """Locate PDF evidence and retain separately cited table context before packing."""
 
-from knowledgebase.rag.pdf_models import PdfBlock, PdfExtraction
+import json
+
+from knowledgebase.rag.pdf_models import PdfBlock, PdfExtraction, PdfTable
 from knowledgebase.schemas import PdfEvidence, PdfSupplement, PdfTableSpan
 
 
@@ -28,6 +30,36 @@ def _preceding_table_text(extraction: PdfExtraction, index: int) -> PdfBlock | N
             and pages and {r.page_index for r in previous.regions} == {min(pages)}):
         return previous
     return None
+
+
+def _table_reading(table: PdfTable, start: int, end: int) -> str:
+    """Bind complete supplied cells to their row labels and parent/leaf headers."""
+    headers = sorted((c for c in table.cells if c.column_header and c.text.strip()
+                      and (table.columns == 1 or c.column_end - c.column_start < table.columns)),
+                     key=lambda c: (c.row_start, c.column_start))
+    rows = {}
+    for cell in table.cells:
+        if (not cell.column_header and start <= cell.start_offset and cell.end_offset <= end
+                and cell.start_offset < end and start < cell.end_offset):
+            rows.setdefault((cell.row_start, cell.row_end), []).append(cell)
+    lines = []
+    for (row_start, row_end), cells in sorted(rows.items()):
+        labels = [c for c in table.cells if c.row_header
+                  and c.row_start < row_end and row_start < c.row_end]
+        values = []
+        for cell in sorted(cells, key=lambda c: c.column_start):
+            if cell.row_header:
+                continue
+            path = [" ".join(h.text.split()) for h in headers
+                    if h.column_start <= cell.column_start and cell.column_end <= h.column_end]
+            column = " > ".join(path) or f"Column {cell.column_start}:{cell.column_end}"
+            values.append([column, cell.text if cell.text else None])
+        label = " / ".join(c.text for c in labels)
+        bounds = f"{min(c.start_offset for c in cells)}:{max(c.end_offset for c in cells)}"
+        lines.append(f"Row {row_start}:{row_end} {json.dumps(label, ensure_ascii=False)} "
+                     f"(canonical offsets {bounds}): "
+                     + json.dumps(values, ensure_ascii=False, separators=(",", ":")))
+    return "\n".join(lines)
 
 
 def pdf_evidence(extraction: PdfExtraction, start: int, end: int) -> PdfEvidence:
@@ -75,7 +107,8 @@ def pdf_evidence(extraction: PdfExtraction, start: int, end: int) -> PdfEvidence
         tables.append(PdfTableSpan(table_id=table.table_id, cells=[
             (c.row_start, c.row_end, c.column_start, c.column_end, c.start_offset, c.end_offset)
             for c in cells
-        ], column_header_spans=[(c.start_offset, c.end_offset) for c in table.cells if c.column_header]))
+        ], column_header_spans=[(c.start_offset, c.end_offset) for c in table.cells if c.column_header],
+            reading=_table_reading(table, start, end)))
     regions = list(extraction.locate(start, end))
     pages = {r.page_index for r in regions}
     pages.update(r.page_index for s in supplements for r in s.regions)

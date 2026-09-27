@@ -6,7 +6,7 @@ from collections.abc import Callable
 from knowledgebase.schemas import RetrievedChunk, StructuredChunk
 
 
-PDF_CONTEXT_FORMAT = "source-metadata-pdf-v2"
+PDF_CONTEXT_FORMAT = "source-metadata-pdf-v3"
 CONTEXT_FORMAT = "source-metadata-v1"
 LABELED_CONTEXT_FORMAT = "source-metadata-v2"
 
@@ -29,10 +29,17 @@ def build_context(chunks: list[RetrievedChunk], *,
         if item.pdf is not None:
             context += "\nPDF physical pages: " + ", ".join(str(p + 1) for p in sorted({r.page_index for r in item.pdf.regions}))
             context += f"\nExcerpt canonical offsets: {item.chunk.start_offset}:{item.chunk.end_offset}"
-            if item.pdf.tables:
-                context += "\nTable cells [row start, row end, column start, column end, canonical start, canonical end]; bounds exclusive; partial cells may intersect excerpt edges: "
-                context += json.dumps([t.model_dump(exclude={"column_header_spans"}) for t in item.pdf.tables],
-                                      ensure_ascii=False, separators=(",", ":"))
+            for table in item.pdf.tables:
+                if table.reading is not None:
+                    context += (f"\nTable readings for {table.table_id} derived from source cells: "
+                                "each row lists [full column header, value]; null means an empty extracted cell, "
+                                "not zero or a missing excerpt. Only complete supplied cells are listed. "
+                                "Bounds are exclusive." + ("\n" + table.reading if table.reading else ""))
+                else:
+                    # Saved evidence from earlier versions has coordinates but no reading aid.
+                    context += "\nTable cells [row start, row end, column start, column end, canonical start, canonical end]; bounds exclusive; partial cells may intersect excerpt edges: "
+                    context += json.dumps([table.model_dump(exclude={"column_header_spans", "reading"})],
+                                          ensure_ascii=False, separators=(",", ":"))
             for extra in item.pdf.supplements:
                 pages = sorted({r.page_index + 1 for r in extra.regions})
                 text = (render_text(item.chunk.file_id, extra.start_offset, extra.text)

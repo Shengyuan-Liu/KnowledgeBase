@@ -39,6 +39,8 @@ class PdfTableSpan(BaseModel):
     # [row start, row end, column start, column end, character start, character end]
     cells: list[tuple[int, int, int, int, int, int]]
     column_header_spans: list[tuple[int, int]] = Field(default_factory=list)
+    # Derived reading aid; original coordinates and canonical excerpts remain authoritative.
+    reading: str | None = None
 
 
 class PdfEvidence(BaseModel):

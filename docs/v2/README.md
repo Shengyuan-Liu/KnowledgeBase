@@ -123,3 +123,13 @@ records content, links, and formatting checks. It is not a runtime or RAG evalua
 The subsequent [branch and scope review](../../evals/check-runs/20260926T200634Z-v2-scope/README.md)
 records the user-confirmed branch and deferred capabilities without changing the
 historical review.
+
+## Explicit table cell readings
+
+The [table context regression record](../../evals/check-runs/20260927-table-cell-context/README.md)
+documents source-metadata-pdf-v3: row labels, full grouped column paths and explicit
+empty-cell markers help distinguish nearby values while preserving canonical
+excerpts and page/cell provenance. Twelve frozen offline contexts preserve all
+40 requested evidence points within the existing budget. Generated-answer
+acceptance is recorded separately in the
+[frozen six-request protocol](../../evals/library-runs/20260927-table-cell-context-acceptance/protocol.md).
