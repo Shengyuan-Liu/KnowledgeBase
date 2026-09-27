@@ -20,6 +20,7 @@ from knowledgebase.rag.pdf_models import (
     PdfBlock, PdfCell, PdfExtraction, PdfPage, PdfParserIdentity, PdfRegion,
     PdfTable, PdfWarning,
 )
+from knowledgebase.rag.pdf_tables import RECOVERY_SETTINGS, recover_collapsed_tables
 
 
 def _json(value: object) -> str:
@@ -85,6 +86,7 @@ def _table(
 
 def adapt_pdf_document(
     document: DoclingDocument, source: bytes, parser: PdfParserIdentity,
+    *, recovered_tables: tuple[str, ...] = (),
 ) -> PdfExtraction:
     """Freeze ordered Docling output; exact slices do not establish PDF fidelity."""
     parts: list[str] = []
@@ -116,6 +118,13 @@ def adapt_pdf_document(
         if isinstance(item, TableItem):
             text, table = _table(item, document, start)
             kind = "table"
+            if item.self_ref in recovered_tables:
+                warnings.append(PdfWarning(
+                    code="native_table_recovery", message=(
+                        "A collapsed model table was reconstructed from native PDF rules and text rows. "
+                        "Header roles are inferred; review the original page."
+                    ), page_indices=tuple(p.page_no - 1 for p in item.prov), source_ref=item.self_ref,
+                ))
             warnings.append(PdfWarning(
                 code="table_structure_unverified", message=(
                     "Extracted cell/header associations are unverified. Dense and merged tables "
@@ -203,9 +212,12 @@ class PdfParser:
             raise ValueError("Download the Docling layout and tableformer assets before constructing PdfParser.")
         settings = options.model_dump(mode="json", serialize_as_any=True)
         settings.pop("artifacts_path")  # Machine-specific paths are not extraction identity.
+        settings["collapsed_table_recovery"] = RECOVERY_SETTINGS
         self.identity = PdfParserIdentity(
+            name="docling+pdfplumber",
             package_versions=tuple((p, version(p)) for p in (
                 "docling", "docling-core", "docling-parse", "docling-ibm-models", "torch",
+                "pdfplumber", "pdfminer.six",
             )), settings_json=_json(settings), model_file_hashes=model_files,
         )
         self.converter = DocumentConverter(
@@ -218,4 +230,5 @@ class PdfParser:
         result = self.converter.convert(DocumentStream(name="source.pdf", stream=BytesIO(source)))
         if result.status != ConversionStatus.SUCCESS:
             raise ValueError(f"PDF conversion did not complete: {result.status.value}; {result.errors}")
-        return adapt_pdf_document(result.document, source, self.identity)
+        recovered = recover_collapsed_tables(result.document, source)
+        return adapt_pdf_document(result.document, source, self.identity, recovered_tables=recovered)

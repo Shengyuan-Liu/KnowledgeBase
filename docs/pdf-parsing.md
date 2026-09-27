@@ -47,8 +47,42 @@ print(extraction.warnings)
 
 Reuse a parser across sequential documents. Construction hashes local model files;
 the first parse loads models. Missing assets and conversion failures remain errors.
-Partial conversion is rejected. No fallback parser is configured. Installing this
-extra enables the lazy application parser; Docling is imported on the first PDF upload.
+Partial conversion is rejected. The PDF extra includes Docling and pdfplumber;
+the application imports the parser on the first PDF upload.
+After a successful conversion, the scoped recovery below can reconstruct a
+collapsed table from native text and rules; it does not recover failed conversions.
+
+## Collapsed Ruled Tables
+
+The [dense-table repair record](../evals/check-runs/20260927-dense-table/README.md)
+isolates an observed failure: the background-check report reaches TableFormer
+with its native values intact, but structure prediction reduces the whole table
+to one cell. Disabling cell matching or changing the PDF backend did not fix it.
+
+For a **single-page table with at most one extracted row or column**, the parser
+now tries pdfplumber 0.11.9 within the existing Docling table box. It uses native
+vertical rules and text-row positions, extending horizontal row boundaries across
+the box so that the left row-label column is included. Recovery requires one
+native grid and a labeled numeric body. Rows before the first labeled row with
+at least two numeric cells and a numeric majority are marked as headers. This is
+a structural heuristic, not semantic table understanding.
+
+The adapter retains merged column spans, explicit blank cells, native text and
+physical-page boxes. Full-width title/date cells remain table context. It never
+fills blanks with zero or synthesizes missing values. Other tables keep their
+Docling output. Every recovered table has a `native_table_recovery` notice and
+still carries `table_structure_unverified`.
+
+The frozen development check now recovers all four original Alabama facts and
+the complete Alabama, Alaska and Arizona rows: 66 numeric cells, six blanks,
+25 header paths and six merged groups. Four other sampled corpus documents keep
+identical canonical text and block geometry. These labels cover three rows of
+one known failure, not every row, held-out tables, or end-to-end answer quality.
+
+Parser identity records the recovery algorithm/settings and pdfplumber/pdfminer
+versions. Changed extraction creates a new revision. Existing library entries
+and historical evidence are not rewritten: upload the original again to create
+fresh chunks, BM25 entries and embeddings. There is no automatic reindex endpoint.
 
 ## Module Responsibilities
 
@@ -57,6 +91,7 @@ extra enables the lazy application parser; Docling is imported on the first PDF 
 | `knowledgebase/rag/pdf.py`: `PdfParser` | Configure the local converter, record package/model identity, parse complete PDF bytes |
 | `adapt_pdf_document` | Convert ordered parser items into canonical text, blocks, geometry and warnings |
 | `_table` | Serialize each cell once; preserve row/column spans, header flags, caption and footnote references |
+| `knowledgebase/rag/pdf_tables.py`: `recover_collapsed_tables` | Reconstruct eligible collapsed numeric tables using native rules and text rows before canonical serialization |
 | `knowledgebase/rag/pdf_models.py` | Frozen records with tuples for nested collections and JSON round-trip support |
 | `PdfExtraction.locate` | Intersect a canonical span with all its page regions, retaining box precision |
 | `PdfExtraction.source_blocks` | Return independent copies for the structural chunker; no upload or table-aware splitting integration |
@@ -87,10 +122,11 @@ extra enables the lazy application parser; Docling is imported on the first PDF 
 
 ## Known Limits
 
-The dense background-check report loses table data. The technical report table
-combines thread-count rows and misassigns a CPU-label fragment. Neither table is
-accepted as faithfully extracted. The paper's first page places right-column
-content before its abstract, although the second-page main-column sequence is
+The dense background-check report's original loss is repaired for its three
+annotated development rows; the rest of that table remains unverified. The
+technical report table still combines thread-count rows and misassigns a
+CPU-label fragment, and is not accepted as faithfully extracted. The paper's
+first page places right-column content before its abstract, although the second-page main-column sequence is
 usable. Some names, captions and headings lose spaces. Failures remain recorded.
 
 Every table carries `table_structure_unverified`; this is a limitation notice,
@@ -106,7 +142,7 @@ separately located headers, and surfaces extraction limitations in the UI.
 ## Verification
 
 ```bash
-uv run --locked --extra pdf python -m pytest tests/test_pdf.py tests/test_parsing.py tests/test_structured_chunking.py tests/test_parent_child_chunking.py tests/test_source_locations.py tests/test_cli.py -q
+uv run --locked --extra pdf python -m pytest tests/test_pdf.py tests/test_pdf_tables.py tests/test_parsing.py tests/test_structured_chunking.py tests/test_parent_child_chunking.py tests/test_source_locations.py tests/test_cli.py -q
 ```
 
 Tests use frozen real output and controlled records, without model downloads or

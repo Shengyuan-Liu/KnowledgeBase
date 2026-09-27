@@ -1,0 +1,612 @@
+{
+  "command": [
+    "evals/check-runs/20260927-dense-table/compare.py",
+    "comparison-1"
+  ],
+  "baseline_commit": "9dcb7c50a02066bdb482a8c00f42c35f1c8e8865",
+  "device": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "concurrency": 1,
+  "threads": 4,
+  "retries": 0,
+  "timeout": null,
+  "cache": "Local model files already present; OS cache uncontrolled. Sequential parser instances; first parse of each includes model loading; no queue.",
+  "reviewer": "Codex model reviewer; deterministic comparison to independent visual transcription in gold.json.",
+  "inputs": {
+    "evals/check-runs/20260927-dense-table/gold.json": "e5e8b6f5a7d4b483e7f14e01fc1a2739b23414045a162612f3f140521a39c34b",
+    "evals/check-runs/20260927-dense-table/baseline-pdf.py": "a0a3e7dc26091d99722ab3ca9671f5640b8e047390ffb6883470867fb235e79b",
+    "evals/materials/pdf-v2/apple-fy24.pdf": "af9646018330484238d357f1168ae74194fd768f4ea9921e4b2828c88309320c",
+    "evals/materials/pdf-v2/background-checks.pdf": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407",
+    "evals/materials/pdf-v2/ml-lecture.pdf": "eefe52854eed1e2a0be969daed838d33e1751107a2f60ace2d1b6b8189424216",
+    "evals/materials/pdf-v2/docling-report.pdf": "82dd470712ce8389f19f20eb9330475e2166a281f8c7990a9f1d0763d73b4d22",
+    "evals/materials/pdf-v2/doclaynet.pdf": "5dfbd8c115a15fd3396b68409124cfee29fc8efac7b5c846634ff924e635e0dc"
+  },
+  "implementation": {
+    "knowledgebase/rag/pdf.py": "a326db16fa437f5ae08fcc1cd1845e36c8d49a91f55836d9d16a61be849817ef",
+    "knowledgebase/rag/pdf_tables.py": "023747eb59e336ef88add5064d58a5f8d4de9a2d90c54fccbb3c8fa4b4107886",
+    "pyproject.toml": "72cf2b717e89bf7d990ebd843f2a74b94048e58e1c0bf2ed923d795a33bf7ee8",
+    "uv.lock": "6344e0a67fcbf97775ae91fca77ca20549d723f72af96d56cef5b56fdef4384b"
+  },
+  "cases": [
+    {
+      "case": "background-checks",
+      "frozen_docling": "evals/check-runs/20260926-pdf-parser-selection/attempt-1/background-checks-docling.json",
+      "frozen_docling_sha256": "a1a4216cd1c64aa3758a918cdca8bfe29f1fc3999d5933fe31d602cd46c4896d",
+      "recovered_tables": [
+        "#/tables/0"
+      ],
+      "recovery_stage": {
+        "n": 1,
+        "mean_seconds": 0.20064824994187802,
+        "p50_seconds": 0.20064824994187802,
+        "p95_seconds": 0.20064824994187802,
+        "percentile_method": "One observation; all percentiles equal the observed value."
+      },
+      "canonical_text_unchanged": false,
+      "blocks_unchanged": false,
+      "source_hash_unchanged": true,
+      "before_scores": {
+        "numeric_cells": [
+          0,
+          66
+        ],
+        "explicit_blanks": [
+          0,
+          6
+        ],
+        "row_labels": [
+          0,
+          3
+        ],
+        "header_paths": [
+          0,
+          25
+        ],
+        "merged_groups": [
+          0,
+          6
+        ],
+        "exact_rows": [
+          0,
+          3
+        ],
+        "original_four_facts": [
+          0,
+          4
+        ]
+      },
+      "after_scores": {
+        "numeric_cells": [
+          66,
+          66
+        ],
+        "explicit_blanks": [
+          6,
+          6
+        ],
+        "row_labels": [
+          3,
+          3
+        ],
+        "header_paths": [
+          25,
+          25
+        ],
+        "merged_groups": [
+          6,
+          6
+        ],
+        "exact_rows": [
+          3,
+          3
+        ],
+        "original_four_facts": [
+          4,
+          4
+        ]
+      }
+    },
+    {
+      "case": "apple-fy24",
+      "frozen_docling": "evals/check-runs/20260926-pdf-parser-selection/apple-1/apple-fy24-docling.json",
+      "frozen_docling_sha256": "2e3b61c03b2e437e015c0c28a384900fa07f663cef60c54e33a76593127965b6",
+      "recovered_tables": [],
+      "recovery_stage": {
+        "n": 1,
+        "mean_seconds": 1.5828991308808327e-06,
+        "p50_seconds": 1.5828991308808327e-06,
+        "p95_seconds": 1.5828991308808327e-06,
+        "percentile_method": "One observation; all percentiles equal the observed value."
+      },
+      "canonical_text_unchanged": true,
+      "blocks_unchanged": true,
+      "source_hash_unchanged": true
+    },
+    {
+      "case": "doclaynet",
+      "frozen_docling": "evals/check-runs/20260926-pdf-parser-selection/attempt-1/doclaynet-docling.json",
+      "frozen_docling_sha256": "5dfefe7d4d2a951af9db78d09850b4c8073f5338d27b233d7c5be32fd9d2dbef",
+      "recovered_tables": [],
+      "recovery_stage": {
+        "n": 1,
+        "mean_seconds": 5.83939254283905e-07,
+        "p50_seconds": 5.83939254283905e-07,
+        "p95_seconds": 5.83939254283905e-07,
+        "percentile_method": "One observation; all percentiles equal the observed value."
+      },
+      "canonical_text_unchanged": true,
+      "blocks_unchanged": true,
+      "source_hash_unchanged": true
+    },
+    {
+      "case": "ml-lecture",
+      "frozen_docling": "evals/check-runs/20260926-pdf-parser-selection/attempt-1/ml-lecture-docling.json",
+      "frozen_docling_sha256": "4ff921bfbb25909a330ef19e532beb417f00f43fd675a9c5fe9eca31c21e32d0",
+      "recovered_tables": [],
+      "recovery_stage": {
+        "n": 1,
+        "mean_seconds": 5.828915163874626e-07,
+        "p50_seconds": 5.828915163874626e-07,
+        "p95_seconds": 5.828915163874626e-07,
+        "percentile_method": "One observation; all percentiles equal the observed value."
+      },
+      "canonical_text_unchanged": true,
+      "blocks_unchanged": true,
+      "source_hash_unchanged": true
+    },
+    {
+      "case": "docling-report",
+      "frozen_docling": "evals/check-runs/20260926-pdf-parser-selection/attempt-1/docling-report-docling.json",
+      "frozen_docling_sha256": "61c99702be10c872842e3c3dddbbd23e5a7ad5e67ea54fb6ceeec0c8cb142a41",
+      "recovered_tables": [],
+      "recovery_stage": {
+        "n": 1,
+        "mean_seconds": 1.125037670135498e-06,
+        "p50_seconds": 1.125037670135498e-06,
+        "p95_seconds": 1.125037670135498e-06,
+        "percentile_method": "One observation; all percentiles equal the observed value."
+      },
+      "canonical_text_unchanged": true,
+      "blocks_unchanged": true,
+      "source_hash_unchanged": true
+    }
+  ],
+  "original_parses": [
+    {
+      "variant": "before",
+      "parse_stage": {
+        "n": 1,
+        "mean_seconds": 13.522032083012164,
+        "p50_seconds": 13.522032083012164,
+        "p95_seconds": 13.522032083012164,
+        "percentile_method": "One observation; all percentiles equal the observed value."
+      },
+      "status": "success",
+      "scores": {
+        "numeric_cells": [
+          0,
+          66
+        ],
+        "explicit_blanks": [
+          0,
+          6
+        ],
+        "row_labels": [
+          0,
+          3
+        ],
+        "header_paths": [
+          0,
+          25
+        ],
+        "merged_groups": [
+          0,
+          6
+        ],
+        "exact_rows": [
+          0,
+          3
+        ],
+        "original_four_facts": [
+          0,
+          4
+        ]
+      }
+    },
+    {
+      "variant": "after",
+      "parse_stage": {
+        "n": 1,
+        "mean_seconds": 12.260420583072118,
+        "p50_seconds": 12.260420583072118,
+        "p95_seconds": 12.260420583072118,
+        "percentile_method": "One observation; all percentiles equal the observed value."
+      },
+      "status": "success",
+      "scores": {
+        "numeric_cells": [
+          66,
+          66
+        ],
+        "explicit_blanks": [
+          6,
+          6
+        ],
+        "row_labels": [
+          3,
+          3
+        ],
+        "header_paths": [
+          25,
+          25
+        ],
+        "merged_groups": [
+          6,
+          6
+        ],
+        "exact_rows": [
+          3,
+          3
+        ],
+        "original_four_facts": [
+          4,
+          4
+        ]
+      }
+    }
+  ],
+  "metric_inventory": {
+    "Recall@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Offline parser comparison; no queries, model answers, provider calls, upload/index lifecycle, or production load.",
+      "sample_count": 0,
+      "population": "local parser comparison",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "run.json"
+    },
+    "Precision@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Offline parser comparison; no queries, model answers, provider calls, upload/index lifecycle, or production load.",
+      "sample_count": 0,
+      "population": "local parser comparison",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "run.json"
+    },
+    "Hit Rate@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Offline parser comparison; no queries, model answers, provider calls, upload/index lifecycle, or production load.",
+      "sample_count": 0,
+      "population": "local parser comparison",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "run.json"
+    },
+    "MRR": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Offline parser comparison; no queries, model answers, provider calls, upload/index lifecycle, or production load.",
+      "sample_count": 0,
+      "population": "local parser comparison",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "run.json"
+    },
+    "NDCG@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Offline parser comparison; no queries, model answers, provider calls, upload/index lifecycle, or production load.",
+      "sample_count": 0,
+      "population": "local parser comparison",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "run.json"
+    },
+    "Final evidence coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Offline parser comparison; no queries, model answers, provider calls, upload/index lifecycle, or production load.",
+      "sample_count": 0,
+      "population": "local parser comparison",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "run.json"
+    },
+    "Answer correctness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Offline parser comparison; no queries, model answers, provider calls, upload/index lifecycle, or production load.",
+      "sample_count": 0,
+      "population": "local parser comparison",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "run.json"
+    },
+    "Faithfulness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Offline parser comparison; no queries, model answers, provider calls, upload/index lifecycle, or production load.",
+      "sample_count": 0,
+      "population": "local parser comparison",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "run.json"
+    },
+    "Answer completeness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Offline parser comparison; no queries, model answers, provider calls, upload/index lifecycle, or production load.",
+      "sample_count": 0,
+      "population": "local parser comparison",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "run.json"
+    },
+    "Answer relevance": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Offline parser comparison; no queries, model answers, provider calls, upload/index lifecycle, or production load.",
+      "sample_count": 0,
+      "population": "local parser comparison",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "run.json"
+    },
+    "Citation support": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Offline parser comparison; no queries, model answers, provider calls, upload/index lifecycle, or production load.",
+      "sample_count": 0,
+      "population": "local parser comparison",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "run.json"
+    },
+    "Citation coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Offline parser comparison; no queries, model answers, provider calls, upload/index lifecycle, or production load.",
+      "sample_count": 0,
+      "population": "local parser comparison",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "run.json"
+    },
+    "Abstention": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Offline parser comparison; no queries, model answers, provider calls, upload/index lifecycle, or production load.",
+      "sample_count": 0,
+      "population": "local parser comparison",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "run.json"
+    },
+    "First-answer-delta latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Offline parser comparison; no queries, model answers, provider calls, upload/index lifecycle, or production load.",
+      "sample_count": 0,
+      "population": "local parser comparison",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "run.json"
+    },
+    "Complete-response latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Offline parser comparison; no queries, model answers, provider calls, upload/index lifecycle, or production load.",
+      "sample_count": 0,
+      "population": "local parser comparison",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "run.json"
+    },
+    "Stage latency": {
+      "status": "measured",
+      "value": {
+        "native_recovery": [
+          {
+            "n": 1,
+            "mean_seconds": 0.20064824994187802,
+            "p50_seconds": 0.20064824994187802,
+            "p95_seconds": 0.20064824994187802,
+            "percentile_method": "One observation; all percentiles equal the observed value."
+          },
+          {
+            "n": 1,
+            "mean_seconds": 1.5828991308808327e-06,
+            "p50_seconds": 1.5828991308808327e-06,
+            "p95_seconds": 1.5828991308808327e-06,
+            "percentile_method": "One observation; all percentiles equal the observed value."
+          },
+          {
+            "n": 1,
+            "mean_seconds": 5.83939254283905e-07,
+            "p50_seconds": 5.83939254283905e-07,
+            "p95_seconds": 5.83939254283905e-07,
+            "percentile_method": "One observation; all percentiles equal the observed value."
+          },
+          {
+            "n": 1,
+            "mean_seconds": 5.828915163874626e-07,
+            "p50_seconds": 5.828915163874626e-07,
+            "p95_seconds": 5.828915163874626e-07,
+            "percentile_method": "One observation; all percentiles equal the observed value."
+          },
+          {
+            "n": 1,
+            "mean_seconds": 1.125037670135498e-06,
+            "p50_seconds": 1.125037670135498e-06,
+            "p95_seconds": 1.125037670135498e-06,
+            "percentile_method": "One observation; all percentiles equal the observed value."
+          }
+        ],
+        "original_parser": [
+          {
+            "variant": "before",
+            "parse_stage": {
+              "n": 1,
+              "mean_seconds": 13.522032083012164,
+              "p50_seconds": 13.522032083012164,
+              "p95_seconds": 13.522032083012164,
+              "percentile_method": "One observation; all percentiles equal the observed value."
+            },
+            "status": "success",
+            "scores": {
+              "numeric_cells": [
+                0,
+                66
+              ],
+              "explicit_blanks": [
+                0,
+                6
+              ],
+              "row_labels": [
+                0,
+                3
+              ],
+              "header_paths": [
+                0,
+                25
+              ],
+              "merged_groups": [
+                0,
+                6
+              ],
+              "exact_rows": [
+                0,
+                3
+              ],
+              "original_four_facts": [
+                0,
+                4
+              ]
+            }
+          },
+          {
+            "variant": "after",
+            "parse_stage": {
+              "n": 1,
+              "mean_seconds": 12.260420583072118,
+              "p50_seconds": 12.260420583072118,
+              "p95_seconds": 12.260420583072118,
+              "percentile_method": "One observation; all percentiles equal the observed value."
+            },
+            "status": "success",
+            "scores": {
+              "numeric_cells": [
+                66,
+                66
+              ],
+              "explicit_blanks": [
+                6,
+                6
+              ],
+              "row_labels": [
+                3,
+                3
+              ],
+              "header_paths": [
+                25,
+                25
+              ],
+              "merged_groups": [
+                6,
+                6
+              ],
+              "exact_rows": [
+                3,
+                3
+              ],
+              "original_four_facts": [
+                4,
+                4
+              ]
+            }
+          }
+        ]
+      },
+      "unit": "structured observations",
+      "reason": "Only parser stages; first parse includes local model loading, no queue or provider.",
+      "sample_count": 7,
+      "population": "local parser comparison",
+      "method": "perf_counter and retained result counts",
+      "aggregation": "per case",
+      "artifact": "run.json"
+    },
+    "Token usage and cost": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Offline parser comparison; no queries, model answers, provider calls, upload/index lifecycle, or production load.",
+      "sample_count": 0,
+      "population": "local parser comparison",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "run.json"
+    },
+    "Reliability": {
+      "status": "measured",
+      "value": {
+        "completed_replays": 5,
+        "completed_original_parses": 2,
+        "errors": 0,
+        "timeouts": 0,
+        "retries": 0
+      },
+      "unit": "structured observations",
+      "reason": "Offline command and parse completion; fidelity scored separately.",
+      "sample_count": 7,
+      "population": "local parser comparison",
+      "method": "perf_counter and retained result counts",
+      "aggregation": "per case",
+      "artifact": "run.json"
+    },
+    "Concurrency and throughput": {
+      "status": "measured",
+      "value": {
+        "concurrency": 1,
+        "completed_cases_per_second": 0.26304569074831863
+      },
+      "unit": "structured observations",
+      "reason": "Whole comparison command including identity hashing, JSON recording and review; not production load capacity.",
+      "sample_count": 7,
+      "population": "local parser comparison",
+      "method": "perf_counter and retained result counts",
+      "aggregation": "per case",
+      "artifact": "run.json"
+    },
+    "Ingestion and index": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "reason": "Offline parser comparison; no queries, model answers, provider calls, upload/index lifecycle, or production load.",
+      "sample_count": 0,
+      "population": "local parser comparison",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "run.json"
+    }
+  },
+  "status": "success",
+  "duration_seconds": 26.611346416990273
+}

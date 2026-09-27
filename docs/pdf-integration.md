@@ -14,8 +14,10 @@ The subsequent [financial live replay](../evals/library-runs/20260927-financial-
 completes all six targeted requests with correct requested facts and one remaining
 inline-citation gap. A later [citation follow-up](../evals/library-runs/20260927-financial-citation-acceptance/README.md)
 passes the same scoped review with current-source hints and explicit table context.
-Its fiscal-period inference allowance is documented; dense-table extraction and
-broader v2 acceptance remain unresolved.
+Its fiscal-period inference allowance is documented. A subsequent
+[native-table repair](../evals/check-runs/20260927-dense-table/README.md) recovers
+the four missing Alabama values and three complete annotated state rows offline.
+Broader table fidelity and v2 acceptance remain unresolved.
 
 ## Use
 
@@ -32,6 +34,9 @@ make app
 when using another location. Weights are loaded lazily and shared sequentially.
 Normal startup and uploads do not download models. `make app` and `make api`
 include the PDF extra. Existing TXT/Markdown data needs no reindexing.
+Existing PDF entries retain their saved extraction. Upload the original PDF again
+to apply a newer parser and build fresh chunks and indexes; previous answer
+snapshots keep their historical evidence.
 
 Upload a digitally generated PDF, wait for Ready, then ask a question. The library
 shows the physical page count and extraction notices. Open an answer citation,
@@ -106,7 +111,9 @@ retains contract tests, browser checks, failed attempts and one original-byte lo
 lifecycle diagnostic. The original paper, lecture and report corpus and its parser
 review remain linked from [PDF parsing](pdf-parsing.md).
 
-Known dense/merged-table, spacing and reading-order failures remain unresolved.
+The dense-table repair covers three labeled development rows. Other dense tables,
+the technical report's merged rows, spacing and reading-order limits remain unverified
+or unresolved as detailed in [PDF parsing](pdf-parsing.md).
 Ready means supported extracted content was indexed, not that every original
 element was faithfully understood. OCR, visual chart/figure interpretation and
 formula understanding remain excluded. Local diagnostic timings use mocked

@@ -1,0 +1,1279 @@
+{
+  "schema_version": 1,
+  "source_hash": "5dfbd8c115a15fd3396b68409124cfee29fc8efac7b5c846634ff924e635e0dc",
+  "extraction_hash": "4001bb04a68e1a0318802f5ee92fcc1174a9a861d52fe4979775dec1ceff15e9",
+  "revision_id": "df021ae4bdaa1ef09dad9ee512e39e84e13d35f643e045c65e87fb6ecea1c298",
+  "text": "arXiv:2206.01062v1 [cs.CV] 2 Jun 2022\n\nDocLayNet: A Large Human-Annotated Dataset for Document-Layout Analysis\n\nBirgit Pfitzmann IBM Research Rueschlikon, Switzerland bpf@zurich.ibm.com Christoph Auer IBM Research Rueschlikon, Switzerland cau@zurich.ibm.com Michele Dolfi IBM Research Rueschlikon, Switzerland dol@zurich.ibm.com\n\nAhmed S. Nassar IBM Research Rueschlikon, Switzerland\n\nahn@zurich.ibm.com Peter Staar IBM Research Rueschlikon, Switzerland taa@zurich.ibm.com\n\nFigure1: Fourexamplesofcomplexpagelayoutsacrossdifferent document categories\n\nKEYWORDS\n\nPDF document conversion, layout segmentation, object-detection, data set, Machine Learning\n\nACM Reference Format:\n\nBirgit Pfitzmann, Christoph Auer, Michele Dolfi, Ahmed S. Nassar, and Peter Staar. 2022. DocLayNet: A Large Human-Annotated Dataset for DocumentLayout Analysis. In Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining (KDD '22), August 14-18, 2022, Washington, DC, USA. ACM, New York, NY, USA, 9 pages. https://doi.org/10.1145/ 3534678.3539043\n\nABSTRACT\n\nAccurate document layout analysis is a key requirement for highquality PDF document conversion. With the recent availability of public, large ground-truth datasets such as PubLayNet and DocBank, deep-learning models have proven to be very effective at layout detection and segmentation. While these datasets are of adequate size to train such models, they severely lack in layout variability since they are sourced from scientific article repositories such as PubMed and arXiv only. Consequently, the accuracy of the layout segmentation drops significantly when these models are applied on more challenging and diverse layouts. In this paper, we present DocLayNet, a new, publicly available, document-layout annotation dataset in COCO format. It contains 80863 manually annotated pages from diverse data sources to represent a wide variability in layouts. For each PDF page, the layout annotations provide labelled bounding-boxes with a choice of 11 distinct classes. DocLayNet also provides a subset of double- and triple-annotated pages to determine the inter-annotator agreement. In multiple experiments, we provide baseline accuracy scores (in mAP) for a set of popular object detection models. We also demonstrate that these models fall approximately 10% behind the inter-annotator agreement. Furthermore, we provide evidence that DocLayNet is of sufficient size. Lastly, we compare models trained on PubLayNet, DocBank and DocLayNet, showing that layout predictions of the DocLayNettrained models are more robust and thus the preferred choice for general-purpose document-layout analysis.\n\nCCS CONCEPTS\n\n· Information systems →Document structure; · Applied computing → Document analysis; · Computing methodologies →Machine learning; Computer vision; Object detection;\n\nPermission to make digital or hard copies of part or all of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for third-party components of this work must be honored. For all other uses, contact the owner/author(s).\n\nKDD '22, August 14-18, 2022, Washington, DC, USA\n\n© 2022 Copyright held by the owner/author(s).\n\nACM ISBN 978-1-4503-9385-0/22/08.\n\nhttps://doi.org/10.1145/3534678.3539043\n\nKDD '22, August 14-18, 2022, Washington, DC, USA Birgit Pfitzmann, Christoph Auer, Michele Dolfi, Ahmed S. Nassar, and Peter Staar\n\n1 INTRODUCTION\n\nDespite the substantial improvements achieved with machine-learning (ML) approaches and deep neural networks in recent years, document conversion remains a challenging problem, as demonstrated by the numerous public competitions held on this topic [1-4]. The challenge originates from the huge variability in PDF documents regarding layout, language and formats (scanned, programmatic or a combination of both). Engineering a single ML model that can be applied on all types of documents and provides high-quality layout segmentation remains to this day extremely challenging [5]. To highlight the variability in document layouts, we show a few example documents from the DocLayNet dataset in Figure 1.\n\nA key problem in the process of document conversion is to understand the structure of a single document page, i.e. which segments of text should be grouped together in a unit. To train models for this task, there are currently two large datasets available to the community, PubLayNet [6] and DocBank [7]. They were introduced in 2019 and 2020 respectively and significantly accelerated the implementation of layout detection and segmentation models due to their sizes of 300K and 500K ground-truth pages. These sizes were achieved by leveraging an automation approach. The benefit of automated ground-truth generation is obvious: one can generate large ground-truth datasets at virtually no cost. However, the automation introduces a constraint on the variability in the dataset, because corresponding structured source data must be available. PubLayNet and DocBank were both generated from scientific document repositories (PubMed and arXiv), which provide XML or LATEX sources. Those scientific documents present a limited variability in their layouts, because they are typeset in uniform templates provided by the publishers. Obviously, documents such as technical manuals, annual company reports, legal text, government tenders, etc. have very different and partially unique layouts. As a consequence, the layout predictions obtained from models trained on PubLayNet or DocBank is very reasonable when applied on scientific documents. However, for more artistic or free-style layouts, we see sub-par prediction quality from these models, which we demonstrate in Section 5.\n\nIn this paper, we present the DocLayNet dataset. It provides pageby-page layout annotation ground-truth using bounding-boxes for 11 distinct class labels on 80863 unique document pages, of which a fraction carry double- or triple-annotations. DocLayNet is similar in spirit to PubLayNet and DocBank and will likewise be made available to the public 1 in order to stimulate the document-layout analysis community. It distinguishes itself in the following aspects:\n\n(1) Human Annotation: In contrast to PubLayNet and DocBank, we relied on human annotation instead of automation approaches to generate the data set.\n\n(2) Large Layout Variability: We include diverse and complex layouts from a large variety of public sources.\n\n(3) Detailed Label Set: We define 11 class labels to distinguish layout features in high detail. PubLayNet provides 5 labels; DocBank provides 13, although not a superset of ours.\n\n(4) Redundant Annotations: A fraction of the pages in the DocLayNet data set carry more than one human annotation.\n\n1 https://developer.ibm.com/exchanges/data/all/doclaynet\n\nThis enables experimentation with annotation uncertainty and quality control analysis.\n\n(5) Pre-defined Train-, Test- & Validation-set: Like DocBank, we provide fixed train-, test- & validation-sets to ensure proportional representation of the class-labels. Further, we prevent leakage of unique layouts across sets, which has a large effect on model accuracy scores.\n\nAll aspects outlined above are detailed in Section 3. In Section 4, we will elaborate on how we designed and executed this large-scale human annotation campaign. We will also share key insights and lessons learned that might prove helpful for other parties planning to set up annotation campaigns.\n\nIn Section 5, we will present baseline accuracy numbers for a variety of object detection methods (Faster R-CNN, Mask R-CNN and YOLOv5) trained on DocLayNet. We further show how the model performance is impacted by varying the DocLayNet dataset size, reducing the label set and modifying the train/test-split. Last but not least, we compare the performance of models trained on PubLayNet, DocBank and DocLayNet and demonstrate that a model trained on DocLayNet provides overall more robust layout recovery.\n\n2 RELATEDWORK\n\nWhile early approaches in document-layout analysis used rulebased algorithms and heuristics [8], the problem is lately addressed with deep learning methods. The most common approach is to leverage object detection models [9-15]. In the last decade, the accuracy and speed of these models has increased dramatically. Furthermore, most state-of-the-art object detection methods can be trained and applied with very little work, thanks to a standardisation effort of the ground-truth data format [16] and common deep-learning frameworks [17]. Reference data sets such as PubLayNet [6] and DocBank provide their data in the commonly accepted COCO format [16].\n\nLately, new types of ML models for document-layout analysis have emerged in the community [18-21]. These models do not approach the problem of layout analysis purely based on an image representation of the page, as computer vision methods do. Instead, they combine the text tokens and image representation of a page in order to obtain a segmentation. While the reported accuracies appear to be promising, a broadly accepted data format which links geometric and textual features has yet to establish.\n\n3 THEDOCLAYNETDATASET\n\nDocLayNet contains 80863 PDF pages. Among these, 7059 carry two instances of human annotations, and 1591 carry three. This amounts to 91104 total annotation instances. The annotations provide layout information in the shape of labeled, rectangular boundingboxes. We define 11 distinct labels for layout features, namely Caption, Footnote, Formula, List-item, Page-footer, Page-header, Picture, Section-header, Table, Text, and Title. Our reasoning for picking this particular label set is detailed in Section 4.\n\nIn addition to open intellectual property constraints for the source documents, we required that the documents in DocLayNet adhere to a few conditions. Firstly, we kept scanned documents",
+  "pages": [
+    {
+      "page_index": 0,
+      "width": 612.0,
+      "height": 792.0,
+      "printed_label": null
+    },
+    {
+      "page_index": 1,
+      "width": 612.0,
+      "height": 792.0,
+      "printed_label": null
+    }
+  ],
+  "blocks": [
+    {
+      "source_ref": "#/texts/0",
+      "kind": "paragraph",
+      "label": "page_header",
+      "text": "arXiv:2206.01062v1 [cs.CV] 2 Jun 2022",
+      "start_offset": 0,
+      "end_offset": 37,
+      "heading_path": [],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 0,
+          "end_offset": 37,
+          "page_index": 0,
+          "bbox": [
+            18.759999999999998,
+            218.36,
+            36.206559297218156,
+            555.0
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/1",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "DocLayNet: A Large Human-Annotated Dataset for Document-Layout Analysis",
+      "start_offset": 39,
+      "end_offset": 110,
+      "heading_path": [
+        "DocLayNet: A Large Human-Annotated Dataset for Document-Layout Analysis"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 39,
+          "end_offset": 110,
+          "page_index": 0,
+          "bbox": [
+            107.3,
+            84.2284052,
+            505.0618169999999,
+            119.41464614430015
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/2",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Birgit Pfitzmann IBM Research Rueschlikon, Switzerland bpf@zurich.ibm.com Christoph Auer IBM Research Rueschlikon, Switzerland cau@zurich.ibm.com Michele Dolfi IBM Research Rueschlikon, Switzerland dol@zurich.ibm.com",
+      "start_offset": 112,
+      "end_offset": 328,
+      "heading_path": [
+        "DocLayNet: A Large Human-Annotated Dataset for Document-Layout Analysis"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 112,
+          "end_offset": 185,
+          "page_index": 0,
+          "bbox": [
+            90.96699999999998,
+            134.2462544,
+            193.73121899999995,
+            180.08133898345227
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        },
+        {
+          "start_offset": 186,
+          "end_offset": 257,
+          "page_index": 0,
+          "bbox": [
+            255.11599999999999,
+            134.2462544000001,
+            357.88021900000007,
+            180.08133898345238
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        },
+        {
+          "start_offset": 258,
+          "end_offset": 328,
+          "page_index": 0,
+          "bbox": [
+            419.265,
+            134.24625440000023,
+            522.029219,
+            180.0813389834525
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/3",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Ahmed S. Nassar IBM Research Rueschlikon, Switzerland",
+      "start_offset": 330,
+      "end_offset": 383,
+      "heading_path": [
+        "DocLayNet: A Large Human-Annotated Dataset for Document-Layout Analysis"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 330,
+          "end_offset": 383,
+          "page_index": 0,
+          "bbox": [
+            172.54299999999998,
+            192.63125440000033,
+            275.307219,
+            226.51033898345258
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/4",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "ahn@zurich.ibm.com Peter Staar IBM Research Rueschlikon, Switzerland taa@zurich.ibm.com",
+      "start_offset": 385,
+      "end_offset": 472,
+      "heading_path": [
+        "DocLayNet: A Large Human-Annotated Dataset for Document-Layout Analysis"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 385,
+          "end_offset": 403,
+          "page_index": 0,
+          "bbox": [
+            180.528,
+            229.79842220000046,
+            267.32217119999996,
+            238.4663389834526
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        },
+        {
+          "start_offset": 404,
+          "end_offset": 472,
+          "page_index": 0,
+          "bbox": [
+            336.69300000000004,
+            192.63125440000044,
+            439.4572190000001,
+            238.46633898345272
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/5",
+      "kind": "paragraph",
+      "label": "caption",
+      "text": "Figure1: Fourexamplesofcomplexpagelayoutsacrossdifferent document categories",
+      "start_offset": 474,
+      "end_offset": 550,
+      "heading_path": [
+        "DocLayNet: A Large Human-Annotated Dataset for Document-Layout Analysis"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 474,
+          "end_offset": 550,
+          "page_index": 0,
+          "bbox": [
+            317.955,
+            540.8541008,
+            559.8057072000005,
+            559.2657615058824
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/284",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "KEYWORDS",
+      "start_offset": 552,
+      "end_offset": 560,
+      "heading_path": [
+        "KEYWORDS"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 552,
+          "end_offset": 560,
+          "page_index": 0,
+          "bbox": [
+            317.955,
+            593.4040852,
+            379.8205060999999,
+            602.4714724352941
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/285",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "PDF document conversion, layout segmentation, object-detection, data set, Machine Learning",
+      "start_offset": 562,
+      "end_offset": 652,
+      "heading_path": [
+        "KEYWORDS"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 562,
+          "end_offset": 652,
+          "page_index": 0,
+          "bbox": [
+            317.955,
+            608.0979408000001,
+            559.1859227328001,
+            626.8581181078459
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/286",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "ACM Reference Format:",
+      "start_offset": 654,
+      "end_offset": 675,
+      "heading_path": [
+        "ACM Reference Format:"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 654,
+          "end_offset": 675,
+          "page_index": 0,
+          "bbox": [
+            317.65999999999997,
+            640.7397771999999,
+            404.6536415000001,
+            647.3643367882353
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/287",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Birgit Pfitzmann, Christoph Auer, Michele Dolfi, Ahmed S. Nassar, and Peter Staar. 2022. DocLayNet: A Large Human-Annotated Dataset for DocumentLayout Analysis. In Proceedings of the 28th ACM SIGKDD Conference on Knowledge Discovery and Data Mining (KDD '22), August 14-18, 2022, Washington, DC, USA. ACM, New York, NY, USA, 9 pages. https://doi.org/10.1145/ 3534678.3539043",
+      "start_offset": 677,
+      "end_offset": 1051,
+      "heading_path": [
+        "ACM Reference Format:"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 677,
+          "end_offset": 1051,
+          "page_index": 0,
+          "bbox": [
+            317.955,
+            650.5025247,
+            559.5494373198001,
+            707.2498755276747
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/288",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "ABSTRACT",
+      "start_offset": 1053,
+      "end_offset": 1061,
+      "heading_path": [
+        "ABSTRACT"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 1053,
+          "end_offset": 1061,
+          "page_index": 0,
+          "bbox": [
+            53.79800000000006,
+            248.64108520000048,
+            111.94350300000005,
+            257.70847243529465
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/289",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Accurate document layout analysis is a key requirement for highquality PDF document conversion. With the recent availability of public, large ground-truth datasets such as PubLayNet and DocBank, deep-learning models have proven to be very effective at layout detection and segmentation. While these datasets are of adequate size to train such models, they severely lack in layout variability since they are sourced from scientific article repositories such as PubMed and arXiv only. Consequently, the accuracy of the layout segmentation drops significantly when these models are applied on more challenging and diverse layouts. In this paper, we present DocLayNet, a new, publicly available, document-layout annotation dataset in COCO format. It contains 80863 manually annotated pages from diverse data sources to represent a wide variability in layouts. For each PDF page, the layout annotations provide labelled bounding-boxes with a choice of 11 distinct classes. DocLayNet also provides a subset of double- and triple-annotated pages to determine the inter-annotator agreement. In multiple experiments, we provide baseline accuracy scores (in mAP) for a set of popular object detection models. We also demonstrate that these models fall approximately 10% behind the inter-annotator agreement. Furthermore, we provide evidence that DocLayNet is of sufficient size. Lastly, we compare models trained on PubLayNet, DocBank and DocLayNet, showing that layout predictions of the DocLayNettrained models are more robust and thus the preferred choice for general-purpose document-layout analysis.",
+      "start_offset": 1063,
+      "end_offset": 2657,
+      "heading_path": [
+        "ABSTRACT"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 1063,
+          "end_offset": 2657,
+          "page_index": 0,
+          "bbox": [
+            53.467,
+            263.3349408,
+            295.56019089920005,
+            534.150118107846
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/290",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "CCS CONCEPTS",
+      "start_offset": 2659,
+      "end_offset": 2671,
+      "heading_path": [
+        "CCS CONCEPTS"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 2659,
+          "end_offset": 2671,
+          "page_index": 0,
+          "bbox": [
+            53.798,
+            551.9350852,
+            134.81988570000001,
+            561.0024724352941
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/291",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "· Information systems →Document structure; · Applied computing → Document analysis; · Computing methodologies →Machine learning; Computer vision; Object detection;",
+      "start_offset": 2673,
+      "end_offset": 2836,
+      "heading_path": [
+        "CCS CONCEPTS"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 2673,
+          "end_offset": 2836,
+          "page_index": 0,
+          "bbox": [
+            53.79799999999997,
+            566.6299408,
+            297.85295520000005,
+            596.3926132413793
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/292",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Permission to make digital or hard copies of part or all of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for third-party components of this work must be honored. For all other uses, contact the owner/author(s).",
+      "start_offset": 2838,
+      "end_offset": 3235,
+      "heading_path": [
+        "CCS CONCEPTS"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 2838,
+          "end_offset": 3235,
+          "page_index": 0,
+          "bbox": [
+            53.798,
+            634.7331086,
+            295.11798044000005,
+            672.6806329475036
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/293",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "KDD '22, August 14-18, 2022, Washington, DC, USA",
+      "start_offset": 3237,
+      "end_offset": 3285,
+      "heading_path": [
+        "CCS CONCEPTS"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 3237,
+          "end_offset": 3285,
+          "page_index": 0,
+          "bbox": [
+            53.798,
+            675.331292,
+            197.86276039999996,
+            681.4814621724138
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/294",
+      "kind": "paragraph",
+      "label": "footnote",
+      "text": "© 2022 Copyright held by the owner/author(s).",
+      "start_offset": 3287,
+      "end_offset": 3332,
+      "heading_path": [
+        "CCS CONCEPTS"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 3287,
+          "end_offset": 3332,
+          "page_index": 0,
+          "bbox": [
+            53.317,
+            684.1471086,
+            186.7464744,
+            690.2146329475036
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/295",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "ACM ISBN 978-1-4503-9385-0/22/08.",
+      "start_offset": 3334,
+      "end_offset": 3367,
+      "heading_path": [
+        "CCS CONCEPTS"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 3334,
+          "end_offset": 3367,
+          "page_index": 0,
+          "bbox": [
+            53.553999999999995,
+            692.1181086,
+            157.03124440000002,
+            698.1856329475036
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/296",
+      "kind": "paragraph",
+      "label": "page_footer",
+      "text": "https://doi.org/10.1145/3534678.3539043",
+      "start_offset": 3369,
+      "end_offset": 3408,
+      "heading_path": [
+        "CCS CONCEPTS"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 3369,
+          "end_offset": 3408,
+          "page_index": 0,
+          "bbox": [
+            53.797999999999995,
+            700.0881085999999,
+            166.9409312,
+            706.1556329475036
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/297",
+      "kind": "paragraph",
+      "label": "page_header",
+      "text": "KDD '22, August 14-18, 2022, Washington, DC, USA Birgit Pfitzmann, Christoph Auer, Michele Dolfi, Ahmed S. Nassar, and Peter Staar",
+      "start_offset": 3410,
+      "end_offset": 3540,
+      "heading_path": [
+        "CCS CONCEPTS"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 3410,
+          "end_offset": 3540,
+          "page_index": 1,
+          "bbox": [
+            53.798,
+            60.56007520000003,
+            558.202832,
+            68.4891739818978
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/298",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "1 INTRODUCTION",
+      "start_offset": 3542,
+      "end_offset": 3556,
+      "heading_path": [
+        "1 INTRODUCTION"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 3542,
+          "end_offset": 3556,
+          "page_index": 1,
+          "bbox": [
+            53.798,
+            86.79808519999995,
+            156.5289947,
+            95.86547243529412
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/299",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Despite the substantial improvements achieved with machine-learning (ML) approaches and deep neural networks in recent years, document conversion remains a challenging problem, as demonstrated by the numerous public competitions held on this topic [1-4]. The challenge originates from the huge variability in PDF documents regarding layout, language and formats (scanned, programmatic or a combination of both). Engineering a single ML model that can be applied on all types of documents and provides high-quality layout segmentation remains to this day extremely challenging [5]. To highlight the variability in document layouts, we show a few example documents from the DocLayNet dataset in Figure 1.",
+      "start_offset": 3558,
+      "end_offset": 4260,
+      "heading_path": [
+        "1 INTRODUCTION"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 3558,
+          "end_offset": 4260,
+          "page_index": 1,
+          "bbox": [
+            53.529,
+            111.41394079999998,
+            303.01693606400005,
+            228.80411810784585
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/300",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "A key problem in the process of document conversion is to understand the structure of a single document page, i.e. which segments of text should be grouped together in a unit. To train models for this task, there are currently two large datasets available to the community, PubLayNet [6] and DocBank [7]. They were introduced in 2019 and 2020 respectively and significantly accelerated the implementation of layout detection and segmentation models due to their sizes of 300K and 500K ground-truth pages. These sizes were achieved by leveraging an automation approach. The benefit of automated ground-truth generation is obvious: one can generate large ground-truth datasets at virtually no cost. However, the automation introduces a constraint on the variability in the dataset, because corresponding structured source data must be available. PubLayNet and DocBank were both generated from scientific document repositories (PubMed and arXiv), which provide XML or LATEX sources. Those scientific documents present a limited variability in their layouts, because they are typeset in uniform templates provided by the publishers. Obviously, documents such as technical manuals, annual company reports, legal text, government tenders, etc. have very different and partially unique layouts. As a consequence, the layout predictions obtained from models trained on PubLayNet or DocBank is very reasonable when applied on scientific documents. However, for more artistic or free-style layouts, we see sub-par prediction quality from these models, which we demonstrate in Section 5.",
+      "start_offset": 4262,
+      "end_offset": 5838,
+      "heading_path": [
+        "1 INTRODUCTION"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 4262,
+          "end_offset": 5838,
+          "page_index": 1,
+          "bbox": [
+            53.529,
+            231.96194079999998,
+            295.56413611520003,
+            502.77611810784595
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/301",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "In this paper, we present the DocLayNet dataset. It provides pageby-page layout annotation ground-truth using bounding-boxes for 11 distinct class labels on 80863 unique document pages, of which a fraction carry double- or triple-annotations. DocLayNet is similar in spirit to PubLayNet and DocBank and will likewise be made available to the public 1 in order to stimulate the document-layout analysis community. It distinguishes itself in the following aspects:",
+      "start_offset": 5840,
+      "end_offset": 6302,
+      "heading_path": [
+        "1 INTRODUCTION"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 5840,
+          "end_offset": 6302,
+          "page_index": 1,
+          "bbox": [
+            53.592,
+            505.93394079999996,
+            295.56395936,
+            579.4891181078459
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/302",
+      "kind": "list",
+      "label": "list_item",
+      "text": "(1) Human Annotation: In contrast to PubLayNet and DocBank, we relied on human annotation instead of automation approaches to generate the data set.",
+      "start_offset": 6304,
+      "end_offset": 6452,
+      "heading_path": [
+        "1 INTRODUCTION"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 6304,
+          "end_offset": 6452,
+          "page_index": 1,
+          "bbox": [
+            64.708,
+            584.949176,
+            295.56161785599994,
+            614.731118107846
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/303",
+      "kind": "list",
+      "label": "list_item",
+      "text": "(2) Large Layout Variability: We include diverse and complex layouts from a large variety of public sources.",
+      "start_offset": 6454,
+      "end_offset": 6562,
+      "heading_path": [
+        "1 INTRODUCTION"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 6454,
+          "end_offset": 6562,
+          "page_index": 1,
+          "bbox": [
+            64.708,
+            617.826176,
+            294.262528832,
+            636.6481181078459
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/304",
+      "kind": "list",
+      "label": "list_item",
+      "text": "(3) Detailed Label Set: We define 11 class labels to distinguish layout features in high detail. PubLayNet provides 5 labels; DocBank provides 13, although not a superset of ours.",
+      "start_offset": 6564,
+      "end_offset": 6743,
+      "heading_path": [
+        "1 INTRODUCTION"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 6564,
+          "end_offset": 6743,
+          "page_index": 1,
+          "bbox": [
+            64.708,
+            639.743176,
+            294.6838263360001,
+            669.525118107846
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/305",
+      "kind": "list",
+      "label": "list_item",
+      "text": "(4) Redundant Annotations: A fraction of the pages in the DocLayNet data set carry more than one human annotation.",
+      "start_offset": 6745,
+      "end_offset": 6859,
+      "heading_path": [
+        "1 INTRODUCTION"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 6745,
+          "end_offset": 6859,
+          "page_index": 1,
+          "bbox": [
+            64.708,
+            672.620176,
+            295.564443008,
+            691.443118107846
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/306",
+      "kind": "paragraph",
+      "label": "footnote",
+      "text": "1 https://developer.ibm.com/exchanges/data/all/doclaynet",
+      "start_offset": 6861,
+      "end_offset": 6917,
+      "heading_path": [
+        "1 INTRODUCTION"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 6861,
+          "end_offset": 6917,
+          "page_index": 1,
+          "bbox": [
+            53.672,
+            700.8968864999999,
+            216.0274871999999,
+            708.6286329475035
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/307",
+      "kind": "list",
+      "label": "list_item",
+      "text": "This enables experimentation with annotation uncertainty and quality control analysis.",
+      "start_offset": 6919,
+      "end_offset": 7005,
+      "heading_path": [
+        "1 INTRODUCTION"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 6919,
+          "end_offset": 7005,
+          "page_index": 1,
+          "bbox": [
+            342.095,
+            87.79394079999997,
+            558.4319504960006,
+            106.55411810784585
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/308",
+      "kind": "list",
+      "label": "list_item",
+      "text": "(5) Pre-defined Train-, Test- & Validation-set: Like DocBank, we provide fixed train-, test- & validation-sets to ensure proportional representation of the class-labels. Further, we prevent leakage of unique layouts across sets, which has a large effect on model accuracy scores.",
+      "start_offset": 7007,
+      "end_offset": 7286,
+      "heading_path": [
+        "1 INTRODUCTION"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 7007,
+          "end_offset": 7286,
+          "page_index": 1,
+          "bbox": [
+            328.86499999999995,
+            109.64917600000001,
+            559.7210129919995,
+            161.34811810784595
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/309",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "All aspects outlined above are detailed in Section 3. In Section 4, we will elaborate on how we designed and executed this large-scale human annotation campaign. We will also share key insights and lessons learned that might prove helpful for other parties planning to set up annotation campaigns.",
+      "start_offset": 7288,
+      "end_offset": 7585,
+      "heading_path": [
+        "1 INTRODUCTION"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 7288,
+          "end_offset": 7585,
+          "page_index": 1,
+          "bbox": [
+            317.623,
+            168.40594079999994,
+            559.1902560767994,
+            220.04311810784588
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/310",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "In Section 5, we will present baseline accuracy numbers for a variety of object detection methods (Faster R-CNN, Mask R-CNN and YOLOv5) trained on DocLayNet. We further show how the model performance is impacted by varying the DocLayNet dataset size, reducing the label set and modifying the train/test-split. Last but not least, we compare the performance of models trained on PubLayNet, DocBank and DocLayNet and demonstrate that a model trained on DocLayNet provides overall more robust layout recovery.",
+      "start_offset": 7587,
+      "end_offset": 8093,
+      "heading_path": [
+        "1 INTRODUCTION"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 7587,
+          "end_offset": 8093,
+          "page_index": 1,
+          "bbox": [
+            317.731,
+            223.2009408,
+            559.5819058559995,
+            307.71411810784593
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/311",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "2 RELATEDWORK",
+      "start_offset": 8095,
+      "end_offset": 8108,
+      "heading_path": [
+        "2 RELATEDWORK"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 8095,
+          "end_offset": 8108,
+          "page_index": 1,
+          "bbox": [
+            317.955,
+            322.1470852,
+            421.7441773999999,
+            331.2144724352941
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/312",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "While early approaches in document-layout analysis used rulebased algorithms and heuristics [8], the problem is lately addressed with deep learning methods. The most common approach is to leverage object detection models [9-15]. In the last decade, the accuracy and speed of these models has increased dramatically. Furthermore, most state-of-the-art object detection methods can be trained and applied with very little work, thanks to a standardisation effort of the ground-truth data format [16] and common deep-learning frameworks [17]. Reference data sets such as PubLayNet [6] and DocBank provide their data in the commonly accepted COCO format [16].",
+      "start_offset": 8110,
+      "end_offset": 8765,
+      "heading_path": [
+        "2 RELATEDWORK"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 8110,
+          "end_offset": 8765,
+          "page_index": 1,
+          "bbox": [
+            317.525,
+            346.76294079999997,
+            559.7161328640001,
+            464.15311810784596
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/313",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "Lately, new types of ML models for document-layout analysis have emerged in the community [18-21]. These models do not approach the problem of layout analysis purely based on an image representation of the page, as computer vision methods do. Instead, they combine the text tokens and image representation of a page in order to obtain a segmentation. While the reported accuracies appear to be promising, a broadly accepted data format which links geometric and textual features has yet to establish.",
+      "start_offset": 8767,
+      "end_offset": 9267,
+      "heading_path": [
+        "2 RELATEDWORK"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 8767,
+          "end_offset": 9267,
+          "page_index": 1,
+          "bbox": [
+            317.955,
+            467.31094079999997,
+            559.1864876159997,
+            551.8251181078459
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/314",
+      "kind": "heading",
+      "label": "section_header",
+      "text": "3 THEDOCLAYNETDATASET",
+      "start_offset": 9269,
+      "end_offset": 9290,
+      "heading_path": [
+        "3 THEDOCLAYNETDATASET"
+      ],
+      "heading_level": 1,
+      "regions": [
+        {
+          "start_offset": 9269,
+          "end_offset": 9290,
+          "page_index": 1,
+          "bbox": [
+            317.955,
+            566.2580852,
+            477.45695109999997,
+            575.3254724352942
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/315",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "DocLayNet contains 80863 PDF pages. Among these, 7059 carry two instances of human annotations, and 1591 carry three. This amounts to 91104 total annotation instances. The annotations provide layout information in the shape of labeled, rectangular boundingboxes. We define 11 distinct labels for layout features, namely Caption, Footnote, Formula, List-item, Page-footer, Page-header, Picture, Section-header, Table, Text, and Title. Our reasoning for picking this particular label set is detailed in Section 4.",
+      "start_offset": 9292,
+      "end_offset": 9803,
+      "heading_path": [
+        "3 THEDOCLAYNETDATASET"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 9292,
+          "end_offset": 9803,
+          "page_index": 1,
+          "bbox": [
+            317.955,
+            590.8739408,
+            559.7133891456,
+            675.3871181078459
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    },
+    {
+      "source_ref": "#/texts/316",
+      "kind": "paragraph",
+      "label": "text",
+      "text": "In addition to open intellectual property constraints for the source documents, we required that the documents in DocLayNet adhere to a few conditions. Firstly, we kept scanned documents",
+      "start_offset": 9805,
+      "end_offset": 9991,
+      "heading_path": [
+        "3 THEDOCLAYNETDATASET"
+      ],
+      "heading_level": null,
+      "regions": [
+        {
+          "start_offset": 9805,
+          "end_offset": 9991,
+          "page_index": 1,
+          "bbox": [
+            317.955,
+            678.5449408,
+            558.2041288319999,
+            708.2641181078459
+          ],
+          "precision": "block",
+          "coordinate_system": "top_left_pdf_points"
+        }
+      ],
+      "table": null
+    }
+  ],
+  "parser": {
+    "name": "docling",
+    "package_versions": [
+      [
+        "docling",
+        "2.130.0"
+      ],
+      [
+        "docling-core",
+        "2.99.0"
+      ],
+      [
+        "docling-parse",
+        "7.22.0"
+      ],
+      [
+        "docling-ibm-models",
+        "4.0.3"
+      ],
+      [
+        "torch",
+        "2.14.0"
+      ]
+    ],
+    "settings_json": "{\"accelerator_options\":{\"cuda_use_flash_attention2\":false,\"device\":\"cpu\",\"num_threads\":4},\"allow_external_plugins\":false,\"batch_polling_interval_seconds\":0.5,\"chart_extraction_options\":{\"chart2code\":false,\"chart2csv\":true,\"chart2summary\":false,\"engine_options\":{\"compile_model\":false,\"device\":null,\"engine_type\":\"transformers\",\"llm_int8_threshold\":6.0,\"load_in_8bit\":true,\"quantized\":false,\"torch_dtype\":null,\"trust_remote_code\":true,\"use_kv_cache\":true},\"model_spec\":{\"api_overrides\":{\"api_lmstudio\":{\"params\":{\"model\":\"granite-vision-4.1-4b\"}},\"api_ollama\":{\"params\":{\"model\":\"granite-vision-4.1-4b\"}},\"api_openai\":{\"params\":{\"model\":\"granite-vision-4.1-4b\"}}},\"default_repo_id\":\"ibm-granite/granite-vision-4.1-4b\",\"engine_overrides\":{\"transformers\":{\"extra_config\":{\"transformers_model_type\":\"automodel-imagetexttotext\"},\"min_engine_version\":null,\"repo_id\":null,\"revision\":null,\"torch_dtype\":\"bfloat16\"}},\"extra_generation_config\":{},\"max_new_tokens\":4096,\"name\":\"Granite-Vision-4.1-4B\",\"prompt\":\"<chart2csv>\",\"response_format\":\"plaintext\",\"revision\":\"dd48e97503de471803850df70843cf9eb5da8712\",\"stop_strings\":[],\"supported_engines\":[\"api_ollama\",\"api_lmstudio\",\"transformers\",\"api_openai\"],\"temperature\":0.0,\"trust_remote_code\":true},\"output_format\":\"granite_vision_charts\",\"use_natural_language_prompts\":false},\"code_formula_options\":{\"engine_options\":{\"engine_type\":\"auto_inline\",\"prefer_vllm\":false},\"extract_code\":true,\"extract_formulas\":true,\"max_size\":null,\"model_spec\":{\"api_overrides\":{},\"default_repo_id\":\"docling-project/CodeFormulaV2\",\"engine_overrides\":{\"transformers\":{\"extra_config\":{\"extra_generation_config\":{\"skip_special_tokens\":false},\"torch_dtype\":\"bfloat16\",\"transformers_model_type\":\"automodel-imagetexttotext\"},\"min_engine_version\":null,\"repo_id\":null,\"revision\":null,\"torch_dtype\":null}},\"extra_generation_config\":{},\"max_new_tokens\":4096,\"name\":\"CodeFormulaV2\",\"prompt\":\"\",\"response_format\":\"plaintext\",\"revision\":\"main\",\"stop_strings\":[\"</doctag>\",\"<end_of_utterance>\"],\"supported_engines\":null,\"temperature\":0.0,\"trust_remote_code\":false},\"scale\":2.0},\"do_chart_extraction\":false,\"do_code_enrichment\":false,\"do_formula_enrichment\":false,\"do_ocr\":false,\"do_picture_classification\":false,\"do_picture_description\":false,\"do_table_structure\":true,\"document_timeout\":null,\"enable_remote_services\":false,\"force_backend_text\":false,\"generate_page_images\":false,\"generate_parsed_pages\":false,\"generate_picture_images\":false,\"generate_table_images\":false,\"heading_hierarchy_options\":{\"bookmark_match_threshold\":0.8,\"enabled\":false,\"max_level\":6,\"numbering_schemes\":null,\"style_size_tolerance\":0.05,\"use_bookmarks\":true,\"use_font_style\":true,\"use_numbering\":true,\"use_style\":true},\"images_scale\":1.0,\"layout_batch_size\":4,\"layout_options\":{\"create_orphan_clusters\":true,\"engine_options\":{\"compile_model\":false,\"engine_type\":\"transformers\",\"score_threshold\":0.3,\"torch_dtype\":null},\"keep_empty_clusters\":false,\"model_spec\":{\"engine_overrides\":{\"onnxruntime\":{\"extra_config\":{\"model_filename\":\"model.onnx\"},\"min_engine_version\":null,\"repo_id\":\"docling-project/docling-layout-heron-onnx\",\"revision\":null,\"torch_dtype\":null}},\"name\":\"layout_heron\",\"repo_id\":\"docling-project/docling-layout-heron\",\"revision\":\"main\"},\"skip_cell_assignment\":false},\"ocr_batch_size\":4,\"ocr_options\":{\"force_full_page_ocr\":false,\"lang\":[],\"mode\":\"default\",\"scale\":3.0},\"picture_classification_options\":{\"engine_options\":{\"compile_model\":false,\"engine_type\":\"transformers\",\"top_k\":null,\"torch_dtype\":null},\"model_spec\":{\"engine_overrides\":{},\"name\":\"document_figure_classifier_v2\",\"repo_id\":\"docling-project/DocumentFigureClassifier-v2.5\",\"revision\":\"main\"}},\"picture_description_options\":{\"batch_size\":8,\"classification_allow\":null,\"classification_deny\":null,\"classification_min_confidence\":0.0,\"engine_options\":{\"engine_type\":\"auto_inline\",\"prefer_vllm\":false},\"generation_config\":{\"do_sample\":false,\"max_new_tokens\":200},\"model_spec\":{\"api_overrides\":{\"api_lmstudio\":{\"params\":{\"model\":\"smolvlm-256m-instruct\"}}},\"default_repo_id\":\"HuggingFaceTB/SmolVLM-256M-Instruct\",\"engine_overrides\":{\"mlx\":{\"extra_config\":{},\"min_engine_version\":null,\"repo_id\":\"moot20/SmolVLM-256M-Instruct-MLX\",\"revision\":null,\"torch_dtype\":null},\"transformers\":{\"extra_config\":{\"transformers_model_type\":\"automodel-imagetexttotext\"},\"min_engine_version\":null,\"repo_id\":null,\"revision\":null,\"torch_dtype\":\"bfloat16\"}},\"extra_generation_config\":{},\"max_new_tokens\":4096,\"name\":\"SmolVLM-256M-Instruct\",\"prompt\":\"Describe this image in a few sentences.\",\"response_format\":\"plaintext\",\"revision\":\"main\",\"stop_strings\":[],\"supported_engines\":null,\"temperature\":0.0,\"trust_remote_code\":false},\"picture_area_threshold\":0.05,\"prompt\":\"Describe this image in a few sentences.\",\"scale\":2.0},\"queue_max_size\":100,\"stage_shutdown_timeout_seconds\":15.0,\"table_batch_size\":4,\"table_structure_options\":{\"do_cell_matching\":true,\"mode\":\"accurate\"}}",
+    "model_file_hashes": [
+      [
+        "docling-project--docling-layout-heron/.gitattributes",
+        "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+      ],
+      [
+        "docling-project--docling-layout-heron/README.md",
+        "175700839bc7808eac6af1d0c23e4f483606ab2276fe01122f4093e61a1a65b6"
+      ],
+      [
+        "docling-project--docling-layout-heron/config.json",
+        "fdea30805ce2f5666b147fca941dcdd27ad468e27d6ed21902207d3da056a97d"
+      ],
+      [
+        "docling-project--docling-layout-heron/docling_heron_400.png",
+        "e7f78610372b32a7938e480d2c7fa1c3037ee170bd82282a5bd026232f6e6f9e"
+      ],
+      [
+        "docling-project--docling-layout-heron/model.safetensors",
+        "00333a43451945aaf89db8ca9c0a17e75d1537c17db60fdb91aa95f4c7929e0c"
+      ],
+      [
+        "docling-project--docling-layout-heron/preprocessor_config.json",
+        "cd38cd59999e7a95d68e487fbe5132df3d4e5c32a0836add57e6126ba0c4eaf1"
+      ],
+      [
+        "docling-project--docling-layout-heron-onnx/.gitattributes",
+        "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+      ],
+      [
+        "docling-project--docling-layout-heron-onnx/README.md",
+        "48de0f07390f6823a225ce8aab348e7b57408534b56b71f1433ed6280456597f"
+      ],
+      [
+        "docling-project--docling-layout-heron-onnx/config.json",
+        "c6e67b6cdf64fa245779d0409bb994aa96e8c1790e15ec07a65843628e232180"
+      ],
+      [
+        "docling-project--docling-layout-heron-onnx/model.onnx",
+        "59c81a3a2923042d85034ffc487f8f47e4854117e879aef89b2b9f728fb4922a"
+      ],
+      [
+        "docling-project--docling-layout-heron-onnx/preprocessor_config.json",
+        "54d086cf0d7d371f7fac36e5d3a0dae31e211298affc816106cc376506799d58"
+      ],
+      [
+        "docling-project--docling-models/.gitattributes",
+        "360aba3ff7ce75396f13f0a77925fe9e79997e8d4bac064595ebb00c82700386"
+      ],
+      [
+        "docling-project--docling-models/.gitignore",
+        "b44b404189eaff3631c470946e7350c2e88cead304d332a8ad50325e6f56e95d"
+      ],
+      [
+        "docling-project--docling-models/README.md",
+        "d17f233378eff1240b623b36da76ee8b40afcca05d505949713bf03f7e00822a"
+      ],
+      [
+        "docling-project--docling-models/config.json",
+        "9c34024dc28ff47b75818f415e769809798c29bf9bde6f2ccc63a4acb62396d9"
+      ],
+      [
+        "docling-project--docling-models/model_artifacts/tableformer/accurate/tableformer_accurate.safetensors",
+        "2a7d6c924b3cd12fb99a09280ca9c33a89c5d60b93253617d2e088c1a40374d9"
+      ],
+      [
+        "docling-project--docling-models/model_artifacts/tableformer/accurate/tm_config.json",
+        "984e122ceb8ccf84d84c9d2882f6f2302a44b4f1e577babd6289892c36f3cffd"
+      ],
+      [
+        "docling-project--docling-models/model_artifacts/tableformer/fast/tableformer_fast.safetensors",
+        "3119563aab5a7c96fda4d621119b63fd8806272b86c30936d15507616422f718"
+      ],
+      [
+        "docling-project--docling-models/model_artifacts/tableformer/fast/tm_config.json",
+        "dca6762508dddfae6d57d6cb4ef822c6000119dff0f3b6489db7413118c2622a"
+      ]
+    ]
+  },
+  "warnings": [
+    {
+      "code": "scope",
+      "message": "OCR, visual figure/chart interpretation, and formula understanding are disabled. Reading order, spacing and table structure are parser estimates; review the original pages.",
+      "page_indices": [],
+      "source_ref": null
+    },
+    {
+      "code": "printed_labels_unavailable",
+      "message": "Printed page labels are not extracted; page indices refer to physical PDF pages.",
+      "page_indices": [],
+      "source_ref": null
+    },
+    {
+      "code": "picture_not_interpreted",
+      "message": "Picture content is omitted; native captions are retained.",
+      "page_indices": [
+        0
+      ],
+      "source_ref": "#/pictures/0"
+    }
+  ],
+  "serialization": "Block separator: two newlines; table cells: tabs/newlines; separators are synthetic."
+}

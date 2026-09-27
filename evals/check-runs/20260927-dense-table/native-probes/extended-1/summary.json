@@ -1,0 +1,145 @@
+{
+  "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407",
+  "frozen_docling_sha256": "a1a4216cd1c64aa3758a918cdca8bfe29f1fc3999d5933fe31d602cd46c4896d",
+  "frozen_index_sha256": "450eeab0b1ebb017fa8983e3bb7bc9ba114a1173837a2e12ba1a188dd9cb7476",
+  "source_code_sha256": "e1bcd1ae0b6792ab5188d0bda2365c0358773ff384500e01a2998ef91b41c8d5",
+  "versions": {
+    "pdfplumber": "0.11.9",
+    "pdfminer.six": "20251230",
+    "pypdfium2": "5.13.0",
+    "Pillow": "12.3.0"
+  },
+  "method": "Crop to the frozen collapsed Docling table. Reuse pdfplumber native vertical rules and its snapped text-row y coordinates, extending horizontal candidates across the crop width by using explicit y lines. No state names, expected values, column count, or source-specific coordinates are used by the extraction rule.",
+  "duration_seconds": 0.4628380840877071,
+  "variants": [
+    {
+      "variant": "cropped-lines-text",
+      "status": "success",
+      "artifact": "cropped-lines-text.json",
+      "native_parse_seconds": 0.17860762495547533,
+      "table_extraction_seconds": 0.1206484999274835,
+      "table_shapes": [
+        [
+          59,
+          24
+        ]
+      ]
+    },
+    {
+      "variant": "extended-text-rows",
+      "status": "success",
+      "artifact": "extended-text-rows.json",
+      "native_parse_seconds": 0.17860762495547533,
+      "table_extraction_seconds": 0.12213637493550777,
+      "table_shapes": [
+        [
+          62,
+          25
+        ]
+      ]
+    }
+  ],
+  "collapsed_table_gate": [
+    {
+      "file": "apple-fy24.pdf",
+      "tables": [
+        {
+          "table_id": "#/tables/0",
+          "rows": 40,
+          "columns": 5,
+          "eligible_for_native_probe": false
+        },
+        {
+          "table_id": "#/tables/1",
+          "rows": 36,
+          "columns": 3,
+          "eligible_for_native_probe": false
+        },
+        {
+          "table_id": "#/tables/2",
+          "rows": 36,
+          "columns": 3,
+          "eligible_for_native_probe": false
+        },
+        {
+          "table_id": "#/tables/3",
+          "rows": 7,
+          "columns": 9,
+          "eligible_for_native_probe": false
+        }
+      ]
+    },
+    {
+      "file": "background-checks.pdf",
+      "tables": [
+        {
+          "table_id": "#/tables/0",
+          "rows": 1,
+          "columns": 1,
+          "eligible_for_native_probe": true
+        }
+      ]
+    },
+    {
+      "file": "ml-lecture.pdf",
+      "tables": []
+    },
+    {
+      "file": "docling-report.pdf",
+      "tables": [
+        {
+          "table_id": "#/tables/0",
+          "rows": 4,
+          "columns": 8,
+          "eligible_for_native_probe": false
+        },
+        {
+          "table_id": "#/tables/1",
+          "rows": 2,
+          "columns": 6,
+          "eligible_for_native_probe": false
+        }
+      ]
+    },
+    {
+      "file": "doclaynet.pdf",
+      "tables": [
+        {
+          "table_id": "#/tables/0",
+          "rows": 14,
+          "columns": 12,
+          "eligible_for_native_probe": false
+        },
+        {
+          "table_id": "#/tables/1",
+          "rows": 14,
+          "columns": 6,
+          "eligible_for_native_probe": false
+        },
+        {
+          "table_id": "#/tables/2",
+          "rows": 13,
+          "columns": 5,
+          "eligible_for_native_probe": false
+        },
+        {
+          "table_id": "#/tables/3",
+          "rows": 14,
+          "columns": 5,
+          "eligible_for_native_probe": false
+        },
+        {
+          "table_id": "#/tables/4",
+          "rows": 15,
+          "columns": 5,
+          "eligible_for_native_probe": false
+        }
+      ]
+    }
+  ],
+  "provider_calls": 0,
+  "successes": 2,
+  "errors": 0,
+  "timeouts": 0,
+  "retries": 0
+}

@@ -26,7 +26,13 @@ example, and displays exact related table headers separately from assessor-selec
 passages. The subsequent [six-request citation replay](../../evals/library-runs/20260927-financial-citation-acceptance/README.md)
 passes its scoped gates: all requested facts and all 16 current factual groups
 have support under the unchanged rubric, which allows documented fiscal-period
-inference. Broader live acceptance and dense-table fidelity remain outstanding.
+inference. The subsequent
+[dense-table repair](../../evals/check-runs/20260927-dense-table/README.md)
+recovers the four missing Alabama values, all three annotated state rows, explicit
+blanks and grouped headers from native PDF rules/text. Four other frozen document
+controls remain unchanged. The technical report's merged-row failure, unannotated
+dense-table rows and broader live acceptance remain outstanding. Existing library
+entries require a fresh upload to use the revised extraction.
 
 ## Confirmed Feature Areas
 
@@ -80,7 +86,7 @@ combines all three; stage completion does not establish a general quality gain.
 | Representative PDF population | Papers, lecture material, and company/technical reports; five development documents frozen | Confirmed by the user on 2026-09-26 |
 | OCR and mixed scanned pages | OCR deferred by the user; disclose content that is not indexed | Confirmed for v2; revisit in a later version |
 | Figures and formulas | Text captions may be indexed; visual interpretation and formula reasoning are deferred by the user | Confirmed for v2; revisit in a later version |
-| Parser and page viewer | Docling with known table/order failures; bundled PDF.js page viewer | See [PDF parsing](../pdf-parsing.md) |
+| Parser and page viewer | Docling plus scoped native recovery for collapsed ruled tables; known merged-row/order failures remain; bundled PDF.js page viewer | See [PDF parsing](../pdf-parsing.md) |
 | Query/checker models and limits | Six-request citation follow-up passes its frozen scoped gates; broader semantic decisions and unnecessary searches remain unverified | Broader acceptance still required |
 | Quality, latency, and cost thresholds | Freeze from development evidence before held-out evaluation | Evaluation preparation |
 | v2 development branch | Use `v2` for all v2 implementation and documentation commits | Confirmed by the user on 2026-09-26 |
