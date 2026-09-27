@@ -75,7 +75,7 @@ def pdf_evidence(extraction: PdfExtraction, start: int, end: int) -> PdfEvidence
         tables.append(PdfTableSpan(table_id=table.table_id, cells=[
             (c.row_start, c.row_end, c.column_start, c.column_end, c.start_offset, c.end_offset)
             for c in cells
-        ]))
+        ], column_header_spans=[(c.start_offset, c.end_offset) for c in table.cells if c.column_header]))
     regions = list(extraction.locate(start, end))
     pages = {r.page_index for r in regions}
     pages.update(r.page_index for s in supplements for r in s.regions)

@@ -21,6 +21,10 @@ The subsequent [financial live replay](../../evals/library-runs/20260927-financi
 completes all six requests with correct requested facts, but a planned income
 bullet lacks an inline citation. That coverage gate, broader live acceptance and
 dense-table fidelity remain outstanding.
+The [offline citation/context repair](../../evals/check-runs/20260927-citation-context/README.md)
+now links answer requirements to current source numbers, adds a per-item citation
+example, and displays exact related table headers separately from assessor-selected
+passages. This is verified contract behavior, not a new live citation-coverage result.
 
 ## Confirmed Feature Areas
 

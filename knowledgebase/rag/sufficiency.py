@@ -68,6 +68,7 @@ def assessment_excerpts(result) -> list[dict]:
     """Number exact nonblank source lines already supplied to the answer model."""
     excerpts = {}
     for number, hit in enumerate(result.evidence.chunks, start=1):
+        source_excerpts = []
         spans = [(hit.chunk.start_offset, hit.chunk.text, hit.pdf.regions if hit.pdf else [])]
         if hit.pdf:
             spans.extend((s.start_offset, s.text, s.regions) for s in hit.pdf.supplements)
@@ -82,9 +83,34 @@ def assessment_excerpts(result) -> list[dict]:
                     if hit.pdf:
                         excerpt["page_indices"] = sorted({r.page_index for r in regions
                             if r.start_offset < end and start < r.end_offset})
-                    excerpts.setdefault(identity, excerpt)
+                    source_excerpts.append(excerpts.setdefault(identity, excerpt))
                 start = end
+        if hit.pdf:
+            _link_table_context(hit.pdf, source_excerpts)
     return list(excerpts.values())
+
+
+def _link_table_context(pdf, excerpts):
+    """Associate supplied passages using parser provenance, without selecting support."""
+    for table in pdf.tables:
+        spans = [("column_header", start, end) for start, end in table.column_header_spans]
+        spans.extend((s.role, s.start_offset, s.end_offset) for s in pdf.supplements
+                     if s.table_id == table.table_id and s.role != "row_header")
+        context = []
+        for role, start, end in spans:
+            for excerpt in excerpts:
+                if excerpt["start_offset"] < end and start < excerpt["end_offset"]:
+                    link = {"evidence_id": excerpt["evidence_id"], "table_id": table.table_id, "role": role}
+                    if link not in context:
+                        context.append(link)
+        for excerpt in excerpts:
+            if not any(cell[4] < excerpt["end_offset"] and excerpt["start_offset"] < cell[5]
+                       for cell in table.cells):
+                continue
+            links = excerpt.setdefault("table_context", [])
+            for link in context:
+                if link["evidence_id"] != excerpt["evidence_id"] and link not in links:
+                    links.append(link)
 
 
 def assessment_context(result, excerpts) -> str:
@@ -117,7 +143,8 @@ def validate_assessment(assessment, requirements, excerpts):
         references = validate_references(item.references, excerpts)
         if item.status == "conflicting" and len({(r["file_id"], r["start_offset"], r["end_offset"]) for r in references}) < 2:
             raise ValueError("A conflict requires two distinct source quotes.")
-        normalized.append({**item.model_dump(), "description": descriptions[item.requirement_id], "references": references})
+        normalized.append({**item.model_dump(), "description": descriptions[item.requirement_id],
+            "references": references, "table_context": reference_table_context(references, excerpts)})
     unresolved = {r.requirement_id for r in assessment.requirements if r.status != "supported"}
     queries = []
     for proposal in assessment.queries:
@@ -149,9 +176,29 @@ def validate_references(references, excerpts):
         excerpt = by_id.get(reference.evidence_id)
         if excerpt is None:
             raise ValueError("Assessment references must select a current evidence passage.")
-        resolved.append({k: v for k, v in excerpt.items() if k not in {"text", "source_number"}}
-                        | {"quote": excerpt["text"]})
+        resolved.append(_resolved_reference(excerpt))
     return resolved
+
+
+def _resolved_reference(excerpt):
+    return {k: v for k, v in excerpt.items() if k not in {"text", "table_context"}} | {"quote": excerpt["text"]}
+
+
+def reference_table_context(references, excerpts):
+    """Keep application-attached table context separate from model-selected references."""
+    by_id = {excerpt["evidence_id"]: excerpt for excerpt in excerpts}
+    selected_ids = {reference["evidence_id"] for reference in references}
+    attached = {}
+    for reference in references:
+        for link in by_id[reference["evidence_id"]].get("table_context", []):
+            if link["evidence_id"] in selected_ids:
+                continue
+            key = (link["evidence_id"], link["table_id"], link["role"])
+            context = attached.setdefault(key, {**_resolved_reference(by_id[link["evidence_id"]]),
+                "table_id": link["table_id"], "role": link["role"], "for_evidence_ids": []})
+            if reference["evidence_id"] not in context["for_evidence_ids"]:
+                context["for_evidence_ids"].append(reference["evidence_id"])
+    return list(attached.values())
 
 
 def all_missing(assessment):

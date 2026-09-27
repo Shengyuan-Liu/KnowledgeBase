@@ -40,9 +40,17 @@ export function SearchPlan({ planning }: { planning: NonNullable<RetrievalDiagno
         <p><strong>{requirement.description}</strong>{" · "}{{supported: "Supported", partial: "Partial support",
           missing: "Missing evidence", conflicting: "Conflicting evidence"}[requirement.status]}</p>
         {requirement.gap && <p>{requirement.gap}</p>}
+        {!!requirement.table_context?.length && <p><strong>Selected passages</strong></p>}
         {requirement.references.map((reference, index) => <blockquote key={index}>
           {reference.quote}<br /><cite>{reference.file_name}</cite>
         </blockquote>)}
+        {!!requirement.table_context?.length && <div role="group" aria-label="Table context">
+          <p><strong>Table context</strong></p>
+          <p>Added by the application from the selected table. Check these passages together with the selected evidence.</p>
+          {requirement.table_context.map((reference, index) => <blockquote key={index}>
+            {reference.quote}<br /><cite>{reference.file_name}</cite>
+          </blockquote>)}
+        </div>}
       </div>)}
     </section>}
   </details>;

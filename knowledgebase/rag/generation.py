@@ -97,7 +97,36 @@ preserve source names and code identifiers as written."""
 ASSESSMENT_ANSWER_INSTRUCTIONS = """An optional evidence assessment is fallible guidance, not an additional source.
 Verify its conclusions against the actual Sources. Address every partial or missing
 point with supported details and explicit limits. For conflicting evidence, cite
-both statements and preserve the unresolved conflict; do not invent a resolution."""
+both statements and preserve the unresolved conflict; do not invent a resolution.
+source_ids locate the assessment's selected passages and attached table context
+within the current Sources. They are navigation hints, not verified support for
+every claim in a requirement. Check the actual excerpts, including table periods,
+dates and units, before choosing a citation."""
+
+ANSWER_OUTPUT_INSTRUCTIONS = """Final citation check: inspect each factual sentence or list item independently.
+If several items use the same excerpt, repeat its citation in each item. For
+example, two supported facts from Source 1 should be formatted as:
+- First requested fact [1].
+- Second requested fact [1].
+This is a format example, not answer content. Replace the facts and citation
+numbers with those supported by the actual Sources. One answer requirement may
+contain several facts or periods; each separate item still needs its own citation.
+Return only the answer, without this checklist."""
+
+
+def _assessment_source_ids(requirement: dict, chunks: list[RetrievedChunk]) -> list[int]:
+    """Locate selected and attached spans in the currently numbered sources."""
+    references = [*requirement["references"], *requirement.get("table_context", [])]
+    source_ids = []
+    for number, hit in enumerate(chunks, start=1):
+        spans = [(hit.chunk.start_offset, hit.chunk.end_offset)]
+        if hit.pdf:
+            spans.extend((s.start_offset, s.end_offset) for s in hit.pdf.supplements)
+        if any(r["file_id"] == hit.chunk.file_id and any(
+            start <= r["start_offset"] < r["end_offset"] <= end for start, end in spans
+        ) for r in references):
+            source_ids.append(number)
+    return source_ids
 
 def generate_answer(
     question: str,
@@ -123,11 +152,13 @@ def _answer_messages(question: str, chunks: list[RetrievedChunk], retrieval_ques
                       if retrieval_question and retrieval_question != question else "")
     guidance = ""
     if assessment:
-        points = [{key: r[key] for key in ("description", "status", "gap")} for r in assessment["requirements"]]
+        points = [{**{key: r[key] for key in ("description", "status", "gap")},
+                   "source_ids": _assessment_source_ids(r, chunks)} for r in assessment["requirements"]]
         guidance = "\n\nEvidence assessment (fallible guidance, not factual evidence):\n" + json.dumps(points)
     return [
         {"role": "user", "content": f"Question:\n{question}{interpretation}{guidance}\n\nSources:\n{context}"},
-        {"role": "developer", "content": ANSWER_INSTRUCTIONS + ("\n" + ASSESSMENT_ANSWER_INSTRUCTIONS if assessment else "")},
+        {"role": "developer", "content": ANSWER_INSTRUCTIONS + ("\n" + ASSESSMENT_ANSWER_INSTRUCTIONS if assessment else "")
+            + "\n" + ANSWER_OUTPUT_INSTRUCTIONS},
     ]
 
 

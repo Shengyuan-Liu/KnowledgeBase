@@ -31,7 +31,7 @@ def build_context(chunks: list[RetrievedChunk], *,
             context += f"\nExcerpt canonical offsets: {item.chunk.start_offset}:{item.chunk.end_offset}"
             if item.pdf.tables:
                 context += "\nTable cells [row start, row end, column start, column end, canonical start, canonical end]; bounds exclusive; partial cells may intersect excerpt edges: "
-                context += json.dumps([t.model_dump() for t in item.pdf.tables], ensure_ascii=False)
+                context += json.dumps([t.model_dump(exclude={"column_header_spans"}) for t in item.pdf.tables], ensure_ascii=False)
             for extra in item.pdf.supplements:
                 pages = sorted({r.page_index + 1 for r in extra.regions})
                 text = (render_text(item.chunk.file_id, extra.start_offset, extra.text)

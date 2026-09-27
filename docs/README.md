@@ -6,9 +6,10 @@ The [v2 design set](v2/README.md) specifies PDF ingestion with page citations,
 query decomposition and multi-hop retrieval, and evidence sufficiency assessment
 with bounded supplementary retrieval. It includes product, technical, frontend,
 system, and evaluation plans. The standalone [PDF parser](pdf-parsing.md) is now
-implemented with retained comparisons and explicit fidelity limits. Upload, page
-viewing and the retrieval controller remain planned; no general quality gain is
-established.
+implemented with retained comparisons and explicit fidelity limits. PDF upload,
+page viewing, planned/dependent retrieval and sufficiency control are implemented;
+the linked v2 status records their checks and unresolved live acceptance gates.
+No general quality gain is established.
 
 ## v1 Release and Design
 

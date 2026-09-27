@@ -7,6 +7,9 @@ Financial packing and assessor quote selection have since received repairs and a
 [six-request financial replay](../evals/library-runs/20260927-financial-acceptance/README.md).
 All six requests complete with correct requested facts, but one planned income
 bullet still lacks an inline citation, so the scoped citation gate fails.
+The subsequent [offline citation/context repair](../evals/check-runs/20260927-citation-context/README.md)
+adds source-number guidance and explicit table context; model citation compliance
+has not been remeasured.
 **Plan complex questions**
 and API/CLI `planned` mode now assess each required point after packing evidence,
 then search for remaining gaps within the same request limits. Ordinary `single`
@@ -45,6 +48,13 @@ current catalog. Model references contain only `evidence_id`; the application
 resolves the quote, file identity/name, offsets and PDF pages from that catalog.
 The model cannot supply or rewrite quote text or positions. Headers, distant values
 and units can be selected separately, without stitching a fabricated quote.
+For selected PDF table passages, the application also attaches already-supplied
+column headers and table captions, notes or adjacent text as `table_context`.
+Parser header spans and table IDs define these links; no new source text is fetched.
+Each attachment retains its exact quote, location, role and selected-passage IDs.
+This context is separate from model-selected `references`, does not change the
+assessor's status, and cannot satisfy conflict counts or supplementary-query target
+checks. Association with a table is not proof that a passage supports the answer.
 These checks establish
 provenance, not whether a quote actually proves the requested fact. Source names,
 rankings, citations and well-formed structured output are not correctness labels.
@@ -112,6 +122,13 @@ not independent verification of the final answer.
 
 The final answer uses one frozen source context. It receives short requirement
 statuses and gaps as fallible guidance, explicitly separated from source evidence.
+It also receives `source_ids` locating selected references and attached context in
+the current numbered sources. Numbers are derived from file identity and supplied
+spans, including PDF supplements, rather than copied from an earlier assessment.
+These are navigation hints; the generator must verify actual support. A final
+format example repeats the same citation in each separate factual item, including
+when one requirement covers multiple reporting periods. Generated text and stream
+deltas remain unchanged by the application; these prompts do not enforce coverage.
 Partial support leads to supported details and stated limits; conflicting statements
 must be cited separately without an invented resolution. An all-missing assessment
 returns the standard insufficient-evidence message without an answer-model call.
@@ -135,6 +152,10 @@ answer context; the recorded model input contains the annotated view.
 Earlier version 1/2 snapshots remain readable. No migration or reindex is required.
 The Search plan panel shows each status, gap and source quote, with an explicit
 notice that model labels may be wrong. Saved history restores the same assessment.
+When attachments exist, it distinguishes **Selected passages** from **Table context**
+and identifies the latter as application-added. Older snapshots without this field
+remain readable. New retrieval reconstructs header spans from stored extraction;
+historical snapshots are not retroactively enriched or rescored.
 
 ## Verification and limitations
 

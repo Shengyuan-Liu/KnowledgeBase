@@ -293,6 +293,7 @@ def test_assessment_catalog_includes_pdf_supplement_offsets():
     result = SimpleNamespace(evidence=SimpleNamespace(chunks=[SimpleNamespace(
         chunk=SimpleNamespace(file_id="pdf", start_offset=100, end_offset=110, text="Value: 42."),
         file_name="report.pdf", pdf=SimpleNamespace(
+            tables=[],
             regions=[PdfRegion(start_offset=100, end_offset=110, page_index=1, bbox=(1, 1, 10, 10), precision="cell")],
             supplements=[SimpleNamespace(start_offset=10, end_offset=25, text="USD in millions",
                 regions=[PdfRegion(start_offset=10, end_offset=25, page_index=0, bbox=(1, 1, 10, 10), precision="block")])]))]))

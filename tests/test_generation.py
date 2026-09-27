@@ -1,10 +1,12 @@
 from unittest.mock import Mock
+import json
+from pathlib import Path
 
 import pytest
 
 from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.generation import generate_answer, stream_answer
-from knowledgebase.schemas import Chunk, RetrievedChunk
+from knowledgebase.schemas import Chunk, PdfEvidence, PdfSupplement, RetrievedChunk, StructuredChunk
 
 
 def test_empty_retrieval_returns_insufficient_evidence_without_calling_model():
@@ -126,7 +128,7 @@ async def test_citation_and_fidelity_instructions_reach_both_generation_paths(te
 
     Mocked calls verify prompt delivery and evidence fidelity, not model compliance.
     """
-    from knowledgebase.rag.generation import ANSWER_INSTRUCTIONS
+    from knowledgebase.rag.generation import ANSWER_INSTRUCTIONS, ANSWER_OUTPUT_INSTRUCTIONS
 
     chunks = [RetrievedChunk(file_name='source.txt', distance=0.1,
         chunk=Chunk(chunk_id='one', file_id='file', text=text, index=0,
@@ -144,7 +146,7 @@ async def test_citation_and_fidelity_instructions_reach_both_generation_paths(te
     assert ''.join([part async for part in stream_answer(question, chunks, Stream())]) == llm.generate.return_value
     messages = llm.generate.call_args.args[0]
     assert captured == [messages]
-    assert messages[1] == {'role': 'developer', 'content': ANSWER_INSTRUCTIONS}
+    assert messages[1] == {'role': 'developer', 'content': ANSWER_INSTRUCTIONS + '\n' + ANSWER_OUTPUT_INSTRUCTIONS}
     assert 'Cite every factual list item separately' in messages[1]['content']
     assert 'does not establish whether it is ignored, rejected' in messages[1]['content']
     assert 'Do not add unsupported advice' in messages[1]['content']
@@ -190,3 +192,68 @@ async def test_named_document_identity_survives_similar_excerpts_and_reordering(
     assert question in messages[0]['content']
     for i, (name, text) in enumerate(entries, 1):
         assert f'[{i}]\nSource metadata: {{"file_name": "{name}", "heading_path": []}}\nExcerpt:\n{text}' in messages[0]['content']
+
+
+@pytest.mark.parametrize('reverse', [False, True])
+def test_assessment_hints_follow_current_sources_and_separately_located_pdf_text(reverse):
+    from knowledgebase.rag.generation import _answer_messages
+
+    chunks = [RetrievedChunk(file_name=f'{file_id}.pdf', distance=0.1,
+        chunk=Chunk(chunk_id=file_id, file_id=file_id, text='Table values', index=0,
+                    start_offset=100, end_offset=112),
+        pdf=PdfEvidence(revision_id='revision', source_hash='hash', page_count=1, regions=[],
+            supplements=[PdfSupplement(role='preceding_text', table_id='table',
+                text='In millions', start_offset=20, end_offset=31, regions=[])]))
+        for file_id in ['a', 'b']]
+    if reverse:
+        chunks.reverse()
+    assessment = {'requirements': [
+        {'description': 'Units', 'status': 'supported', 'gap': '', 'references': [
+            {'file_id': 'b', 'start_offset': 20, 'end_offset': 31, 'source_number': 99}],
+            'table_context': []},
+        {'description': 'Missing period', 'status': 'partial', 'gap': 'Period absent.',
+            'references': [{'file_id': 'b', 'start_offset': 40, 'end_offset': 60}],
+            'table_context': [{'file_id': 'a', 'start_offset': 100, 'end_offset': 112}]},
+        {'description': 'Unknown', 'status': 'missing', 'gap': 'Absent.', 'references': []},
+    ]}
+    user, _ = _answer_messages('What are the units?', chunks, assessment=assessment)
+    guidance = json.loads(user['content'].split('not factual evidence):\n')[1].split('\n\nSources:')[0])
+    assert [point['source_ids'] for point in guidance] == [[1 if reverse else 2], [2 if reverse else 1], []]
+    assert [{k: r[k] for k in ('description', 'status', 'gap')} for r in assessment['requirements']] == [
+        {k: r[k] for k in ('description', 'status', 'gap')} for r in guidance]
+
+
+@pytest.mark.anyio
+async def test_historical_income_failure_gets_current_source_hints_without_rewriting_output():
+    """Replay a real omitted citation; mocks prove delivery, not model compliance."""
+    from knowledgebase.rag.generation import ANSWER_OUTPUT_INSTRUCTIONS
+
+    path = Path(__file__).resolve().parents[1] / 'evals/library-runs/20260927-financial-acceptance/apple-income-planned.json'
+    case = json.loads(path.read_text())
+    answer = case['answer']
+    chunks = [RetrievedChunk(file_name=s['file_name'], distance=s['distance'], pdf=s['pdf'], document_labels=s['document_labels'],
+        chunk=StructuredChunk.model_validate({**s, 'index': i})) for i, s in enumerate(answer['sources'])]
+    assessment = answer['retrieval']['planning']['assessment']
+    llm = Mock(spec=LLMClient)
+    llm.generate.return_value = answer['answer']
+    assert generate_answer(case['request']['question'], chunks, llm, assessment=assessment) == answer['answer']
+    captured = []
+
+    class Stream:
+        async def stream(self, messages):
+            captured.append(messages)
+            for line in answer['answer'].splitlines(keepends=True):
+                yield line
+
+    deltas = [part async for part in stream_answer(case['request']['question'], chunks, Stream(), assessment=assessment)]
+    assert deltas == answer['answer'].splitlines(keepends=True)
+    messages = llm.generate.call_args.args[0]
+    assert captured == [messages]
+    assert messages[0]['content'].endswith('Sources:\n' + assessment['context'])
+    guidance = json.loads(messages[0]['content'].split('not factual evidence):\n')[1].split('\n\nSources:')[0])
+    assert len(guidance) == 1 and guidance[0]['source_ids'] == [1]
+    assert messages[1]['content'].endswith(ANSWER_OUTPUT_INSTRUCTIONS)
+    assert '- First requested fact [1].\n- Second requested fact [1].' in messages[1]['content']
+    assert 'each separate item still needs its own citation' in messages[1]['content']
+    assert 'navigation hints, not verified support' in messages[1]['content']
+    assert '[1]' not in deltas[-2] and '[1]' in deltas[-1]

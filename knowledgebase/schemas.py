@@ -38,6 +38,7 @@ class PdfTableSpan(BaseModel):
     table_id: str
     # [row start, row end, column start, column end, character start, character end]
     cells: list[tuple[int, int, int, int, int, int]]
+    column_header_spans: list[tuple[int, int]] = Field(default_factory=list)
 
 
 class PdfEvidence(BaseModel):

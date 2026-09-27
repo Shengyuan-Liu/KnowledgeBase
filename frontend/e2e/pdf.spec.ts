@@ -17,6 +17,19 @@ test(`PDF upload, page links, reload and historical evidence after deletion (pla
   // The offline vectors may retain unrelated PDF passages; navigation also works after abstention.
   await page.getByRole("button", { name: "View evidence", exact: true }).click();
   const evidence = page.getByRole("complementary", { name: "Evidence" });
+  let tableContextText: string | null = null;
+  if (planned) {
+    await evidence.getByText("Search plan", { exact: true }).click();
+    const tableContext = evidence.getByRole("group", { name: "Table context" });
+    await expect(tableContext).toBeVisible();
+    for (const header of ["Three Months Ended", "Twelve Months Ended", "September 28, 2024", "September 30, 2023"])
+      await expect(tableContext).toContainText(header);
+    await expect(tableContext).toContainText("Added by the application from the selected table.");
+    tableContextText = await tableContext.textContent();
+    await evidence.getByRole("region", { name: "Evidence assessment" }).screenshot({
+      path: testInfo.outputPath("citation-context.png"),
+    });
+  }
   const link = evidence.getByRole("link", { name: /Open page/ }).first();
   await expect(link).toBeVisible();
   const href = (await link.getAttribute("href"))!;
@@ -38,6 +51,12 @@ test(`PDF upload, page links, reload and historical evidence after deletion (pla
   await page.reload();
   // The offline vectors may retain unrelated PDF passages; navigation also works after abstention.
   await page.getByRole("button", { name: "View evidence", exact: true }).click();
+  if (planned) {
+    await evidence.getByText("Search plan", { exact: true }).click();
+    const tableContext = evidence.getByRole("group", { name: "Table context" });
+    await expect(tableContext).toBeVisible();
+    expect(await tableContext.textContent()).toBe(tableContextText);
+  }
   await expect(evidence.getByRole("link", { name: /Open page/ }).first()).toHaveAttribute("href", href);
   await page.getByRole("button", { name: "apple-fy24.pdf Ready", exact: true }).click();
   await page.getByRole("button", { name: "Delete", exact: true }).click();
@@ -47,6 +66,12 @@ test(`PDF upload, page links, reload and historical evidence after deletion (pla
   await page.reload();
   // The offline vectors may retain unrelated PDF passages; navigation also works after abstention.
   await page.getByRole("button", { name: "View evidence", exact: true }).click();
+  if (planned) {
+    await evidence.getByText("Search plan", { exact: true }).click();
+    const tableContext = evidence.getByRole("group", { name: "Table context" });
+    await expect(tableContext).toBeVisible();
+    expect(await tableContext.textContent()).toBe(tableContextText);
+  }
   await expect(evidence.getByText(/original unavailable/).first()).toBeVisible();
   expect((await request.get(href.split("#")[0])).status()).toBe(404);
 });

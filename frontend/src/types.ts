@@ -70,6 +70,7 @@ export interface RetrievalDiagnostics {
         status: "supported" | "partial" | "missing" | "conflicting";
         gap: string;
         references: { evidence_id: string; quote: string; file_name: string }[];
+        table_context?: { evidence_id: string; quote: string; file_name: string }[];
       }[];
     };
     hops?: {

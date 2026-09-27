@@ -14,6 +14,17 @@ support different claims, split the sentence or attach each citation to its clai
 Code examples use valid language comments beside source-derived lines so citations
 do not alter literal values or executable syntax.
 
+After an observed [financial PDF citation omission](../evals/library-runs/20260927-financial-acceptance/README.md),
+the shared final instructions now include a two-item format example repeating the
+same citation. One assessment requirement may cover several facts or periods;
+citing the last item alone is insufficient. Planned answers also receive current
+source-number hints for selected passages and separately attached table context.
+These hints identify locations, not verified support. The
+[offline regression record](../evals/check-runs/20260927-citation-context/README.md)
+checks current numbering, PDF supplements and identical complete/streaming prompts.
+The original failed answer remains unchanged; model compliance has not been
+remeasured, and no automatic citation insertion or answer rewrite is performed.
+
 Answers must preserve the source's stated behavior and qualifications. A field
 being unsupported does not establish whether it is ignored or rejected. Missing
 personal information should be identified explicitly. Next steps and contacts
