@@ -2,9 +2,10 @@
 
 Status: v2 stage 3c implemented and offline-tested. The existing **Plan complex
 questions** checkbox and API/CLI `planned` mode can now follow a dependency chain.
-Direct and independent plans keep their existing paths. Live planning, answer
-quality, latency and whole-turn cost have not been evaluated. Sufficiency grading
-and supplementary searches for general evidence gaps remain stage 4 work.
+Stage 4 now adds [sufficiency grading and supplementary searches](evidence-sufficiency.md)
+to dependent, independent and direct planned routes. Set
+`PLANNING__SUFFICIENCY_ENABLED=false` for the stage 3 behavior described below.
+Live planning, answer quality, latency and whole-turn cost have not been evaluated.
 
 ## From a plan to a grounded search
 

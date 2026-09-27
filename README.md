@@ -9,8 +9,9 @@ Follow its one-time model setup before uploading PDFs.
 The v2 [automatic planner](docs/planned-retrieval.md) is available in chat through
 **Plan complex questions**. It searches up to six queries, including
 [evidence-dependent follow-ups](docs/dependent-retrieval.md) across at most three
-rounds, and saves the plan with the evidence. The default remains a single search;
-sufficiency-driven extra rounds remain planned.
+rounds, and now [checks evidence sufficiency](docs/evidence-sufficiency.md) before
+using the remaining budget for missing points. Plans, support assessments and
+source quotes are saved with the answer. The default remains a single search.
 
 The [v1 release summary](docs/v1/release-summary.md) records the delivered version,
 accepted defaults, experiments, verification and known limits. The implementation

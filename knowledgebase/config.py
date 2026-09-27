@@ -55,6 +55,7 @@ class RetrievalOptions(BaseModel):
 
 
 class PlanningOptions(BaseModel):
+    sufficiency_enabled: bool = True
     max_rounds: int = Field(default=3, ge=1, le=3)
     request_timeout_seconds: float = Field(default=180, gt=0)
     answer_reserve_seconds: float = Field(default=60, gt=0)

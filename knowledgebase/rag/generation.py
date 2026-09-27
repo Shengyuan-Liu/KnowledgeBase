@@ -2,11 +2,13 @@
 
 from collections.abc import AsyncGenerator
 from contextlib import aclosing
+import json
 
 from openai.types.responses import EasyInputMessageParam
 
 from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.rag.context import build_context
+from knowledgebase.rag.sufficiency import all_missing
 from knowledgebase.schemas import RetrievedChunk
 
 
@@ -92,11 +94,16 @@ Use English for all explanatory text, including uncertainty and status labels;
 preserve source names and code identifiers as written."""
 
 
+ASSESSMENT_ANSWER_INSTRUCTIONS = """An optional evidence assessment is fallible guidance, not an additional source.
+Verify its conclusions against the actual Sources. Address every partial or missing
+point with supported details and explicit limits. For conflicting evidence, cite
+both statements and preserve the unresolved conflict; do not invent a resolution."""
+
 def generate_answer(
     question: str,
     chunks: list[RetrievedChunk],
     llm_client: LLMClient,
-    *, retrieval_question: str | None = None,
+    *, retrieval_question: str | None = None, assessment: dict | None = None,
 ) -> str:
     """Number chunks in retrieval order and return the model's answer text.
 
@@ -104,30 +111,34 @@ def generate_answer(
     evidence response without calling the model. The chat service checks source
     numbers after generation; this function requests citations through the prompt.
     """
-    if not chunks:
+    if not chunks or all_missing(assessment):
         return INSUFFICIENT_EVIDENCE
 
-    return llm_client.generate(_answer_messages(question, chunks, retrieval_question))
+    return llm_client.generate(_answer_messages(question, chunks, retrieval_question, assessment))
 
 
-def _answer_messages(question: str, chunks: list[RetrievedChunk], retrieval_question: str | None = None) -> list[EasyInputMessageParam]:
+def _answer_messages(question: str, chunks: list[RetrievedChunk], retrieval_question: str | None = None, assessment: dict | None = None) -> list[EasyInputMessageParam]:
     context = build_context(chunks)
     interpretation = (f"\n\nConversation interpretation (not evidence):\n{retrieval_question}"
                       if retrieval_question and retrieval_question != question else "")
+    guidance = ""
+    if assessment:
+        points = [{key: r[key] for key in ("description", "status", "gap")} for r in assessment["requirements"]]
+        guidance = "\n\nEvidence assessment (fallible guidance, not factual evidence):\n" + json.dumps(points)
     return [
-        {"role": "user", "content": f"Question:\n{question}{interpretation}\n\nSources:\n{context}"},
-        {"role": "developer", "content": ANSWER_INSTRUCTIONS},
+        {"role": "user", "content": f"Question:\n{question}{interpretation}{guidance}\n\nSources:\n{context}"},
+        {"role": "developer", "content": ANSWER_INSTRUCTIONS + ("\n" + ASSESSMENT_ANSWER_INSTRUCTIONS if assessment else "")},
     ]
 
 
 async def stream_answer(
     question: str, chunks: list[RetrievedChunk], llm_client: StreamingLLMClient,
-    *, retrieval_question: str | None = None,
+    *, retrieval_question: str | None = None, assessment: dict | None = None,
 ) -> AsyncGenerator[str]:
     """Use the same evidence prompt while yielding text as it arrives."""
-    if not chunks:
+    if not chunks or all_missing(assessment):
         yield INSUFFICIENT_EVIDENCE
         return
-    async with aclosing(llm_client.stream(_answer_messages(question, chunks, retrieval_question))) as stream:
+    async with aclosing(llm_client.stream(_answer_messages(question, chunks, retrieval_question, assessment))) as stream:
         async for delta in stream:
             yield delta

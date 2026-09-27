@@ -1,0 +1,71 @@
+
+> knowledgebase-frontend@0.1.0 test:e2e
+> playwright test
+
+
+Running 21 tests using 1 worker
+
+  ✓   1 e2e/chat.spec.ts:18:3 › streams, restores, selects evidence, and retains deleted excerpts at 1440px (3.2s)
+  ✓   2 e2e/chat.spec.ts:18:3 › streams, restores, selects evidence, and retains deleted excerpts at 900px (3.0s)
+  ✓   3 e2e/chat.spec.ts:18:3 › streams, restores, selects evidence, and retains deleted excerpts at 390px (3.0s)
+  ✓   4 e2e/chat.spec.ts:109:1 › stopping keeps partial output locally and does not save an unfinished turn (1.7s)
+  ✓   5 e2e/chat.spec.ts:145:1 › an unknown saved conversation offers retry or a fresh start (229ms)
+  ✓   6 e2e/hops.spec.ts:15:3 › dependent searches show target evidence and survive reload at 1440px (1.8s)
+  ✓   7 e2e/hops.spec.ts:15:3 › dependent searches show target evidence and survive reload at 390px (1.8s)
+  ✓   8 e2e/hops.spec.ts:37:1 › stop during target binding does not save an unfinished answer (1.2s)
+  ✓   9 e2e/library.spec.ts:9:3 › real file API and responsive library at 1440px (617ms)
+  ✓  10 e2e/library.spec.ts:9:3 › real file API and responsive library at 1024px (637ms)
+  ✓  11 e2e/library.spec.ts:9:3 › real file API and responsive library at 390px (734ms)
+  ✓  12 e2e/library.spec.ts:91:1 › backend rejects invalid UTF-8 and empty uploads (170ms)
+  ✓  13 e2e/markdown.spec.ts:3:1 › uploads Markdown, inspects exact evidence, restores history, and deletes its source (1.9s)
+  ✓  14 e2e/pdf.spec.ts:5:1 › PDF upload, page links, reload and historical evidence after deletion (planned=false) (1.9s)
+  ✘  15 e2e/pdf.spec.ts:5:1 › PDF upload, page links, reload and historical evidence after deletion (planned=true) (30.0s)
+  ✓  16 e2e/planning.spec.ts:13:3 › planned search and saved evidence at 1440px (2.5s)
+  ✓  17 e2e/planning.spec.ts:13:3 › planned search and saved evidence at 390px (2.3s)
+  ✓  18 e2e/planning.spec.ts:41:1 › stopping during planning leaves no saved exchange (392ms)
+  ✓  19 e2e/planning.spec.ts:55:1 › stopping during evidence assessment leaves no saved exchange (1.2s)
+  ✓  20 e2e/scope.spec.ts:14:1 › scoped evidence and recorded document selection survive refresh and deletion (1.9s)
+  ✓  21 e2e/scope.spec.ts:35:1 › ambiguous name asks for clarification and accepts an exact filename next (1.5s)
+
+
+  1) e2e/pdf.spec.ts:5:1 › PDF upload, page links, reload and historical evidence after deletion (planned=true) 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'View source 1: apple-fy24.pdf', exact: true }).first()
+
+
+      15 |   await composer.press("Enter");
+      16 |   await expect(page.getByText("Completed", { exact: true })).toBeVisible();
+    > 17 |   await page.getByRole("button", { name: "View source 1: apple-fy24.pdf", exact: true }).first().click();
+         |                                                                                                  ^
+      18 |   const evidence = page.getByRole("complementary", { name: "Evidence" });
+      19 |   const link = evidence.getByRole("link", { name: /Open page/ }).first();
+      20 |   await expect(link).toBeVisible();
+        at /Users/lucas/Documents/Projects/KnowledgeBase/frontend/e2e/pdf.spec.ts:17:98
+
+    Error Context: test-results/pdf-PDF-upload-page-links--ab1fc-fter-deletion-planned-true-/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/pdf-PDF-upload-page-links--ab1fc-fter-deletion-planned-true-/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/pdf-PDF-upload-page-links--ab1fc-fter-deletion-planned-true-/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e/pdf.spec.ts:5:1 › PDF upload, page links, reload and historical evidence after deletion (planned=true) 
+  20 passed (1.1m)
+[WebServer] INFO:     Started server process [77229]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+[WebServer] (node:77269) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+(node:77272) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:77403) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

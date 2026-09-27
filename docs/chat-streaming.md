@@ -123,3 +123,8 @@ SSE includes this field in `complete`. Source snapshots and diagnostics persist
 in the same exchange transaction and survive source deletion. Older snapshots
 have `retrieval: null`. See [parent-child retrieval](parent-child-retrieval.md)
 for the full contract and evidence budget behavior.
+
+Stage 4 planned requests also emit `progress` with `stage="assessing"` and
+`message="Checking evidence…"` after each packed round. Only final sources are
+published; completed version 3 planning records preserve the
+[evidence assessment](evidence-sufficiency.md) and supplementary-query trace.

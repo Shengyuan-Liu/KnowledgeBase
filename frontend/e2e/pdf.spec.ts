@@ -14,7 +14,8 @@ test(`PDF upload, page links, reload and historical evidence after deletion (pla
   await composer.fill("What were total net sales?");
   await composer.press("Enter");
   await expect(page.getByText("Completed", { exact: true })).toBeVisible();
-  await page.getByRole("button", { name: "View source 1: apple-fy24.pdf", exact: true }).first().click();
+  // The offline vectors may retain unrelated PDF passages; navigation also works after abstention.
+  await page.getByRole("button", { name: "View evidence", exact: true }).click();
   const evidence = page.getByRole("complementary", { name: "Evidence" });
   const link = evidence.getByRole("link", { name: /Open page/ }).first();
   await expect(link).toBeVisible();
@@ -35,7 +36,8 @@ test(`PDF upload, page links, reload and historical evidence after deletion (pla
   await viewer.getByRole("button", { name: "Close PDF" }).click();
   await page.screenshot({ path: testInfo.outputPath("pdf-evidence.png"), fullPage: true });
   await page.reload();
-  await page.getByRole("button", { name: "View source 1: apple-fy24.pdf", exact: true }).first().click();
+  // The offline vectors may retain unrelated PDF passages; navigation also works after abstention.
+  await page.getByRole("button", { name: "View evidence", exact: true }).click();
   await expect(evidence.getByRole("link", { name: /Open page/ }).first()).toHaveAttribute("href", href);
   await page.getByRole("button", { name: "apple-fy24.pdf Ready", exact: true }).click();
   await page.getByRole("button", { name: "Delete", exact: true }).click();
@@ -43,7 +45,8 @@ test(`PDF upload, page links, reload and historical evidence after deletion (pla
   await expect(page.getByText("File and indexed content deleted.")).toBeVisible();
   await expect(evidence.getByRole("link", { name: /Open page/ })).toHaveCount(0);
   await page.reload();
-  await page.getByRole("button", { name: "View source 1: apple-fy24.pdf", exact: true }).first().click();
+  // The offline vectors may retain unrelated PDF passages; navigation also works after abstention.
+  await page.getByRole("button", { name: "View evidence", exact: true }).click();
   await expect(evidence.getByText(/original unavailable/).first()).toBeVisible();
   expect((await request.get(href.split("#")[0])).status()).toBe(404);
 });

@@ -63,6 +63,15 @@ export interface RetrievalDiagnostics {
     version: number;
     message: string | null;
     planner: { route: string; model: string; seconds: number } | null;
+    assessment?: {
+      round_index: number;
+      requirements: {
+        requirement_id: string; description: string;
+        status: "supported" | "partial" | "missing" | "conflicting";
+        gap: string;
+        references: { evidence_id: string; quote: string; file_name: string }[];
+      }[];
+    };
     hops?: {
       rounds: { round_index: number }[];
       stop_reason: string;
@@ -133,7 +142,7 @@ export interface AnswerDebug {
 
 export type StreamEvent = { request_id: string } & (
   | { event: "start"; conversation_id: string | null }
-  | { event: "progress"; stage: "planning" | "retrieving"; message: string }
+  | { event: "progress"; stage: "planning" | "retrieving" | "assessing"; message: string }
   | { event: "sources"; sources: Source[]; retrieval?: RetrievalDiagnostics }
   | { event: "answer_delta"; delta: string }
   | ({ event: "debug" } & AnswerDebug)

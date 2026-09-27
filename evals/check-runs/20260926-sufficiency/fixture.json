@@ -1,0 +1,24 @@
+{
+  "version": "sufficiency-controller-v1",
+  "corpus": [
+    {"id": "hours", "name": "hours.txt", "text": "The library closes at 5 PM.", "vector": [1, 0, 0, 0]},
+    {"id": "access", "name": "access.txt", "text": "Library access requires a card.", "vector": [0, 1, 0, 0]},
+    {"id": "conflict", "name": "other-hours.txt", "text": "The library closes at 6 PM.", "vector": [0, 0, 1, 0]},
+    {"id": "noise", "name": "chairs.txt", "text": "The library has blue chairs.", "vector": [0, 0, 0, 1]}
+  ],
+  "query_vectors": {"library closing hours": [1, 0, 0, 0], "library access": [0, 1, 0, 0], "other library hours": [0, 0, 1, 0], "library fees": [0, 0, 0, 1]},
+  "points": {
+    "hours": {"description": "Closing hours", "files": ["hours"]},
+    "access": {"description": "Library access", "files": ["access"]},
+    "conflict": {"description": "Closing hours in both documents", "files": ["hours", "conflict"]},
+    "fees": {"description": "Library fees", "files": []}
+  },
+  "cases": [
+    {"id": "fill-gap", "question": "What are the library hours and access rules?", "points": ["hours", "access"], "initial_queries": ["library closing hours"], "gold": ["hours", "access"], "budget": 4096, "file_ids": null},
+    {"id": "already-supported", "question": "When does the library close?", "points": ["hours"], "initial_queries": ["library closing hours"], "gold": ["hours"], "budget": 4096, "file_ids": null},
+    {"id": "conflict", "question": "What closing times do the two documents give?", "points": ["conflict"], "initial_queries": ["library closing hours", "other library hours"], "gold": ["hours", "conflict"], "budget": 4096, "file_ids": null},
+    {"id": "unanswerable", "question": "What are the library fees?", "points": ["fees"], "initial_queries": ["library fees"], "gold": [], "budget": 4096, "file_ids": null},
+    {"id": "scope-limited", "question": "What are the library hours and access rules?", "points": ["hours", "access"], "initial_queries": ["library closing hours"], "gold": ["hours"], "budget": 4096, "file_ids": ["hours", "noise"]},
+    {"id": "budget-exhausted", "question": "What are the library hours and access rules?", "points": ["hours", "access"], "initial_queries": ["library closing hours"], "gold": ["hours", "access"], "budget": 1, "file_ids": null}
+  ]
+}

@@ -4,8 +4,9 @@ Status: v2 stage 3b integrates the independent executor with opt-in automatic
 planning in JSON/SSE chat and CLI. Completed answers retain their plan and exact
 evidence. Offline checks cover integration and request bounds; live planner and
 answer quality remain unmeasured. Stage 3c now adds [evidence-dependent
-queries](dependent-retrieval.md); sufficiency-driven extra rounds remain subsequent
-work. No feature acceptance or merge is implied.
+queries](dependent-retrieval.md), and stage 4 adds
+[evidence assessment and gap searches](evidence-sufficiency.md). The stage 3
+behavior described below is available with `PLANNING__SUFFICIENCY_ENABLED=false`. No feature acceptance or merge is implied.
 
 ## Contract and Module Responsibilities
 

@@ -75,12 +75,14 @@ def answer_question(
         embedding_client = embedding_client.bounded(control.before_answer)
         llm_client = llm_client.bounded(control.generation_limits())
     hops = None
-    if prepared and prepared.plan and prepared.plan.dependencies:
+    if prepared and prepared.plan and prepared.allowed_file_ids and (prepared.plan.dependencies or control.options.sufficiency_enabled):
         hops = HopController(prepared, session_factory, embedding_client, vector_store, planner_client, control,
             top_k=top_k, evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
             retrieval_options=retrieval_options, reranker_client=reranker_client, file_ids=file_ids)
         while not hops.finished:
             hops.step()
+            if hops.needs_assessment:
+                hops.assess()
     chunks, sources, diagnostics = _retrieve_evidence(
         retrieval_question or question, session_factory, embedding_client, vector_store, top_k,
         evidence_max_tokens, encoding_name, retrieval_options, reranker_client,
@@ -89,7 +91,8 @@ def answer_question(
     scope = diagnostics.document_scope
     message = scope.message if scope and scope.status != "resolved" else (diagnostics.planning or {}).get("message")
     answer = (message if message else
-              generate_answer(question, chunks, llm_client, retrieval_question=retrieval_question))
+              generate_answer(question, chunks, llm_client, retrieval_question=retrieval_question,
+                              assessment=(diagnostics.planning or {}).get("assessment")))
     if control:
         control.remaining()
     return ChatAnswer(
@@ -130,8 +133,9 @@ def _retrieve_evidence(
                 )
                 evidence, trace = planned.evidence, planned.trace.model_dump(mode="json")
             evidence.diagnostics.planning = {
-                "version": 2 if hops else 1, "planner": prepared.record, "trace": trace,
+                "version": 3 if hops and hops.assessment else 2 if hops else 1, "planner": prepared.record, "trace": trace,
                 **({"hops": hops.trace} if hops else {}),
+                **({"assessment": hops.assessment} if hops and hops.assessment else {}),
                 "limits": control.options.model_dump(),
                 "message": NARROWING_MESSAGE if prepared.plan is None else None,
                 "context": build_context(evidence.chunks),
@@ -298,13 +302,16 @@ async def stream_answer_in_conversation(
                 prepared = await control.run_search(prepare_planning, question, retrieval_question, session_factory,
                                                     file_ids, planner_client, control)
                 hops = None
-                if prepared.plan and prepared.plan.dependencies:
+                if prepared.plan and prepared.allowed_file_ids and (prepared.plan.dependencies or control.options.sufficiency_enabled):
                     hops = HopController(prepared, session_factory, embedding_client, vector_store, planner_client, control,
                         top_k=top_k, evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
                         retrieval_options=retrieval_options, reranker_client=reranker_client, file_ids=file_ids)
                     while not hops.finished:
                         yield event("progress", stage="retrieving", message=f"Searching round {hops.round_index + 1}…")
                         await control.run_search(hops.step)
+                        if hops.needs_assessment:
+                            yield event("progress", stage="assessing", message="Checking evidence…")
+                            await control.run_search(hops.assess)
                 if hops is None:
                     yield event("progress", stage="retrieving", message="Searching for each answer point…")
                 chunks, sources, diagnostics = await control.run_search(
@@ -330,7 +337,8 @@ async def stream_answer_in_conversation(
                 parts.append(message)
                 yield event("answer_delta", delta=message)
             else:
-                async with aclosing(stream_answer(question, chunks, streaming_client, retrieval_question=retrieval_question)) as stream:
+                async with aclosing(stream_answer(question, chunks, streaming_client, retrieval_question=retrieval_question,
+                    assessment=(diagnostics.planning or {}).get("assessment"))) as stream:
                     async for delta in stream:
                         parts.append(delta)
                         yield event("answer_delta", delta=delta)

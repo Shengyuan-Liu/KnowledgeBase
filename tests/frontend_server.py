@@ -44,6 +44,37 @@ def plan_fixture(**kwargs):
     payload = json.loads(kwargs["input"][-1]["content"])
     question = payload["original_question"]
     sleep(2 if question.startswith("Stop planning") else 0.3)
+    if "total net sales" in question.lower():
+        if kwargs["text"]["format"]["name"] == "retrieval_plan":
+            decision = {"route": "direct", "requirements": [], "queries": [], "dependencies": []}
+        else:
+            canonical = json.loads((Path(__file__).resolve().parents[1] /
+                "evals/check-runs/20260926-pdf-parser-selection/adapter-2/apple-fy24.json").read_text())["text"]
+            refs = [{"evidence_id": e["evidence_id"], "quote": "94,930"} for e in payload["evidence_catalog"]
+                    if "94,930" in canonical[e["start_offset"]:e["end_offset"]]]
+            decision = {"requirements": [{"requirement_id": "answer", "status": "supported" if refs else "missing",
+                "gap": "" if refs else "Net sales were not retained.", "references": refs}], "queries": []}
+        return SimpleNamespace(status="completed", output_text=json.dumps(decision),
+                               model="offline-planner", id="offline-pdf-plan", usage=None)
+    if kwargs["text"]["format"]["name"] == "evidence_assessment":
+        if question.startswith("Stop assessment"):
+            sleep(2)
+        requirements = []
+        for item in payload["requirements"]:
+            name, quote = {
+                "winner": ("award.txt", "The Aster Prize winner is Mira Cole."),
+                "employer": ("staff.txt", "Mira Cole works at Birch Institute."),
+                "hours": ("hours.txt", "The library closes at 5 PM."),
+                "access": ("hours.txt", "Students can enter with a library card."),
+            }[item["requirement_id"]]
+            excerpt = next((e for e in payload["evidence_catalog"] if e["file_name"] == name), None)
+            supported = excerpt is not None and quote in payload["context"]
+            requirements.append({"requirement_id": item["requirement_id"],
+                "status": "supported" if supported else "missing",
+                "gap": "" if supported else "No supporting excerpt.",
+                "references": [{"evidence_id": excerpt["evidence_id"], "quote": quote}] if supported else []})
+        return SimpleNamespace(status="completed", output_text=json.dumps({"requirements": requirements, "queries": []}),
+                               model="offline-planner", id="offline-assessment", usage=None)
     if kwargs["text"]["format"]["name"] == "dependency_targets":
         if question.startswith("Stop binding"):
             sleep(2)

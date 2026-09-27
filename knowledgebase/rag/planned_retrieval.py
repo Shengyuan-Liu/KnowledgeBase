@@ -215,7 +215,7 @@ def retrieve_plan(
         checkpoint()
     trace.merged = merge_query_runs(trace.runs, k=options.rrf_k)
     trace.selected_ids = ([hit.chunk.chunk_id for hit in trace.runs[0].result.hits]
-                          if plan.route == "direct" and trace.runs else
+                          if plan.route == "direct" and len(trace.runs) == 1 else
                           _select_representatives(trace.merged, trace.runs, plan, top_k))
     merged_by_id = {candidate.chunk_id: candidate for candidate in trace.merged}
     selected: list[RetrievedChunk] = []
@@ -225,7 +225,7 @@ def retrieve_plan(
         selected.append(next(hit for hit in result.hits if hit.chunk.chunk_id == identity).model_copy(deep=True))
         diagnostics.candidates.append(next(candidate for candidate in result.diagnostics.candidates if candidate.chunk_id == identity))
     trace.merge_seconds = perf_counter() - merge_started
-    if plan.route == "direct" and trace.runs:
+    if plan.route == "direct" and len(trace.runs) == 1:
         diagnostics = trace.runs[0].result.diagnostics.model_copy(deep=True)
     evidence = (pack_retrieval_candidates(selected, session, diagnostics) if ready else
                 RetrievedEvidence(chunks=[], diagnostics=diagnostics))

@@ -7,7 +7,9 @@ planning](../planned-retrieval.md) now connects the stage 3a executor to JSON/SS
 chat, CLI, progress display and saved history with bounded requests. It is opt-in
 and offline-tested. Stage 3c [dependent retrieval](../dependent-retrieval.md) now
 binds follow-up targets to retained source quotes across at most three rounds.
-Sufficiency control remains planned. No feature acceptance or merge is implied.
+Stage 4 [sufficiency control](../evidence-sufficiency.md) now assesses packed
+evidence and runs bounded gap searches through the same opt-in mode. All controller
+checks are offline; no feature acceptance or merge is implied.
 
 ## Confirmed Feature Areas
 
@@ -62,7 +64,7 @@ combines all three; stage completion does not establish a general quality gain.
 | OCR and mixed scanned pages | OCR deferred by the user; disclose content that is not indexed | Confirmed for v2; revisit in a later version |
 | Figures and formulas | Text captions may be indexed; visual interpretation and formula reasoning are deferred by the user | Confirmed for v2; revisit in a later version |
 | Parser and page viewer | Docling with known table/order failures; bundled PDF.js page viewer | See [PDF parsing](../pdf-parsing.md) |
-| Query/checker models and limits | Bounded controller proposed; numerical limits in the technical plan are starting settings | Before live acceptance |
+| Query/checker models and limits | Bounded controller implemented with shared planner model, three rounds and six queries; live suitability unverified | Before live acceptance |
 | Quality, latency, and cost thresholds | Freeze from development evidence before held-out evaluation | Evaluation preparation |
 | v2 development branch | Use `v2` for all v2 implementation and documentation commits | Confirmed by the user on 2026-09-26 |
 

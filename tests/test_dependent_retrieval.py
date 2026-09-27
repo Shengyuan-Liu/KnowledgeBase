@@ -68,6 +68,7 @@ def hop_api(configured_app):
     sdk.responses.create.side_effect = generate
     with TestClient(app) as client:
         resources = app.state.resources
+        resources.settings.planning.sufficiency_enabled = False
         resources.settings.retrieval_strategy = "vector"
         resources.settings.retrieval_candidate_limit = 1
         resources.settings.retrieval_top_k = 3
@@ -222,6 +223,7 @@ async def test_stop_during_binding_never_starts_dependent_search(hop_api, stop):
         returned.set()
     choices["binding_hook"] = wait_for_stop
     options = PlanningOptions(request_timeout_seconds=0.8, answer_reserve_seconds=0.1) if stop == "timeout" else PlanningOptions()
+    options.sufficiency_enabled = False
     stream = await stream_answer_in_conversation(QUESTION, "stop-hops", resources.sessions,
         resources.embeddings, resources.store, resources.llm, resources.streaming_llm,
         planner_client=resources.planner, planning_options=options,

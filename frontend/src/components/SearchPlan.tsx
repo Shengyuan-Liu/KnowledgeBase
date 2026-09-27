@@ -8,8 +8,8 @@ export function SearchPlan({ planning }: { planning: NonNullable<RetrievalDiagno
     {planning.message && <p>{planning.message}</p>}
     {trace && <>
       <p>{trace.runs.length} {trace.runs.length === 1 ? "search" : "searches"} completed.
-        {trace.plan.route === "direct" ? " Used the original retrieval question."
-          : planning.hops ? ` Used ${planning.hops.rounds.length} retrieval rounds.` : " Searched independent answer points."}</p>
+        {planning.hops ? ` Used ${planning.hops.rounds.length} retrieval ${planning.hops.rounds.length === 1 ? "round" : "rounds"}.`
+          : trace.plan.route === "direct" ? " Used the original retrieval question." : " Searched independent answer points."}</p>
       <ol>{trace.runs.map((run, i) => <li key={i}>{run.text}</li>)}</ol>
       {planning.hops && <>
         <p>Search stopped: {planning.hops.stop_reason.replaceAll("_", " ")}.</p>
@@ -33,5 +33,17 @@ export function SearchPlan({ planning }: { planning: NonNullable<RetrievalDiagno
       })}</ul>
       <p>Retrieved passages still need to support the answer. This plan does not verify correctness.</p>
     </>}
+    {planning.assessment && <section aria-label="Evidence assessment">
+      <h4>Evidence assessment</h4>
+      <p>Model assessment of the final supplied passages. Check the quoted evidence; these labels can be wrong.</p>
+      {planning.assessment.requirements.map(requirement => <div key={requirement.requirement_id}>
+        <p><strong>{requirement.description}</strong>{" · "}{{supported: "Supported", partial: "Partial support",
+          missing: "Missing evidence", conflicting: "Conflicting evidence"}[requirement.status]}</p>
+        {requirement.gap && <p>{requirement.gap}</p>}
+        {requirement.references.map((reference, index) => <blockquote key={index}>
+          {reference.quote}<br /><cite>{reference.file_name}</cite>
+        </blockquote>)}
+      </div>)}
+    </section>}
   </details>;
 }

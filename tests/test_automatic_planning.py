@@ -114,6 +114,7 @@ def planned_api(configured_app):
     sdk.responses.create.side_effect = generate
     with TestClient(app) as client:
         resources = app.state.resources
+        resources.settings.planning.sufficiency_enabled = False
         streaming = Mock()
         streaming.bounded.return_value = streaming
         async def stream(_messages):

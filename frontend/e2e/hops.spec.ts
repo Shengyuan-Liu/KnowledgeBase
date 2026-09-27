@@ -27,7 +27,7 @@ for (const width of [1440, 390]) {
       await evidence.getByText("Search plan", { exact: true }).click();
       await expect(evidence.getByText(/Used 2 retrieval rounds/)).toBeVisible();
       await expect(evidence.getByText("Search target: Mira Cole. Found in:")).toBeVisible();
-      await expect(evidence.getByText("Search stopped: dependencies complete.")).toBeVisible();
+      await expect(evidence.getByText("Search stopped: requirements supported.")).toBeVisible();
       await expect(evidence.locator("blockquote").filter({ hasText: "The Aster Prize winner is Mira Cole." }).first()).toBeVisible();
     }
     await page.screenshot({ path: testInfo.outputPath(`hops-${width}.png`), fullPage: true });

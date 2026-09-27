@@ -29,7 +29,8 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `RERANK_MAX_INPUT_TOKENS` | `16384` | Aggregate rerank pair-text budget; oversize fails without truncation |
 | `RETRIEVAL_MODE` | `single` | `single` or `planned` for API requests without an explicit mode and CLI; browser checkbox selects its own mode |
 | `PLANNER_MODEL` | Blank: use `ANSWER_MODEL` | Strict JSON-schema planner for planned requests |
-| `PLANNING__MAX_ROUNDS` | `3` | Dependent retrieval round cap; 1–3, with six query nodes total |
+| `PLANNING__SUFFICIENCY_ENABLED` | `true` | Assess final packed evidence after each planned round; `false` retains the stage 3 controller |
+| `PLANNING__MAX_ROUNDS` | `3` | Planned retrieval/assessment round cap; 1–3, with six executed logical queries total |
 | `PLANNING__*` | See linked limits | Nested [planning budgets and deadlines](planned-retrieval.md#request-bounds); do not affect single mode |
 | `RESOLVER_MODEL` | Blank: use `ANSWER_MODEL` | Follow-up question rewriting in API and CLI |
 | `CHUNKING_STRATEGY` | `parent_child` | `structural`, `parent_child`, experimental `semantic`, or the MVP `character` baseline, for new uploads |
