@@ -33,6 +33,13 @@ blanks and grouped headers from native PDF rules/text. Four other frozen documen
 controls remain unchanged. The technical report's merged-row failure, unannotated
 dense-table rows and broader live acceptance remain outstanding. Existing library
 entries require a fresh upload to use the revised extraction.
+The subsequent [six-request dense-table live replay](../../evals/library-runs/20260927-dense-table-acceptance/README.md)
+does not pass: only 2 of 24 requested point instances are answered correctly.
+The recovered table is retrieved but excluded from final evidence by its serialized
+context cost. Single-mode state totals are unsupported; planned mode withholds
+them. Both grouped/blank-cell requests stop at an incorrectly parsed filename
+reference. Evidence packing and quoted-filename scope handling now precede the
+remaining technical-table repair; blank-cell answer behavior is still untested.
 
 ## Confirmed Feature Areas
 

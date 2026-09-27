@@ -78,6 +78,10 @@ the complete Alabama, Alaska and Arizona rows: 66 numeric cells, six blanks,
 25 header paths and six merged groups. Four other sampled corpus documents keep
 identical canonical text and block geometry. These labels cover three rows of
 one known failure, not every row, held-out tables, or end-to-end answer quality.
+The subsequent [live replay](../evals/library-runs/20260927-dense-table-acceptance/README.md)
+confirms the recovered values reach the index and retrieval candidates, but their
+table metadata pushes the selected excerpt over the evidence budget. The parser
+checks therefore do not imply that answers can yet use those values.
 
 Parser identity records the recovery algorithm/settings and pdfplumber/pdfminer
 versions. Changed extraction creates a new revision. Existing library entries

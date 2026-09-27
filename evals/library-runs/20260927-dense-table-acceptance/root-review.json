@@ -1,0 +1,296 @@
+{
+  "reviewer": "Root Codex model reviewer; independent of the primary reviewer; not human",
+  "reviewed_at": "2026-09-27T20:54:41.132795+00:00",
+  "method": "Read all six raw answers, all supplied source bodies, current extraction/gold and request diagnostics. Inspect source/schema differences separately. Primary reviewer quality verdicts were withheld before this first pass.",
+  "expected_points": 24,
+  "correct_complete_points": 2,
+  "claims_supported": 2,
+  "claim_count": 5,
+  "rows": [
+    {
+      "case_id": "dense-table",
+      "arm": "single",
+      "raw_sha256": "d221f4037babee269bbfe135b32184da161f74aa6a503d8d928d84cea8b91acc",
+      "answer_text": "- The statistics in \"background-checks.pdf\" represent the number of firearm background checks initiated through the NICS; they do not represent the number of firearms sold. It is explicitly stated that a one-to-one correlation cannot be made between a firearm background check and a firearm sale [1].\n\n- The provided source does not contain Alabama's Permit, Handgun, Long Gun, and Totals values for November 2015. That information is missing from the supplied excerpt [1].",
+      "points": [
+        {
+          "fact_id": "alabama_permit",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "alabama_handgun",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "alabama_longgun",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "alabama_total",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "checks_not_sales",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        }
+      ],
+      "claim_groups": [
+        {
+          "kind": "disclaimer",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            1
+          ]
+        }
+      ],
+      "incorrect_full_abstention": false,
+      "answer_relevance": 1,
+      "review_note": "Only disclaimer/notes are supplied. The checks-not-sales point is correct and explicitly supported by source 1, page 1 offsets 4907:5738. Four count omissions accurately describe the supplied excerpt, but fail original-page completeness. They are missing-information reviews, not uncited invented source facts.",
+      "raw_history_sources_match": false,
+      "history_common_source_fields_match": true,
+      "history_difference": "Saved history adds file_deleted=false; all source contract fields match."
+    },
+    {
+      "case_id": "dense-table",
+      "arm": "planned",
+      "raw_sha256": "96d99bf8b0264b040326343f746fa942547e724d0f64258d9970830a78cd26bb",
+      "answer_text": "- Alabama's Permit value for November 2015 is not provided in the supplied excerpts from \"background-checks.pdf\".\n- Alabama's Handgun value for November 2015 is not provided in the supplied excerpts from \"background-checks.pdf\".\n- Alabama's Long Gun value for November 2015 is not provided in the supplied excerpts from \"background-checks.pdf\".\n- Alabama's Totals value for November 2015 is not provided in the supplied excerpts from \"background-checks.pdf\".\n- The statistics referred to in the document represent the number of firearm background checks initiated through the NICS; they do not represent the number of firearms sold, and a one-to-one correlation cannot be made between a background check and a firearm sale [1].",
+      "points": [
+        {
+          "fact_id": "alabama_permit",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "alabama_handgun",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "alabama_longgun",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "alabama_total",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "checks_not_sales",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        }
+      ],
+      "claim_groups": [
+        {
+          "kind": "disclaimer",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            1
+          ]
+        }
+      ],
+      "incorrect_full_abstention": false,
+      "answer_relevance": 1,
+      "review_note": "Only disclaimer/notes are supplied. The checks-not-sales point is correct and explicitly supported by source 1, page 1 offsets 4907:5738. Four count omissions accurately describe the supplied excerpt, but fail original-page completeness. They are missing-information reviews, not uncited invented source facts.",
+      "raw_history_sources_match": false,
+      "history_common_source_fields_match": true,
+      "history_difference": "Saved history adds file_deleted=false; all source contract fields match."
+    },
+    {
+      "case_id": "state-totals",
+      "arm": "single",
+      "raw_sha256": "4867af54afcb8cccd1e2a3ff2f109021401a418c2b25d6fa7dcdfaa2aa233928",
+      "answer_text": "The Totals values for November 2015 in \"background-checks.pdf\" are as follows:\n- Alabama: 29,801 [1].\n- Alaska: 5,733 [1].\n- Arizona: 32,667 [1].",
+      "points": [
+        {
+          "fact_id": "alabama_total",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "alaska_total",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "arizona_total",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        }
+      ],
+      "claim_groups": [
+        {
+          "kind": "Alabama",
+          "observed": "29,801",
+          "faithfulness": 0,
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "source_ids": [
+            1
+          ]
+        },
+        {
+          "kind": "Alaska",
+          "observed": "5,733",
+          "faithfulness": 0,
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "source_ids": [
+            1
+          ]
+        },
+        {
+          "kind": "Arizona",
+          "observed": "32,667",
+          "faithfulness": 0,
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "source_ids": [
+            1
+          ]
+        }
+      ],
+      "incorrect_full_abstention": false,
+      "answer_relevance": 1,
+      "review_note": "The answer invents 29,801 for Alabama, 5,733 for Alaska, and 32,667 for Arizona. Source 1 contains only disclaimer/notes and supports none of these. Original gold is 71,137 / 7,095 / 27,087. Three separate bullets have syntactically valid but unsupported [1] citations. Introductory framing is not a separate claim.",
+      "raw_history_sources_match": false,
+      "history_common_source_fields_match": true,
+      "history_difference": "Saved history adds file_deleted=false; all source contract fields match."
+    },
+    {
+      "case_id": "state-totals",
+      "arm": "planned",
+      "raw_sha256": "46a2d087d73e68f43b5b00ed090c4fa175135e574d554569b70ed24c59076882",
+      "answer_text": "There is not enough information in the provided sources to answer this question.",
+      "points": [
+        {
+          "fact_id": "alabama_total",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "alaska_total",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "arizona_total",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        }
+      ],
+      "claim_groups": [],
+      "incorrect_full_abstention": true,
+      "answer_relevance": 0.5,
+      "review_note": "No final sources supplied; the application returns an insufficient-information refusal. Faithful to its empty context, but the original question is answerable and all three counts are omitted. No source-fact or citation claim denominator.",
+      "raw_history_sources_match": true,
+      "history_common_source_fields_match": true,
+      "history_difference": "No sources in either payload."
+    },
+    {
+      "case_id": "grouped-and-blank-cells",
+      "arm": "single",
+      "raw_sha256": "c31797fecdf8f8c4838c4c2a4d7b35c73bbc8e7f5915f8357b4c74029fba8462",
+      "answer_text": "I could not find a ready document matching \"background-checks.pdf\" for November 2015\". Please specify its exact filename or upload it.",
+      "points": [
+        {
+          "fact_id": "alabama_handgun",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "alabama_prepawn_handgun",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "alabama_rentals_handgun_blank",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "alabama_rentals_longgun_blank",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        }
+      ],
+      "claim_groups": [],
+      "incorrect_full_abstention": true,
+      "answer_relevance": 0.5,
+      "review_note": "Scope resolution reads background-checks.pdf\" for November 2015 as the filename, despite an explicit ready file ID. No retrieval or model answer is attempted. The clarification/refusal is an incorrect product outcome for an answerable scoped question. Blanks and grouped values are untested by generation; all four requested points are absent.",
+      "raw_history_sources_match": true,
+      "history_common_source_fields_match": true,
+      "history_difference": "No sources in either payload."
+    },
+    {
+      "case_id": "grouped-and-blank-cells",
+      "arm": "planned",
+      "raw_sha256": "3e342dd9c951471cfa53ed14c582dc39878fb6a48fe5592205ea75dcbc8b7925",
+      "answer_text": "The selected document is missing or not ready. Please choose a ready document.",
+      "points": [
+        {
+          "fact_id": "alabama_handgun",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "alabama_prepawn_handgun",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "alabama_rentals_handgun_blank",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        },
+        {
+          "fact_id": "alabama_rentals_longgun_blank",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0
+        }
+      ],
+      "claim_groups": [],
+      "incorrect_full_abstention": true,
+      "answer_relevance": 0.5,
+      "review_note": "Scope resolution reads background-checks.pdf\" for November 2015 as the filename, despite an explicit ready file ID. No retrieval or model answer is attempted. The clarification/refusal is an incorrect product outcome for an answerable scoped question. Blanks and grouped values are untested by generation; all four requested points are absent.",
+      "raw_history_sources_match": true,
+      "history_common_source_fields_match": true,
+      "history_difference": "No sources in either payload."
+    }
+  ]
+}

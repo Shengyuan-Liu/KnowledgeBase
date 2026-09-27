@@ -18,6 +18,11 @@ Its fiscal-period inference allowance is documented. A subsequent
 [native-table repair](../evals/check-runs/20260927-dense-table/README.md) recovers
 the four missing Alabama values and three complete annotated state rows offline.
 Broader table fidelity and v2 acceptance remain unresolved.
+The [dense-table live replay](../evals/library-runs/20260927-dense-table-acceptance/README.md)
+then exposes two integration failures: the retrieved table excerpt is excluded
+by the final context budget, and a date qualifier after a quoted filename is
+misread as part of that filename. Only 2 of 24 requested point instances are
+answered correctly. The recovered parsing output alone does not pass live acceptance.
 
 ## Use
 

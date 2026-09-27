@@ -1,0 +1,55 @@
+{
+  "reviewed_at": "2026-09-27T21:01:18.784119+00:00",
+  "reviewers": [
+    "Codex model /root/table_reference_context",
+    "Root Codex model"
+  ],
+  "primary_artifact": "reviewed-cases.json",
+  "primary_sha256": "7c972c6aabc27dab8aea988167872bf9428a6c0a698a6db7d10d1e54afbc7d38",
+  "secondary_artifact": "../root-review.json",
+  "secondary_sha256": "fdfb28aa7066d0c6cd00e9d50ed93c9438b9fdecc5ef852a3b2a1de3c203ec6c",
+  "independence_note": "Primary raw-answer and SDK-context judgments were made without opening root-review.json. Root later disclosed the matching aggregate outcome before this file was serialized; row-level relevance, evidence notes and reference audits were completed independently. Reconciliation is retained in a separate file.",
+  "agreement": {
+    "requested_point_scores": "All 24 reference correctness, completeness and supplied-evidence scores agree; two are 1 and 22 are 0.",
+    "factual_claim_groups": "Five groups, two supported disclaimers and three wrong unsupported state-total bullets. Faithfulness, citation support and citation coverage all agree.",
+    "abstention": "Three full refusals on original-page-answerable questions. Partial table limitations in dense-table are not full refusals. No unanswerable-case denominator.",
+    "history": "All common source contract fields match. Three raw source-equality flags remain false because saved sources add file_deleted=false. No storage failure."
+  },
+  "disagreements": [
+    {
+      "case_id": "state-totals",
+      "arm": "planned",
+      "metric": "relevance",
+      "primary": 1,
+      "root": 0.5,
+      "primary_reason": "The application returned a full insufficient-evidence refusal with an empty supplied context, without a generation call. This is an honest statement about that empty context but incorrect question-level abstention on an original-page-answerable question. No factual answer claim group is available for faithfulness or citation scoring. Relevance is 1 because the refusal addresses evidence sufficiency for the requested question.",
+      "root_reason": "No final sources supplied; the application returns an insufficient-information refusal. Faithful to its empty context, but the original question is answerable and all three counts are omitted. No source-fact or citation claim denominator."
+    },
+    {
+      "case_id": "grouped-and-blank-cells",
+      "arm": "single",
+      "metric": "relevance",
+      "primary": 0,
+      "root": 0.5,
+      "primary_reason": "Document scope resolution treats the reference as background-checks.pdf\" for November 2015 and returns a refusal before retrieval or generation. The actual background-checks.pdf is ready in index-snapshot.json. This operational refusal is not a substantive answer or a demonstrated blank-cell uncertainty judgment. Relevance is 0 because the requested table distinctions are not addressed and the user is incorrectly directed to select/upload a ready file.",
+      "root_reason": "Scope resolution reads background-checks.pdf\" for November 2015 as the filename, despite an explicit ready file ID. No retrieval or model answer is attempted. The clarification/refusal is an incorrect product outcome for an answerable scoped question. Blanks and grouped values are untested by generation; all four requested points are absent."
+    },
+    {
+      "case_id": "grouped-and-blank-cells",
+      "arm": "planned",
+      "metric": "relevance",
+      "primary": 0,
+      "root": 0.5,
+      "primary_reason": "Document scope resolution treats the reference as background-checks.pdf\" for November 2015 and returns a refusal before retrieval or generation. The actual background-checks.pdf is ready in index-snapshot.json. This operational refusal is not a substantive answer or a demonstrated blank-cell uncertainty judgment. Relevance is 0 because the requested table distinctions are not addressed and the user is incorrectly directed to select/upload a ready file.",
+      "root_reason": "Scope resolution reads background-checks.pdf\" for November 2015 as the filename, despite an explicit ready file ID. No retrieval or model answer is attempted. The clarification/refusal is an incorrect product outcome for an answerable scoped question. Blanks and grouped values are untested by generation; all four requested points are absent."
+    }
+  ],
+  "resolution": {
+    "status": "preserve_primary_and_report_sensitivity",
+    "primary_relevance_mean": 0.6666666666666666,
+    "secondary_relevance_mean": 0.75,
+    "reason": "The frozen protocol supplies 0/0.5/1 relevance but does not specify relevance of generic refusal variants. Primary separates on-topic insufficiency from misleading file-readiness instructions; root credits all three generic refusals partially. Neither interpretation changes any correctness, completeness, citation, abstention or acceptance conclusion. Keep both original records and use the primary review for the main metric, disclosing the secondary value."
+  },
+  "scoped_acceptance": "failed: 2/24 requested points; three wrong unsupported state totals; three full incorrect refusals. Live grouped-header and blank-cell interpretation is unexercised.",
+  "additional_primary_audit": "assessment-reference-review.json"
+}

@@ -1,0 +1,40 @@
+{
+  "method": "Pure existing resolve_document_scope with the empty catalog produced by the first failed scope resolution; no planner, embedding, or generation call.",
+  "first_pass_scope": {
+    "status": "not_found",
+    "references": [
+      "background-checks.pdf\" for November 2015"
+    ],
+    "file_ids": [],
+    "matches": [],
+    "message": "I could not find a ready document matching \"background-checks.pdf\" for November 2015\". Please specify its exact filename or upload it."
+  },
+  "propagated_allowed_file_ids": [],
+  "second_pass_scope": {
+    "status": "not_found",
+    "references": [
+      "background-checks.pdf\" for November 2015"
+    ],
+    "file_ids": [],
+    "matches": [],
+    "message": "The selected document is missing or not ready. Please choose a ready document."
+  },
+  "actual_final_scope": {
+    "status": "not_found",
+    "references": [
+      "background-checks.pdf\" for November 2015"
+    ],
+    "file_ids": [],
+    "matches": [],
+    "message": "The selected document is missing or not ready. Please choose a ready document."
+  },
+  "second_pass_matches_actual": true,
+  "code_path": [
+    "knowledgebase/services/planning.py:58",
+    "knowledgebase/services/chat.py:128",
+    "knowledgebase/rag/planned_retrieval.py:166",
+    "knowledgebase/rag/retrieval.py:215",
+    "knowledgebase/rag/scope.py:104"
+  ],
+  "interpretation": "The original malformed filename causes an empty allowed-file set. The planned path's second resolution then replaces the filename-specific error with a generic selected-document-missing error. This does not establish that the ready file was actually missing."
+}
