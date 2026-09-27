@@ -12,7 +12,10 @@ the assessor now selects source passage IDs in a separate
 [offline contract repair](../evals/check-runs/20260927-assessment-passages/README.md).
 The subsequent [financial live replay](../evals/library-runs/20260927-financial-acceptance/README.md)
 completes all six targeted requests with correct requested facts and one remaining
-inline-citation gap. Dense-table extraction and broader v2 acceptance remain unresolved.
+inline-citation gap. A later [citation follow-up](../evals/library-runs/20260927-financial-citation-acceptance/README.md)
+passes the same scoped review with current-source hints and explicit table context.
+Its fiscal-period inference allowance is documented; dense-table extraction and
+broader v2 acceptance remain unresolved.
 
 ## Use
 

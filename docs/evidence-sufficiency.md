@@ -9,7 +9,10 @@ All six requests complete with correct requested facts, but one planned income
 bullet still lacks an inline citation, so the scoped citation gate fails.
 The subsequent [offline citation/context repair](../evals/check-runs/20260927-citation-context/README.md)
 adds source-number guidance and explicit table context; model citation compliance
-has not been remeasured.
+was then remeasured in a [six-request follow-up](../evals/library-runs/20260927-financial-citation-acceptance/README.md).
+All scoped gates pass under the prior review rules, including their allowance for
+fiscal-period inference. The report distinguishes these inferences from literal
+table statements; the historical failure and broader acceptance limits remain.
 **Plan complex questions**
 and API/CLI `planned` mode now assess each required point after packing evidence,
 then search for remaining gaps within the same request limits. Ordinary `single`
@@ -173,6 +176,9 @@ It exposes false support, incorrect abstention and unnecessary supplementary wor
 It does not establish genuine-conflict accuracy, a held-out quality gain or a
 production latency target. The later financial repair replay recovers the missing
 sales evidence and completes the formerly failing income request, while retaining
-an unresolved inline-citation coverage gap. Dense-table omissions remain unresolved.
+an inline-citation coverage gap. The later citation follow-up covers all 16 current
+factual groups under the unchanged rubric, including the formerly uncited income
+item. Model source selection remains fallible even when application-added headers
+make the selected table easier to inspect. Dense-table omissions remain unresolved.
 OCR, visual figure interpretation and formula
 understanding remain outside v2; existing PDF extraction fidelity limits remain.

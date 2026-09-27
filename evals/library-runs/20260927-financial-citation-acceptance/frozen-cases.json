@@ -1,0 +1,159 @@
+{
+  "frozen_at": "2026-09-27T14:41:03.541897+00:00",
+  "reviewer": "Codex (model), original-page visual inspection plus full-document text search; no human reviewer",
+  "corpus": [
+    {
+      "file": "doclaynet.pdf",
+      "source_url": "https://arxiv.org/pdf/2206.01062",
+      "sha256": "5dfbd8c115a15fd3396b68409124cfee29fc8efac7b5c846634ff924e635e0dc",
+      "bytes": 4310680,
+      "pages": 9,
+      "retrieved_at": "2026-09-26",
+      "rights": "Original authors retain rights; public research/development fixture, not a project-authored document."
+    },
+    {
+      "file": "docling-report.pdf",
+      "source_url": "https://arxiv.org/pdf/2408.09869",
+      "sha256": "82dd470712ce8389f19f20eb9330475e2166a281f8c7990a9f1d0763d73b4d22",
+      "bytes": 5566575,
+      "pages": 9,
+      "retrieved_at": "2026-09-26",
+      "rights": "Original authors retain rights; public research/development fixture, not a project-authored document."
+    },
+    {
+      "file": "ml-lecture.pdf",
+      "source_url": "https://www.cs.cmu.edu/~epxing/Class/10715/lectures/lecture1-annotated.pdf",
+      "sha256": "eefe52854eed1e2a0be969daed838d33e1751107a2f60ace2d1b6b8189424216",
+      "bytes": 7179906,
+      "pages": 75,
+      "retrieved_at": "2026-09-26",
+      "rights": "Original authors retain rights; public research/development fixture, not a project-authored document."
+    },
+    {
+      "file": "background-checks.pdf",
+      "source_url": "https://raw.githubusercontent.com/jsvine/pdfplumber/stable/examples/pdfs/background-checks.pdf",
+      "sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407",
+      "bytes": 90468,
+      "pages": 1,
+      "retrieved_at": "2026-09-26",
+      "rights": "Original authors retain rights; public research/development fixture, not a project-authored document."
+    },
+    {
+      "file": "apple-fy24.pdf",
+      "source_url": "https://www.apple.com/newsroom/pdfs/fy2024-q4/FY24_Q4_Consolidated_Financial_Statements.pdf",
+      "sha256": "af9646018330484238d357f1168ae74194fd768f4ea9921e4b2828c88309320c",
+      "bytes": 4919216,
+      "pages": 4,
+      "retrieved_at": "2026-09-26",
+      "rights": "Apple Inc. retains copyright; public investor report retained as a local development fixture."
+    }
+  ],
+  "facts": {
+    "apple_sales_q": {
+      "file": "apple-fy24.pdf",
+      "physical_pages": [
+        1
+      ],
+      "expected": "Three months ended September 28, 2024 total net sales are 94,930 million dollars.",
+      "anchors": [
+        "Total net sales",
+        "94,930"
+      ]
+    },
+    "apple_sales_y": {
+      "file": "apple-fy24.pdf",
+      "physical_pages": [
+        1
+      ],
+      "expected": "Twelve months ended September 28, 2024 total net sales are 391,035 million dollars.",
+      "anchors": [
+        "Total net sales",
+        "391,035"
+      ]
+    },
+    "apple_units": {
+      "file": "apple-fy24.pdf",
+      "physical_pages": [
+        1
+      ],
+      "expected": "Sales and income figures are in millions; share counts and per-share amounts have exceptions.",
+      "anchors": [
+        "In millions"
+      ]
+    },
+    "apple_income_q": {
+      "file": "apple-fy24.pdf",
+      "physical_pages": [
+        1
+      ],
+      "expected": "Three months ended September 28, 2024 net income is 14,736 million dollars.",
+      "anchors": [
+        "Net income",
+        "14,736"
+      ]
+    },
+    "apple_income_y": {
+      "file": "apple-fy24.pdf",
+      "physical_pages": [
+        1
+      ],
+      "expected": "Twelve months ended September 28, 2024 net income is 93,736 million dollars.",
+      "anchors": [
+        "Net income",
+        "93,736"
+      ]
+    }
+  },
+  "cases": [
+    {
+      "id": "apple-sales",
+      "category": "report_table",
+      "question": "In \"apple-fy24.pdf\", compare total net sales for the three and twelve months ended September 28, 2024, and state the units.",
+      "files": [
+        "apple-fy24.pdf"
+      ],
+      "expected_fact_ids": [
+        "apple_sales_q",
+        "apple_sales_y",
+        "apple_units"
+      ],
+      "expected_missing": [],
+      "followup_of": null,
+      "answerable": true
+    },
+    {
+      "id": "apple-income",
+      "category": "report_table",
+      "question": "In \"apple-fy24.pdf\", what was net income for the three and twelve months ended September 28, 2024? Include units.",
+      "files": [
+        "apple-fy24.pdf"
+      ],
+      "expected_fact_ids": [
+        "apple_income_q",
+        "apple_income_y",
+        "apple_units"
+      ],
+      "expected_missing": [],
+      "followup_of": null,
+      "answerable": true
+    },
+    {
+      "id": "apparent-conflict",
+      "category": "scope_not_conflict",
+      "question": "In \"apple-fy24.pdf\", are the 2024 total net sales figures 94,930 and 391,035 contradictory? Explain their respective reporting periods.",
+      "files": [
+        "apple-fy24.pdf"
+      ],
+      "expected_fact_ids": [
+        "apple_sales_q",
+        "apple_sales_y"
+      ],
+      "expected_missing": [],
+      "followup_of": null,
+      "answerable": true
+    }
+  ],
+  "annotation_scope": "Development corpus reused from parser selection. Facts are based on original rendered pages, not extraction output. Anchor spans are retrieval diagnostics, not semantic support judgments. Fully unanswerable labels rely on full-document text search and scope, not exhaustive visual review of every page.",
+  "annotation_correction": "annotation-correction-1.json",
+  "effective_frozen_at": "2026-09-27T14:45:25.505637+00:00"
+}

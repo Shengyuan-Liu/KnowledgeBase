@@ -22,8 +22,12 @@ source-number hints for selected passages and separately attached table context.
 These hints identify locations, not verified support. The
 [offline regression record](../evals/check-runs/20260927-citation-context/README.md)
 checks current numbering, PDF supplements and identical complete/streaming prompts.
-The original failed answer remains unchanged; model compliance has not been
-remeasured, and no automatic citation insertion or answer rewrite is performed.
+The original failed answer remains unchanged; no automatic citation insertion or
+answer rewrite is performed. A subsequent [six-request live follow-up](../evals/library-runs/20260927-financial-citation-acceptance/README.md)
+passes its scoped gates with 16/16 current factual groups cited. This uses the
+previous rubric's explicit allowance for fiscal-period inference; it does not
+establish that every qualifier appears literally in the cited table or guarantee
+citation completeness on other questions.
 
 Answers must preserve the source's stated behavior and qualifications. A field
 being unsupported does not establish whether it is ignored or rejected. Missing
