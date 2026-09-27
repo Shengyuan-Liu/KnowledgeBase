@@ -2,6 +2,7 @@
 from contextlib import aclosing
 from copy import deepcopy
 import json
+import re
 from threading import Event
 
 import anyio
@@ -16,6 +17,22 @@ from knowledgebase.storage.models import MessageRecord
 from knowledgebase.storage.operations import update_file_status
 from test_automatic_planning import DIRECT, response, events_from
 from test_dependent_retrieval import hop_api, ask, QUESTION, PLAN, DOCUMENTS
+
+
+def payload_catalog(payload):
+    """Read the test provider's ID selections from the annotated source context."""
+    entries = []
+    for line in payload["context"].splitlines(keepends=True):
+        if line.startswith("Source metadata: "):
+            file_name = json.loads(line.removeprefix("Source metadata: "))["file_name"]
+        match = re.match(r"\[(p\d+)\] (.*)", line, flags=re.DOTALL)
+        if match:
+            entries.append({"evidence_id": match[1], "file_name": file_name, "text": match[2]})
+    return entries
+
+
+def unannotated_context(payload):
+    return re.sub(r"(?m)^\[p\d+\] ", "", payload["context"])
 
 
 @pytest.fixture
@@ -38,10 +55,10 @@ def assessed_api(hop_api):
             decision = {"requirements": [], "queries": []}
             for requirement in payload["requirements"]:
                 index = {"winner": 0, "employer": 1, "location": 2}.get(requirement["requirement_id"], 0)
-                excerpt = next((e for e in payload["evidence_catalog"] if e["file_name"] == DOCUMENTS[index][0]), None)
+                excerpt = next((e for e in payload_catalog(payload) if e["file_name"] == DOCUMENTS[index][0]), None)
                 decision["requirements"].append({"requirement_id": requirement["requirement_id"],
                     "status": "supported" if excerpt else "missing", "gap": "" if excerpt else "No supporting excerpt.",
-                    "references": [{"evidence_id": excerpt["evidence_id"], "quote": DOCUMENTS[index][1]}] if excerpt else []})
+                    "references": [{"evidence_id": excerpt["evidence_id"]}] if excerpt else []})
         return response(json.dumps(decision))
     sdk.responses.create.side_effect = generate
     yield client, resources, sdk, choices, bindings, files, assessments
@@ -68,7 +85,7 @@ def test_assess_each_hop_then_generate_from_same_final_context(assessed_api):
     assert planning["version"] == 3
     assert len(assessments) == 3 and len(bindings) == 2
     assert planning["hops"]["stop_reason"] == "requirements_supported"
-    assert planning["assessment"]["context"] == planning["context"] == assessments[-1]["context"]
+    assert planning["assessment"]["context"] == planning["context"] == unannotated_context(assessments[-1])
     assert [r["status"] for r in planning["assessment"]["requirements"]] == ["supported"] * 3
     message = sdk.responses.create.call_args.kwargs["input"][0]["content"]
     assert planning["context"] in message and "fallible guidance" in message
@@ -90,17 +107,17 @@ def test_source_bound_supplement_fills_gap(assessed_api):
     client, resources, _, choices, _, _, assessments = assessed_api
     one_point(choices)
     def assess(payload):
-        excerpt = payload["evidence_catalog"][0]
+        excerpt = payload_catalog(payload)[0]
         if len(payload["executed_queries"]) == 1:
             return missing(payload, [{"requirement_ids": ["location"], "query_template": "Who employs {target}?",
-                "target": "Mira Cole", "references": [{"evidence_id": excerpt["evidence_id"], "quote": DOCUMENTS[0][1]}]}])
-        staff = next(e for e in payload["evidence_catalog"] if e["file_name"] == "staff.txt")
+                "target": "Mira Cole", "references": [{"evidence_id": excerpt["evidence_id"]}]}])
+        staff = next(e for e in payload_catalog(payload) if e["file_name"] == "staff.txt")
         if len(payload["executed_queries"]) == 2:
             return missing(payload, [{"requirement_ids": ["location"], "query_template": "Where is {target} located?",
-                "target": "Birch Institute", "references": [{"evidence_id": staff["evidence_id"], "quote": DOCUMENTS[1][1]}]}])
-        place = next(e for e in payload["evidence_catalog"] if e["file_name"] == "place.txt")
+                "target": "Birch Institute", "references": [{"evidence_id": staff["evidence_id"]}]}])
+        place = next(e for e in payload_catalog(payload) if e["file_name"] == "place.txt")
         return {"requirements": [{"requirement_id": "location", "status": "supported", "gap": "",
-            "references": [{"evidence_id": place["evidence_id"], "quote": DOCUMENTS[2][1]}]}], "queries": []}
+            "references": [{"evidence_id": place["evidence_id"]}]}], "queries": []}
     choices["assessment"] = assess
     answer = ask(client).json()
     planning = answer["retrieval"]["planning"]
@@ -115,8 +132,8 @@ def test_partial_or_conflicting_guidance_reaches_answer(assessed_api, status):
     client, _, sdk, choices, _, _, _ = assessed_api
     choices["plan"] = deepcopy(DIRECT)
     def assess(payload):
-        refs = [{"evidence_id": e["evidence_id"], "quote": next(d[1] for d in DOCUMENTS if d[0] == e["file_name"])}
-                for e in payload["evidence_catalog"][:2 if status == "conflicting" else 1]]
+        refs = [{"evidence_id": e["evidence_id"]}
+                for e in payload_catalog(payload)[:2 if status == "conflicting" else 1]]
         # The mocked status tests transport/provenance, not the semantic truth of a conflict.
         return {"requirements": [{"requirement_id": "answer", "status": status,
             "gap": "A requested detail is unresolved.", "references": refs}], "queries": []}
@@ -148,7 +165,7 @@ def test_invalid_assessment_fails_without_repair_or_history(assessed_api, corrup
     one_point(choices)
     def assess(payload):
         a = {"requirements": [{"requirement_id": "location", "status": "partial", "gap": "Missing location.",
-            "references": [{"evidence_id": payload["evidence_catalog"][0]["evidence_id"], "quote": DOCUMENTS[0][1]}]}], "queries": []}
+            "references": [{"evidence_id": payload_catalog(payload)[0]["evidence_id"]}]}], "queries": []}
         corrupt(a)
         return a
     choices["assessment"] = assess
@@ -170,7 +187,7 @@ def test_limits_stop_further_queries_and_assess_final_context(assessed_api, mode
     assert planning["hops"]["stop_reason"] == {"duplicate": "no_eligible_query", "no_progress": "no_new_evidence",
         "query_limit": "query_limit", "round_limit": "round_limit"}[mode]
     assert resources.embeddings.embed_query.call_count == (6 if mode == "query_limit" else 2 if mode == "no_progress" else 1)
-    assert assessments[-1]["context"] == planning["context"]
+    assert unannotated_context(assessments[-1]) == planning["context"]
 
 
 def test_supplements_keep_explicit_file_scope(assessed_api):
@@ -197,7 +214,7 @@ def test_deletion_between_assessment_and_search_removes_target(assessed_api):
         with resources.sessions.begin() as session:
             update_file_status(session, files[0], "failed")
         return missing(payload, [{"requirement_ids": ["location"], "query_template": "Who employs {target}?",
-            "target": "Mira Cole", "references": [{"evidence_id": payload["evidence_catalog"][0]["evidence_id"], "quote": DOCUMENTS[0][1]}]}])
+            "target": "Mira Cole", "references": [{"evidence_id": payload_catalog(payload)[0]["evidence_id"]}]}])
     choices["assessment"] = assess
     answer = ask(client).json()
     assert not answer["sources"] and len(assessments) == 1
@@ -271,15 +288,23 @@ def test_direct_plan_merges_supplementary_candidates(hop_api):
 def test_assessment_catalog_includes_pdf_supplement_offsets():
     from types import SimpleNamespace
     from knowledgebase.rag.planning import AnswerRequirement
+    from knowledgebase.schemas import PdfRegion
+
     result = SimpleNamespace(evidence=SimpleNamespace(chunks=[SimpleNamespace(
         chunk=SimpleNamespace(file_id="pdf", start_offset=100, end_offset=110, text="Value: 42."),
-        file_name="report.pdf", pdf=SimpleNamespace(supplements=[SimpleNamespace(start_offset=10, end_offset=25, text="USD in millions")]))]))
+        file_name="report.pdf", pdf=SimpleNamespace(
+            regions=[PdfRegion(start_offset=100, end_offset=110, page_index=1, bbox=(1, 1, 10, 10), precision="cell")],
+            supplements=[SimpleNamespace(start_offset=10, end_offset=25, text="USD in millions",
+                regions=[PdfRegion(start_offset=10, end_offset=25, page_index=0, bbox=(1, 1, 10, 10), precision="block")])]))]))
     excerpts = assessment_excerpts(result)
     requirements, _ = validate_assessment(SufficiencyAssessment(requirements=[{
         "requirement_id": "unit", "status": "supported", "gap": "", "references": [{
-            "evidence_id": "pdf@10:25", "quote": "USD in millions"}]}], queries=[]),
+            "evidence_id": next(e["evidence_id"] for e in excerpts if e["text"] == "USD in millions")}]}], queries=[]),
         [AnswerRequirement(requirement_id="unit", description="Table units")], excerpts)
     assert requirements[0]["references"][0]["start_offset"] == 10
+    assert requirements[0]["references"][0]["end_offset"] == 25
+    assert requirements[0]["references"][0]["quote"] == "USD in millions"
+    assert requirements[0]["references"][0]["page_indices"] == [0]
     assert excerpts[0]["source_number"] == excerpts[1]["source_number"] == 1
 
 
@@ -296,13 +321,14 @@ def test_assessment_schema_through_real_sdk_offline_transport():
         for model in [schema, *schema["$defs"].values()]:
             assert set(model["required"]) == set(model["properties"])
             assert model["additionalProperties"] is False
+        assert set(schema["$defs"]["PassageReference"]["properties"]) == {"evidence_id"}
         assert payload["text"]["format"]["strict"] is True
         return httpx.Response(200, json=sdk_response(json.dumps(missing({"requirements": [{"requirement_id": "a"}]}))))
     with OpenAI(api_key="offline", base_url="https://offline.test/v1",
                 http_client=httpx.Client(transport=httpx.MockTransport(handle))) as sdk:
         planner = PlannerClient(sdk, "requested-model", PlanningOptions(), "cl100k_base")
         _, record = planner.structured(SufficiencyAssessment, "evidence_assessment", "Assess.", {},
-            lambda: 10, prompt_version="evidence-sufficiency-v1")
+            lambda: 10, prompt_version="evidence-sufficiency-v3")
     assert len(calls) == 1 and record["usage"]["total_tokens"] == 77
     assert record["max_retries"] == 0 and record["billed_cost"] is None
 
@@ -370,23 +396,55 @@ def test_question_filename_reformulation_does_not_require_a_source_target():
         validate_assessment(SufficiencyAssessment.model_validate(value), requirements, [])
 
 
-def test_separate_table_quotes_preserve_exact_source_spans():
+def test_separate_table_passage_ids_preserve_exact_source_spans():
+    from types import SimpleNamespace
+
+    from pydantic import ValidationError
+
     from knowledgebase.rag.planning import AnswerRequirement
 
     text = 'Three Months Ended\tTwelve Months Ended\nOther rows\nNet income\t$ 14,736\t$ 93,736'
-    excerpt = {'evidence_id': f'pdf@0:{len(text)}', 'file_id': 'pdf', 'file_name': 'report.pdf', 'start_offset': 0,
-               'end_offset': len(text), 'text': text}
+    packed = SimpleNamespace(evidence=SimpleNamespace(chunks=[SimpleNamespace(
+        chunk=SimpleNamespace(file_id='pdf', start_offset=0, end_offset=len(text), text=text),
+        file_name='report.pdf', pdf=None)]))
+    excerpts = assessment_excerpts(packed)
+    selected = [excerpts[0], excerpts[-1]]
     requirements = [AnswerRequirement(requirement_id='income', description='Quarterly and annual net income')]
-    def assessment(quotes):
+    def assessment(references):
         return SufficiencyAssessment.model_validate({'requirements': [{'requirement_id': 'income',
-            'status': 'supported', 'gap': '', 'references': [
-                {'evidence_id': excerpt['evidence_id'], 'quote': quote} for quote in quotes]}], 'queries': []})
-    # The live response spliced headers and values with an invented ellipsis.
-    with pytest.raises(ValueError):
-        validate_assessment(assessment(['Three Months Ended\tTwelve Months Ended\n... Net income\t$ 14,736\t$ 93,736']),
-                            requirements, [excerpt])
-    result, _ = validate_assessment(assessment([text.splitlines()[0], text.splitlines()[-1]]),
-                                    requirements, [excerpt])
+            'status': 'supported', 'gap': '', 'references': references}], 'queries': []})
+    # The live response spliced headers and values; this output can now select only IDs.
+    with pytest.raises(ValidationError):
+        assessment([{'evidence_id': selected[0]['evidence_id'],
+                     'quote': 'Three Months Ended\tTwelve Months Ended\n... Net income\t$ 14,736\t$ 93,736'}])
+    result, _ = validate_assessment(assessment([{'evidence_id': e['evidence_id']} for e in selected]),
+                                    requirements, excerpts)
     assert len(result[0]['references']) == 2
+    assert [ref['quote'] for ref in result[0]['references']] == [text.splitlines(keepends=True)[0], text.splitlines()[-1]]
     for ref in result[0]['references']:
         assert text[ref['start_offset']:ref['end_offset']] == ref['quote']
+
+
+def test_supplementary_target_must_occur_in_selected_passage():
+    from types import SimpleNamespace
+
+    from knowledgebase.rag.planning import AnswerRequirement
+
+    text = DOCUMENTS[0][1]
+    packed = SimpleNamespace(evidence=SimpleNamespace(chunks=[SimpleNamespace(
+        chunk=SimpleNamespace(file_id='award', start_offset=40, end_offset=40 + len(text), text=text),
+        file_name='award.txt', pdf=None)]))
+    excerpts = assessment_excerpts(packed)
+    requirements = [AnswerRequirement(requirement_id='employer', description='The prize winner employer')]
+    value = {'requirements': [{'requirement_id': 'employer', 'status': 'missing',
+                              'gap': 'The employer is absent.', 'references': []}],
+             'queries': [{'requirement_ids': ['employer'], 'query_template': 'Who employs {target}?',
+                          'target': 'Mira Cole', 'references': [{'evidence_id': excerpts[0]['evidence_id']}]}]}
+    _, queries = validate_assessment(SufficiencyAssessment.model_validate(value), requirements, excerpts)
+    assert queries[0]['text'] == 'Who employs Mira Cole?'
+    assert queries[0]['references'][0]['quote'] == text
+    assert queries[0]['references'][0]['start_offset'] == 40
+    # Selecting a valid passage ID does not permit an entity absent from that passage.
+    value['queries'][0]['target'] = 'Birch Institute'
+    with pytest.raises(ValueError):
+        validate_assessment(SufficiencyAssessment.model_validate(value), requirements, excerpts)

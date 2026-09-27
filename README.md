@@ -11,7 +11,9 @@ The v2 [automatic planner](docs/planned-retrieval.md) is available in chat throu
 [evidence-dependent follow-ups](docs/dependent-retrieval.md) across at most three
 rounds, and now [checks evidence sufficiency](docs/evidence-sufficiency.md) before
 using the remaining budget for missing points. Plans, support assessments and
-source quotes are saved with the answer. The default remains a single search.
+source quotes are saved with the answer. The assessor selects numbered source
+passages; the application retains their exact text, offsets and PDF pages.
+The default remains a single search.
 
 The [v1 release summary](docs/v1/release-summary.md) records the delivered version,
 accepted defaults, experiments, verification and known limits. The implementation
@@ -194,6 +196,9 @@ The later [v2 financial packing repair](evals/check-runs/20260927-pdf-evidence-p
 tries child fallback before lower-ranked parents and retains adjacent PDF table
 context. Its frozen-candidate comparison measures evidence coverage offline,
 without new answer generation or paid provider calls.
+The [assessor passage repair](evals/check-runs/20260927-assessment-passages/README.md)
+replaces free-form quote copying with source passage selection, with frozen offline
+contract checks and unchanged answer evidence. Its live quality remains unverified.
 The [multi-source generation comparison](evals/library-runs/20260924T012523Z-source-attribution-v2/README.md)
 records the revised comparison prompt, improved CPT fact coverage, remaining
 source-label errors, longer generation time, and unavailable claim-level scores.

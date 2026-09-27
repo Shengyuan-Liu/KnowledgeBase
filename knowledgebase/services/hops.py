@@ -9,7 +9,7 @@ from knowledgebase.rag.dependencies import (
 )
 from knowledgebase.rag.planning import PlannedQuery
 from knowledgebase.rag.sufficiency import (
-    ASSESSMENT_INSTRUCTIONS, SufficiencyAssessment, assessment_excerpts, validate_assessment,
+    ASSESSMENT_INSTRUCTIONS, SufficiencyAssessment, assessment_excerpts, assessment_context, validate_assessment,
 )
 from knowledgebase.rag.planned_retrieval import retrieve_plan
 from knowledgebase.rag.retrieval import resolve_ready_scope
@@ -196,15 +196,14 @@ class HopController:
                 ASSESSMENT_INSTRUCTIONS, {"original_question": plan.original_question,
                     "resolved_question": plan.resolved_question,
                     "requirements": [r.model_dump() for r in plan.requirements],
-                    "context": context,
-                    "evidence_catalog": [{k: v for k, v in e.items() if k != "text"} for e in excerpts],
+                    "context": assessment_context(self.result, excerpts),
                     "executed_queries": [run.text for run in self.result.trace.runs],
                     "pending_dependencies": [{key: s[key] for key in (
                         "query_id", "depends_on", "query_template", "requirement_ids", "status")}
                         for s in self.states.values() if s["status"] != "executed"],
                     "remaining_rounds": self.control.options.max_rounds - self.round_index,
                     "remaining_queries": self.remaining_queries()},
-                self.control.before_answer, prompt_version="evidence-sufficiency-v2")
+                self.control.before_answer, prompt_version="evidence-sufficiency-v3")
         else:
             decision = SufficiencyAssessment(requirements=[{
                 "requirement_id": r.requirement_id, "status": "missing",

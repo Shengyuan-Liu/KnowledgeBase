@@ -12,10 +12,12 @@ evidence and runs bounded gap searches through the same opt-in mode. The first
 [live PDF development comparison](../../evals/library-runs/20260927-v2-pdf-live/README.md)
 is recorded, including targeted repairs and a frozen replay. Acceptance gates
 still fail; no feature acceptance or merge is implied.
-The next [financial packing repair](../../evals/check-runs/20260927-pdf-evidence-packing/README.md)
+The [financial packing repair](../../evals/check-runs/20260927-pdf-evidence-packing/README.md)
 now retains selected sales rows with their period headers and nearby units in the
-same 4,096-token budget. Its checks are offline; live quote selection and dense-table
-fidelity remain outstanding.
+same 4,096-token budget. The subsequent
+[passage-selection repair](../../evals/check-runs/20260927-assessment-passages/README.md)
+replaces assessor-authored quotes with IDs resolved to exact source text and pages.
+Both checks are offline; live acceptance and dense-table fidelity remain outstanding.
 
 ## Confirmed Feature Areas
 
@@ -70,7 +72,7 @@ combines all three; stage completion does not establish a general quality gain.
 | OCR and mixed scanned pages | OCR deferred by the user; disclose content that is not indexed | Confirmed for v2; revisit in a later version |
 | Figures and formulas | Text captions may be indexed; visual interpretation and formula reasoning are deferred by the user | Confirmed for v2; revisit in a later version |
 | Parser and page viewer | Docling with known table/order failures; bundled PDF.js page viewer | See [PDF parsing](../pdf-parsing.md) |
-| Query/checker models and limits | Live GPT-4.1 comparison recorded; quote validation, packing and unnecessary-search limits remain | Repair before further acceptance |
+| Query/checker models and limits | Live GPT-4.1 comparison recorded; packing and passage selection repaired offline; semantic decisions and unnecessary searches remain unverified | Live acceptance after scoped repairs |
 | Quality, latency, and cost thresholds | Freeze from development evidence before held-out evaluation | Evaluation preparation |
 | v2 development branch | Use `v2` for all v2 implementation and documentation commits | Confirmed by the user on 2026-09-26 |
 

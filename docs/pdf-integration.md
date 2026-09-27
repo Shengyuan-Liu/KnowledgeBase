@@ -8,8 +8,9 @@ Opt-in [query planning](planned-retrieval.md) and
 original delivery and saved-history lifecycle, but fails answer-quality gates.
 Financial evidence packing has since been repaired in an
 [offline frozen-candidate comparison](../evals/check-runs/20260927-pdf-evidence-packing/README.md);
-live answers have not been re-evaluated. Dense-table extraction and assessor
-quote-selection limitations remain unresolved.
+the assessor now selects source passage IDs in a separate
+[offline contract repair](../evals/check-runs/20260927-assessment-passages/README.md).
+Live answers have not been re-evaluated. Dense-table extraction remains unresolved.
 
 ## Use
 

@@ -2,8 +2,9 @@
 
 Status: v2 stage 4 implemented, offline-tested and development-evaluated with
 real PDFs. The [live comparison](../evals/library-runs/20260927-v2-pdf-live/README.md)
-does **not** pass acceptance: repaired planned mode completes 15/16 turns, but an
-exact-quote failure and financial evidence-packing gaps remain. **Plan complex questions**
+does **not** pass acceptance: that repaired planned mode completed 15/16 turns.
+Financial packing and assessor quote selection have since received offline
+repairs; their live effect remains unverified. **Plan complex questions**
 and API/CLI `planned` mode now assess each required point after packing evidence,
 then search for remaining gaps within the same request limits. Ordinary `single`
 mode remains available. Live quality, latency and token usage are recorded;
@@ -16,21 +17,32 @@ test completion do not imply acceptance or merge.
 
 | Status | Meaning and required output |
 | --- | --- |
-| `supported` | All requested detail is supported; exact source quotes and an empty gap |
-| `partial` | Some detail is supported; source quotes and a specific remaining gap |
-| `missing` | No relevant support; a gap with no supporting quotes |
-| `conflicting` | Unresolved incompatible statements; at least two distinct source quotes and a conflict description |
+| `supported` | All requested detail is supported; source passage IDs and an empty gap |
+| `partial` | Some detail is supported; passage IDs and a specific remaining gap |
+| `missing` | No relevant support; a gap with no supporting references |
+| `conflicting` | Unresolved incompatible statements; at least two distinct source passages and a conflict description |
 
-The assessor sees the exact packed answer context, a catalog of canonical offsets
-and evidence IDs, the original/resolved question, requirements, executed queries,
-pending dependencies and remaining limits. It does not see excluded candidates.
-The catalog includes expanded parent text and separately supplied PDF table labels,
-headers and other supplements. Text occurs once in the model payload; the local
-record retains the canonical slices for provenance review.
+The assessor sees the packed answer context with inline passage markers such as
+`[p1]`, plus the original/resolved question, requirements, executed queries, pending
+dependencies and remaining limits. Each marker identifies one nonblank source line;
+its original whitespace and line ending are preserved. Blank lines are preserved
+without selectable IDs. IDs are local to that assessment. Expanded parent text and
+separately supplied PDF labels, headers and other supplements are eligible; excluded
+candidates are not. Source metadata, table coordinates, supplement roles and
+extraction warnings remain visible. Text occurs once in the model payload.
+
+The full local catalog maps these short IDs to original text, canonical offsets,
+source numbers and file identities. PDF passages also retain zero-based physical
+page indices from overlapping stored regions. These are the existing parser's
+regions, not new line-accurate bounding boxes. The answer context is unchanged;
+only the assessor's view receives passage markers.
 
 Every requirement must appear exactly once. Referenced IDs must belong to the
-current context and quotes must match exact source substrings. The application
-records file identity/name and canonical quote offsets. These checks establish
+current catalog. Model references contain only `evidence_id`; the application
+resolves the quote, file identity/name, offsets and PDF pages from that catalog.
+The model cannot supply or rewrite quote text or positions. Headers, distant values
+and units can be selected separately, without stitching a fabricated quote.
+These checks establish
 provenance, not whether a quote actually proves the requested fact. Source names,
 rankings, citations and well-formed structured output are not correctness labels.
 Semantic support, conflict detection and query reformulations remain fallible model
@@ -47,9 +59,9 @@ existing dependency nodes priority when the query budget is tight.
 Supplementary queries can only reference unresolved, existing requirements. A
 question reformulation is instructed to preserve the user's entities, years and
 scope. A new source-derived target requires exactly one `{target}` placeholder and
-verbatim references containing that target; the application performs substitution.
+selected passages containing that exact target; the application performs substitution.
 No model can provide file IDs or expand the frozen Ready-file boundary. Literal
-quote validation does not prove that a template expresses the right relationship,
+target validation does not prove that a template expresses the right relationship,
 or that a target-free reformulation follows the semantic prompt restrictions.
 
 Repeated supplementary text is excluded before embedding. Repeated dependent text
@@ -69,13 +81,16 @@ new candidates when supplementary searches run.
 | Target binding | At most one batch call before each later round; at most 2 total |
 | Assessment | At most one call per round; at most 3 total; no call for an empty context |
 | Request time and tokens | Existing planner caps, request deadline and answer reserve apply to all stages |
-| Provider retries | Zero; invalid schemas, unknown IDs and invented quotes fail without repair |
+| Provider retries | Zero; invalid schemas, unknown passage IDs and unbound targets fail without repair |
 
 The same planner model performs assessment with prompt version
-`evidence-sufficiency-v2`. The prompt explicitly distinguishes question-provided
-file names from new source-derived targets, and requires separate exact quotes
-for non-contiguous table cells. The live repair still produced one invalid quote;
-prompt instructions do not guarantee provenance. The existing request deadline includes assessment and
+`evidence-sufficiency-v3`. It distinguishes question-provided file names from new
+source-derived targets and selects passage IDs instead of generating free-form
+quotes. Dependency target binding remains on its existing separate contract.
+The [offline passage comparison](../evals/check-runs/20260927-assessment-passages/README.md)
+retains the prior live quote failure and checks the new contract on frozen inputs.
+Hand-authored passage selections do not establish live model accuracy.
+The existing request deadline includes assessment and
 supplementary retrieval; limits do not restart between rounds. An empty context
 gets a deterministic all-missing assessment. A refresh with no eligible new query
 can consume a round to reassess a changed context without another embedding call.
@@ -109,7 +124,9 @@ retrieval retains the same historical frozen-source behavior as existing chat.
 Completed snapshots use `retrieval.planning.version=3`, with the final `assessment`
 and every round's assessments in `hops.assessments`. Records include exact context,
 source quotes, proposed/excluded/executed queries, rankings, packing exclusions,
-model inputs/outputs, model identity, usage when supplied, timings and stop reasons.
+model inputs/outputs, the full passage catalog, model identity, usage when supplied,
+timings and stop reasons. The stored assessment context remains the unannotated
+answer context; the recorded model input contains the annotated view.
 Earlier version 1/2 snapshots remain readable. No migration or reindex is required.
 The Search plan panel shows each status, gap and source quote, with an explicit
 notice that model labels may be wrong. Saved history restores the same assessment.
@@ -128,6 +145,7 @@ retains failed attempts, a targeted repair, same-question replay, reviewed answe
 and citations, separate streaming/completion timings and actual provider usage.
 It exposes false support, incorrect abstention and unnecessary supplementary work.
 It does not establish genuine-conflict accuracy, a held-out quality gain or a
-production latency target. Financial evidence packing and quote selection need
-further work before acceptance. OCR, visual figure interpretation and formula
+production latency target. The later financial packing and passage-selection
+repairs require live acceptance before claiming an answer-quality improvement.
+Dense-table omissions remain unresolved. OCR, visual figure interpretation and formula
 understanding remain outside v2; existing PDF extraction fidelity limits remain.

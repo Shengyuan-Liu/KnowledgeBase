@@ -3,6 +3,7 @@
 from contextlib import asynccontextmanager
 import json
 from pathlib import Path
+import re
 from tempfile import TemporaryDirectory
 from time import sleep
 from types import SimpleNamespace
@@ -21,6 +22,18 @@ from knowledgebase.storage.runtime import open_storage
 from knowledgebase.storage.pdf_assets import PdfAssets
 from knowledgebase.rag.pdf_models import PdfExtraction
 from knowledgebase.schemas import RelevanceScore
+
+
+def payload_catalog(payload):
+    """Read the offline provider's passage choices from annotated source lines."""
+    entries = []
+    for line in payload["context"].splitlines(keepends=True):
+        if line.startswith("Source metadata: "):
+            file_name = json.loads(line.removeprefix("Source metadata: "))["file_name"]
+        match = re.match(r"\[(p\d+)\] (.*)", line, flags=re.DOTALL)
+        if match:
+            entries.append({"evidence_id": match[1], "file_name": file_name, "text": match[2]})
+    return entries
 
 
 async def stream_fixture(messages):
@@ -48,10 +61,8 @@ def plan_fixture(**kwargs):
         if kwargs["text"]["format"]["name"] == "retrieval_plan":
             decision = {"route": "direct", "requirements": [], "queries": [], "dependencies": []}
         else:
-            canonical = json.loads((Path(__file__).resolve().parents[1] /
-                "evals/check-runs/20260926-pdf-parser-selection/adapter-2/apple-fy24.json").read_text())["text"]
-            refs = [{"evidence_id": e["evidence_id"], "quote": "94,930"} for e in payload["evidence_catalog"]
-                    if "94,930" in canonical[e["start_offset"]:e["end_offset"]]]
+            refs = [{"evidence_id": e["evidence_id"]} for e in payload_catalog(payload)
+                    if "94,930" in e["text"]]
             decision = {"requirements": [{"requirement_id": "answer", "status": "supported" if refs else "missing",
                 "gap": "" if refs else "Net sales were not retained.", "references": refs}], "queries": []}
         return SimpleNamespace(status="completed", output_text=json.dumps(decision),
@@ -67,12 +78,12 @@ def plan_fixture(**kwargs):
                 "hours": ("hours.txt", "The library closes at 5 PM."),
                 "access": ("hours.txt", "Students can enter with a library card."),
             }[item["requirement_id"]]
-            excerpt = next((e for e in payload["evidence_catalog"] if e["file_name"] == name), None)
-            supported = excerpt is not None and quote in payload["context"]
+            excerpt = next((e for e in payload_catalog(payload) if e["file_name"] == name and quote in e["text"]), None)
+            supported = excerpt is not None
             requirements.append({"requirement_id": item["requirement_id"],
                 "status": "supported" if supported else "missing",
                 "gap": "" if supported else "No supporting excerpt.",
-                "references": [{"evidence_id": excerpt["evidence_id"], "quote": quote}] if supported else []})
+                "references": [{"evidence_id": excerpt["evidence_id"]}] if supported else []})
         return SimpleNamespace(status="completed", output_text=json.dumps({"requirements": requirements, "queries": []}),
                                model="offline-planner", id="offline-assessment", usage=None)
     if kwargs["text"]["format"]["name"] == "dependency_targets":

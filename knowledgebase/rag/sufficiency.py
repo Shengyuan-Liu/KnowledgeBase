@@ -3,22 +3,26 @@ from typing import Literal
 
 from pydantic import Field
 
-from knowledgebase.rag.dependencies import EvidenceReference, TargetDecision, validate_binding
+from knowledgebase.rag.context import build_context
 from knowledgebase.rag.planning import PlanRecord
+
+
+class PassageReference(PlanRecord):
+    evidence_id: str
 
 
 class RequirementAssessment(PlanRecord):
     requirement_id: str
     status: Literal["supported", "partial", "missing", "conflicting"]
     gap: str = Field(max_length=320)
-    references: list[EvidenceReference]
+    references: list[PassageReference]
 
 
 class GapQuery(PlanRecord):
     requirement_ids: list[str] = Field(min_length=1, max_length=6)
     query_template: str = Field(min_length=1)
     target: str
-    references: list[EvidenceReference]
+    references: list[PassageReference]
 
 
 class SufficiencyAssessment(PlanRecord):
@@ -34,11 +38,15 @@ ID exactly once. supported means all of that point is explicitly supported; part
 means some needed detail remains absent; missing means no relevant support; conflicting
 means excerpts offer incompatible statements without an explicit resolution. Do not
 infer precedence from titles, dates or specificity. Silence is not disagreement.
-For supported/partial cite exact, verbatim quotes using the evidence catalog IDs.
-Each quote must be one contiguous substring of that catalog entry's text. Copy its
-whitespace and punctuation exactly; do not insert ellipses, join separated rows,
-or reconstruct a table. Use separate references for a header and a distant value.
-For conflicting cite at least two distinct quotes showing the different statements.
+Source lines carry passage markers such as [p1]. These IDs belong only to this
+assessment; source citation numbers such as [1] are not passage IDs.
+For supported/partial select passage IDs whose source text supports the point.
+References contain only evidence_id; the application supplies each passage's exact
+quote and source location. Do not write quotes or offsets. Select separate IDs for
+table headers, values and units when they are in different passages. Read those
+passages together with their source context; a number alone does not establish its
+period, units or meaning. For conflicting select at least two distinct passages
+showing the incompatible statements.
 For missing return no references. Supported has an empty gap; other statuses need
 a short description of the missing detail or unresolved conflict. Do not answer the
 question or provide reasoning, confidence scores or private analysis.
@@ -51,24 +59,48 @@ This includes file names already in the question: write the literal file name in
 query_template, never in target. For example, if the question names course.pdf,
 a reformulation is {"requirement_ids":["r1"],"query_template":"In course.pdf, find the course grading policy.","target":"","references":[]}.
 For a source-derived entity use exactly one {target} in query_template, copy target
-literally from each cited source quote, and cite those quotes. Never guess an entity,
+literally from each selected passage, and cite its evidence_id. Never guess an entity,
 relationship, year or file name. Preserve all original document and time constraints.
 Do not change scope, requirements or answer from the assessment itself."""
 
 
 def assessment_excerpts(result) -> list[dict]:
-    """Catalog only text actually sent to the answer model, including PDF supplements."""
+    """Number exact nonblank source lines already supplied to the answer model."""
     excerpts = {}
     for number, hit in enumerate(result.evidence.chunks, start=1):
-        regions = [(hit.chunk.start_offset, hit.chunk.end_offset, hit.chunk.text)]
+        spans = [(hit.chunk.start_offset, hit.chunk.text, hit.pdf.regions if hit.pdf else [])]
         if hit.pdf:
-            regions.extend((s.start_offset, s.end_offset, s.text) for s in hit.pdf.supplements)
-        for start, end, text in regions:
-            identity = f"{hit.chunk.file_id}@{start}:{end}"
-            excerpts.setdefault(identity, {"evidence_id": identity, "source_number": number,
-                "file_id": hit.chunk.file_id, "file_name": hit.file_name,
-                "start_offset": start, "end_offset": end, "text": text})
+            spans.extend((s.start_offset, s.text, s.regions) for s in hit.pdf.supplements)
+        for start, text, regions in spans:
+            for line in text.splitlines(keepends=True):
+                end = start + len(line)
+                if line.strip():
+                    identity = f"{hit.chunk.file_id}@{start}:{end}"
+                    excerpt = {"evidence_id": f"p{len(excerpts) + 1}", "source_number": number,
+                        "file_id": hit.chunk.file_id, "file_name": hit.file_name,
+                        "start_offset": start, "end_offset": end, "text": line}
+                    if hit.pdf:
+                        excerpt["page_indices"] = sorted({r.page_index for r in regions
+                            if r.start_offset < end and start < r.end_offset})
+                    excerpts.setdefault(identity, excerpt)
+                start = end
     return list(excerpts.values())
+
+
+def assessment_context(result, excerpts) -> str:
+    """Label the same source slices while retaining all answer-context metadata."""
+    ids = {(e["file_id"], e["start_offset"], e["end_offset"]): e["evidence_id"] for e in excerpts}
+
+    def annotate(file_id, start, text):
+        lines = []
+        for line in text.splitlines(keepends=True):
+            end = start + len(line)
+            prefix = f"[{ids[(file_id, start, end)]}] " if line.strip() else ""
+            lines.append(prefix + line)
+            start = end
+        return "".join(lines)
+
+    return build_context(result.evidence.chunks, render_text=annotate)
 
 
 def validate_assessment(assessment, requirements, excerpts):
@@ -94,8 +126,10 @@ def validate_assessment(assessment, requirements, excerpts):
         if proposal.target:
             if proposal.query_template.count("{target}") != 1:
                 raise ValueError("Source-derived queries need exactly one target placeholder.")
-            references = validate_binding(TargetDecision(query_id="supplement", status="resolved",
-                target=proposal.target, references=proposal.references), excerpts)
+            references = validate_references(proposal.references, excerpts)
+            if (not proposal.target.strip() or not references
+                    or any(proposal.target not in r["quote"] for r in references)):
+                raise ValueError("A supplementary target must occur in every selected passage.")
         else:
             if proposal.references or "{target}" in proposal.query_template:
                 raise ValueError("Question reformulations cannot contain an unbound target.")
@@ -108,9 +142,16 @@ def validate_assessment(assessment, requirements, excerpts):
 
 
 def validate_references(references, excerpts):
-    # Reuse the exact quote/offset contract used for dependency targets.
-    return [validate_binding(TargetDecision(query_id="assessment", status="resolved",
-        target=ref.quote, references=[ref]), excerpts)[0] for ref in references]
+    """Resolve current catalog IDs; the model never supplies quote text or offsets."""
+    by_id = {excerpt["evidence_id"]: excerpt for excerpt in excerpts}
+    resolved = []
+    for reference in references:
+        excerpt = by_id.get(reference.evidence_id)
+        if excerpt is None:
+            raise ValueError("Assessment references must select a current evidence passage.")
+        resolved.append({k: v for k, v in excerpt.items() if k not in {"text", "source_number"}}
+                        | {"quote": excerpt["text"]})
+    return resolved
 
 
 def all_missing(assessment):
