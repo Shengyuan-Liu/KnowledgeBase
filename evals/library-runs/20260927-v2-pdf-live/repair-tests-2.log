@@ -1,0 +1,94 @@
+........F............................................F.................. [ 69%]
+................................                                         [100%]
+=================================== FAILURES ===================================
+_ test_pdf_answer_points_keep_their_query_local_leaders[lecture-logistics-planned] _
+
+case = {'case': 'lecture-logistics-planned', 'plan': {'original_question': 'In "ml-lecture.pdf", is a textbook required, wher...you in the lecture room.\n\n© Eric Xing @ CMU, 2014\n\n60'}, ...]}], 'required_child_suffixes': ['8', '10', '18'], ...}
+
+    @pytest.mark.parametrize("case", json.loads(
+        (Path(__file__).parent / "fixtures/planned_pdf_rankings.json").read_text())["cases"],
+        ids=lambda case: case["case"])
+    def test_pdf_answer_points_keep_their_query_local_leaders(case):
+        """Replay live rankings that previously lost grades and guest lecturers."""
+        runs = []
+        for row in case["runs"]:
+            hits = [RetrievedChunk(chunk=Chunk(**hit, index=0, start_offset=0,
+                                              end_offset=len(hit["text"])),
+                                   file_name="ml-lecture.pdf", distance=None) for hit in row["hits"]]
+            runs.append(QueryRun(**{k: v for k, v in row.items() if k != "hits"},
+                                 requested_file_ids=None, seconds=0,
+                                 result=RetrievedCandidates(hits=hits, diagnostics=RetrievalDiagnostics(
+                                     max_tokens=4096, tokenizer="cl100k_base"))))
+        selected = _select_representatives(merge_query_runs(runs, k=60), runs,
+                                          RetrievalPlan.model_validate(case["plan"]), 5)
+>       assert set(case["required_child_suffixes"]) <= {identity.split(":")[-1] for identity in selected}
+E       AssertionError: assert {'10', '18', '8'} <= {'0', '10', '18', '26', '9'}
+E         
+E         Extra items in the left set:
+E         '8'
+
+tests/test_planned_retrieval.py:144: AssertionError
+____________ test_separate_table_quotes_preserve_exact_source_spans ____________
+
+    def test_separate_table_quotes_preserve_exact_source_spans():
+        from knowledgebase.rag.planning import AnswerRequirement
+    
+        text = 'Three Months Ended\tTwelve Months Ended\nOther rows\nNet income\t$ 14,736\t$ 93,736'
+        excerpt = {'evidence_id': 'pdf@0:100', 'file_id': 'pdf', 'start_offset': 0,
+                   'end_offset': len(text), 'text': text}
+        requirements = [AnswerRequirement(requirement_id='income', description='Quarterly and annual net income')]
+        def assessment(quotes):
+            return SufficiencyAssessment.model_validate({'requirements': [{'requirement_id': 'income',
+                'status': 'supported', 'gap': '', 'references': [
+                    {'evidence_id': excerpt['evidence_id'], 'quote': quote} for quote in quotes]}], 'queries': []})
+        # The live response spliced headers and values with an invented ellipsis.
+        with pytest.raises(ValueError):
+            validate_assessment(assessment(['Three Months Ended\tTwelve Months Ended\n... Net income\t$ 14,736\t$ 93,736']),
+                                requirements, [excerpt])
+>       result, _ = validate_assessment(assessment([text.splitlines()[0], text.splitlines()[-1]]),
+                                        requirements, [excerpt])
+
+tests/test_sufficiency.py:388: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+knowledgebase/rag/sufficiency.py:85: in validate_assessment
+    references = validate_references(item.references, excerpts)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+knowledgebase/rag/sufficiency.py:112: in validate_references
+    return [validate_binding(TargetDecision(query_id="assessment", status="resolved",
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+decision = TargetDecision(query_id='assessment', status='resolved', target='Three Months Ended\tTwelve Months Ended', references=[EvidenceReference(evidence_id='pdf@0:100', quote='Three Months Ended\tTwelve Months Ended')])
+excerpts = [{'evidence_id': 'pdf@0:100', 'file_id': 'pdf', 'start_offset': 0, 'end_offset': 78, ...}]
+
+    def validate_binding(decision: TargetDecision, excerpts: list[dict]) -> list[dict]:
+        """Validate exact source origin, not semantic correctness of the model's selection."""
+        if decision.status != "resolved":
+            if decision.target or decision.references:
+                raise ValueError("Unresolved dependencies cannot supply a search target.")
+            return []
+        if not decision.target.strip() or not decision.references:
+            raise ValueError("A resolved dependency needs a target and source references.")
+        by_id = {excerpt["evidence_id"]: excerpt for excerpt in excerpts}
+        references = []
+        for reference in decision.references:
+            excerpt = by_id.get(reference.evidence_id)
+            if excerpt is None or reference.quote not in excerpt["text"] or decision.target not in reference.quote:
+                raise ValueError("A dependent target must occur in an exact assigned evidence quote.")
+            start = excerpt["start_offset"] + excerpt["text"].index(reference.quote)
+            references.append({**reference.model_dump(), "file_id": excerpt["file_id"],
+>                              "file_name": excerpt["file_name"],
+                                            ^^^^^^^^^^^^^^^^^^^^
+                               "start_offset": start, "end_offset": start + len(reference.quote)})
+E           KeyError: 'file_name'
+
+knowledgebase/rag/dependencies.py:73: KeyError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_planned_retrieval.py::test_pdf_answer_points_keep_their_query_local_leaders[lecture-logistics-planned]
+FAILED tests/test_sufficiency.py::test_separate_table_quotes_preserve_exact_source_spans
+2 failed, 102 passed, 1 warning in 4.64s

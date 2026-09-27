@@ -17,6 +17,8 @@ def file(identity, name, text=''):
     ('In fall 2026, how many credits?', []),
     ('What is a general FAQ?', []),
     ('How are scholarships awarded?', []),
+    ('Using only "docling-report.pdf", name the dataset.', ['docling-report.pdf']),
+    ('Using "only course.pdf", name the instructor.', ['only course.pdf']),
 ])
 def test_explicit_source_clause(question,expected):
     assert document_references(question)==expected
@@ -55,6 +57,13 @@ def test_exact_filename_wins_over_partial_label_and_duplicate_names_are_ambiguou
     a=file('a','faq.txt');b=file('b','general-faq.txt')
     assert resolve_document_scope(['faq.txt'],[a,b]).file_ids==['a']
     assert resolve_document_scope(['faq.txt'],[a,file('duplicate','faq.txt')]).status=='ambiguous'
+
+
+def test_using_only_resolves_the_named_pdf_without_broadening():
+    references = document_references('Using only "docling-report.pdf", name the dataset.')
+    catalog = [file('report', 'docling-report.pdf'), file('paper', 'doclaynet.pdf')]
+    assert resolve_document_scope(references, catalog).file_ids == ['report']
+    assert resolve_document_scope(references, catalog, file_ids=['paper']).status == 'not_found'
 
 
 def test_representative_selection_retains_rank_order_within_each_group():

@@ -84,6 +84,9 @@ adds planning, persistence and progress events.
    configured `rrf_k` (default 60), recorded separately from within-query fusion.
 5. Reserve a representative for each requirement/document group in round-robin
    requirement order where candidates and `top_k` permit, then fill by merged rank.
+   Representatives use the best rank within that requirement's own query runs,
+   with merged rank breaking ties. This preserves locally strong answer-point
+   hits that generic passages can otherwise displace through many weak RRF votes.
    A candidate already selected can represent another group. This is retrieval
    diversity, not a semantic claim that the requirement was answered. Final order
    may differ from pure merged score order; both orders are retained.

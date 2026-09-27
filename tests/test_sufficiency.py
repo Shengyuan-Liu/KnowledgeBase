@@ -352,3 +352,41 @@ def test_initial_context_can_satisfy_a_whole_dependency_chain(assessed_api):
     assert hops["stop_reason"] == "requirements_supported"
     assert [s["status"] for s in hops["dependencies"]] == ["not_needed", "not_needed"]
     assert resources.embeddings.embed_query.call_count == 1 and len(assessments) == 1 and not bindings
+
+
+def test_question_filename_reformulation_does_not_require_a_source_target():
+    from knowledgebase.rag.planning import AnswerRequirement
+
+    requirements = [AnswerRequirement(requirement_id='grades', description='Grades in course.pdf')]
+    value = {'requirements': [{'requirement_id': 'grades', 'status': 'missing',
+                              'gap': 'Grade weights are absent.', 'references': []}],
+             'queries': [{'requirement_ids': ['grades'], 'query_template': 'In course.pdf, find grade weights.',
+                          'target': '', 'references': []}]}
+    _, queries = validate_assessment(SufficiencyAssessment.model_validate(value), requirements, [])
+    assert queries[0]['text'] == 'In course.pdf, find grade weights.'
+    # This shape occurred in the live PDF run; keep rejecting unbound targets.
+    value['queries'][0].update(query_template='In {target}, find grade weights.', target='course.pdf')
+    with pytest.raises(ValueError):
+        validate_assessment(SufficiencyAssessment.model_validate(value), requirements, [])
+
+
+def test_separate_table_quotes_preserve_exact_source_spans():
+    from knowledgebase.rag.planning import AnswerRequirement
+
+    text = 'Three Months Ended\tTwelve Months Ended\nOther rows\nNet income\t$ 14,736\t$ 93,736'
+    excerpt = {'evidence_id': f'pdf@0:{len(text)}', 'file_id': 'pdf', 'file_name': 'report.pdf', 'start_offset': 0,
+               'end_offset': len(text), 'text': text}
+    requirements = [AnswerRequirement(requirement_id='income', description='Quarterly and annual net income')]
+    def assessment(quotes):
+        return SufficiencyAssessment.model_validate({'requirements': [{'requirement_id': 'income',
+            'status': 'supported', 'gap': '', 'references': [
+                {'evidence_id': excerpt['evidence_id'], 'quote': quote} for quote in quotes]}], 'queries': []})
+    # The live response spliced headers and values with an invented ellipsis.
+    with pytest.raises(ValueError):
+        validate_assessment(assessment(['Three Months Ended\tTwelve Months Ended\n... Net income\t$ 14,736\t$ 93,736']),
+                            requirements, [excerpt])
+    result, _ = validate_assessment(assessment([text.splitlines()[0], text.splitlines()[-1]]),
+                                    requirements, [excerpt])
+    assert len(result[0]['references']) == 2
+    for ref in result[0]['references']:
+        assert text[ref['start_offset']:ref['end_offset']] == ref['quote']

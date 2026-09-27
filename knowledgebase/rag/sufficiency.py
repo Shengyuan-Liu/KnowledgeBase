@@ -35,6 +35,9 @@ means some needed detail remains absent; missing means no relevant support; conf
 means excerpts offer incompatible statements without an explicit resolution. Do not
 infer precedence from titles, dates or specificity. Silence is not disagreement.
 For supported/partial cite exact, verbatim quotes using the evidence catalog IDs.
+Each quote must be one contiguous substring of that catalog entry's text. Copy its
+whitespace and punctuation exactly; do not insert ellipses, join separated rows,
+or reconstruct a table. Use separate references for a header and a distant value.
 For conflicting cite at least two distinct quotes showing the different statements.
 For missing return no references. Supported has an empty gap; other statuses need
 a short description of the missing detail or unresolved conflict. Do not answer the
@@ -44,6 +47,9 @@ Do not repeat an executed query or a pending dependent query. Prefer the existin
 dependency graph for a planned bridge step. If no useful search remains, return [].
 For a reformulation, use only concepts/entities in the original/resolved question:
 set target to an empty string, references to [], and use no {target} placeholder.
+This includes file names already in the question: write the literal file name in
+query_template, never in target. For example, if the question names course.pdf,
+a reformulation is {"requirement_ids":["r1"],"query_template":"In course.pdf, find the course grading policy.","target":"","references":[]}.
 For a source-derived entity use exactly one {target} in query_template, copy target
 literally from each cited source quote, and cite those quotes. Never guess an entity,
 relationship, year or file name. Preserve all original document and time constraints.

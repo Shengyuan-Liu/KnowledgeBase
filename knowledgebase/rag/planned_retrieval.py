@@ -101,21 +101,29 @@ def merge_query_runs(runs: list[QueryRun], *, k: float) -> list[MergedCandidate]
 
 
 def _select_representatives(merged: list[MergedCandidate], runs: list[QueryRun], plan: RetrievalPlan, top_k: int) -> list[str]:
-    """Reserve hits for each requirement/document pair, then fill by merged rank."""
+    """Reserve query-local leaders per requirement/document, then fill by RRF.
+
+    A child with weak votes from many unrelated questions must not displace the
+    best hit for an individual answer point.
+    """
     selected: list[str] = []
     requirements = []
     for requirement in plan.requirements:
-        eligible = {hit.chunk.chunk_id for run in runs if requirement.requirement_id in run.requirement_ids
-                    for hit in run.result.hits}
+        ranks: dict[str, int] = {}
+        for run in runs:
+            if requirement.requirement_id in run.requirement_ids:
+                for rank, hit in enumerate(run.result.hits, start=1):
+                    identity = hit.chunk.chunk_id
+                    ranks[identity] = min(rank, ranks.get(identity, rank))
         groups: dict[str, list[str]] = {}
-        for candidate in merged:
-            if candidate.chunk_id in eligible:
-                groups.setdefault(candidate.file_id, []).append(candidate.chunk_id)
+        eligible = [candidate for candidate in merged if candidate.chunk_id in ranks]
+        for candidate in sorted(eligible, key=lambda c: (ranks[c.chunk_id], c.rank)):
+            groups.setdefault(candidate.file_id, []).append(candidate.chunk_id)
         requirements.append(list(groups.values()))
     # Round-robin across requirements before taking another document for one.
     while len(selected) < top_k and any(requirements):
         for groups in requirements:
-            while groups and any(identity in selected for identity in groups[0]):
+            while groups and groups[0][0] in selected:
                 groups.pop(0)
             if groups and len(selected) < top_k:
                 selected.append(groups.pop(0)[0])

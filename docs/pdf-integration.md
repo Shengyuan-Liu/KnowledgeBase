@@ -2,7 +2,11 @@
 
 Status: v2 stage 2 implemented; feature acceptance and merge remain the user's
 decision. This connects the [PDF adapter](pdf-parsing.md) to the existing library.
-Query decomposition and the retrieval controller remain planned.
+Opt-in [query planning](planned-retrieval.md) and
+[sufficiency control](evidence-sufficiency.md) are implemented. The first
+[live PDF comparison](../evals/library-runs/20260927-v2-pdf-live/README.md) verifies
+original delivery and saved-history lifecycle, but fails answer-quality gates
+because of dense-table extraction and financial evidence-packing limitations.
 
 ## Use
 

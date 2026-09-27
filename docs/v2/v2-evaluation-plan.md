@@ -1,8 +1,12 @@
 # KnowledgeBase v2 Evaluation Plan
 
-Status: proposed acceptance protocol. A scoped
+Status: proposed release protocol, with a first
+[live PDF development comparison](../../evals/library-runs/20260927-v2-pdf-live/README.md)
+now recorded. It retains a failed baseline and repaired replay; acceptance gates
+remain unmet, and the A/D comparison is not a complete B/C ablation or held-out
+release evaluation. A scoped
 [parser comparison and adapter check](../../evals/check-runs/20260926-pdf-parser-selection/README.md)
-is now recorded; no integrated acceptance or paid evaluation is implied. Follow the complete
+is also recorded. Follow the complete
 [measurement policy](../../evals/measurement-policy.md).
 
 ## Populations and Ground Truth

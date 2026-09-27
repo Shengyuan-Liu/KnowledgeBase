@@ -38,7 +38,7 @@ def document_references(question: str) -> list[str]:
     punctuation and 'and' inside a title. Other questions remain unrestricted
     unless the caller supplies explicit file IDs.
     """
-    prefix = re.match(r'^\s*(?:according to|in|from|using|compare)\s+', question, re.I)
+    prefix = re.match(r'^\s*(?:according to|in|from|using|compare)\s+(?:only\s+)?', question, re.I)
     if not prefix:
         return []
     rest = question[prefix.end():]

@@ -1,10 +1,14 @@
 # Evidence Sufficiency and Supplementary Retrieval
 
-Status: v2 stage 4 implemented and offline-tested. **Plan complex questions**
+Status: v2 stage 4 implemented, offline-tested and development-evaluated with
+real PDFs. The [live comparison](../evals/library-runs/20260927-v2-pdf-live/README.md)
+does **not** pass acceptance: repaired planned mode completes 15/16 turns, but an
+exact-quote failure and financial evidence-packing gaps remain. **Plan complex questions**
 and API/CLI `planned` mode now assess each required point after packing evidence,
 then search for remaining gaps within the same request limits. Ordinary `single`
-mode is unchanged. Live assessment accuracy, answer quality, latency and cost
-remain unmeasured; implementation checks do not imply acceptance or merge.
+mode remains available. Live quality, latency and token usage are recorded;
+billed cost and independent human review remain unavailable. Implementation and
+test completion do not imply acceptance or merge.
 
 ## Source-based assessment
 
@@ -68,7 +72,10 @@ new candidates when supplementary searches run.
 | Provider retries | Zero; invalid schemas, unknown IDs and invented quotes fail without repair |
 
 The same planner model performs assessment with prompt version
-`evidence-sufficiency-v1`. The existing request deadline includes assessment and
+`evidence-sufficiency-v2`. The prompt explicitly distinguishes question-provided
+file names from new source-derived targets, and requires separate exact quotes
+for non-contiguous table cells. The live repair still produced one invalid quote;
+prompt instructions do not guarantee provenance. The existing request deadline includes assessment and
 supplementary retrieval; limits do not restart between rounds. An empty context
 gets a deterministic all-missing assessment. A refresh with no eligible new query
 can consume a round to reassess a changed context without another embedding call.
@@ -116,8 +123,11 @@ The comparison freezes questions, corpus, labels, vectors and initial plans; onl
 sufficiency control changes. Its hand-authored assessments test control flow, not
 model accuracy. Mock answer placeholders are not answer-quality measurements.
 
-The feature is ready for a separate live acceptance workload covering false
-sufficiency, incorrect abstention, conflict interpretation, unnecessary searches,
-actual answers/citations, first-answer-delta and complete-response latency, usage
-and cost. OCR, visual figure interpretation and formula understanding remain outside
-v2. Existing PDF extraction fidelity limits also remain in effect.
+The [live development record](../evals/library-runs/20260927-v2-pdf-live/README.md)
+retains failed attempts, a targeted repair, same-question replay, reviewed answers
+and citations, separate streaming/completion timings and actual provider usage.
+It exposes false support, incorrect abstention and unnecessary supplementary work.
+It does not establish genuine-conflict accuracy, a held-out quality gain or a
+production latency target. Financial evidence packing and quote selection need
+further work before acceptance. OCR, visual figure interpretation and formula
+understanding remain outside v2; existing PDF extraction fidelity limits remain.

@@ -1,6 +1,7 @@
 """Independent-plan contracts with real SQLite/Chroma and offline query vectors."""
 
 from pathlib import Path
+import json
 from unittest.mock import Mock
 
 import pytest
@@ -13,7 +14,7 @@ from knowledgebase.rag.context import build_context
 from knowledgebase.rag.parsing import parse_markdown
 from knowledgebase.rag.planning import AnswerRequirement, PlannedQuery, RetrievalPlan, direct_plan
 from knowledgebase.rag.planned_retrieval import (
-    PlannedEvidence, QueryRun, merge_query_runs, retrieve_plan,
+    PlannedEvidence, QueryRun, _select_representatives, merge_query_runs, retrieve_plan,
 )
 from knowledgebase.rag.retrieval import retrieve_candidates, retrieve_evidence
 from knowledgebase.schemas import Chunk, RetrievedCandidates, RetrievedChunk, RetrievalDiagnostics
@@ -122,6 +123,26 @@ def test_cross_query_rrf_and_repeated_text_votes():
     merged = merge_query_runs([*runs, fake_run(" first ", ["b1"])], k=60)
     assert merged[0].chunk_id == "b1" and merged[0].score == pytest.approx(2/61)
     assert len(merged[0].votes) == 2
+
+
+@pytest.mark.parametrize("case", json.loads(
+    (Path(__file__).parent / "fixtures/planned_pdf_rankings.json").read_text())["cases"],
+    ids=lambda case: case["case"])
+def test_pdf_answer_points_keep_their_query_local_leaders(case):
+    """Replay live rankings that previously lost grades and guest lecturers."""
+    runs = []
+    for row in case["runs"]:
+        hits = [RetrievedChunk(chunk=Chunk(**hit, index=0, start_offset=0,
+                                          end_offset=len(hit["text"])),
+                               file_name="ml-lecture.pdf", distance=None) for hit in row["hits"]]
+        runs.append(QueryRun(**{k: v for k, v in row.items() if k != "hits"},
+                             requested_file_ids=None, seconds=0,
+                             result=RetrievedCandidates(hits=hits, diagnostics=RetrievalDiagnostics(
+                                 max_tokens=4096, tokenizer="cl100k_base"))))
+    selected = _select_representatives(merge_query_runs(runs, k=60), runs,
+                                      RetrievalPlan.model_validate(case["plan"]), 5)
+    assert set(case["required_child_suffixes"]) <= {identity.split(":")[-1] for identity in selected}
+    assert len(selected) == len(set(selected)) == 5
 
 
 def test_duplicate_queries_execute_once_and_keep_both_requirements(library):

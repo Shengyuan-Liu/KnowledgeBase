@@ -1,0 +1,3790 @@
+{
+  "reviewer": "Codex (GPT-6 model), source and answer inspection in this chat; no independent human reviewer, no paid judge call",
+  "rubric": "protocol.md; scalar values 0 / 0.5 / 1. Correctness and completeness are frozen requested-point coverage, including failed cases as zero; contextual details not requested are not required. Citation and faithfulness units are factual claim groups (paragraph/bullet), not token counts. Missing-information claims are scored separately. Compound claim groups receive partial support when a material qualifier is unsupported. Citation support pools the cited passages for one claim; citation coverage requires a supporting inline citation on that claim group. Claim-free answers have no citation/faithfulness denominator; they still affect correctness, abstention and reliability.",
+  "rows": [
+    {
+      "pass_name": "before",
+      "case_id": "paper-facts",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "paper-facts-single.json",
+      "points": [
+        {
+          "fact_id": "paper_pages",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2,
+            3
+          ],
+          "evidence_note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+        },
+        {
+          "fact_id": "paper_classes",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "evidence_note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "DocLayNet contains 80,863 manually annotated pages [1] [2] [3].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1,
+            2,
+            3
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "paper-facts-single.json#answer.sources",
+          "note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+        },
+        {
+          "text": "DocLayNet provides layout annotations for 11 distinct classes [1] [2] [3] [4].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "paper-facts-single.json#answer.sources",
+          "note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "paper-facts",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "paper-facts-planned.json",
+      "points": [
+        {
+          "fact_id": "paper_pages",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2,
+            3
+          ],
+          "evidence_note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+        },
+        {
+          "fact_id": "paper_classes",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "evidence_note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "DocLayNet contains 80,863 manually annotated pages [1] [2] [3].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1,
+            2,
+            3
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "paper-facts-planned.json#answer.sources",
+          "note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+        },
+        {
+          "text": "It includes 11 distinct layout classes [1] [2] [3] [4].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "paper-facts-planned.json#answer.sources",
+          "note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "paper-paraphrase",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "paper-paraphrase-single.json",
+      "points": [
+        {
+          "fact_id": "paper_human",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            2,
+            4
+          ],
+          "evidence_note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+        },
+        {
+          "fact_id": "paper_automatic",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2,
+            4
+          ],
+          "evidence_note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "DocLayNet was labeled by human annotators, whereas PubLayNet and DocBank used automated approaches to generate their datasets [2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "paper-paraphrase-single.json#answer.sources",
+          "note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+        },
+        {
+          "text": "The layout variety in PubLayNet and DocBank is limited because they were generated from scientific article repositories (PubMed and arXiv) that use uniform templates, resulting in less variability in document layouts [2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "paper-paraphrase-single.json#answer.sources",
+          "note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+        },
+        {
+          "text": "In contrast, DocLayNet was specifically created to include documents from a wide variety of sources (such as financial reports, manuals, laws & regulations, patents, and government tenders), deliberately boosting layout diversity to overcome the limitations of the older datasets [4].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            4
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "paper-paraphrase-single.json#answer.sources",
+          "note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "paper-paraphrase",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "paper-paraphrase-planned.json",
+      "points": [
+        {
+          "fact_id": "paper_human",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            2
+          ],
+          "evidence_note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+        },
+        {
+          "fact_id": "paper_automatic",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            2,
+            3
+          ],
+          "evidence_note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "DocLayNet was created using human annotation for its page-by-page layout annotation ground-truth, while PubLayNet and DocBank were generated automatically by leveraging structured source data (such as XML or LaTeX) from scientific repositories [2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "paper-paraphrase-planned.json#answer.sources",
+          "note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+        },
+        {
+          "text": "The layout variety in PubLayNet and DocBank is limited because they were sourced exclusively from scientific document repositories (PubMed and arXiv) that provide XML or LaTeX sources, resulting in documents that are typeset in uniform templates provided by publishers, and thus have limited layout variability [2][3].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2,
+            3
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "paper-paraphrase-planned.json#answer.sources",
+          "note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "lecture-logistics",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "lecture-logistics-single.json",
+      "points": [
+        {
+          "fact_id": "lecture_book",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            2
+          ],
+          "evidence_note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        },
+        {
+          "fact_id": "lecture_yu",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        },
+        {
+          "fact_id": "lecture_wilson",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "In \"ml-lecture.pdf\", a textbook is not required for the course [2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "lecture-logistics-single.json#answer.sources",
+          "note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        },
+        {
+          "text": "Reading assignments are given on the class homepage [2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "lecture-logistics-single.json#answer.sources",
+          "note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        },
+        {
+          "text": "The guest lecturers are Yaoliang Yu and Andrew Wilson [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "lecture-logistics-single.json#answer.sources",
+          "note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "lecture-logistics",
+      "arm": "planned",
+      "answer_status": "error",
+      "source_artifact": "lecture-logistics-planned.json",
+      "points": [
+        {
+          "fact_id": "lecture_book",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        },
+        {
+          "fact_id": "lecture_yu",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        },
+        {
+          "fact_id": "lecture_wilson",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        }
+      ],
+      "factual_claim_groups": [],
+      "missing_point_review": [],
+      "relevance": 0,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "lecture-grades",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "lecture-grades-single.json",
+      "points": [
+        {
+          "fact_id": "lecture_homework",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            3
+          ],
+          "evidence_note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "fact_id": "lecture_project",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            3
+          ],
+          "evidence_note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "fact_id": "lecture_exam",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            2
+          ],
+          "evidence_note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "fact_id": "lecture_team",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "The grade weight for homework is 40% [3].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            3
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "lecture-grades-single.json#answer.sources",
+          "note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "text": "The grade weight for the final project is 40% [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "lecture-grades-single.json#answer.sources",
+          "note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "text": "The grade weight for the midterm is 20% [2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "lecture-grades-single.json#answer.sources",
+          "note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "text": "The project team size is 3 members [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "lecture-grades-single.json#answer.sources",
+          "note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "lecture-grades",
+      "arm": "planned",
+      "answer_status": "error",
+      "source_artifact": "lecture-grades-planned.json",
+      "points": [
+        {
+          "fact_id": "lecture_homework",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "fact_id": "lecture_project",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "fact_id": "lecture_exam",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "fact_id": "lecture_team",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        }
+      ],
+      "factual_claim_groups": [],
+      "missing_point_review": [],
+      "relevance": 0,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "lecture-followup",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "lecture-followup-single.json",
+      "points": [
+        {
+          "fact_id": "lecture_when",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Physical page 4 specifies forming three-member teams in the first two weeks. A blocked request is an end-to-end failure, not an abstention."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "In \"ml-lecture.pdf,\" the project teams for the final project (3-member teams) should be formed in the first two weeks [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "lecture-followup-single.json#answer.sources",
+          "note": "Physical page 4 specifies forming three-member teams in the first two weeks. A blocked request is an end-to-end failure, not an abstention."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Physical page 4 specifies forming three-member teams in the first two weeks. A blocked request is an end-to-end failure, not an abstention."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "lecture-followup",
+      "arm": "planned",
+      "answer_status": "blocked",
+      "source_artifact": "lecture-followup-planned.json",
+      "points": [
+        {
+          "fact_id": "lecture_when",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Physical page 4 specifies forming three-member teams in the first two weeks. A blocked request is an end-to-end failure, not an abstention."
+        }
+      ],
+      "factual_claim_groups": [],
+      "missing_point_review": [],
+      "relevance": 0,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Physical page 4 specifies forming three-member teams in the first two weeks. A blocked request is an end-to-end failure, not an abstention."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "apple-sales",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "apple-sales-single.json",
+      "points": [
+        {
+          "fact_id": "apple_sales_q",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        },
+        {
+          "fact_id": "apple_sales_y",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        },
+        {
+          "fact_id": "apple_units",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        }
+      ],
+      "factual_claim_groups": [],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": true,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 1,
+      "note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "apple-sales",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "apple-sales-planned.json",
+      "points": [
+        {
+          "fact_id": "apple_sales_q",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        },
+        {
+          "fact_id": "apple_sales_y",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        },
+        {
+          "fact_id": "apple_units",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 0.5,
+          "source_ids_with_matching_anchors": [
+            2
+          ],
+          "evidence_note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "For the three months ended September 28, 2024, total net sales were $94,930 million ($94.93 billion) [1].",
+          "original_page_correctness": 1,
+          "context_support": 0.5,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 0.5,
+          "citation_coverage": 0.5,
+          "supporting_evidence_artifact": "apple-sales-planned.json#answer.sources",
+          "note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        },
+        {
+          "text": "For the twelve months ended September 28, 2024, total net sales were $391,035 million ($391.04 billion) [1].",
+          "original_page_correctness": 1,
+          "context_support": 0.5,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 0.5,
+          "citation_coverage": 0.5,
+          "supporting_evidence_artifact": "apple-sales-planned.json#answer.sources",
+          "note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        },
+        {
+          "text": "The units used for reporting total net sales are millions of U.S. dollars [1].",
+          "original_page_correctness": 1,
+          "context_support": 0.5,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 0.5,
+          "citation_coverage": 0.5,
+          "supporting_evidence_artifact": "apple-sales-planned.json#answer.sources",
+          "note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "apple-income",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "apple-income-single.json",
+      "points": [
+        {
+          "fact_id": "apple_income_q",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+        },
+        {
+          "fact_id": "apple_income_y",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+        },
+        {
+          "fact_id": "apple_units",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "For the three months ended September 28, 2024, Apple's net income was $14,736 million (GAAP) and $24,982 million (Non-GAAP) [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "apple-income-single.json#answer.sources",
+          "note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+        },
+        {
+          "text": "For the twelve months ended September 28, 2024, Apple's net income was $93,736 million (GAAP) and $103,982 million (Non-GAAP) [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "apple-income-single.json#answer.sources",
+          "note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "apple-income",
+      "arm": "planned",
+      "answer_status": "error",
+      "source_artifact": "apple-income-planned.json",
+      "points": [
+        {
+          "fact_id": "apple_income_q",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+        },
+        {
+          "fact_id": "apple_income_y",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+        },
+        {
+          "fact_id": "apple_units",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+        }
+      ],
+      "factual_claim_groups": [],
+      "missing_point_review": [],
+      "relevance": 0,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "technical-table",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "technical-table-single.json",
+      "points": [
+        {
+          "fact_id": "technical_native",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        },
+        {
+          "fact_id": "technical_pypdfium",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        },
+        {
+          "fact_id": "technical_ocr",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "On the Apple M3 Max with four threads, the time-to-solution (TTS) for the native backend is 177 seconds, with a throughput of 1.27 pages per second, while the pypdfium backend achieves a TTS of 103 seconds and a throughput of 2.18 pages per second [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "technical-table-single.json#answer.sources",
+          "note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        },
+        {
+          "text": "According to the table description, \"OCR is disabled\" for these results [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "technical-table-single.json#answer.sources",
+          "note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "technical-table",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "technical-table-planned.json",
+      "points": [
+        {
+          "fact_id": "technical_native",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        },
+        {
+          "fact_id": "technical_pypdfium",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        },
+        {
+          "fact_id": "technical_ocr",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "On the Apple M3 Max with four threads, the native backend had a time-to-solution (TTS) of 177 seconds and a throughput of 1.27 pages per second, while the pypdfium backend had a TTS of 103 seconds and a throughput of 2.18 pages per second [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "technical-table-planned.json#answer.sources",
+          "note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        },
+        {
+          "text": "For the table presenting these results, OCR was disabled; this is explicitly stated in the table caption: \"OCR is disabled\" [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "technical-table-planned.json#answer.sources",
+          "note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "technical-tradeoff",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "technical-tradeoff-single.json",
+      "points": [
+        {
+          "fact_id": "technical_lowresource",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2
+          ],
+          "evidence_note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+        },
+        {
+          "fact_id": "technical_tradeoff",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "In \"docling-report.pdf,\" the recommended PDF backend for very low-resource environments is the pypdfium backend [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "technical-tradeoff-single.json#answer.sources",
+          "note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+        },
+        {
+          "text": "The stated quality tradeoff is that while pypdfium is faster and more memory efficient than the default docling-parse backend, it will result in worse quality results, especially in table structure recovery [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "technical-tradeoff-single.json#answer.sources",
+          "note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "technical-tradeoff",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "technical-tradeoff-planned.json",
+      "points": [
+        {
+          "fact_id": "technical_lowresource",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2
+          ],
+          "evidence_note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+        },
+        {
+          "fact_id": "technical_tradeoff",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "The PDF backend recommended for very low-resource environments in \"docling-report.pdf\" is the pypdfium backend [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "technical-tradeoff-planned.json#answer.sources",
+          "note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+        },
+        {
+          "text": "The stated quality tradeoff is that while the pypdfium backend is faster and more memory efficient than the default docling-parse backend, it will result in worse quality results, especially in table structure recovery [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "technical-tradeoff-planned.json#answer.sources",
+          "note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "dependent-dataset",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "dependent-dataset-single.json",
+      "points": [
+        {
+          "fact_id": "technical_dataset",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            2
+          ],
+          "evidence_note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        },
+        {
+          "fact_id": "paper_pages",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            3,
+            4
+          ],
+          "evidence_note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        },
+        {
+          "fact_id": "paper_classes",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "evidence_note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "The public dataset used to retrain the layout model described in \"docling-report.pdf\" is DocLayNet [2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "dependent-dataset-single.json#answer.sources",
+          "note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        },
+        {
+          "text": "According to the \"doclaynet.pdf\" paper, the DocLayNet dataset contains 80,863 pages and defines 11 distinct layout classes [1] [4].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1,
+            4
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "dependent-dataset-single.json#answer.sources",
+          "note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "dependent-dataset",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "dependent-dataset-planned.json",
+      "points": [
+        {
+          "fact_id": "technical_dataset",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        },
+        {
+          "fact_id": "paper_pages",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            2
+          ],
+          "evidence_note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        },
+        {
+          "fact_id": "paper_classes",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2,
+            5
+          ],
+          "evidence_note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "The public dataset used to retrain the layout model described in \"docling-report.pdf\" is DocLayNet [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "dependent-dataset-planned.json#answer.sources",
+          "note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        },
+        {
+          "text": "The \"doclaynet.pdf\" paper reports that the DocLayNet dataset contains 80,863 manually annotated pages [2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "dependent-dataset-planned.json#answer.sources",
+          "note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        },
+        {
+          "text": "The number of layout classes reported in the \"doclaynet.pdf\" paper is 11 distinct classes [2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "dependent-dataset-planned.json#answer.sources",
+          "note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        },
+        {
+          "text": "The connection between the dataset used in \"docling-report.pdf\" and the dataset discussed in \"doclaynet.pdf\" is direct: \"docling-report.pdf\" specifies that its layout model is retrained on DocLayNet, which is detailed and quantified in \"doclaynet.pdf\" [1][2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1,
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "dependent-dataset-planned.json#answer.sources",
+          "note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "dense-table",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "dense-table-single.json",
+      "points": [
+        {
+          "fact_id": "alabama_permit",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "fact_id": "alabama_handgun",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "fact_id": "alabama_longgun",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "fact_id": "alabama_total",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "fact_id": "checks_not_sales",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "Permit: 29,905 [1]",
+          "original_page_correctness": 0,
+          "context_support": 0,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "supporting_evidence_artifact": "dense-table-single.json#answer.sources",
+          "note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "text": "Handgun: 38,487 [1]",
+          "original_page_correctness": 0,
+          "context_support": 0,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "supporting_evidence_artifact": "dense-table-single.json#answer.sources",
+          "note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "text": "Long Gun: 102 [1]",
+          "original_page_correctness": 0,
+          "context_support": 0,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "supporting_evidence_artifact": "dense-table-single.json#answer.sources",
+          "note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "text": "Totals: 1,656 [1]",
+          "original_page_correctness": 0,
+          "context_support": 0,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "supporting_evidence_artifact": "dense-table-single.json#answer.sources",
+          "note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "text": "These statistics do NOT represent the number of firearms sold; they represent the number of firearm background checks initiated through the NICS. \"A one-to-one correlation cannot be made between a firearm background check and a firearm sale\" [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "dense-table-single.json#answer.sources",
+          "note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "dense-table",
+      "arm": "planned",
+      "answer_status": "error",
+      "source_artifact": "dense-table-planned.json",
+      "points": [
+        {
+          "fact_id": "alabama_permit",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "fact_id": "alabama_handgun",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "fact_id": "alabama_longgun",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "fact_id": "alabama_total",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "fact_id": "checks_not_sales",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        }
+      ],
+      "factual_claim_groups": [],
+      "missing_point_review": [],
+      "relevance": 0,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "apparent-conflict",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "apparent-conflict-single.json",
+      "points": [
+        {
+          "fact_id": "apple_sales_q",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+        },
+        {
+          "fact_id": "apple_sales_y",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "The figure 94,930 (in millions) refers to \"total net sales\" for the three months ended September 28, 2024, i.e., Apple's fiscal fourth quarter of 2024 [2].",
+          "original_page_correctness": 1,
+          "context_support": 0,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "supporting_evidence_artifact": "apparent-conflict-single.json#answer.sources",
+          "note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+        },
+        {
+          "text": "The figure 391,035 (in millions) refers to \"total net sales\" for the twelve months ended September 28, 2024, i.e., the entire fiscal year 2024 [2].",
+          "original_page_correctness": 1,
+          "context_support": 0,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "supporting_evidence_artifact": "apparent-conflict-single.json#answer.sources",
+          "note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+        },
+        {
+          "text": "Therefore, they represent quarterly and annual net sales, respectively, and can coexist without contradiction as they cover different time spans. Both periods and their respective figures are specified in the provided source [2].",
+          "original_page_correctness": 1,
+          "context_support": 0,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "supporting_evidence_artifact": "apparent-conflict-single.json#answer.sources",
+          "note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "apparent-conflict",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "apparent-conflict-planned.json",
+      "points": [
+        {
+          "fact_id": "apple_sales_q",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+        },
+        {
+          "fact_id": "apple_sales_y",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+        }
+      ],
+      "factual_claim_groups": [],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": true,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 1,
+      "note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "partial-lecture",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "partial-lecture-single.json",
+      "points": [
+        {
+          "fact_id": "lecture_yu",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Guest names are supported; exact enrollment is absent. The repaired planned answer states both facts and the missing count. Absence claims are reviewed as missing-point handling, not ordinary factual citations."
+        },
+        {
+          "fact_id": "lecture_wilson",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Guest names are supported; exact enrollment is absent. The repaired planned answer states both facts and the missing count. Absence claims are reviewed as missing-point handling, not ordinary factual citations."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "The guest lecturers named in \"ml-lecture.pdf\" are Yaoliang Yu and Andrew Wilson [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "partial-lecture-single.json#answer.sources",
+          "note": "Guest names are supported; exact enrollment is absent. The repaired planned answer states both facts and the missing count. Absence claims are reviewed as missing-point handling, not ordinary factual citations."
+        }
+      ],
+      "missing_point_review": [
+        {
+          "point": "The exact course enrollment count is not supplied.",
+          "correctly_stated": 1
+        }
+      ],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Guest names are supported; exact enrollment is absent. The repaired planned answer states both facts and the missing count. Absence claims are reviewed as missing-point handling, not ordinary factual citations."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "partial-lecture",
+      "arm": "planned",
+      "answer_status": "error",
+      "source_artifact": "partial-lecture-planned.json",
+      "points": [
+        {
+          "fact_id": "lecture_yu",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Guest names are supported; exact enrollment is absent. The repaired planned answer states both facts and the missing count. Absence claims are reviewed as missing-point handling, not ordinary factual citations."
+        },
+        {
+          "fact_id": "lecture_wilson",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Guest names are supported; exact enrollment is absent. The repaired planned answer states both facts and the missing count. Absence claims are reviewed as missing-point handling, not ordinary factual citations."
+        }
+      ],
+      "factual_claim_groups": [],
+      "missing_point_review": [
+        {
+          "point": "The exact course enrollment count is not supplied.",
+          "correctly_stated": 0
+        }
+      ],
+      "relevance": 0,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Guest names are supported; exact enrollment is absent. The repaired planned answer states both facts and the missing count. Absence claims are reviewed as missing-point handling, not ordinary factual citations."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "forecast-missing",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "forecast-missing-single.json",
+      "points": [],
+      "factual_claim_groups": [],
+      "missing_point_review": [
+        {
+          "point": "No exact fiscal 2025 net-sales forecast is supplied.",
+          "correctly_stated": 1
+        }
+      ],
+      "relevance": 1,
+      "full_abstention": true,
+      "appropriate_abstention": 1,
+      "incorrect_abstention": 0,
+      "note": "No exact 2025 sales forecast in the allowed report. Scope-limited absence is appropriate. An error is not successful abstention."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "forecast-missing",
+      "arm": "planned",
+      "answer_status": "error",
+      "source_artifact": "forecast-missing-planned.json",
+      "points": [],
+      "factual_claim_groups": [],
+      "missing_point_review": [
+        {
+          "point": "No exact fiscal 2025 net-sales forecast is supplied.",
+          "correctly_stated": 0
+        }
+      ],
+      "relevance": 0,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "No exact 2025 sales forecast in the allowed report. Scope-limited absence is appropriate. An error is not successful abstention."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "restricted-dependency",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "restricted-dependency-single.json",
+      "points": [
+        {
+          "fact_id": "technical_dataset",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "The pre-answer correction makes the missing item the double-annotation count, not total pages. Initial leading-only scope parsing failed in both arms. Repair retrieves DocLayNet within the allowed report and withholds the count. The single answer extra note about triple annotations/training is in source 5."
+        }
+      ],
+      "factual_claim_groups": [],
+      "missing_point_review": [
+        {
+          "point": "The number of DocLayNet pages with two human annotations is not supplied in this allowed report.",
+          "correctly_stated": 0
+        }
+      ],
+      "relevance": 0,
+      "full_abstention": true,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 1,
+      "note": "The pre-answer correction makes the missing item the double-annotation count, not total pages. Initial leading-only scope parsing failed in both arms. Repair retrieves DocLayNet within the allowed report and withholds the count. The single answer extra note about triple annotations/training is in source 5."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "restricted-dependency",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "restricted-dependency-planned.json",
+      "points": [
+        {
+          "fact_id": "technical_dataset",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "The pre-answer correction makes the missing item the double-annotation count, not total pages. Initial leading-only scope parsing failed in both arms. Repair retrieves DocLayNet within the allowed report and withholds the count. The single answer extra note about triple annotations/training is in source 5."
+        }
+      ],
+      "factual_claim_groups": [],
+      "missing_point_review": [
+        {
+          "point": "The number of DocLayNet pages with two human annotations is not supplied in this allowed report.",
+          "correctly_stated": 0
+        }
+      ],
+      "relevance": 0,
+      "full_abstention": true,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 1,
+      "note": "The pre-answer correction makes the missing item the double-annotation count, not total pages. Initial leading-only scope parsing failed in both arms. Repair retrieves DocLayNet within the allowed report and withholds the count. The single answer extra note about triple annotations/training is in source 5."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "unsupported-screenshot",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "unsupported-screenshot-single.json",
+      "points": [],
+      "factual_claim_groups": [
+        {
+          "text": "The provided sources do not contain a transcription of every navigation label visible inside the embedded browser screenshot on physical page 2 of \"ml-lecture.pdf.\" The excerpts mention the class webpage URL [5], the course title [2], and some general context, but they do not provide a detailed listing or transcription of the navigation labels from the embedded browser screenshot. Thus, the requested information is unavailable in the supplied sources.",
+          "original_page_correctness": 0.5,
+          "context_support": 0.5,
+          "cited_source_ids": [
+            5,
+            2
+          ],
+          "citation_support": 0.5,
+          "citation_coverage": 0.5,
+          "supporting_evidence_artifact": "unsupported-screenshot-single.json#answer.sources",
+          "note": "Screenshot navigation is outside native text extraction. Abstention is appropriate; no OCR claim is credited. Initial single answer additionally calls source 2 a course title, but it is only the Class Webpage heading; that extra factual group has partial support."
+        }
+      ],
+      "missing_point_review": [
+        {
+          "point": "Embedded screenshot text is outside this text-only extraction; the surrounding webpage URL is not its navigation content.",
+          "correctly_stated": 1
+        }
+      ],
+      "relevance": 1,
+      "full_abstention": true,
+      "appropriate_abstention": 1,
+      "incorrect_abstention": 0,
+      "note": "Screenshot navigation is outside native text extraction. Abstention is appropriate; no OCR claim is credited. Initial single answer additionally calls source 2 a course title, but it is only the Class Webpage heading; that extra factual group has partial support."
+    },
+    {
+      "pass_name": "before",
+      "case_id": "unsupported-screenshot",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "unsupported-screenshot-planned.json",
+      "points": [],
+      "factual_claim_groups": [],
+      "missing_point_review": [
+        {
+          "point": "Embedded screenshot text is outside this text-only extraction; the surrounding webpage URL is not its navigation content.",
+          "correctly_stated": 1
+        }
+      ],
+      "relevance": 1,
+      "full_abstention": true,
+      "appropriate_abstention": 1,
+      "incorrect_abstention": 0,
+      "note": "Screenshot navigation is outside native text extraction. Abstention is appropriate; no OCR claim is credited. Initial single answer additionally calls source 2 a course title, but it is only the Class Webpage heading; that extra factual group has partial support."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "paper-facts",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/paper-facts-single.json",
+      "points": [
+        {
+          "fact_id": "paper_pages",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2,
+            3
+          ],
+          "evidence_note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+        },
+        {
+          "fact_id": "paper_classes",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "evidence_note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "DocLayNet contains 80,863 manually annotated pages [1] [2] [3].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1,
+            2,
+            3
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/paper-facts-single.json#answer.sources",
+          "note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+        },
+        {
+          "text": "DocLayNet includes layout annotations with 11 distinct classes [1] [2] [3] [4].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/paper-facts-single.json#answer.sources",
+          "note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "paper-facts",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/paper-facts-planned.json",
+      "points": [
+        {
+          "fact_id": "paper_pages",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2,
+            3
+          ],
+          "evidence_note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+        },
+        {
+          "fact_id": "paper_classes",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "evidence_note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "DocLayNet contains 80,863 manually annotated pages [1][2][3].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1,
+            2,
+            3
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/paper-facts-planned.json#answer.sources",
+          "note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+        },
+        {
+          "text": "DocLayNet defines 11 distinct layout classes [1][2][3][4].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/paper-facts-planned.json#answer.sources",
+          "note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Abstract, introduction and dataset section support 80,863 pages and 11 classes. The label-selection excerpt also supports 11 classes."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "paper-paraphrase",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/paper-paraphrase-single.json",
+      "points": [
+        {
+          "fact_id": "paper_human",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            2,
+            4
+          ],
+          "evidence_note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+        },
+        {
+          "fact_id": "paper_automatic",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2,
+            4
+          ],
+          "evidence_note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "DocLayNet was labeled using human annotation, whereas PubLayNet and DocBank used automation approaches to generate their datasets; PubLayNet and DocBank achieved their large sizes by automatically creating ground-truth from structured source data such as XML or LaTeX, while DocLayNet explicitly relied on manual human annotation for its bounding-box labels and also included pages with multiple human annotations for quality control and uncertainty analysis [2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/paper-paraphrase-single.json#answer.sources",
+          "note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+        },
+        {
+          "text": "The layout variety in PubLayNet and DocBank is limited because their data was sourced only from scientific article repositories like PubMed and arXiv, where documents are typeset in uniform publisher-provided templates; thus, these datasets predominantly contain scientific documents with similar, less diverse layouts, lacking the broad variability found in real-world documents such as technical manuals, financial reports, and government tenders [1][2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1,
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/paper-paraphrase-single.json#answer.sources",
+          "note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "paper-paraphrase",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/paper-paraphrase-planned.json",
+      "points": [
+        {
+          "fact_id": "paper_human",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+        },
+        {
+          "fact_id": "paper_automatic",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            3
+          ],
+          "evidence_note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "DocLayNet's labeling process differs from PubLayNet and DocBank in that it uses human annotation, whereas PubLayNet and DocBank were generated using automation approaches that rely on structured source data such as XML or LaTeX files from scientific repositories [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/paper-paraphrase-planned.json#answer.sources",
+          "note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+        },
+        {
+          "text": "The layout variety in PubLayNet and DocBank is limited because their data comes from scientific document repositories (PubMed and arXiv), which use uniform templates provided by publishers, resulting in limited variability in document layouts [1][3].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1,
+            3
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/paper-paraphrase-planned.json#answer.sources",
+          "note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Introduction supports human versus automatic annotations, scientific repositories and uniform templates. Dataset section supports the extra diversity examples when present."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "lecture-logistics",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/lecture-logistics-single.json",
+      "points": [
+        {
+          "fact_id": "lecture_book",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            2
+          ],
+          "evidence_note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        },
+        {
+          "fact_id": "lecture_yu",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        },
+        {
+          "fact_id": "lecture_wilson",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "A textbook is not required for the course; this is stated as \"No required book\" [2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/lecture-logistics-single.json#answer.sources",
+          "note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        },
+        {
+          "text": "Reading assignments are assigned on the class homepage [2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/lecture-logistics-single.json#answer.sources",
+          "note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        },
+        {
+          "text": "The guest lecturers listed are Yaoliang Yu and Andrew Wilson [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/lecture-logistics-single.json#answer.sources",
+          "note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "lecture-logistics",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/lecture-logistics-planned.json",
+      "points": [
+        {
+          "fact_id": "lecture_book",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        },
+        {
+          "fact_id": "lecture_yu",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            2
+          ],
+          "evidence_note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        },
+        {
+          "fact_id": "lecture_wilson",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            2
+          ],
+          "evidence_note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "No required book [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/lecture-logistics-planned.json#answer.sources",
+          "note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        },
+        {
+          "text": "Reading assignments are on the class homepage [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/lecture-logistics-planned.json#answer.sources",
+          "note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        },
+        {
+          "text": "The guest lecturers are Yaoliang Yu and Andrew Wilson [2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/lecture-logistics-planned.json#answer.sources",
+          "note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Physical page 3 has no required book, readings on the homepage, and the two guest names. The parser joins YaoliangYu; semantic review accepts the restored name spacing."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "lecture-grades",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/lecture-grades-single.json",
+      "points": [
+        {
+          "fact_id": "lecture_homework",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            3
+          ],
+          "evidence_note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "fact_id": "lecture_project",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            3
+          ],
+          "evidence_note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "fact_id": "lecture_exam",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            2
+          ],
+          "evidence_note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "fact_id": "lecture_team",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "Homework assignments count for 40% of the grade [3].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            3
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/lecture-grades-single.json#answer.sources",
+          "note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "text": "The final project counts for 40% of the grade [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/lecture-grades-single.json#answer.sources",
+          "note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "text": "The midterm exam counts for 20% of the grade [2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/lecture-grades-single.json#answer.sources",
+          "note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "text": "The project team size is 3 members [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/lecture-grades-single.json#answer.sources",
+          "note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "lecture-grades",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/lecture-grades-planned.json",
+      "points": [
+        {
+          "fact_id": "lecture_homework",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2
+          ],
+          "evidence_note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "fact_id": "lecture_project",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2
+          ],
+          "evidence_note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "fact_id": "lecture_exam",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            3
+          ],
+          "evidence_note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "fact_id": "lecture_team",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            2
+          ],
+          "evidence_note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "The grade weight for homework is 40% of the grade [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/lecture-grades-planned.json#answer.sources",
+          "note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "text": "The grade weight for the final project is 40% of the grade [2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/lecture-grades-planned.json#answer.sources",
+          "note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "text": "The grade weight for the midterm is 20% of the grade [3].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            3
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/lecture-grades-planned.json#answer.sources",
+          "note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        },
+        {
+          "text": "The project team size is 3 members [2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/lecture-grades-planned.json#answer.sources",
+          "note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Physical page 4 supports 40/40/20 percent and three-person teams. The initial merged evidence dropped the locally best grade and team hits."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "lecture-followup",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/lecture-followup-single.json",
+      "points": [
+        {
+          "fact_id": "lecture_when",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Physical page 4 specifies forming three-member teams in the first two weeks. A blocked request is an end-to-end failure, not an abstention."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "According to \"ml-lecture.pdf,\" the project teams (of 3 members) should be formed in the first two weeks [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/lecture-followup-single.json#answer.sources",
+          "note": "Physical page 4 specifies forming three-member teams in the first two weeks. A blocked request is an end-to-end failure, not an abstention."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Physical page 4 specifies forming three-member teams in the first two weeks. A blocked request is an end-to-end failure, not an abstention."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "lecture-followup",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/lecture-followup-planned.json",
+      "points": [
+        {
+          "fact_id": "lecture_when",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Physical page 4 specifies forming three-member teams in the first two weeks. A blocked request is an end-to-end failure, not an abstention."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "In \"ml-lecture.pdf,\" the project teams (3-member teams) should be formed in the first two weeks [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/lecture-followup-planned.json#answer.sources",
+          "note": "Physical page 4 specifies forming three-member teams in the first two weeks. A blocked request is an end-to-end failure, not an abstention."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Physical page 4 specifies forming three-member teams in the first two weeks. A blocked request is an end-to-end failure, not an abstention."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "apple-sales",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/apple-sales-single.json",
+      "points": [
+        {
+          "fact_id": "apple_sales_q",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        },
+        {
+          "fact_id": "apple_sales_y",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        },
+        {
+          "fact_id": "apple_units",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        }
+      ],
+      "factual_claim_groups": [],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": true,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 1,
+      "note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "apple-sales",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/apple-sales-planned.json",
+      "points": [
+        {
+          "fact_id": "apple_sales_q",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            2
+          ],
+          "evidence_note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        },
+        {
+          "fact_id": "apple_sales_y",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            2
+          ],
+          "evidence_note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        },
+        {
+          "fact_id": "apple_units",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 0.5,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "For the three months ended September 28, 2024, the total net sales were $94,930 million (i.e., $94.93 billion), with amounts reported in millions of dollars [2].",
+          "original_page_correctness": 1,
+          "context_support": 0.5,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 0.5,
+          "citation_coverage": 0.5,
+          "supporting_evidence_artifact": "repair-1/apple-sales-planned.json#answer.sources",
+          "note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        },
+        {
+          "text": "For the twelve months ended September 28, 2024, the total net sales were $391,035 million (i.e., $391.04 billion), with amounts reported in millions of dollars [2].",
+          "original_page_correctness": 1,
+          "context_support": 0.5,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 0.5,
+          "citation_coverage": 0.5,
+          "supporting_evidence_artifact": "repair-1/apple-sales-planned.json#answer.sources",
+          "note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        },
+        {
+          "text": "Comparing the two periods, total net sales for the twelve months ended September 28, 2024 ($391,035 million) were substantially higher than for the three months ended September 28, 2024 ($94,930 million) [2].",
+          "original_page_correctness": 1,
+          "context_support": 0.5,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 0.5,
+          "citation_coverage": 0.5,
+          "supporting_evidence_artifact": "repair-1/apple-sales-planned.json#answer.sources",
+          "note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "apple-income",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/apple-income-single.json",
+      "points": [
+        {
+          "fact_id": "apple_income_q",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+        },
+        {
+          "fact_id": "apple_income_y",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+        },
+        {
+          "fact_id": "apple_units",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "For the three months ended September 28, 2024: $14,736 million",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [],
+          "citation_support": null,
+          "citation_coverage": 0,
+          "supporting_evidence_artifact": "repair-1/apple-income-single.json#answer.sources",
+          "note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+        },
+        {
+          "text": "For the twelve months ended September 28, 2024: $93,736 million [1]",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/apple-income-single.json#answer.sources",
+          "note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "apple-income",
+      "arm": "planned",
+      "answer_status": "error",
+      "source_artifact": "repair-1/apple-income-planned.json",
+      "points": [
+        {
+          "fact_id": "apple_income_q",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+        },
+        {
+          "fact_id": "apple_income_y",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+        },
+        {
+          "fact_id": "apple_units",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+        }
+      ],
+      "factual_claim_groups": [],
+      "missing_point_review": [],
+      "relevance": 0,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "technical-table",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/technical-table-single.json",
+      "points": [
+        {
+          "fact_id": "technical_native",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        },
+        {
+          "fact_id": "technical_pypdfium",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        },
+        {
+          "fact_id": "technical_ocr",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "On Apple M3 Max with four threads, the time-to-solution (TTS) for the native backend is 177 seconds, which yields a throughput of 1.27 pages per second, while for the pypdfium backend, the TTS is 103 seconds, with a throughput of 2.18 pages per second [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/technical-table-single.json#answer.sources",
+          "note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        },
+        {
+          "text": "For the table displaying these results, OCR was disabled; the table note explicitly states: \"OCR is disabled\" [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/technical-table-single.json#answer.sources",
+          "note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "technical-table",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/technical-table-planned.json",
+      "points": [
+        {
+          "fact_id": "technical_native",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        },
+        {
+          "fact_id": "technical_pypdfium",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        },
+        {
+          "fact_id": "technical_ocr",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "On the Apple M3 Max with four threads, the native backend has a time-to-solution (TTS) of 177 seconds and processes at 1.27 pages per second, while the pypdfium backend has a TTS of 103 seconds and processes at 2.18 pages per second [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/technical-table-planned.json#answer.sources",
+          "note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        },
+        {
+          "text": "According to the table caption, OCR was disabled for this table: \"OCR is disabled\" [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/technical-table-planned.json#answer.sources",
+          "note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Original page 5 confirms native 177s/1.27 and pypdfium 103s/2.18 for four threads. Extracted paired rows retain enough ordering for these facts, but do not establish general merged-table fidelity. Caption states OCR disabled."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "technical-tradeoff",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/technical-tradeoff-single.json",
+      "points": [
+        {
+          "fact_id": "technical_lowresource",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2
+          ],
+          "evidence_note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+        },
+        {
+          "fact_id": "technical_tradeoff",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "In \"docling-report.pdf\", the recommended PDF backend for very low-resource environments is the pypdfium backend [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/technical-tradeoff-single.json#answer.sources",
+          "note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+        },
+        {
+          "text": "The stated quality tradeoff is that while pypdfium is faster and more memory efficient than the default docling-parse backend, it produces worse quality results, especially in table structure recovery [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/technical-tradeoff-single.json#answer.sources",
+          "note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "technical-tradeoff",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/technical-tradeoff-planned.json",
+      "points": [
+        {
+          "fact_id": "technical_lowresource",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2
+          ],
+          "evidence_note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+        },
+        {
+          "fact_id": "technical_tradeoff",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "In \"docling-report.pdf\", the recommended PDF backend for very low-resource environments is the pypdfium backend [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/technical-tradeoff-planned.json#answer.sources",
+          "note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+        },
+        {
+          "text": "The quality tradeoff stated is that while the pypdfium backend is faster and more memory efficient than the default docling-parse backend, it \"will come at the expense of worse quality results, especially in table structure recovery\" [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/technical-tradeoff-planned.json#answer.sources",
+          "note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Performance section explicitly recommends pypdfium for very low resources and warns of worse table structure recovery."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "dependent-dataset",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/dependent-dataset-single.json",
+      "points": [
+        {
+          "fact_id": "technical_dataset",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            2
+          ],
+          "evidence_note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        },
+        {
+          "fact_id": "paper_pages",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            3,
+            4
+          ],
+          "evidence_note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        },
+        {
+          "fact_id": "paper_classes",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "evidence_note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "The public dataset used to retrain the layout model described in \"docling-report.pdf\" is DocLayNet [2].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/dependent-dataset-single.json#answer.sources",
+          "note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        },
+        {
+          "text": "According to the dataset paper \"doclaynet.pdf\", DocLayNet contains 80,863 manually annotated pages and provides 11 distinct layout classes [1][4].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1,
+            4
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/dependent-dataset-single.json#answer.sources",
+          "note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "dependent-dataset",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/dependent-dataset-planned.json",
+      "points": [
+        {
+          "fact_id": "technical_dataset",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        },
+        {
+          "fact_id": "paper_pages",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            2,
+            3
+          ],
+          "evidence_note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        },
+        {
+          "fact_id": "paper_classes",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "evidence_note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "The public dataset used to retrain the layout model in \"docling-report.pdf\" is DocLayNet [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/dependent-dataset-planned.json#answer.sources",
+          "note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        },
+        {
+          "text": "The paper \"doclaynet.pdf\" reports that the DocLayNet dataset contains 80,863 unique document pages and 11 distinct layout classes [2][3].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            2,
+            3
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/dependent-dataset-planned.json#answer.sources",
+          "note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        },
+        {
+          "text": "The connection is that \"docling-report.pdf\" specifies retraining its model on DocLayNet [1], while \"doclaynet.pdf\" reports the size and class count for that dataset [2][3].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1,
+            2,
+            3
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/dependent-dataset-planned.json#answer.sources",
+          "note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "The layout-model section names DocLayNet. The separately supplied dataset paper supports size and classes. A decomposed route can answer this case without a dependent hop; inspect actual route, not the case label."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "dense-table",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/dense-table-single.json",
+      "points": [
+        {
+          "fact_id": "alabama_permit",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "fact_id": "alabama_handgun",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "fact_id": "alabama_longgun",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "fact_id": "alabama_total",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "fact_id": "checks_not_sales",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "Permit: 29,905 [1]",
+          "original_page_correctness": 0,
+          "context_support": 0,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "supporting_evidence_artifact": "repair-1/dense-table-single.json#answer.sources",
+          "note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "text": "Handgun: 38,487 [1]",
+          "original_page_correctness": 0,
+          "context_support": 0,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "supporting_evidence_artifact": "repair-1/dense-table-single.json#answer.sources",
+          "note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "text": "Long Gun: 102 [1]",
+          "original_page_correctness": 0,
+          "context_support": 0,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "supporting_evidence_artifact": "repair-1/dense-table-single.json#answer.sources",
+          "note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "text": "Totals: 1,656 [1]",
+          "original_page_correctness": 0,
+          "context_support": 0,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "supporting_evidence_artifact": "repair-1/dense-table-single.json#answer.sources",
+          "note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "text": "These statistics do not represent firearms sold. They represent the number of firearm background checks initiated through the NICS, and there is not a one-to-one correlation between a background check and a firearm sale [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/dense-table-single.json#answer.sources",
+          "note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "dense-table",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/dense-table-planned.json",
+      "points": [
+        {
+          "fact_id": "alabama_permit",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "fact_id": "alabama_handgun",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "fact_id": "alabama_longgun",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "fact_id": "alabama_total",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        },
+        {
+          "fact_id": "checks_not_sales",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "Do these statistics represent firearms sold? The document states, \"These statistics represent the number of firearm background checks initiated through the NICS. They do not represent the number of firearms sold. Based on varying state laws and purchase scenarios, a one-to-one correlation cannot be made between a firearm background check and a firearm sale\" [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/dense-table-planned.json#answer.sources",
+          "note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Original Alabama row: 18,870 / 23,022 / 22,650 / 71,137. All four values are absent from canonical extraction. Single mode instead assigns unrelated 29,905 / 38,487 / 102 / 1,656 to Alabama; citations do not support that association. Repaired planned mode withholds four numbers and answers only the supported background-check caveat."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "apparent-conflict",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/apparent-conflict-single.json",
+      "points": [
+        {
+          "fact_id": "apple_sales_q",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+        },
+        {
+          "fact_id": "apple_sales_y",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "The figure 94,930 represents net sales for the three months ended September 28, 2024 (Apple's fiscal Q4 2024) [2].",
+          "original_page_correctness": 1,
+          "context_support": 0,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "supporting_evidence_artifact": "repair-1/apparent-conflict-single.json#answer.sources",
+          "note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+        },
+        {
+          "text": "The figure 391,035 represents net sales for the twelve months ended September 28, 2024 (Apple's full fiscal year 2024) [2].",
+          "original_page_correctness": 1,
+          "context_support": 0,
+          "cited_source_ids": [
+            2
+          ],
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "supporting_evidence_artifact": "repair-1/apparent-conflict-single.json#answer.sources",
+          "note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+        },
+        {
+          "text": "Thus, each number pertains to a distinct time frame within the same fiscal year, and together they are consistent as the quarterly number is a subset of the annual total.",
+          "original_page_correctness": 1,
+          "context_support": 0,
+          "cited_source_ids": [],
+          "citation_support": null,
+          "citation_coverage": 0,
+          "supporting_evidence_artifact": "repair-1/apparent-conflict-single.json#answer.sources",
+          "note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+        }
+      ],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "apparent-conflict",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/apparent-conflict-planned.json",
+      "points": [
+        {
+          "fact_id": "apple_sales_q",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+        },
+        {
+          "fact_id": "apple_sales_y",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 0,
+          "source_ids_with_matching_anchors": [],
+          "evidence_note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+        }
+      ],
+      "factual_claim_groups": [],
+      "missing_point_review": [],
+      "relevance": 1,
+      "full_abstention": true,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 1,
+      "note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "partial-lecture",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/partial-lecture-single.json",
+      "points": [
+        {
+          "fact_id": "lecture_yu",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Guest names are supported; exact enrollment is absent. The repaired planned answer states both facts and the missing count. Absence claims are reviewed as missing-point handling, not ordinary factual citations."
+        },
+        {
+          "fact_id": "lecture_wilson",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Guest names are supported; exact enrollment is absent. The repaired planned answer states both facts and the missing count. Absence claims are reviewed as missing-point handling, not ordinary factual citations."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "The guest lecturers for the course are Yaoliang Yu and Andrew Wilson [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/partial-lecture-single.json#answer.sources",
+          "note": "Guest names are supported; exact enrollment is absent. The repaired planned answer states both facts and the missing count. Absence claims are reviewed as missing-point handling, not ordinary factual citations."
+        }
+      ],
+      "missing_point_review": [
+        {
+          "point": "The exact course enrollment count is not supplied.",
+          "correctly_stated": 1
+        }
+      ],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Guest names are supported; exact enrollment is absent. The repaired planned answer states both facts and the missing count. Absence claims are reviewed as missing-point handling, not ordinary factual citations."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "partial-lecture",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/partial-lecture-planned.json",
+      "points": [
+        {
+          "fact_id": "lecture_yu",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Guest names are supported; exact enrollment is absent. The repaired planned answer states both facts and the missing count. Absence claims are reviewed as missing-point handling, not ordinary factual citations."
+        },
+        {
+          "fact_id": "lecture_wilson",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "Guest names are supported; exact enrollment is absent. The repaired planned answer states both facts and the missing count. Absence claims are reviewed as missing-point handling, not ordinary factual citations."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "The guest lecturers named in \"ml-lecture.pdf\" are Yaoliang Yu and Andrew Wilson [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/partial-lecture-planned.json#answer.sources",
+          "note": "Guest names are supported; exact enrollment is absent. The repaired planned answer states both facts and the missing count. Absence claims are reviewed as missing-point handling, not ordinary factual citations."
+        }
+      ],
+      "missing_point_review": [
+        {
+          "point": "The exact course enrollment count is not supplied.",
+          "correctly_stated": 1
+        }
+      ],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "Guest names are supported; exact enrollment is absent. The repaired planned answer states both facts and the missing count. Absence claims are reviewed as missing-point handling, not ordinary factual citations."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "forecast-missing",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/forecast-missing-single.json",
+      "points": [],
+      "factual_claim_groups": [],
+      "missing_point_review": [
+        {
+          "point": "No exact fiscal 2025 net-sales forecast is supplied.",
+          "correctly_stated": 1
+        }
+      ],
+      "relevance": 1,
+      "full_abstention": true,
+      "appropriate_abstention": 1,
+      "incorrect_abstention": 0,
+      "note": "No exact 2025 sales forecast in the allowed report. Scope-limited absence is appropriate. An error is not successful abstention."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "forecast-missing",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/forecast-missing-planned.json",
+      "points": [],
+      "factual_claim_groups": [],
+      "missing_point_review": [
+        {
+          "point": "No exact fiscal 2025 net-sales forecast is supplied.",
+          "correctly_stated": 1
+        }
+      ],
+      "relevance": 1,
+      "full_abstention": true,
+      "appropriate_abstention": 1,
+      "incorrect_abstention": 0,
+      "note": "No exact 2025 sales forecast in the allowed report. Scope-limited absence is appropriate. An error is not successful abstention."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "restricted-dependency",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/restricted-dependency-single.json",
+      "points": [
+        {
+          "fact_id": "technical_dataset",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "The pre-answer correction makes the missing item the double-annotation count, not total pages. Initial leading-only scope parsing failed in both arms. Repair retrieves DocLayNet within the allowed report and withholds the count. The single answer extra note about triple annotations/training is in source 5."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "The public dataset used to retrain the layout model is DocLayNet, which is described as \"our popular human-annotated dataset for document-layout analysis\" and is specifically named as the re-training set for the model architecture derived from RT-DETR [1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/restricted-dependency-single.json#answer.sources",
+          "note": "The pre-answer correction makes the missing item the double-annotation count, not total pages. Initial leading-only scope parsing failed in both arms. Repair retrieves DocLayNet within the allowed report and withholds the count. The single answer extra note about triple annotations/training is in source 5."
+        }
+      ],
+      "missing_point_review": [
+        {
+          "point": "The number of DocLayNet pages with two human annotations is not supplied in this allowed report.",
+          "correctly_stated": 1
+        }
+      ],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "The pre-answer correction makes the missing item the double-annotation count, not total pages. Initial leading-only scope parsing failed in both arms. Repair retrieves DocLayNet within the allowed report and withholds the count. The single answer extra note about triple annotations/training is in source 5."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "restricted-dependency",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/restricted-dependency-planned.json",
+      "points": [
+        {
+          "fact_id": "technical_dataset",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1,
+          "source_ids_with_matching_anchors": [
+            1
+          ],
+          "evidence_note": "The pre-answer correction makes the missing item the double-annotation count, not total pages. Initial leading-only scope parsing failed in both arms. Repair retrieves DocLayNet within the allowed report and withholds the count. The single answer extra note about triple annotations/training is in source 5."
+        }
+      ],
+      "factual_claim_groups": [
+        {
+          "text": "The public dataset used to retrain Docling's layout model is DocLayNet[1].",
+          "original_page_correctness": 1,
+          "context_support": 1,
+          "cited_source_ids": [
+            1
+          ],
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "supporting_evidence_artifact": "repair-1/restricted-dependency-planned.json#answer.sources",
+          "note": "The pre-answer correction makes the missing item the double-annotation count, not total pages. Initial leading-only scope parsing failed in both arms. Repair retrieves DocLayNet within the allowed report and withholds the count. The single answer extra note about triple annotations/training is in source 5."
+        }
+      ],
+      "missing_point_review": [
+        {
+          "point": "The number of DocLayNet pages with two human annotations is not supplied in this allowed report.",
+          "correctly_stated": 1
+        }
+      ],
+      "relevance": 1,
+      "full_abstention": false,
+      "appropriate_abstention": 0,
+      "incorrect_abstention": 0,
+      "note": "The pre-answer correction makes the missing item the double-annotation count, not total pages. Initial leading-only scope parsing failed in both arms. Repair retrieves DocLayNet within the allowed report and withholds the count. The single answer extra note about triple annotations/training is in source 5."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "unsupported-screenshot",
+      "arm": "single",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/unsupported-screenshot-single.json",
+      "points": [],
+      "factual_claim_groups": [],
+      "missing_point_review": [
+        {
+          "point": "Embedded screenshot text is outside this text-only extraction; the surrounding webpage URL is not its navigation content.",
+          "correctly_stated": 1
+        }
+      ],
+      "relevance": 1,
+      "full_abstention": true,
+      "appropriate_abstention": 1,
+      "incorrect_abstention": 0,
+      "note": "Screenshot navigation is outside native text extraction. Abstention is appropriate; no OCR claim is credited. Initial single answer additionally calls source 2 a course title, but it is only the Class Webpage heading; that extra factual group has partial support."
+    },
+    {
+      "pass_name": "repair",
+      "case_id": "unsupported-screenshot",
+      "arm": "planned",
+      "answer_status": "completed",
+      "source_artifact": "repair-1/unsupported-screenshot-planned.json",
+      "points": [],
+      "factual_claim_groups": [],
+      "missing_point_review": [
+        {
+          "point": "Embedded screenshot text is outside this text-only extraction; the surrounding webpage URL is not its navigation content.",
+          "correctly_stated": 1
+        }
+      ],
+      "relevance": 1,
+      "full_abstention": true,
+      "appropriate_abstention": 1,
+      "incorrect_abstention": 0,
+      "note": "Screenshot navigation is outside native text extraction. Abstention is appropriate; no OCR claim is credited. Initial single answer additionally calls source 2 a course title, but it is only the Class Webpage heading; that extra factual group has partial support."
+    }
+  ]
+}
