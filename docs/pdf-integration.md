@@ -27,7 +27,11 @@ The [context and scope repair](../evals/check-runs/20260927-table-context-scope/
 then restores all 16 annotated evidence points in the four frozen requests that
 actually retrieved candidates. Both formerly rejected questions resolve locally,
 but their old empty rankings cannot establish new answer quality or blank-cell
-interpretation. Real answer acceptance is recorded separately.
+interpretation. The [matched real replay](../evals/library-runs/20260927-table-context-scope-acceptance/README.md)
+supplies all 24 evidence points and answers 19 correctly, up from 2. The five
+remaining point errors confuse Pre-Pawn/Redemption/Rentals columns or interpret
+printed blank cells as zero despite receiving the correct row/header/cell context.
+The context-budget and scope repairs work; full answer acceptance remains failed.
 
 ## Use
 

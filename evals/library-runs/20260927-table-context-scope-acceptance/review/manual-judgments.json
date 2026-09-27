@@ -1,0 +1,59 @@
+{
+  "reviewer": "Codex assistant /root/context_review; independent model review, not a human or paid judge",
+  "independence": "Written after directly inspecting all six raw answers, their supplied source bodies and table metadata, the frozen source-bound gold and all three planned assessment reference bundles. The new root review has not been opened and no new root aggregate verdict has been received.",
+  "method": "Scores are manual semantic judgments. Arrays follow the frozen expected_fact_ids order. Claim group scores follow substantive answer bullet order, excluding introductory restatements. The assembler only preserves provenance and serializes these judgments.",
+  "rows": [
+    {
+      "case_id": "dense-table", "arm": "single",
+      "point_scores": [1, 1, 1, 1, 1], "claim_scores": [1, 1, 1, 1, 1],
+      "claim_fact_ids": [["alabama_permit"], ["alabama_handgun"], ["alabama_longgun"], ["alabama_total"], ["checks_not_sales"]],
+      "excluded_line_indices": [0],
+      "note": "Four nested numeric bullets correctly identify Alabama's ungrouped values and total for November 2015, supported by source 2 row/header/cell structure. The separate final bullet correctly states background checks, not firearm sales, and no one-to-one correlation, supported by source 1. The outer first bullet only introduces the four facts and is excluded as repeated framing."
+    },
+    {
+      "case_id": "dense-table", "arm": "planned",
+      "point_scores": [1, 1, 1, 1, 1], "claim_scores": [1, 1, 1, 1, 1],
+      "claim_fact_ids": [["alabama_permit"], ["alabama_handgun"], ["alabama_longgun"], ["alabama_total"], ["checks_not_sales"]],
+      "excluded_line_indices": [],
+      "note": "Four numeric bullets match the original Alabama row and cite source 1. The disclaimer bullet includes both required qualifications and cites source 2. All table facts have the correct November 2015 context and ungrouped columns."
+    },
+    {
+      "case_id": "state-totals", "arm": "single",
+      "point_scores": [1, 1, 1], "claim_scores": [1, 1, 1],
+      "claim_fact_ids": [["alabama_total"], ["alaska_total"], ["arizona_total"]],
+      "excluded_line_indices": [0],
+      "note": "All three state totals are correct and individually cited to source 1. The original source's Totals header and November 2015 heading accompany the actual three state rows. The first line introduces the comparison and is excluded as repeated framing; no arithmetic comparison was required."
+    },
+    {
+      "case_id": "state-totals", "arm": "planned",
+      "point_scores": [1, 1, 1], "claim_scores": [1, 1, 1],
+      "claim_fact_ids": [["alabama_total"], ["alaska_total"], ["arizona_total"]],
+      "excluded_line_indices": [],
+      "note": "The three bullets report the correct state-specific totals with the correct month and source 1 citation on each bullet. All needed headers, rows, coordinates and physical page 1 are supplied."
+    },
+    {
+      "case_id": "grouped-and-blank-cells", "arm": "single",
+      "point_scores": [1, 1, 0, 0], "claim_scores": [1, 1, 0],
+      "claim_fact_ids": [["alabama_handgun"], ["alabama_prepawn_handgun"], ["alabama_rentals_handgun_blank", "alabama_rentals_longgun_blank"]],
+      "excluded_line_indices": [],
+      "note": "Ungrouped Handgun 23,022 and Pre-Pawn Handgun 14 are correct. The final bullet assigns 2,179 and 2,307 to Rentals, but these belong to Redemption Handgun and Redemption Long Gun at columns 10 and 11. Actual Rentals cells at columns 16 and 17 are blank, with zero-width spans 434:434 and 435:435. Full parent/leaf headers and empty positions are supplied in source 1, so this is incorrect column association and unsupported citation, not missing evidence. The two wrong cell claims share one bullet and are one unsupported factual group under the frozen rubric."
+    },
+    {
+      "case_id": "grouped-and-blank-cells", "arm": "planned",
+      "point_scores": [1, 0, 0, 0], "claim_scores": [1, 0, 0, 0],
+      "claim_fact_ids": [["alabama_handgun"], ["alabama_prepawn_handgun"], ["alabama_rentals_handgun_blank"], ["alabama_rentals_longgun_blank"]],
+      "excluded_line_indices": [],
+      "note": "Ungrouped Handgun 23,022 is correct. Pre-Pawn Handgun is wrongly answered as 2,179, the actual Redemption Handgun value; the correct Pre-Pawn value is 14 at column 7. Each Rentals cell is wrongly answered as 0 even though source 1 supplies explicit empty positions at columns 16 and 17 and their complete parent/leaf headers. A blank is not zero. Valid source 1 citation IDs do not support any of these three wrong associations."
+    }
+  ],
+  "shared_judgments": {
+    "supplied_evidence_coverage_each_point": 1,
+    "relevance_each_answer": 1,
+    "full_abstention_each_answer": false,
+    "incorrect_abstention_each_answer": 0,
+    "appropriate_abstention": null,
+    "appropriate_abstention_reason": "All frozen questions are answerable; no fully unanswerable cases exist.",
+    "missing_point_review": [],
+    "assessment_status_judgment": "All twelve planned requirement statuses are supported by the actual supplied evidence and reference bundles. For grouped/blank requirements, supported means that the requested correct value or printed blank can be determined from the row plus full headers and cell tuples. The assessor returns IDs/status only, not a numeric answer. Its status is therefore not itself an endorsement of the later wrong values. No evidence sufficiency or source-ID validation step proves correct downstream column interpretation."
+  }
+}

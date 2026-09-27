@@ -1,0 +1,3012 @@
+{
+  "scope": "Three frozen dense-table questions \u00d7 two modes on a byte-identical isolated copy of the baseline index; no ingestion, release or merge authorization.",
+  "reviewer": "Independent Codex model reviews under the frozen protocol; no human review or paid judge.",
+  "metric_definition": "Complete 20-metric inventory for each arm and all requests, with preparation separately scoped. Candidate retrieval, structural supplied coverage, and semantic answer review remain distinct.",
+  "groups": {
+    "single": {
+      "Recall@K": {
+        "status": "measured",
+        "value": 1.0,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "K=5 final selected children. Source-bound cell/fact labels; fact Recall and binary child Precision use different units. Blank labels require complete original row slices. See fact-labels.json and retrieval-diagnostics.json for exact definitions.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1.0,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "bm25_matches": {
+            "value": 1.0,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "fused_matches": {
+            "value": 1.0,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "reranked": {
+            "value": 1.0,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          }
+        },
+        "requests_without_observed_retrieval": 0
+      },
+      "Precision@K": {
+        "status": "measured",
+        "value": 0.26666666666666666,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "K=5 final selected children. Source-bound cell/fact labels; fact Recall and binary child Precision use different units. Blank labels require complete original row slices. See fact-labels.json and retrieval-diagnostics.json for exact definitions.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.26666666666666666,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "bm25_matches": {
+            "value": 0.26666666666666666,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "fused_matches": {
+            "value": 0.26666666666666666,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "reranked": {
+            "value": 0.26666666666666666,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          }
+        },
+        "requests_without_observed_retrieval": 0
+      },
+      "Hit Rate@K": {
+        "status": "measured",
+        "value": 1,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "K=5 final selected children. Source-bound cell/fact labels; fact Recall and binary child Precision use different units. Blank labels require complete original row slices. See fact-labels.json and retrieval-diagnostics.json for exact definitions.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "bm25_matches": {
+            "value": 1,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "fused_matches": {
+            "value": 1,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "reranked": {
+            "value": 1,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          }
+        },
+        "requests_without_observed_retrieval": 0
+      },
+      "MRR": {
+        "status": "measured",
+        "value": 1.0,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "K=5 final selected children. Source-bound cell/fact labels; fact Recall and binary child Precision use different units. Blank labels require complete original row slices. See fact-labels.json and retrieval-diagnostics.json for exact definitions.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1.0,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "bm25_matches": {
+            "value": 0.6666666666666666,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "fused_matches": {
+            "value": 1.0,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "reranked": {
+            "value": 1.0,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          }
+        },
+        "requests_without_observed_retrieval": 0
+      },
+      "NDCG@K": {
+        "status": "measured",
+        "value": 1.0,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "K=5 final selected children. Source-bound cell/fact labels; fact Recall and binary child Precision use different units. Blank labels require complete original row slices. See fact-labels.json and retrieval-diagnostics.json for exact definitions.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1.0,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "bm25_matches": {
+            "value": 0.7539531690476383,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "fused_matches": {
+            "value": 1.0,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "reranked": {
+            "value": 1.0,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          }
+        },
+        "requests_without_observed_retrieval": 0
+      },
+      "Final evidence coverage": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "Frozen 0/0.5/1 protocol; independent Codex model review against original-page facts and actual supplied context. Blank contents require explicit row, empty positions, parent and leaf headers. An honest context limitation can be faithful but incomplete.",
+        "aggregation": "macro mean",
+        "artifact": "../review/reviewed-cases.json",
+        "point_micro_average": 1,
+        "point_count": 12,
+        "structural_diagnostic": {
+          "value": 1.0,
+          "method": "Actual source/supplement slices, exact table-cell tuples, row labels, full header paths and report-period cells. Blank targets additionally require a complete supplied original row. A separate audit confirms every actual SDK Sources block equals the packed evidence and preserves the exact table metadata. Separate from semantic model review.",
+          "artifact": "retrieval-diagnostics.json",
+          "actual_context_audit_artifact": "actual-context-audit.json"
+        }
+      },
+      "Answer correctness": {
+        "status": "measured",
+        "value": 0.8333333333333334,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "Frozen 0/0.5/1 protocol; independent Codex model review against original-page facts and actual supplied context. Blank contents require explicit row, empty positions, parent and leaf headers. An honest context limitation can be faithful but incomplete.",
+        "aggregation": "macro mean",
+        "artifact": "../review/reviewed-cases.json",
+        "point_micro_average": 0.8333333333333334,
+        "point_count": 12
+      },
+      "Answer completeness": {
+        "status": "measured",
+        "value": 0.8333333333333334,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "Frozen 0/0.5/1 protocol; independent Codex model review against original-page facts and actual supplied context. Blank contents require explicit row, empty positions, parent and leaf headers. An honest context limitation can be faithful but incomplete.",
+        "aggregation": "macro mean",
+        "artifact": "../review/reviewed-cases.json",
+        "point_micro_average": 0.8333333333333334,
+        "point_count": 12
+      },
+      "Faithfulness": {
+        "status": "measured",
+        "value": 0.9090909090909091,
+        "unit": "score 0..1",
+        "sample_count": 11,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Frozen paragraph/bullet rubric; actual supplied context and each group's cited sources reviewed. Uncited groups remain in citation coverage but have no citation-support denominator.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../review/reviewed-cases.json"
+      },
+      "Citation support": {
+        "status": "measured",
+        "value": 0.9090909090909091,
+        "unit": "score 0..1",
+        "sample_count": 11,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Frozen paragraph/bullet rubric; actual supplied context and each group's cited sources reviewed. Uncited groups remain in citation coverage but have no citation-support denominator.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../review/reviewed-cases.json"
+      },
+      "Citation coverage": {
+        "status": "measured",
+        "value": 0.9090909090909091,
+        "unit": "score 0..1",
+        "sample_count": 11,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Frozen paragraph/bullet rubric; actual supplied context and each group's cited sources reviewed. Uncited groups remain in citation coverage but have no citation-support denominator.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../review/reviewed-cases.json"
+      },
+      "Answer relevance": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "Frozen relevance rubric applied independently from correctness and completeness.",
+        "aggregation": "macro mean",
+        "artifact": "../review/reviewed-cases.json"
+      },
+      "Abstention": {
+        "status": "measured",
+        "value": {
+          "appropriate": {
+            "status": "not_applicable",
+            "numerator": null,
+            "denominator": 0,
+            "rate": null,
+            "reason": "No fully unanswerable questions in this workload."
+          },
+          "incorrect": {
+            "numerator": 0,
+            "denominator": 3,
+            "rate": 0
+          }
+        },
+        "unit": "counts and rates",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "Full refusals only. Point-level uncertainty is separately reviewed, and printed blanks are answerable cell contents. Errors are not abstentions.",
+        "aggregation": "separate denominators",
+        "artifact": "../review/reviewed-cases.json"
+      },
+      "First-answer-delta latency": {
+        "status": "measured",
+        "value": {
+          "n": 3,
+          "mean": 2.06845083363199,
+          "p50": 1.7078370839590207,
+          "p95": 2.8562400089926085,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 3,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / stream closure. Startup excluded; request and provider/network waits included. These boundaries are distinct.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "../case-arm JSON files",
+        "unsuccessful_requests": {
+          "count": 0,
+          "observed_values": null,
+          "missing_values": 0,
+          "method": "Failed/incomplete timings remain separate. Missing first deltas are not replaced by response completion time."
+        },
+        "by_response_path": {
+          "provider_generated": {
+            "n": 3,
+            "mean": 2.06845083363199,
+            "p50": 1.7078370839590207,
+            "p95": 2.8562400089926085,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "response_path_caveat": "Scope rejections and programmatic replies can complete without answer generation. Do not interpret the mixed aggregate as normal generation performance."
+      },
+      "Complete-response latency": {
+        "status": "measured",
+        "value": {
+          "n": 3,
+          "mean": 2.5358248196619875,
+          "p50": 2.0583050419809297,
+          "p95": 3.5905487042269666,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 3,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / stream closure. Startup excluded; request and provider/network waits included. These boundaries are distinct.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "../case-arm JSON files",
+        "unsuccessful_requests": {
+          "count": 0,
+          "observed_values": null,
+          "missing_values": 0,
+          "method": "Failed/incomplete timings remain separate. Missing first deltas are not replaced by response completion time."
+        },
+        "by_response_path": {
+          "provider_generated": {
+            "n": 3,
+            "mean": 2.5358248196619875,
+            "p50": 2.0583050419809297,
+            "p95": 3.5905487042269666,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "response_path_caveat": "Scope rejections and programmatic replies can complete without answer generation. Do not interpret the mixed aggregate as normal generation performance."
+      },
+      "Stage latency": {
+        "status": "measured",
+        "value": {
+          "embedding_sdk": {
+            "n": 3,
+            "mean": 0.48029206972569227,
+            "p50": 0.1786827080650255,
+            "p95": 1.0029187586391344,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "single_retrieval": {
+            "n": 3,
+            "mean": 1.346029527989837,
+            "p50": 1.0607654590858147,
+            "p95": 1.9459957830491474,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "packing_observed_call": {
+            "n": 3,
+            "mean": 0.01209616664952288,
+            "p50": 0.011747124954126775,
+            "p95": 0.013109050004277378,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "answer_generation_sdk": {
+            "n": 3,
+            "mean": 1.1637580833242585,
+            "p50": 0.9848124160198495,
+            "p95": 1.5935975791187955,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "embedding_seconds": {
+            "n": 3,
+            "mean": 0.4806918056759362,
+            "p50": 0.17905941605567932,
+            "p95": 1.0032796797342598,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "rerank_seconds": {
+            "n": 3,
+            "mean": 0.7926672636919344,
+            "p50": 0.8069479590049013,
+            "p95": 0.8682142953504808,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "scope_seconds": {
+            "n": 3,
+            "mean": 0.0018378473663081725,
+            "p50": 0.0021752079483121634,
+            "p95": 0.002222571463789791,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "unit": "seconds",
+        "sample_count": 21,
+        "population": "Actual observed stages and SDK calls in this subset",
+        "method": "SDK timers include provider/network waiting. Final cumulative traces supply each query once. Stage distributions overlap and must not be summed. Startup excluded; lazy reranker loading may affect the first query.",
+        "aggregation": "per-stage mean/P50/P95 and sample counts",
+        "artifact": "../server-observations.jsonl",
+        "server_startup": {
+          "seconds": 3.2409708340419456,
+          "sample_count": 1,
+          "included_in_answer_latency": false,
+          "artifact": "../resolved-runtime.json"
+        },
+        "unavailable": {
+          "search_fusion_separate": "No dedicated wall timer; do not infer by subtraction.",
+          "provider_queue_separate": "Provider queue duration is not exposed.",
+          "model_loading_separate": "Lazy model loading has no separate timer."
+        }
+      },
+      "Token usage and cost": {
+        "status": "measured",
+        "value": {
+          "by_model": {
+            "text-embedding-3-small": {
+              "calls": 3,
+              "raw_usage": [
+                {
+                  "prompt_tokens": 34,
+                  "total_tokens": 34
+                },
+                {
+                  "prompt_tokens": 24,
+                  "total_tokens": 24
+                },
+                {
+                  "prompt_tokens": 69,
+                  "total_tokens": 69
+                }
+              ],
+              "input_tokens": 127,
+              "output_tokens": null,
+              "output_tokens_status": "not_applicable",
+              "output_tokens_reason": "Embedding calls return vectors, not generated text.",
+              "cached_input_tokens": null,
+              "cached_input_tokens_status": "unavailable",
+              "cached_input_tokens_reason": "At least one actual provider response omits this field.",
+              "total_tokens": 127
+            },
+            "gpt-4.1-2025-04-14": {
+              "calls": 3,
+              "raw_usage": [
+                {
+                  "input_tokens": 4923,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 106,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 5029
+                },
+                {
+                  "input_tokens": 4913,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 42,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 4955
+                },
+                {
+                  "input_tokens": 4958,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 68,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 5026
+                }
+              ],
+              "input_tokens": 14794,
+              "output_tokens": 216,
+              "cached_input_tokens": 0,
+              "total_tokens": 15010
+            }
+          },
+          "sdk_calls_started": 6,
+          "terminal_results_without_usage": [],
+          "billed_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "No provider billing statement supplied; no estimated or fabricated bill."
+          },
+          "local_compute_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "No local energy/hardware cost measurement."
+          }
+        },
+        "unit": "provider tokens; actual billing unavailable",
+        "sample_count": 6,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "Actual SDK terminal usage including planner/assessor calls, summed by provider-resolved model. No token estimates or provider billing estimates.",
+        "aggregation": "sum by resolved model",
+        "artifact": "../server-observations.jsonl",
+        "local_evidence_tokens": {
+          "values": [
+            3651,
+            3651,
+            3651
+          ],
+          "mean": 3651,
+          "budgets": [
+            4096,
+            4096,
+            4096
+          ],
+          "method": "Production cl100k_base context counts, distinct from provider tokens. Failed candidate contexts may not reach generation."
+        }
+      },
+      "Reliability": {
+        "status": "measured",
+        "value": {
+          "intended_requests": 3,
+          "submitted_requests": 3,
+          "completed": 3,
+          "errors": 0,
+          "incomplete": 0,
+          "blocked": 0,
+          "success_rate": 1.0,
+          "error_rate": 0.0,
+          "observed_sdk_errors": 0,
+          "observed_sdk_timeouts": 0,
+          "client_timeouts": 0,
+          "sdk_stream_failed": 0,
+          "sdk_stream_incomplete": 0,
+          "http_status_counts": {
+            "200": 3
+          },
+          "sdk_retry_configuration": 0,
+          "retries": 0,
+          "application_replays": 0,
+          "response_path_counts": {
+            "provider_generated": 3
+          },
+          "raw_history_sources_match_counts": {
+            "False": 3
+          },
+          "saved_source_parity": 3,
+          "saved_answer_and_trace_parity": 3,
+          "source_comparison": "All source fields compared exactly except the saved-history file_deleted lifecycle flag."
+        },
+        "unit": "counts and rates",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "Actual request terminal statuses, SDK errors and history parity. One request per pair; no automatic retries or reruns.",
+        "aggregation": "counts and rates over intended requests",
+        "artifact": "../case-arm JSON files"
+      },
+      "Concurrency and throughput": {
+        "status": "measured",
+        "value": {
+          "concurrency": 1,
+          "completed": 3,
+          "workload_wall_seconds": 33.41597700002603,
+          "completed_per_workload_second": 0.0897774139597254
+        },
+        "unit": "completed requests/second",
+        "sample_count": 3,
+        "population": "One sequential alternating six-request command",
+        "method": "Command wall includes both arms, setup and history/client I/O. Arm contributions use the same denominator and sum to the overall rate; this is not load capacity.",
+        "aggregation": "whole command wall-clock rate",
+        "artifact": "../answers-1.json"
+      },
+      "Ingestion and index": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "sample_count": null,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "reason": "Answer subset reads a byte-identical isolated copy of the baseline index; no fresh upload, parse, embedding or index update.",
+        "method": "Answer subset reads a byte-identical isolated copy of the baseline index; no fresh upload, parse, embedding or index update.",
+        "aggregation": "none",
+        "artifact": "../index-reuse.json"
+      }
+    },
+    "planned": {
+      "Recall@K": {
+        "status": "measured",
+        "value": 1.0,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "K=5 final selected children. Source-bound cell/fact labels; fact Recall and binary child Precision use different units. Blank labels require complete original row slices. See fact-labels.json and retrieval-diagnostics.json for exact definitions.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.9833333333333334,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "bm25_matches": {
+            "value": 1.0,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "fused_matches": {
+            "value": 1.0,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "reranked": {
+            "value": 0.9666666666666667,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          }
+        },
+        "requests_without_observed_retrieval": 0
+      },
+      "Precision@K": {
+        "status": "measured",
+        "value": 0.26666666666666666,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "K=5 final selected children. Source-bound cell/fact labels; fact Recall and binary child Precision use different units. Blank labels require complete original row slices. See fact-labels.json and retrieval-diagnostics.json for exact definitions.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.26666666666666666,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "bm25_matches": {
+            "value": 0.2833333333333333,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "fused_matches": {
+            "value": 0.2833333333333333,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "reranked": {
+            "value": 0.25,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          }
+        },
+        "requests_without_observed_retrieval": 0
+      },
+      "Hit Rate@K": {
+        "status": "measured",
+        "value": 1,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "K=5 final selected children. Source-bound cell/fact labels; fact Recall and binary child Precision use different units. Blank labels require complete original row slices. See fact-labels.json and retrieval-diagnostics.json for exact definitions.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "bm25_matches": {
+            "value": 1,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "fused_matches": {
+            "value": 1,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "reranked": {
+            "value": 1,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          }
+        },
+        "requests_without_observed_retrieval": 0
+      },
+      "MRR": {
+        "status": "measured",
+        "value": 1.0,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "K=5 final selected children. Source-bound cell/fact labels; fact Recall and binary child Precision use different units. Blank labels require complete original row slices. See fact-labels.json and retrieval-diagnostics.json for exact definitions.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1.0,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "bm25_matches": {
+            "value": 0.75,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "fused_matches": {
+            "value": 1.0,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "reranked": {
+            "value": 1.0,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          }
+        },
+        "requests_without_observed_retrieval": 0
+      },
+      "NDCG@K": {
+        "status": "measured",
+        "value": 1.0,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "K=5 final selected children. Source-bound cell/fact labels; fact Recall and binary child Precision use different units. Blank labels require complete original row slices. See fact-labels.json and retrieval-diagnostics.json for exact definitions.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.9677622660637882,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "bm25_matches": {
+            "value": 0.8154648767857288,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "fused_matches": {
+            "value": 1.0,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "reranked": {
+            "value": 0.9355245321275764,
+            "query_count": 12,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          }
+        },
+        "requests_without_observed_retrieval": 0
+      },
+      "Final evidence coverage": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "Frozen 0/0.5/1 protocol; independent Codex model review against original-page facts and actual supplied context. Blank contents require explicit row, empty positions, parent and leaf headers. An honest context limitation can be faithful but incomplete.",
+        "aggregation": "macro mean",
+        "artifact": "../review/reviewed-cases.json",
+        "point_micro_average": 1,
+        "point_count": 12,
+        "structural_diagnostic": {
+          "value": 1.0,
+          "method": "Actual source/supplement slices, exact table-cell tuples, row labels, full header paths and report-period cells. Blank targets additionally require a complete supplied original row. A separate audit confirms every actual SDK Sources block equals the packed evidence and preserves the exact table metadata. Separate from semantic model review.",
+          "artifact": "retrieval-diagnostics.json",
+          "actual_context_audit_artifact": "actual-context-audit.json"
+        }
+      },
+      "Answer correctness": {
+        "status": "measured",
+        "value": 0.75,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "Frozen 0/0.5/1 protocol; independent Codex model review against original-page facts and actual supplied context. Blank contents require explicit row, empty positions, parent and leaf headers. An honest context limitation can be faithful but incomplete.",
+        "aggregation": "macro mean",
+        "artifact": "../review/reviewed-cases.json",
+        "point_micro_average": 0.75,
+        "point_count": 12
+      },
+      "Answer completeness": {
+        "status": "measured",
+        "value": 0.75,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "Frozen 0/0.5/1 protocol; independent Codex model review against original-page facts and actual supplied context. Blank contents require explicit row, empty positions, parent and leaf headers. An honest context limitation can be faithful but incomplete.",
+        "aggregation": "macro mean",
+        "artifact": "../review/reviewed-cases.json",
+        "point_micro_average": 0.75,
+        "point_count": 12
+      },
+      "Faithfulness": {
+        "status": "measured",
+        "value": 0.75,
+        "unit": "score 0..1",
+        "sample_count": 12,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Frozen paragraph/bullet rubric; actual supplied context and each group's cited sources reviewed. Uncited groups remain in citation coverage but have no citation-support denominator.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../review/reviewed-cases.json"
+      },
+      "Citation support": {
+        "status": "measured",
+        "value": 0.75,
+        "unit": "score 0..1",
+        "sample_count": 12,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Frozen paragraph/bullet rubric; actual supplied context and each group's cited sources reviewed. Uncited groups remain in citation coverage but have no citation-support denominator.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../review/reviewed-cases.json"
+      },
+      "Citation coverage": {
+        "status": "measured",
+        "value": 0.75,
+        "unit": "score 0..1",
+        "sample_count": 12,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Frozen paragraph/bullet rubric; actual supplied context and each group's cited sources reviewed. Uncited groups remain in citation coverage but have no citation-support denominator.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../review/reviewed-cases.json"
+      },
+      "Answer relevance": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "Frozen relevance rubric applied independently from correctness and completeness.",
+        "aggregation": "macro mean",
+        "artifact": "../review/reviewed-cases.json"
+      },
+      "Abstention": {
+        "status": "measured",
+        "value": {
+          "appropriate": {
+            "status": "not_applicable",
+            "numerator": null,
+            "denominator": 0,
+            "rate": null,
+            "reason": "No fully unanswerable questions in this workload."
+          },
+          "incorrect": {
+            "numerator": 0,
+            "denominator": 3,
+            "rate": 0
+          }
+        },
+        "unit": "counts and rates",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "Full refusals only. Point-level uncertainty is separately reviewed, and printed blanks are answerable cell contents. Errors are not abstentions.",
+        "aggregation": "separate denominators",
+        "artifact": "../review/reviewed-cases.json"
+      },
+      "First-answer-delta latency": {
+        "status": "measured",
+        "value": {
+          "n": 3,
+          "mean": 8.026977083296515,
+          "p50": 7.247859167051502,
+          "p95": 10.040758704126347,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 3,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / stream closure. Startup excluded; request and provider/network waits included. These boundaries are distinct.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "../case-arm JSON files",
+        "unsuccessful_requests": {
+          "count": 0,
+          "observed_values": null,
+          "missing_values": 0,
+          "method": "Failed/incomplete timings remain separate. Missing first deltas are not replaced by response completion time."
+        },
+        "by_response_path": {
+          "provider_generated": {
+            "n": 3,
+            "mean": 8.026977083296515,
+            "p50": 7.247859167051502,
+            "p95": 10.040758704126347,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "response_path_caveat": "Scope rejections and programmatic replies can complete without answer generation. Do not interpret the mixed aggregate as normal generation performance."
+      },
+      "Complete-response latency": {
+        "status": "measured",
+        "value": {
+          "n": 3,
+          "mean": 8.537005291320384,
+          "p50": 7.810433250037022,
+          "p95": 10.642835812154226,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 3,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / stream closure. Startup excluded; request and provider/network waits included. These boundaries are distinct.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "../case-arm JSON files",
+        "unsuccessful_requests": {
+          "count": 0,
+          "observed_values": null,
+          "missing_values": 0,
+          "method": "Failed/incomplete timings remain separate. Missing first deltas are not replaced by response completion time."
+        },
+        "by_response_path": {
+          "provider_generated": {
+            "n": 3,
+            "mean": 8.537005291320384,
+            "p50": 7.810433250037022,
+            "p95": 10.642835812154226,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "response_path_caveat": "Scope rejections and programmatic replies can complete without answer generation. Do not interpret the mixed aggregate as normal generation performance."
+      },
+      "Stage latency": {
+        "status": "measured",
+        "value": {
+          "retrieval_plan": {
+            "n": 3,
+            "mean": 2.254283458382512,
+            "p50": 1.9711320420028642,
+            "p95": 2.9273575539584273,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "embedding_sdk": {
+            "n": 12,
+            "mean": 0.2594003127596807,
+            "p50": 0.18714952148729935,
+            "p95": 0.47060482774395496,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "planned_retrieval": {
+            "n": 3,
+            "mean": 3.810924347334852,
+            "p50": 3.510260291979648,
+            "p95": 4.947107291454449,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "packing_observed_call": {
+            "n": 3,
+            "mean": 0.018091347340183955,
+            "p50": 0.011842792038805783,
+            "p95": 0.029361366655211895,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "evidence_assessment": {
+            "n": 3,
+            "mean": 1.2902029030180227,
+            "p50": 1.324861792032607,
+            "p95": 1.3992453294922598,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "answer_generation_sdk": {
+            "n": 3,
+            "mean": 1.13053506896055,
+            "p50": 1.1620867910096422,
+            "p95": 1.3487169037223794,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "embedding_seconds": {
+            "n": 12,
+            "mean": 0.2597750347534505,
+            "p50": 0.18757924949750304,
+            "p95": 0.47102191061130727,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "rerank_seconds": {
+            "n": 12,
+            "mean": 0.6689760139949309,
+            "p50": 0.6686521045630798,
+            "p95": 0.7162157937185839,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "scope_seconds": {
+            "n": 3,
+            "mean": 0.0029055970177675285,
+            "p50": 0.0022699160035699606,
+            "p95": 0.0043467416428029535,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "merge_seconds": {
+            "n": 3,
+            "mean": 0.00020737495894233385,
+            "p50": 0.00021087494678795338,
+            "p95": 0.00023164970334619284,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "unit": "seconds",
+        "sample_count": 51,
+        "population": "Actual observed stages and SDK calls in this subset",
+        "method": "SDK timers include provider/network waiting. Final cumulative traces supply each query once. Stage distributions overlap and must not be summed. Startup excluded; lazy reranker loading may affect the first query.",
+        "aggregation": "per-stage mean/P50/P95 and sample counts",
+        "artifact": "../server-observations.jsonl",
+        "server_startup": {
+          "seconds": 3.2409708340419456,
+          "sample_count": 1,
+          "included_in_answer_latency": false,
+          "artifact": "../resolved-runtime.json"
+        },
+        "unavailable": {
+          "search_fusion_separate": "No dedicated wall timer; do not infer by subtraction.",
+          "provider_queue_separate": "Provider queue duration is not exposed.",
+          "model_loading_separate": "Lazy model loading has no separate timer."
+        }
+      },
+      "Token usage and cost": {
+        "status": "measured",
+        "value": {
+          "by_model": {
+            "gpt-4.1-2025-04-14": {
+              "calls": 9,
+              "raw_usage": [
+                {
+                  "input_tokens": 762,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 295,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 1057
+                },
+                {
+                  "input_tokens": 4852,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 161,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 5013
+                },
+                {
+                  "input_tokens": 5201,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 120,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 5321
+                },
+                {
+                  "input_tokens": 742,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 265,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 1007
+                },
+                {
+                  "input_tokens": 4477,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 104,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 4581
+                },
+                {
+                  "input_tokens": 4854,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 61,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 4915
+                },
+                {
+                  "input_tokens": 832,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 286,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 1118
+                },
+                {
+                  "input_tokens": 4925,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 203,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 5128
+                },
+                {
+                  "input_tokens": 5224,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 84,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 5308
+                }
+              ],
+              "input_tokens": 31869,
+              "output_tokens": 1579,
+              "cached_input_tokens": 0,
+              "total_tokens": 33448
+            },
+            "text-embedding-3-small": {
+              "calls": 12,
+              "raw_usage": [
+                {
+                  "prompt_tokens": 19,
+                  "total_tokens": 19
+                },
+                {
+                  "prompt_tokens": 20,
+                  "total_tokens": 20
+                },
+                {
+                  "prompt_tokens": 20,
+                  "total_tokens": 20
+                },
+                {
+                  "prompt_tokens": 19,
+                  "total_tokens": 19
+                },
+                {
+                  "prompt_tokens": 16,
+                  "total_tokens": 16
+                },
+                {
+                  "prompt_tokens": 21,
+                  "total_tokens": 21
+                },
+                {
+                  "prompt_tokens": 21,
+                  "total_tokens": 21
+                },
+                {
+                  "prompt_tokens": 21,
+                  "total_tokens": 21
+                },
+                {
+                  "prompt_tokens": 27,
+                  "total_tokens": 27
+                },
+                {
+                  "prompt_tokens": 29,
+                  "total_tokens": 29
+                },
+                {
+                  "prompt_tokens": 23,
+                  "total_tokens": 23
+                },
+                {
+                  "prompt_tokens": 23,
+                  "total_tokens": 23
+                }
+              ],
+              "input_tokens": 259,
+              "output_tokens": null,
+              "output_tokens_status": "not_applicable",
+              "output_tokens_reason": "Embedding calls return vectors, not generated text.",
+              "cached_input_tokens": null,
+              "cached_input_tokens_status": "unavailable",
+              "cached_input_tokens_reason": "At least one actual provider response omits this field.",
+              "total_tokens": 259
+            }
+          },
+          "sdk_calls_started": 21,
+          "terminal_results_without_usage": [],
+          "billed_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "No provider billing statement supplied; no estimated or fabricated bill."
+          },
+          "local_compute_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "No local energy/hardware cost measurement."
+          }
+        },
+        "unit": "provider tokens; actual billing unavailable",
+        "sample_count": 21,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "Actual SDK terminal usage including planner/assessor calls, summed by provider-resolved model. No token estimates or provider billing estimates.",
+        "aggregation": "sum by resolved model",
+        "artifact": "../server-observations.jsonl",
+        "local_evidence_tokens": {
+          "values": [
+            3651,
+            3346,
+            3651
+          ],
+          "mean": 3549.3333333333335,
+          "budgets": [
+            4096,
+            4096,
+            4096
+          ],
+          "method": "Production cl100k_base context counts, distinct from provider tokens. Failed candidate contexts may not reach generation."
+        }
+      },
+      "Reliability": {
+        "status": "measured",
+        "value": {
+          "intended_requests": 3,
+          "submitted_requests": 3,
+          "completed": 3,
+          "errors": 0,
+          "incomplete": 0,
+          "blocked": 0,
+          "success_rate": 1.0,
+          "error_rate": 0.0,
+          "observed_sdk_errors": 0,
+          "observed_sdk_timeouts": 0,
+          "client_timeouts": 0,
+          "sdk_stream_failed": 0,
+          "sdk_stream_incomplete": 0,
+          "http_status_counts": {
+            "200": 3
+          },
+          "sdk_retry_configuration": 0,
+          "retries": 0,
+          "application_replays": 0,
+          "response_path_counts": {
+            "provider_generated": 3
+          },
+          "raw_history_sources_match_counts": {
+            "False": 3
+          },
+          "saved_source_parity": 3,
+          "saved_answer_and_trace_parity": 3,
+          "source_comparison": "All source fields compared exactly except the saved-history file_deleted lifecycle flag."
+        },
+        "unit": "counts and rates",
+        "sample_count": 3,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "method": "Actual request terminal statuses, SDK errors and history parity. One request per pair; no automatic retries or reruns.",
+        "aggregation": "counts and rates over intended requests",
+        "artifact": "../case-arm JSON files"
+      },
+      "Concurrency and throughput": {
+        "status": "measured",
+        "value": {
+          "concurrency": 1,
+          "completed": 3,
+          "workload_wall_seconds": 33.41597700002603,
+          "completed_per_workload_second": 0.0897774139597254
+        },
+        "unit": "completed requests/second",
+        "sample_count": 3,
+        "population": "One sequential alternating six-request command",
+        "method": "Command wall includes both arms, setup and history/client I/O. Arm contributions use the same denominator and sum to the overall rate; this is not load capacity.",
+        "aggregation": "whole command wall-clock rate",
+        "artifact": "../answers-1.json"
+      },
+      "Ingestion and index": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "sample_count": null,
+        "population": "3 original-page-answerable dense-table question/mode pairs",
+        "reason": "Answer subset reads a byte-identical isolated copy of the baseline index; no fresh upload, parse, embedding or index update.",
+        "method": "Answer subset reads a byte-identical isolated copy of the baseline index; no fresh upload, parse, embedding or index update.",
+        "aggregation": "none",
+        "artifact": "../index-reuse.json"
+      }
+    },
+    "all": {
+      "Recall@K": {
+        "status": "measured",
+        "value": 1.0,
+        "unit": "ratio",
+        "sample_count": 6,
+        "population": "6 original-page-answerable dense-table question/mode pairs",
+        "method": "K=5 final selected children. Source-bound cell/fact labels; fact Recall and binary child Precision use different units. Blank labels require complete original row slices. See fact-labels.json and retrieval-diagnostics.json for exact definitions.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.9866666666666667,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "bm25_matches": {
+            "value": 1.0,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "fused_matches": {
+            "value": 1.0,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "reranked": {
+            "value": 0.9733333333333334,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          }
+        },
+        "requests_without_observed_retrieval": 0
+      },
+      "Precision@K": {
+        "status": "measured",
+        "value": 0.26666666666666666,
+        "unit": "ratio",
+        "sample_count": 6,
+        "population": "6 original-page-answerable dense-table question/mode pairs",
+        "method": "K=5 final selected children. Source-bound cell/fact labels; fact Recall and binary child Precision use different units. Blank labels require complete original row slices. See fact-labels.json and retrieval-diagnostics.json for exact definitions.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.26666666666666666,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "bm25_matches": {
+            "value": 0.28,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "fused_matches": {
+            "value": 0.28,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "reranked": {
+            "value": 0.25333333333333335,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          }
+        },
+        "requests_without_observed_retrieval": 0
+      },
+      "Hit Rate@K": {
+        "status": "measured",
+        "value": 1,
+        "unit": "ratio",
+        "sample_count": 6,
+        "population": "6 original-page-answerable dense-table question/mode pairs",
+        "method": "K=5 final selected children. Source-bound cell/fact labels; fact Recall and binary child Precision use different units. Blank labels require complete original row slices. See fact-labels.json and retrieval-diagnostics.json for exact definitions.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "bm25_matches": {
+            "value": 1,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "fused_matches": {
+            "value": 1,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "reranked": {
+            "value": 1,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          }
+        },
+        "requests_without_observed_retrieval": 0
+      },
+      "MRR": {
+        "status": "measured",
+        "value": 1.0,
+        "unit": "ratio",
+        "sample_count": 6,
+        "population": "6 original-page-answerable dense-table question/mode pairs",
+        "method": "K=5 final selected children. Source-bound cell/fact labels; fact Recall and binary child Precision use different units. Blank labels require complete original row slices. See fact-labels.json and retrieval-diagnostics.json for exact definitions.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1.0,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "bm25_matches": {
+            "value": 0.7333333333333333,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "fused_matches": {
+            "value": 1.0,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "reranked": {
+            "value": 1.0,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          }
+        },
+        "requests_without_observed_retrieval": 0
+      },
+      "NDCG@K": {
+        "status": "measured",
+        "value": 1.0,
+        "unit": "ratio",
+        "sample_count": 6,
+        "population": "6 original-page-answerable dense-table question/mode pairs",
+        "method": "K=5 final selected children. Source-bound cell/fact labels; fact Recall and binary child Precision use different units. Blank labels require complete original row slices. See fact-labels.json and retrieval-diagnostics.json for exact definitions.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.9742098128510306,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "bm25_matches": {
+            "value": 0.8031625352381107,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "fused_matches": {
+            "value": 1.0,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          },
+          "reranked": {
+            "value": 0.9484196257020611,
+            "query_count": 15,
+            "aggregation": "macro mean per executed query; planned requests can execute multiple queries"
+          }
+        },
+        "requests_without_observed_retrieval": 0
+      },
+      "Final evidence coverage": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 6,
+        "population": "6 original-page-answerable dense-table question/mode pairs",
+        "method": "Frozen 0/0.5/1 protocol; independent Codex model review against original-page facts and actual supplied context. Blank contents require explicit row, empty positions, parent and leaf headers. An honest context limitation can be faithful but incomplete.",
+        "aggregation": "macro mean",
+        "artifact": "../review/reviewed-cases.json",
+        "point_micro_average": 1,
+        "point_count": 24,
+        "structural_diagnostic": {
+          "value": 1.0,
+          "method": "Actual source/supplement slices, exact table-cell tuples, row labels, full header paths and report-period cells. Blank targets additionally require a complete supplied original row. A separate audit confirms every actual SDK Sources block equals the packed evidence and preserves the exact table metadata. Separate from semantic model review.",
+          "artifact": "retrieval-diagnostics.json",
+          "actual_context_audit_artifact": "actual-context-audit.json"
+        }
+      },
+      "Answer correctness": {
+        "status": "measured",
+        "value": 0.7916666666666666,
+        "unit": "score 0..1",
+        "sample_count": 6,
+        "population": "6 original-page-answerable dense-table question/mode pairs",
+        "method": "Frozen 0/0.5/1 protocol; independent Codex model review against original-page facts and actual supplied context. Blank contents require explicit row, empty positions, parent and leaf headers. An honest context limitation can be faithful but incomplete.",
+        "aggregation": "macro mean",
+        "artifact": "../review/reviewed-cases.json",
+        "point_micro_average": 0.7916666666666666,
+        "point_count": 24
+      },
+      "Answer completeness": {
+        "status": "measured",
+        "value": 0.7916666666666666,
+        "unit": "score 0..1",
+        "sample_count": 6,
+        "population": "6 original-page-answerable dense-table question/mode pairs",
+        "method": "Frozen 0/0.5/1 protocol; independent Codex model review against original-page facts and actual supplied context. Blank contents require explicit row, empty positions, parent and leaf headers. An honest context limitation can be faithful but incomplete.",
+        "aggregation": "macro mean",
+        "artifact": "../review/reviewed-cases.json",
+        "point_micro_average": 0.7916666666666666,
+        "point_count": 24
+      },
+      "Faithfulness": {
+        "status": "measured",
+        "value": 0.8260869565217391,
+        "unit": "score 0..1",
+        "sample_count": 23,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Frozen paragraph/bullet rubric; actual supplied context and each group's cited sources reviewed. Uncited groups remain in citation coverage but have no citation-support denominator.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../review/reviewed-cases.json"
+      },
+      "Citation support": {
+        "status": "measured",
+        "value": 0.8260869565217391,
+        "unit": "score 0..1",
+        "sample_count": 23,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Frozen paragraph/bullet rubric; actual supplied context and each group's cited sources reviewed. Uncited groups remain in citation coverage but have no citation-support denominator.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../review/reviewed-cases.json"
+      },
+      "Citation coverage": {
+        "status": "measured",
+        "value": 0.8260869565217391,
+        "unit": "score 0..1",
+        "sample_count": 23,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Frozen paragraph/bullet rubric; actual supplied context and each group's cited sources reviewed. Uncited groups remain in citation coverage but have no citation-support denominator.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../review/reviewed-cases.json"
+      },
+      "Answer relevance": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 6,
+        "population": "6 original-page-answerable dense-table question/mode pairs",
+        "method": "Frozen relevance rubric applied independently from correctness and completeness.",
+        "aggregation": "macro mean",
+        "artifact": "../review/reviewed-cases.json"
+      },
+      "Abstention": {
+        "status": "measured",
+        "value": {
+          "appropriate": {
+            "status": "not_applicable",
+            "numerator": null,
+            "denominator": 0,
+            "rate": null,
+            "reason": "No fully unanswerable questions in this workload."
+          },
+          "incorrect": {
+            "numerator": 0,
+            "denominator": 6,
+            "rate": 0
+          }
+        },
+        "unit": "counts and rates",
+        "sample_count": 6,
+        "population": "6 original-page-answerable dense-table question/mode pairs",
+        "method": "Full refusals only. Point-level uncertainty is separately reviewed, and printed blanks are answerable cell contents. Errors are not abstentions.",
+        "aggregation": "separate denominators",
+        "artifact": "../review/reviewed-cases.json"
+      },
+      "First-answer-delta latency": {
+        "status": "measured",
+        "value": {
+          "n": 6,
+          "mean": 5.047713958464253,
+          "p50": 4.732915770960972,
+          "p95": 9.575275447947206,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 6,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / stream closure. Startup excluded; request and provider/network waits included. These boundaries are distinct.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "../case-arm JSON files",
+        "unsuccessful_requests": {
+          "count": 0,
+          "observed_values": null,
+          "missing_values": 0,
+          "method": "Failed/incomplete timings remain separate. Missing first deltas are not replaced by response completion time."
+        },
+        "by_response_path": {
+          "provider_generated": {
+            "n": 6,
+            "mean": 5.047713958464253,
+            "p50": 4.732915770960972,
+            "p95": 9.575275447947206,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "response_path_caveat": "Scope rejections and programmatic replies can complete without answer generation. Do not interpret the mixed aggregate as normal generation performance."
+      },
+      "Complete-response latency": {
+        "status": "measured",
+        "value": {
+          "n": 6,
+          "mean": 5.536415055491186,
+          "p50": 5.301916708005592,
+          "p95": 10.170768718468025,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 6,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / stream closure. Startup excluded; request and provider/network waits included. These boundaries are distinct.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "../case-arm JSON files",
+        "unsuccessful_requests": {
+          "count": 0,
+          "observed_values": null,
+          "missing_values": 0,
+          "method": "Failed/incomplete timings remain separate. Missing first deltas are not replaced by response completion time."
+        },
+        "by_response_path": {
+          "provider_generated": {
+            "n": 6,
+            "mean": 5.536415055491186,
+            "p50": 5.301916708005592,
+            "p95": 10.170768718468025,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "response_path_caveat": "Scope rejections and programmatic replies can complete without answer generation. Do not interpret the mixed aggregate as normal generation performance."
+      },
+      "Stage latency": {
+        "status": "measured",
+        "value": {
+          "embedding_sdk": {
+            "n": 15,
+            "mean": 0.303578664152883,
+            "p50": 0.18636770895682275,
+            "p95": 0.6580782214296044,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "single_retrieval": {
+            "n": 3,
+            "mean": 1.346029527989837,
+            "p50": 1.0607654590858147,
+            "p95": 1.9459957830491474,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "packing_observed_call": {
+            "n": 6,
+            "mean": 0.015093756994853417,
+            "p50": 0.011794958496466279,
+            "p95": 0.02679599996190518,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "answer_generation_sdk": {
+            "n": 6,
+            "mean": 1.1471465761424042,
+            "p50": 1.0734496035147458,
+            "p95": 1.5882936769921798,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "retrieval_plan": {
+            "n": 3,
+            "mean": 2.254283458382512,
+            "p50": 1.9711320420028642,
+            "p95": 2.9273575539584273,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "planned_retrieval": {
+            "n": 3,
+            "mean": 3.810924347334852,
+            "p50": 3.510260291979648,
+            "p95": 4.947107291454449,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "evidence_assessment": {
+            "n": 3,
+            "mean": 1.2902029030180227,
+            "p50": 1.324861792032607,
+            "p95": 1.3992453294922598,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "embedding_seconds": {
+            "n": 15,
+            "mean": 0.30395838893794763,
+            "p50": 0.18680670799221843,
+            "p95": 0.6584253127221011,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "rerank_seconds": {
+            "n": 15,
+            "mean": 0.6937142639343317,
+            "p50": 0.6765377499395981,
+            "p95": 0.8273700711200944,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "scope_seconds": {
+            "n": 6,
+            "mean": 0.0023717221920378506,
+            "p50": 0.002201521012466401,
+            "p95": 0.0040006040362641215,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "merge_seconds": {
+            "n": 3,
+            "mean": 0.00020737495894233385,
+            "p50": 0.00021087494678795338,
+            "p95": 0.00023164970334619284,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "unit": "seconds",
+        "sample_count": 72,
+        "population": "Actual observed stages and SDK calls in this subset",
+        "method": "SDK timers include provider/network waiting. Final cumulative traces supply each query once. Stage distributions overlap and must not be summed. Startup excluded; lazy reranker loading may affect the first query.",
+        "aggregation": "per-stage mean/P50/P95 and sample counts",
+        "artifact": "../server-observations.jsonl",
+        "server_startup": {
+          "seconds": 3.2409708340419456,
+          "sample_count": 1,
+          "included_in_answer_latency": false,
+          "artifact": "../resolved-runtime.json"
+        },
+        "unavailable": {
+          "search_fusion_separate": "No dedicated wall timer; do not infer by subtraction.",
+          "provider_queue_separate": "Provider queue duration is not exposed.",
+          "model_loading_separate": "Lazy model loading has no separate timer."
+        }
+      },
+      "Token usage and cost": {
+        "status": "measured",
+        "value": {
+          "by_model": {
+            "text-embedding-3-small": {
+              "calls": 15,
+              "raw_usage": [
+                {
+                  "prompt_tokens": 34,
+                  "total_tokens": 34
+                },
+                {
+                  "prompt_tokens": 19,
+                  "total_tokens": 19
+                },
+                {
+                  "prompt_tokens": 20,
+                  "total_tokens": 20
+                },
+                {
+                  "prompt_tokens": 20,
+                  "total_tokens": 20
+                },
+                {
+                  "prompt_tokens": 19,
+                  "total_tokens": 19
+                },
+                {
+                  "prompt_tokens": 16,
+                  "total_tokens": 16
+                },
+                {
+                  "prompt_tokens": 21,
+                  "total_tokens": 21
+                },
+                {
+                  "prompt_tokens": 21,
+                  "total_tokens": 21
+                },
+                {
+                  "prompt_tokens": 21,
+                  "total_tokens": 21
+                },
+                {
+                  "prompt_tokens": 24,
+                  "total_tokens": 24
+                },
+                {
+                  "prompt_tokens": 69,
+                  "total_tokens": 69
+                },
+                {
+                  "prompt_tokens": 27,
+                  "total_tokens": 27
+                },
+                {
+                  "prompt_tokens": 29,
+                  "total_tokens": 29
+                },
+                {
+                  "prompt_tokens": 23,
+                  "total_tokens": 23
+                },
+                {
+                  "prompt_tokens": 23,
+                  "total_tokens": 23
+                }
+              ],
+              "input_tokens": 386,
+              "output_tokens": null,
+              "output_tokens_status": "not_applicable",
+              "output_tokens_reason": "Embedding calls return vectors, not generated text.",
+              "cached_input_tokens": null,
+              "cached_input_tokens_status": "unavailable",
+              "cached_input_tokens_reason": "At least one actual provider response omits this field.",
+              "total_tokens": 386
+            },
+            "gpt-4.1-2025-04-14": {
+              "calls": 12,
+              "raw_usage": [
+                {
+                  "input_tokens": 4923,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 106,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 5029
+                },
+                {
+                  "input_tokens": 762,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 295,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 1057
+                },
+                {
+                  "input_tokens": 4852,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 161,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 5013
+                },
+                {
+                  "input_tokens": 5201,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 120,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 5321
+                },
+                {
+                  "input_tokens": 742,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 265,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 1007
+                },
+                {
+                  "input_tokens": 4477,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 104,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 4581
+                },
+                {
+                  "input_tokens": 4854,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 61,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 4915
+                },
+                {
+                  "input_tokens": 4913,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 42,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 4955
+                },
+                {
+                  "input_tokens": 4958,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 68,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 5026
+                },
+                {
+                  "input_tokens": 832,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 286,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 1118
+                },
+                {
+                  "input_tokens": 4925,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 203,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 5128
+                },
+                {
+                  "input_tokens": 5224,
+                  "input_tokens_details": {
+                    "cache_write_tokens": 0,
+                    "cached_tokens": 0
+                  },
+                  "output_tokens": 84,
+                  "output_tokens_details": {
+                    "reasoning_tokens": 0
+                  },
+                  "total_tokens": 5308
+                }
+              ],
+              "input_tokens": 46663,
+              "output_tokens": 1795,
+              "cached_input_tokens": 0,
+              "total_tokens": 48458
+            }
+          },
+          "sdk_calls_started": 27,
+          "terminal_results_without_usage": [],
+          "billed_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "No provider billing statement supplied; no estimated or fabricated bill."
+          },
+          "local_compute_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "No local energy/hardware cost measurement."
+          }
+        },
+        "unit": "provider tokens; actual billing unavailable",
+        "sample_count": 27,
+        "population": "6 original-page-answerable dense-table question/mode pairs",
+        "method": "Actual SDK terminal usage including planner/assessor calls, summed by provider-resolved model. No token estimates or provider billing estimates.",
+        "aggregation": "sum by resolved model",
+        "artifact": "../server-observations.jsonl",
+        "local_evidence_tokens": {
+          "values": [
+            3651,
+            3651,
+            3651,
+            3346,
+            3651,
+            3651
+          ],
+          "mean": 3600.1666666666665,
+          "budgets": [
+            4096,
+            4096,
+            4096,
+            4096,
+            4096,
+            4096
+          ],
+          "method": "Production cl100k_base context counts, distinct from provider tokens. Failed candidate contexts may not reach generation."
+        }
+      },
+      "Reliability": {
+        "status": "measured",
+        "value": {
+          "intended_requests": 6,
+          "submitted_requests": 6,
+          "completed": 6,
+          "errors": 0,
+          "incomplete": 0,
+          "blocked": 0,
+          "success_rate": 1.0,
+          "error_rate": 0.0,
+          "observed_sdk_errors": 0,
+          "observed_sdk_timeouts": 0,
+          "client_timeouts": 0,
+          "sdk_stream_failed": 0,
+          "sdk_stream_incomplete": 0,
+          "http_status_counts": {
+            "200": 6
+          },
+          "sdk_retry_configuration": 0,
+          "retries": 0,
+          "application_replays": 0,
+          "response_path_counts": {
+            "provider_generated": 6
+          },
+          "raw_history_sources_match_counts": {
+            "False": 6
+          },
+          "saved_source_parity": 6,
+          "saved_answer_and_trace_parity": 6,
+          "source_comparison": "All source fields compared exactly except the saved-history file_deleted lifecycle flag."
+        },
+        "unit": "counts and rates",
+        "sample_count": 6,
+        "population": "6 original-page-answerable dense-table question/mode pairs",
+        "method": "Actual request terminal statuses, SDK errors and history parity. One request per pair; no automatic retries or reruns.",
+        "aggregation": "counts and rates over intended requests",
+        "artifact": "../case-arm JSON files"
+      },
+      "Concurrency and throughput": {
+        "status": "measured",
+        "value": {
+          "concurrency": 1,
+          "completed": 6,
+          "workload_wall_seconds": 33.41597700002603,
+          "completed_per_workload_second": 0.1795548279194508
+        },
+        "unit": "completed requests/second",
+        "sample_count": 6,
+        "population": "One sequential alternating six-request command",
+        "method": "Command wall includes both arms, setup and history/client I/O. Arm contributions use the same denominator and sum to the overall rate; this is not load capacity.",
+        "aggregation": "whole command wall-clock rate",
+        "artifact": "../answers-1.json"
+      },
+      "Ingestion and index": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "sample_count": null,
+        "population": "6 original-page-answerable dense-table question/mode pairs",
+        "reason": "Answer subset reads a byte-identical isolated copy of the baseline index; no fresh upload, parse, embedding or index update.",
+        "method": "Answer subset reads a byte-identical isolated copy of the baseline index; no fresh upload, parse, embedding or index update.",
+        "aggregation": "none",
+        "artifact": "../index-reuse.json"
+      }
+    }
+  },
+  "scoped_gates": {
+    "six_requests_complete": {
+      "passed": true,
+      "numerator": 6,
+      "denominator": 6
+    },
+    "requested_points_correct_and_complete": {
+      "passed": false,
+      "numerator": 19,
+      "denominator": 24
+    },
+    "factual_claim_groups_supported_and_individually_cited": {
+      "passed": false,
+      "numerator": 19,
+      "denominator": 23
+    },
+    "grouped_and_blank_distinctions_correct": {
+      "passed": false,
+      "numerator": 1,
+      "denominator": 6
+    },
+    "no_incorrect_full_refusals": {
+      "passed": true,
+      "numerator": 6,
+      "denominator": 6
+    },
+    "no_unsupported_factual_claims": {
+      "passed": false,
+      "numerator": 19,
+      "denominator": 23
+    },
+    "saved_answer_sources_retrieval_match": {
+      "passed": true,
+      "numerator": 6,
+      "denominator": 6
+    }
+  },
+  "historical_matched_case": {
+    "rows": [
+      {
+        "case_id": "dense-table",
+        "arm": "single",
+        "before_status": "completed",
+        "after_status": "completed",
+        "points": [
+          {
+            "fact_id": "alabama_permit",
+            "reference_correctness": {
+              "before": 0,
+              "after": 1
+            },
+            "completeness": {
+              "before": 0,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "alabama_handgun",
+            "reference_correctness": {
+              "before": 0,
+              "after": 1
+            },
+            "completeness": {
+              "before": 0,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "alabama_longgun",
+            "reference_correctness": {
+              "before": 0,
+              "after": 1
+            },
+            "completeness": {
+              "before": 0,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "alabama_total",
+            "reference_correctness": {
+              "before": 0,
+              "after": 1
+            },
+            "completeness": {
+              "before": 0,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "checks_not_sales",
+            "reference_correctness": {
+              "before": 1,
+              "after": 1
+            },
+            "completeness": {
+              "before": 1,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 1,
+              "after": 1
+            }
+          }
+        ],
+        "before_selected_ids": [
+          "6f664d31bed547c5a7920256fd940a6a:child:7",
+          "6f664d31bed547c5a7920256fd940a6a:child:0",
+          "6f664d31bed547c5a7920256fd940a6a:child:2",
+          "6f664d31bed547c5a7920256fd940a6a:child:1",
+          "6f664d31bed547c5a7920256fd940a6a:child:4"
+        ],
+        "before_answer_artifact": "../../20260927-dense-table-acceptance/dense-table-single.json",
+        "after_answer_artifact": "../dense-table-single.json",
+        "response_paths": {
+          "before": "provider_generated",
+          "after": "provider_generated"
+        },
+        "first_answer_delta_seconds": {
+          "before": 2.4680346669629216,
+          "after": 2.9838403339963406
+        },
+        "complete_response_seconds": {
+          "before": 3.2724764589220285,
+          "after": 3.760798000032082
+        },
+        "before_raw_rankings_artifact": "../../20260927-dense-table-acceptance/server-observations.jsonl",
+        "after_raw_rankings_artifact": "../server-observations.jsonl",
+        "after_selected_ids": [
+          "6f664d31bed547c5a7920256fd940a6a:child:7",
+          "6f664d31bed547c5a7920256fd940a6a:child:0",
+          "6f664d31bed547c5a7920256fd940a6a:child:2",
+          "6f664d31bed547c5a7920256fd940a6a:child:1",
+          "6f664d31bed547c5a7920256fd940a6a:child:4"
+        ]
+      },
+      {
+        "case_id": "dense-table",
+        "arm": "planned",
+        "before_status": "completed",
+        "after_status": "completed",
+        "points": [
+          {
+            "fact_id": "alabama_permit",
+            "reference_correctness": {
+              "before": 0,
+              "after": 1
+            },
+            "completeness": {
+              "before": 0,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "alabama_handgun",
+            "reference_correctness": {
+              "before": 0,
+              "after": 1
+            },
+            "completeness": {
+              "before": 0,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "alabama_longgun",
+            "reference_correctness": {
+              "before": 0,
+              "after": 1
+            },
+            "completeness": {
+              "before": 0,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "alabama_total",
+            "reference_correctness": {
+              "before": 0,
+              "after": 1
+            },
+            "completeness": {
+              "before": 0,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "checks_not_sales",
+            "reference_correctness": {
+              "before": 1,
+              "after": 1
+            },
+            "completeness": {
+              "before": 1,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 1,
+              "after": 1
+            }
+          }
+        ],
+        "before_selected_ids": [
+          "6f664d31bed547c5a7920256fd940a6a:child:0",
+          "6f664d31bed547c5a7920256fd940a6a:child:7",
+          "6f664d31bed547c5a7920256fd940a6a:child:2",
+          "6f664d31bed547c5a7920256fd940a6a:child:5",
+          "6f664d31bed547c5a7920256fd940a6a:child:4"
+        ],
+        "before_answer_artifact": "../../20260927-dense-table-acceptance/dense-table-planned.json",
+        "after_answer_artifact": "../dense-table-planned.json",
+        "response_paths": {
+          "before": "provider_generated",
+          "after": "provider_generated"
+        },
+        "first_answer_delta_seconds": {
+          "before": 11.416894917027093,
+          "after": 10.35108087491244
+        },
+        "complete_response_seconds": {
+          "before": 12.439271957962774,
+          "after": 10.957547207945026
+        },
+        "before_raw_rankings_artifact": "../../20260927-dense-table-acceptance/server-observations.jsonl",
+        "after_raw_rankings_artifact": "../server-observations.jsonl",
+        "after_selected_ids": [
+          "6f664d31bed547c5a7920256fd940a6a:child:0",
+          "6f664d31bed547c5a7920256fd940a6a:child:7",
+          "6f664d31bed547c5a7920256fd940a6a:child:2",
+          "6f664d31bed547c5a7920256fd940a6a:child:4",
+          "6f664d31bed547c5a7920256fd940a6a:child:5"
+        ]
+      },
+      {
+        "case_id": "state-totals",
+        "arm": "single",
+        "before_status": "completed",
+        "after_status": "completed",
+        "points": [
+          {
+            "fact_id": "alabama_total",
+            "reference_correctness": {
+              "before": 0,
+              "after": 1
+            },
+            "completeness": {
+              "before": 0,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "alaska_total",
+            "reference_correctness": {
+              "before": 0,
+              "after": 1
+            },
+            "completeness": {
+              "before": 0,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "arizona_total",
+            "reference_correctness": {
+              "before": 0,
+              "after": 1
+            },
+            "completeness": {
+              "before": 0,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          }
+        ],
+        "before_selected_ids": [
+          "6f664d31bed547c5a7920256fd940a6a:child:0",
+          "6f664d31bed547c5a7920256fd940a6a:child:7",
+          "6f664d31bed547c5a7920256fd940a6a:child:1",
+          "6f664d31bed547c5a7920256fd940a6a:child:5",
+          "6f664d31bed547c5a7920256fd940a6a:child:4"
+        ],
+        "before_answer_artifact": "../../20260927-dense-table-acceptance/state-totals-single.json",
+        "after_answer_artifact": "../state-totals-single.json",
+        "response_paths": {
+          "before": "provider_generated",
+          "after": "provider_generated"
+        },
+        "first_answer_delta_seconds": {
+          "before": 1.3097151670372114,
+          "after": 1.5136750829406083
+        },
+        "complete_response_seconds": {
+          "before": 1.643841875018552,
+          "after": 1.78837141697295
+        },
+        "before_raw_rankings_artifact": "../../20260927-dense-table-acceptance/server-observations.jsonl",
+        "after_raw_rankings_artifact": "../server-observations.jsonl",
+        "after_selected_ids": [
+          "6f664d31bed547c5a7920256fd940a6a:child:0",
+          "6f664d31bed547c5a7920256fd940a6a:child:7",
+          "6f664d31bed547c5a7920256fd940a6a:child:1",
+          "6f664d31bed547c5a7920256fd940a6a:child:5",
+          "6f664d31bed547c5a7920256fd940a6a:child:4"
+        ]
+      },
+      {
+        "case_id": "state-totals",
+        "arm": "planned",
+        "before_status": "completed",
+        "after_status": "completed",
+        "points": [
+          {
+            "fact_id": "alabama_total",
+            "reference_correctness": {
+              "before": 0,
+              "after": 1
+            },
+            "completeness": {
+              "before": 0,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "alaska_total",
+            "reference_correctness": {
+              "before": 0,
+              "after": 1
+            },
+            "completeness": {
+              "before": 0,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "arizona_total",
+            "reference_correctness": {
+              "before": 0,
+              "after": 1
+            },
+            "completeness": {
+              "before": 0,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          }
+        ],
+        "before_selected_ids": [
+          "6f664d31bed547c5a7920256fd940a6a:child:0",
+          "6f664d31bed547c5a7920256fd940a6a:child:5",
+          "6f664d31bed547c5a7920256fd940a6a:child:4",
+          "6f664d31bed547c5a7920256fd940a6a:child:1",
+          "6f664d31bed547c5a7920256fd940a6a:child:2"
+        ],
+        "before_answer_artifact": "../../20260927-dense-table-acceptance/state-totals-planned.json",
+        "after_answer_artifact": "../state-totals-planned.json",
+        "response_paths": {
+          "before": "programmatic_after_retrieval",
+          "after": "provider_generated"
+        },
+        "first_answer_delta_seconds": {
+          "before": 3.9751996669219807,
+          "after": 6.481991207925603
+        },
+        "complete_response_seconds": {
+          "before": 3.980017374968156,
+          "after": 6.843035415979102
+        },
+        "before_raw_rankings_artifact": "../../20260927-dense-table-acceptance/server-observations.jsonl",
+        "after_raw_rankings_artifact": "../server-observations.jsonl",
+        "after_selected_ids": [
+          "6f664d31bed547c5a7920256fd940a6a:child:0",
+          "6f664d31bed547c5a7920256fd940a6a:child:5",
+          "6f664d31bed547c5a7920256fd940a6a:child:4",
+          "6f664d31bed547c5a7920256fd940a6a:child:1",
+          "6f664d31bed547c5a7920256fd940a6a:child:2"
+        ]
+      },
+      {
+        "case_id": "grouped-and-blank-cells",
+        "arm": "single",
+        "before_status": "completed",
+        "after_status": "completed",
+        "points": [
+          {
+            "fact_id": "alabama_handgun",
+            "reference_correctness": {
+              "before": 0,
+              "after": 1
+            },
+            "completeness": {
+              "before": 0,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "alabama_prepawn_handgun",
+            "reference_correctness": {
+              "before": 0,
+              "after": 1
+            },
+            "completeness": {
+              "before": 0,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "alabama_rentals_handgun_blank",
+            "reference_correctness": {
+              "before": 0,
+              "after": 0
+            },
+            "completeness": {
+              "before": 0,
+              "after": 0
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "alabama_rentals_longgun_blank",
+            "reference_correctness": {
+              "before": 0,
+              "after": 0
+            },
+            "completeness": {
+              "before": 0,
+              "after": 0
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          }
+        ],
+        "before_selected_ids": [],
+        "before_answer_artifact": "../../20260927-dense-table-acceptance/grouped-and-blank-cells-single.json",
+        "after_answer_artifact": "../grouped-and-blank-cells-single.json",
+        "response_paths": {
+          "before": "scope_rejection",
+          "after": "provider_generated"
+        },
+        "first_answer_delta_seconds": {
+          "before": 0.0029754169518128037,
+          "after": 1.7078370839590207
+        },
+        "complete_response_seconds": {
+          "before": 0.004347083042375743,
+          "after": 2.0583050419809297
+        },
+        "before_raw_rankings_artifact": "../../20260927-dense-table-acceptance/server-observations.jsonl",
+        "after_raw_rankings_artifact": "../server-observations.jsonl",
+        "after_selected_ids": [
+          "6f664d31bed547c5a7920256fd940a6a:child:0",
+          "6f664d31bed547c5a7920256fd940a6a:child:7",
+          "6f664d31bed547c5a7920256fd940a6a:child:4",
+          "6f664d31bed547c5a7920256fd940a6a:child:3",
+          "6f664d31bed547c5a7920256fd940a6a:child:2"
+        ]
+      },
+      {
+        "case_id": "grouped-and-blank-cells",
+        "arm": "planned",
+        "before_status": "completed",
+        "after_status": "completed",
+        "points": [
+          {
+            "fact_id": "alabama_handgun",
+            "reference_correctness": {
+              "before": 0,
+              "after": 1
+            },
+            "completeness": {
+              "before": 0,
+              "after": 1
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "alabama_prepawn_handgun",
+            "reference_correctness": {
+              "before": 0,
+              "after": 0
+            },
+            "completeness": {
+              "before": 0,
+              "after": 0
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "alabama_rentals_handgun_blank",
+            "reference_correctness": {
+              "before": 0,
+              "after": 0
+            },
+            "completeness": {
+              "before": 0,
+              "after": 0
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          },
+          {
+            "fact_id": "alabama_rentals_longgun_blank",
+            "reference_correctness": {
+              "before": 0,
+              "after": 0
+            },
+            "completeness": {
+              "before": 0,
+              "after": 0
+            },
+            "supplied_evidence_coverage": {
+              "before": 0,
+              "after": 1
+            }
+          }
+        ],
+        "before_selected_ids": [],
+        "before_answer_artifact": "../../20260927-dense-table-acceptance/grouped-and-blank-cells-planned.json",
+        "after_answer_artifact": "../grouped-and-blank-cells-planned.json",
+        "response_paths": {
+          "before": "scope_rejection",
+          "after": "provider_generated"
+        },
+        "first_answer_delta_seconds": {
+          "before": 0.003483292064629495,
+          "after": 7.247859167051502
+        },
+        "complete_response_seconds": {
+          "before": 0.0047779170563444495,
+          "after": 7.810433250037022
+        },
+        "before_raw_rankings_artifact": "../../20260927-dense-table-acceptance/server-observations.jsonl",
+        "after_raw_rankings_artifact": "../server-observations.jsonl",
+        "after_selected_ids": [
+          "6f664d31bed547c5a7920256fd940a6a:child:0",
+          "6f664d31bed547c5a7920256fd940a6a:child:7",
+          "6f664d31bed547c5a7920256fd940a6a:child:4",
+          "6f664d31bed547c5a7920256fd940a6a:child:2",
+          "6f664d31bed547c5a7920256fd940a6a:child:5"
+        ]
+      }
+    ],
+    "limitations": "Same frozen three questions, two modes, corpus, extraction, embeddings, annotations and runtime; source context, packing and scope implementation changed. This is one stochastic development-subset pass, not held-out generalization. Plans, sufficiency checks and candidate rankings may change with new context. Before/after latency paths differ when a prior refusal becomes a generated answer; no causal performance claim.",
+    "method": "Baseline requested-point scores retained verbatim, with independent current review. Compare all six question/mode pairs on the byte-identical isolated index copy, preserve improvements and regressions per point, and retain both raw answers and actual supplied evidence."
+  },
+  "shared_preparation": {
+    "Recall@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "Precision@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "Hit Rate@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "MRR": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "NDCG@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "Final evidence coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "Answer correctness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "Faithfulness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "Answer completeness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "Answer relevance": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "Citation support": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "Citation coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "Abstention": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "First-answer-delta latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "Complete-response latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "Stage latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "Token usage and cost": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "Reliability": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "Concurrency and throughput": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "reason": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "method": "Index-copy preparation has no retrieval, provider, generated answer, upload, parser or embedding workload.",
+      "aggregation": "none",
+      "artifact": "../index-reuse.json"
+    },
+    "Ingestion and index": {
+      "status": "measured",
+      "value": {
+        "file_count": 1,
+        "page_count": 1,
+        "child_count": 10,
+        "parent_count": 5,
+        "snapshot_index_bytes": 3107336,
+        "copied_file_bytes": 3107336,
+        "byte_identical_copy": true,
+        "source_unchanged_after_copy": true,
+        "source_hashes": [
+          "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        ],
+        "extraction_revisions": [
+          "46dbe5cdd1e28646096d857f09cc4684ad4ba246a7d3a336d2e26ececd33dc6f"
+        ],
+        "snapshot_sha256": "1c33f2af34eb5f57162ea390c7df4a321375dd12daa5618d015e2fb8e32ca7b6",
+        "upload_parse_index_duration": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "No ingestion operation; do not reuse historical ingestion timing as a new measurement."
+        },
+        "update_delete": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "No update or deletion operation."
+        }
+      },
+      "unit": "counts and bytes; no ingestion time",
+      "sample_count": 1,
+      "population": "Isolated byte-identical copy of the stopped baseline index; no ingestion",
+      "method": "Inspect the preserved baseline copy and read-only API snapshot. Corpus, extracted cells, chunk IDs and embeddings are fixed; conversations from the baseline are preserved but six requests start new conversations.",
+      "aggregation": "single index inventory",
+      "artifact": "../index-reuse.json; ../index-snapshot.json"
+    }
+  },
+  "validity": {
+    "code_commit": "1851615045f00d9814e01a15ff396c73ebe88f16",
+    "resolved_runtime_artifact": "../resolved-runtime.json",
+    "frozen_sha256": "d6fc286067ca2b94dc2e1726a9e37fa267b3b23fdbea4bb918603b9a55040428",
+    "index_sha256": "1c33f2af34eb5f57162ea390c7df4a321375dd12daa5618d015e2fb8e32ca7b6",
+    "review_sha256": "a9230aa3f19612803d6c8e19c843ff973c7e181e7a82e05d28b271a47de5de5a",
+    "annotation_limit": "Three reused development rows from one original page, not a held-out or exhaustive table benchmark. No correctness claim for unannotated rows, footer totals, OCR, chart/figure understanding or formulas.",
+    "latency_limit": "One stochastic pass with three samples per arm; shared sequential process, provider/network waiting, caching and lazy model loading prevent causal performance attribution.",
+    "missing_populations": [
+      "fully unanswerable questions",
+      "held-out corpus",
+      "unannotated rows",
+      "concurrency above one",
+      "billing statement"
+    ],
+    "historical_records": "Read-only comparison; prior questions, scores and artifacts were not changed."
+  },
+  "evaluator_hashes": {
+    "analyze.py": "36b29adf01014c58cbbac65e8e56ff9955c0140f296aa2cb3a0b975c0ff6c69c",
+    "measure.py": "ffc689a00a7966f2fb8ab19cbe5e3c21f29537953480e9f2d763634ddeb0c746"
+  },
+  "evaluator_attempts": {
+    "initial_diagnostics": "retrieval-diagnostics.json",
+    "final_diagnostics": "retrieval-diagnostics.json",
+    "correction": "No semantic score or failed result is repaired. Every analysis attempt uses a new output/record name; any correction must remain explicit in the run report."
+  },
+  "raw_artifacts": [
+    "../server-observations.jsonl",
+    "../resolved-runtime.json",
+    "../index-snapshot.json",
+    "../index-reuse.json",
+    "../answers-1.json",
+    "fact-labels.json",
+    "retrieval-diagnostics.json",
+    "actual-context-audit.json",
+    "../review/reviewed-cases.json"
+  ]
+}

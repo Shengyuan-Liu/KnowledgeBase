@@ -38,14 +38,17 @@ does not pass: only 2 of 24 requested point instances are answered correctly.
 The recovered table is retrieved but excluded from final evidence by its serialized
 context cost. Single-mode state totals are unsupported; planned mode withholds
 them. Both grouped/blank-cell requests stop at an incorrectly parsed filename
-reference. Evidence packing and quoted-filename scope handling now precede the
-remaining technical-table repair; blank-cell answer behavior is still untested.
+reference. Evidence packing and quoted-filename scope handling then preceded the
+remaining technical-table repair; blank-cell answer behavior was unexercised in that run.
 The following [context and scope repair](../../evals/check-runs/20260927-table-context-scope/README.md)
 keeps table metadata lossless while reducing its serialized cost, defers table
 parent expansion to preserve selected hits, and bounds quoted filename references.
 Offline evidence coverage improves from 2/16 to 16/16 on the four frozen requests
-with recorded candidates. Both original scope failures now resolve locally;
-their missing historical rankings and model answers still need a new live replay.
+with recorded candidates. The [matched live replay](../../evals/library-runs/20260927-table-context-scope-acceptance/README.md)
+then supplies all 24 requested evidence points and improves answer correctness from
+2/24 to 19/24. All six scopes resolve, but both grouped/blank-cell answers still
+confuse column groups or turn printed blanks into zero. Acceptance remains failed;
+making table meaning explicit in model context precedes broader table acceptance.
 
 ## Confirmed Feature Areas
 
