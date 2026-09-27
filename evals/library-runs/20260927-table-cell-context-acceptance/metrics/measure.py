@@ -14,6 +14,7 @@ DIAGNOSTICS = sys.argv[1] if sys.argv[1:] else "retrieval-diagnostics.json"
 
 
 def mean(values):
+    values = [value for value in values if value is not None]
     return statistics.mean(values) if values else None
 
 
@@ -103,6 +104,8 @@ def saved_sources_match(answer):
 
 def response_path(answer, observations):
     identity = answer["case_id"] + "-" + answer["arm"]
+    if answer["status"] != "completed":
+        return "pre_retrieval_planner_error"
     scope = (answer.get("answer", {}).get("retrieval") or {}).get("document_scope")
     if scope is not None and scope["status"] != "resolved":
         return "scope_rejection"
@@ -131,9 +134,11 @@ def score_group(answers, reviewed, retrieval, observations, frozen, runtime, com
     for key, field in [("Final evidence coverage", "supplied_evidence_coverage"), ("Answer correctness", "reference_correctness"), ("Answer completeness", "completeness")]:
         inventory[key] = measured(mean([mean([point[field] for point in row["points"]]) for row in reviewed]), "score 0..1", scope,
             "Frozen 0/0.5/1 protocol; single Codex model review against original-page facts and actual supplied context. Blank contents require explicit row, empty positions, parent and leaf headers. An honest context limitation can be faithful but incomplete.",
-            n, "../review/reviewed-cases.json")
-        inventory[key].update(point_micro_average=mean([point[field] for point in points]), point_count=len(points))
-    inventory["Final evidence coverage"]["structural_diagnostic"] = dict(value=mean([row["final_structural_coverage"]["value"] for row in retrieval]),
+            sum(row["answer_status"] == "completed" for row in reviewed), "../review/reviewed-cases.json")
+        inventory[key].update(point_micro_average=mean([point[field] for point in points]), point_count=sum(point[field] is not None for point in points),
+            unavailable_point_count=sum(point[field] is None for point in points), intended_point_count=len(points),
+            failed_request_policy="No generated answer/context exists for the planner error. Semantic scores are unavailable and excluded from quality means, but undelivered points remain failures in end-to-end gates.")
+    inventory["Final evidence coverage"]["structural_diagnostic"] = dict(value=mean([row["final_structural_coverage"]["value"] for row in retrieval if row["retrieval_observed"]]), request_count=sum(row["retrieval_observed"] for row in retrieval), unavailable_requests=sum(not row["retrieval_observed"] for row in retrieval),
         method="Actual source/supplement slices, exact table-cell tuples, row labels, full header paths and report-period cells. Blank targets additionally require a complete supplied original row. A separate audit confirms every actual SDK Sources block equals the packed evidence and preserves canonical excerpts and the derived cell readings; original coordinates are retained in source metadata. Separate from semantic model review.",
         artifact=DIAGNOSTICS, actual_context_audit_artifact="actual-context-audit.json")
     claims = [claim for row in reviewed for claim in row["factual_claim_groups"]]
@@ -143,10 +148,11 @@ def score_group(answers, reviewed, retrieval, observations, frozen, runtime, com
             "Frozen paragraph/bullet rubric; actual supplied context and each group's cited sources reviewed. Uncited groups remain in citation coverage but have no citation-support denominator.",
             len(values), "../review/reviewed-cases.json", "micro mean over reviewed claim groups") if values else absent("not_applicable", "No applicable factual claim groups.", scope, "../review/reviewed-cases.json")
     inventory["Answer relevance"] = measured(mean([row["relevance"] for row in reviewed]), "score 0..1", scope,
-        "Frozen relevance rubric applied independently from correctness and completeness.", n, "../review/reviewed-cases.json")
+        "Frozen relevance rubric applied independently from correctness and completeness.", sum(row["relevance"] is not None for row in reviewed), "../review/reviewed-cases.json")
+    inventory["Answer relevance"]["unavailable_error_requests"] = sum(row["relevance"] is None for row in reviewed)
     case_map = {case["id"]: case for case in frozen["cases"]}
-    unanswerable = [row for row in reviewed if not case_map[row["case_id"]]["answerable"]]
-    answerable = [row for row in reviewed if case_map[row["case_id"]]["answerable"]]
+    unanswerable = [row for row in reviewed if not case_map[row["case_id"]]["answerable"] and row["answer_status"] == "completed"]
+    answerable = [row for row in reviewed if case_map[row["case_id"]]["answerable"] and row["answer_status"] == "completed"]
     inventory["Abstention"] = measured(dict(
         appropriate=dict(status="measured" if unanswerable else "not_applicable", numerator=sum(row["appropriate_abstention"] for row in unanswerable) if unanswerable else None,
             denominator=len(unanswerable), rate=mean([row["appropriate_abstention"] for row in unanswerable]), reason=None if unanswerable else "No fully unanswerable questions in this workload."),
@@ -280,7 +286,7 @@ def main():
         requested_points_correct_and_complete=gate(sum(point["reference_correctness"] == point["completeness"] == 1 for point in points), len(points)),
         factual_claim_groups_supported_and_individually_cited=gate(sum(claim["context_support"] == claim["citation_support"] == claim["citation_coverage"] == 1 for claim in claims), len(claims)),
         grouped_and_blank_distinctions_correct=gate(sum(point["reference_correctness"] == point["completeness"] == 1 for point in grouped), len(grouped)),
-        no_incorrect_full_refusals=gate(sum(not row["incorrect_abstention"] for row in reviewed), len(reviewed)),
+        no_incorrect_full_refusals=gate(sum(row["incorrect_abstention"] == 0 for row in reviewed), sum(row["incorrect_abstention"] is not None for row in reviewed)),
         no_unsupported_factual_claims=gate(sum(claim["context_support"] == 1 for claim in claims), len(claims)),
         saved_answer_sources_retrieval_match=gate(sum(bool(answer.get("history_matches") and answer.get("history_retrieval_matches") and saved_sources_match(answer)) for answer in answers), len(answers)))
     historical = historical_comparison(frozen, reviewed, answers)
@@ -289,7 +295,12 @@ def main():
     result = dict(scope="Three frozen dense-table questions × two modes on a byte-identical isolated copy of the baseline index; no ingestion, release or merge authorization.",
         reviewer="Single Codex model review under the frozen scoring rubric; no independent second reviewer, human review or paid judge.",
         metric_definition="Complete 20-metric inventory for each arm and all requests, with preparation separately scoped. Candidate retrieval, structural supplied coverage, and semantic answer review remain distinct.",
-        groups=groups, scoped_gates=gates, historical_matched_case=historical, shared_preparation=preparation_inventory(observations),
+        groups=groups, scoped_gates=gates,
+        end_to_end_point_delivery=dict(correct_points=sum(point["reference_correctness"] == 1 for point in points), intended_points=len(points),
+            semantic_scores_unavailable=sum(point["reference_correctness"] is None for point in points),
+            method="Correct delivered facts over all intended fact instances. Unavailable semantic scores from the failed request are undelivered opportunities, not fabricated zero-valued judgments."),
+        unsupported_limitations=[dict(case_id=row["case_id"],arm=row["arm"],points=row["missing_point_review"]) for row in reviewed if row.get("missing_point_review")],
+        independent_second_review=dict(status="unavailable", reason="Single-agent review; no human or second independent semantic reviewer."), historical_matched_case=historical, shared_preparation=preparation_inventory(observations),
         validity=dict(code_commit=runtime["code_commit"], resolved_runtime_artifact="../resolved-runtime.json", frozen_sha256=digest(ROOT / "frozen-cases.json"),
             index_sha256=digest(ROOT / "index-snapshot.json"), review_sha256=digest(ROOT / "review/reviewed-cases.json"),
             annotation_limit=frozen["annotation_scope"], latency_limit="One stochastic pass with three samples per arm; shared sequential process, provider/network waiting, caching and lazy model loading prevent causal performance attribution.",
@@ -299,7 +310,7 @@ def main():
         evaluator_attempts=dict(initial_diagnostics="retrieval-diagnostics.json", final_diagnostics=DIAGNOSTICS,
             correction="No semantic score or failed result is repaired. Every analysis attempt uses a new output/record name; any correction must remain explicit in the run report."),
         raw_artifacts=["../server-observations.jsonl", "../resolved-runtime.json", "../index-snapshot.json", "../index-reuse.json", "../answers-1.json", "fact-labels.json", DIAGNOSTICS, "actual-context-audit.json", "../review/reviewed-cases.json"])
-    write("measurement.json", result)
+    write(sys.argv[2] if len(sys.argv) > 2 else "measurement.json", result)
     for arm, metrics in groups.items():
         print(arm, "correctness", metrics["Answer correctness"]["value"], "completeness", metrics["Answer completeness"]["value"],
               "first_delta", metrics["First-answer-delta latency"]["value"], "completion", metrics["Complete-response latency"]["value"])

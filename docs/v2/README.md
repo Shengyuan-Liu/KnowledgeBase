@@ -133,3 +133,10 @@ excerpts and page/cell provenance. Twelve frozen offline contexts preserve all
 40 requested evidence points within the existing budget. Generated-answer
 acceptance is recorded separately in the
 [frozen six-request protocol](../../evals/library-runs/20260927-table-cell-context-acceptance/protocol.md).
+
+The [matched live result](../../evals/library-runs/20260927-table-cell-context-acceptance/README.md)
+remains below acceptance: five of six requests completed; completed answers scored
+19/21 points, with 19/24 intended points delivered. Planned grouped/blank answers
+improved to 4/4, but single mode still omits both known blanks and a separate
+planned request failed on an unaddressed comparison requirement. This run has one
+Codex reviewer and no independent second review; all failures remain recorded.
