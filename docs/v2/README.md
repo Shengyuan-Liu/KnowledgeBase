@@ -146,3 +146,12 @@ addresses the two remaining failures: explicit blank observations and an auditab
 bounded query for unaddressed decomposed requirements. Its offline checks pass;
 the [matched acceptance protocol](../../evals/library-runs/20260927-blank-plan-acceptance/protocol.md)
 keeps the same questions, source facts, index and scoring rules.
+
+The [explicit-blank and planner live result](../../evals/library-runs/20260927-blank-plan-acceptance/README.md)
+passes the frozen answer gates under single Codex review: 6/6 completions, 24/24
+requested points and 21/21 supported, individually cited factual groups. Both modes
+now describe the Rentals cells as blank and the state comparison completes. The
+coverage-query branch is validated by offline replay; current live plans already
+address every requirement. One conditional instruction is still incorrectly marked
+missing by the assessor, without affecting the final answer. Independent review,
+broader quality and user acceptance remain separate.
