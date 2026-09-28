@@ -161,5 +161,13 @@ adds an explicit plan field for user answering instructions, keeping them outsid
 factual evidence requirements. Its 284 scoped tests pass. A controlled replay of
 the recorded conditional-instruction failure preserves all four facts and changes
 the stop reason to `requirements_supported` when supplied the annotated separated
-classification. Revised live-model classification remains unverified; the replay
-does not establish a semantic quality gain or general acceptance.
+classification. That offline replay does not establish live model classification
+accuracy or general acceptance.
+
+The subsequent [four-case live answer-rule acceptance](../../evals/library-runs/20260928-answer-rules-acceptance/README.md)
+completes all cases but fails two gates. The original rule and its paraphrase pass;
+a factual conditional question gains an invented answering rule, and a 2016 query
+receives unsupported 2015 figures despite explicit source-period headers. Answers
+score 11/13 points, with 10/12 factual claim groups supported and individually cited.
+This is a fixed-context component run, not a new retrieval or end-to-end acceptance.
+Period matching and preservation of the actual user instructions remain open.

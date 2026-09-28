@@ -108,8 +108,14 @@ factual points continue to trigger the existing bounded-search/abstention behavi
 The [answer-rule regression](../evals/check-runs/20260927-answer-rules/README.md)
 replays the observed conditional-rule mistake with explicitly annotated provider
 outputs. It checks controller behavior and preservation of real missing-evidence
-handling, not live model classification accuracy. The new prompt has not yet had
-paid acceptance evaluation.
+handling, not live model classification accuracy. The subsequent
+[four-case live component acceptance](../evals/library-runs/20260928-answer-rules-acceptance/README.md)
+fails two gates: a factual conditional question gains an invented answering rule,
+and a November 2016 question is incorrectly supported and answered with November
+2015 values. The exact original rule and its paraphrase pass. Fixed evidence and
+final-round assessment isolate these components; full multi-round behavior and
+broader quality are not established. Valid source offsets do not prove temporal
+or semantic support.
 
 The assessment contract distinguishes question-provided file names from new
 source-derived targets and selects passage IDs instead of generating free-form
