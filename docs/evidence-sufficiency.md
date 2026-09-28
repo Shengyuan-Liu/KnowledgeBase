@@ -127,6 +127,15 @@ semantic instruction, not a deterministic date validator: the frozen erroneous
 assessment still passes provenance validation. Offline annotated missing decisions
 exercise abstention without establishing new live model accuracy.
 
+The [matched four-case live follow-up](../evals/library-runs/20260928-period-rule-acceptance/README.md)
+withholds the unavailable 2016 values and preserves all 13 expected answer points,
+but only three case gates pass. The missing-year plan still transfers "ungrouped"
+to Pre-Pawn Handgun and adds an evidence-availability requirement that duplicates
+the answering rule. That extra supported requirement prevents the local all-missing
+bypass; a model-generated limitation still answers correctly. Rule text provenance
+is therefore insufficient to establish semantic separation. This remains a
+fixed-evidence component result, with one Codex reviewer and no full-loop acceptance.
+
 The assessment contract distinguishes question-provided file names from new
 source-derived targets and selects passage IDs instead of generating free-form
 quotes. Dependency target binding remains on its existing separate contract.

@@ -177,4 +177,12 @@ rejects newly generated answering rules that do not quote the original question,
 and adds explicit period/document/column matching to assessment and generation
 instructions. Offline controlled replay verifies rejection and the abstention path
 for annotated missing evidence. Wrong-year model output still passes provenance
-validation; live semantic improvement remains unverified and acceptance stays open.
+validation; that offline result did not establish live semantic improvement.
+
+The [matched period/rule live follow-up](../../evals/library-runs/20260928-period-rule-acceptance/README.md)
+completes 4/4 cases and improves point delivery from 11/13 to 13/13: unavailable
+2016 values are now withheld, and the factual-condition plan no longer invents an
+answer rule. Three of four case gates pass. The missing-year plan still adds a
+duplicate evidence-availability requirement and incorrectly qualifies Pre-Pawn
+Handgun as ungrouped. These planning/wording defects keep acceptance open despite
+the correct missing-value answer. No new retrieval or supplementary loop was tested.
