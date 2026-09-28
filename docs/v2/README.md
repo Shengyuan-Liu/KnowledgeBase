@@ -171,3 +171,10 @@ receives unsupported 2015 figures despite explicit source-period headers. Answer
 score 11/13 points, with 10/12 factual claim groups supported and individually cited.
 This is a fixed-context component run, not a new retrieval or end-to-end acceptance.
 Period matching and preservation of the actual user instructions remain open.
+
+The [period/rule constraint update](../../evals/check-runs/20260928-period-rule-constraints/README.md)
+rejects newly generated answering rules that do not quote the original question,
+and adds explicit period/document/column matching to assessment and generation
+instructions. Offline controlled replay verifies rejection and the abstention path
+for annotated missing evidence. Wrong-year model output still passes provenance
+validation; live semantic improvement remains unverified and acceptance stays open.

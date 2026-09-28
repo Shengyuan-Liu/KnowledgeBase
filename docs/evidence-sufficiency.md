@@ -100,7 +100,7 @@ new candidates when supplementary searches run.
 | Provider retries | Zero; invalid schemas, unknown passage IDs and unbound targets fail without repair |
 
 The same planner model performs assessment with prompt version
-`evidence-sufficiency-v4`. It scores only the supplied factual requirements;
+`evidence-sufficiency-v5`. It scores only the supplied factual requirements;
 answering instructions remain outside that set. The planner separately records
 `answer_rules`, while original user instructions remain in the generation question.
 A factual conditional question still needs source evidence. Missing or partial
@@ -116,6 +116,16 @@ and a November 2016 question is incorrectly supported and answered with November
 final-round assessment isolate these components; full multi-round behavior and
 broader quality are not established. Valid source offsets do not prove temporal
 or semantic support.
+
+The [period/rule constraint regression](../evals/check-runs/20260928-period-rule-constraints/README.md)
+adds explicit document/entity/period/column matching instructions to assessment and
+generation. Other-period values alone must be missing, with the mismatch stated;
+they do not establish partial support for the requested period. Multi-period
+requirements may be partial when at least one requested period is actually present.
+Period/header passage selection is requested alongside dated values. This is a
+semantic instruction, not a deterministic date validator: the frozen erroneous
+assessment still passes provenance validation. Offline annotated missing decisions
+exercise abstention without establishing new live model accuracy.
 
 The assessment contract distinguishes question-provided file names from new
 source-derived targets and selects passage IDs instead of generating free-form

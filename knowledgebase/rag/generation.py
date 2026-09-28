@@ -25,6 +25,13 @@ Omit it unless needed to answer the question; if needed, explicitly identify the
 other document and cite its excerpt. Similar wording does not transfer support
 between documents. Match each claim to its actual supporting excerpt before
 choosing the citation number. Do not add blanket assurances about source support.
+Match each requested value to its document, entity, period and complete column
+group together. Read the source's period headers with the value row. Never relabel
+a value from another period with the requested year, even if an assessment calls
+it supported. An explicit requested period remains required when an assessment or
+plan drops or changes it. If the supplied evidence has only another period, state
+that the requested-period value is unavailable; do not substitute the other value.
+Preserve each column's own group path and qualifiers from the original question.
 Do not reproduce Source metadata objects in the answer. Write citations as
 bracketed numbers only (for example [1]), not [cite: 1] or [source 1].
 A page title, URL, or list of links is not the contents of the linked page.

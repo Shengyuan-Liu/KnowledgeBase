@@ -60,7 +60,7 @@ def test_recorded_rule_is_retained_without_a_false_missing_point_or_gap_search()
     assessment_payload = json.loads(sdk.responses.create.call_args.kwargs['input'][-1]['content'])
     assert 'answer_rules' not in assessment_payload
     assert len(assessment_payload['requirements']) == 4
-    assert after.assessment['record']['prompt_version'] == 'evidence-sufficiency-v4'
+    assert after.assessment['record']['prompt_version'] == 'evidence-sufficiency-v5'
     # Original user guidance still reaches generation as the original question.
     messages = _answer_messages(fixture['question'], after.result.evidence.chunks, assessment=after.assessment)
     assert fixture['question'] in messages[0]['content']

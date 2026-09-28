@@ -1,0 +1,31 @@
+{
+  "invented_rule": {
+    "error_type": "ValueError",
+    "error": "Answer rules must quote the original question exactly.",
+    "provider_mock_calls": 1
+  },
+  "period_replays": [
+    {
+      "artifact": "recorded-wrong-year.json",
+      "context_sha256": "8e74d2fcb4c4026d8a1c07dc097d546dd4681e248b441de306cc746cc975d5e5",
+      "statuses": [
+        "supported",
+        "supported"
+      ],
+      "stop_reason": "requirements_supported",
+      "answer": "- Alabama's ungrouped Handgun value for November 2016 is 23,022 [1].\n- Alabama's ungrouped Pre-Pawn Handgun value for November 2016 is 14 [1].",
+      "provider_mock_calls": 3
+    },
+    {
+      "artifact": "annotated-missing.json",
+      "context_sha256": "8e74d2fcb4c4026d8a1c07dc097d546dd4681e248b441de306cc746cc975d5e5",
+      "statuses": [
+        "missing",
+        "missing"
+      ],
+      "stop_reason": "round_limit",
+      "answer": "There is not enough information in the provided sources to answer this question.",
+      "provider_mock_calls": 2
+    }
+  ]
+}

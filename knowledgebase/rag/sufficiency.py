@@ -52,6 +52,17 @@ table headers, values and units when they are in different passages. Read those
 passages together with their source context; a number alone does not establish its
 period, units or meaning. For conflicting select at least two distinct passages
 showing the incompatible statements.
+Support must match the requested document, entity, period, measure and complete
+column group together. Check the original question as well as the requirement:
+planner wording is fallible and cannot change the requested year or column path.
+A source's publication date or a year in the question is not the period of its
+values. Read table period headers with their rows; cite the relevant period/header
+passages as well as the value passage when claiming support for a dated value.
+If the only value is for another period, the requested-period value is missing:
+return missing with no references and name the period mismatch in the gap. Do not
+mark it supported or partial merely because the entity and column match. Different
+periods alone do not constitute conflicting evidence. For a multi-period requirement,
+partial is appropriate only when at least one requested period is actually supplied.
 For missing return no references. Supported has an empty gap; other statuses need
 a short description of the missing detail or unresolved conflict. Do not answer the
 question or provide reasoning, confidence scores or private analysis.

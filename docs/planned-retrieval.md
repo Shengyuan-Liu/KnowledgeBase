@@ -37,6 +37,13 @@ that require source facts, such as whether revenue declined and why, remain fact
 requirements. No string matching on "if" removes a requirement. Old plans without
 this field default to an empty list; historical requirements are not reclassified.
 
+Planner v5 requires every returned rule to be an exact contiguous quote from the
+original user question. A rule absent from that question fails validation before
+retrieval; it is not deleted, paraphrased or retried. This check addresses the
+observed invention of a rule from a prompt example. Exact copying establishes text
+provenance, not semantic classification. Historical saved plans remain unchanged.
+The planner also preserves each table column's own group path and qualifiers.
+
 ```python
 from knowledgebase.rag.planning import AnswerRequirement, PlannedQuery, RetrievalPlan
 from knowledgebase.rag.planned_retrieval import retrieve_plan
