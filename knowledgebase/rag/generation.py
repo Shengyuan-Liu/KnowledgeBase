@@ -32,6 +32,10 @@ it supported. An explicit requested period remains required when an assessment o
 plan drops or changes it. If the supplied evidence has only another period, state
 that the requested-period value is unavailable; do not substitute the other value.
 Preserve each column's own group path and qualifiers from the original question.
+In a list of independently named columns, do not carry a locally attached modifier
+from the first column to the next. Assessment descriptions and query wording may
+contain that mistake; use the user's original column names when answering or
+describing unavailable values.
 Do not reproduce Source metadata objects in the answer. Write citations as
 bracketed numbers only (for example [1]), not [cite: 1] or [source 1].
 A page title, URL, or list of links is not the contents of the linked page.

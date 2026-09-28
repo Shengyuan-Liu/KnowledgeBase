@@ -110,7 +110,7 @@ def test_recorded_unassigned_comparison_gets_one_auditable_scoped_query():
     assert added.text == question and added.requirement_ids == ["r4"] and added.file_ids is None
     assert result.record["output_text"] == output
     assert result.record["added_coverage_query"]["query"] == added.model_dump(exclude={"file_ids"})
-    assert result.record["prompt_version"] == "dependent-planner-v5"
+    assert result.record["prompt_version"] == "dependent-planner-v6"
     sdk.responses.create.assert_called_once()
 
 

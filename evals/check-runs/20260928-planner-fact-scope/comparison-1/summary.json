@@ -1,0 +1,45 @@
+{
+  "base_commit": "6bdcf47",
+  "source_artifact": "evals/library-runs/20260928-period-rule-acceptance/missing-year.json",
+  "source_sha256": "879e57a4b12420957d87eaf92b52010aa9149c8fa67242d84c58163f81ef05df",
+  "annotation": {
+    "reviewer": "Codex /root; explicit development annotation, not model output",
+    "edits": [
+      "Remove duplicate R3 evidence-availability requirement and its two query associations.",
+      "Remove the transferred ungrouped modifier from Pre-Pawn in R2, Q2 and its assessment gap."
+    ],
+    "preserved": "Original question, user rule, two queries, document/entity/period, both missing statuses and all source evidence.",
+    "limitation": "Controlled desired outputs verify downstream contracts, not live v6 classification or wording compliance. Historical bad output remains unchanged."
+  },
+  "rows": [
+    {
+      "artifact": "recorded-duplicate-check.json",
+      "annotated_provider_outputs": false,
+      "requirement_count": 3,
+      "query_count": 2,
+      "statuses": [
+        "missing",
+        "missing",
+        "supported"
+      ],
+      "answer": "- The supplied excerpts from \"background-checks.pdf\" do not provide Alabama's ungrouped Handgun value for November 2016; only November 2015 data is included [1].\n- The supplied excerpts from \"background-checks.pdf\" do not provide Alabama's ungrouped Pre-Pawn Handgun value for November 2016; only November 2015 data is included [1].",
+      "provider_mock_calls": 3,
+      "context_sha256": "8e74d2fcb4c4026d8a1c07dc097d546dd4681e248b441de306cc746cc975d5e5"
+    },
+    {
+      "artifact": "annotated-two-facts.json",
+      "annotated_provider_outputs": true,
+      "requirement_count": 2,
+      "query_count": 2,
+      "statuses": [
+        "missing",
+        "missing"
+      ],
+      "answer": "There is not enough information in the provided sources to answer this question.",
+      "provider_mock_calls": 2,
+      "context_sha256": "8e74d2fcb4c4026d8a1c07dc097d546dd4681e248b441de306cc746cc975d5e5"
+    }
+  ],
+  "comparison_scope": "Both arms use current code with controlled provider responses. Historical bad semantics are preserved. This is not a live before/after model comparison.",
+  "quality_limit": "The annotated plan/assessment are supplied by the reviewer; no semantic quality gain is measured. The local insufficient-evidence answer is less specific than a generated period explanation."
+}

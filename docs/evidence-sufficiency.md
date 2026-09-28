@@ -136,6 +136,13 @@ bypass; a model-generated limitation still answers correctly. Rule text provenan
 is therefore insufficient to establish semantic separation. This remains a
 fixed-evidence component result, with one Codex reviewer and no full-loop acceptance.
 
+The [planner fact-scope update](../evals/check-runs/20260928-planner-fact-scope/README.md)
+clarifies that checking whether each fact has enough evidence is the assessor's
+responsibility, not another planned requirement derived from an answering rule.
+Its annotated two-fact regression reaches the existing all-missing response without
+generation. The actual prior three-requirement output remains reproducible; this
+offline result does not prove the revised planner will emit the intended plan.
+
 The assessment contract distinguishes question-provided file names from new
 source-derived targets and selects passage IDs instead of generating free-form
 quotes. Dependency target binding remains on its existing separate contract.

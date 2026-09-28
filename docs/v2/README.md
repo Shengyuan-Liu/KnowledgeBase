@@ -186,3 +186,11 @@ answer rule. Three of four case gates pass. The missing-year plan still adds a
 duplicate evidence-availability requirement and incorrectly qualifies Pre-Pawn
 Handgun as ungrouped. These planning/wording defects keep acceptance open despite
 the correct missing-value answer. No new retrieval or supplementary loop was tested.
+
+The [planner fact-scope regression](../../evals/check-runs/20260928-planner-fact-scope/README.md)
+tightens planner instructions around duplicate evidence checks and local column
+modifiers, with matching generation guidance for unavailable values. Offline
+controls preserve explicit document-explanation questions and verify that an
+annotated two-fact missing plan uses the local insufficient-evidence response.
+No deterministic semantic filter or live measurement is added; the prior failed
+acceptance remains the latest live result until a subsequent bounded comparison.

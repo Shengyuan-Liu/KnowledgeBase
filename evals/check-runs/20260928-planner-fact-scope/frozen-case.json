@@ -1,0 +1,130 @@
+{
+  "source_artifact": "evals/library-runs/20260928-period-rule-acceptance/missing-year.json",
+  "source_sha256": "879e57a4b12420957d87eaf92b52010aa9149c8fa67242d84c58163f81ef05df",
+  "question": "In \"background-checks.pdf\", what are Alabama's ungrouped Handgun and Pre-Pawn Handgun values for November 2016? If the supplied excerpts do not establish these values for that year, state that limitation.",
+  "original_decision": {
+    "route": "decomposed",
+    "requirements": [
+      {
+        "requirement_id": "R1",
+        "description": "Alabama's ungrouped Handgun value for November 2016 in \"background-checks.pdf\"."
+      },
+      {
+        "requirement_id": "R2",
+        "description": "Alabama's ungrouped Pre-Pawn Handgun value for November 2016 in \"background-checks.pdf\"."
+      },
+      {
+        "requirement_id": "R3",
+        "description": "Whether the supplied excerpts establish these values for November 2016."
+      }
+    ],
+    "queries": [
+      {
+        "query_id": "Q1",
+        "text": "In \"background-checks.pdf\", what is Alabama's ungrouped Handgun value for November 2016?",
+        "requirement_ids": [
+          "R1",
+          "R3"
+        ]
+      },
+      {
+        "query_id": "Q2",
+        "text": "In \"background-checks.pdf\", what is Alabama's ungrouped Pre-Pawn Handgun value for November 2016?",
+        "requirement_ids": [
+          "R2",
+          "R3"
+        ]
+      }
+    ],
+    "dependencies": [],
+    "answer_rules": [
+      "If the supplied excerpts do not establish these values for that year, state that limitation."
+    ]
+  },
+  "original_assessment": {
+    "requirements": [
+      {
+        "requirement_id": "R1",
+        "status": "missing",
+        "gap": "No excerpt provides Alabama's ungrouped Handgun value for November 2016; only November 2015 data is included.",
+        "references": []
+      },
+      {
+        "requirement_id": "R2",
+        "status": "missing",
+        "gap": "No excerpt provides Alabama's ungrouped Pre-Pawn Handgun value for November 2016; only November 2015 data is included.",
+        "references": []
+      },
+      {
+        "requirement_id": "R3",
+        "status": "supported",
+        "gap": "",
+        "references": [
+          {
+            "evidence_id": "p2"
+          }
+        ]
+      }
+    ],
+    "queries": []
+  },
+  "expected_decision": {
+    "route": "decomposed",
+    "requirements": [
+      {
+        "requirement_id": "R1",
+        "description": "Alabama's ungrouped Handgun value for November 2016 in \"background-checks.pdf\"."
+      },
+      {
+        "requirement_id": "R2",
+        "description": "Alabama's Pre-Pawn Handgun value for November 2016 in \"background-checks.pdf\"."
+      }
+    ],
+    "queries": [
+      {
+        "query_id": "Q1",
+        "text": "In \"background-checks.pdf\", what is Alabama's ungrouped Handgun value for November 2016?",
+        "requirement_ids": [
+          "R1"
+        ]
+      },
+      {
+        "query_id": "Q2",
+        "text": "In \"background-checks.pdf\", what is Alabama's Pre-Pawn Handgun value for November 2016?",
+        "requirement_ids": [
+          "R2"
+        ]
+      }
+    ],
+    "dependencies": [],
+    "answer_rules": [
+      "If the supplied excerpts do not establish these values for that year, state that limitation."
+    ]
+  },
+  "expected_assessment": {
+    "requirements": [
+      {
+        "requirement_id": "R1",
+        "status": "missing",
+        "gap": "No excerpt provides Alabama's ungrouped Handgun value for November 2016; only November 2015 data is included.",
+        "references": []
+      },
+      {
+        "requirement_id": "R2",
+        "status": "missing",
+        "gap": "No excerpt provides Alabama's Pre-Pawn Handgun value for November 2016; only November 2015 data is included.",
+        "references": []
+      }
+    ],
+    "queries": []
+  },
+  "annotation": {
+    "reviewer": "Codex /root; explicit development annotation, not model output",
+    "edits": [
+      "Remove duplicate R3 evidence-availability requirement and its two query associations.",
+      "Remove the transferred ungrouped modifier from Pre-Pawn in R2, Q2 and its assessment gap."
+    ],
+    "preserved": "Original question, user rule, two queries, document/entity/period, both missing statuses and all source evidence.",
+    "limitation": "Controlled desired outputs verify downstream contracts, not live v6 classification or wording compliance. Historical bad output remains unchanged."
+  }
+}

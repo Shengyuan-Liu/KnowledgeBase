@@ -44,6 +44,16 @@ observed invention of a rule from a prompt example. Exact copying establishes te
 provenance, not semantic classification. Historical saved plans remain unchanged.
 The planner also preserves each table column's own group path and qualifiers.
 
+Planner v6 explicitly keeps evidence-sufficiency checks inside the assessor's job.
+An instruction to state a limitation does not create a second availability or
+verification requirement alongside the requested facts. An explicit user question
+about whether a document reports or explains something still remains a factual
+requirement. In coordinated column lists, local modifiers stay with their own
+column; shared document, entity and period constraints are repeated separately.
+The [scope regression](../evals/check-runs/20260928-planner-fact-scope/README.md)
+tests controlled desired outputs and preserves the observed failure. These are
+prompt constraints, not a deterministic semantic classifier or output repair.
+
 ```python
 from knowledgebase.rag.planning import AnswerRequirement, PlannedQuery, RetrievalPlan
 from knowledgebase.rag.planned_retrieval import retrieve_plan
@@ -176,7 +186,7 @@ The existing evaluation runner does not yet select this controller automatically
    searching or generating. Invalid/incomplete output fails without saving a turn.
 5. Execute the batch, pack one context, publish final numbered sources and generate
    one answer. Dependent plans invoke the bounded [multi-hop controller](dependent-retrieval.md);
-   general sufficiency assessment and supplementary searches remain unimplemented.
+   [evidence sufficiency](evidence-sufficiency.md) provides bounded supplementary searches.
 
 `retrieval.planning` version 1 (independent) or version 2 (dependent) persists
 inside the existing diagnostics snapshot;
