@@ -202,3 +202,12 @@ queries without required target placeholders and fails validation before answeri
 Its semantic quality is unavailable; completed answers alone score 10/10 points.
 Logical conditions versus retrieval dependencies and the column qualifier remain
 open. No product repair or full-loop acceptance is part of this evaluation.
+
+The [dependency-contract offline update](../../evals/check-runs/20260928-planner-dependency-contract/README.md)
+adds target presence to the planner's outgoing schema and explicit conditional
+versus dependent retrieval examples. It also illustrates the separate Handgun
+and Pre-Pawn column names. Recorded targetless queries fail the new schema
+constraint; an annotated independent plan retains all three requested facts.
+The qualifier error is still a semantic model error, without a runtime repair.
+No paid calls or new acceptance scores are part of this change; the previous
+failed live result remains the latest measured outcome.

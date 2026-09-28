@@ -56,6 +56,7 @@ def test_real_sdk_planning_schema_limits_identity_and_usage():
         assert "answer_rules" in schema["required"]
         assert "original_question" not in schema["properties"]
         assert "file_ids" not in schema["$defs"]["DraftQuery"]["properties"]
+        assert schema["$defs"]["DependentQuery"]["properties"]["query_template"]["pattern"] == r"\{target\}"
         return httpx2.Response(200, json=sdk_response(json.dumps(DECOMPOSED)))
     with OpenAI(api_key="offline", base_url="https://offline.test/v1",
                 http_client=httpx2.Client(transport=httpx2.MockTransport(handle))) as sdk:
@@ -110,7 +111,7 @@ def test_recorded_unassigned_comparison_gets_one_auditable_scoped_query():
     assert added.text == question and added.requirement_ids == ["r4"] and added.file_ids is None
     assert result.record["output_text"] == output
     assert result.record["added_coverage_query"]["query"] == added.model_dump(exclude={"file_ids"})
-    assert result.record["prompt_version"] == "dependent-planner-v6"
+    assert result.record["prompt_version"] == "dependent-planner-v7"
     sdk.responses.create.assert_called_once()
 
 

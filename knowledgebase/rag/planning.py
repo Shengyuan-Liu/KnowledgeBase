@@ -24,7 +24,10 @@ class PlannedQuery(PlanRecord):
 
 class DependentQuery(PlanRecord):
     query_id: str = Field(min_length=1)
-    query_template: str = Field(min_length=1)
+    query_template: str = Field(
+        min_length=1, pattern=r"\{target\}",
+        description="Search with exactly one literal {target} for an entity or term not yet known, to be extracted from prerequisite evidence.",
+    )
     requirement_ids: list[str] = Field(min_length=1)
     depends_on: list[str] = Field(min_length=1)
 

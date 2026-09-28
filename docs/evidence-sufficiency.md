@@ -151,6 +151,13 @@ templates omit their required target placeholders. Only 3/4 requests complete,
 2/4 case gates pass and 10/13 intended points are delivered. The failed case has
 unavailable semantic scores; it is not counted as a refusal or a correct answer.
 
+The subsequent [dependency-contract offline update](../evals/check-runs/20260928-planner-dependency-contract/README.md)
+adds the missing target-presence constraint to the planner schema and concrete
+examples for logical conditions and column modifiers. It preserves all three
+factual requirements in an annotated independent plan, including the explicit
+explanation question. It changes neither assessment nor generation. The raw
+qualifier error remains accepted; this update has no new live quality result.
+
 The assessment contract distinguishes question-provided file names from new
 source-derived targets and selects passage IDs instead of generating free-form
 quotes. Dependency target binding remains on its existing separate contract.

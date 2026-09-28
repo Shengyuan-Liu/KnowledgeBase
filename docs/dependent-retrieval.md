@@ -31,6 +31,12 @@ model adherence to those semantic instructions remains a live evaluation concern
 coverage of all required points, at least one initial query, no cycles, no more
 than three levels and six total query nodes. Independent/direct plans cannot
 contain dependencies. Every template contains exactly one literal `{target}`.
+The template's schema pattern also requires this literal in the planner request;
+the existing local count check rejects repeated placeholders. The pattern does
+not prove the target is semantically unknown. Planner v7 distinguishes logical
+conditions with known search inputs from searches requiring a newly discovered
+entity. See the [offline regression](../evals/check-runs/20260928-planner-dependency-contract/README.md)
+for the recorded failure, request comparison and live-verification limits.
 Tasks needing multiple simultaneous target substitutions require separate queries
 or narrowing; an arbitrary query-generating agent is outside this contract.
 
@@ -83,7 +89,7 @@ under the same global evidence budget; contexts are never concatenated.
 | --- | --- |
 | Six total query nodes | Initial plus dependent nodes; validation rejects oversized plans |
 | `PLANNING__MAX_ROUNDS=3` | May be lowered to 1 or 2; hard maximum is 3 |
-| One planning call | Same opt-in planner; now uses `dependent-planner-v6` |
+| One planning call | Same opt-in planner; now uses `dependent-planner-v7` |
 | At most two binding calls | One per subsequent round, using `dependency-targets-v1` and the same planner model |
 | Existing per-call caps | Planner/binding calls share input/output and timeout controls |
 | Existing request deadline | Includes resolution, planning, binding, retrieval and final generation; retains the answer-time reserve |

@@ -54,6 +54,16 @@ The [scope regression](../evals/check-runs/20260928-planner-fact-scope/README.md
 tests controlled desired outputs and preserves the observed failure. These are
 prompt constraints, not a deterministic semantic classifier or output repair.
 
+Planner v7 adds concrete examples for independently searchable conditional facts
+and separately quoted column names. A condition changes how the answer uses the
+facts; it does not require dependent retrieval when all search inputs are already
+known. A dependency is reserved for a source-derived entity or term needed in a
+later query. The outgoing schema now requires a literal `{target}` in each
+dependency template; local validation still requires exactly one. The
+[dependency-contract regression](../evals/check-runs/20260928-planner-dependency-contract/README.md)
+checks the transmitted constraint and preserves the recorded failures. Route and
+column-name semantics remain model judgments awaiting live verification.
+
 ```python
 from knowledgebase.rag.planning import AnswerRequirement, PlannedQuery, RetrievalPlan
 from knowledgebase.rag.planned_retrieval import retrieve_plan
