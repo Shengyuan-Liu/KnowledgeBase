@@ -143,6 +143,14 @@ Its annotated two-fact regression reaches the existing all-missing response with
 generation. The actual prior three-requirement output remains reproducible; this
 offline result does not prove the revised planner will emit the intended plan.
 
+The [matched fact-scope live run](../evals/library-runs/20260928-planner-fact-scope-acceptance/README.md)
+removes the missing-year plan's duplicate availability requirement and reaches
+the local all-missing response, but retains the wrong Pre-Pawn qualifier. A separate
+factual-condition request regresses to a planner validation error: dependent
+templates omit their required target placeholders. Only 3/4 requests complete,
+2/4 case gates pass and 10/13 intended points are delivered. The failed case has
+unavailable semantic scores; it is not counted as a refusal or a correct answer.
+
 The assessment contract distinguishes question-provided file names from new
 source-derived targets and selects passage IDs instead of generating free-form
 quotes. Dependency target binding remains on its existing separate contract.

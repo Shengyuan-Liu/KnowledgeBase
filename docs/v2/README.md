@@ -192,5 +192,13 @@ tightens planner instructions around duplicate evidence checks and local column
 modifiers, with matching generation guidance for unavailable values. Offline
 controls preserve explicit document-explanation questions and verify that an
 annotated two-fact missing plan uses the local insufficient-evidence response.
-No deterministic semantic filter or live measurement is added; the prior failed
-acceptance remains the latest live result until a subsequent bounded comparison.
+No deterministic semantic filter or live measurement is added by that offline update.
+
+The [matched fact-scope live acceptance](../../evals/library-runs/20260928-planner-fact-scope-acceptance/README.md)
+fails: 3/4 completions, 2/4 case gates and 10/13 intended points delivered. The
+missing-year duplicate check disappears and the local refusal is correct, but the
+Pre-Pawn qualifier remains wrong. The factual-condition case now emits dependent
+queries without required target placeholders and fails validation before answering.
+Its semantic quality is unavailable; completed answers alone score 10/10 points.
+Logical conditions versus retrieval dependencies and the column qualifier remain
+open. No product repair or full-loop acceptance is part of this evaluation.
