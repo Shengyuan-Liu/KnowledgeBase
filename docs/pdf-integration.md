@@ -91,6 +91,19 @@ Canonical chunks remain exact extraction slices. Oversized tables split on rows
 where possible; a row exceeding the token limit splits further. Cell row/column
 spans remain attached to supplied evidence.
 
+After structural chunking, a PDF parent containing only headings joins the next
+parent when that parent has body content, both lie wholly on the same physical
+page, and the combined exact slice fits the original parent token budget. A
+running header/footer alone does not count as body content. This addresses a
+lecture title hit that previously omitted its immediately following learning
+section. It does not infer nested heading levels or merge all text on a page.
+Child text, IDs, offsets, heading paths and embedding inputs stay unchanged;
+parent IDs/links and context spans can change. New PDF indexing records carry
+`pdf_parent_context: adjacent-heading-body-v1`. Existing PDF entries need
+reindexing (re-upload through the current API) to receive these new parent links;
+saved answer snapshots retain their original evidence. See the
+[offline comparison](../evals/check-runs/20260929-pdf-heading-context/README.md).
+
 Before evidence packing, add separately located column headers, intersecting row
 headers, and parser-associated captions/notes. Also retain an immediately preceding
 paragraph when it shares the table's heading path and first physical page, excluding
@@ -110,9 +123,10 @@ This also protects a selected table row from expansion of an earlier notes hit.
 Non-table parent behavior and the `parent_first` control are unchanged.
 Text already inside the excerpt or linked as a caption/note is not repeated as
 preceding text. Other unassociated units/notes remain ordinary prose. Oversized
-evidence can be excluded rather than silently exceed the budget. Existing extraction
-revisions and chunks do not change; no reindex is required. Historical snapshots
-keep the evidence originally supplied.
+evidence can be excluded rather than silently exceed the budget. These retrieval-time
+table supplements do not change stored extraction revisions or chunks and require
+no reindex. The ingestion-time heading-parent grouping above requires new parent
+records. Historical snapshots keep the evidence originally supplied.
 
 ## Module Responsibilities
 
@@ -123,6 +137,7 @@ keep the evidence originally supplied.
 | `storage/models.py`, `operations.py` | Persist extraction revisions and read common source contracts |
 | `services/files.py` | Coordinate parsing, indexing, ready state and cleanup |
 | `rag/pdf_evidence.py` | Map exact evidence spans and locate separate table context |
+| `rag/pdf_chunking.py` | Join bounded, same-page heading/body parents while preserving child content |
 | `rag/chunking.py`, `retrieval.py`, `packing.py` | Preserve row boundaries, attach provenance and budget context |
 | `PdfViewer.tsx`, `EvidencePanel.tsx` | Open the cited original page and retain historical source display |
 

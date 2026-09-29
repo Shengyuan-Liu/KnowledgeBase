@@ -250,3 +250,13 @@ This is a new-question check on a familiar development corpus, with one partial
 refusal still open; it is not full-chain acceptance or a held-out benchmark. The
 next repair should address the concrete lecture retrieval miss before a matched
 acceptance run. No product change or merge is part of this evaluation.
+
+The [PDF heading-context repair](../../evals/check-runs/20260929-pdf-heading-context/README.md)
+then keeps an isolated PDF title with its adjacent same-page body when the
+original parent token budget permits. New uploads preserve child content and
+embedding inputs while recording the new parent grouping version. A matched
+offline replay of the six frozen selections raises supplied evidence coverage
+from 14/16 to 16/16 points, recovering the lecture counts without any reference
+fact regressions. This does not measure new answers or improved retrieval ranks.
+Existing PDFs need new parent records through reindexing; live answer acceptance
+on the same frozen questions remains open.

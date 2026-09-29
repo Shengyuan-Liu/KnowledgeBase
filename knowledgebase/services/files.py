@@ -15,6 +15,7 @@ from knowledgebase.config import (
 from knowledgebase.rag.chunking import split_parent_child, split_structured, split_text
 from knowledgebase.rag.parsing import parse_markdown, parse_txt
 from knowledgebase.rag.pdf_evidence import table_rows
+from knowledgebase.rag.pdf_chunking import PDF_PARENT_CONTEXT_VERSION, join_heading_parents
 from knowledgebase.storage.operations import (
     create_file,
     delete_chunks,
@@ -138,6 +139,8 @@ def ingest_file(
                 child_max_tokens=chunk_max_tokens, encoding_name=chunk_tokenizer,
                 table_row_spans=table_rows(extraction) if extraction is not None else None,
             )
+            if extraction is not None:
+                hierarchy = join_heading_parents(extraction, hierarchy)
             chunks = hierarchy.children
         elif chunking_strategy == "structural":
             chunks = split_structured(
@@ -156,6 +159,7 @@ def ingest_file(
                 "semantic": semantic,
             }
             if extraction is not None:
+                indexing["pdf_parent_context"] = PDF_PARENT_CONTEXT_VERSION
                 save_pdf_source(session, file_id, extraction, indexing)
             else:
                 save_document_source(session, file_id, source_format, text, blocks, indexing=indexing)
