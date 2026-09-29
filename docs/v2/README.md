@@ -236,3 +236,17 @@ ten positive factual groups are supported and individually cited. This single
 fixed-context development run does not establish held-out or full retrieval-chain
 quality. New questions through the complete retrieval chain and user acceptance
 remain open; no merge is authorized by this result.
+
+The [new-question full-chain run](../../evals/library-runs/20260929-new-pdf-chain/README.md)
+extends verification to six questions on paper, lecture and financial PDFs. All
+six real HTTP/SSE requests complete; five case gates pass and 14/16 expected
+points are answered correctly. The lecture answer withholds two indexed page-62
+count facts because they do not reach the final context, despite supplementary
+retrieval. The selected region contains the slide title without its learning
+bullets; no context-budget exclusion causes the miss. All 15 emitted factual
+claims have supporting evidence/citations, and the missing-date refusal is
+correct. The factual cash-flow condition also retains the intended classification.
+This is a new-question check on a familiar development corpus, with one partial
+refusal still open; it is not full-chain acceptance or a held-out benchmark. The
+next repair should address the concrete lecture retrieval miss before a matched
+acceptance run. No product change or merge is part of this evaluation.

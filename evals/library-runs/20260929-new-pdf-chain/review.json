@@ -1,0 +1,526 @@
+{
+  "reviewed_at": "2026-09-29T20:15:29.294408+00:00",
+  "reviewer": "Codex (model)",
+  "human_review": false,
+  "method": "Every emitted substantive factual claim checked against supplied source text and original rendered physical pages; every frozen expected point reviewed independently.",
+  "scope": "New development questions; no statistical generalization or comparison with the prior fixed-context run.",
+  "post_answer_page_review": {
+    "file": "source-review/doclaynet-page-7-post-answer.png",
+    "reason": "The answer also cited page 7, whose prose independently supports the page-3 split reference. Frozen labels were not broadened after answers."
+  },
+  "cases": [
+    {
+      "case_id": "paper-split",
+      "artifact": "paper-split-planned.json",
+      "artifact_sha256": "4f6452e02c5f690b92348f445c7f3ce6176b39c2e3664c10735208f8ff8aace4",
+      "answer": "- The train, test, and validation subsets in \"doclaynet.pdf\" are split at full-document boundaries, meaning that all pages from a single document are assigned to only one of the train, test, or validation sets and never split across them [1][2].\n- The authors chose this boundary to avoid having pages from the same document\u2014and therefore from the same unique layout\u2014in multiple sets, which could give models an unfair evaluation advantage and lead to overestimation of prediction accuracy if similar styles appear in both training and test sets [1][2].",
+      "expected_points": [
+        {
+          "fact_id": "split_boundary",
+          "correct": true,
+          "addressed": true,
+          "reason": "Matches the original page and supplied evidence."
+        },
+        {
+          "fact_id": "split_reason",
+          "correct": true,
+          "addressed": true,
+          "reason": "Matches the original page and supplied evidence."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "All pages from a document belong to one split.",
+          "citation_ids": [
+            1,
+            2
+          ],
+          "original_physical_pages": [
+            3,
+            7
+          ],
+          "source_quote": "only split on full-document boundaries",
+          "correct": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "page_metadata_correct": true
+        },
+        {
+          "claim": "This avoids an unfair evaluation advantage / overestimated accuracy from shared layouts.",
+          "citation_ids": [
+            1,
+            2
+          ],
+          "original_physical_pages": [
+            3,
+            7
+          ],
+          "source_quote": "overestimation of their prediction accuracy",
+          "correct": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "page_metadata_correct": true
+        }
+      ],
+      "relevant": true,
+      "completed": true,
+      "history_matches": true,
+      "partial_refusal": false,
+      "full_refusal": false,
+      "appropriate_refusal": false,
+      "incorrect_refusal_on_answerable": false,
+      "refusal_review": null,
+      "passed": true,
+      "planner_classification": {
+        "route": "decomposed",
+        "dependencies": [],
+        "answer_rules": [],
+        "note": "No unresolved-entity dependency in this case."
+      }
+    },
+    {
+      "case_id": "paper-delivery",
+      "artifact": "paper-delivery-planned.json",
+      "artifact_sha256": "ac03507446ab829628c54419da5af703449a6de2db1f822b4b2c75c36e826131",
+      "answer": "- The format used for the page images in \"doclaynet.pdf\" is PNG [1].\n- The pixel dimensions of the page images are 1025\u00d71025 pixels [1].\n- The original-page files provided alongside the page images are the original PDF pages [1].\n- The text-coordinate files provided alongside the page images are sidecar files containing parsed PDF text and text-cell coordinates in JSON format [1].",
+      "expected_points": [
+        {
+          "fact_id": "page_images",
+          "correct": true,
+          "addressed": true,
+          "reason": "Matches the original page and supplied evidence."
+        },
+        {
+          "fact_id": "original_pages",
+          "correct": true,
+          "addressed": true,
+          "reason": "Matches the original page and supplied evidence."
+        },
+        {
+          "fact_id": "sidecars",
+          "correct": true,
+          "addressed": true,
+          "reason": "Matches the original page and supplied evidence."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Page image format is PNG.",
+          "citation_ids": [
+            1
+          ],
+          "original_physical_pages": [
+            3
+          ],
+          "source_quote": "PNG",
+          "correct": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "page_metadata_correct": true
+        },
+        {
+          "claim": "Image size is 1025 by 1025 pixels.",
+          "citation_ids": [
+            1
+          ],
+          "original_physical_pages": [
+            3
+          ],
+          "source_quote": "1025\u00d71025 pixels",
+          "correct": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "page_metadata_correct": true
+        },
+        {
+          "claim": "Original PDF pages are provided.",
+          "citation_ids": [
+            1
+          ],
+          "original_physical_pages": [
+            3
+          ],
+          "source_quote": "provide the original PDF pages",
+          "correct": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "page_metadata_correct": true
+        },
+        {
+          "claim": "JSON sidecars contain parsed text and text-cell coordinates.",
+          "citation_ids": [
+            1
+          ],
+          "original_physical_pages": [
+            3
+          ],
+          "source_quote": "sidecar files containing parsed PDF text and text-cell coordinates (in JSON)",
+          "correct": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "page_metadata_correct": true
+        }
+      ],
+      "relevant": true,
+      "completed": true,
+      "history_matches": true,
+      "partial_refusal": false,
+      "full_refusal": false,
+      "appropriate_refusal": false,
+      "incorrect_refusal_on_answerable": false,
+      "refusal_review": null,
+      "passed": true,
+      "planner_classification": {
+        "route": "decomposed",
+        "dependencies": [],
+        "answer_rules": [],
+        "note": "No unresolved-entity dependency in this case."
+      }
+    },
+    {
+      "case_id": "lecture-bag-words",
+      "artifact": "lecture-bag-words-planned.json",
+      "artifact_sha256": "eee2e15f0eb659defd67e6f182bdfbbba76fa576997976e4923ef4d860820039",
+      "answer": "- The bag-of-words model ignores the order of words in a document [1].\n- The provided sources do not contain information about the specific two kinds of counts collected during the learning phase of Naive Bayes text classification.",
+      "expected_points": [
+        {
+          "fact_id": "word_order",
+          "correct": true,
+          "addressed": true,
+          "reason": "Matches the original page and supplied evidence."
+        },
+        {
+          "fact_id": "topic_documents",
+          "correct": false,
+          "addressed": false,
+          "reason": "Explicit partial refusal: indexed page 62 learning-count bullets were not supplied."
+        },
+        {
+          "fact_id": "topic_words",
+          "correct": false,
+          "addressed": false,
+          "reason": "Explicit partial refusal: indexed page 62 learning-count bullets were not supplied."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Bag of words ignores word order.",
+          "citation_ids": [
+            1
+          ],
+          "original_physical_pages": [
+            60
+          ],
+          "source_quote": "order of words on the page ignored",
+          "correct": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "page_metadata_correct": true
+        }
+      ],
+      "relevant": true,
+      "completed": true,
+      "history_matches": true,
+      "partial_refusal": true,
+      "full_refusal": false,
+      "appropriate_refusal": false,
+      "incorrect_refusal_on_answerable": true,
+      "refusal_review": "The missing-information statement accurately describes the supplied context, but is a retrieval failure against the available source. It is an evidence-limit statement, not an externally factual claim needing a citation.",
+      "passed": false,
+      "planner_classification": {
+        "route": "decomposed",
+        "dependencies": [],
+        "answer_rules": [],
+        "note": "No unresolved-entity dependency in this case."
+      }
+    },
+    {
+      "case_id": "lecture-midterm-date",
+      "artifact": "lecture-midterm-date-planned.json",
+      "artifact_sha256": "53b19e60ab5d4e6526c410ebfad2e53a95fcc48a72fb2e08b8a8b5eaf843648d",
+      "answer": "There is not enough information in the provided sources to answer this question.",
+      "expected_points": [],
+      "claims": [],
+      "relevant": true,
+      "completed": true,
+      "history_matches": true,
+      "partial_refusal": false,
+      "full_refusal": true,
+      "appropriate_refusal": true,
+      "incorrect_refusal_on_answerable": false,
+      "refusal_review": "Claim-free local refusal is appropriate; the exact date is absent.",
+      "passed": true,
+      "planner_classification": {
+        "route": "direct",
+        "dependencies": [],
+        "answer_rules": [],
+        "note": "No unresolved-entity dependency in this case."
+      }
+    },
+    {
+      "case_id": "apple-securities",
+      "artifact": "apple-securities-planned.json",
+      "artifact_sha256": "ff16cd39d86543a1c3af5114e89c43a77be1cc2068c803359cef3eb405afa691",
+      "answer": "- The current marketable securities balance at September 28, 2024 is $35,228 million [1].\n- The non-current marketable securities balance at September 28, 2024 is $91,479 million [1].\n- The units used are millions of dollars [1].",
+      "expected_points": [
+        {
+          "fact_id": "current_securities",
+          "correct": true,
+          "addressed": true,
+          "reason": "Matches the original page and supplied evidence."
+        },
+        {
+          "fact_id": "noncurrent_securities",
+          "correct": true,
+          "addressed": true,
+          "reason": "Matches the original page and supplied evidence."
+        },
+        {
+          "fact_id": "balance_units",
+          "correct": true,
+          "addressed": true,
+          "reason": "Matches the original page and supplied evidence."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "Current marketable securities at September 28, 2024 are 35,228 million dollars.",
+          "citation_ids": [
+            1
+          ],
+          "original_physical_pages": [
+            2
+          ],
+          "source_quote": "Marketable securities\t35,228\t31,590",
+          "correct": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "page_metadata_correct": true
+        },
+        {
+          "claim": "Non-current marketable securities at September 28, 2024 are 91,479 million dollars.",
+          "citation_ids": [
+            1
+          ],
+          "original_physical_pages": [
+            2
+          ],
+          "source_quote": "Marketable securities\t91,479\t100,544",
+          "correct": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "page_metadata_correct": true
+        },
+        {
+          "claim": "Requested balance-sheet amounts are millions of dollars.",
+          "citation_ids": [
+            1
+          ],
+          "original_physical_pages": [
+            2
+          ],
+          "source_quote": "In millions",
+          "correct": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "page_metadata_correct": true
+        }
+      ],
+      "relevant": true,
+      "completed": true,
+      "history_matches": true,
+      "partial_refusal": false,
+      "full_refusal": false,
+      "appropriate_refusal": false,
+      "incorrect_refusal_on_answerable": false,
+      "refusal_review": null,
+      "passed": true,
+      "planner_classification": {
+        "route": "decomposed",
+        "dependencies": [],
+        "answer_rules": [],
+        "note": "No unresolved-entity dependency in this case."
+      }
+    },
+    {
+      "case_id": "apple-cash-condition",
+      "artifact": "apple-cash-condition-planned.json",
+      "artifact_sha256": "8ac1d20c02534b3fb7bff5757211526b0e972645fbe026a4c830f9921b70508b",
+      "answer": "- Cash generated by operating activities in fiscal 2024: $118,254 million [1].\n- Cash generated by operating activities in fiscal 2023: $110,543 million [1].\n- Since $118,254 million (2024) exceeds $110,543 million (2023), the fiscal 2024 cash used in financing activities is $(121,983) million [1].\n- All amounts are stated in millions [1].",
+      "expected_points": [
+        {
+          "fact_id": "cash_2024",
+          "correct": true,
+          "addressed": true,
+          "reason": "Matches the original page and supplied evidence."
+        },
+        {
+          "fact_id": "cash_2023",
+          "correct": true,
+          "addressed": true,
+          "reason": "Matches the original page and supplied evidence."
+        },
+        {
+          "fact_id": "cash_condition",
+          "correct": true,
+          "addressed": true,
+          "reason": "Matches the original page and supplied evidence."
+        },
+        {
+          "fact_id": "financing_2024",
+          "correct": true,
+          "addressed": true,
+          "reason": "Matches the original page and supplied evidence."
+        },
+        {
+          "fact_id": "cash_units",
+          "correct": true,
+          "addressed": true,
+          "reason": "Matches the original page and supplied evidence."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "2024 operating cash is 118,254 million dollars.",
+          "citation_ids": [
+            1
+          ],
+          "original_physical_pages": [
+            3
+          ],
+          "source_quote": "Cash generated by operating activities\t118,254\t110,543",
+          "correct": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "page_metadata_correct": true
+        },
+        {
+          "claim": "2023 operating cash is 110,543 million dollars.",
+          "citation_ids": [
+            1
+          ],
+          "original_physical_pages": [
+            3
+          ],
+          "source_quote": "Cash generated by operating activities\t118,254\t110,543",
+          "correct": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "page_metadata_correct": true
+        },
+        {
+          "claim": "2024 operating cash exceeds 2023 operating cash.",
+          "citation_ids": [
+            1
+          ],
+          "original_physical_pages": [
+            3
+          ],
+          "source_quote": "Cash generated by operating activities\t118,254\t110,543",
+          "correct": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "page_metadata_correct": true
+        },
+        {
+          "claim": "2024 financing cash is an outflow of 121,983 million dollars.",
+          "citation_ids": [
+            1
+          ],
+          "original_physical_pages": [
+            3
+          ],
+          "source_quote": "Cash used in financing activities\t(121,983)\t(108,488)",
+          "correct": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "page_metadata_correct": true
+        },
+        {
+          "claim": "Requested cash-flow amounts are millions of dollars.",
+          "citation_ids": [
+            1
+          ],
+          "original_physical_pages": [
+            3
+          ],
+          "source_quote": "In millions",
+          "correct": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "page_metadata_correct": true
+        }
+      ],
+      "relevant": true,
+      "completed": true,
+      "history_matches": true,
+      "partial_refusal": false,
+      "full_refusal": false,
+      "appropriate_refusal": false,
+      "incorrect_refusal_on_answerable": false,
+      "refusal_review": null,
+      "passed": true,
+      "planner_classification": {
+        "route": "decomposed",
+        "dependencies": [],
+        "answer_rules": [
+          "State the units."
+        ],
+        "note": "The cash-flow factual condition remains a requirement and is absent from answer_rules; State the units. is retained as an answer rule."
+      }
+    }
+  ],
+  "summary": {
+    "case_gate": {
+      "passed": 5,
+      "total": 6
+    },
+    "correctness": {
+      "correct": 14,
+      "expected": 16
+    },
+    "completeness": {
+      "addressed": 14,
+      "expected": 16
+    },
+    "faithfulness": {
+      "supported": 15,
+      "claims": 15
+    },
+    "relevance": {
+      "relevant": 6,
+      "total": 6
+    },
+    "citation_support": {
+      "supported": 15,
+      "cited_claims": 15
+    },
+    "citation_coverage": {
+      "supported_citations": 15,
+      "citation_required_claims": 15
+    },
+    "abstention": {
+      "appropriate_unanswerable": 1,
+      "unanswerable": 1,
+      "incorrect_any_or_partial": 1,
+      "answerable": 5,
+      "incorrect_full": 0
+    },
+    "history_matches": 6
+  }
+}
