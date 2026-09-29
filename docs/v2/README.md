@@ -259,4 +259,19 @@ offline replay of the six frozen selections raises supplied evidence coverage
 from 14/16 to 16/16 points, recovering the lecture counts without any reference
 fact regressions. This does not measure new answers or improved retrieval ranks.
 Existing PDFs need new parent records through reindexing; live answer acceptance
-on the same frozen questions remains open.
+on the same frozen questions was still open at that point.
+
+The [matched heading-context live run](../../evals/library-runs/20260929-pdf-heading-acceptance/README.md)
+then rebuilds only parent associations in an isolated copy with unchanged source
+text, vectors, questions and labels. Supplied evidence and correct/completed
+answer points rise from 14/16 to 16/16; the lecture now answers both counts in the
+first round. Overall acceptance remains 5/6: the cash-flow answer introduces an
+uncited comparison bullet, giving citation coverage of 18/19 factual claims.
+All 19 claims are faithful to supplied context, and the missing-date refusal
+remains correct. Additional inspection finds wrong assessor-selected financial
+rows despite correct final values from the full supplied table. These controller
+errors and per-item comparison citations are the next focused repair targets.
+All six requests and 40 provider calls complete without error; billed cost remains
+unavailable. A retained shutdown semaphore warning does not prevent verified
+server/lock release. The run does not establish broader acceptance or authorize
+a merge.
