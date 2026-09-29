@@ -61,8 +61,12 @@ known. A dependency is reserved for a source-derived entity or term needed in a
 later query. The outgoing schema now requires a literal `{target}` in each
 dependency template; local validation still requires exactly one. The
 [dependency-contract regression](../evals/check-runs/20260928-planner-dependency-contract/README.md)
-checks the transmitted constraint and preserves the recorded failures. Route and
-column-name semantics remain model judgments awaiting live verification.
+checks the transmitted constraint and preserves the recorded failures. The
+[matched live follow-up](../evals/library-runs/20260929-planner-dependency-acceptance/README.md)
+recovers independent conditional queries and correct column scope in this sample,
+but the factual question is duplicated into `answer_rules`. Three of four case
+gates pass despite all 13 expected answer points being delivered. Route, column
+scope and rule classification remain semantic model judgments.
 
 ```python
 from knowledgebase.rag.planning import AnswerRequirement, PlannedQuery, RetrievalPlan

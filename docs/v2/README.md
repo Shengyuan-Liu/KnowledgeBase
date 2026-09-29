@@ -209,5 +209,13 @@ versus dependent retrieval examples. It also illustrates the separate Handgun
 and Pre-Pawn column names. Recorded targetless queries fail the new schema
 constraint; an annotated independent plan retains all three requested facts.
 The qualifier error is still a semantic model error, without a runtime repair.
-No paid calls or new acceptance scores are part of this change; the previous
-failed live result remains the latest measured outcome.
+No paid calls or new acceptance scores were part of that offline change.
+
+The [matched dependency-contract live follow-up](../../evals/library-runs/20260929-planner-dependency-acceptance/README.md)
+completes 4/4 requests and delivers 13/13 expected points. The factual condition
+now uses three independent searches, and Pre-Pawn Handgun retains its correct
+column scope. Three of four case gates pass: the factual-condition plan now
+duplicates the factual question into `answer_rules`, despite answering correctly.
+That semantic classification regression keeps acceptance open. All ten factual
+claim groups are supported and individually cited; no full-loop or held-out
+quality result is claimed.
