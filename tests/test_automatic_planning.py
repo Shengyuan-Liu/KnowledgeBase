@@ -54,6 +54,7 @@ def test_real_sdk_planning_schema_limits_identity_and_usage():
         schema = payload["text"]["format"]["schema"]
         assert set(schema["required"]) == set(schema["properties"])
         assert "answer_rules" in schema["required"]
+        assert "Exclude factual questions and their conditions" in schema["properties"]["answer_rules"]["description"]
         assert "original_question" not in schema["properties"]
         assert "file_ids" not in schema["$defs"]["DraftQuery"]["properties"]
         assert schema["$defs"]["DependentQuery"]["properties"]["query_template"]["pattern"] == r"\{target\}"
@@ -111,7 +112,7 @@ def test_recorded_unassigned_comparison_gets_one_auditable_scoped_query():
     assert added.text == question and added.requirement_ids == ["r4"] and added.file_ids is None
     assert result.record["output_text"] == output
     assert result.record["added_coverage_query"]["query"] == added.model_dump(exclude={"file_ids"})
-    assert result.record["prompt_version"] == "dependent-planner-v7"
+    assert result.record["prompt_version"] == "dependent-planner-v8"
     sdk.responses.create.assert_called_once()
 
 

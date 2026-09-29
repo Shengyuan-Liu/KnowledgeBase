@@ -1,0 +1,216 @@
+{
+  "source_hashes": {
+    "evals/library-runs/20260929-planner-dependency-acceptance/cases.json": "7c356e84013b7eb4c3bd22c2b847f81f94e334cf4953884608cd993afa5fc8ed",
+    "evals/library-runs/20260929-planner-dependency-acceptance/frozen-evidence.json": "a891dc0f630bfe3598777fe6c3f64e476200b05c07175f9839bc093cdc0542aa",
+    "evals/library-runs/20260929-planner-dependency-acceptance/review.json": "b49b0b0ab3b0f5f67526e488880cdf7f506fdea0e358d5ec5113f358737cc36f",
+    "evals/library-runs/20260929-planner-dependency-acceptance/original-rule.json": "b52657ccd1c94cac86f1504c1d80f678bd344796e152ad7725ff714c8fb15fba",
+    "evals/library-runs/20260929-planner-dependency-acceptance/paraphrased-rule.json": "653ca4c2ea86a9e197a0b6c663a665740efa9a23565453dfb3419bf7bf3810df",
+    "evals/library-runs/20260929-planner-dependency-acceptance/factual-condition.json": "bd18421a520667a4fc568ea7cbfa8a205431879ccfbbb80014a520be6c003aba",
+    "evals/library-runs/20260929-planner-dependency-acceptance/missing-year.json": "0d4c07031b6c16db07c60a3147dd692f5e4e50138a486e1920bf087c50bebbc1"
+  },
+  "annotation_author": "Codex /root; development expectation, not a model result or independent human review.",
+  "annotation_method": "Only remove the duplicated factual conditional question from answer_rules in factual-condition. Preserve every other plan field, and all other cases, byte-equivalent as parsed JSON. Questions, supplied evidence and actual downstream outputs remain frozen in linked artifacts.",
+  "rows": [
+    {
+      "case_id": "original-rule",
+      "source_artifact": "evals/library-runs/20260929-planner-dependency-acceptance/original-rule.json",
+      "expected_decision": {
+        "route": "decomposed",
+        "requirements": [
+          {
+            "requirement_id": "req1",
+            "description": "Alabama's Handgun value in the ungrouped column for November 2015 in \"background-checks.pdf\""
+          },
+          {
+            "requirement_id": "req2",
+            "description": "Alabama's Pre-Pawn Handgun value for November 2015 in \"background-checks.pdf\""
+          },
+          {
+            "requirement_id": "req3",
+            "description": "Alabama's Rentals Handgun cell content for November 2015 in \"background-checks.pdf\""
+          },
+          {
+            "requirement_id": "req4",
+            "description": "Alabama's Rentals Long Gun cell content for November 2015 in \"background-checks.pdf\""
+          }
+        ],
+        "queries": [
+          {
+            "query_id": "q1",
+            "text": "In \"background-checks.pdf\" for November 2015, what is Alabama's Handgun value in the ungrouped column?",
+            "requirement_ids": [
+              "req1"
+            ]
+          },
+          {
+            "query_id": "q2",
+            "text": "In \"background-checks.pdf\" for November 2015, what is Alabama's Pre-Pawn Handgun value?",
+            "requirement_ids": [
+              "req2"
+            ]
+          },
+          {
+            "query_id": "q3",
+            "text": "In \"background-checks.pdf\" for November 2015, what does Alabama's Rentals Handgun cell record?",
+            "requirement_ids": [
+              "req3"
+            ]
+          },
+          {
+            "query_id": "q4",
+            "text": "In \"background-checks.pdf\" for November 2015, what does Alabama's Rentals Long Gun cell record?",
+            "requirement_ids": [
+              "req4"
+            ]
+          }
+        ],
+        "dependencies": [],
+        "answer_rules": [
+          "If the supplied excerpts do not establish a requested cell's contents, state that limitation."
+        ]
+      }
+    },
+    {
+      "case_id": "paraphrased-rule",
+      "source_artifact": "evals/library-runs/20260929-planner-dependency-acceptance/paraphrased-rule.json",
+      "expected_decision": {
+        "route": "decomposed",
+        "requirements": [
+          {
+            "requirement_id": "r1",
+            "description": "Alabama's Handgun value in the ungrouped column for November 2015 in \"background-checks.pdf\""
+          },
+          {
+            "requirement_id": "r2",
+            "description": "Alabama's Pre-Pawn Handgun value for November 2015 in \"background-checks.pdf\""
+          },
+          {
+            "requirement_id": "r3",
+            "description": "Alabama's Rentals Handgun cell value for November 2015 in \"background-checks.pdf\""
+          },
+          {
+            "requirement_id": "r4",
+            "description": "Alabama's Rentals Long Gun cell value for November 2015 in \"background-checks.pdf\""
+          }
+        ],
+        "queries": [
+          {
+            "query_id": "q1",
+            "text": "In \"background-checks.pdf\" for November 2015, what is Alabama's Handgun value in the ungrouped column?",
+            "requirement_ids": [
+              "r1"
+            ]
+          },
+          {
+            "query_id": "q2",
+            "text": "In \"background-checks.pdf\" for November 2015, what is Alabama's Pre-Pawn Handgun value?",
+            "requirement_ids": [
+              "r2"
+            ]
+          },
+          {
+            "query_id": "q3",
+            "text": "In \"background-checks.pdf\" for November 2015, what does Alabama's Rentals Handgun cell record?",
+            "requirement_ids": [
+              "r3"
+            ]
+          },
+          {
+            "query_id": "q4",
+            "text": "In \"background-checks.pdf\" for November 2015, what does Alabama's Rentals Long Gun cell record?",
+            "requirement_ids": [
+              "r4"
+            ]
+          }
+        ],
+        "dependencies": [],
+        "answer_rules": [
+          "Report only values established by the excerpts; for any requested cell that they do not establish, explicitly say the evidence is insufficient."
+        ]
+      }
+    },
+    {
+      "case_id": "factual-condition",
+      "source_artifact": "evals/library-runs/20260929-planner-dependency-acceptance/factual-condition.json",
+      "expected_decision": {
+        "route": "decomposed",
+        "requirements": [
+          {
+            "requirement_id": "r1",
+            "description": "The contents of Alabama's Rentals Handgun cell for November 2015 in \"background-checks.pdf\"."
+          },
+          {
+            "requirement_id": "r2",
+            "description": "Alabama's ungrouped Handgun value for November 2015 in \"background-checks.pdf\"."
+          },
+          {
+            "requirement_id": "r3",
+            "description": "Whether \"background-checks.pdf\" explains why Alabama's Rentals Handgun cell is blank for November 2015."
+          }
+        ],
+        "queries": [
+          {
+            "query_id": "q1",
+            "text": "In \"background-checks.pdf\" for November 2015, what is the value of Alabama's Rentals Handgun cell?",
+            "requirement_ids": [
+              "r1"
+            ]
+          },
+          {
+            "query_id": "q2",
+            "text": "In \"background-checks.pdf\" for November 2015, what is Alabama's ungrouped Handgun value?",
+            "requirement_ids": [
+              "r2"
+            ]
+          },
+          {
+            "query_id": "q3",
+            "text": "In \"background-checks.pdf\" for November 2015, does the document explain why Alabama's Rentals Handgun cell is blank?",
+            "requirement_ids": [
+              "r3"
+            ]
+          }
+        ],
+        "dependencies": [],
+        "answer_rules": []
+      }
+    },
+    {
+      "case_id": "missing-year",
+      "source_artifact": "evals/library-runs/20260929-planner-dependency-acceptance/missing-year.json",
+      "expected_decision": {
+        "route": "decomposed",
+        "requirements": [
+          {
+            "requirement_id": "R1",
+            "description": "\"ungrouped Handgun\" value for Alabama for November 2016 in \"background-checks.pdf\""
+          },
+          {
+            "requirement_id": "R2",
+            "description": "\"Pre-Pawn Handgun\" value for Alabama for November 2016 in \"background-checks.pdf\""
+          }
+        ],
+        "queries": [
+          {
+            "query_id": "Q1",
+            "text": "In \"background-checks.pdf\", what is the ungrouped Handgun value for Alabama for November 2016?",
+            "requirement_ids": [
+              "R1"
+            ]
+          },
+          {
+            "query_id": "Q2",
+            "text": "In \"background-checks.pdf\", what is the Pre-Pawn Handgun value for Alabama for November 2016?",
+            "requirement_ids": [
+              "R2"
+            ]
+          }
+        ],
+        "dependencies": [],
+        "answer_rules": [
+          "If the supplied excerpts do not establish these values for that year, state that limitation."
+        ]
+      }
+    }
+  ]
+}

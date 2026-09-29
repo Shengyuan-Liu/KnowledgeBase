@@ -47,7 +47,7 @@ def test_observed_user_rules_are_accepted_verbatim_with_fact_dimensions_preserve
     assert result.plan.answer_rules == row["plan"]["answer_rules"]
     assert [r.model_dump() for r in result.plan.requirements] == row["plan"]["requirements"]
     assert result.record["output_text"] == row["planner_record"]["output_text"]
-    assert result.record["prompt_version"] == "dependent-planner-v7"
+    assert result.record["prompt_version"] == "dependent-planner-v8"
     sdk.responses.create.assert_called_once()
 
 

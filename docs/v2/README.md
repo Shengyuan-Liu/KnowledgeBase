@@ -219,3 +219,12 @@ duplicates the factual question into `answer_rules`, despite answering correctly
 That semantic classification regression keeps acceptance open. All ten factual
 claim groups are supported and individually cited; no full-loop or held-out
 quality result is claimed.
+
+The [offline factual-condition rule update](../../evals/check-runs/20260929-factual-condition-rules/README.md)
+adds explicit contrasting classifications and a matching provider field description.
+It removes ambiguity around preserving a factual condition: the original question
+is already passed unchanged to generation, so it need not be copied into
+`answer_rules`. Controlled replay preserves the three facts, queries, downstream
+requests and existing period/column behavior. The raw semantic error remains
+accepted and no paid inference was run; the latest measured live result remains
+3/4 case gates. Live compliance and user acceptance remain open.

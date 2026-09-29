@@ -1,0 +1,33 @@
+.F..........................................................             [100%]
+=================================== FAILURES ===================================
+_ test_empty_rule_annotation_preserves_factual_condition_and_downstream_requests _
+
+    def test_empty_rule_annotation_preserves_factual_condition_and_downstream_requests():
+        saved, expected = recorded("factual-condition")
+        before, before_controller, before_sdk, before_answer = replay_case("factual-condition", annotated=False)
+        after, controller, sdk, answer = replay_case("factual-condition", annotated=True)
+        assert after.plan.answer_rules == []
+        assert after.plan.route == "decomposed" and after.plan.dependencies == []
+        assert after.plan.requirements == before.plan.requirements and len(after.plan.requirements) == 3
+        assert after.plan.queries == before.plan.queries and len(after.plan.queries) == 3
+        assert after.plan.model_dump(exclude={"answer_rules"}) == before.plan.model_dump(exclude={"answer_rules"})
+        assert after.record["output_text"] == json.dumps(expected)
+        assert "added_coverage_query" not in after.record
+>       assert controller.assessment == before_controller.assessment
+E       AssertionError: assert {'round_index...l page.', ...} == {'round_index...l page.', ...}
+E         
+E         Omitting 5 identical items, use -vv to show
+E         Differing items:
+E         {'record': {'prompt_version': 'evidence-sufficiency-v5', 'requested_model': 'offline', 'model': 'resolved-planner-model', 'response_id': 'resp_offline', ...}} != {'record': {'prompt_version': 'evidence-sufficiency-v5', 'requested_model': 'offline', 'model': 'resolved-planner-model', 'response_id': 'resp_offline', ...}}
+E         Use -v to get more diff
+
+tests/test_factual_condition_rules.py:75: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_factual_condition_rules.py::test_empty_rule_annotation_preserves_factual_condition_and_downstream_requests
+1 failed, 59 passed, 1 warning in 1.96s

@@ -97,7 +97,10 @@ class PlanDecision(PlanRecord):
     requirements: list[AnswerRequirement] = Field(max_length=6)
     queries: list[DraftQuery] = Field(max_length=6)
     dependencies: list[DependentQuery] = Field(max_length=5)
-    answer_rules: list[str] = Field(default_factory=list, max_length=6)
+    answer_rules: list[str] = Field(
+        default_factory=list, max_length=6,
+        description="Exact original-question quotes specifying how to present the answer or disclose evidence limits. Exclude factual questions and their conditions, even when quoted exactly. Empty when there is no separate answering instruction.",
+    )
 
     def to_plan(self, original: str, resolved: str) -> RetrievalPlan | None:
         if self.route in {"direct", "needs_narrowing"}:

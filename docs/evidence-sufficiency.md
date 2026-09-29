@@ -166,6 +166,13 @@ Only 3/4 gates pass: the factual condition is also copied into `answer_rules`.
 Exact original text passes provenance but does not establish correct semantic
 classification. This new regression is retained without an in-run product repair.
 
+The subsequent [offline factual-condition rule update](../evals/check-runs/20260929-factual-condition-rules/README.md)
+clarifies planner and schema instructions against duplicating factual questions
+into answering rules. A controlled removal of the incorrect rule preserves all
+three factual requirements, assessment requests and generation inputs. Assessment
+and generation remain unchanged; the original conditional question still reaches
+the answer model. This does not establish live classification recovery.
+
 The assessment contract distinguishes question-provided file names from new
 source-derived targets and selects passage IDs instead of generating free-form
 quotes. Dependency target binding remains on its existing separate contract.

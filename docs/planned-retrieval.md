@@ -68,6 +68,17 @@ but the factual question is duplicated into `answer_rules`. Three of four case
 gates pass despite all 13 expected answer points being delivered. Route, column
 scope and rule classification remain semantic model judgments.
 
+Planner v8 makes that separation explicit in both directions: a factual question
+or condition must not also be copied into `answer_rules`. Contrasting examples
+cover a factual condition, an evidence-limitation instruction and a factual
+condition followed by a formatting instruction. The provider field description
+uses the same distinction. The original question still reaches generation
+unchanged, so preserving its condition does not require a duplicate rule. The
+[offline rule-classification regression](../evals/check-runs/20260929-factual-condition-rules/README.md)
+checks unchanged facts and downstream requests under a supplied empty-rule
+annotation. The actual bad output remains accepted; this is prompt guidance,
+not runtime semantic repair or measured live recovery.
+
 ```python
 from knowledgebase.rag.planning import AnswerRequirement, PlannedQuery, RetrievalPlan
 from knowledgebase.rag.planned_retrieval import retrieve_plan

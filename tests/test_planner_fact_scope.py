@@ -68,7 +68,7 @@ def test_two_missing_facts_abstain_without_the_duplicate_availability_requiremen
     assert after.assessment["evidence_catalog"] == before.assessment["evidence_catalog"]
     assert after.trace["stop_reason"] == before.trace["stop_reason"] == "round_limit"
     # Verify production payloads; this does not establish model compliance.
-    assert after.prepared.record["prompt_version"] == "dependent-planner-v7"
+    assert after.prepared.record["prompt_version"] == "dependent-planner-v8"
     assert "not another requested fact or retrieval target" in after.prepared.record["input"][0]["content"]
     generation = before_sdk.responses.create.call_args.kwargs["input"]
     assert fixture["question"] in generation[0]["content"]

@@ -68,7 +68,7 @@ def test_annotated_condition_keeps_three_known_fact_queries_and_explicit_explana
     assert result.plan.answer_rules == []
     assert result.plan.original_question == row["case"]["question"]
     assert "added_coverage_query" not in result.record
-    assert result.record["prompt_version"] == "dependent-planner-v7"
+    assert result.record["prompt_version"] == "dependent-planner-v8"
     instructions = result.record["input"][0]["content"]
     assert "A logical condition alone does not create a retrieval dependency" in instructions
     assert "do not replace a known row or field with {target}" in instructions
