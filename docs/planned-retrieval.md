@@ -79,6 +79,13 @@ checks unchanged facts and downstream requests under a supplied empty-rule
 annotation. The actual bad output remains accepted; this is prompt guidance,
 not runtime semantic repair or measured live recovery.
 
+The [matched v8 live comparison](../evals/library-runs/20260929-factual-condition-acceptance/README.md)
+passes all four scoped case gates with 13/13 expected answer points. The factual
+condition now has empty `answer_rules` while retaining its three independent
+fact queries; actual answering instructions, column scopes and missing-year
+refusal remain correct. This is one fixed-context development pass, not held-out
+or full retrieval-chain acceptance.
+
 ```python
 from knowledgebase.rag.planning import AnswerRequirement, PlannedQuery, RetrievalPlan
 from knowledgebase.rag.planned_retrieval import retrieve_plan

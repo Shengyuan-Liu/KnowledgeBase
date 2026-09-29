@@ -173,6 +173,13 @@ three factual requirements, assessment requests and generation inputs. Assessmen
 and generation remain unchanged; the original conditional question still reaches
 the answer model. This does not establish live classification recovery.
 
+The [matched v8 live follow-up](../evals/library-runs/20260929-factual-condition-acceptance/README.md)
+passes 4/4 scoped gates and preserves 13/13 answer points. The factual-condition
+rule duplication disappears while its two supported facts and missing explanation
+remain correctly assessed. Both missing-year values still reach the local refusal.
+All ten positive factual groups are supported and individually cited. Assessment
+and generation are unchanged; no new retrieval or supplementary loop is measured.
+
 The assessment contract distinguishes question-provided file names from new
 source-derived targets and selects passage IDs instead of generating free-form
 quotes. Dependency target binding remains on its existing separate contract.
