@@ -1,0 +1,26 @@
+rag-paper.pdf 16 pages; 946122 bytes
+dpr-paper.pdf 13 pages; 403775 bytes
+decision-trees.pdf 51 pages; 269414 bytes
+Traceback (most recent call last):
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/evals/check-runs/20261001-new-pdf-acceptance-preparation/acquire.py", line 63, in <module>
+    main()
+    ~~~~^^
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/evals/check-runs/20261001-new-pdf-acceptance-preparation/acquire.py", line 35, in main
+    with urllib.request.urlopen(url, timeout=60) as response:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/lucas/miniconda3/lib/python3.13/urllib/request.py", line 189, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lucas/miniconda3/lib/python3.13/urllib/request.py", line 495, in open
+    response = meth(req, response)
+  File "/Users/lucas/miniconda3/lib/python3.13/urllib/request.py", line 604, in http_response
+    response = self.parent.error(
+        'http', request, response, code, msg, hdrs)
+  File "/Users/lucas/miniconda3/lib/python3.13/urllib/request.py", line 533, in error
+    return self._call_chain(*args)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "/Users/lucas/miniconda3/lib/python3.13/urllib/request.py", line 466, in _call_chain
+    result = func(*args)
+  File "/Users/lucas/miniconda3/lib/python3.13/urllib/request.py", line 613, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 403: Forbidden

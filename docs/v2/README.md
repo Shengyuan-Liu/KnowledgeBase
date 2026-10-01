@@ -299,3 +299,15 @@ Billed cost remains unavailable and the known shutdown semaphore warning remains
 recorded. These familiar development questions do not establish held-out quality,
 true dependent-hop quality or browser navigation acceptance. Those are the next
 acceptance areas; user acceptance and feature-specific merge approval remain separate.
+
+The [new-PDF acceptance preparation](../../evals/check-runs/20261001-new-pdf-acceptance-preparation/README.md)
+freezes four new original PDFs (90 physical pages) before writing six questions.
+It covers a cross-paper dependent query and its restricted-scope twin, lecture
+physical-page mapping, quarterly/annual accounting-basis distinctions and a
+forecast-versus-actual refusal. References retain 12 distinct positive facts,
+or 13 case-fact instances. The protocol scores answer quality and actual dependency
+execution separately, with browser citation/history checks at two widths. This
+is preparation only: product ingestion, live answers, canonical span mapping and
+browser execution are still pending. A first official report download returned
+403; a different official PDF was frozen before question authoring, and the failed
+attempt remains recorded. No model-quality score or merge follows from preparation.

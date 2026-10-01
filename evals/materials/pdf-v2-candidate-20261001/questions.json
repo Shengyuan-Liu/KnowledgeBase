@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "created_at": "2026-10-01T15:02:33.266415+00:00",
+  "retrieval_mode": "planned",
+  "questions": [
+    {
+      "id": "rag-document-granularity",
+      "question": "How do RAG-Sequence and RAG-Token differ in whether they can change the retrieved document while generating an answer?",
+      "files": [
+        "rag-paper.pdf"
+      ]
+    },
+    {
+      "id": "retriever-training-hop",
+      "question": "Which retriever supplies the pretrained bi-encoder used to initialize RAG, and what combination of negative passages does that retriever's best model use during training? Cite the initialization relationship and the training details from the supplied papers.",
+      "files": [
+        "rag-paper.pdf",
+        "dpr-paper.pdf"
+      ]
+    },
+    {
+      "id": "retriever-training-restricted",
+      "question": "Which retriever supplies the pretrained bi-encoder used to initialize RAG, and what combination of negative passages does that retriever's best model use during training? Cite the initialization relationship and the training details from the supplied papers.",
+      "files": [
+        "rag-paper.pdf"
+      ]
+    },
+    {
+      "id": "lecture-overfitting",
+      "question": "How does the decision-tree lecture define overfitting, and what effect can it have on test-set performance?",
+      "files": [
+        "decision-trees.pdf"
+      ]
+    },
+    {
+      "id": "income-period-basis",
+      "question": "What were NVIDIA's GAAP and non-GAAP operating income for Q4 FY25 and for the full fiscal year 2025? Give all four amounts, label each accounting basis and period, and state the units.",
+      "files": [
+        "nvidia-fy25.pdf"
+      ]
+    },
+    {
+      "id": "forecast-is-not-actual",
+      "question": "What actual revenue did NVIDIA report for the first quarter of fiscal 2026? Answer only from the selected report.",
+      "files": [
+        "nvidia-fy25.pdf"
+      ]
+    }
+  ],
+  "request_boundary": "Send only question and resolved allowed file IDs; no gold facts, answerability labels or expected targets in model input."
+}
