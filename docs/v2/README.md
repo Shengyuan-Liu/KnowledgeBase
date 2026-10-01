@@ -286,3 +286,16 @@ conclusions even when earlier operand items are cited. Scoped offline checks pas
 161 tests. No new provider answers are generated: assessor selection quality and
 the prior uncited conclusion still need a matched live acceptance run. Existing
 PDFs do not need another reindex for this prompt/context change.
+
+The [matched row-reference live acceptance](../../evals/library-runs/20261001-row-reference-acceptance/README.md)
+then passes all six scoped case gates on the unchanged questions and index.
+Correct/completed points and supplied evidence remain 16/16; all 19 factual claims
+now have supporting citations, including the cash-flow comparison. A separate
+financial assessor review finds correct selected support without irrelevant rows
+for 8/8 requirements, compared with 3/8 previously. The missing-date refusal
+remains appropriate. All six requests and 39 provider calls complete, but mean
+complete-response latency rises from 12.003 to 14.811 seconds in this single pass.
+Billed cost remains unavailable and the known shutdown semaphore warning remains
+recorded. These familiar development questions do not establish held-out quality,
+true dependent-hop quality or browser navigation acceptance. Those are the next
+acceptance areas; user acceptance and feature-specific merge approval remain separate.
