@@ -1,8 +1,9 @@
 # KnowledgeBase v2 Release Summary
 
 Status: functional implementation, scoped acceptance and release documentation
-completed on the active `v2` branch on 2026-10-01. User acceptance and an explicit
-merge into `main` remain pending. This is a local, single-user release.
+completed on the active `v2` branch on 2026-10-01. The user accepted this scoped
+release and explicitly authorized its merge into `main` on the same date.
+This is a local, single-user release; `v2` remains the active development branch.
 
 ## Delivered behavior
 
@@ -100,8 +101,9 @@ that runtime. No held-out-specific model or prompt tuning followed its results.
 
 These limits are the release boundary. Further refinements and newly reported
 issues belong to subsequent work; they do not start an open-ended new feature
-cycle inside this closeout. No merge, deployment or public-quality certification
-is implied by the completed checks.
+cycle inside this closeout. Merge authorization comes from the user's explicit
+approval, not the completed checks. Deployment and public-quality certification
+are outside this release approval; later changes require separate merge approval.
 
 ## Traceability and data
 

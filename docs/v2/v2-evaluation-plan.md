@@ -4,7 +4,8 @@ Status: the [scoped functional closeout](../../evals/library-runs/20261001-v2-re
 executes a four-case A-D comparison, frozen five-case project holdout, original-page
 review and integrated browser checks. All twenty metrics and limitations are
 retained. Independent human/broad statistical validation remains unavailable;
-user acceptance and merge remain separate. Earlier failed development results
+the user accepted the scoped release and authorized its merge on 2026-10-01.
+Earlier failed development results
 are preserved in the [history](development-history.md).
 Follow the [measurement policy](../../evals/measurement-policy.md).
 

@@ -4,8 +4,9 @@ A TXT, Markdown and PDF knowledge base with structural chunking, hybrid retrieva
 and source-grounded answers.
 
 The [v2 release summary](docs/v2/release-summary.md) records the completed functional
-closeout, usage, verification and known limits. Development remains on `v2`;
-acceptance and merging into `main` are separate user decisions.
+closeout, usage, verification and known limits. The user accepted this scoped
+release and authorized its merge into `main` on 2026-10-01. Development remains
+on `v2`; later changes require separate merge authorization.
 
 The v2 [PDF integration](docs/pdf-integration.md) supports upload, local extraction,
 page citations and original-page viewing, with recorded parser fidelity limits.

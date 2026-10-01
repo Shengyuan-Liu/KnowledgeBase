@@ -1,8 +1,9 @@
 # KnowledgeBase v2
 
 Status: functional implementation, scoped acceptance and documentation completed
-on `v2` on 2026-10-01. User acceptance and an explicit merge into `main` remain
-pending. See the [release summary](release-summary.md) for usage, evidence and limits.
+on `v2` on 2026-10-01. The user accepted this scoped release and explicitly
+authorized its merge into `main` on the same date. See the
+[release summary](release-summary.md) for usage, evidence and limits.
 
 ## Delivered scope
 
@@ -23,8 +24,8 @@ pass 851 with one explicitly opt-in live smoke skipped; frontend tests pass 49,
 and controlled browser regressions pass 21. Real source navigation and lifecycle
 checks also pass. All failed attempts and missing measurements remain visible.
 
-This is a functional acceptance recommendation by Codex, not independent human
-validation or a broad accuracy guarantee. In particular, control-arm failures and
+The quality review was performed by Codex; user acceptance does not establish
+independent human validation or a broad accuracy guarantee. Control-arm failures and
 unproven supplementary-search quality benefit remain in the report.
 
 ## Documentation
@@ -42,4 +43,4 @@ unproven supplementary-search quality benefit remain in the report.
 - [Evidence sufficiency](../evidence-sufficiency.md)
 
 Scope is frozen for this closeout. Further improvements and newly reported issues
-are subsequent work; the user retains the decision to accept and merge v2.
+are subsequent work on `v2` and require separate user authorization before merging.
