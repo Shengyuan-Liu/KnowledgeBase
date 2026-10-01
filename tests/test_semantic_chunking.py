@@ -9,7 +9,8 @@ from sqlalchemy import select
 from knowledgebase.rag.chunking import split_parent_child
 from knowledgebase.rag.parsing import parse_markdown, parse_txt
 from knowledgebase.rag.semantic_chunking import split_semantic
-from knowledgebase.services.files import DocumentChunker, FileService
+from knowledgebase.rag.chunking import DocumentChunker
+from knowledgebase.services.files import FileService
 from knowledgebase.storage.models import DocumentIndexRecord
 from knowledgebase.storage.operations import get_chunks, get_document_source, get_files, get_parents
 
@@ -105,7 +106,7 @@ def test_semantic_upload_records_configuration_and_delete_cascades(storage, embe
     text = "Cats sleep. Cats purr. Databases store records."
     embeddings.embed_documents.side_effect = lambda texts: [
         [0., 1.] if "Databases" in value else [1., 0.] for value in texts]
-    file_id = FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(chunking_strategy="semantic", chunk_max_tokens=64, parent_max_tokens=128, semantic_similarity_threshold=.25, semantic_batch_size=2, embedding_model="fixed-vectors")).ingest("topics.txt", text.encode())
+    file_id = FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(embeddings=embeddings, chunking_strategy="semantic", chunk_max_tokens=64, parent_max_tokens=128, semantic_similarity_threshold=.25, semantic_batch_size=2, embedding_model="fixed-vectors")).ingest("topics.txt", text.encode())
     with sessions() as session:
         source = get_document_source(session, file_id)
         children = get_chunks(session, file_id)
@@ -127,7 +128,7 @@ def test_semantic_embedding_failure_keeps_file_failed_and_library_clean(storage,
     sessions, store, collection = storage
     embeddings.embed_documents.side_effect = RuntimeError("Observed provider failure")
     with pytest.raises(RuntimeError, match="provider failure"):
-        FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(chunking_strategy="semantic")).ingest("topics.txt", b"Cats sleep. Databases store records.")
+        FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(embeddings=embeddings, chunking_strategy="semantic")).ingest("topics.txt", b"Cats sleep. Databases store records.")
     with sessions() as session:
         file = get_files(session)[0]
         assert file.status == "failed"

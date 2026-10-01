@@ -18,7 +18,8 @@ from knowledgebase.schemas import (
     File, Chunk, ChunkBatch, RetrievedChunk, RetrievalDiagnostics,
 )
 from knowledgebase.rag.retrieval import pack_retrieval_candidates
-from knowledgebase.services.files import DocumentChunker, FileService
+from knowledgebase.rag.chunking import DocumentChunker
+from knowledgebase.services.files import FileService
 from knowledgebase.storage.operations import create_file, get_chunks, get_document_source, get_parents, save_parent_child_chunks, save_pdf_source
 from knowledgebase.storage.pdf_assets import PdfAssets
 

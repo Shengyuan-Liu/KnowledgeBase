@@ -23,3 +23,12 @@ Every command has an append-only JSON/log pair containing the full metric invent
 code hashes, command, duration, result counts and any failure output.
 
 Implementation and final comparison remain pending.
+
+## Document processing
+
+- `document-processing`: 170 passed, 3 failed. Two semantic fixtures still supplied
+  embeddings only to FileService; one failure fixture patched the old parser module.
+- `document-processing-fixes`: 28 passed, 1 failed. A broad fixture import edit also
+  changed an unrelated file-status patch; restored its services import.
+- `document-processing-final`: 29 passed. Corrected semantic dependency injection
+  and patch locations; the frozen HTTP/prompt/history contract remains equal.

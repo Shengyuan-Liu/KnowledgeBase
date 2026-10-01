@@ -242,7 +242,8 @@ def test_query_candidate_ranks_remain_fusion_ranks_in_multiple_file_scope(librar
 
 def test_pdf_supplements_remain_inside_final_shared_budget(storage, embeddings):
     from knowledgebase.schemas import File
-    from knowledgebase.services.files import DocumentChunker, FileService
+    from knowledgebase.rag.chunking import DocumentChunker
+from knowledgebase.services.files import FileService
     from knowledgebase.storage.pdf_assets import PdfAssets
     from tempfile import TemporaryDirectory
 

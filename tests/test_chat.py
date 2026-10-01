@@ -10,7 +10,8 @@ from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
 from knowledgebase.schemas import ChatAnswer, CitationCheck, RetrievalDiagnostics
 from knowledgebase.services.chat import answer_in_conversation, answer_question
-from knowledgebase.services.files import DocumentChunker, FileService
+from knowledgebase.rag.chunking import DocumentChunker
+from knowledgebase.services.files import FileService
 from knowledgebase.storage.operations import create_conversation, get_conversation, get_messages, save_message
 
 

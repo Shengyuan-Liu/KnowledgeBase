@@ -161,6 +161,7 @@ def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkey
         "chunk_size": 12, "overlap": 3, "chunking_strategy": "structural",
         "chunk_max_tokens": 17, "chunk_tokenizer": "o200k_base", "parent_max_tokens": 33,
         "semantic_similarity_threshold": 0.5, "semantic_batch_size": 32, "embedding_model": "file-embedding",
+        "embeddings": embeddings,
     }
     assert answer.call_args.kwargs == {
         "reranker_client": None,

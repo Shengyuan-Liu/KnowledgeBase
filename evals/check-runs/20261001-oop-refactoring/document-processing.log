@@ -1,0 +1,103 @@
+........................................................................ [ 41%]
+...................................FF...F............................... [ 83%]
+.............................                                            [100%]
+=================================== FAILURES ===================================
+________ test_semantic_upload_records_configuration_and_delete_cascades ________
+
+storage = (sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-...pire_on_commit=True), <knowledgebase.storage.vectordb.ChromaStore object at 0x130a44440>, Collection(name=test-chunks))
+embeddings = <Mock spec='EmbeddingClient' id='5111041392'>
+
+    def test_semantic_upload_records_configuration_and_delete_cascades(storage, embeddings):
+        sessions, store, collection = storage
+        text = "Cats sleep. Cats purr. Databases store records."
+        embeddings.embed_documents.side_effect = lambda texts: [
+            [0., 1.] if "Databases" in value else [1., 0.] for value in texts]
+>       file_id = FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(chunking_strategy="semantic", chunk_max_tokens=64, parent_max_tokens=128, semantic_similarity_threshold=.25, semantic_batch_size=2, embedding_model="fixed-vectors")).ingest("topics.txt", text.encode())
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_semantic_chunking.py:109: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+knowledgebase/services/files.py:86: in ingest
+    batch, indexing = self.chunker.split(file)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = DocumentChunker(chunk_size=2048, overlap=256, chunking_strategy='semantic', chunk_max_tokens=64, chunk_tokenizer='cl10...okens=128, semantic_similarity_threshold=0.25, semantic_batch_size=2, embedding_model='fixed-vectors', embeddings=None)
+file = File(type='txt', file_id='484eb1849c1a43f48b5611850aa72b94', file_name='topics.txt', status='processing', error_messag...revision_id=None, serialization='Block separator: two newlines; table cells: tabs/newlines; separators are synthetic.')
+
+    def split(self, file: File) -> tuple[ChunkBatch, dict]:
+        strategy = "parent_child" if file.type == "pdf" else self.chunking_strategy
+        semantic = None
+        if strategy == "semantic":
+            from knowledgebase.rag.semantic_chunking import split_semantic
+    
+            batch, semantic = split_semantic(
+>               file.text, file.blocks, file.file_id, self.embeddings.embed_documents,
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                parent_max_tokens=self.parent_max_tokens, child_max_tokens=self.chunk_max_tokens,
+                encoding_name=self.chunk_tokenizer, similarity_threshold=self.semantic_similarity_threshold,
+                batch_size=self.semantic_batch_size,
+E               AttributeError: 'NoneType' object has no attribute 'embed_documents'
+
+knowledgebase/rag/chunking.py:325: AttributeError
+_____ test_semantic_embedding_failure_keeps_file_failed_and_library_clean ______
+
+storage = (sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-...pire_on_commit=True), <knowledgebase.storage.vectordb.ChromaStore object at 0x130d596d0>, Collection(name=test-chunks))
+embeddings = <Mock spec='EmbeddingClient' id='5112430080'>
+
+    def test_semantic_embedding_failure_keeps_file_failed_and_library_clean(storage, embeddings):
+        sessions, store, collection = storage
+        embeddings.embed_documents.side_effect = RuntimeError("Observed provider failure")
+        with pytest.raises(RuntimeError, match="provider failure"):
+>           FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(chunking_strategy="semantic")).ingest("topics.txt", b"Cats sleep. Databases store records.")
+
+tests/test_semantic_chunking.py:131: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+knowledgebase/services/files.py:86: in ingest
+    batch, indexing = self.chunker.split(file)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = DocumentChunker(chunk_size=2048, overlap=256, chunking_strategy='semantic', chunk_max_tokens=512, chunk_tokenizer='cl1...rent_max_tokens=1536, semantic_similarity_threshold=0.5, semantic_batch_size=32, embedding_model=None, embeddings=None)
+file = File(type='txt', file_id='e3355f45579546a0ba2210905c396f06', file_name='topics.txt', status='processing', error_messag...revision_id=None, serialization='Block separator: two newlines; table cells: tabs/newlines; separators are synthetic.')
+
+    def split(self, file: File) -> tuple[ChunkBatch, dict]:
+        strategy = "parent_child" if file.type == "pdf" else self.chunking_strategy
+        semantic = None
+        if strategy == "semantic":
+            from knowledgebase.rag.semantic_chunking import split_semantic
+    
+            batch, semantic = split_semantic(
+>               file.text, file.blocks, file.file_id, self.embeddings.embed_documents,
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                parent_max_tokens=self.parent_max_tokens, child_max_tokens=self.chunk_max_tokens,
+                encoding_name=self.chunk_tokenizer, similarity_threshold=self.semantic_similarity_threshold,
+                batch_size=self.semantic_batch_size,
+E               AttributeError: 'NoneType' object has no attribute 'embed_documents'
+
+knowledgebase/rag/chunking.py:325: AttributeError
+_________ test_parser_failure_leaves_a_failed_record_without_indexing __________
+
+storage = (sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-...pire_on_commit=True), <knowledgebase.storage.vectordb.ChromaStore object at 0x130cc3530>, Collection(name=test-chunks))
+embeddings = <Mock spec='EmbeddingClient' id='5111041728'>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x130cf62c0>
+
+    def test_parser_failure_leaves_a_failed_record_without_indexing(storage, embeddings, monkeypatch):
+        from knowledgebase.services import files
+    
+        sessions, store, collection = storage
+>       monkeypatch.setattr(files, "parse_markdown", Mock(side_effect=ValueError("Parsing failed.")))
+E       AttributeError: <module 'knowledgebase.services.files' from '/Users/lucas/Documents/Projects/KnowledgeBase/knowledgebase/services/files.py'> has no attribute 'parse_markdown'
+
+tests/test_file_ingestion.py:62: AttributeError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_semantic_chunking.py::test_semantic_upload_records_configuration_and_delete_cascades
+FAILED tests/test_semantic_chunking.py::test_semantic_embedding_failure_keeps_file_failed_and_library_clean
+FAILED tests/test_file_ingestion.py::test_parser_failure_leaves_a_failed_record_without_indexing
+3 failed, 170 passed, 1 warning in 7.93s

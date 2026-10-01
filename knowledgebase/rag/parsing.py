@@ -1,10 +1,14 @@
 """Parse document structure without rewriting the canonical source text."""
 
+from hashlib import sha256
+from pathlib import Path
 import re
+from uuid import uuid4
 
 from markdown_it import MarkdownIt
 
-from knowledgebase.schemas import BlockType, SourceBlock
+from knowledgebase.rag.pdf_runtime import LocalPdfParser
+from knowledgebase.schemas import BlockType, File, SourceBlock
 
 
 _MARKDOWN = MarkdownIt(
@@ -82,3 +86,42 @@ def parse_markdown(text: str) -> list[SourceBlock]:
             heading_path=[title for _, title in headings], heading_level=level,
         ))
     return blocks
+
+
+class InvalidUploadError(ValueError):
+    """The supplied file has an unsupported format or no supported content."""
+
+
+class DocumentParser:
+    """Select a parser from File.type and return the same file with parsed content."""
+
+    def __init__(self, pdf_parser: LocalPdfParser | None = None):
+        self.pdf_parser = pdf_parser
+
+    def prepare(self, name: str, content: bytes) -> File:
+        file_type = Path(name).suffix.lower().lstrip(".")
+        if file_type not in ("txt", "md", "pdf"):
+            raise InvalidUploadError("Only .txt, .md and .pdf files are supported.")
+        file = File(type=file_type, file_id=uuid4().hex, file_name=name)
+        if file.type == "pdf":
+            if not content.startswith(b"%PDF-"):
+                raise InvalidUploadError("The file must be a PDF document.")
+        else:
+            try:
+                text = content.decode("utf-8")
+            except UnicodeDecodeError as error:
+                raise InvalidUploadError("The file must be UTF-8 encoded.") from error
+            if not text.strip():
+                raise InvalidUploadError("The file must contain nonempty text.")
+            file = file.model_copy(update={"text": text})
+        return file
+
+    def parse(self, file: File, content: bytes) -> File:
+        if file.type == "pdf":
+            parsed = self.pdf_parser.parse(content)
+            if not parsed.text.strip():
+                raise InvalidUploadError("No supported text was extracted. OCR is disabled; scanned-only PDFs are not supported.")
+            return parsed.model_copy(update={"file_id": file.file_id, "file_name": file.file_name})
+        blocks = parse_markdown(file.text) if file.type == "md" else parse_txt(file.text)
+        return file.model_copy(update={"blocks": tuple(blocks),
+                                       "source_hash": sha256(content).hexdigest()})

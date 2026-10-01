@@ -1,0 +1,28 @@
+...........................F.                                            [100%]
+=================================== FAILURES ===================================
+___ test_ready_update_failure_rolls_back_chunks_and_removes_written_vectors ____
+
+storage = (sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-...pire_on_commit=True), <knowledgebase.storage.vectordb.ChromaStore object at 0x1292e9490>, Collection(name=test-chunks))
+embeddings = <Mock spec='EmbeddingClient' id='4982548064'>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x128fccc30>
+
+    def test_ready_update_failure_rolls_back_chunks_and_removes_written_vectors(
+        storage, embeddings, monkeypatch
+    ):
+        from knowledgebase.rag import parsing
+    
+        sessions, store, collection = storage
+>       update_status = files.update_file_status
+                        ^^^^^
+E       NameError: name 'files' is not defined
+
+tests/test_file_ingestion.py:215: NameError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_file_ingestion.py::test_ready_update_failure_rolls_back_chunks_and_removes_written_vectors
+1 failed, 28 passed, 1 warning in 0.65s

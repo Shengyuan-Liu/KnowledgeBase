@@ -6,7 +6,8 @@ from sqlalchemy import select
 from knowledgebase.rag.chunking import split_text
 from knowledgebase.rag.retrieval import retrieve_evidence
 from knowledgebase.storage.models import ChunkStructureRecord, DocumentSourceRecord
-from knowledgebase.services.files import DocumentChunker, InvalidUploadError, FileService
+from knowledgebase.rag.chunking import DocumentChunker
+from knowledgebase.services.files import InvalidUploadError, FileService
 from knowledgebase.storage.operations import get_chunks, get_document_source, get_file, get_files
 
 
@@ -55,10 +56,10 @@ def test_structural_upload_persists_source_blocks_and_indexed_chunks(storage, em
 
 
 def test_parser_failure_leaves_a_failed_record_without_indexing(storage, embeddings, monkeypatch):
-    from knowledgebase.services import files
+    from knowledgebase.rag import parsing
 
     sessions, store, collection = storage
-    monkeypatch.setattr(files, "parse_markdown", Mock(side_effect=ValueError("Parsing failed.")))
+    monkeypatch.setattr(parsing, "parse_markdown", Mock(side_effect=ValueError("Parsing failed.")))
     with pytest.raises(ValueError, match="Parsing failed"):
         FileService(sessions, store, embeddings=embeddings).ingest("guide.md", b"# Guide")
     with sessions() as session:

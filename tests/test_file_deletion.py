@@ -8,7 +8,8 @@ from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
 from knowledgebase.rag.retrieval import retrieve_evidence
 from knowledgebase.services.chat import answer_question
-from knowledgebase.services.files import DocumentChunker, FileService
+from knowledgebase.rag.chunking import DocumentChunker
+from knowledgebase.services.files import FileService
 from knowledgebase.storage.operations import create_file, get_chunks, get_file, get_files, update_file_status
 
 

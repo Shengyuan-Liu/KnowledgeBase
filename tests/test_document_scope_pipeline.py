@@ -7,7 +7,8 @@ from knowledgebase.config import RetrievalOptions
 from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.retrieval import retrieve_evidence
 from knowledgebase.services.chat import answer_question, answer_in_conversation, stream_answer_in_conversation
-from knowledgebase.services.files import DocumentChunker, FileService
+from knowledgebase.rag.chunking import DocumentChunker
+from knowledgebase.services.files import FileService
 from knowledgebase.storage.operations import get_conversation_detail
 
 

@@ -12,7 +12,8 @@ from knowledgebase.config import RetrievalOptions
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.retrieval import retrieve_evidence
 from knowledgebase.schemas import Chunk
-from knowledgebase.services.files import DocumentChunker, FileService
+from knowledgebase.rag.chunking import DocumentChunker
+from knowledgebase.services.files import FileService
 from knowledgebase.storage.operations import (
     create_file, get_chunks, save_chunks, update_file_status,
 )

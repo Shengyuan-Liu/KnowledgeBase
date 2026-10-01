@@ -210,7 +210,8 @@ Record documentation-only reviews in the commit message or a check record.
 - Baseline: 854 passed, 1 opt-in live test skipped. Frozen HTTP, prompt,
   schema and persisted-history observations are retained in
   [the check directory](../../evals/check-runs/20261001-oop-refactoring/README.md).
-- Document processing: pending.
+- Document processing: moved parser/chunker/PDF runtime classes and bound semantic
+  embeddings to the chunker. Existing ingestion and source-preservation checks pass.
 - Reranking and retrieval: pending.
 - RAG and conversations: pending.
 - Bootstrap and consumers: pending.

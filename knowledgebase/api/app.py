@@ -17,7 +17,7 @@ from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.providers.reranker import RerankerClient
 from knowledgebase.storage.runtime import open_storage
 from knowledgebase.storage.pdf_assets import PdfAssets
-from knowledgebase.services.pdf import LocalPdfParser
+from knowledgebase.rag.pdf_runtime import LocalPdfParser
 from knowledgebase.providers.planner import PlannerClient
 
 

@@ -15,7 +15,8 @@ from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
 from knowledgebase.rag.retrieval import retrieve_evidence
 from knowledgebase.schemas import VectorMatch
 from knowledgebase.services.chat import answer_in_conversation
-from knowledgebase.services.files import DocumentChunker, FileService
+from knowledgebase.rag.chunking import DocumentChunker
+from knowledgebase.services.files import FileService
 from knowledgebase.storage.models import ChildParentRecord, RetrievalSnapshotRecord
 from knowledgebase.storage.operations import (
     get_chunks, get_conversation_detail, get_document_source, get_files, get_parents,
