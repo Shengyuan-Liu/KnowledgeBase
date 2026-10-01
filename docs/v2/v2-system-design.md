@@ -1,7 +1,8 @@
 # KnowledgeBase v2 System Design
 
-Status: planned architecture. Existing v1 components are reused; new PDF and
-retrieval-controller paths are not implemented by this document.
+Status: architecture implemented for the v2 functional closeout, reusing existing
+v1 components. See the [release summary](release-summary.md) for acceptance evidence
+and the remaining parser/model limits.
 
 ## Ingestion
 

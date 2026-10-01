@@ -106,7 +106,7 @@ def test_period_mismatch_annotation_abstains_while_raw_bad_semantics_are_not_sil
     assert "November 2016" in request["original_question"]
     assert "[p2] November - 2015" in request["context"]
     assert "requested-period value is missing" in payload["input"][0]["content"]
-    assert after.assessment["record"]["prompt_version"] == "evidence-sufficiency-v5"
+    assert after.assessment["record"]["prompt_version"] == "evidence-sufficiency-v6"
     generation = before_sdk.responses.create.call_args.kwargs["input"]
     assert "November 2016" in generation[0]["content"] and "November - 2015" in generation[0]["content"]
     assert "even if an assessment calls" in generation[1]["content"]

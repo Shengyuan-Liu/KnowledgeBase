@@ -1,24 +1,12 @@
 # Evidence Sufficiency and Supplementary Retrieval
 
-Status: v2 stage 4 implemented, offline-tested and development-evaluated with
-real PDFs. The [live comparison](../evals/library-runs/20260927-v2-pdf-live/README.md)
-does **not** pass acceptance: that repaired planned mode completed 15/16 turns.
-Financial packing and assessor quote selection have since received repairs and a
-[six-request financial replay](../evals/library-runs/20260927-financial-acceptance/README.md).
-All six requests complete with correct requested facts, but one planned income
-bullet still lacks an inline citation, so the scoped citation gate fails.
-The subsequent [offline citation/context repair](../evals/check-runs/20260927-citation-context/README.md)
-adds source-number guidance and explicit table context; model citation compliance
-was then remeasured in a [six-request follow-up](../evals/library-runs/20260927-financial-citation-acceptance/README.md).
-All scoped gates pass under the prior review rules, including their allowance for
-fiscal-period inference. The report distinguishes these inferences from literal
-table statements; the historical failure and broader acceptance limits remain.
-**Plan complex questions**
-and API/CLI `planned` mode now assess each required point after packing evidence,
-then search for remaining gaps within the same request limits. Ordinary `single`
-mode remains available. Live quality, latency and token usage are recorded;
-billed cost and independent human review remain unavailable. Implementation and
-test completion do not imply acceptance or merge.
+Status: implemented and included in the [v2 functional closeout](v2/release-summary.md).
+**Plan complex questions** and API/CLI `planned` mode assess each required point
+and search remaining gaps within finite limits. The four-case A-D comparison
+retains quality, latency and usage differences. It does not establish a live
+supplementary-search coverage gain on that population. Controlled tests verify
+supplement execution, scope, cancellation and budgets. Billed currency and
+independent human validation remain unavailable; merge requires explicit approval.
 
 ## Source-based assessment
 

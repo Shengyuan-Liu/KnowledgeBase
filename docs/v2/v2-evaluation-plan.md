@@ -1,13 +1,12 @@
 # KnowledgeBase v2 Evaluation Plan
 
-Status: proposed release protocol, with a first
-[live PDF development comparison](../../evals/library-runs/20260927-v2-pdf-live/README.md)
-now recorded. It retains a failed baseline and repaired replay; acceptance gates
-remain unmet, and the A/D comparison is not a complete B/C ablation or held-out
-release evaluation. A scoped
-[parser comparison and adapter check](../../evals/check-runs/20260926-pdf-parser-selection/README.md)
-is also recorded. Follow the complete
-[measurement policy](../../evals/measurement-policy.md).
+Status: the [scoped functional closeout](../../evals/library-runs/20261001-v2-release/README.md)
+executes a four-case A-D comparison, frozen five-case project holdout, original-page
+review and integrated browser checks. All twenty metrics and limitations are
+retained. Independent human/broad statistical validation remains unavailable;
+user acceptance and merge remain separate. Earlier failed development results
+are preserved in the [history](development-history.md).
+Follow the [measurement policy](../../evals/measurement-policy.md).
 
 ## Populations and Ground Truth
 
@@ -148,6 +147,8 @@ the reviewer is Codex, another model, or a human; never label model review human
    labeled functional acceptance recommendation when the user requests it.
 6. Let the user decide feature acceptance and authorize each merge explicitly.
 
-No runtime checks or paid evaluation are required for this documentation change.
-Its own content/link/format review is retained in the
+The original design review remains in the
 [design review record](../../evals/check-runs/20260926T195804Z-v2-design/README.md).
+The current release documentation and links are reviewed in the final closeout's
+`artifact-review.json`; runtime measurements belong to the separately authorized
+acceptance runs, not a requirement to rerun paid evaluation for document edits.

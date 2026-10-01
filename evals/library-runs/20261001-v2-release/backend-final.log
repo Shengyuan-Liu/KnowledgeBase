@@ -1,0 +1,54 @@
+........................................................................ [  8%]
+........................................................................ [ 16%]
+........................................................................ [ 25%]
+........................................................................ [ 33%]
+........................................................................ [ 42%]
+........................................................................ [ 50%]
+.........................s.............................................. [ 59%]
+........................................................................ [ 67%]
+........................................................................ [ 76%]
+................F....................................................... [ 84%]
+........................................................................ [ 92%]
+............................................................             [100%]
+=================================== FAILURES ===================================
+_ test_period_mismatch_annotation_abstains_while_raw_bad_semantics_are_not_silently_repaired _
+
+    def test_period_mismatch_annotation_abstains_while_raw_bad_semantics_are_not_silently_repaired():
+        before, before_sdk, _, before_answer = replay_period(annotated=False)
+        after, after_sdk, payload, after_answer = replay_period(annotated=True)
+        assert before_answer == recorded("missing-year")["answer"]
+        assert before.trace["stop_reason"] == "requirements_supported"
+        assert before_sdk.responses.create.call_count == 3
+        assert after_answer == INSUFFICIENT_EVIDENCE
+        assert after.trace["stop_reason"] == "round_limit"
+        assert after_sdk.responses.create.call_count == 2  # No generation on all-missing.
+        assert [p["status"] for p in after.assessment["requirements"]] == ["missing", "missing"]
+        assert before.assessment["context"] == after.assessment["context"]
+        assert before.assessment["evidence_catalog"] == after.assessment["evidence_catalog"]
+        assert "November - 2015" in after.assessment["context"]
+        request = json.loads(payload["input"][-1]["content"])
+        assert "November 2016" in request["original_question"]
+        assert "[p2] November - 2015" in request["context"]
+        assert "requested-period value is missing" in payload["input"][0]["content"]
+>       assert after.assessment["record"]["prompt_version"] == "evidence-sufficiency-v5"
+E       AssertionError: assert 'evidence-sufficiency-v6' == 'evidence-sufficiency-v5'
+E         
+E         - evidence-sufficiency-v5
+E         ?                       ^
+E         + evidence-sufficiency-v6
+E         ?                       ^
+
+tests/test_period_rule_constraints.py:109: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+tests/test_pdf.py::test_parser_disables_deferred_features_and_rejects_partial_conversion
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/pydantic/main.py:475: DeprecationWarning: `force_full_page_ocr` is deprecated; set `mode=OcrMode.FULL_PAGE` instead.
+    return self.__pydantic_serializer__.to_python(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_period_rule_constraints.py::test_period_mismatch_annotation_abstains_while_raw_bad_semantics_are_not_silently_repaired
+1 failed, 850 passed, 1 skipped, 2 warnings in 31.08s

@@ -2,7 +2,8 @@
 
 Status: implementation guidance; the linked PDF contracts are implemented,
 and automatic independent/dependent retrieval and sufficiency control are integrated.
-See the implementation contracts for exact current behavior; live acceptance remains open.
+See the [release summary](release-summary.md) for the completed scoped live closeout
+and the implementation contracts for exact current behavior.
 Use the current [project structure](../project-structure.md) and accepted
 [v1 behavior](../v1/release-summary.md) as the baseline.
 
@@ -15,8 +16,8 @@ with stage 3b automatic planning, chat/CLI integration, request limits, streamin
 progress and saved traces. Stage 3c [dependent retrieval](../dependent-retrieval.md)
 now binds source-quoted targets across at most three rounds. Stage 4
 [evidence sufficiency](../evidence-sufficiency.md) adds per-point assessments and
-supplementary searches within the same limits. Live planner/checker quality has
-not been evaluated.
+supplementary searches within the same limits. Scoped live planner/checker results
+are recorded; independent human and broad generalization claims remain unavailable.
 
 ## Architecture and Ownership
 
@@ -24,11 +25,11 @@ Retain FastAPI, ordinary Python services, SQLite, Chroma, and the React workspac
 Share the controller across API, CLI, and evaluation entry points. No workflow
 framework, graph database, distributed queue, or agent framework is required.
 
-| Proposed location | Responsibilities and function guidance |
+| Implementation location | Responsibilities and function guidance |
 | --- | --- |
-| `rag/pdf.py` (new) | Convert PDF bytes into extracted text, ordered blocks, page provenance, and extraction limitations; no database or retrieval work |
-| `rag/planning.py` (new) | Produce bounded question requirements and independent/dependent queries; retain evidence references for derived search targets |
-| `rag/sufficiency.py` (new) | Assess required points against supplied excerpts and return supported/partial/missing/conflicting decisions with evidence references |
+| `rag/pdf.py` | Convert PDF bytes into extracted text, ordered blocks, page provenance, and extraction limitations; no database or retrieval work |
+| `rag/planning.py` | Produce bounded question requirements and independent/dependent queries; retain evidence references for derived search targets |
+| `rag/sufficiency.py` | Assess required points against supplied excerpts and return supported/partial/missing/conflicting decisions with evidence references |
 | `rag/retrieval.py`, `rag/packing.py` | Expose bounded candidate retrieval for reuse across queries; merge candidates and pack one final context |
 | `services/chat.py` | Own controller state, scope, limits, cancellation, generation, and atomic completed-turn persistence |
 | `services/files.py`, `storage/*` | Own PDF asset lifecycle, parsed provenance, index writes, snapshots, and deletion |

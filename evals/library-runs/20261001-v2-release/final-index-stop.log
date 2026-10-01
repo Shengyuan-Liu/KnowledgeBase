@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/evals/library-runs/20261001-v2-release/finish_server.py", line 17, in <module>
+    pid=int(subprocess.check_output(['lsof','-tiTCP:8787','-sTCP:LISTEN'],text=True).strip());command=subprocess.check_output(['ps','-p',str(pid),'-o','command='],text=True).strip();assert str(ROOT/'server.py') in command
+                                                                                                                                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

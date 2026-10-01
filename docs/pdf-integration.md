@@ -1,37 +1,16 @@
 # PDF Upload, Retrieval and Original Pages
 
-Status: v2 stage 2 implemented; feature acceptance and merge remain the user's
-decision. This connects the [PDF adapter](pdf-parsing.md) to the existing library.
-Opt-in [query planning](planned-retrieval.md) and
-[sufficiency control](evidence-sufficiency.md) are implemented. The first
-[live PDF comparison](../evals/library-runs/20260927-v2-pdf-live/README.md) verifies
-original delivery and saved-history lifecycle, but fails answer-quality gates.
-Financial evidence packing has since been repaired in an
-[offline frozen-candidate comparison](../evals/check-runs/20260927-pdf-evidence-packing/README.md);
-the assessor now selects source passage IDs in a separate
-[offline contract repair](../evals/check-runs/20260927-assessment-passages/README.md).
-The subsequent [financial live replay](../evals/library-runs/20260927-financial-acceptance/README.md)
-completes all six targeted requests with correct requested facts and one remaining
-inline-citation gap. A later [citation follow-up](../evals/library-runs/20260927-financial-citation-acceptance/README.md)
-passes the same scoped review with current-source hints and explicit table context.
-Its fiscal-period inference allowance is documented. A subsequent
-[native-table repair](../evals/check-runs/20260927-dense-table/README.md) recovers
-the four missing Alabama values and three complete annotated state rows offline.
-Broader table fidelity and v2 acceptance remain unresolved.
-The [dense-table live replay](../evals/library-runs/20260927-dense-table-acceptance/README.md)
-then exposes two integration failures: the retrieved table excerpt is excluded
-by the final context budget, and a date qualifier after a quoted filename is
-misread as part of that filename. Only 2 of 24 requested point instances are
-answered correctly. The recovered parsing output alone does not pass live acceptance.
-The [context and scope repair](../evals/check-runs/20260927-table-context-scope/README.md)
-then restores all 16 annotated evidence points in the four frozen requests that
-actually retrieved candidates. Both formerly rejected questions resolve locally,
-but their old empty rankings cannot establish new answer quality or blank-cell
-interpretation. The [matched real replay](../evals/library-runs/20260927-table-context-scope-acceptance/README.md)
-supplies all 24 evidence points and answers 19 correctly, up from 2. The five
-remaining point errors confuse Pre-Pawn/Redemption/Rentals columns or interpret
-printed blank cells as zero despite receiving the correct row/header/cell context.
-The context-budget and scope repairs work; full answer acceptance remains failed.
+Status: v2 PDF integration is implemented and its scoped functional closeout is
+recorded in the [release summary](v2/release-summary.md). Upload, original-page
+navigation and saved evidence after deletion pass both real and controlled browser
+checks. Parser fidelity remains limited; prior failed comparisons are preserved in
+[development history](v2/development-history.md). User acceptance and merge remain
+the user's decision.
+
+The closeout also retains exact previous-page headers and units for the observed
+adjacent currency-row table continuation. Original extraction stays immutable and
+these evidence-only changes do not require reindexing. This is not a guarantee for
+arbitrary multi-page or merged tables.
 
 ## Use
 

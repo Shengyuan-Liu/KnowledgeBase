@@ -5,7 +5,10 @@ questions** checkbox and API/CLI `planned` mode can now follow a dependency chai
 Stage 4 now adds [sufficiency grading and supplementary searches](evidence-sufficiency.md)
 to dependent, independent and direct planned routes. Set
 `PLANNING__SUFFICIENCY_ENABLED=false` for the stage 3 behavior described below.
-Live planning, answer quality, latency and whole-turn cost have not been evaluated.
+The [v2 closeout](v2/release-summary.md) records a real source-bound two-round
+execution on a labeled synthetic fixture, plus natural-document answer checks.
+Prerequisite search text and the `dependency-targets-v2` instruction distinguish
+the target identity from an attribute that the later search still needs to find.
 
 ## From a plan to a grounded search
 
@@ -90,7 +93,7 @@ under the same global evidence budget; contexts are never concatenated.
 | Six total query nodes | Initial plus dependent nodes; validation rejects oversized plans |
 | `PLANNING__MAX_ROUNDS=3` | May be lowered to 1 or 2; hard maximum is 3 |
 | One planning call | Same opt-in planner; now uses `dependent-planner-v8` |
-| At most two binding calls | One per subsequent round, using `dependency-targets-v1` and the same planner model |
+| At most two binding calls | One per subsequent round, using `dependency-targets-v2` and the same planner model |
 | Existing per-call caps | Planner/binding calls share input/output and timeout controls |
 | Existing request deadline | Includes resolution, planning, binding, retrieval and final generation; retains the answer-time reserve |
 | Existing evidence budget | Default 4096 tokens including labels and PDF supplements, independently enforced on every repack |

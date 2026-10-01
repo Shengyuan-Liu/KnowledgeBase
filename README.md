@@ -3,6 +3,10 @@
 A TXT, Markdown and PDF knowledge base with structural chunking, hybrid retrieval,
 and source-grounded answers.
 
+The [v2 release summary](docs/v2/release-summary.md) records the completed functional
+closeout, usage, verification and known limits. Development remains on `v2`;
+acceptance and merging into `main` are separate user decisions.
+
 The v2 [PDF integration](docs/pdf-integration.md) supports upload, local extraction,
 page citations and original-page viewing, with recorded parser fidelity limits.
 Follow its one-time model setup before uploading PDFs.

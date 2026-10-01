@@ -1,0 +1,8 @@
+{
+  "status": "Frozen before ingestion and answer execution",
+  "purpose": "Synthetic controller execution acceptance, separate from natural-document held-out quality",
+  "questions": [{"id":"unknown-laboratory", "question":"Which laboratory was assigned to Project Juniper in \"assignment.pdf\", and what calibration interval does \"laboratory-register.pdf\" specify for that laboratory?", "files":["assignment.pdf","laboratory-register.pdf"]}],
+  "facts": [{"id":"lab_bridge","file":"assignment.pdf","page":1,"quote":"Project Juniper was assigned to Quenwick Laboratory.","expected":"Quenwick Laboratory"},{"id":"lab_interval","file":"laboratory-register.pdf","page":1,"quote":"Quenwick Laboratory: calibration interval is 17 days.","expected":"17 calendar days"}],
+  "gate": "Require both correct cited facts and a real later-round search whose Quenwick Laboratory target is bound to an exact assignment excerpt. Independent searches do not establish dependency execution. No supplied plan, expected target, gold facts or answer text enters the request. No rerun to improve a score.",
+  "reviewer":"Codex model, not human"
+}

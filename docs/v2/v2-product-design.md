@@ -1,8 +1,8 @@
 # KnowledgeBase v2 Product Design
 
-Status: product specification; implementation is pending. The three feature areas
-are confirmed. OCR and visual chart/figure and formula understanding are deferred
-from v2 by the user; parser selection and representative fixtures remain open.
+Status: implemented v2 scope with a completed scoped functional closeout. See the
+[release summary](release-summary.md) for delivered behavior, evidence and limits.
+OCR, visual figures/charts and formula understanding remain deferred.
 
 ## Goal
 

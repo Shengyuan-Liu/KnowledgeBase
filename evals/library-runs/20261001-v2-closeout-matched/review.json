@@ -1,0 +1,341 @@
+{
+  "reviewer": "Codex model, not human",
+  "method": "Original-page and exact supplied-excerpt review; no paid judge. Expected facts scored separately from faithfulness/citation support. Valid IDs alone do not establish support.",
+  "summary": {
+    "case_gate": {
+      "passed": 5,
+      "total": 6,
+      "required": 6,
+      "accepted": false
+    },
+    "correctness": {
+      "correct": 13,
+      "expected": 13
+    },
+    "completeness": {
+      "complete": 13,
+      "expected": 13
+    },
+    "semantic_final_evidence_coverage": {
+      "covered": 9,
+      "expected": 13
+    },
+    "faithfulness": {
+      "supported": 10,
+      "claims": 14
+    },
+    "citation_support": {
+      "supported": 10,
+      "cited_claims": 14
+    },
+    "citation_coverage": {
+      "covered": 10,
+      "citation_required_claims": 14
+    },
+    "relevance": {
+      "relevant": 6,
+      "total": 6
+    },
+    "abstention": {
+      "appropriate_full": {
+        "passed": 1,
+        "total": 1
+      },
+      "incorrect_full_on_fully_answerable": {
+        "count": 0,
+        "total": 4
+      },
+      "partial_gap_disclosure": {
+        "passed": 2,
+        "total": 2
+      },
+      "partial_supported_bridge": {
+        "delivered": 1,
+        "total": 1
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "rag-document-granularity",
+      "status": "completed",
+      "answer": "- RAG-Sequence uses the same retrieved document to generate the entire answer; it does not change the retrieved document while generating different tokens in the response [1][2].\n- RAG-Token can select a different retrieved document for each token\u2014meaning the model can change the retrieved document while generating an answer, and individual tokens can be supported by different documents within the same response [1][2].",
+      "answerability": "full",
+      "passed": true,
+      "expected_points": [
+        {
+          "fact_id": "rag_sequence",
+          "expected": "RAG-Sequence uses the same retrieved document for the complete output sequence.",
+          "correct": true,
+          "complete": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "supplied_semantic_evidence": true,
+          "citation_ids": [
+            1,
+            2
+          ],
+          "review": "Exact cited source text and original page support this fact. For the repaired financial answer, Source 2 includes original page-7 period headers and units with page-8 values; supplements retain original offsets."
+        },
+        {
+          "fact_id": "rag_token",
+          "expected": "RAG-Token can use a different retrieved document for each target token.",
+          "correct": true,
+          "complete": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "supplied_semantic_evidence": true,
+          "citation_ids": [
+            1,
+            2
+          ],
+          "review": "Exact cited source text and original page support this fact. For the repaired financial answer, Source 2 includes original page-7 period headers and units with page-8 values; supplements retain original offsets."
+        }
+      ],
+      "additional_claims": [],
+      "gap_disclosure_passed": true,
+      "relevant": true,
+      "source_artifact": "rag-document-granularity-planned.json",
+      "review_note": "Repeated assertions counted once per atomic expected fact. The final granularity wording is redundant but supported. DPR per-question negative wording matches its training discussion. A claim-free refusal has no citation denominator."
+    },
+    {
+      "case_id": "retriever-training-hop",
+      "status": "completed",
+      "answer": "- The retriever that supplies the pretrained bi-encoder used to initialize RAG is DPR (Dense Passage Retriever) [1].\n- The training scheme for DPR\u2019s best model uses a combination of gold passages from the same mini-batch as negatives and one BM25 negative passage [2].\n- The initialization relationship is that \"RAG's retriever is initialized using DPR's retriever\" [1].\n- The specific training details for DPR\u2019s best model are: \"gold passages from the same mini-batch and one BM25 negative passage\" are used as negatives during training [2].",
+      "answerability": "full",
+      "passed": true,
+      "expected_points": [
+        {
+          "fact_id": "retriever_bridge",
+          "expected": "A pretrained bi-encoder from DPR initializes the RAG retriever.",
+          "correct": true,
+          "complete": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "supplied_semantic_evidence": true,
+          "citation_ids": [
+            1
+          ],
+          "review": "Exact cited source text and original page support this fact. For the repaired financial answer, Source 2 includes original page-7 period headers and units with page-8 values; supplements retain original offsets."
+        },
+        {
+          "fact_id": "negative_gold",
+          "expected": "The best DPR model uses gold (positive) passages from the same mini-batch as negatives.",
+          "correct": true,
+          "complete": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "supplied_semantic_evidence": true,
+          "citation_ids": [
+            2
+          ],
+          "review": "Exact cited source text and original page support this fact. For the repaired financial answer, Source 2 includes original page-7 period headers and units with page-8 values; supplements retain original offsets."
+        },
+        {
+          "fact_id": "negative_bm25",
+          "expected": "The best DPR model also uses one BM25 negative passage.",
+          "correct": true,
+          "complete": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "supplied_semantic_evidence": true,
+          "citation_ids": [
+            2
+          ],
+          "review": "Exact cited source text and original page support this fact. For the repaired financial answer, Source 2 includes original page-7 period headers and units with page-8 values; supplements retain original offsets."
+        }
+      ],
+      "additional_claims": [],
+      "gap_disclosure_passed": true,
+      "relevant": true,
+      "source_artifact": "retriever-training-hop-planned.json",
+      "review_note": "Repeated assertions counted once per atomic expected fact. The final granularity wording is redundant but supported. DPR per-question negative wording matches its training discussion. A claim-free refusal has no citation denominator."
+    },
+    {
+      "case_id": "retriever-training-restricted",
+      "status": "completed",
+      "answer": "- The retriever that supplies the pretrained bi-encoder used to initialize RAG is the Dense Passage Retriever (DPR) [1][3].\n- The combination of negative passages used during training of that retriever's best model is not specified in the provided sources; the excerpts do not describe what types of negative passages (e.g., gold, in-batch, or hard negatives) are used by DPR during its training.\n- The initialization relationship is explicitly stated: RAG's retriever is initialized using DPR's retriever [1][3]. The training details for RAG itself are given in terms of joint training of retriever and generator, but specific details about the DPR retriever's negative passages during pretraining are not included in the supplied excerpts [1][3].",
+      "answerability": "partial",
+      "passed": true,
+      "expected_points": [
+        {
+          "fact_id": "retriever_bridge",
+          "expected": "A pretrained bi-encoder from DPR initializes the RAG retriever.",
+          "correct": true,
+          "complete": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "supplied_semantic_evidence": true,
+          "citation_ids": [
+            1,
+            3
+          ],
+          "review": "Exact cited source text and original page support this fact. For the repaired financial answer, Source 2 includes original page-7 period headers and units with page-8 values; supplements retain original offsets."
+        }
+      ],
+      "additional_claims": [
+        {
+          "claim": "RAG jointly trains retriever and generator.",
+          "citation_ids": [
+            1,
+            3
+          ],
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "review": "Source 3 explicitly says both generator and retriever are jointly learned."
+        }
+      ],
+      "gap_disclosure_passed": true,
+      "relevant": true,
+      "source_artifact": "retriever-training-restricted-planned.json",
+      "review_note": "Repeated assertions counted once per atomic expected fact. The final granularity wording is redundant but supported. DPR per-question negative wording matches its training discussion. A claim-free refusal has no citation denominator."
+    },
+    {
+      "case_id": "lecture-overfitting",
+      "status": "completed",
+      "answer": "- The decision-tree lecture defines overfitting as the situation where \"your machine learning algorithm fits noise (i.e. pays attention to parts of the data that are irrelevant)\" [1].\n- The effect that overfitting can have on test-set performance is that \"it may perform less well on test set data\" [1].",
+      "answerability": "full",
+      "passed": true,
+      "expected_points": [
+        {
+          "fact_id": "overfitting_definition",
+          "expected": "Overfitting means fitting noise or attending to irrelevant parts of the data.",
+          "correct": true,
+          "complete": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "supplied_semantic_evidence": true,
+          "citation_ids": [
+            1
+          ],
+          "review": "Exact cited source text and original page support this fact. For the repaired financial answer, Source 2 includes original page-7 period headers and units with page-8 values; supplements retain original offsets."
+        },
+        {
+          "fact_id": "overfitting_effect",
+          "expected": "An overfitting algorithm may perform less well on test-set data.",
+          "correct": true,
+          "complete": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "supplied_semantic_evidence": true,
+          "citation_ids": [
+            1
+          ],
+          "review": "Exact cited source text and original page support this fact. For the repaired financial answer, Source 2 includes original page-7 period headers and units with page-8 values; supplements retain original offsets."
+        }
+      ],
+      "additional_claims": [],
+      "gap_disclosure_passed": true,
+      "relevant": true,
+      "source_artifact": "lecture-overfitting-planned.json",
+      "review_note": "Repeated assertions counted once per atomic expected fact. The final granularity wording is redundant but supported. DPR per-question negative wording matches its training discussion. A claim-free refusal has no citation denominator."
+    },
+    {
+      "case_id": "income-period-basis",
+      "status": "completed",
+      "answer": "- NVIDIA's GAAP operating income for Q4 FY25 was $24,034 million [2].\n- NVIDIA's non-GAAP operating income for Q4 FY25 was $25,516 million [2][4].\n- NVIDIA's GAAP operating income for the full fiscal year 2025 was $81,453 million [2].\n- NVIDIA's non-GAAP operating income for the full fiscal year 2025 was $86,789 million [2].",
+      "answerability": "full",
+      "passed": false,
+      "expected_points": [
+        {
+          "fact_id": "quarter_gaap",
+          "expected": "Q4 FY25 GAAP operating income is USD 24,034 million.",
+          "correct": true,
+          "complete": true,
+          "faithful": false,
+          "citation_supported": false,
+          "citation_covered": false,
+          "supplied_semantic_evidence": false,
+          "citation_ids": [
+            2
+          ],
+          "review": "Source 2 contains numeric rows on page 8 but no periods or units; the annual/GAAP qualification is unsupported even though numbers match the original. Source 4 only establishes quarterly non-GAAP."
+        },
+        {
+          "fact_id": "quarter_nongaap",
+          "expected": "Q4 FY25 Non-GAAP operating income is USD 25,516 million.",
+          "correct": true,
+          "complete": true,
+          "faithful": true,
+          "citation_supported": true,
+          "citation_covered": true,
+          "supplied_semantic_evidence": true,
+          "citation_ids": [
+            2,
+            4
+          ],
+          "review": "Exact cited source text and original page support this fact. For the repaired financial answer, Source 2 includes original page-7 period headers and units with page-8 values; supplements retain original offsets."
+        },
+        {
+          "fact_id": "annual_gaap",
+          "expected": "FY25 GAAP operating income is USD 81,453 million.",
+          "correct": true,
+          "complete": true,
+          "faithful": false,
+          "citation_supported": false,
+          "citation_covered": false,
+          "supplied_semantic_evidence": false,
+          "citation_ids": [
+            2
+          ],
+          "review": "Source 2 contains numeric rows on page 8 but no periods or units; the annual/GAAP qualification is unsupported even though numbers match the original. Source 4 only establishes quarterly non-GAAP."
+        },
+        {
+          "fact_id": "annual_nongaap",
+          "expected": "FY25 Non-GAAP operating income is USD 86,789 million.",
+          "correct": true,
+          "complete": true,
+          "faithful": false,
+          "citation_supported": false,
+          "citation_covered": false,
+          "supplied_semantic_evidence": false,
+          "citation_ids": [
+            2
+          ],
+          "review": "Source 2 contains numeric rows on page 8 but no periods or units; the annual/GAAP qualification is unsupported even though numbers match the original. Source 4 only establishes quarterly non-GAAP."
+        },
+        {
+          "fact_id": "income_units",
+          "expected": "All four operating-income amounts are expressed in millions of dollars.",
+          "correct": true,
+          "complete": true,
+          "faithful": false,
+          "citation_supported": false,
+          "citation_covered": false,
+          "supplied_semantic_evidence": false,
+          "citation_ids": [
+            2
+          ],
+          "review": "Source 2 contains numeric rows on page 8 but no periods or units; the annual/GAAP qualification is unsupported even though numbers match the original. Source 4 only establishes quarterly non-GAAP."
+        }
+      ],
+      "additional_claims": [],
+      "gap_disclosure_passed": true,
+      "relevant": true,
+      "source_artifact": "income-period-basis-planned.json",
+      "review_note": "Repeated assertions counted once per atomic expected fact. The final granularity wording is redundant but supported. DPR per-question negative wording matches its training discussion. A claim-free refusal has no citation denominator."
+    },
+    {
+      "case_id": "forecast-is-not-actual",
+      "status": "completed",
+      "answer": "There is not enough information in the provided sources to answer this question.",
+      "answerability": "none",
+      "passed": true,
+      "expected_points": [],
+      "additional_claims": [],
+      "gap_disclosure_passed": true,
+      "relevant": true,
+      "source_artifact": "forecast-is-not-actual-planned.json",
+      "review_note": "Repeated assertions counted once per atomic expected fact. The final granularity wording is redundant but supported. DPR per-question negative wording matches its training discussion. A claim-free refusal has no citation denominator."
+    }
+  ]
+}

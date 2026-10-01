@@ -1,7 +1,8 @@
 # KnowledgeBase v2 Frontend Design
 
-Status: proposed extensions to the existing React/TypeScript Library, Chat, and
-Evidence workspace. All visible copy stays English.
+Status: v2 Library, Chat and Evidence flows implemented and scoped browser checks
+completed. See the [release summary](release-summary.md) for actual UI limits,
+including the absence of a conversation picker and PDF zoom. All copy stays English.
 
 ## Library and PDF Upload
 
