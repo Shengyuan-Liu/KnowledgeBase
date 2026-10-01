@@ -106,8 +106,8 @@ selected child rankings. See the [source identity comparison](../evals/library-r
 
 ## Responses and Saved Evidence
 
-`retrieve_evidence()` returns `RetrievedEvidence` with the packed `chunks` list
-and `RetrievalDiagnostics`. The redundant list-only `retrieve()` wrapper was removed.
+`Retriever.retrieve()` returns `RetrievedEvidence` with the packed `chunks` list
+and `RetrievalDiagnostics`.
 
 Every answer source describes the actual text supplied to generation:
 

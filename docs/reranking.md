@@ -34,6 +34,9 @@ Shared-model inference is serialized because concurrent MPS forwards caused a
 native Metal command-buffer assertion during live verification. Scoring-stage
 time includes waiting for that lock. There is no automatic fallback after an error.
 
+`Reranker` owns candidate selection, input budgets and ranking diagnostics.
+`Retriever` composes this object; `RerankerClient` owns model execution.
+
 ## Selection and score meaning
 
 The pipeline resolves follow-ups, retrieves BM25/vector candidates, fuses by RRF,
@@ -102,7 +105,7 @@ old scores are never relabeled as BGE logits.
 ```python
 from knowledgebase.config import Settings
 from knowledgebase.providers.reranker import RerankerClient
-from knowledgebase.rag.reranking import rerank
+from knowledgebase.rag.reranking import Reranker
 
 settings = Settings()
 client = RerankerClient(
@@ -111,7 +114,12 @@ client = RerankerClient(
     max_pair_tokens=settings.rerank_max_pair_tokens,
 )
 # candidates are canonical RerankCandidate objects from the fused Ready corpus.
-result = rerank(question, candidates, client, top_k=settings.retrieval_top_k)
+reranker = Reranker(
+    client, candidate_limit=settings.rerank_candidate_limit,
+    max_input_tokens=settings.rerank_max_input_tokens,
+    encoding_name=settings.chunk_tokenizer,
+)
+result = reranker.rerank(question, candidates, top_k=settings.retrieval_top_k)
 for hit in result.selected:
     print(hit.chunk_id, hit.rerank_score, hit.rerank_rank, hit.rank)
 ```

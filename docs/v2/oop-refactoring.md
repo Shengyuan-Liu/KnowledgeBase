@@ -125,8 +125,9 @@ rewrite prompts, expand validation or add fallback/repair paths during migration
   a completed exchange is saved in the existing final transaction.
 - Preserve streaming cancellation checkpoints, closing of provider iterators,
   progress/source/debug/complete/error event contracts and successful-only saves.
-- Bootstrap owns SDK/storage lifetimes and invokes recovery while it owns the data
-  directory lock. Storage initialization must not import FileService.
+- API/CLI entry points own SDK/storage lifetimes. Bootstrap assembles components
+  and invokes recovery inside those contexts while the data directory lock is
+  held. Storage initialization must not import FileService.
 - Keep the local reranker lock and lazy PDF lock; these address observed runtime
   behavior and must not be removed as cosmetic cleanup.
 
@@ -213,12 +214,31 @@ Record documentation-only reviews in the commit message or a check record.
 - Document processing: moved parser/chunker/PDF runtime classes and bound semantic
   embeddings to the chunker. Existing ingestion and source-preservation checks pass.
 - Reranking and retrieval: classes introduced; active retrieval tests use the new
-  interfaces. Transitional adapters remain for chat callers until the next stage.
+  interfaces. Superseded function entry points and transitional adapters are removed.
 - RAG and conversations: RagClient and ChatService implemented; 155 existing
   checks and 2 new shared-service/request-isolation checks pass.
-- Bootstrap and consumers: pending.
-- Final verification: pending.
+- Bootstrap and consumers: complete in `554dc8b`. API, CLI and active evaluation
+  entry points share the assembled services. Recovery runs within the existing
+  storage ownership context. Evaluation runners explicitly retain single-query
+  retrieval where that was their original behavior.
+- Final verification: 858 backend tests passed, 1 opt-in live test skipped;
+  21 controlled browser tests passed. The normalized frozen observations match
+  across all 11 groups and nine schemas. See the
+  [comparison and check report](../../evals/check-runs/20261001-oop-refactoring/README.md).
+  Intermediate failures and their corrections remain in the append-only records.
+- Limits: no new live model quality, provider billing or production performance
+  measurement. Existing Starlette/Docling deprecations and Node color-environment
+  warnings remain visible in the logs.
 - Merge: not authorized.
+
+| Stage | Implementation commit |
+| --- | --- |
+| Plan | `d5a1cde` |
+| Frozen baseline | `9e70c44` |
+| Document processing | `42107ca` |
+| Retrieval and reranking | `c47562a` |
+| RAG and conversations | `5e9beb2` |
+| Bootstrap and consumers | `554dc8b` |
 
 ## Implementation decisions
 
@@ -227,3 +247,13 @@ RagClient and HopController retain their session factories. This preserves the
 existing transaction boundaries and lets retrieval observe the caller's current
 transaction without storing a mutable Session on a shared instance. Retriever.pack
 is a static method because its recorded diagnostics supply the full packing budget.
+
+RagClient.stream yields progress/source/delta events and a final unsaved ChatAnswer.
+ChatService consumes that answer, saves the completed exchange and emits the HTTP
+completion payload. This preserves a reusable RAG interface without moving
+conversation writes into it or introducing another serialized result schema.
+
+AppResources builds stable service instances once. Its constructor inputs and
+settings are treated as fixed after assembly; replacing an input attribute later
+does not rebuild the graph. API and CLI keep explicit context managers for their
+SDK and storage resources. Tests inject controlled dependencies at assembly time.

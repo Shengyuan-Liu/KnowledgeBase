@@ -97,7 +97,10 @@ interrupted response. Handle non-SSE HTTP errors separately.
 - `providers/llm.py`: `StreamingLLMClient` uses an application-owned `AsyncOpenAI`
   client and forwards actual text deltas; it requires `response.completed`.
 - `rag/generation.py`: shares the grounded prompt with synchronous generation.
-- `services/chat.py`: coordinates streaming and commits the same answer snapshot.
+- `services/chat.py`: ChatService resolves history, forwards RAG events and commits
+  the completed answer snapshot.
+- `services/rag.py`: RagClient emits retrieval/assessment progress, sources, answer
+  deltas and a final unsaved ChatAnswer for the caller to persist.
 - `api/streaming.py`: frames events and listens for disconnects while the provider
   is waiting, including ASGI 2.4 connections.
 

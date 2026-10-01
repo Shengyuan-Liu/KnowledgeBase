@@ -1,6 +1,6 @@
 # Retrieval
 
-`knowledgebase/rag/retrieval.py` connects query embeddings, vector search, and
+`Retriever` in `knowledgebase/rag/retrieval.py` connects query embeddings, vector search, and
 canonical chunk text:
 
 1. Read files from SQLite and select those with status `ready`.
@@ -12,7 +12,7 @@ canonical chunk text:
    hits to parents, deduplicate parent IDs, and pack whole regions within the
    numbered evidence budget.
 7. Return `RetrievedEvidence`: packed `chunks` and diagnostics with candidates,
-   exclusions and token counts. `retrieve_candidates()` uses the same container
+   exclusions and token counts. `Retriever.retrieve_candidates()` uses the same container
    before packing; its diagnostics have no packing duration.
 
 Filtering applies before nearest-neighbor selection, so processing and failed
@@ -20,20 +20,15 @@ files cannot consume result slots. Chroma stores file IDs as metadata; SQLite
 supplies file status and canonical text. The ingestion workflow is responsible
 for keeping those records associated.
 
-## Calling the Function
+## Using the Retriever
 
 With an existing SQLAlchemy session, embedding client, and Chroma store:
 
 ```python
-from knowledgebase.rag.retrieval import retrieve_evidence
+from knowledgebase.rag.retrieval import Retriever
 
-results = retrieve_evidence(
-    question="Where can I find books?",
-    session=session,
-    embedding_client=embedding_client,
-    vector_store=vector_store,
-    top_k=5,
-)
+retriever = Retriever(embedding_client, vector_store, top_k=5)
+results = retriever.retrieve("Where can I find books?", session)
 for result in results.chunks:
     print(result.chunk.file_id, result.chunk.text, result.distance)
 ```
@@ -46,7 +41,8 @@ they are not probabilities of answer correctness. No matches or no fitting regio
 returns an empty `chunks` list. See [parent-child retrieval](parent-child-retrieval.md) for expansion,
 source metadata, and the `EVIDENCE_MAX_TOKENS` packing contract.
 
-The caller owns the session and model client. Retrieval does not commit, update
+The Retriever retains its embedding/store/reranker dependencies and configuration.
+The caller owns each operation's session and the model client lifetime. Retrieval does not commit, update
 file status, or generate an answer. Dependency exceptions propagate normally.
 
 `get_chunks_by_ids(session, chunk_ids)` loads existing chunks in one SQL query.

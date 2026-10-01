@@ -29,6 +29,7 @@ KnowledgeBase/
 │   └── e2e/                    # Browser tests against isolated FastAPI storage
 ├── knowledgebase/
 │   ├── cli.py
+│   ├── bootstrap.py             # Shared service graph for API, CLI and evaluation
 │   ├── config.py
 │   ├── schemas/                # Shared contracts, independent of component implementations
 │   │   ├── documents.py         # Canonical text, chunks and immutable PDF extraction
@@ -44,12 +45,18 @@ KnowledgeBase/
 │   │   └── streaming.py
 │   ├── services/
 │   │   ├── files.py
-│   │   └── chat.py
+│   │   ├── chat.py              # ChatService and completed-exchange persistence
+│   │   ├── rag.py               # RagClient and answer orchestration
+│   │   ├── hops.py              # Per-request HopController
+│   │   └── planning.py          # RequestControl and planning state
 │   ├── rag/
-│   │   ├── parsing.py           # TXT/Markdown source blocks used by ingestion
+│   │   ├── parsing.py           # DocumentParser and TXT/Markdown algorithms
+│   │   ├── pdf_runtime.py       # Lazy LocalPdfParser
+│   │   ├── pdf.py               # Concrete PDF extraction
 │   │   ├── chunking.py
 │   │   ├── semantic_chunking.py
 │   │   ├── retrieval.py
+│   │   ├── planned_retrieval.py # Pure cross-query merging and selection
 │   │   ├── bm25.py
 │   │   ├── fusion.py
 │   │   ├── reranking.py
@@ -61,12 +68,14 @@ KnowledgeBase/
 │   ├── providers/
 │   │   ├── llm.py
 │   │   ├── reranker.py
+│   │   ├── planner.py
 │   │   └── embeddings.py
 │   └── storage/
 │       ├── runtime.py
 │       ├── database.py
 │       ├── models.py
 │       ├── operations.py
+│       ├── pdf_assets.py
 │       └── vectordb.py
 ├── tests/
 │   ├── conftest.py
@@ -74,12 +83,15 @@ KnowledgeBase/
 │   └── test_*.py
 ├── evals/
 │   ├── evaluate.py
+│   ├── automatic.py
 │   ├── nyu-test-cases.jsonl
 │   ├── materials/
 │   └── runs/
 ├── docs/
 │   ├── README.md
-│   └── mvp/
+│   ├── mvp/
+│   ├── v1/
+│   └── v2/
 └── data/                        # Local runtime data; ignored by Git
     └── v1/                     # Default v1 directory; older data remains separate
         ├── knowledgebase.db
@@ -116,19 +128,22 @@ documents compatibility checks, removed wrappers and the BM25 library comparison
 | `config.py` | Read shared credentials, models, chunking, retrieval, and storage settings from environment variables or `.env` |
 | `schemas/` | Define data snapshots, requests, responses, and stream events independently of ORM and HTTP handlers |
 | `api/app.py` | Assemble the app, register routes, and own storage/SDK lifetimes |
-| `api/dependencies.py` | Define one `AppResources` object and expose it to all routes |
-| `api/files.py` | Translate file upload/list/delete operations into HTTP responses |
+| `bootstrap.py` | Assemble AppResources, FileService, Retriever, RagClient and ChatService once; invoke startup recovery |
+| `api/dependencies.py` | Expose the assembled resources to HTTP routes |
+| `api/files.py` | Translate file upload/list/delete/original-source operations into HTTP responses |
 | `api/chat.py` | Expose complete JSON answers and SSE answers |
 | `api/conversations.py` | Return ordered saved messages and historical evidence |
 | `api/streaming.py` | Encode SSE frames and cancel generation on disconnect |
 | `services/files.py` | Coordinate ingestion, file states, failure cleanup, and retryable deletion |
-| `services/chat.py` | Coordinate history, retrieval, generation, citations, and atomic exchange persistence |
-| `rag/parsing.py` | Parse TXT/Markdown into exact source blocks with heading metadata |
-| `rag/chunking.py` | Structural/token-budget chunking, integrated parent-child splitting, and the explicit MVP character baseline |
+| `services/chat.py` | ChatService coordinates history, follow-up resolution and atomic exchange persistence |
+| `services/rag.py` | RagClient coordinates planning, retrieval, generation and answer/source assembly |
+| `services/hops.py`, `planning.py` | Own per-request progress, assessment, deadlines and cancellation |
+| `rag/parsing.py` | DocumentParser validates source bytes and selects TXT/Markdown/PDF parsing; retains pure text algorithms |
+| `rag/chunking.py` | DocumentChunker selects splitting methods and owns settings/semantic embeddings; retains pure splitting algorithms |
 | `rag/semantic_chunking.py` | Experimental sentence-similarity child boundaries inside unchanged parents, with recorded embedding inputs and decisions |
-| `rag/retrieval.py` | Coordinate Ready-only BM25/vector retrieval, RRF, optional reranking, parent expansion and packing |
+| `rag/retrieval.py` | Retriever coordinates Ready-only BM25/vector retrieval, RRF, optional reranking, parent expansion and packing |
 | `rag/bm25.py`, `rag/fusion.py` | Score canonical children lexically and combine route ranks while preserving separate scores |
-| `rag/reranking.py`, `providers/reranker.py` | Bound candidate inputs and score query/passage pairs with a local BGE cross-encoder |
+| `rag/reranking.py`, `providers/reranker.py` | Reranker owns input/selection policy; RerankerClient owns local BGE inference |
 | `rag/packing.py` | Keep whole parents and use remaining space for selected children of excluded parents |
 | `rag/context.py` | Format numbered evidence without altering source text |
 | `rag/query.py` | Resolve follow-up references using message history |
@@ -151,14 +166,17 @@ explicit experiment flags override them. It does not open the user's API/CLI lib
 ## Dependency and Data Boundaries
 
 ```text
-API / CLI / evaluation → Services → RAG steps → Providers and storage
-API conversation reads → Storage operations
+API / CLI / evaluation → FileService / ChatService / RagClient
+RagClient → Retriever / HopController → Providers and storage
+Services and retrieval → Storage operations
 ```
 
 - Routes depend on `api/dependencies.py`, not on another route module. Services do
   not construct HTTP responses or SSE frames.
 - API and CLI share `open_storage(data_dir)`. Their SDK clients stay at their entry
-  points. Imports do not create clients, open databases, or read credentials.
+  points; `build_resources()` assembles the shared component graph. Storage opening
+  does not import services; bootstrap invokes recovery under the ownership lock.
+  Imports do not create clients, open databases, or read credentials.
 - Source eligibility and canonical text come from SQLite; Chroma stores vectors
   and file IDs. Retrieval carries filenames forward so answer assembly does not
   query the complete file list again.
@@ -196,8 +214,9 @@ Runtime dependencies exclude notebook tooling. Install it explicitly with
 `uv sync --group notebooks` when needed. `.env` contains local secrets and stays
 out of Git; `.env.example` contains placeholders.
 
-Follow the [v1 scope](v1/README.md): English-only, local, single-user TXT/Markdown
-RAG, with advanced retrieval added in stages. The browser workflow is verified against the real API with offline provider
+Follow the [active v2 scope](v2/README.md): English-only, local, single-user
+TXT/Markdown and digital PDF RAG with bounded advanced retrieval. The
+[OOP refactoring plan](v2/oop-refactoring.md) records component interfaces and lifetimes. The browser workflow is verified against the real API with offline provider
 fixtures. Live-provider quality and production hosting need separate verification.
 Add functionality and modules when current requirements justify them.
 Follow [AGENTS.md](../AGENTS.md) for Python ownership, verification, English text,

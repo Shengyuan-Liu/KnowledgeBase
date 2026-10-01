@@ -106,15 +106,15 @@ the file list retains the existing service's recorded error details.
   initializes tables, opens the persistent Chroma collection, and creates the
   shared OpenAI embedding client. It closes the SDK client and disposes the SQL
   engine on shutdown. Importing the module does not initialize storage or read keys.
-- `knowledgebase/api/files.py` defines the three routes and their dependency on
-  shared `AppResources` from `api/dependencies.py`. All routes use the same
+- `knowledgebase/api/files.py` defines the file routes and their dependency on
+  shared `bootstrap.AppResources` exposed through `api/dependencies.py`. All routes use the same
   session factory, embeddings, and vector store.
   Routes use synchronous handlers for the existing blocking services; each request
   owns its read sessions, while mutation transactions remain service-owned.
 
 The [chat API](chat-api.md) shares these storage and embedding resources and adds
-an LLM client. Uploads wait for indexing, the UI is integrated, and startup recovers interrupted
-processing records. Recovery first marks them failed, then cleans partial vectors
+an LLM client. Uploads wait for indexing, the UI is integrated, and `bootstrap.build_resources()` recovers interrupted
+processing records during startup, while `open_storage()` retains the directory lock. Recovery first marks them failed, then cleans partial vectors
 and chunks. Failed cleanup remains visible and can be retried through deletion.
 A process lock allows one API or CLI owner per data directory. [Streaming chat](chat-streaming.md) is available
 through a separate endpoint. Do not delete a file currently being indexed

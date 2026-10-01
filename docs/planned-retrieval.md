@@ -13,13 +13,13 @@ behavior described below is available with `PLANNING__SUFFICIENCY_ENABLED=false`
 | Module | Responsibility |
 | --- | --- |
 | `providers/planner.py` | Make one strict structured-output call and validate its direct/decomposed/narrowing decision |
-| `services/planning.py` | Freeze ready-file scope, track deadlines/cancellation and reserve answer time |
+| `services/rag.py`, `services/planning.py` | RagClient prepares plans and freezes scope; RequestControl tracks deadlines/cancellation and reserves answer time |
 | `schemas/planning.py` | Validate an original/resolved question, required answer points and independent query records |
 | `direct_plan` | Construct the existing single-query route without calling a model |
-| `rag/retrieval.py: retrieve_candidates` | Resolve Ready-only scope and return bounded, unpacked child hits with query-local scores |
+| `Retriever.retrieve_candidates` | Resolve Ready-only scope and return bounded, unpacked child hits with query-local scores |
 | `resolve_ready_scope` | Resolve document references within an allowed ready-file catalog |
-| `pack_retrieval_candidates` | Expand selected children, attach PDF provenance and pack one final context |
-| `rag/planned_retrieval.py: retrieve_plan` | Execute queries sequentially, merge/select candidates and return evidence plus a versioned trace |
+| `Retriever.pack` | Expand selected children, attach PDF provenance and pack one final context |
+| `Retriever.retrieve_plan` | Execute queries sequentially, merge/select candidates and return evidence plus a versioned trace |
 | `merge_query_runs` | Combine query ranks while keeping this merge separate from within-query BM25/vector RRF |
 
 `RetrievalPlan` permits one to six requirements and one to six query records in
@@ -88,7 +88,7 @@ or full retrieval-chain acceptance.
 
 ```python
 from knowledgebase.schemas import AnswerRequirement, PlannedQuery, RetrievalPlan
-from knowledgebase.rag.planned_retrieval import retrieve_plan
+from knowledgebase.rag.retrieval import Retriever
 
 plan = RetrievalPlan(
     original_question="Describe the training method and evaluation results.",
@@ -106,14 +106,15 @@ plan = RetrievalPlan(
     ],
 )
 # Reuse the application's existing session and clients; the caller owns them.
-result = retrieve_plan(plan, session, embeddings, store, file_ids=selected_file_ids)
+retriever = Retriever(embeddings, store)
+result = retriever.retrieve_plan(plan, session, file_ids=selected_file_ids)
 context_chunks = result.evidence.chunks
 trace_json = result.model_dump_json(indent=2)
 ```
 
 The example assumes an open session, existing clients and an explicit file
 selection. It does not create credentials, a provider client or an automatic
-planner. The lower-level function returns its result; the chat integration below
+planner. The Retriever method returns its result; the chat integration below
 adds planning, persistence and progress events.
 
 ## Execution, Ranking and Scope

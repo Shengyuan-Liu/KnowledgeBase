@@ -15,7 +15,7 @@ There are no repair calls or automatic retries at this layer.
 
 ## Conversation service
 
-`answer_in_conversation` in `knowledgebase/services/chat.py` coordinates:
+`ChatService.answer()` in `knowledgebase/services/chat.py` coordinates:
 
 1. Load the latest `history_limit` messages from the supplied conversation, oldest
    to newest. The default is 10 individual messages. An unknown ID raises
@@ -33,8 +33,8 @@ There are no repair calls or automatic retries at this layer.
 Resolution, retrieval, or generation failures do not append messages. If saving
 fails, the complete exchange rolls back. Failed/interrupted turns are not yet stored
 as separate records. Calls for a single conversation are sequential; this service
-does not coordinate concurrent writers. `answer_in_conversation` returns a complete
-answer; `stream_answer_in_conversation` provides the separate
+does not coordinate concurrent writers. `ChatService.answer()` returns a complete
+answer; `ChatService.stream()` provides the separate
 [streaming path](chat-streaming.md) with the same evidence and persistence rules.
 
 The returned `ConversationAnswer` includes `answer`, `sources`, `citation_check`, `conversation_id`,
@@ -47,22 +47,24 @@ these details without retrieving new evidence. The original answer stays unchang
 With configured clients and a session factory:
 
 ```python
-from knowledgebase.services.chat import answer_in_conversation
+from knowledgebase.rag.retrieval import Retriever
+from knowledgebase.services.rag import RagClient
+from knowledgebase.services.chat import ChatService
 
-first = answer_in_conversation(
-    "What is NYU MSDS?", session_factory, embedding_client, vector_store, llm_client,
-)
-followup = answer_in_conversation(
-    "How many credits does it require?",
-    session_factory, embedding_client, vector_store, llm_client,
-    conversation_id=first.conversation_id,
+retriever = Retriever(embedding_client, vector_store)
+rag = RagClient(session_factory, retriever, llm_client)
+chat = ChatService(session_factory, rag)
+first = chat.answer("What is NYU MSDS?")
+followup = chat.answer(
+    "How many credits does it require?", conversation_id=first.conversation_id,
 )
 print(followup.retrieval_question)
 print(followup.answer)
 ```
 
-`answer_question` remains stateless for independent callers and the fixed single-turn
-evaluation runner. It neither reads nor saves conversations. This keeps existing
+`RagClient.answer()` remains independent of conversation state for standalone
+callers and the fixed single-turn evaluation runner. It neither reads nor saves
+conversations. This keeps existing
 evaluation cases isolated rather than carrying context from one case into another.
 
 ## CLI behavior
@@ -73,7 +75,8 @@ with `uv run python main.py --conversation-id <id>` using the same `--data-dir`.
 The CLI prints the ID after successful turns, plus a retrieval question when it
 differs from the original. It does not reprint old messages on resumption.
 
-The same LLM client/model handles resolution and answer generation. With nonempty
+Resolution uses the configured resolver model, or the answer client when no
+separate resolver is configured. With nonempty
 history, one resolution request is added even when the question is already standalone.
 When no ready files remain after deletion, a follow-up may still call the resolver,
 but it returns the standard insufficient-evidence answer with no answer-generation

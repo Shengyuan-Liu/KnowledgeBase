@@ -2,7 +2,8 @@
 
 `FileService` in `knowledgebase/services/files.py` owns upload transactions,
 indexing, interrupted-upload recovery and deletion. API, CLI and evaluation
-entry points construct it from the shared [Settings](configuration.md).
+entry points use `bootstrap.AppResources` to assemble it once from shared
+[Settings](configuration.md).
 
 ## Models and responsibilities
 
@@ -12,8 +13,9 @@ entry points construct it from the shared [Settings](configuration.md).
 - `Chunk` represents flat, parent and child spans. Every span has a `chunk_id`;
   `type` identifies its role and a child's `parent_id` refers to its parent.
   `ChunkBatch` is a plain dataclass grouping parent and indexed-span lists.
-- `DocumentParser` validates upload bytes and selects parsing by `File.type`.
-- `DocumentChunker` owns splitting settings. Pure splitting algorithms remain
+- `DocumentParser` in `rag/parsing.py` validates upload bytes and selects parsing by `File.type`.
+- `DocumentChunker` in `rag/chunking.py` owns splitting settings and its optional
+  semantic embedding dependency. Pure splitting algorithms remain
   independently testable; this class selects and configures them.
 - `FileService` shares the parser, chunker, embedding client, vector store,
   original-file storage and session factory across its operations.
@@ -47,7 +49,7 @@ under the data-directory ownership lock; it does not resume embedding jobs.
 from pathlib import Path
 
 from knowledgebase.services.files import FileService
-from knowledgebase.services.pdf import LocalPdfParser
+from knowledgebase.rag.pdf_runtime import LocalPdfParser
 from knowledgebase.storage.pdf_assets import PdfAssets
 
 files = FileService.from_settings(
@@ -61,13 +63,14 @@ files.delete(file_id)
 ```
 
 Direct offline callers can inject a `DocumentChunker` and test doubles through the
-constructor. No extra configuration model or schema per parser is required.
+constructor. An injected semantic chunker receives `embeddings=embeddings` at
+construction; `split(file)` then needs only the parsed file. No extra configuration model or schema per parser is required.
 Changing settings affects new uploads only; existing records need no migration
 for this model refactor. The established SQLite tables and PDF revision payload
 remain compatible with prior v2 records.
 
 See [PDF setup](pdf-integration.md), [file API](file-api.md),
 [chunk storage](document-storage.md) and [deletion](file-deletion.md).
-The [refactor verification](../evals/check-runs/20261001-unified-file-oop/README.md)
+The [model-unification verification](../evals/check-runs/20261001-unified-file-oop/README.md)
 records offline regressions and matched frozen-data comparisons; it makes no new
 live answer-quality or performance claim.

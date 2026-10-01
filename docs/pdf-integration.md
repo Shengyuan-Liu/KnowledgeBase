@@ -111,7 +111,7 @@ records. Historical snapshots keep the evidence originally supplied.
 
 | Module | Responsibility |
 | --- | --- |
-| `services/pdf.py` | Lazily load and serialize use of the local converter |
+| `rag/pdf_runtime.py` | Lazily load and serialize use of the local converter |
 | `storage/pdf_assets.py` | Save, locate and delete originals by generated identity |
 | `storage/models.py`, `operations.py` | Persist extraction revisions and read common source contracts |
 | `services/files.py` | Coordinate parsing, indexing, ready state and cleanup |

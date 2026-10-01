@@ -66,8 +66,10 @@ Stage results and the final comparison are recorded below.
 - `final-backend`: 858 passed, 1 opt-in live smoke skipped, 0 failures/errors.
 - `final-browser`: 21 passed, exercising HTTP/SSE, responsive file management,
   PDF citations, history, source deletion, dependent plans and cancellation.
-- `behavior-after.json` matches the normalized frozen baseline. A separate
-  comparison receipt documents exact groups and schemas after code commit.
+- `final-contract-comparison`: 1 passed; all 11 observation groups and nine schemas
+  match. The [comparison receipt](comparison.json) records snapshot hashes and a
+  complete backend/test/active-evaluator source manifest at code commit `554dc8b`.
+- `final-static`: all selected undefined-name and unused-import/local checks pass.
 
 The frozen contract covers a deterministic TXT fixture, not a new live quality
 benchmark. Existing PDF/rerank/dependency fixtures and their assertions remain in
@@ -79,3 +81,16 @@ existing Node color-environment warnings. Tests use isolated temporary storage.
 The initial read-only directory/class audit and document content review did not
 execute model requests. Markdown reviews are recorded separately. The project
 SDK, model, tokenizer and dependency-lock defaults remain unchanged.
+
+## Closeout review
+
+The documentation review checks the changed Markdown files for relative file-link
+targets, balanced fenced blocks, Python example syntax, English text and trailing
+whitespace. Codex also reviewed component names, example calls and ownership
+descriptions against the implementation. The retained review command and JSON/log
+record provide the file list and result; this review uses no external providers.
+
+All six migration stages are complete. The reviewable implementation is on `v2`;
+there is no merge into `main`. See the
+[refactoring plan](../../../docs/v2/oop-refactoring.md) for interfaces, migration
+mapping, request lifetimes and implementation decisions.

@@ -31,7 +31,7 @@ framework, graph database, distributed queue, or agent framework is required.
 | `schemas/planning.py` | Produce bounded question requirements and independent/dependent queries; retain evidence references for derived search targets |
 | `rag/sufficiency.py` | Assess required points against supplied excerpts and return supported/partial/missing/conflicting decisions with evidence references |
 | `rag/retrieval.py`, `rag/packing.py` | Expose bounded candidate retrieval for reuse across queries; merge candidates and pack one final context |
-| `services/chat.py` | Own controller state, scope, limits, cancellation, generation, and atomic completed-turn persistence |
+| `services/chat.py`, `services/rag.py` | ChatService owns history and atomic persistence; RagClient coordinates retrieval, generation and per-request controllers |
 | `services/files.py`, `storage/*` | Own PDF asset lifecycle, parsed provenance, index writes, snapshots, and deletion |
 | `schemas/`, `config.py` | Define typed application records and explicit settings passed by entry points |
 | `api/files.py`, `api/streaming.py` | Serve original assets by file identity and expose progress without moving business logic into routes |
