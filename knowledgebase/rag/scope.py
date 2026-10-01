@@ -12,6 +12,7 @@ _DESCRIPTOR_WORDS = {
     'the', 'a', 'an', 'saved', 'uploaded', 'document', 'documents',
     'file', 'files', 'guide', 'guides', 'page', 'pages',
 }
+_GENERIC_SOURCE_WORDS = _DESCRIPTOR_WORDS | {'relevant', 'selected', 'supplied', 'provided'}
 
 
 def prioritize_documents(chunk_ids: list[str], files_by_chunk: dict[str, str], limit: int) -> list[str]:
@@ -64,7 +65,10 @@ def document_references(question: str) -> list[str]:
     for part in parts:
         name = re.sub(r'^(?:(?:the|saved|uploaded)\s+)+', '', part.strip(), flags=re.I)
         quoted = re.match(r'^(["`])(.+?)\1(?=\s|$)', name)
-        references.append(quoted.group(2) if quoted else name.strip('"` '))
+        if quoted:
+            references.append(quoted.group(2))
+        elif set(tokenize(name)) - _GENERIC_SOURCE_WORDS:
+            references.append(name.strip('"` '))
     return references
 
 

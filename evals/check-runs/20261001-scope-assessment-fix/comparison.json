@@ -1,0 +1,729 @@
+{
+  "at": "2026-10-01T16:32:00.410521+00:00",
+  "baseline_commit": "2e82744",
+  "source_artifacts": {
+    "evals/library-runs/20261001-new-pdf-acceptance/server-observations.jsonl": "663eff6550676aaa2f694e834c531664e1628136d7bb747ace7a727f7d9d0e98",
+    "evals/library-runs/20261001-new-pdf-acceptance/income-period-basis-planned.json": "61a15d035f4180312bded4bb929d6cd40629eda85a106895525baa5f37d57c60",
+    "evals/library-runs/20261001-new-pdf-acceptance/index-snapshot.json": "8fe2af9fba878505c57f56184dbf0ae5a974fb3c59669aa9938670cfd6594c0d"
+  },
+  "current_source_hashes": {
+    "knowledgebase/rag/scope.py": "320e715b7f61aeb78729e2c68d4f3b4d6b2300d8c4d8d6b8459b09396a3bc20a",
+    "knowledgebase/rag/sufficiency.py": "9e3fa6e5a12e4f55101e9d5acb7b5edbecb0e26b82670cd82ef5746ea17058c4",
+    "knowledgebase/services/hops.py": "d8ec3b5896da8852cfa74b2817078c84e0ca9bf49c0cd846a2f48c317affdbb1"
+  },
+  "finance": [
+    {
+      "query": "In the relevant document, what was NVIDIA's GAAP operating income for Q4 FY25? State the amount and units.",
+      "before": {
+        "status": "not_found",
+        "references": [
+          "relevant document"
+        ],
+        "file_ids": [],
+        "matches": [],
+        "message": "I could not find a ready document matching \"relevant document\". Please specify its exact filename or upload it."
+      },
+      "after": {
+        "status": "resolved",
+        "references": [],
+        "file_ids": [
+          "386256a4a8c843d591c3fe8a92a2236b"
+        ],
+        "matches": [
+          {
+            "file_id": "386256a4a8c843d591c3fe8a92a2236b",
+            "file_name": "nvidia-fy25.pdf",
+            "labels": [
+              "nvidia-fy25"
+            ]
+          }
+        ],
+        "message": null
+      }
+    },
+    {
+      "query": "In the relevant document, what was NVIDIA's non-GAAP operating income for Q4 FY25? State the amount and units.",
+      "before": {
+        "status": "not_found",
+        "references": [
+          "relevant document"
+        ],
+        "file_ids": [],
+        "matches": [],
+        "message": "I could not find a ready document matching \"relevant document\". Please specify its exact filename or upload it."
+      },
+      "after": {
+        "status": "resolved",
+        "references": [],
+        "file_ids": [
+          "386256a4a8c843d591c3fe8a92a2236b"
+        ],
+        "matches": [
+          {
+            "file_id": "386256a4a8c843d591c3fe8a92a2236b",
+            "file_name": "nvidia-fy25.pdf",
+            "labels": [
+              "nvidia-fy25"
+            ]
+          }
+        ],
+        "message": null
+      }
+    },
+    {
+      "query": "In the relevant document, what was NVIDIA's GAAP operating income for the full fiscal year 2025? State the amount and units.",
+      "before": {
+        "status": "not_found",
+        "references": [
+          "relevant document"
+        ],
+        "file_ids": [],
+        "matches": [],
+        "message": "I could not find a ready document matching \"relevant document\". Please specify its exact filename or upload it."
+      },
+      "after": {
+        "status": "resolved",
+        "references": [],
+        "file_ids": [
+          "386256a4a8c843d591c3fe8a92a2236b"
+        ],
+        "matches": [
+          {
+            "file_id": "386256a4a8c843d591c3fe8a92a2236b",
+            "file_name": "nvidia-fy25.pdf",
+            "labels": [
+              "nvidia-fy25"
+            ]
+          }
+        ],
+        "message": null
+      }
+    },
+    {
+      "query": "In the relevant document, what was NVIDIA's non-GAAP operating income for the full fiscal year 2025? State the amount and units.",
+      "before": {
+        "status": "not_found",
+        "references": [
+          "relevant document"
+        ],
+        "file_ids": [],
+        "matches": [],
+        "message": "I could not find a ready document matching \"relevant document\". Please specify its exact filename or upload it."
+      },
+      "after": {
+        "status": "resolved",
+        "references": [],
+        "file_ids": [
+          "386256a4a8c843d591c3fe8a92a2236b"
+        ],
+        "matches": [
+          {
+            "file_id": "386256a4a8c843d591c3fe8a92a2236b",
+            "file_name": "nvidia-fy25.pdf",
+            "labels": [
+              "nvidia-fy25"
+            ]
+          }
+        ],
+        "message": null
+      }
+    }
+  ],
+  "assessments": [
+    {
+      "request": "rag-document-granularity-planned",
+      "output_sha256": "4e2cd9cc6bfe04c0cd5472aa984d6800ddc811ce14fdd607905ff6d53ed58e3c",
+      "before": {
+        "status": "validated",
+        "requirements": [
+          {
+            "requirement_id": "req1",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p2",
+                "source_number": 1,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 7613,
+                "end_offset": 8047,
+                "page_indices": [
+                  2
+                ],
+                "quote": "RAG-SequenceModel TheRAG-Sequencemodelusesthesameretrieveddocumenttogenerate the complete sequence. Technically, it treats the retrieved document as a single latent variable that is marginalized to get the seq2seq probability p(y\u2663x) via a top-K approximation. Concretely, the top K documents are retrieved using the retriever, and the generator produces the output sequence probability for each document, which are then marginalized,\n"
+              },
+              {
+                "evidence_id": "p11",
+                "source_number": 2,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 7036,
+                "end_offset": 7599,
+                "page_indices": [
+                  2
+                ],
+                "quote": "To train the retriever and generator end-to-end, we treat the retrieved document as a latent variable. We propose two models that marginalize over the latent documents in different ways to produce a distribution over generated text. In one approach, RAG-Sequence, the model uses the same document to predict each target token. The second approach, RAG-Token, can predict each target token based on a different document. In the following, we formally introduce both models and then describe the p\u2318 and p\u2713 components, as well as the training and decoding procedure."
+              }
+            ],
+            "description": "How RAG-Sequence can or cannot change the retrieved document while generating an answer.",
+            "table_context": []
+          },
+          {
+            "requirement_id": "req2",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p4",
+                "source_number": 1,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 8159,
+                "end_offset": 8630,
+                "page_indices": [
+                  2
+                ],
+                "quote": "RAG-TokenModel IntheRAG-Tokenmodelwecandrawadifferentlatentdocumentforeach target token and marginalize accordingly. This allows the generator to choose content from several documents when producing an answer. Concretely, the top K documents are retrieved using the retriever, and then the generator produces a distribution for the next output token for each document, before marginalizing, and repeating the process with the following output token, Formally, we define:\n"
+              },
+              {
+                "evidence_id": "p11",
+                "source_number": 2,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 7036,
+                "end_offset": 7599,
+                "page_indices": [
+                  2
+                ],
+                "quote": "To train the retriever and generator end-to-end, we treat the retrieved document as a latent variable. We propose two models that marginalize over the latent documents in different ways to produce a distribution over generated text. In one approach, RAG-Sequence, the model uses the same document to predict each target token. The second approach, RAG-Token, can predict each target token based on a different document. In the following, we formally introduce both models and then describe the p\u2318 and p\u2713 components, as well as the training and decoding procedure."
+              }
+            ],
+            "description": "How RAG-Token can or cannot change the retrieved document while generating an answer.",
+            "table_context": []
+          },
+          {
+            "requirement_id": "req3",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p2",
+                "source_number": 1,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 7613,
+                "end_offset": 8047,
+                "page_indices": [
+                  2
+                ],
+                "quote": "RAG-SequenceModel TheRAG-Sequencemodelusesthesameretrieveddocumenttogenerate the complete sequence. Technically, it treats the retrieved document as a single latent variable that is marginalized to get the seq2seq probability p(y\u2663x) via a top-K approximation. Concretely, the top K documents are retrieved using the retriever, and the generator produces the output sequence probability for each document, which are then marginalized,\n"
+              },
+              {
+                "evidence_id": "p4",
+                "source_number": 1,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 8159,
+                "end_offset": 8630,
+                "page_indices": [
+                  2
+                ],
+                "quote": "RAG-TokenModel IntheRAG-Tokenmodelwecandrawadifferentlatentdocumentforeach target token and marginalize accordingly. This allows the generator to choose content from several documents when producing an answer. Concretely, the top K documents are retrieved using the retriever, and then the generator produces a distribution for the next output token for each document, before marginalizing, and repeating the process with the following output token, Formally, we define:\n"
+              },
+              {
+                "evidence_id": "p11",
+                "source_number": 2,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 7036,
+                "end_offset": 7599,
+                "page_indices": [
+                  2
+                ],
+                "quote": "To train the retriever and generator end-to-end, we treat the retrieved document as a latent variable. We propose two models that marginalize over the latent documents in different ways to produce a distribution over generated text. In one approach, RAG-Sequence, the model uses the same document to predict each target token. The second approach, RAG-Token, can predict each target token based on a different document. In the following, we formally introduce both models and then describe the p\u2318 and p\u2713 components, as well as the training and decoding procedure."
+              }
+            ],
+            "description": "The specific way in which RAG-Sequence and RAG-Token differ in their ability to change the retrieved document during answer generation.",
+            "table_context": []
+          }
+        ],
+        "queries": []
+      },
+      "after": {
+        "status": "validated",
+        "requirements": [
+          {
+            "requirement_id": "req1",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p2",
+                "source_number": 1,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 7613,
+                "end_offset": 8047,
+                "page_indices": [
+                  2
+                ],
+                "quote": "RAG-SequenceModel TheRAG-Sequencemodelusesthesameretrieveddocumenttogenerate the complete sequence. Technically, it treats the retrieved document as a single latent variable that is marginalized to get the seq2seq probability p(y\u2663x) via a top-K approximation. Concretely, the top K documents are retrieved using the retriever, and the generator produces the output sequence probability for each document, which are then marginalized,\n"
+              },
+              {
+                "evidence_id": "p11",
+                "source_number": 2,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 7036,
+                "end_offset": 7599,
+                "page_indices": [
+                  2
+                ],
+                "quote": "To train the retriever and generator end-to-end, we treat the retrieved document as a latent variable. We propose two models that marginalize over the latent documents in different ways to produce a distribution over generated text. In one approach, RAG-Sequence, the model uses the same document to predict each target token. The second approach, RAG-Token, can predict each target token based on a different document. In the following, we formally introduce both models and then describe the p\u2318 and p\u2713 components, as well as the training and decoding procedure."
+              }
+            ],
+            "description": "How RAG-Sequence can or cannot change the retrieved document while generating an answer.",
+            "table_context": []
+          },
+          {
+            "requirement_id": "req2",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p4",
+                "source_number": 1,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 8159,
+                "end_offset": 8630,
+                "page_indices": [
+                  2
+                ],
+                "quote": "RAG-TokenModel IntheRAG-Tokenmodelwecandrawadifferentlatentdocumentforeach target token and marginalize accordingly. This allows the generator to choose content from several documents when producing an answer. Concretely, the top K documents are retrieved using the retriever, and then the generator produces a distribution for the next output token for each document, before marginalizing, and repeating the process with the following output token, Formally, we define:\n"
+              },
+              {
+                "evidence_id": "p11",
+                "source_number": 2,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 7036,
+                "end_offset": 7599,
+                "page_indices": [
+                  2
+                ],
+                "quote": "To train the retriever and generator end-to-end, we treat the retrieved document as a latent variable. We propose two models that marginalize over the latent documents in different ways to produce a distribution over generated text. In one approach, RAG-Sequence, the model uses the same document to predict each target token. The second approach, RAG-Token, can predict each target token based on a different document. In the following, we formally introduce both models and then describe the p\u2318 and p\u2713 components, as well as the training and decoding procedure."
+              }
+            ],
+            "description": "How RAG-Token can or cannot change the retrieved document while generating an answer.",
+            "table_context": []
+          },
+          {
+            "requirement_id": "req3",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p2",
+                "source_number": 1,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 7613,
+                "end_offset": 8047,
+                "page_indices": [
+                  2
+                ],
+                "quote": "RAG-SequenceModel TheRAG-Sequencemodelusesthesameretrieveddocumenttogenerate the complete sequence. Technically, it treats the retrieved document as a single latent variable that is marginalized to get the seq2seq probability p(y\u2663x) via a top-K approximation. Concretely, the top K documents are retrieved using the retriever, and the generator produces the output sequence probability for each document, which are then marginalized,\n"
+              },
+              {
+                "evidence_id": "p4",
+                "source_number": 1,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 8159,
+                "end_offset": 8630,
+                "page_indices": [
+                  2
+                ],
+                "quote": "RAG-TokenModel IntheRAG-Tokenmodelwecandrawadifferentlatentdocumentforeach target token and marginalize accordingly. This allows the generator to choose content from several documents when producing an answer. Concretely, the top K documents are retrieved using the retriever, and then the generator produces a distribution for the next output token for each document, before marginalizing, and repeating the process with the following output token, Formally, we define:\n"
+              },
+              {
+                "evidence_id": "p11",
+                "source_number": 2,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 7036,
+                "end_offset": 7599,
+                "page_indices": [
+                  2
+                ],
+                "quote": "To train the retriever and generator end-to-end, we treat the retrieved document as a latent variable. We propose two models that marginalize over the latent documents in different ways to produce a distribution over generated text. In one approach, RAG-Sequence, the model uses the same document to predict each target token. The second approach, RAG-Token, can predict each target token based on a different document. In the following, we formally introduce both models and then describe the p\u2318 and p\u2713 components, as well as the training and decoding procedure."
+              }
+            ],
+            "description": "The specific way in which RAG-Sequence and RAG-Token differ in their ability to change the retrieved document during answer generation.",
+            "table_context": []
+          }
+        ],
+        "queries": [],
+        "rejected_queries": []
+      },
+      "evidence_catalog_unchanged": true
+    },
+    {
+      "request": "retriever-training-hop-planned",
+      "output_sha256": "38a9ea44f1022276732cb379e179d837726afeba048fa794b0d5eba039884330",
+      "before": {
+        "status": "validated",
+        "requirements": [
+          {
+            "requirement_id": "req1",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p2",
+                "source_number": 1,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 18187,
+                "end_offset": 19036,
+                "page_indices": [
+                  4
+                ],
+                "quote": "Table 1 shows results for RAG along with state-of-the-art models. On all four open-domain QA tasks, RAG sets a new state of the art (only on the T5-comparable split for TQA). RAG combines the generation flexibility of the 'closed-book' (parametric only) approaches and the performance of \"open-book\" retrieval-based approaches. Unlike REALM and T5+SSM, RAG enjoys strong results without expensive, specialized 'salient span masking' pre-training [20]. It is worth noting that RAG's retriever is initialized using DPR's retriever, which uses retrieval supervision on Natural Questions and TriviaQA. RAG compares favourably to the DPR QA system, which uses a BERT-based 'crossencoder' to re-rank documents, along with an extractive reader. RAG demonstrates that neither a re-ranker nor extractive reader is necessary for state-of-the-art performance.\n"
+              },
+              {
+                "evidence_id": "p29",
+                "source_number": 4,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 3546,
+                "end_offset": 4624,
+                "page_indices": [
+                  1
+                ],
+                "quote": "We endow pre-trained, parametric-memory generation models with a non-parametric memory through a general-purpose fine-tuning approach which we refer to as retrieval-augmented generation (RAG). We build RAG models where the parametric memory is a pre-trained seq2seq transformer, and the non-parametric memory is a dense vector index of Wikipedia, accessed with a pre-trained neural retriever. We combine these components in a probabilistic model trained end-to-end (Fig. 1). The retriever (Dense Passage Retriever [26], henceforth DPR) provides latent documents conditioned on the input, and the seq2seq model (BART [32]) then conditions on these latent documents together with the input to generate the output. We marginalize the latent documents with a top-K approximation, either on a per-output basis (assuming the same document is responsible for all tokens) or a per-token basis (where different documents are responsible for different tokens). Like T5 [51] or BART, RAG can be fine-tuned on any seq2seq task, whereby both the generator and retriever are jointly learned.\n"
+              }
+            ],
+            "description": "Identify which retriever supplies the pretrained bi-encoder used to initialize RAG, citing the initialization relationship from the supplied papers.",
+            "table_context": []
+          },
+          {
+            "requirement_id": "req2",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p9",
+                "source_number": 2,
+                "file_id": "3664f78cd7ea4cb3b0c46eaa03bdbc60",
+                "file_name": "dpr-paper.pdf",
+                "start_offset": 11823,
+                "end_offset": 13022,
+                "page_indices": [
+                  2
+                ],
+                "quote": "Positive and negative passages For retrieval problems, it is often the case that positive examples are available explicitly, while negative examples need to be selected from an extremely large pool. For instance, passages relevant to a question may be given in a QA dataset, or can be found using the answer. All other passages in the collection, while not specified explicitly, can be viewed as irrelevant by default. In practice, how to select negative examples is often overlooked but could be decisive for learning a high-quality encoder. We consider three different types of negatives: (1) Random: any random passage from the corpus; (2) BM25: top passages returned by BM25 which don't contain the answer but match most question tokens; (3) Gold: positive passages paired with other questions which appear in the training set. We will discuss the impact of different types of negative passages and training schemes in Section 5.2. Our best model uses gold passages from the same mini-batch and one BM25 negative passage. In particular, re-using gold passages from the same batch as negatives can make the computation efficient while achieving great performance. We discuss this approach below.\n"
+              }
+            ],
+            "description": "State what combination of negative passages is used by that retriever's best model during training, citing the training details from the supplied papers.",
+            "table_context": []
+          }
+        ],
+        "queries": []
+      },
+      "after": {
+        "status": "validated",
+        "requirements": [
+          {
+            "requirement_id": "req1",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p2",
+                "source_number": 1,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 18187,
+                "end_offset": 19036,
+                "page_indices": [
+                  4
+                ],
+                "quote": "Table 1 shows results for RAG along with state-of-the-art models. On all four open-domain QA tasks, RAG sets a new state of the art (only on the T5-comparable split for TQA). RAG combines the generation flexibility of the 'closed-book' (parametric only) approaches and the performance of \"open-book\" retrieval-based approaches. Unlike REALM and T5+SSM, RAG enjoys strong results without expensive, specialized 'salient span masking' pre-training [20]. It is worth noting that RAG's retriever is initialized using DPR's retriever, which uses retrieval supervision on Natural Questions and TriviaQA. RAG compares favourably to the DPR QA system, which uses a BERT-based 'crossencoder' to re-rank documents, along with an extractive reader. RAG demonstrates that neither a re-ranker nor extractive reader is necessary for state-of-the-art performance.\n"
+              },
+              {
+                "evidence_id": "p29",
+                "source_number": 4,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 3546,
+                "end_offset": 4624,
+                "page_indices": [
+                  1
+                ],
+                "quote": "We endow pre-trained, parametric-memory generation models with a non-parametric memory through a general-purpose fine-tuning approach which we refer to as retrieval-augmented generation (RAG). We build RAG models where the parametric memory is a pre-trained seq2seq transformer, and the non-parametric memory is a dense vector index of Wikipedia, accessed with a pre-trained neural retriever. We combine these components in a probabilistic model trained end-to-end (Fig. 1). The retriever (Dense Passage Retriever [26], henceforth DPR) provides latent documents conditioned on the input, and the seq2seq model (BART [32]) then conditions on these latent documents together with the input to generate the output. We marginalize the latent documents with a top-K approximation, either on a per-output basis (assuming the same document is responsible for all tokens) or a per-token basis (where different documents are responsible for different tokens). Like T5 [51] or BART, RAG can be fine-tuned on any seq2seq task, whereby both the generator and retriever are jointly learned.\n"
+              }
+            ],
+            "description": "Identify which retriever supplies the pretrained bi-encoder used to initialize RAG, citing the initialization relationship from the supplied papers.",
+            "table_context": []
+          },
+          {
+            "requirement_id": "req2",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p9",
+                "source_number": 2,
+                "file_id": "3664f78cd7ea4cb3b0c46eaa03bdbc60",
+                "file_name": "dpr-paper.pdf",
+                "start_offset": 11823,
+                "end_offset": 13022,
+                "page_indices": [
+                  2
+                ],
+                "quote": "Positive and negative passages For retrieval problems, it is often the case that positive examples are available explicitly, while negative examples need to be selected from an extremely large pool. For instance, passages relevant to a question may be given in a QA dataset, or can be found using the answer. All other passages in the collection, while not specified explicitly, can be viewed as irrelevant by default. In practice, how to select negative examples is often overlooked but could be decisive for learning a high-quality encoder. We consider three different types of negatives: (1) Random: any random passage from the corpus; (2) BM25: top passages returned by BM25 which don't contain the answer but match most question tokens; (3) Gold: positive passages paired with other questions which appear in the training set. We will discuss the impact of different types of negative passages and training schemes in Section 5.2. Our best model uses gold passages from the same mini-batch and one BM25 negative passage. In particular, re-using gold passages from the same batch as negatives can make the computation efficient while achieving great performance. We discuss this approach below.\n"
+              }
+            ],
+            "description": "State what combination of negative passages is used by that retriever's best model during training, citing the training details from the supplied papers.",
+            "table_context": []
+          }
+        ],
+        "queries": [],
+        "rejected_queries": []
+      },
+      "evidence_catalog_unchanged": true
+    },
+    {
+      "request": "retriever-training-restricted-planned",
+      "output_sha256": "d5b8e3b3dbf858e65dc832d8d16f0012279cd0eb4132d6b547a773a7de158312",
+      "before": {
+        "status": "error",
+        "message": "Question reformulations cannot contain an unbound target."
+      },
+      "after": {
+        "status": "validated",
+        "requirements": [
+          {
+            "requirement_id": "r1",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p2",
+                "source_number": 1,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 18187,
+                "end_offset": 19036,
+                "page_indices": [
+                  4
+                ],
+                "quote": "Table 1 shows results for RAG along with state-of-the-art models. On all four open-domain QA tasks, RAG sets a new state of the art (only on the T5-comparable split for TQA). RAG combines the generation flexibility of the 'closed-book' (parametric only) approaches and the performance of \"open-book\" retrieval-based approaches. Unlike REALM and T5+SSM, RAG enjoys strong results without expensive, specialized 'salient span masking' pre-training [20]. It is worth noting that RAG's retriever is initialized using DPR's retriever, which uses retrieval supervision on Natural Questions and TriviaQA. RAG compares favourably to the DPR QA system, which uses a BERT-based 'crossencoder' to re-rank documents, along with an extractive reader. RAG demonstrates that neither a re-ranker nor extractive reader is necessary for state-of-the-art performance.\n"
+              },
+              {
+                "evidence_id": "p27",
+                "source_number": 3,
+                "file_id": "18eaa5a313824309a081713d13a55e2d",
+                "file_name": "rag-paper.pdf",
+                "start_offset": 3546,
+                "end_offset": 4624,
+                "page_indices": [
+                  1
+                ],
+                "quote": "We endow pre-trained, parametric-memory generation models with a non-parametric memory through a general-purpose fine-tuning approach which we refer to as retrieval-augmented generation (RAG). We build RAG models where the parametric memory is a pre-trained seq2seq transformer, and the non-parametric memory is a dense vector index of Wikipedia, accessed with a pre-trained neural retriever. We combine these components in a probabilistic model trained end-to-end (Fig. 1). The retriever (Dense Passage Retriever [26], henceforth DPR) provides latent documents conditioned on the input, and the seq2seq model (BART [32]) then conditions on these latent documents together with the input to generate the output. We marginalize the latent documents with a top-K approximation, either on a per-output basis (assuming the same document is responsible for all tokens) or a per-token basis (where different documents are responsible for different tokens). Like T5 [51] or BART, RAG can be fine-tuned on any seq2seq task, whereby both the generator and retriever are jointly learned.\n"
+              }
+            ],
+            "description": "Identify which retriever supplies the pretrained bi-encoder used to initialize RAG, citing the stated initialization relationship from the supplied papers.",
+            "table_context": []
+          },
+          {
+            "requirement_id": "r2",
+            "status": "missing",
+            "gap": "No supplied passage describes what combination of negative passages is used during training by DPR's best model. No explicit negative passage training details for the retriever used to initialize RAG are present.",
+            "references": [],
+            "description": "Describe what combination of negative passages is used during training by the best model of that retriever, citing training details from the supplied papers.",
+            "table_context": []
+          }
+        ],
+        "queries": [],
+        "rejected_queries": [
+          {
+            "proposal": {
+              "requirement_ids": [
+                "r2"
+              ],
+              "query_template": "In the DPR paper referenced as [26], what combination of negative passages does the best model use during training?",
+              "target": "",
+              "references": [
+                {
+                  "evidence_id": "p2"
+                },
+                {
+                  "evidence_id": "p27"
+                }
+              ]
+            },
+            "reason": "Question reformulations cannot contain an unbound target."
+          }
+        ]
+      },
+      "evidence_catalog_unchanged": true
+    },
+    {
+      "request": "lecture-overfitting-planned",
+      "output_sha256": "a89a042080eb21953df44211641e6ead881b70a89008e85fb905ce95968974b7",
+      "before": {
+        "status": "validated",
+        "requirements": [
+          {
+            "requirement_id": "R1",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p2",
+                "source_number": 1,
+                "file_id": "cd6684c353e44c7c88e349fccb10f8d0",
+                "file_name": "decision-trees.pdf",
+                "start_offset": 17002,
+                "end_offset": 17143,
+                "page_indices": [
+                  34
+                ],
+                "quote": "\u00b7Definition: If your machine learning algorithm fits noise (i.e. pays attention to parts of the data that are irrelevant) it is overfitting.\n"
+              }
+            ],
+            "description": "How the decision-tree lecture defines overfitting.",
+            "table_context": []
+          },
+          {
+            "requirement_id": "R2",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p3",
+                "source_number": 1,
+                "file_id": "cd6684c353e44c7c88e349fccb10f8d0",
+                "file_name": "decision-trees.pdf",
+                "start_offset": 17144,
+                "end_offset": 17277,
+                "page_indices": [
+                  34
+                ],
+                "quote": "\u00b7Fact (theoretical and empirical): If your machine learning algorithm is overfitting then it may perform less well on test set data.\n"
+              }
+            ],
+            "description": "What effect overfitting can have on test-set performance according to the decision-tree lecture.",
+            "table_context": []
+          }
+        ],
+        "queries": []
+      },
+      "after": {
+        "status": "validated",
+        "requirements": [
+          {
+            "requirement_id": "R1",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p2",
+                "source_number": 1,
+                "file_id": "cd6684c353e44c7c88e349fccb10f8d0",
+                "file_name": "decision-trees.pdf",
+                "start_offset": 17002,
+                "end_offset": 17143,
+                "page_indices": [
+                  34
+                ],
+                "quote": "\u00b7Definition: If your machine learning algorithm fits noise (i.e. pays attention to parts of the data that are irrelevant) it is overfitting.\n"
+              }
+            ],
+            "description": "How the decision-tree lecture defines overfitting.",
+            "table_context": []
+          },
+          {
+            "requirement_id": "R2",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p3",
+                "source_number": 1,
+                "file_id": "cd6684c353e44c7c88e349fccb10f8d0",
+                "file_name": "decision-trees.pdf",
+                "start_offset": 17144,
+                "end_offset": 17277,
+                "page_indices": [
+                  34
+                ],
+                "quote": "\u00b7Fact (theoretical and empirical): If your machine learning algorithm is overfitting then it may perform less well on test set data.\n"
+              }
+            ],
+            "description": "What effect overfitting can have on test-set performance according to the decision-tree lecture.",
+            "table_context": []
+          }
+        ],
+        "queries": [],
+        "rejected_queries": []
+      },
+      "evidence_catalog_unchanged": true
+    },
+    {
+      "request": "forecast-is-not-actual-planned",
+      "output_sha256": "acced45385eaa023a24e77b6bb3cbc0cd9500e5e56e2bece063aea8bd9e0a28e",
+      "before": {
+        "status": "validated",
+        "requirements": [
+          {
+            "requirement_id": "answer",
+            "status": "missing",
+            "gap": "No actual revenue for the first quarter of fiscal 2026 is reported; only an outlook/expected figure is provided, not an actual (reported) amount.",
+            "references": [],
+            "description": "What actual revenue did NVIDIA report for the first quarter of fiscal 2026? Answer only from the selected report.",
+            "table_context": []
+          }
+        ],
+        "queries": []
+      },
+      "after": {
+        "status": "validated",
+        "requirements": [
+          {
+            "requirement_id": "answer",
+            "status": "missing",
+            "gap": "No actual revenue for the first quarter of fiscal 2026 is reported; only an outlook/expected figure is provided, not an actual (reported) amount.",
+            "references": [],
+            "description": "What actual revenue did NVIDIA report for the first quarter of fiscal 2026? Answer only from the selected report.",
+            "table_context": []
+          }
+        ],
+        "queries": [],
+        "rejected_queries": []
+      },
+      "evidence_catalog_unchanged": true
+    }
+  ],
+  "provider_calls": 0,
+  "summary": {
+    "financial_scopes_resolved_before": 0,
+    "financial_scopes_resolved_after": 4,
+    "financial_query_count": 4,
+    "assessment_outputs_validated_before": 4,
+    "assessment_outputs_validated_after": 5,
+    "assessment_count": 5,
+    "unchanged_successful_assessments": 4,
+    "rejected_supplementary_proposals": 1
+  },
+  "limits": [
+    "Same frozen four-PDF inputs, questions, original annotations and recorded provider outputs. No answer or model-input repair.",
+    "Validator/scope replay only: no new ranking, packing, generated answer, live latency, provider usage or semantic acceptance score.",
+    "The financial case has no provider assessment because retrieval was empty in the original run; only its four real query scopes are replayed.",
+    "No actual dependent chain was executed; this change does not establish that gate."
+  ]
+}

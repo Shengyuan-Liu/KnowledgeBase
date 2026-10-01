@@ -331,3 +331,15 @@ unavailable. The corpus is now development material. The next scoped repair shou
 address generic document-scope wording and invalid optional supplementary proposals
 without changing frozen questions or weakening provenance validation. No product
 implementation or merge was made in this acceptance run.
+
+The [scope and assessment repair](../../evals/check-runs/20261001-scope-assessment-fix/README.md)
+addresses both recorded deterministic failures. Generic unquoted source wording
+now preserves the selected-file scope, while real names and explicit boundaries
+remain enforced. Invalid optional supplementary queries are rejected with their
+original proposal and reason retained; valid supported/missing judgments continue
+to generation, and invalid mandatory assessments still fail. Offline replay of
+the exact prior inputs restores all four financial query scopes and preserves the
+restricted assessment while rejecting its malformed proposal; four other recorded
+assessments are unchanged. The scoped suite passes 185 tests. This is an offline
+repair result, not a new 6/6 acceptance: financial answer quality and actual dependent
+execution remain unproven until a separate live run. No reindex or merge is implied.

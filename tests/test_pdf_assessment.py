@@ -52,7 +52,7 @@ def test_financial_passages_select_values_headers_units_and_original_page(frozen
         "requirement_id": "financial", "status": "supported", "gap": "",
         "references": [{"evidence_id": e["evidence_id"]} for e in selected],
     }], "queries": []})
-    requirements, _ = validate_assessment(decision,
+    requirements, _, _ = validate_assessment(decision,
         [AnswerRequirement(requirement_id="financial", description=row["question"])], catalog)
     references = requirements[0]["references"]
     assert 4 <= len({r["evidence_id"] for r in references}) <= 5
@@ -102,7 +102,7 @@ def test_observed_sales_selection_attaches_periods_without_rewriting_selected_pa
                  "references": [{"evidence_id": ref["evidence_id"]} for ref in r["references"]]}
                 for r in original]
     decision = SufficiencyAssessment(requirements=selected, queries=[])
-    requirements, queries = validate_assessment(decision,
+    requirements, queries, _ = validate_assessment(decision,
         [AnswerRequirement(requirement_id=r["requirement_id"], description=r["description"]) for r in original], catalog)
 
     assert decision.model_dump()["requirements"] == selected
@@ -136,14 +136,14 @@ def test_table_context_does_not_expand_source_derived_query_targets(frozen_pdf_e
         "target": "94,930", "references": [{"evidence_id": "p6"}],
     }])
     requirements = [AnswerRequirement(requirement_id="sales", description="Explain the reported sales.")]
-    normalized, queries = validate_assessment(decision, requirements, catalog)
+    normalized, queries, _ = validate_assessment(decision, requirements, catalog)
 
     assert normalized[0]["table_context"]
     assert [ref["evidence_id"] for ref in queries[0]["references"]] == ["p6"]
     assert "table_context" not in queries[0]
     decision.queries[0].target = "September 28, 2024"
-    with pytest.raises(ValueError, match="every selected passage"):
-        validate_assessment(decision, requirements, catalog)
+    _, queries, rejected = validate_assessment(decision, requirements, catalog)
+    assert queries == [] and "every selected passage" in rejected[0]["reason"]
 
 
 def test_separately_supplied_table_headers_are_attached_as_exact_context(frozen_pdf_evidence):
@@ -151,7 +151,7 @@ def test_separately_supplied_table_headers_are_attached_as_exact_context(frozen_
     evidence = next(r["evidence"] for r in rows if (r["case_id"], r["arm"]) == ("apparent-conflict", "planned"))
     catalog = assessment_excerpts(SimpleNamespace(evidence=evidence))
     row = next(e for e in catalog if "Total net sales" in e["text"] and "94,930" in e["text"])
-    normalized, _ = validate_assessment(SufficiencyAssessment(requirements=[{
+    normalized, _, _ = validate_assessment(SufficiencyAssessment(requirements=[{
         "requirement_id": "period", "status": "supported", "gap": "",
         "references": [{"evidence_id": row["evidence_id"]}],
     }], queries=[]), [AnswerRequirement(requirement_id="period", description="Identify the sales periods.")], catalog)
@@ -175,7 +175,7 @@ def test_attached_table_context_cannot_supply_a_second_conflicting_reference(fro
         "references": [{"evidence_id": "p6"}],
     }], queries=[])
     requirements = [AnswerRequirement(requirement_id="sales", description="Compare reported sales.")]
-    normalized, _ = validate_assessment(decision, requirements, catalog)
+    normalized, _, _ = validate_assessment(decision, requirements, catalog)
     assert len(normalized[0]["table_context"]) >= 2
 
     decision.requirements[0].status = "conflicting"
@@ -191,7 +191,7 @@ def test_repeated_unicode_lines_keep_the_selected_occurrence_and_crlf_offsets():
         file_name="notes.txt", pdf=None)]))
     catalog = assessment_excerpts(result)
     assert len(catalog) == 2 and catalog[0]["text"] == catalog[1]["text"] == "Repeated café\r\n"
-    requirements, _ = validate_assessment(SufficiencyAssessment(requirements=[{
+    requirements, _, _ = validate_assessment(SufficiencyAssessment(requirements=[{
         "requirement_id": "repeat", "status": "supported", "gap": "",
         "references": [{"evidence_id": catalog[1]["evidence_id"]}],
     }], queries=[]), [AnswerRequirement(requirement_id="repeat", description="Second occurrence")], catalog)

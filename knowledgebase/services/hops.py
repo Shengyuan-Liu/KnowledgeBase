@@ -210,9 +210,10 @@ class HopController:
                 "gap": "No source text was retained in the answer context.", "references": []}
                 for r in plan.requirements], queries=[])
             record = None
-        requirements, proposals = validate_assessment(decision, plan.requirements, excerpts)
+        requirements, proposals, rejected = validate_assessment(decision, plan.requirements, excerpts)
         self.assessment = {"round_index": self.round_index, "requirements": requirements,
-            "queries": proposals, "context": context, "evidence_catalog": excerpts, "record": record}
+            "queries": proposals, "rejected_queries": rejected,
+            "context": context, "evidence_catalog": excerpts, "record": record}
         self.trace["assessments"].append(self.assessment)
         self.needs_assessment = False
         self.control.before_answer()

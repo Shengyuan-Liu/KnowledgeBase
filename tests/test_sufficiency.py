@@ -158,7 +158,6 @@ def test_all_missing_abstains_despite_irrelevant_retrieval(assessed_api):
     lambda a: a["requirements"].append(a["requirements"][0]),
     lambda a: a["requirements"][0]["references"][0].update(evidence_id="excluded-source"),
     lambda a: a["requirements"][0]["references"][0].update(quote="A fact never supplied."),
-    lambda a: a.update(queries=[supplement("Where is an invented {target}?")]),
 ])
 def test_invalid_assessment_fails_without_repair_or_history(assessed_api, corrupt):
     client, resources, _, choices, _, _, assessments = assessed_api
@@ -172,6 +171,47 @@ def test_invalid_assessment_fails_without_repair_or_history(assessed_api, corrup
     assert ask(client).status_code == 500 and len(assessments) == 1
     with resources.sessions() as session:
         assert session.scalar(select(func.count()).select_from(MessageRecord)) == 0
+
+
+@pytest.mark.parametrize("endpoint", ["/api/chat", "/api/chat/stream"])
+def test_rejected_supplement_preserves_partial_answer_and_history(assessed_api, endpoint):
+    client, resources, sdk, choices, _, files, assessments = assessed_api
+    choices["plan"] = {"route": "decomposed", "requirements": PLAN["requirements"][:2],
+        "queries": [{"query_id": "initial", "text": "In the relevant document, who won the Aster Prize?",
+                     "requirement_ids": ["winner", "employer"]}], "dependencies": []}
+    def assess(payload):
+        reference = {"evidence_id": payload_catalog(payload)[0]["evidence_id"]}
+        return {"requirements": [
+            {"requirement_id": "winner", "status": "supported", "gap": "", "references": [reference]},
+            {"requirement_id": "employer", "status": "missing", "gap": "The employer is not supplied.", "references": []}],
+            "queries": [{"requirement_ids": ["employer"], "query_template": "Who employs Mira Cole?",
+                         "target": "", "references": [reference]}]}
+    choices["assessment"] = assess
+    result = client.post(endpoint, json={"question": QUESTION, "retrieval_mode": "planned",
+                                        "request_id": "rejected-supplement", "file_ids": [files[0]]})
+    assert result.status_code == 200
+    if endpoint.endswith("stream"):
+        events = events_from(result)
+        assert events[-1]["event"] == "complete"
+        assert any(e["event"] == "answer_delta" for e in events)
+        answer = events[-1]
+    else:
+        answer = result.json()
+        # Verify generation receives both the supported point and the remaining gap.
+        prompt = sdk.responses.create.call_args.kwargs["input"][0]["content"]
+        assert "The employer is not supplied." in prompt and "Mira Cole" in prompt
+    assert {s["file_id"] for s in answer["sources"]} == {files[0]}
+    planning = answer["retrieval"]["planning"]
+    assert [r["status"] for r in planning["assessment"]["requirements"]] == ["supported", "missing"]
+    assert planning["assessment"]["queries"] == []
+    rejected = planning["assessment"]["rejected_queries"]
+    assert rejected[0]["proposal"]["target"] == "" and rejected[0]["proposal"]["references"]
+    assert rejected[0]["reason"] == "Question reformulations cannot contain an unbound target."
+    assert planning["hops"]["stop_reason"] == "no_eligible_query"
+    assert planning["hops"]["supplementary_queries"] == []
+    assert len(assessments) == 1 and resources.embeddings.embed_query.call_count == 1
+    saved = client.get(f"/api/conversations/{answer['conversation_id']}").json()["messages"][-1]
+    assert saved["content"] == answer["answer"] and saved["retrieval"] == answer["retrieval"]
 
 
 @pytest.mark.parametrize("mode", ["duplicate", "no_progress", "query_limit", "round_limit"])
@@ -298,7 +338,7 @@ def test_assessment_catalog_includes_pdf_supplement_offsets():
             supplements=[SimpleNamespace(start_offset=10, end_offset=25, text="USD in millions",
                 regions=[PdfRegion(start_offset=10, end_offset=25, page_index=0, bbox=(1, 1, 10, 10), precision="block")])]))]))
     excerpts = assessment_excerpts(result)
-    requirements, _ = validate_assessment(SufficiencyAssessment(requirements=[{
+    requirements, _, _ = validate_assessment(SufficiencyAssessment(requirements=[{
         "requirement_id": "unit", "status": "supported", "gap": "", "references": [{
             "evidence_id": next(e["evidence_id"] for e in excerpts if e["text"] == "USD in millions")}]}], queries=[]),
         [AnswerRequirement(requirement_id="unit", description="Table units")], excerpts)
@@ -389,12 +429,12 @@ def test_question_filename_reformulation_does_not_require_a_source_target():
                               'gap': 'Grade weights are absent.', 'references': []}],
              'queries': [{'requirement_ids': ['grades'], 'query_template': 'In course.pdf, find grade weights.',
                           'target': '', 'references': []}]}
-    _, queries = validate_assessment(SufficiencyAssessment.model_validate(value), requirements, [])
+    _, queries, _ = validate_assessment(SufficiencyAssessment.model_validate(value), requirements, [])
     assert queries[0]['text'] == 'In course.pdf, find grade weights.'
     # This shape occurred in the live PDF run; keep rejecting unbound targets.
     value['queries'][0].update(query_template='In {target}, find grade weights.', target='course.pdf')
-    with pytest.raises(ValueError):
-        validate_assessment(SufficiencyAssessment.model_validate(value), requirements, [])
+    _, queries, rejected = validate_assessment(SufficiencyAssessment.model_validate(value), requirements, [])
+    assert queries == [] and rejected[0]['reason'] == 'A supplementary target must occur in every selected passage.'
 
 
 def test_separate_table_passage_ids_preserve_exact_source_spans():
@@ -418,7 +458,7 @@ def test_separate_table_passage_ids_preserve_exact_source_spans():
     with pytest.raises(ValidationError):
         assessment([{'evidence_id': selected[0]['evidence_id'],
                      'quote': 'Three Months Ended\tTwelve Months Ended\n... Net income\t$ 14,736\t$ 93,736'}])
-    result, _ = validate_assessment(assessment([{'evidence_id': e['evidence_id']} for e in selected]),
+    result, _, _ = validate_assessment(assessment([{'evidence_id': e['evidence_id']} for e in selected]),
                                     requirements, excerpts)
     assert len(result[0]['references']) == 2
     assert [ref['quote'] for ref in result[0]['references']] == [text.splitlines(keepends=True)[0], text.splitlines()[-1]]
@@ -441,14 +481,14 @@ def test_supplementary_target_must_occur_in_selected_passage():
                               'gap': 'The employer is absent.', 'references': []}],
              'queries': [{'requirement_ids': ['employer'], 'query_template': 'Who employs {target}?',
                           'target': 'Mira Cole', 'references': [{'evidence_id': excerpts[0]['evidence_id']}]}]}
-    _, queries = validate_assessment(SufficiencyAssessment.model_validate(value), requirements, excerpts)
+    _, queries, _ = validate_assessment(SufficiencyAssessment.model_validate(value), requirements, excerpts)
     assert queries[0]['text'] == 'Who employs Mira Cole?'
     assert queries[0]['references'][0]['quote'] == text
     assert queries[0]['references'][0]['start_offset'] == 40
     # Selecting a valid passage ID does not permit an entity absent from that passage.
     value['queries'][0]['target'] = 'Birch Institute'
-    with pytest.raises(ValueError):
-        validate_assessment(SufficiencyAssessment.model_validate(value), requirements, excerpts)
+    _, queries, rejected = validate_assessment(SufficiencyAssessment.model_validate(value), requirements, excerpts)
+    assert queries == [] and rejected[0]['reason'] == 'A supplementary target must occur in every selected passage.'
 
 
 @pytest.mark.parametrize("available", [True, False])

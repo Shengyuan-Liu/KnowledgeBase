@@ -1,0 +1,45 @@
+........................................................................ [ 38%]
+........................................................................ [ 77%]
+..........................F..............                                [100%]
+=================================== FAILURES ===================================
+__ test_recorded_rule_is_retained_without_a_false_missing_point_or_gap_search __
+
+    def test_recorded_rule_is_retained_without_a_false_missing_point_or_gap_search():
+        before, old_sdk, fixture = replay_controller(separated=False)
+        assert before.trace['stop_reason'] == 'no_eligible_query'
+        assert before.assessment['requirements'][-1]['status'] == 'missing'
+        after, sdk, _ = replay_controller(separated=True)
+        plan = after.prepared.plan
+        assert after.trace['stop_reason'] == 'requirements_supported'
+        assert [r.requirement_id for r in plan.requirements] == ['R1', 'R2', 'R3', 'R4']
+        assert plan.answer_rules == [fixture['classification_annotation']['rule_text']]
+        assert len(plan.queries) == 4 and 'added_coverage_query' not in after.prepared.record
+        assert all(q.requirement_ids == [f'R{i}'] for i, q in enumerate(plan.queries, 1))
+        assert [r['status'] for r in after.assessment['requirements']] == ['supported'] * 4
+        assert after.supplements == [] and after.trace['supplementary_queries'] == []
+        assert sdk.responses.create.call_count == old_sdk.responses.create.call_count == 2
+        assert after.assessment['context'] == before.assessment['context']
+        assert after.assessment['evidence_catalog'] == before.assessment['evidence_catalog']
+        for old, new in zip(before.assessment['requirements'][:4], after.assessment['requirements'], strict=True):
+            assert old == new
+        assessment_payload = json.loads(sdk.responses.create.call_args.kwargs['input'][-1]['content'])
+        assert 'answer_rules' not in assessment_payload
+        assert len(assessment_payload['requirements']) == 4
+>       assert after.assessment['record']['prompt_version'] == 'evidence-sufficiency-v5'
+E       AssertionError: assert 'evidence-sufficiency-v6' == 'evidence-sufficiency-v5'
+E         
+E         - evidence-sufficiency-v5
+E         ?                       ^
+E         + evidence-sufficiency-v6
+E         ?                       ^
+
+tests/test_answer_rules.py:63: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_answer_rules.py::test_recorded_rule_is_retained_without_a_false_missing_point_or_gap_search
+1 failed, 184 passed, 1 warning in 6.39s

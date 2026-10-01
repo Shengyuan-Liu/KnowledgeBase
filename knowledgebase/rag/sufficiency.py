@@ -165,7 +165,7 @@ def assessment_context(result, excerpts) -> str:
 
 
 def validate_assessment(assessment, requirements, excerpts):
-    """Validate provenance and coverage of IDs; semantics remain a model assessment."""
+    """Validate all answer points, rejecting invalid optional searches separately."""
     descriptions = {r.requirement_id: r.description for r in requirements}
     if len(assessment.requirements) != len(descriptions) or {r.requirement_id for r in assessment.requirements} != descriptions.keys():
         raise ValueError("Assessment must cover the exact answer requirements once.")
@@ -182,25 +182,33 @@ def validate_assessment(assessment, requirements, excerpts):
             "references": references, "table_context": reference_table_context(references, excerpts)})
     unresolved = {r.requirement_id for r in assessment.requirements if r.status != "supported"}
     queries = []
+    rejected = []
     for proposal in assessment.queries:
-        if not set(proposal.requirement_ids) <= unresolved:
-            raise ValueError("Supplementary queries must address unresolved requirements.")
-        if proposal.target:
-            if proposal.query_template.count("{target}") != 1:
-                raise ValueError("Source-derived queries need exactly one target placeholder.")
-            references = validate_references(proposal.references, excerpts)
-            if (not proposal.target.strip() or not references
-                    or any(proposal.target not in r["quote"] for r in references)):
-                raise ValueError("A supplementary target must occur in every selected passage.")
-        else:
-            if proposal.references or "{target}" in proposal.query_template:
-                raise ValueError("Question reformulations cannot contain an unbound target.")
-            references = []
-        text = proposal.query_template.replace("{target}", proposal.target).strip()
-        if not text:
-            raise ValueError("A supplementary query cannot be blank.")
-        queries.append({**proposal.model_dump(), "text": text, "references": references})
-    return normalized, queries
+        try:
+            queries.append(_validate_query(proposal, unresolved, excerpts))
+        except ValueError as error:
+            rejected.append({"proposal": proposal.model_dump(), "reason": str(error)})
+    return normalized, queries, rejected
+
+
+def _validate_query(proposal, unresolved, excerpts):
+    if not set(proposal.requirement_ids) <= unresolved:
+        raise ValueError("Supplementary queries must address unresolved requirements.")
+    if proposal.target:
+        if proposal.query_template.count("{target}") != 1:
+            raise ValueError("Source-derived queries need exactly one target placeholder.")
+        references = validate_references(proposal.references, excerpts)
+        if (not proposal.target.strip() or not references
+                or any(proposal.target not in r["quote"] for r in references)):
+            raise ValueError("A supplementary target must occur in every selected passage.")
+    else:
+        if proposal.references or "{target}" in proposal.query_template:
+            raise ValueError("Question reformulations cannot contain an unbound target.")
+        references = []
+    text = proposal.query_template.replace("{target}", proposal.target).strip()
+    if not text:
+        raise ValueError("A supplementary query cannot be blank.")
+    return {**proposal.model_dump(), "text": text, "references": references}
 
 
 def validate_references(references, excerpts):

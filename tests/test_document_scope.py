@@ -22,6 +22,10 @@ def file(identity, name, text=''):
     ('In "background-checks.pdf" for November 2015, report the Totals.', ['background-checks.pdf']),
     ('In the uploaded `background-checks.pdf` for November 2015, report the Totals.', ['background-checks.pdf']),
     ('Compare "first.pdf" and "second.pdf" for November 2015, report the Totals.', ['first.pdf', 'second.pdf']),
+    ('In the relevant documents, compare their results.', []),
+    ('In "relevant document", find the results.', ['relevant document']),
+    ('In relevant.pdf, find the results.', ['relevant.pdf']),
+    ('In the relevant document and "missing.pdf", compare results.', ['missing.pdf']),
 ])
 def test_explicit_source_clause(question,expected):
     assert document_references(question)==expected
