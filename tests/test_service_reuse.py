@@ -14,7 +14,9 @@ from knowledgebase.services.rag import RagClient
 
 
 @pytest.mark.anyio
-async def test_overlapping_streams_keep_evidence_answers_and_histories_separate(storage, embeddings):
+async def test_overlapping_streams_keep_evidence_answers_and_histories_separate(
+    storage, embeddings
+):
     sessions, store, _ = storage
     files = FileService(sessions, store, embeddings=embeddings)
     first = files.ingest("alpha.txt", b"Alpha closes at five.")
@@ -55,7 +57,10 @@ async def test_overlapping_streams_keep_evidence_answers_and_histories_separate(
         assert saved["answer"] == f"{name} answer. [1]"
         assert {source["file_id"] for source in saved["sources"]} == {file_id}
         history = chat.get_conversation(saved["conversation_id"])
-        assert [message.content for message in history.messages] == [f"{name} hours?", saved["answer"]]
+        assert [message.content for message in history.messages] == [
+            f"{name} hours?",
+            saved["answer"],
+        ]
         conversations.add(saved["conversation_id"])
     assert len(conversations) == 2
     third = chat.answer("Third question", file_ids=[first])

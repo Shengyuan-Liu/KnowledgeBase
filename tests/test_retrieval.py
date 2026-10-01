@@ -1,11 +1,9 @@
-
-from knowledgebase.rag.retrieval import Retriever
 from unittest.mock import Mock
 
 import pytest
 
 from knowledgebase.rag.chunking import split_text
-
+from knowledgebase.rag.retrieval import Retriever
 from knowledgebase.storage.operations import (
     create_file,
     save_chunks,
@@ -33,9 +31,7 @@ def test_retrieve_returns_sqlite_text_offsets_and_distances_in_search_order(
     retrieval_storage, embeddings
 ):
     session, store = retrieval_storage
-    chunks = index_file(
-        session, store, "file-z", "  café\nSecond.", [[0.8, 0.6], [1.0, 0.0]]
-    )
+    chunks = index_file(session, store, "file-z", "  café\nSecond.", [[0.8, 0.6], [1.0, 0.0]])
     other = index_file(session, store, "file-a", "Third.", [[0.0, 1.0]])
 
     result = Retriever(embeddings, store, top_k=3).retrieve("  A question?\n", session).chunks
@@ -50,9 +46,7 @@ def test_processing_and_failed_files_do_not_consume_top_k(retrieval_storage, emb
     session, store = retrieval_storage
     for status in ["processing", "failed"]:
         index_file(session, store, status, "Hidden.", [[1.0, 0.0]], status=status)
-    ready = index_file(
-        session, store, "ready", "First. Second.", [[0.8, 0.6], [0.0, 1.0]]
-    )
+    ready = index_file(session, store, "ready", "First. Second.", [[0.8, 0.6], [0.0, 1.0]])
 
     result = Retriever(embeddings, store, top_k=2).retrieve("Question?", session).chunks
 
@@ -61,7 +55,9 @@ def test_processing_and_failed_files_do_not_consume_top_k(retrieval_storage, emb
 
 
 @pytest.mark.parametrize("statuses", [[], ["processing", "failed"]])
-def test_no_ready_files_returns_no_evidence_without_embedding(retrieval_storage, embeddings, statuses):
+def test_no_ready_files_returns_no_evidence_without_embedding(
+    retrieval_storage, embeddings, statuses
+):
     session, store = retrieval_storage
     for status in statuses:
         index_file(session, store, status, "Hidden.", [[1.0, 0.0]], status=status)

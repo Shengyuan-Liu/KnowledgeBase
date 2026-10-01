@@ -9,7 +9,8 @@ import anyio
 from knowledgebase.config import PlanningOptions
 from knowledgebase.providers.limits import GenerationLimits
 from knowledgebase.schemas import (
-    RetrievalPlan, DocumentScope,
+    DocumentScope,
+    RetrievalPlan,
 )
 
 NARROWING_MESSAGE = "This question needs more than six answer points or searches. Please narrow it or split it into smaller questions."

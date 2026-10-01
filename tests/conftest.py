@@ -5,6 +5,7 @@ from unittest.mock import MagicMock, Mock
 import chromadb
 import pytest
 
+from knowledgebase import bootstrap
 from knowledgebase.api import app as api_module
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.storage.database import build_engine, build_session_factory, init_db
@@ -34,7 +35,8 @@ def sessions(engine):
 @pytest.fixture
 def collection(tmp_path):
     return chromadb.PersistentClient(path=str(tmp_path / "chroma")).create_collection(
-        name="test-chunks", embedding_function=None,
+        name="test-chunks",
+        embedding_function=None,
         configuration={"hnsw": {"space": "cosine"}},
     )
 
@@ -61,7 +63,7 @@ def configured_app(tmp_path, monkeypatch, embeddings):
     sdk.__enter__.return_value = sdk
     sdk_factory = Mock(return_value=sdk)
     monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
-    monkeypatch.setattr(api_module, "EmbeddingClient", Mock(return_value=embeddings))
+    monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
     app = api_module.create_app()
     assert not (tmp_path / "data").exists()
     sdk_factory.assert_not_called()

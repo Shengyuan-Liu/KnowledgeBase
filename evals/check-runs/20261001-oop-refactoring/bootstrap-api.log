@@ -1,0 +1,2174 @@
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE...E......EEEEEEEEEE [ 58%]
+EEE..EEEEEEEEEEEEEEEEEEEEEEEEEEEEE..EEEE...EE..E..E                      [100%]
+==================================== ERRORS ====================================
+____ ERROR at setup of test_upload_question_followup_and_persisted_exchange ____
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_upload_question_followup_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115bae650>
+embeddings = <Mock spec='EmbeddingClient' id='4657323984'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_question_is_422_without_calls_or_records[payload0] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_question_is_422_w0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115baf6f0>
+embeddings = <Mock spec='EmbeddingClient' id='4658028160'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_question_is_422_without_calls_or_records[payload1] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_question_is_422_w1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115937e30>
+embeddings = <Mock spec='EmbeddingClient' id='4658030176'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_question_is_422_without_calls_or_records[payload2] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_question_is_422_w2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115c5af10>
+embeddings = <Mock spec='EmbeddingClient' id='4658032192'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_question_is_422_without_calls_or_records[payload3] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_question_is_422_w3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115c5a8b0>
+embeddings = <Mock spec='EmbeddingClient' id='4658031856'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_question_is_422_without_calls_or_records[payload4] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_question_is_422_w4')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115ed8c50>
+embeddings = <Mock spec='EmbeddingClient' id='4658029840'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+____ ERROR at setup of test_unknown_conversation_is_404_without_model_calls ____
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_unknown_conversation_is_40')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115edb450>
+embeddings = <Mock spec='EmbeddingClient' id='4658025808'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_empty_library_returns_saved_insufficient_evidence_answer _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_empty_library_returns_sav0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115dc5a90>
+embeddings = <Mock spec='EmbeddingClient' id='4658035552'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_failed_first_answer_is_500_without_new_conversation[ValueError] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_failed_first_answer_is_500')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x11598b7a0>
+embeddings = <Mock spec='EmbeddingClient' id='4657323984'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_failed_first_answer_is_500_without_new_conversation[KeyError] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_failed_first_answer_is_501')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1158fb5b0>
+embeddings = <Mock spec='EmbeddingClient' id='4658025472'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_failed_first_answer_is_500_without_new_conversation[IndexError] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_failed_first_answer_is_502')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115918910>
+embeddings = <Mock spec='EmbeddingClient' id='4658029168'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_failed_followup_is_500_without_partial_exchange[resolution] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_failed_followup_is_500_wi0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115daa8f0>
+embeddings = <Mock spec='EmbeddingClient' id='4658031184'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_failed_followup_is_500_without_partial_exchange[retrieval] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_failed_followup_is_500_wi1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115dc9c10>
+embeddings = <Mock spec='EmbeddingClient' id='4657323984'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_failed_followup_is_500_without_partial_exchange[generation] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_failed_followup_is_500_wi2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115dc9850>
+embeddings = <Mock spec='EmbeddingClient' id='4658030512'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_failed_followup_is_500_without_partial_exchange[saving] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_failed_followup_is_500_wi3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115d68680>
+embeddings = <Mock spec='EmbeddingClient' id='4658028496'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_failed_followup_is_500_without_partial_exchange[snapshot] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_failed_followup_is_500_wi4')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115d68940>
+embeddings = <Mock spec='EmbeddingClient' id='4658032528'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+__ ERROR at setup of test_openapi_describes_json_request_response_and_errors ___
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_openapi_describes_json_re0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e6c410>
+embeddings = <Mock spec='EmbeddingClient' id='4657323984'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_read_conversation_after_restart_restores_answer_and_sources _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_read_conversation_after_r0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e6cb90>
+embeddings = <Mock spec='EmbeddingClient' id='4658034208'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_read_unknown_empty_and_legacy_conversations_without_model_calls _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_read_unknown_empty_and_le0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115db6690>
+embeddings = <Mock spec='EmbeddingClient' id='4658028160'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_deleted_source_remains_historical_but_cannot_answer_followup _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_deleted_source_remains_hi0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1159111d0>
+embeddings = <Mock spec='EmbeddingClient' id='4661101632'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_snapshot_failure_rolls_back_new_conversation_and_messages _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_snapshot_failure_rolls_ba0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115945f50>
+embeddings = <Mock spec='EmbeddingClient' id='4657323984'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_stream_sources_deltas_complete_and_followup_match_saved_history _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_stream_sources_deltas_com0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115981860>
+embeddings = <Mock spec='EmbeddingClient' id='4658031520'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+____ ERROR at setup of test_stream_empty_library_and_pre_stream_http_errors ____
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_stream_empty_library_and_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115981320>
+embeddings = <Mock spec='EmbeddingClient' id='4658029504'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_stream_failure_emits_error_without_complete_or_partial_records[generation] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_stream_failure_emits_erro0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115981d30>
+embeddings = <Mock spec='EmbeddingClient' id='4661103648'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_stream_failure_emits_error_without_complete_or_partial_records[retrieval] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_stream_failure_emits_erro1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1159823c0>
+embeddings = <Mock spec='EmbeddingClient' id='4657323984'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_stream_failure_emits_error_without_complete_or_partial_records[saving] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_stream_failure_emits_erro2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1159825f0>
+embeddings = <Mock spec='EmbeddingClient' id='4658025808'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_http_delivers_deltas_before_model_finishes_and_cancels_on_disconnect[complete] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_http_delivers_deltas_befo0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1159824a0>
+embeddings = <Mock spec='EmbeddingClient' id='4658029840'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_http_delivers_deltas_before_model_finishes_and_cancels_on_disconnect[disconnect] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_http_delivers_deltas_befo1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115982f90>
+embeddings = <Mock spec='EmbeddingClient' id='4661105664'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_http_delivers_deltas_before_model_finishes_and_cancels_on_disconnect[send_error] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_http_delivers_deltas_befo2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115982900>
+embeddings = <Mock spec='EmbeddingClient' id='4657323984'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_failed_followup_keeps_existing_exchange_and_does_not_start_answer_stream _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_failed_followup_keeps_exi0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1159834d0>
+embeddings = <Mock spec='EmbeddingClient' id='4658029168'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+__ ERROR at setup of test_internal_lookup_failure_during_stream_setup_is_500 ___
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_internal_lookup_failure_d0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1159838c0>
+embeddings = <Mock spec='EmbeddingClient' id='4658025472'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+__ ERROR at setup of test_disconnect_during_rerank_does_not_generate_or_save ___
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_disconnect_during_rerank_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115983cb0>
+embeddings = <Mock spec='EmbeddingClient' id='4661107680'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+___ ERROR at setup of test_upload_list_retrieve_delete_preserves_other_file ____
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_upload_list_retrieve_dele0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115983f50>
+embeddings = <Mock spec='EmbeddingClient' id='4657323984'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_upload_is_400_without_records_or_model_calls[notes.docx-Text.-Only .txt, .md and .pdf files are supported.] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_upload_is_400_wit0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e543d0>
+embeddings = <Mock spec='EmbeddingClient' id='4658028496'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_upload_is_400_without_records_or_model_calls[notes.txt-\xff-The file must be UTF-8 encoded.] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_upload_is_400_wit1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e54b40>
+embeddings = <Mock spec='EmbeddingClient' id='4658030512'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_upload_is_400_without_records_or_model_calls[notes.txt--The file must contain nonempty text.] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_upload_is_400_wit2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e54ad0>
+embeddings = <Mock spec='EmbeddingClient' id='4661109696'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_upload_is_400_without_records_or_model_calls[notes.txt- \n\t-The file must contain nonempty text.] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_upload_is_400_wit3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e55160>
+embeddings = <Mock spec='EmbeddingClient' id='4657323984'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_missing_multipart_file_is_422_and_unknown_delete_is_404 _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_missing_multipart_file_is0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e54d70>
+embeddings = <Mock spec='EmbeddingClient' id='4658028160'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_provider_failure_is_500_and_failed_record_can_be_deleted[RuntimeError] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_provider_failure_is_500_a0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e554e0>
+embeddings = <Mock spec='EmbeddingClient' id='4658034208'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_provider_failure_is_500_and_failed_record_can_be_deleted[ValueError] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_provider_failure_is_500_a1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e558d0>
+embeddings = <Mock spec='EmbeddingClient' id='4661111712'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_processing_is_visible_and_cannot_be_deleted_during_upload _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_processing_is_visible_and0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e55da0>
+embeddings = <Mock spec='EmbeddingClient' id='4657323984'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_delete_failure_is_500_and_retry_cleans_the_file[RuntimeError] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_delete_failure_is_500_and0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e55b70>
+embeddings = <Mock spec='EmbeddingClient' id='4658029504'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_delete_failure_is_500_and_retry_cleans_the_file[KeyError] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_delete_failure_is_500_and1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e562e0>
+embeddings = <Mock spec='EmbeddingClient' id='4658031520'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_restart_reuses_data_and_openapi_describes_file_contract _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_restart_reuses_data_and_o0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e566d0>
+embeddings = <Mock spec='EmbeddingClient' id='4661113728'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_markdown_upload_chat_restart_and_delete_preserves_original_evidence _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_markdown_upload_chat_rest0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e56ba0>
+embeddings = <Mock spec='EmbeddingClient' id='4657323984'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_______ ERROR at setup of test_built_workspace_and_api_share_one_origin ________
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_built_workspace_and_api_s0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e54830>
+embeddings = <Mock spec='EmbeddingClient' id='4658029840'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+__ ERROR at setup of test_upload_query_original_range_and_historical_evidence __
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_upload_query_original_ran0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e572a0>
+embeddings = <Mock spec='EmbeddingClient' id='4658025808'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+______ ERROR at setup of test_streaming_and_history_share_pdf_provenance _______
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_streaming_and_history_sha0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e57700>
+embeddings = <Mock spec='EmbeddingClient' id='4661115744'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_or_scanned_pdf_does_not_embed_and_cleans_assets _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_or_scanned_pdf_do0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e56f90>
+embeddings = <Mock spec='EmbeddingClient' id='4657323984'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+__ ERROR at setup of test_provider_failure_and_failed_cleanup_can_be_deleted ___
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_provider_failure_and_fail0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e57d20>
+embeddings = <Mock spec='EmbeddingClient' id='4658025472'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+___ ERROR at setup of test_restart_keeps_pdf_and_recovers_interrupted_assets ___
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_restart_keeps_pdf_and_rec0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e56eb0>
+embeddings = <Mock spec='EmbeddingClient' id='4658029168'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+____ ERROR at setup of test_asset_delete_failure_is_ineligible_until_retry _____
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_asset_delete_failure_is_i0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e10210>
+embeddings = <Mock spec='EmbeddingClient' id='4662068288'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_one_service_dispatches_formats_without_changing_its_chunking_settings _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_one_service_dispatches_fo0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e13b60>
+embeddings = <Mock spec='EmbeddingClient' id='4661110032'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_api_retained_child_offsets_provenance_and_history_survive_delete[False] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_api_retained_child_offset0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e13a80>
+embeddings = <Mock spec='EmbeddingClient' id='4661111040'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_api_retained_child_offsets_provenance_and_history_survive_delete[True] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_api_retained_child_offset1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e133f0>
+embeddings = <Mock spec='EmbeddingClient' id='4661109360'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_three_hops_bind_exact_targets_and_persist_final_context _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_three_hops_bind_exact_tar0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e54ad0>
+embeddings = <Mock spec='EmbeddingClient' id='4661107344'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+___ ERROR at setup of test_sse_publishes_only_final_sources_after_all_rounds ___
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_sse_publishes_only_final_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e13770>
+embeddings = <Mock spec='EmbeddingClient' id='4661105664'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+__ ERROR at setup of test_unresolved_target_does_not_guess_or_search[missing] __
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_unresolved_target_does_no0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e56eb0>
+embeddings = <Mock spec='EmbeddingClient' id='4661107680'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_unresolved_target_does_not_guess_or_search[ambiguous] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_unresolved_target_does_no1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115983cb0>
+embeddings = <Mock spec='EmbeddingClient' id='4661112048'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_target_is_an_error_without_repair_or_persistence[<lambda>0] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_target_is_an_erro0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115dfcd70>
+embeddings = <Mock spec='EmbeddingClient' id='4661105328'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_target_is_an_error_without_repair_or_persistence[<lambda>1] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_target_is_an_erro1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115dfd550>
+embeddings = <Mock spec='EmbeddingClient' id='4661109696'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_target_is_an_error_without_repair_or_persistence[<lambda>2] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_target_is_an_erro2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115dfd160>
+embeddings = <Mock spec='EmbeddingClient' id='4661110704'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_target_is_an_error_without_repair_or_persistence[<lambda>3] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_target_is_an_erro3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115dfd710>
+embeddings = <Mock spec='EmbeddingClient' id='4661108352'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_______ ERROR at setup of test_scope_cannot_expand_to_follow_the_target ________
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_scope_cannot_expand_to_fo0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2c670>
+embeddings = <Mock spec='EmbeddingClient' id='4661103312'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+____ ERROR at setup of test_deleted_bridge_is_ineligible_before_next_query _____
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_deleted_bridge_is_ineligi0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2c7c0>
+embeddings = <Mock spec='EmbeddingClient' id='4661107008'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_round_limit_and_budget_exclusion_do_not_bind_unseen_candidates _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_round_limit_and_budget_ex0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2c750>
+embeddings = <Mock spec='EmbeddingClient' id='4661109024'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_stop_during_binding_never_starts_dependent_search[cancel] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_stop_during_binding_never0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2cf30>
+embeddings = <Mock spec='EmbeddingClient' id='4661113392'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_stop_during_binding_never_starts_dependent_search[timeout] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_stop_during_binding_never1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2cc90>
+embeddings = <Mock spec='EmbeddingClient' id='4658032528'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_________ ERROR at setup of test_direct_service_matches_api_controller _________
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_direct_service_matches_ap0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2d2b0>
+embeddings = <Mock spec='EmbeddingClient' id='4661112384'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_duplicate_query_across_rounds_does_not_repeat_embedding _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_duplicate_query_across_ro0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2d860>
+embeddings = <Mock spec='EmbeddingClient' id='4661108688'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_____ ERROR at setup of test_parallel_dependencies_share_one_binding_call ______
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_parallel_dependencies_sha0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2dbe0>
+embeddings = <Mock spec='EmbeddingClient' id='4661106672'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+______ ERROR at setup of test_every_prerequisite_needs_supplied_evidence _______
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_every_prerequisite_needs_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2dfd0>
+embeddings = <Mock spec='EmbeddingClient' id='4658031184'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_assess_each_hop_then_generate_from_same_final_context _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_assess_each_hop_then_gene0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2e2e0>
+embeddings = <Mock spec='EmbeddingClient' id='4661108016'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+__ ERROR at setup of test_single_supported_pass_skips_remaining_dependencies ___
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_single_supported_pass_ski0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2e4a0>
+embeddings = <Mock spec='EmbeddingClient' id='4661111376'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+___________ ERROR at setup of test_source_bound_supplement_fills_gap ___________
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_source_bound_supplement_f0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2e740>
+embeddings = <Mock spec='EmbeddingClient' id='4661110368'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_partial_or_conflicting_guidance_reaches_answer[partial] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_partial_or_conflicting_gu0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2e890>
+embeddings = <Mock spec='EmbeddingClient' id='4662069632'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_partial_or_conflicting_guidance_reaches_answer[conflicting] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_partial_or_conflicting_gu1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2e9e0>
+embeddings = <Mock spec='EmbeddingClient' id='4661110032'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+___ ERROR at setup of test_all_missing_abstains_despite_irrelevant_retrieval ___
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_all_missing_abstains_desp0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2ef90>
+embeddings = <Mock spec='EmbeddingClient' id='4661111040'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_assessment_fails_without_repair_or_history[<lambda>0] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_assessment_fails_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2f620>
+embeddings = <Mock spec='EmbeddingClient' id='4661109360'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_assessment_fails_without_repair_or_history[<lambda>1] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_assessment_fails_1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2fa10>
+embeddings = <Mock spec='EmbeddingClient' id='4662067616'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_assessment_fails_without_repair_or_history[<lambda>2] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_assessment_fails_2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a2fbd0>
+embeddings = <Mock spec='EmbeddingClient' id='4661105664'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_invalid_assessment_fails_without_repair_or_history[<lambda>3] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_invalid_assessment_fails_3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115bf81a0>
+embeddings = <Mock spec='EmbeddingClient' id='4661107680'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_rejected_supplement_preserves_partial_answer_and_history[/api/chat] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_rejected_supplement_prese0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115bf8910>
+embeddings = <Mock spec='EmbeddingClient' id='4661112048'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_rejected_supplement_preserves_partial_answer_and_history[/api/chat/stream] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_rejected_supplement_prese1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115bf88a0>
+embeddings = <Mock spec='EmbeddingClient' id='4662071648'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_limits_stop_further_queries_and_assess_final_context[duplicate] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_limits_stop_further_queri0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115bf8ec0>
+embeddings = <Mock spec='EmbeddingClient' id='4661109696'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_limits_stop_further_queries_and_assess_final_context[no_progress] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_limits_stop_further_queri1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115bf8600>
+embeddings = <Mock spec='EmbeddingClient' id='4661110704'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_limits_stop_further_queries_and_assess_final_context[query_limit] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_limits_stop_further_queri2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115bf9160>
+embeddings = <Mock spec='EmbeddingClient' id='4661108352'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_limits_stop_further_queries_and_assess_final_context[round_limit] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_limits_stop_further_queri3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115bf9550>
+embeddings = <Mock spec='EmbeddingClient' id='4662074672'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_________ ERROR at setup of test_supplements_keep_explicit_file_scope __________
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_supplements_keep_explicit0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115e54ad0>
+embeddings = <Mock spec='EmbeddingClient' id='4658033536'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_________ ERROR at setup of test_budget_excluded_text_is_not_assessed __________
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_budget_excluded_text_is_n0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115bf9010>
+embeddings = <Mock spec='EmbeddingClient' id='4658032528'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_deletion_between_assessment_and_search_removes_target _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_deletion_between_assessme0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115bf8ec0>
+embeddings = <Mock spec='EmbeddingClient' id='4658024800'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_stream_assessment_progress_final_sources_and_history __
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_stream_assessment_progres0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115bfa200>
+embeddings = <Mock spec='EmbeddingClient' id='4661106672'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_cancel_during_assessment_does_not_continue_or_save[cancel] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_cancel_during_assessment_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115dfc910>
+embeddings = <Mock spec='EmbeddingClient' id='4658024800'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_cancel_during_assessment_does_not_continue_or_save[timeout] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_cancel_during_assessment_1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115982040>
+embeddings = <Mock spec='EmbeddingClient' id='4658032192'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+______ ERROR at setup of test_direct_plan_merges_supplementary_candidates ______
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_direct_plan_merges_supple0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115980520>
+embeddings = <Mock spec='EmbeddingClient' id='4658031184'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+____ ERROR at setup of test_missing_stream_abstains_without_answer_provider ____
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_missing_stream_abstains_w0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115bfb000>
+embeddings = <Mock spec='EmbeddingClient' id='4658024464'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+___ ERROR at setup of test_dependency_and_gap_queries_share_six_query_limit ____
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_dependency_and_gap_querie0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a85860>
+embeddings = <Mock spec='EmbeddingClient' id='4661108352'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_final_assessment_revokes_support_after_source_removed _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_final_assessment_revokes_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x11623df60>
+embeddings = <Mock spec='EmbeddingClient' id='4661104656'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_initial_context_can_satisfy_a_whole_dependency_chain __
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_initial_context_can_satis0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x11623dfd0>
+embeddings = <Mock spec='EmbeddingClient' id='4662076016'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_answer_rule_survives_history_without_masking_real_missing_evidence[True] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_answer_rule_survives_hist0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x11592ac80>
+embeddings = <Mock spec='EmbeddingClient' id='4661106336'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_answer_rule_survives_history_without_masking_real_missing_evidence[False] _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_answer_rule_survives_hist1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x11623e510>
+embeddings = <Mock spec='EmbeddingClient' id='4661101632'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_ ERROR at setup of test_api_restart_recovers_abandoned_upload_and_allows_delete _
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_api_restart_recovers_aban0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x116a85be0>
+embeddings = <Mock spec='EmbeddingClient' id='4661106336'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+_______ ERROR at setup of test_frozen_http_prompts_evidence_and_history ________
+
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-264/test_frozen_http_prompts_evide0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x115f12820>
+embeddings = <Mock spec='EmbeddingClient' id='4661106336'>
+
+    @pytest.fixture
+    def configured_app(tmp_path, monkeypatch, embeddings):
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setenv("OPENAI_API_KEY", "offline-test-key")
+        monkeypatch.setenv("DATA_DIR", str(tmp_path / "data"))
+        sdk = MagicMock()
+        sdk.__enter__.return_value = sdk
+        sdk_factory = Mock(return_value=sdk)
+        monkeypatch.setattr(api_module, "OpenAI", sdk_factory)
+>       monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
+                            ^^^^^^^^^
+E       NameError: name 'bootstrap' is not defined
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/conftest.py:64: NameError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+ERROR tests/test_chat_api.py::test_upload_question_followup_and_persisted_exchange
+ERROR tests/test_chat_api.py::test_invalid_question_is_422_without_calls_or_records[payload0]
+ERROR tests/test_chat_api.py::test_invalid_question_is_422_without_calls_or_records[payload1]
+ERROR tests/test_chat_api.py::test_invalid_question_is_422_without_calls_or_records[payload2]
+ERROR tests/test_chat_api.py::test_invalid_question_is_422_without_calls_or_records[payload3]
+ERROR tests/test_chat_api.py::test_invalid_question_is_422_without_calls_or_records[payload4]
+ERROR tests/test_chat_api.py::test_unknown_conversation_is_404_without_model_calls
+ERROR tests/test_chat_api.py::test_empty_library_returns_saved_insufficient_evidence_answer
+ERROR tests/test_chat_api.py::test_failed_first_answer_is_500_without_new_conversation[ValueError]
+ERROR tests/test_chat_api.py::test_failed_first_answer_is_500_without_new_conversation[KeyError]
+ERROR tests/test_chat_api.py::test_failed_first_answer_is_500_without_new_conversation[IndexError]
+ERROR tests/test_chat_api.py::test_failed_followup_is_500_without_partial_exchange[resolution]
+ERROR tests/test_chat_api.py::test_failed_followup_is_500_without_partial_exchange[retrieval]
+ERROR tests/test_chat_api.py::test_failed_followup_is_500_without_partial_exchange[generation]
+ERROR tests/test_chat_api.py::test_failed_followup_is_500_without_partial_exchange[saving]
+ERROR tests/test_chat_api.py::test_failed_followup_is_500_without_partial_exchange[snapshot]
+ERROR tests/test_chat_api.py::test_openapi_describes_json_request_response_and_errors
+ERROR tests/test_chat_api.py::test_read_conversation_after_restart_restores_answer_and_sources
+ERROR tests/test_chat_api.py::test_read_unknown_empty_and_legacy_conversations_without_model_calls
+ERROR tests/test_chat_api.py::test_deleted_source_remains_historical_but_cannot_answer_followup
+ERROR tests/test_chat_api.py::test_snapshot_failure_rolls_back_new_conversation_and_messages
+ERROR tests/test_chat_streaming.py::test_stream_sources_deltas_complete_and_followup_match_saved_history
+ERROR tests/test_chat_streaming.py::test_stream_empty_library_and_pre_stream_http_errors
+ERROR tests/test_chat_streaming.py::test_stream_failure_emits_error_without_complete_or_partial_records[generation]
+ERROR tests/test_chat_streaming.py::test_stream_failure_emits_error_without_complete_or_partial_records[retrieval]
+ERROR tests/test_chat_streaming.py::test_stream_failure_emits_error_without_complete_or_partial_records[saving]
+ERROR tests/test_chat_streaming.py::test_http_delivers_deltas_before_model_finishes_and_cancels_on_disconnect[complete]
+ERROR tests/test_chat_streaming.py::test_http_delivers_deltas_before_model_finishes_and_cancels_on_disconnect[disconnect]
+ERROR tests/test_chat_streaming.py::test_http_delivers_deltas_before_model_finishes_and_cancels_on_disconnect[send_error]
+ERROR tests/test_chat_streaming.py::test_failed_followup_keeps_existing_exchange_and_does_not_start_answer_stream
+ERROR tests/test_chat_streaming.py::test_internal_lookup_failure_during_stream_setup_is_500
+ERROR tests/test_chat_streaming.py::test_disconnect_during_rerank_does_not_generate_or_save
+ERROR tests/test_file_api.py::test_upload_list_retrieve_delete_preserves_other_file
+ERROR tests/test_file_api.py::test_invalid_upload_is_400_without_records_or_model_calls[notes.docx-Text.-Only .txt, .md and .pdf files are supported.]
+ERROR tests/test_file_api.py::test_invalid_upload_is_400_without_records_or_model_calls[notes.txt-\xff-The file must be UTF-8 encoded.]
+ERROR tests/test_file_api.py::test_invalid_upload_is_400_without_records_or_model_calls[notes.txt--The file must contain nonempty text.]
+ERROR tests/test_file_api.py::test_invalid_upload_is_400_without_records_or_model_calls[notes.txt- \n\t-The file must contain nonempty text.]
+ERROR tests/test_file_api.py::test_missing_multipart_file_is_422_and_unknown_delete_is_404
+ERROR tests/test_file_api.py::test_provider_failure_is_500_and_failed_record_can_be_deleted[RuntimeError]
+ERROR tests/test_file_api.py::test_provider_failure_is_500_and_failed_record_can_be_deleted[ValueError]
+ERROR tests/test_file_api.py::test_processing_is_visible_and_cannot_be_deleted_during_upload
+ERROR tests/test_file_api.py::test_delete_failure_is_500_and_retry_cleans_the_file[RuntimeError]
+ERROR tests/test_file_api.py::test_delete_failure_is_500_and_retry_cleans_the_file[KeyError]
+ERROR tests/test_file_api.py::test_restart_reuses_data_and_openapi_describes_file_contract
+ERROR tests/test_file_api.py::test_markdown_upload_chat_restart_and_delete_preserves_original_evidence
+ERROR tests/test_file_api.py::test_built_workspace_and_api_share_one_origin
+ERROR tests/test_pdf_integration.py::test_upload_query_original_range_and_historical_evidence
+ERROR tests/test_pdf_integration.py::test_streaming_and_history_share_pdf_provenance
+ERROR tests/test_pdf_integration.py::test_invalid_or_scanned_pdf_does_not_embed_and_cleans_assets
+ERROR tests/test_pdf_integration.py::test_provider_failure_and_failed_cleanup_can_be_deleted
+ERROR tests/test_pdf_integration.py::test_restart_keeps_pdf_and_recovers_interrupted_assets
+ERROR tests/test_pdf_integration.py::test_asset_delete_failure_is_ineligible_until_retry
+ERROR tests/test_pdf_integration.py::test_one_service_dispatches_formats_without_changing_its_chunking_settings
+ERROR tests/test_evidence_packing.py::test_api_retained_child_offsets_provenance_and_history_survive_delete[False]
+ERROR tests/test_evidence_packing.py::test_api_retained_child_offsets_provenance_and_history_survive_delete[True]
+ERROR tests/test_dependent_retrieval.py::test_three_hops_bind_exact_targets_and_persist_final_context
+ERROR tests/test_dependent_retrieval.py::test_sse_publishes_only_final_sources_after_all_rounds
+ERROR tests/test_dependent_retrieval.py::test_unresolved_target_does_not_guess_or_search[missing]
+ERROR tests/test_dependent_retrieval.py::test_unresolved_target_does_not_guess_or_search[ambiguous]
+ERROR tests/test_dependent_retrieval.py::test_invalid_target_is_an_error_without_repair_or_persistence[<lambda>0]
+ERROR tests/test_dependent_retrieval.py::test_invalid_target_is_an_error_without_repair_or_persistence[<lambda>1]
+ERROR tests/test_dependent_retrieval.py::test_invalid_target_is_an_error_without_repair_or_persistence[<lambda>2]
+ERROR tests/test_dependent_retrieval.py::test_invalid_target_is_an_error_without_repair_or_persistence[<lambda>3]
+ERROR tests/test_dependent_retrieval.py::test_scope_cannot_expand_to_follow_the_target
+ERROR tests/test_dependent_retrieval.py::test_deleted_bridge_is_ineligible_before_next_query
+ERROR tests/test_dependent_retrieval.py::test_round_limit_and_budget_exclusion_do_not_bind_unseen_candidates
+ERROR tests/test_dependent_retrieval.py::test_stop_during_binding_never_starts_dependent_search[cancel]
+ERROR tests/test_dependent_retrieval.py::test_stop_during_binding_never_starts_dependent_search[timeout]
+ERROR tests/test_dependent_retrieval.py::test_direct_service_matches_api_controller
+ERROR tests/test_dependent_retrieval.py::test_duplicate_query_across_rounds_does_not_repeat_embedding
+ERROR tests/test_dependent_retrieval.py::test_parallel_dependencies_share_one_binding_call
+ERROR tests/test_dependent_retrieval.py::test_every_prerequisite_needs_supplied_evidence
+ERROR tests/test_sufficiency.py::test_assess_each_hop_then_generate_from_same_final_context
+ERROR tests/test_sufficiency.py::test_single_supported_pass_skips_remaining_dependencies
+ERROR tests/test_sufficiency.py::test_source_bound_supplement_fills_gap - Nam...
+ERROR tests/test_sufficiency.py::test_partial_or_conflicting_guidance_reaches_answer[partial]
+ERROR tests/test_sufficiency.py::test_partial_or_conflicting_guidance_reaches_answer[conflicting]
+ERROR tests/test_sufficiency.py::test_all_missing_abstains_despite_irrelevant_retrieval
+ERROR tests/test_sufficiency.py::test_invalid_assessment_fails_without_repair_or_history[<lambda>0]
+ERROR tests/test_sufficiency.py::test_invalid_assessment_fails_without_repair_or_history[<lambda>1]
+ERROR tests/test_sufficiency.py::test_invalid_assessment_fails_without_repair_or_history[<lambda>2]
+ERROR tests/test_sufficiency.py::test_invalid_assessment_fails_without_repair_or_history[<lambda>3]
+ERROR tests/test_sufficiency.py::test_rejected_supplement_preserves_partial_answer_and_history[/api/chat]
+ERROR tests/test_sufficiency.py::test_rejected_supplement_preserves_partial_answer_and_history[/api/chat/stream]
+ERROR tests/test_sufficiency.py::test_limits_stop_further_queries_and_assess_final_context[duplicate]
+ERROR tests/test_sufficiency.py::test_limits_stop_further_queries_and_assess_final_context[no_progress]
+ERROR tests/test_sufficiency.py::test_limits_stop_further_queries_and_assess_final_context[query_limit]
+ERROR tests/test_sufficiency.py::test_limits_stop_further_queries_and_assess_final_context[round_limit]
+ERROR tests/test_sufficiency.py::test_supplements_keep_explicit_file_scope - ...
+ERROR tests/test_sufficiency.py::test_budget_excluded_text_is_not_assessed - ...
+ERROR tests/test_sufficiency.py::test_deletion_between_assessment_and_search_removes_target
+ERROR tests/test_sufficiency.py::test_stream_assessment_progress_final_sources_and_history
+ERROR tests/test_sufficiency.py::test_cancel_during_assessment_does_not_continue_or_save[cancel]
+ERROR tests/test_sufficiency.py::test_cancel_during_assessment_does_not_continue_or_save[timeout]
+ERROR tests/test_sufficiency.py::test_direct_plan_merges_supplementary_candidates
+ERROR tests/test_sufficiency.py::test_missing_stream_abstains_without_answer_provider
+ERROR tests/test_sufficiency.py::test_dependency_and_gap_queries_share_six_query_limit
+ERROR tests/test_sufficiency.py::test_final_assessment_revokes_support_after_source_removed
+ERROR tests/test_sufficiency.py::test_initial_context_can_satisfy_a_whole_dependency_chain
+ERROR tests/test_sufficiency.py::test_answer_rule_survives_history_without_masking_real_missing_evidence[True]
+ERROR tests/test_sufficiency.py::test_answer_rule_survives_history_without_masking_real_missing_evidence[False]
+ERROR tests/test_recovery.py::test_api_restart_recovers_abandoned_upload_and_allows_delete
+ERROR tests/test_oop_contracts.py::test_frozen_http_prompts_evidence_and_history
+20 passed, 1 warning, 103 errors in 3.52s

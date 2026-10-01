@@ -1,24 +1,35 @@
 """Deletion workflows with real SQLite and Chroma, and offline model doubles."""
 
-from knowledgebase.rag.retrieval import Retriever
-
 from unittest.mock import Mock
 
 import pytest
 
 from knowledgebase.providers.llm import LLMClient
-from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
-
-from knowledgebase.services.chat import answer_question
 from knowledgebase.rag.chunking import DocumentChunker
+from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
+from knowledgebase.rag.retrieval import Retriever
 from knowledgebase.services.files import FileService
-from knowledgebase.storage.operations import create_file, get_chunks, get_file, get_files, update_file_status
+from knowledgebase.services.rag import RagClient
+from knowledgebase.storage.operations import (
+    create_file,
+    get_chunks,
+    get_file,
+    get_files,
+    update_file_status,
+)
 
 
 def test_delete_removes_only_target_and_new_answers_use_remaining_file(storage, embeddings):
     sessions, store, collection = storage
-    removed = FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(chunk_size=7, overlap=0, chunking_strategy="character")).ingest("notes.txt", b"First. Second.")
-    kept = FileService(sessions, store, embeddings=embeddings).ingest("notes.txt", b"Keep this source.")
+    removed = FileService(
+        sessions,
+        store,
+        embeddings=embeddings,
+        chunker=DocumentChunker(chunk_size=7, overlap=0, chunking_strategy="character"),
+    ).ingest("notes.txt", b"First. Second.")
+    kept = FileService(sessions, store, embeddings=embeddings).ingest(
+        "notes.txt", b"Keep this source."
+    )
 
     assert FileService(sessions, store).delete(removed) is None
 
@@ -30,7 +41,7 @@ def test_delete_removes_only_target_and_new_answers_use_remaining_file(storage, 
     assert collection.get()["ids"] == [f"{kept}:child:0"]
     llm = Mock(spec=LLMClient)
     llm.generate.return_value = "Keep this source. [1]"
-    answer = answer_question("What remains?", sessions, embeddings, store, llm)
+    answer = RagClient(sessions, Retriever(embeddings, store), llm).answer("What remains?")
     assert [source.file_id for source in answer.sources] == [kept]
     prompt = llm.generate.call_args.args[0][0]["content"]
     assert "Keep this source." in prompt
@@ -39,17 +50,23 @@ def test_delete_removes_only_target_and_new_answers_use_remaining_file(storage, 
 
 def test_ingest_ask_delete_ask_returns_insufficient_evidence(storage, embeddings):
     sessions, store, collection = storage
-    file_id = FileService(sessions, store, embeddings=embeddings).ingest("hours.txt", b"The library closes at 5 PM.")
+    file_id = FileService(sessions, store, embeddings=embeddings).ingest(
+        "hours.txt", b"The library closes at 5 PM."
+    )
     llm = Mock(spec=LLMClient)
     llm.generate.return_value = "The library closes at 5 PM. [1]"
-    before = answer_question("When does the library close?", sessions, embeddings, store, llm)
+    before = RagClient(sessions, Retriever(embeddings, store), llm).answer(
+        "When does the library close?"
+    )
     assert before.sources[0].file_id == file_id
     assert before.answer == llm.generate.return_value
 
     FileService(sessions, store).delete(file_id)
     embeddings.reset_mock()
     llm.reset_mock()
-    after = answer_question("When does the library close?", sessions, embeddings, store, llm)
+    after = RagClient(sessions, Retriever(embeddings, store), llm).answer(
+        "When does the library close?"
+    )
     assert after.answer == INSUFFICIENT_EVIDENCE
     assert after.sources == []
     embeddings.embed_query.assert_not_called()
@@ -62,7 +79,12 @@ def test_vector_failure_leaves_committed_nonready_file_and_cleanup_is_retryable(
     storage, embeddings, partial_delete
 ):
     sessions, store, collection = storage
-    removed = FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(chunk_size=7, overlap=0, chunking_strategy="character")).ingest("notes.txt", b"First. Second.")
+    removed = FileService(
+        sessions,
+        store,
+        embeddings=embeddings,
+        chunker=DocumentChunker(chunk_size=7, overlap=0, chunking_strategy="character"),
+    ).ingest("notes.txt", b"First. Second.")
     kept = FileService(sessions, store, embeddings=embeddings).ingest("keep.txt", b"Keep.")
     failure = RuntimeError("Vector deletion failed.")
 
@@ -86,7 +108,10 @@ def test_vector_failure_leaves_committed_nonready_file_and_cleanup_is_retryable(
         assert file.status == "failed"
         assert "Retry deletion" in file.error_message
         assert len(get_chunks(session, removed)) == 2
-        assert [hit.chunk.file_id for hit in Retriever(embeddings, store).retrieve("What remains?", session).chunks] == [kept]
+        assert [
+            hit.chunk.file_id
+            for hit in Retriever(embeddings, store).retrieve("What remains?", session).chunks
+        ] == [kept]
     assert len(collection.get(where={"file_id": removed})["ids"]) == (1 if partial_delete else 2)
 
     FileService(sessions, store).delete(removed)

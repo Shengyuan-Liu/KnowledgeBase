@@ -1,26 +1,27 @@
 """Packed-context assessment and bounded gap searches, with offline provider outputs."""
 
-from knowledgebase.rag.retrieval import Retriever
-from contextlib import aclosing
-from copy import deepcopy
 import json
 import re
+from contextlib import aclosing
+from copy import deepcopy
 from threading import Event
 
 import anyio
 import pytest
 from sqlalchemy import func, select
+from test_automatic_planning import DIRECT, events_from, response
+from test_dependent_retrieval import DOCUMENTS, PLAN, QUESTION, ask
+from test_dependent_retrieval import hop_api as hop_api
 
 from knowledgebase.config import PlanningOptions
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
-from knowledgebase.schemas import SufficiencyAssessment
+from knowledgebase.rag.retrieval import Retriever
 from knowledgebase.rag.sufficiency import assessment_excerpts, validate_assessment
-from knowledgebase.services.chat import stream_answer_in_conversation
+from knowledgebase.schemas import SufficiencyAssessment
+from knowledgebase.services.chat import ChatService
+from knowledgebase.services.rag import RagClient
 from knowledgebase.storage.models import MessageRecord
 from knowledgebase.storage.operations import update_file_status
-from test_automatic_planning import DIRECT, response, events_from
-from test_dependent_retrieval import ask, QUESTION, PLAN, DOCUMENTS
-from test_dependent_retrieval import hop_api as hop_api
 
 
 def payload_catalog(payload):
@@ -46,6 +47,7 @@ def assessed_api(hop_api):
     original = sdk.responses.create.side_effect
     assessments = []
     choices.update(assessment=None, assessment_hook=None)
+
     def generate(**kwargs):
         if kwargs.get("text", {}).get("format", {}).get("name") != "evidence_assessment":
             return original(**kwargs)
@@ -58,24 +60,51 @@ def assessed_api(hop_api):
         else:
             decision = {"requirements": [], "queries": []}
             for requirement in payload["requirements"]:
-                index = {"winner": 0, "employer": 1, "location": 2}.get(requirement["requirement_id"], 0)
-                excerpt = next((e for e in payload_catalog(payload) if e["file_name"] == DOCUMENTS[index][0]), None)
-                decision["requirements"].append({"requirement_id": requirement["requirement_id"],
-                    "status": "supported" if excerpt else "missing", "gap": "" if excerpt else "No supporting excerpt.",
-                    "references": [{"evidence_id": excerpt["evidence_id"]}] if excerpt else []})
+                index = {"winner": 0, "employer": 1, "location": 2}.get(
+                    requirement["requirement_id"], 0
+                )
+                excerpt = next(
+                    (e for e in payload_catalog(payload) if e["file_name"] == DOCUMENTS[index][0]),
+                    None,
+                )
+                decision["requirements"].append(
+                    {
+                        "requirement_id": requirement["requirement_id"],
+                        "status": "supported" if excerpt else "missing",
+                        "gap": "" if excerpt else "No supporting excerpt.",
+                        "references": [{"evidence_id": excerpt["evidence_id"]}] if excerpt else [],
+                    }
+                )
         return response(json.dumps(decision))
+
     sdk.responses.create.side_effect = generate
     yield client, resources, sdk, choices, bindings, files, assessments
 
 
 def one_point(choices):
-    choices["plan"] = {"route": "decomposed", "requirements": [PLAN["requirements"][2]],
-        "queries": [{"query_id": "initial", "text": "Aster Prize winner", "requirement_ids": ["location"]}], "dependencies": []}
+    choices["plan"] = {
+        "route": "decomposed",
+        "requirements": [PLAN["requirements"][2]],
+        "queries": [
+            {"query_id": "initial", "text": "Aster Prize winner", "requirement_ids": ["location"]}
+        ],
+        "dependencies": [],
+    }
 
 
 def missing(payload, queries=()):
-    return {"requirements": [{"requirement_id": r["requirement_id"], "status": "missing",
-        "gap": "Location is absent.", "references": []} for r in payload["requirements"]], "queries": list(queries)}
+    return {
+        "requirements": [
+            {
+                "requirement_id": r["requirement_id"],
+                "status": "missing",
+                "gap": "Location is absent.",
+                "references": [],
+            }
+            for r in payload["requirements"]
+        ],
+        "queries": list(queries),
+    }
 
 
 def supplement(text="Aster Prize location"):
@@ -89,7 +118,11 @@ def test_assess_each_hop_then_generate_from_same_final_context(assessed_api):
     assert planning["version"] == 3
     assert len(assessments) == 3 and len(bindings) == 2
     assert planning["hops"]["stop_reason"] == "requirements_supported"
-    assert planning["assessment"]["context"] == planning["context"] == unannotated_context(assessments[-1])
+    assert (
+        planning["assessment"]["context"]
+        == planning["context"]
+        == unannotated_context(assessments[-1])
+    )
     assert [r["status"] for r in planning["assessment"]["requirements"]] == ["supported"] * 3
     message = sdk.responses.create.call_args.kwargs["input"][0]["content"]
     assert planning["context"] in message and "fallible guidance" in message
@@ -104,24 +137,55 @@ def test_single_supported_pass_skips_remaining_dependencies(assessed_api):
     choices["plan"] = {"route": "direct", "requirements": [], "queries": [], "dependencies": []}
     answer = ask(client).json()
     assert answer["retrieval"]["planning"]["hops"]["stop_reason"] == "requirements_supported"
-    assert resources.embeddings.embed_query.call_count == 1 and len(assessments) == 1 and not bindings
+    assert (
+        resources.embeddings.embed_query.call_count == 1 and len(assessments) == 1 and not bindings
+    )
 
 
 def test_source_bound_supplement_fills_gap(assessed_api):
     client, resources, _, choices, _, _, assessments = assessed_api
     one_point(choices)
+
     def assess(payload):
         excerpt = payload_catalog(payload)[0]
         if len(payload["executed_queries"]) == 1:
-            return missing(payload, [{"requirement_ids": ["location"], "query_template": "Who employs {target}?",
-                "target": "Mira Cole", "references": [{"evidence_id": excerpt["evidence_id"]}]}])
+            return missing(
+                payload,
+                [
+                    {
+                        "requirement_ids": ["location"],
+                        "query_template": "Who employs {target}?",
+                        "target": "Mira Cole",
+                        "references": [{"evidence_id": excerpt["evidence_id"]}],
+                    }
+                ],
+            )
         staff = next(e for e in payload_catalog(payload) if e["file_name"] == "staff.txt")
         if len(payload["executed_queries"]) == 2:
-            return missing(payload, [{"requirement_ids": ["location"], "query_template": "Where is {target} located?",
-                "target": "Birch Institute", "references": [{"evidence_id": staff["evidence_id"]}]}])
+            return missing(
+                payload,
+                [
+                    {
+                        "requirement_ids": ["location"],
+                        "query_template": "Where is {target} located?",
+                        "target": "Birch Institute",
+                        "references": [{"evidence_id": staff["evidence_id"]}],
+                    }
+                ],
+            )
         place = next(e for e in payload_catalog(payload) if e["file_name"] == "place.txt")
-        return {"requirements": [{"requirement_id": "location", "status": "supported", "gap": "",
-            "references": [{"evidence_id": place["evidence_id"]}]}], "queries": []}
+        return {
+            "requirements": [
+                {
+                    "requirement_id": "location",
+                    "status": "supported",
+                    "gap": "",
+                    "references": [{"evidence_id": place["evidence_id"]}],
+                }
+            ],
+            "queries": [],
+        }
+
     choices["assessment"] = assess
     answer = ask(client).json()
     planning = answer["retrieval"]["planning"]
@@ -135,12 +199,25 @@ def test_source_bound_supplement_fills_gap(assessed_api):
 def test_partial_or_conflicting_guidance_reaches_answer(assessed_api, status):
     client, _, sdk, choices, _, _, _ = assessed_api
     choices["plan"] = deepcopy(DIRECT)
+
     def assess(payload):
-        refs = [{"evidence_id": e["evidence_id"]}
-                for e in payload_catalog(payload)[:2 if status == "conflicting" else 1]]
+        refs = [
+            {"evidence_id": e["evidence_id"]}
+            for e in payload_catalog(payload)[: 2 if status == "conflicting" else 1]
+        ]
         # The mocked status tests transport/provenance, not the semantic truth of a conflict.
-        return {"requirements": [{"requirement_id": "answer", "status": status,
-            "gap": "A requested detail is unresolved.", "references": refs}], "queries": []}
+        return {
+            "requirements": [
+                {
+                    "requirement_id": "answer",
+                    "status": status,
+                    "gap": "A requested detail is unresolved.",
+                    "references": refs,
+                }
+            ],
+            "queries": [],
+        }
+
     choices["assessment"] = assess
     answer = ask(client).json()
     assert answer["retrieval"]["planning"]["assessment"]["requirements"][0]["status"] == status
@@ -157,20 +234,34 @@ def test_all_missing_abstains_despite_irrelevant_retrieval(assessed_api):
     assert all("text" in call.kwargs for call in sdk.responses.create.call_args_list)
 
 
-@pytest.mark.parametrize("corrupt", [
-    lambda a: a["requirements"][0].update(requirement_id="unknown"),
-    lambda a: a["requirements"].append(a["requirements"][0]),
-    lambda a: a["requirements"][0]["references"][0].update(evidence_id="excluded-source"),
-    lambda a: a["requirements"][0]["references"][0].update(quote="A fact never supplied."),
-])
+@pytest.mark.parametrize(
+    "corrupt",
+    [
+        lambda a: a["requirements"][0].update(requirement_id="unknown"),
+        lambda a: a["requirements"].append(a["requirements"][0]),
+        lambda a: a["requirements"][0]["references"][0].update(evidence_id="excluded-source"),
+        lambda a: a["requirements"][0]["references"][0].update(quote="A fact never supplied."),
+    ],
+)
 def test_invalid_assessment_fails_without_repair_or_history(assessed_api, corrupt):
     client, resources, _, choices, _, _, assessments = assessed_api
     one_point(choices)
+
     def assess(payload):
-        a = {"requirements": [{"requirement_id": "location", "status": "partial", "gap": "Missing location.",
-            "references": [{"evidence_id": payload_catalog(payload)[0]["evidence_id"]}]}], "queries": []}
+        a = {
+            "requirements": [
+                {
+                    "requirement_id": "location",
+                    "status": "partial",
+                    "gap": "Missing location.",
+                    "references": [{"evidence_id": payload_catalog(payload)[0]["evidence_id"]}],
+                }
+            ],
+            "queries": [],
+        }
         corrupt(a)
         return a
+
     choices["assessment"] = assess
     assert ask(client).status_code == 500 and len(assessments) == 1
     with resources.sessions() as session:
@@ -180,19 +271,56 @@ def test_invalid_assessment_fails_without_repair_or_history(assessed_api, corrup
 @pytest.mark.parametrize("endpoint", ["/api/chat", "/api/chat/stream"])
 def test_rejected_supplement_preserves_partial_answer_and_history(assessed_api, endpoint):
     client, resources, sdk, choices, _, files, assessments = assessed_api
-    choices["plan"] = {"route": "decomposed", "requirements": PLAN["requirements"][:2],
-        "queries": [{"query_id": "initial", "text": "In the relevant document, who won the Aster Prize?",
-                     "requirement_ids": ["winner", "employer"]}], "dependencies": []}
+    choices["plan"] = {
+        "route": "decomposed",
+        "requirements": PLAN["requirements"][:2],
+        "queries": [
+            {
+                "query_id": "initial",
+                "text": "In the relevant document, who won the Aster Prize?",
+                "requirement_ids": ["winner", "employer"],
+            }
+        ],
+        "dependencies": [],
+    }
+
     def assess(payload):
         reference = {"evidence_id": payload_catalog(payload)[0]["evidence_id"]}
-        return {"requirements": [
-            {"requirement_id": "winner", "status": "supported", "gap": "", "references": [reference]},
-            {"requirement_id": "employer", "status": "missing", "gap": "The employer is not supplied.", "references": []}],
-            "queries": [{"requirement_ids": ["employer"], "query_template": "Who employs Mira Cole?",
-                         "target": "", "references": [reference]}]}
+        return {
+            "requirements": [
+                {
+                    "requirement_id": "winner",
+                    "status": "supported",
+                    "gap": "",
+                    "references": [reference],
+                },
+                {
+                    "requirement_id": "employer",
+                    "status": "missing",
+                    "gap": "The employer is not supplied.",
+                    "references": [],
+                },
+            ],
+            "queries": [
+                {
+                    "requirement_ids": ["employer"],
+                    "query_template": "Who employs Mira Cole?",
+                    "target": "",
+                    "references": [reference],
+                }
+            ],
+        }
+
     choices["assessment"] = assess
-    result = client.post(endpoint, json={"question": QUESTION, "retrieval_mode": "planned",
-                                        "request_id": "rejected-supplement", "file_ids": [files[0]]})
+    result = client.post(
+        endpoint,
+        json={
+            "question": QUESTION,
+            "retrieval_mode": "planned",
+            "request_id": "rejected-supplement",
+            "file_ids": [files[0]],
+        },
+    )
     assert result.status_code == 200
     if endpoint.endswith("stream"):
         events = events_from(result)
@@ -224,13 +352,27 @@ def test_limits_stop_further_queries_and_assess_final_context(assessed_api, mode
     one_point(choices)
     if mode == "round_limit":
         resources.settings.planning.max_rounds = 1
-    choices["assessment"] = lambda p: missing(p, [supplement("Aster Prize winner" if mode == "duplicate" else f"Aster Prize location {i}")
-        for i in range(6 if mode == "query_limit" else 1)])
+    choices["assessment"] = lambda p: missing(
+        p,
+        [
+            supplement("Aster Prize winner" if mode == "duplicate" else f"Aster Prize location {i}")
+            for i in range(6 if mode == "query_limit" else 1)
+        ],
+    )
     answer = ask(client).json()
     planning = answer["retrieval"]["planning"]
-    assert planning["hops"]["stop_reason"] == {"duplicate": "no_eligible_query", "no_progress": "no_new_evidence",
-        "query_limit": "query_limit", "round_limit": "round_limit"}[mode]
-    assert resources.embeddings.embed_query.call_count == (6 if mode == "query_limit" else 2 if mode == "no_progress" else 1)
+    assert (
+        planning["hops"]["stop_reason"]
+        == {
+            "duplicate": "no_eligible_query",
+            "no_progress": "no_new_evidence",
+            "query_limit": "query_limit",
+            "round_limit": "round_limit",
+        }[mode]
+    )
+    assert resources.embeddings.embed_query.call_count == (
+        6 if mode == "query_limit" else 2 if mode == "no_progress" else 1
+    )
     assert unannotated_context(assessments[-1]) == planning["context"]
 
 
@@ -245,7 +387,7 @@ def test_supplements_keep_explicit_file_scope(assessed_api):
 
 def test_budget_excluded_text_is_not_assessed(assessed_api):
     client, resources, _, _, _, _, assessments = assessed_api
-    resources.settings.evidence_max_tokens = 1
+    resources.retriever.evidence_max_tokens = 1
     answer = ask(client).json()
     assert answer["answer"] == INSUFFICIENT_EVIDENCE and not answer["sources"] and not assessments
     assert answer["retrieval"]["planning"]["assessment"]["record"] is None
@@ -254,11 +396,22 @@ def test_budget_excluded_text_is_not_assessed(assessed_api):
 def test_deletion_between_assessment_and_search_removes_target(assessed_api):
     client, resources, _, choices, _, files, assessments = assessed_api
     one_point(choices)
+
     def assess(payload):
         with resources.sessions.begin() as session:
             update_file_status(session, files[0], "failed")
-        return missing(payload, [{"requirement_ids": ["location"], "query_template": "Who employs {target}?",
-            "target": "Mira Cole", "references": [{"evidence_id": payload_catalog(payload)[0]["evidence_id"]}]}])
+        return missing(
+            payload,
+            [
+                {
+                    "requirement_ids": ["location"],
+                    "query_template": "Who employs {target}?",
+                    "target": "Mira Cole",
+                    "references": [{"evidence_id": payload_catalog(payload)[0]["evidence_id"]}],
+                }
+            ],
+        )
+
     choices["assessment"] = assess
     answer = ask(client).json()
     assert not answer["sources"] and len(assessments) == 1
@@ -270,10 +423,17 @@ def test_deletion_between_assessment_and_search_removes_target(assessed_api):
 
 def test_stream_assessment_progress_final_sources_and_history(assessed_api):
     client, _, _, _, _, files, _ = assessed_api
-    events = events_from(client.post("/api/chat/stream", json={"question": QUESTION, "retrieval_mode": "planned", "request_id": "assess"}))
+    events = events_from(
+        client.post(
+            "/api/chat/stream",
+            json={"question": QUESTION, "retrieval_mode": "planned", "request_id": "assess"},
+        )
+    )
     assert sum(e["event"] == "progress" and e["stage"] == "assessing" for e in events) == 3
     assert sum(e["event"] == "sources" for e in events) == 1 and events[-1]["event"] == "complete"
-    assert next(e["retrieval"] for e in events if e["event"] == "sources") == events[-1]["retrieval"]
+    assert (
+        next(e["retrieval"] for e in events if e["event"] == "sources") == events[-1]["retrieval"]
+    )
     for identity in files:
         client.delete(f"/api/files/{identity}")
     saved = client.get(f"/api/conversations/{events[-1]['conversation_id']}").json()["messages"][-1]
@@ -285,18 +445,39 @@ def test_stream_assessment_progress_final_sources_and_history(assessed_api):
 async def test_cancel_during_assessment_does_not_continue_or_save(assessed_api, stop):
     _, resources, _, choices, _, _, _ = assessed_api
     started, release, returned = Event(), Event(), Event()
+
     def hook():
-        started.set(); release.wait(3); returned.set()
+        started.set()
+        release.wait(3)
+        returned.set()
+
     choices["assessment_hook"] = hook
-    options = PlanningOptions(request_timeout_seconds=0.8, answer_reserve_seconds=0.1) if stop == "timeout" else PlanningOptions()
-    stream = await stream_answer_in_conversation(QUESTION, "stop-assessment", resources.sessions,
-        resources.embeddings, resources.store, resources.llm, resources.streaming_llm,
-        planner_client=resources.planner, planning_options=options, retrieval_options=resources.settings.retrieval_options, top_k=3)
+    options = (
+        PlanningOptions(request_timeout_seconds=0.8, answer_reserve_seconds=0.1)
+        if stop == "timeout"
+        else PlanningOptions()
+    )
+    stream = await ChatService(
+        resources.sessions,
+        RagClient(
+            resources.sessions,
+            Retriever(
+                resources.embeddings, resources.store, top_k=3, options=resources.retriever.options
+            ),
+            resources.llm,
+            resources.rag.streaming_llm,
+            planner=resources.planner,
+            retrieval_mode="planned" if resources.planner is not None else "single",
+            planning_options=options,
+        ),
+    ).stream(QUESTION, "stop-assessment")
     events = []
+
     async def consume():
         async with aclosing(stream):
             async for event in stream:
                 events.append(event)
+
     try:
         async with anyio.create_task_group() as tasks:
             tasks.start_soon(consume)
@@ -321,28 +502,94 @@ def test_direct_plan_merges_supplementary_candidates(hop_api):
     plan = direct_plan(QUESTION)
     plan.queries[0].file_ids = [files[0]]
     with resources.sessions() as session:
-        initial = Retriever(resources.embeddings, resources.store, top_k=3, options=resources.settings.retrieval_options).retrieve_plan(plan, session)
-        final = Retriever(resources.embeddings, resources.store, top_k=3, options=resources.settings.retrieval_options).retrieve_plan(plan, session, previous_runs=initial.trace.runs, queries=[PlannedQuery(query_id="extra", text="Mira Cole employer", requirement_ids=["answer"], file_ids=[files[1]])])
+        initial = Retriever(
+            resources.embeddings, resources.store, top_k=3, options=resources.retriever.options
+        ).retrieve_plan(plan, session)
+        final = Retriever(
+            resources.embeddings, resources.store, top_k=3, options=resources.retriever.options
+        ).retrieve_plan(
+            plan,
+            session,
+            previous_runs=initial.trace.runs,
+            queries=[
+                PlannedQuery(
+                    query_id="extra",
+                    text="Mira Cole employer",
+                    requirement_ids=["answer"],
+                    file_ids=[files[1]],
+                )
+            ],
+        )
     assert {h.file_name for h in final.evidence.chunks} == {"award.txt", "staff.txt"}
 
 
 def test_assessment_catalog_includes_pdf_supplement_offsets():
     from types import SimpleNamespace
-    from knowledgebase.schemas import AnswerRequirement
-    from knowledgebase.schemas import PdfRegion
 
-    result = SimpleNamespace(evidence=SimpleNamespace(chunks=[SimpleNamespace(
-        chunk=SimpleNamespace(file_id="pdf", start_offset=100, end_offset=110, text="Value: 42."),
-        file_name="report.pdf", pdf=SimpleNamespace(
-            tables=[],
-            regions=[PdfRegion(start_offset=100, end_offset=110, page_index=1, bbox=(1, 1, 10, 10), precision="cell")],
-            supplements=[SimpleNamespace(start_offset=10, end_offset=25, text="USD in millions",
-                regions=[PdfRegion(start_offset=10, end_offset=25, page_index=0, bbox=(1, 1, 10, 10), precision="block")])]))]))
+    from knowledgebase.schemas import AnswerRequirement, PdfRegion
+
+    result = SimpleNamespace(
+        evidence=SimpleNamespace(
+            chunks=[
+                SimpleNamespace(
+                    chunk=SimpleNamespace(
+                        file_id="pdf", start_offset=100, end_offset=110, text="Value: 42."
+                    ),
+                    file_name="report.pdf",
+                    pdf=SimpleNamespace(
+                        tables=[],
+                        regions=[
+                            PdfRegion(
+                                start_offset=100,
+                                end_offset=110,
+                                page_index=1,
+                                bbox=(1, 1, 10, 10),
+                                precision="cell",
+                            )
+                        ],
+                        supplements=[
+                            SimpleNamespace(
+                                start_offset=10,
+                                end_offset=25,
+                                text="USD in millions",
+                                regions=[
+                                    PdfRegion(
+                                        start_offset=10,
+                                        end_offset=25,
+                                        page_index=0,
+                                        bbox=(1, 1, 10, 10),
+                                        precision="block",
+                                    )
+                                ],
+                            )
+                        ],
+                    ),
+                )
+            ]
+        )
+    )
     excerpts = assessment_excerpts(result)
-    requirements, _, _ = validate_assessment(SufficiencyAssessment(requirements=[{
-        "requirement_id": "unit", "status": "supported", "gap": "", "references": [{
-            "evidence_id": next(e["evidence_id"] for e in excerpts if e["text"] == "USD in millions")}]}], queries=[]),
-        [AnswerRequirement(requirement_id="unit", description="Table units")], excerpts)
+    requirements, _, _ = validate_assessment(
+        SufficiencyAssessment(
+            requirements=[
+                {
+                    "requirement_id": "unit",
+                    "status": "supported",
+                    "gap": "",
+                    "references": [
+                        {
+                            "evidence_id": next(
+                                e["evidence_id"] for e in excerpts if e["text"] == "USD in millions"
+                            )
+                        }
+                    ],
+                }
+            ],
+            queries=[],
+        ),
+        [AnswerRequirement(requirement_id="unit", description="Table units")],
+        excerpts,
+    )
     assert requirements[0]["references"][0]["start_offset"] == 10
     assert requirements[0]["references"][0]["end_offset"] == 25
     assert requirements[0]["references"][0]["quote"] == "USD in millions"
@@ -353,9 +600,12 @@ def test_assessment_catalog_includes_pdf_supplement_offsets():
 def test_assessment_schema_through_real_sdk_offline_transport():
     import httpx
     from openai import OpenAI
-    from knowledgebase.providers.planner import PlannerClient
     from test_automatic_planning import sdk_response
+
+    from knowledgebase.providers.planner import PlannerClient
+
     calls = []
+
     def handle(request):
         payload = json.loads(request.content)
         calls.append(payload)
@@ -365,12 +615,24 @@ def test_assessment_schema_through_real_sdk_offline_transport():
             assert model["additionalProperties"] is False
         assert set(schema["$defs"]["PassageReference"]["properties"]) == {"evidence_id"}
         assert payload["text"]["format"]["strict"] is True
-        return httpx.Response(200, json=sdk_response(json.dumps(missing({"requirements": [{"requirement_id": "a"}]}))))
-    with OpenAI(api_key="offline", base_url="https://offline.test/v1",
-                http_client=httpx.Client(transport=httpx.MockTransport(handle))) as sdk:
+        return httpx.Response(
+            200, json=sdk_response(json.dumps(missing({"requirements": [{"requirement_id": "a"}]})))
+        )
+
+    with OpenAI(
+        api_key="offline",
+        base_url="https://offline.test/v1",
+        http_client=httpx.Client(transport=httpx.MockTransport(handle)),
+    ) as sdk:
         planner = PlannerClient(sdk, "requested-model", PlanningOptions(), "cl100k_base")
-        _, record = planner.structured(SufficiencyAssessment, "evidence_assessment", "Assess.", {},
-            lambda: 10, prompt_version="evidence-sufficiency-v3")
+        _, record = planner.structured(
+            SufficiencyAssessment,
+            "evidence_assessment",
+            "Assess.",
+            {},
+            lambda: 10,
+            prompt_version="evidence-sufficiency-v3",
+        )
     assert len(calls) == 1 and record["usage"]["total_tokens"] == 77
     assert record["max_retries"] == 0 and record["billed_cost"] is None
 
@@ -379,30 +641,43 @@ def test_missing_stream_abstains_without_answer_provider(assessed_api):
     client, resources, _, choices, _, _, _ = assessed_api
     one_point(choices)
     choices["assessment"] = missing
+
     async def must_not_generate(_):
         raise AssertionError("All-missing evidence must not call the answer provider.")
         yield
-    resources.streaming_llm.stream = must_not_generate
-    events = events_from(client.post("/api/chat/stream", json={"question": QUESTION, "retrieval_mode": "planned", "request_id": "missing"}))
+
+    resources.rag.streaming_llm.stream = must_not_generate
+    events = events_from(
+        client.post(
+            "/api/chat/stream",
+            json={"question": QUESTION, "retrieval_mode": "planned", "request_id": "missing"},
+        )
+    )
     assert events[-1]["event"] == "complete" and events[-1]["answer"] == INSUFFICIENT_EVIDENCE
 
 
 def test_dependency_and_gap_queries_share_six_query_limit(assessed_api):
     client, resources, _, choices, _, _, assessments = assessed_api
-    choices["assessment"] = lambda p: missing(p, [supplement(f"Aster Prize location {i}") for i in range(6)])
+    choices["assessment"] = lambda p: missing(
+        p, [supplement(f"Aster Prize location {i}") for i in range(6)]
+    )
     answer = ask(client).json()
     planning = answer["retrieval"]["planning"]
     assert planning["hops"]["stop_reason"] == "query_limit"
     assert resources.embeddings.embed_query.call_count == 6 and len(assessments) == 2
     assert planning["hops"]["dependencies"][0]["status"] == "executed"
-    assert any(q["excluded_reason"] == "query_limit" for q in planning["hops"]["supplementary_queries"])
+    assert any(
+        q["excluded_reason"] == "query_limit" for q in planning["hops"]["supplementary_queries"]
+    )
 
 
 def test_final_assessment_revokes_support_after_source_removed(assessed_api):
     client, resources, _, choices, _, files, assessments = assessed_api
+
     def remove_source():
         with resources.sessions.begin() as session:
             update_file_status(session, files[0], "failed")
+
     choices["binding_hook"] = remove_source
     answer = ask(client).json()
     planning = answer["retrieval"]["planning"]
@@ -414,28 +689,53 @@ def test_final_assessment_revokes_support_after_source_removed(assessed_api):
 
 def test_initial_context_can_satisfy_a_whole_dependency_chain(assessed_api):
     client, resources, _, _, bindings, _, assessments = assessed_api
-    resources.settings.retrieval_candidate_limit = 3
+    resources.retriever.options.candidate_limit = 3
     answer = ask(client).json()
     hops = answer["retrieval"]["planning"]["hops"]
     assert hops["stop_reason"] == "requirements_supported"
     assert [s["status"] for s in hops["dependencies"]] == ["not_needed", "not_needed"]
-    assert resources.embeddings.embed_query.call_count == 1 and len(assessments) == 1 and not bindings
+    assert (
+        resources.embeddings.embed_query.call_count == 1 and len(assessments) == 1 and not bindings
+    )
 
 
 def test_question_filename_reformulation_does_not_require_a_source_target():
     from knowledgebase.schemas import AnswerRequirement
 
-    requirements = [AnswerRequirement(requirement_id='grades', description='Grades in course.pdf')]
-    value = {'requirements': [{'requirement_id': 'grades', 'status': 'missing',
-                              'gap': 'Grade weights are absent.', 'references': []}],
-             'queries': [{'requirement_ids': ['grades'], 'query_template': 'In course.pdf, find grade weights.',
-                          'target': '', 'references': []}]}
-    _, queries, _ = validate_assessment(SufficiencyAssessment.model_validate(value), requirements, [])
-    assert queries[0]['text'] == 'In course.pdf, find grade weights.'
+    requirements = [AnswerRequirement(requirement_id="grades", description="Grades in course.pdf")]
+    value = {
+        "requirements": [
+            {
+                "requirement_id": "grades",
+                "status": "missing",
+                "gap": "Grade weights are absent.",
+                "references": [],
+            }
+        ],
+        "queries": [
+            {
+                "requirement_ids": ["grades"],
+                "query_template": "In course.pdf, find grade weights.",
+                "target": "",
+                "references": [],
+            }
+        ],
+    }
+    _, queries, _ = validate_assessment(
+        SufficiencyAssessment.model_validate(value), requirements, []
+    )
+    assert queries[0]["text"] == "In course.pdf, find grade weights."
     # This shape occurred in the live PDF run; keep rejecting unbound targets.
-    value['queries'][0].update(query_template='In {target}, find grade weights.', target='course.pdf')
-    _, queries, rejected = validate_assessment(SufficiencyAssessment.model_validate(value), requirements, [])
-    assert queries == [] and rejected[0]['reason'] == 'A supplementary target must occur in every selected passage.'
+    value["queries"][0].update(
+        query_template="In {target}, find grade weights.", target="course.pdf"
+    )
+    _, queries, rejected = validate_assessment(
+        SufficiencyAssessment.model_validate(value), requirements, []
+    )
+    assert (
+        queries == []
+        and rejected[0]["reason"] == "A supplementary target must occur in every selected passage."
+    )
 
 
 def test_separate_table_passage_ids_preserve_exact_source_spans():
@@ -445,26 +745,61 @@ def test_separate_table_passage_ids_preserve_exact_source_spans():
 
     from knowledgebase.schemas import AnswerRequirement
 
-    text = 'Three Months Ended\tTwelve Months Ended\nOther rows\nNet income\t$ 14,736\t$ 93,736'
-    packed = SimpleNamespace(evidence=SimpleNamespace(chunks=[SimpleNamespace(
-        chunk=SimpleNamespace(file_id='pdf', start_offset=0, end_offset=len(text), text=text),
-        file_name='report.pdf', pdf=None)]))
+    text = "Three Months Ended\tTwelve Months Ended\nOther rows\nNet income\t$ 14,736\t$ 93,736"
+    packed = SimpleNamespace(
+        evidence=SimpleNamespace(
+            chunks=[
+                SimpleNamespace(
+                    chunk=SimpleNamespace(
+                        file_id="pdf", start_offset=0, end_offset=len(text), text=text
+                    ),
+                    file_name="report.pdf",
+                    pdf=None,
+                )
+            ]
+        )
+    )
     excerpts = assessment_excerpts(packed)
     selected = [excerpts[0], excerpts[-1]]
-    requirements = [AnswerRequirement(requirement_id='income', description='Quarterly and annual net income')]
+    requirements = [
+        AnswerRequirement(requirement_id="income", description="Quarterly and annual net income")
+    ]
+
     def assessment(references):
-        return SufficiencyAssessment.model_validate({'requirements': [{'requirement_id': 'income',
-            'status': 'supported', 'gap': '', 'references': references}], 'queries': []})
+        return SufficiencyAssessment.model_validate(
+            {
+                "requirements": [
+                    {
+                        "requirement_id": "income",
+                        "status": "supported",
+                        "gap": "",
+                        "references": references,
+                    }
+                ],
+                "queries": [],
+            }
+        )
+
     # The live response spliced headers and values; this output can now select only IDs.
     with pytest.raises(ValidationError):
-        assessment([{'evidence_id': selected[0]['evidence_id'],
-                     'quote': 'Three Months Ended\tTwelve Months Ended\n... Net income\t$ 14,736\t$ 93,736'}])
-    result, _, _ = validate_assessment(assessment([{'evidence_id': e['evidence_id']} for e in selected]),
-                                    requirements, excerpts)
-    assert len(result[0]['references']) == 2
-    assert [ref['quote'] for ref in result[0]['references']] == [text.splitlines(keepends=True)[0], text.splitlines()[-1]]
-    for ref in result[0]['references']:
-        assert text[ref['start_offset']:ref['end_offset']] == ref['quote']
+        assessment(
+            [
+                {
+                    "evidence_id": selected[0]["evidence_id"],
+                    "quote": "Three Months Ended\tTwelve Months Ended\n... Net income\t$ 14,736\t$ 93,736",
+                }
+            ]
+        )
+    result, _, _ = validate_assessment(
+        assessment([{"evidence_id": e["evidence_id"]} for e in selected]), requirements, excerpts
+    )
+    assert len(result[0]["references"]) == 2
+    assert [ref["quote"] for ref in result[0]["references"]] == [
+        text.splitlines(keepends=True)[0],
+        text.splitlines()[-1],
+    ]
+    for ref in result[0]["references"]:
+        assert text[ref["start_offset"] : ref["end_offset"]] == ref["quote"]
 
 
 def test_supplementary_target_must_occur_in_selected_passage():
@@ -473,27 +808,62 @@ def test_supplementary_target_must_occur_in_selected_passage():
     from knowledgebase.schemas import AnswerRequirement
 
     text = DOCUMENTS[0][1]
-    packed = SimpleNamespace(evidence=SimpleNamespace(chunks=[SimpleNamespace(
-        chunk=SimpleNamespace(file_id='award', start_offset=40, end_offset=40 + len(text), text=text),
-        file_name='award.txt', pdf=None)]))
+    packed = SimpleNamespace(
+        evidence=SimpleNamespace(
+            chunks=[
+                SimpleNamespace(
+                    chunk=SimpleNamespace(
+                        file_id="award", start_offset=40, end_offset=40 + len(text), text=text
+                    ),
+                    file_name="award.txt",
+                    pdf=None,
+                )
+            ]
+        )
+    )
     excerpts = assessment_excerpts(packed)
-    requirements = [AnswerRequirement(requirement_id='employer', description='The prize winner employer')]
-    value = {'requirements': [{'requirement_id': 'employer', 'status': 'missing',
-                              'gap': 'The employer is absent.', 'references': []}],
-             'queries': [{'requirement_ids': ['employer'], 'query_template': 'Who employs {target}?',
-                          'target': 'Mira Cole', 'references': [{'evidence_id': excerpts[0]['evidence_id']}]}]}
-    _, queries, _ = validate_assessment(SufficiencyAssessment.model_validate(value), requirements, excerpts)
-    assert queries[0]['text'] == 'Who employs Mira Cole?'
-    assert queries[0]['references'][0]['quote'] == text
-    assert queries[0]['references'][0]['start_offset'] == 40
+    requirements = [
+        AnswerRequirement(requirement_id="employer", description="The prize winner employer")
+    ]
+    value = {
+        "requirements": [
+            {
+                "requirement_id": "employer",
+                "status": "missing",
+                "gap": "The employer is absent.",
+                "references": [],
+            }
+        ],
+        "queries": [
+            {
+                "requirement_ids": ["employer"],
+                "query_template": "Who employs {target}?",
+                "target": "Mira Cole",
+                "references": [{"evidence_id": excerpts[0]["evidence_id"]}],
+            }
+        ],
+    }
+    _, queries, _ = validate_assessment(
+        SufficiencyAssessment.model_validate(value), requirements, excerpts
+    )
+    assert queries[0]["text"] == "Who employs Mira Cole?"
+    assert queries[0]["references"][0]["quote"] == text
+    assert queries[0]["references"][0]["start_offset"] == 40
     # Selecting a valid passage ID does not permit an entity absent from that passage.
-    value['queries'][0]['target'] = 'Birch Institute'
-    _, queries, rejected = validate_assessment(SufficiencyAssessment.model_validate(value), requirements, excerpts)
-    assert queries == [] and rejected[0]['reason'] == 'A supplementary target must occur in every selected passage.'
+    value["queries"][0]["target"] = "Birch Institute"
+    _, queries, rejected = validate_assessment(
+        SufficiencyAssessment.model_validate(value), requirements, excerpts
+    )
+    assert (
+        queries == []
+        and rejected[0]["reason"] == "A supplementary target must occur in every selected passage."
+    )
 
 
 @pytest.mark.parametrize("available", [True, False])
-def test_answer_rule_survives_history_without_masking_real_missing_evidence(assessed_api, available):
+def test_answer_rule_survives_history_without_masking_real_missing_evidence(
+    assessed_api, available
+):
     client, resources, sdk, choices, _, files, assessments = assessed_api
     one_point(choices)
     rule = "If the source does not establish the location, state that limitation."
@@ -503,8 +873,14 @@ def test_answer_rule_survives_history_without_masking_real_missing_evidence(asse
     else:
         choices["assessment"] = missing
     question = QUESTION + " " + rule
-    result = client.post("/api/chat", json={"question": question, "retrieval_mode": "planned",
-        "file_ids": [files[2] if available else files[0]]})
+    result = client.post(
+        "/api/chat",
+        json={
+            "question": question,
+            "retrieval_mode": "planned",
+            "file_ids": [files[2] if available else files[0]],
+        },
+    )
     assert result.status_code == 200, result.text
     answer = result.json()
     planning = answer["retrieval"]["planning"]
@@ -513,10 +889,14 @@ def test_answer_rule_survives_history_without_masking_real_missing_evidence(asse
     assert ("Oslo" in assessments[0]["context"]) is available
     status = planning["assessment"]["requirements"][0]["status"]
     assert status == ("supported" if available else "missing")
-    assert planning["hops"]["stop_reason"] == ("requirements_supported" if available else "no_eligible_query")
+    assert planning["hops"]["stop_reason"] == (
+        "requirements_supported" if available else "no_eligible_query"
+    )
     assert planning["hops"]["supplementary_queries"] == []
     if available:
-        generation = [call.kwargs for call in sdk.responses.create.call_args_list if "text" not in call.kwargs][-1]
+        generation = [
+            call.kwargs for call in sdk.responses.create.call_args_list if "text" not in call.kwargs
+        ][-1]
         assert question in generation["input"][0]["content"]
     else:
         assert answer["answer"] == INSUFFICIENT_EVIDENCE

@@ -1,8 +1,11 @@
 """Exercise recorded plan-scope failures and annotated downstream contracts."""
+
 import json
 from pathlib import Path
 
 import pytest
+from test_automatic_planning import response
+from test_period_rule_constraints import planner_with
 
 from knowledgebase.config import PlanningOptions
 from knowledgebase.providers.llm import LLMClient
@@ -10,8 +13,6 @@ from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE, generate_answer
 from knowledgebase.schemas import PlannedEvidence
 from knowledgebase.services.hops import HopController
 from knowledgebase.services.planning import PreparedPlanning, RequestControl
-from test_automatic_planning import response
-from test_period_rule_constraints import planner_with
 
 ROOT = Path(__file__).resolve().parents[1]
 RUN = ROOT / "evals/library-runs/20260928-period-rule-acceptance"
@@ -28,7 +29,9 @@ def replay_scope(*, annotated):
     generated = planner.plan(fixture["question"], fixture["question"], lambda: 30)
     evidence = PlannedEvidence.model_validate_json((RUN / "frozen-evidence.json").read_text())
     prepared = PreparedPlanning(generated.plan, evidence.trace.allowed_file_ids, generated.record)
-    controller = HopController(prepared, None, None, None, planner, RequestControl(PlanningOptions(), "cl100k_base"))
+    controller = HopController(
+        prepared, None, None, planner, RequestControl(PlanningOptions(), "cl100k_base")
+    )
     controller.result = evidence
     controller.result.trace.plan = generated.plan
     controller.result.trace.runs = []
@@ -37,8 +40,12 @@ def replay_scope(*, annotated):
     sdk.responses.create.return_value = response(json.dumps(assessment))
     controller.assess()
     sdk.responses.create.return_value = response(original["answer"])
-    answer = generate_answer(fixture["question"], evidence.evidence.chunks,
-        LLMClient(sdk, "offline"), assessment=controller.assessment)
+    answer = generate_answer(
+        fixture["question"],
+        evidence.evidence.chunks,
+        LLMClient(sdk, "offline"),
+        assessment=controller.assessment,
+    )
     return controller, sdk, answer, fixture
 
 
@@ -46,10 +53,16 @@ def test_two_missing_facts_abstain_without_the_duplicate_availability_requiremen
     before, before_sdk, before_answer, fixture = replay_scope(annotated=False)
     after, sdk, answer, _ = replay_scope(annotated=True)
     assert len(before.prepared.plan.requirements) == 3
-    assert [p["status"] for p in before.assessment["requirements"]] == ["missing", "missing", "supported"]
+    assert [p["status"] for p in before.assessment["requirements"]] == [
+        "missing",
+        "missing",
+        "supported",
+    ]
     assert "ungrouped Pre-Pawn" in before_answer
     assert before_sdk.responses.create.call_count == 3
-    assert [r.model_dump() for r in after.prepared.plan.requirements] == fixture["expected_decision"]["requirements"]
+    assert [r.model_dump() for r in after.prepared.plan.requirements] == fixture[
+        "expected_decision"
+    ]["requirements"]
     assert after.prepared.plan.answer_rules == before.prepared.plan.answer_rules
     assert after.prepared.plan.original_question == before.prepared.plan.original_question
     assert after.prepared.record["output_text"] == json.dumps(fixture["expected_decision"])
@@ -69,7 +82,10 @@ def test_two_missing_facts_abstain_without_the_duplicate_availability_requiremen
     assert after.trace["stop_reason"] == before.trace["stop_reason"] == "round_limit"
     # Verify production payloads; this does not establish model compliance.
     assert after.prepared.record["prompt_version"] == "dependent-planner-v8"
-    assert "not another requested fact or retrieval target" in after.prepared.record["input"][0]["content"]
+    assert (
+        "not another requested fact or retrieval target"
+        in after.prepared.record["input"][0]["content"]
+    )
     generation = before_sdk.responses.create.call_args.kwargs["input"]
     assert fixture["question"] in generation[0]["content"]
     assert "use the user's original column names" in generation[1]["content"]

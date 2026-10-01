@@ -62,6 +62,11 @@ def get_file(session: Session, file_id: str) -> File | None:
     return _file_snapshot(record, session.get(PdfSourceRecord, file_id)) if record is not None else None
 
 
+def get_pdf_revision(session: Session, file_id: str) -> str | None:
+    """Read extraction identity without returning an ORM record."""
+    return session.scalar(select(PdfSourceRecord.revision_id).where(PdfSourceRecord.file_id == file_id))
+
+
 def get_source_texts(session: Session, file_ids: list[str]) -> dict[str, str]:
     """Load canonical text for identity resolution without deserializing blocks."""
     texts = dict(session.execute(select(DocumentSourceRecord.file_id, DocumentSourceRecord.text)

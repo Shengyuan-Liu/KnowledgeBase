@@ -22,7 +22,7 @@ model settings or historical evaluation artifacts are modified.
 Every command has an append-only JSON/log pair containing the full metric inventory,
 code hashes, command, duration, result counts and any failure output.
 
-Implementation and final comparison remain pending.
+Stage results and the final comparison are recorded below.
 
 ## Document processing
 
@@ -51,3 +51,31 @@ Implementation and final comparison remain pending.
 - `service-reuse`: 2 passed. Two overlapping streams through one ChatService keep
   file scope, answer text and saved histories separate; request deadlines and
   cancellation do not overwrite shared model client limits.
+
+## Bootstrap and consumer migration
+
+- `bootstrap-api`: 20 passed and 103 fixture errors from a missing bootstrap import
+  after moving provider construction. The fixture imports were corrected.
+- `bootstrap-smoke`: 23 passed, including CLI overrides and frozen HTTP contracts.
+- `static-components`: retained 25 findings (unused imports/locals and two missing
+  bootstrap references); `static-components-2` passed after cleanup.
+- `bootstrap-backend`: 848 passed, 10 failed, 1 skipped. Eight recorded assessment
+  replays still called the old HopController constructor; two API fixtures patched
+  providers in their old module. No failed expectation was removed.
+- `bootstrap-regression-fixes`: 36 passed after migrating those call sites.
+- `final-backend`: 858 passed, 1 opt-in live smoke skipped, 0 failures/errors.
+- `final-browser`: 21 passed, exercising HTTP/SSE, responsive file management,
+  PDF citations, history, source deletion, dependent plans and cancellation.
+- `behavior-after.json` matches the normalized frozen baseline. A separate
+  comparison receipt documents exact groups and schemas after code commit.
+
+The frozen contract covers a deterministic TXT fixture, not a new live quality
+benchmark. Existing PDF/rerank/dependency fixtures and their assertions remain in
+the offline suite. Real-model quality, billing, production latency/throughput and
+new live PDF extraction fidelity were not measured. No paid LLM evaluation ran.
+Existing Starlette/Docling deprecations remain; browser logs also retain the
+existing Node color-environment warnings. Tests use isolated temporary storage.
+
+The initial read-only directory/class audit and document content review did not
+execute model requests. Markdown reviews are recorded separately. The project
+SDK, model, tokenizer and dependency-lock defaults remain unchanged.

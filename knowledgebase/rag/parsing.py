@@ -1,8 +1,8 @@
 """Parse document structure without rewriting the canonical source text."""
 
+import re
 from hashlib import sha256
 from pathlib import Path
-import re
 from uuid import uuid4
 
 from markdown_it import MarkdownIt
@@ -10,10 +10,7 @@ from markdown_it import MarkdownIt
 from knowledgebase.rag.pdf_runtime import LocalPdfParser
 from knowledgebase.schemas import BlockType, File, SourceBlock
 
-
-_MARKDOWN = MarkdownIt(
-    "commonmark", {"html": False, "inline_definitions": True}
-).enable("table")
+_MARKDOWN = MarkdownIt("commonmark", {"html": False, "inline_definitions": True}).enable("table")
 
 _BLOCK_TYPES: dict[str, BlockType] = {
     "heading_open": "heading",
@@ -46,16 +43,26 @@ def parse_txt(text: str) -> list[SourceBlock]:
                 paragraph_start = start
             paragraph_end = end
         elif paragraph_start is not None:
-            blocks.append(SourceBlock(
-                kind="paragraph", text=text[paragraph_start:paragraph_end],
-                start_offset=paragraph_start, end_offset=paragraph_end, heading_path=[],
-            ))
+            blocks.append(
+                SourceBlock(
+                    kind="paragraph",
+                    text=text[paragraph_start:paragraph_end],
+                    start_offset=paragraph_start,
+                    end_offset=paragraph_end,
+                    heading_path=[],
+                )
+            )
             paragraph_start = None
     if paragraph_start is not None:
-        blocks.append(SourceBlock(
-            kind="paragraph", text=text[paragraph_start:paragraph_end],
-            start_offset=paragraph_start, end_offset=paragraph_end, heading_path=[],
-        ))
+        blocks.append(
+            SourceBlock(
+                kind="paragraph",
+                text=text[paragraph_start:paragraph_end],
+                start_offset=paragraph_start,
+                end_offset=paragraph_end,
+                heading_path=[],
+            )
+        )
     return blocks
 
 
@@ -80,11 +87,16 @@ def parse_markdown(text: str) -> list[SourceBlock]:
                 headings.pop()
             headings.append((level, tokens[index + 1].content))
         start, end = (offsets[line] for line in token.map)
-        blocks.append(SourceBlock(
-            kind=_BLOCK_TYPES[token.type], text=text[start:end],
-            start_offset=start, end_offset=end,
-            heading_path=[title for _, title in headings], heading_level=level,
-        ))
+        blocks.append(
+            SourceBlock(
+                kind=_BLOCK_TYPES[token.type],
+                text=text[start:end],
+                start_offset=start,
+                end_offset=end,
+                heading_path=[title for _, title in headings],
+                heading_level=level,
+            )
+        )
     return blocks
 
 
@@ -120,8 +132,11 @@ class DocumentParser:
         if file.type == "pdf":
             parsed = self.pdf_parser.parse(content)
             if not parsed.text.strip():
-                raise InvalidUploadError("No supported text was extracted. OCR is disabled; scanned-only PDFs are not supported.")
+                raise InvalidUploadError(
+                    "No supported text was extracted. OCR is disabled; scanned-only PDFs are not supported."
+                )
             return parsed.model_copy(update={"file_id": file.file_id, "file_name": file.file_name})
         blocks = parse_markdown(file.text) if file.type == "md" else parse_txt(file.text)
-        return file.model_copy(update={"blocks": tuple(blocks),
-                                       "source_hash": sha256(content).hexdigest()})
+        return file.model_copy(
+            update={"blocks": tuple(blocks), "source_hash": sha256(content).hexdigest()}
+        )

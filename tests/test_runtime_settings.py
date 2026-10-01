@@ -3,21 +3,23 @@
 import json
 import sys
 from pathlib import Path
-from unittest.mock import MagicMock, Mock
+from unittest.mock import MagicMock, Mock, create_autospec
 
-from fastapi.testclient import TestClient
 import pytest
+from fastapi.testclient import TestClient
 
-from knowledgebase.config import RetrievalOptions
-from knowledgebase import cli
+from knowledgebase import bootstrap, cli
 from knowledgebase.api import app as api_module
+from knowledgebase.config import RetrievalOptions
 from knowledgebase.schemas import CitationCheck, ConversationAnswer
 from knowledgebase.storage.operations import get_chunks, get_document_source
 
 
 @pytest.mark.parametrize("streaming", [False, True])
 @pytest.mark.parametrize("strategy", ["structural", "character", "parent_child", "semantic"])
-def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app, tmp_path, monkeypatch, streaming, strategy):
+def test_api_uses_dotenv_for_upload_retrieval_history_and_models(
+    configured_app, tmp_path, monkeypatch, streaming, strategy
+):
     app, embeddings, sdk = configured_app
     (tmp_path / ".env").write_text(
         "ANSWER_MODEL=custom-answer\nANSWER_REASONING_EFFORT=low\nEMBEDDING_MODEL=custom-embedding\nRESOLVER_MODEL=custom-resolver\n"
@@ -41,24 +43,35 @@ def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app,
 
     streamer.stream = stream
     streaming_factory = Mock(return_value=streamer)
-    monkeypatch.setattr(api_module, "StreamingLLMClient", streaming_factory)
+    monkeypatch.setattr(bootstrap, "StreamingLLMClient", streaming_factory)
     with TestClient(app) as client:
-        uploaded = client.post("/api/files", files={"file": ("notes.txt", b"abcdefghijklmnopqrstuvwxyz0123456789")})
+        uploaded = client.post(
+            "/api/files", files={"file": ("notes.txt", b"abcdefghijklmnopqrstuvwxyz0123456789")}
+        )
         assert uploaded.status_code == 201
         if strategy == "character":
-            embeddings.embed_documents.assert_called_once_with([
-                "abcdefghijkl", "jklmnopqrstu", "stuvwxyz0123", "123456789",
-            ])
+            embeddings.embed_documents.assert_called_once_with(
+                [
+                    "abcdefghijkl",
+                    "jklmnopqrstu",
+                    "stuvwxyz0123",
+                    "123456789",
+                ]
+            )
         else:
             with app.state.resources.sessions() as session:
                 chunks = get_chunks(session, uploaded.json()["file_id"])
                 source = get_document_source(session, uploaded.json()["file_id"])
             assert source.text == "abcdefghijklmnopqrstuvwxyz0123456789"
             assert len(chunks) >= 2
-            assert all(chunk.max_tokens == 4 and chunk.tokenizer == "o200k_base" for chunk in chunks)
+            assert all(
+                chunk.max_tokens == 4 and chunk.tokenizer == "o200k_base" for chunk in chunks
+            )
             assert all(chunk.token_count <= 4 for chunk in chunks)
             if strategy == "semantic":
-                assert embeddings.embed_documents.call_args.args == ([chunk.text for chunk in chunks],)
+                assert embeddings.embed_documents.call_args.args == (
+                    [chunk.text for chunk in chunks],
+                )
                 assert source.indexing["strategy"] == "semantic"
             else:
                 embeddings.embed_documents.assert_called_once_with([chunk.text for chunk in chunks])
@@ -77,7 +90,16 @@ def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app,
 
         first = ask("First question")
         assert len(first["sources"]) == (1 if strategy in ("parent_child", "semantic") else 2)
-        assert first["retrieval"]["options"] == RetrievalOptions(packing_strategy="parent_then_child", candidate_limit=3, bm25_k1=0.9, bm25_b=0.4, rrf_k=10).model_dump()
+        assert (
+            first["retrieval"]["options"]
+            == RetrievalOptions(
+                packing_strategy="parent_then_child",
+                candidate_limit=3,
+                bm25_k1=0.9,
+                bm25_b=0.4,
+                rrf_k=10,
+            ).model_dump()
+        )
         assert first["retrieval"]["top_k"] == 2
         assert first["retrieval"]["max_tokens"] == 96
         assert first["retrieval"]["tokenizer"] == "o200k_base"
@@ -91,16 +113,29 @@ def test_api_uses_dotenv_for_upload_retrieval_history_and_models(configured_app,
         resolver = [c for c in calls if c.kwargs["model"] == "custom-resolver"]
         assert len(resolver) == 1
         assert "reasoning" not in resolver[0].kwargs
-        assert all(c.kwargs["reasoning"] == {"effort": "low"} for c in calls if c.kwargs["model"] == "custom-answer")
+        assert all(
+            c.kwargs["reasoning"] == {"effort": "low"}
+            for c in calls
+            if c.kwargs["model"] == "custom-answer"
+        )
         assert json.loads(resolver[0].kwargs["input"][1]["content"])["history"] == [
             {"role": "assistant", "content": "Answer. [1]"},
         ]
         assert [c.kwargs["model"] for c in calls] == (
-            ["custom-resolver"] if streaming else ["custom-answer", "custom-resolver", "custom-answer"]
+            ["custom-resolver"]
+            if streaming
+            else ["custom-answer", "custom-resolver", "custom-answer"]
         )
-        api_module.EmbeddingClient.assert_called_once_with(sdk, model="custom-embedding")
-        streaming_factory.assert_called_once_with(async_sdk, model="custom-answer", reasoning_effort="low")
-        expected = dict(api_key="offline-test-key", base_url="https://provider.test/v1", timeout=42, max_retries=1)
+        bootstrap.EmbeddingClient.assert_called_once_with(sdk, model="custom-embedding")
+        streaming_factory.assert_called_once_with(
+            async_sdk, model="custom-answer", reasoning_effort="low"
+        )
+        expected = dict(
+            api_key="offline-test-key",
+            base_url="https://provider.test/v1",
+            timeout=42,
+            max_retries=1,
+        )
         api_module.OpenAI.assert_called_once_with(**expected)
         async_factory.assert_called_once_with(**expected)
 
@@ -122,53 +157,88 @@ def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkey
     sdk.__enter__.return_value = sdk
     monkeypatch.setattr(cli, "OpenAI", Mock(return_value=sdk))
     embeddings = Mock()
-    monkeypatch.setattr(cli, "EmbeddingClient", Mock(return_value=embeddings))
+    monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
     llm, resolver = Mock(), Mock()
     llm_factory = Mock(side_effect=[llm, resolver])
-    monkeypatch.setattr(cli, "LLMClient", llm_factory)
+    monkeypatch.setattr(bootstrap, "LLMClient", llm_factory)
     ingest = Mock(return_value="file")
-    monkeypatch.setattr(cli.FileService, "ingest", ingest)
+    monkeypatch.setattr(bootstrap.FileService, "ingest", ingest)
     created_services = []
-    factory = cli.FileService.from_settings
+    factory = bootstrap.FileService.from_settings
 
     def create_service(*args, **kwargs):
         service = factory(*args, **kwargs)
         created_services.append(service)
         return service
 
-    monkeypatch.setattr(cli.FileService, "from_settings", create_service)
-    answer = Mock(return_value=ConversationAnswer(
-        answer="Answer", sources=[], citation_check=CitationCheck(valid_source_ids=[], invalid_source_ids=[], no_citations=True),
-        conversation_id="conversation", message_id=1, question="Question", retrieval_question="Question",
-    ))
-    monkeypatch.setattr(cli, "answer_in_conversation", answer)
+    monkeypatch.setattr(bootstrap.FileService, "from_settings", create_service)
+    answer = create_autospec(
+        bootstrap.ChatService.answer,
+        return_value=ConversationAnswer(
+            answer="Answer",
+            sources=[],
+            citation_check=CitationCheck(
+                valid_source_ids=[], invalid_source_ids=[], no_citations=True
+            ),
+            conversation_id="conversation",
+            message_id=1,
+            question="Question",
+            retrieval_question="Question",
+        ),
+    )
+    monkeypatch.setattr(bootstrap.ChatService, "answer", answer)
     monkeypatch.setattr(cli, "run_chat_loop", lambda ask: ask("Question"))
     argv = ["main.py", str(source)]
     if override:
-        argv += ["--model", "argument-answer", "--top-k", "4", "--evidence-packing-strategy", "parent_first"]
+        argv += [
+            "--model",
+            "argument-answer",
+            "--top-k",
+            "4",
+            "--evidence-packing-strategy",
+            "parent_first",
+        ]
     monkeypatch.setattr(sys, "argv", argv)
     cli.cli()
-    assert llm_factory.call_args_list[0].kwargs["model"] == ("argument-answer" if override else "file-answer")
+    assert llm_factory.call_args_list[0].kwargs["model"] == (
+        "argument-answer" if override else "file-answer"
+    )
     assert llm_factory.call_args_list[1].kwargs["model"] == "file-resolver"
     assert llm_factory.call_args_list[0].kwargs["reasoning_effort"] == "low"
     assert "reasoning_effort" not in llm_factory.call_args_list[1].kwargs
-    cli.EmbeddingClient.assert_called_once_with(sdk, model="file-embedding")
-    service, = created_services
+    bootstrap.EmbeddingClient.assert_called_once_with(sdk, model="file-embedding")
+    (service,) = created_services
     ingest.assert_called_once_with("notes.md", b"Example text")
     assert service.assets.directory == (tmp_path / "data" / "v1" / "originals").resolve()
     assert service.parser.pdf_parser.model_dir == Path("data/pdf-models")
     assert vars(service.chunker) == {
-        "chunk_size": 12, "overlap": 3, "chunking_strategy": "structural",
-        "chunk_max_tokens": 17, "chunk_tokenizer": "o200k_base", "parent_max_tokens": 33,
-        "semantic_similarity_threshold": 0.5, "semantic_batch_size": 32, "embedding_model": "file-embedding",
+        "chunk_size": 12,
+        "overlap": 3,
+        "chunking_strategy": "structural",
+        "chunk_max_tokens": 17,
+        "chunk_tokenizer": "o200k_base",
+        "parent_max_tokens": 33,
+        "semantic_similarity_threshold": 0.5,
+        "semantic_batch_size": 32,
+        "embedding_model": "file-embedding",
         "embeddings": embeddings,
     }
-    assert answer.call_args.kwargs == {
-        "reranker_client": None,
-        "conversation_id": None, "top_k": 4 if override else 2, "history_limit": 1, "resolver_client": resolver,
-        "evidence_max_tokens": 113, "encoding_name": "o200k_base",
-        "retrieval_options": RetrievalOptions(strategy="vector", packing_strategy="parent_first" if override else "parent_then_child", candidate_limit=7, bm25_k1=0.9, bm25_b=0.4, rrf_k=10),
-    }
+    chat = answer.call_args.args[0]
+    assert answer.call_args.args[1] == "Question"
+    assert answer.call_args.kwargs == {"conversation_id": None}
+    assert chat.history_limit == 1 and chat.resolver is resolver
+    retriever = chat.rag.retriever
+    assert retriever.reranker is None
+    assert retriever.top_k == (4 if override else 2)
+    assert retriever.evidence_max_tokens == 113 and retriever.encoding_name == "o200k_base"
+    assert retriever.options == RetrievalOptions(
+        strategy="vector",
+        packing_strategy="parent_first" if override else "parent_then_child",
+        candidate_limit=7,
+        bm25_k1=0.9,
+        bm25_b=0.4,
+        rrf_k=10,
+    )
 
 
 @pytest.mark.parametrize("enabled", [True, False])
@@ -183,19 +253,30 @@ def test_cli_rerank_switch_and_model_reach_answer_service(tmp_path, monkeypatch,
     sdk.__enter__.return_value = sdk
     monkeypatch.setattr(cli, "OpenAI", Mock(return_value=sdk))
     factory = Mock()
-    monkeypatch.setattr(cli, "RerankerClient", factory)
-    answer = Mock(return_value=Mock(conversation_id="one"))
-    monkeypatch.setattr(cli, "answer_in_conversation", answer)
+    monkeypatch.setattr(bootstrap, "RerankerClient", factory)
+    answer = create_autospec(bootstrap.ChatService.answer, return_value=Mock(conversation_id="one"))
+    monkeypatch.setattr(bootstrap.ChatService, "answer", answer)
     monkeypatch.setattr(cli, "run_chat_loop", lambda ask: ask("Question"))
-    monkeypatch.setattr(sys, "argv", ["main.py", "--rerank-model", "argument-reranker",
-                                      "--rerank" if enabled else "--no-rerank"])
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "main.py",
+            "--rerank-model",
+            "argument-reranker",
+            "--rerank" if enabled else "--no-rerank",
+        ],
+    )
     cli.cli()
-    options = answer.call_args.kwargs["retrieval_options"]
+    retriever = answer.call_args.args[0].rag.retriever
+    options = retriever.options
     assert options.rerank_enabled is enabled
     assert options.rerank_candidate_limit == 7 and options.rerank_max_input_tokens == 1200
     if enabled:
-        factory.assert_called_once_with("argument-reranker", device="cpu", batch_size=2, max_pair_tokens=333)
-        assert answer.call_args.kwargs["reranker_client"] is factory.return_value
+        factory.assert_called_once_with(
+            "argument-reranker", device="cpu", batch_size=2, max_pair_tokens=333
+        )
+        assert retriever.reranker.client is factory.return_value
     else:
         factory.assert_not_called()
-        assert answer.call_args.kwargs["reranker_client"] is None
+        assert retriever.reranker is None

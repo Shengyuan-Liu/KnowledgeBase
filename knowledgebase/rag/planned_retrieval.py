@@ -1,20 +1,11 @@
-"""Execute independent queries, merge child ranks, then pack one evidence set."""
+"""Pure cross-query rank merging and answer-point candidate selection."""
 
-from time import perf_counter
-from collections.abc import Callable
-from sqlalchemy.orm import Session
-
-from knowledgebase.config import (
-    DEFAULT_TOP_K, DEFAULT_EVIDENCE_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER,
-    DEFAULT_EVIDENCE_PACKING_STRATEGY, RetrievalOptions,
-)
-from knowledgebase.providers.embeddings import EmbeddingClient
-from knowledgebase.providers.reranker import RerankerClient
 from knowledgebase.schemas import (
-    PlannedQuery, RetrievalPlan, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, QueryRun,
-    QueryVote, MergedCandidate, PlanTrace, PlannedEvidence, RequirementEvidence,
+    MergedCandidate,
+    QueryRun,
+    QueryVote,
+    RetrievalPlan,
 )
-from knowledgebase.storage.vectordb import ChromaStore
 
 
 def merge_query_runs(runs: list[QueryRun], *, k: float) -> list[MergedCandidate]:
@@ -33,14 +24,27 @@ def merge_query_runs(runs: list[QueryRun], *, k: float) -> list[MergedCandidate]
             key = run.text.strip()
             if key not in by_query or rank < by_query[key].rank:
                 by_query[key] = QueryVote(run_index=run_index, rank=rank)
-    scores = {identity: sum(1 / (k + vote.rank) for vote in by_query.values())
-              for identity, by_query in votes.items()}
-    return [MergedCandidate(chunk_id=identity, file_id=files[identity], score=scores[identity], rank=rank,
-                            votes=list(votes[identity].values()))
-            for rank, identity in enumerate(sorted(scores, key=lambda identity: (-scores[identity], identity)), start=1)]
+    scores = {
+        identity: sum(1 / (k + vote.rank) for vote in by_query.values())
+        for identity, by_query in votes.items()
+    }
+    return [
+        MergedCandidate(
+            chunk_id=identity,
+            file_id=files[identity],
+            score=scores[identity],
+            rank=rank,
+            votes=list(votes[identity].values()),
+        )
+        for rank, identity in enumerate(
+            sorted(scores, key=lambda identity: (-scores[identity], identity)), start=1
+        )
+    ]
 
 
-def _select_representatives(merged: list[MergedCandidate], runs: list[QueryRun], plan: RetrievalPlan, top_k: int) -> list[str]:
+def _select_representatives(
+    merged: list[MergedCandidate], runs: list[QueryRun], plan: RetrievalPlan, top_k: int
+) -> list[str]:
     """Reserve query-local leaders per requirement/document, then fill by RRF.
 
     A child with weak votes from many unrelated questions must not displace the
@@ -73,26 +77,3 @@ def _select_representatives(merged: list[MergedCandidate], runs: list[QueryRun],
         if candidate.chunk_id not in selected:
             selected.append(candidate.chunk_id)
     return selected
-
-
-def retrieve_plan(
-    plan: RetrievalPlan, session: Session, embedding_client: EmbeddingClient,
-    vector_store: ChromaStore, top_k: int = DEFAULT_TOP_K, *,
-    evidence_max_tokens: int = DEFAULT_EVIDENCE_MAX_TOKENS,
-    encoding_name: str = DEFAULT_CHUNK_TOKENIZER,
-    retrieval_options: RetrievalOptions | None = None,
-    reranker_client: RerankerClient | None = None,
-    file_ids: list[str] | None = None,
-    allowed_file_ids: list[str] | None = None,
-    checkpoint: Callable[[], object] | None = None,
-    queries: list[PlannedQuery] | None = None,
-    previous_runs: list[QueryRun] | None = None,
-    round_index: int = 1,
-) -> PlannedEvidence:
-    from knowledgebase.rag.retrieval import _configured_retriever
-
-    retriever = _configured_retriever(embedding_client, vector_store, top_k,
-        evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
-        retrieval_options=retrieval_options, reranker_client=reranker_client)
-    return retriever.retrieve_plan(plan, session, file_ids=file_ids, allowed_file_ids=allowed_file_ids,
-        checkpoint=checkpoint, queries=queries, previous_runs=previous_runs, round_index=round_index)

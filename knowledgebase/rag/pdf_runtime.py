@@ -19,6 +19,8 @@ class LocalPdfParser:
                 try:
                     from knowledgebase.rag.pdf import PdfParser
                 except ImportError as error:
-                    raise RuntimeError("PDF support requires installation with uv sync --extra pdf.") from error
+                    raise RuntimeError(
+                        "PDF support requires installation with uv sync --extra pdf."
+                    ) from error
                 self._parser = PdfParser(self.model_dir)
             return self._parser.parse(content)

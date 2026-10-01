@@ -6,68 +6,58 @@ from knowledgebase.api.dependencies import Resources
 from knowledgebase.api.streaming import ChatStreamingResponse
 from knowledgebase.schemas import ChatRequest, ConversationAnswer, StreamChatRequest
 from knowledgebase.services.chat import (
-    ConversationNotFoundError, answer_in_conversation, stream_answer_in_conversation,
+    ConversationNotFoundError,
 )
-
 
 router = APIRouter(prefix="/api/chat", tags=["chat"])
 
 
-def planning_arguments(body, resources):
-    if (body.retrieval_mode or resources.settings.retrieval_mode) == "single":
-        return {}
-    if resources.planner is None:
-        raise RuntimeError("The planner is not configured.")
-    return {"planner_client": resources.planner, "planning_options": resources.settings.planning}
-
-
-@router.post("", response_model=ConversationAnswer, responses={
-    404: {"description": "Conversation not found"},
-    500: {"description": "Answer processing failed"},
-    504: {"description": "Planned request deadline reached"},
-})
+@router.post(
+    "",
+    response_model=ConversationAnswer,
+    responses={
+        404: {"description": "Conversation not found"},
+        500: {"description": "Answer processing failed"},
+        504: {"description": "Planned request deadline reached"},
+    },
+)
 def chat(body: ChatRequest, resources: Resources):
     """Return the complete answer after the conversation exchange is saved."""
     try:
-        return answer_in_conversation(
-            body.question, resources.sessions, resources.embeddings,
-            resources.store, resources.llm,
+        return resources.chat.answer(
+            body.question,
             conversation_id=body.conversation_id,
-            top_k=resources.settings.retrieval_top_k, history_limit=resources.settings.history_limit,
-            resolver_client=resources.resolver_llm,
-            evidence_max_tokens=resources.settings.evidence_max_tokens,
-            encoding_name=resources.settings.chunk_tokenizer,
-            retrieval_options=resources.settings.retrieval_options,
-            reranker_client=resources.reranker,
             file_ids=body.file_ids,
-            **planning_arguments(body, resources),
+            retrieval_mode=body.retrieval_mode,
         )
     except ConversationNotFoundError as error:
         raise HTTPException(status_code=404, detail="Conversation not found.") from error
     except TimeoutError as error:
-        raise HTTPException(status_code=504, detail="The planned request timed out. Please retry or narrow the question.") from error
+        raise HTTPException(
+            status_code=504,
+            detail="The planned request timed out. Please retry or narrow the question.",
+        ) from error
     except Exception as error:
         raise HTTPException(status_code=500, detail="Answer processing failed.") from error
 
 
-@router.post("/stream", response_class=ChatStreamingResponse, status_code=200, responses={
-    404: {"description": "Conversation not found"},
-    500: {"description": "Stream setup failed"},
-})
+@router.post(
+    "/stream",
+    response_class=ChatStreamingResponse,
+    status_code=200,
+    responses={
+        404: {"description": "Conversation not found"},
+        500: {"description": "Stream setup failed"},
+    },
+)
 async def stream_chat(body: StreamChatRequest, resources: Resources):
     try:
-        events = await stream_answer_in_conversation(
-            body.question, body.request_id, resources.sessions, resources.embeddings,
-            resources.store, resources.llm, resources.streaming_llm,
+        events = await resources.chat.stream(
+            body.question,
+            body.request_id,
             conversation_id=body.conversation_id,
-            top_k=resources.settings.retrieval_top_k, history_limit=resources.settings.history_limit,
-            resolver_client=resources.resolver_llm,
-            evidence_max_tokens=resources.settings.evidence_max_tokens,
-            encoding_name=resources.settings.chunk_tokenizer,
-            retrieval_options=resources.settings.retrieval_options,
-            reranker_client=resources.reranker,
             file_ids=body.file_ids,
-            **planning_arguments(body, resources),
+            retrieval_mode=body.retrieval_mode,
         )
     except ConversationNotFoundError as error:
         raise HTTPException(status_code=404, detail="Conversation not found.") from error
