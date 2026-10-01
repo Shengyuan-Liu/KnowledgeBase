@@ -55,8 +55,8 @@ in the matched replay.
 | Browser lifecycle, history and citations | 21 passed | [browser-final.json](browser-final.json) |
 | Frontend type checking/build | Passed | [frontend-build-1.json](frontend-build-1.json) |
 | Unused imports/variables and unresolved names | Passed | [unused-final.json](unused-final.json) |
-| Frozen PDF comparison | 5/5 extraction payloads/revisions and chunk sets identical | [comparison-2.json](comparison-2.json) |
-| Frozen query comparison | 16/16 top-20 BM25 rankings, packed source spans, PDF evidence and rendered contexts identical | [comparison-2.json](comparison-2.json) |
+| Frozen PDF comparison | 5/5 extraction payloads/revisions and chunk sets identical | [comparison-results.json](comparison-results.json) |
+| Frozen query comparison | 16/16 top-20 BM25 rankings, packed source spans, PDF evidence and rendered contexts identical | [comparison-results.json](comparison-results.json) |
 
 The frozen workload includes financial tables, lecture slides, papers/reports
 and the background-check table. It reuses existing Docling output and 16 existing
@@ -65,7 +65,7 @@ are passed through parent expansion and a 4,096-token evidence budget. This is
 an offline behavior comparison, not a live answer-quality evaluation.
 
 [Before](before-2.json) and [after](after-1.json) retain input hashes, exact chunks,
-rankings, supplied evidence and context. [Measurement](measurement.json) records
+rankings, supplied evidence and context. [Measurement](measurement-2.json) records
 all 20 metric statuses. Timing diagnostics describe local frozen adaptation /
 chunking and lexical search / packing only, with one sequential pass per arm.
 They exclude model conversion and generation and establish no speed claim.
@@ -86,6 +86,11 @@ Codex performed the equality review; no independent human quality rating is clai
   metadata as though they should match the old JSON byte shape. `compare-2.py`
   excludes timing and compares that metadata on full canonical chunks instead.
   It still checks exact context, ranking, canonical spans and all PDF evidence.
+
+- `comparison-3`: repeat the same successful comparison with distinct names for
+  result data and command records. The earlier `comparison-2.json` command record
+  had replaced the comparison script's same-named result file. Exact before/after
+  inputs remained intact; `comparison-results.json` now retains all 21 case results.
 
 All earlier logs and failed comparison data remain here. No unresolved test
 failure remains; live quality, cost and production performance were not measured.
