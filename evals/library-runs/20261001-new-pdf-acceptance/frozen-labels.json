@@ -1,0 +1,647 @@
+{
+  "rag_sequence": {
+    "fact": {
+      "id": "rag_sequence",
+      "expected": "RAG-Sequence uses the same retrieved document for the complete output sequence.",
+      "evidence": [
+        {
+          "file": "rag-paper.pdf",
+          "source_sha256": "720f67eb41aa49995d5fcf3d24ac7efe431fbe08ce109b14b5a9fa4d4ebe2f8b",
+          "physical_page": 3,
+          "location": "Section 2.1, first prose sentence",
+          "normalized_quote": "The RAG-Sequence model uses the same retrieved document to generate the complete sequence.",
+          "raw_quote": "The RAG-Sequence model uses the same retrieved document to generate\nthe complete sequence.",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 737,
+          "reference_text_end": 827,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ]
+    },
+    "anchors": [
+      {
+        "anchor": "TheRAG-Sequencemodelusesthesameretrieveddocumenttogenerate the complete sequence.",
+        "spans": [
+          {
+            "file_id": "18eaa5a313824309a081713d13a55e2d",
+            "start": 7631,
+            "end": 7712
+          }
+        ]
+      }
+    ],
+    "fully_mapped": true,
+    "canonical_matches": [
+      {
+        "file_id": "18eaa5a313824309a081713d13a55e2d",
+        "start": 7631,
+        "end": 7712,
+        "text": "TheRAG-Sequencemodelusesthesameretrieveddocumenttogenerate the complete sequence.",
+        "source_ref": "#/texts/66"
+      }
+    ],
+    "physical_page": 3,
+    "normalization": "Whitespace removed and casefolded only; original offsets preserved.",
+    "ambiguity": null
+  },
+  "rag_token": {
+    "fact": {
+      "id": "rag_token",
+      "expected": "RAG-Token can use a different retrieved document for each target token.",
+      "evidence": [
+        {
+          "file": "rag-paper.pdf",
+          "source_sha256": "720f67eb41aa49995d5fcf3d24ac7efe431fbe08ce109b14b5a9fa4d4ebe2f8b",
+          "physical_page": 3,
+          "location": "Section 2.1, RAG-Token prose",
+          "normalized_quote": "In the RAG-Token model we can draw a different latent document for each target token",
+          "raw_quote": "In the RAG-Token model we can draw a different latent document for each\ntarget token",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 1305,
+          "reference_text_end": 1389,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ]
+    },
+    "anchors": [
+      {
+        "anchor": "IntheRAG-Tokenmodelwecandrawadifferentlatentdocumentforeach target token",
+        "spans": [
+          {
+            "file_id": "18eaa5a313824309a081713d13a55e2d",
+            "start": 8174,
+            "end": 8246
+          }
+        ]
+      }
+    ],
+    "fully_mapped": true,
+    "canonical_matches": [
+      {
+        "file_id": "18eaa5a313824309a081713d13a55e2d",
+        "start": 8174,
+        "end": 8246,
+        "text": "IntheRAG-Tokenmodelwecandrawadifferentlatentdocumentforeach target token",
+        "source_ref": "#/texts/68"
+      }
+    ],
+    "physical_page": 3,
+    "normalization": "Whitespace removed and casefolded only; original offsets preserved.",
+    "ambiguity": null
+  },
+  "retriever_bridge": {
+    "fact": {
+      "id": "retriever_bridge",
+      "expected": "A pretrained bi-encoder from DPR initializes the RAG retriever.",
+      "evidence": [
+        {
+          "file": "rag-paper.pdf",
+          "source_sha256": "720f67eb41aa49995d5fcf3d24ac7efe431fbe08ce109b14b5a9fa4d4ebe2f8b",
+          "physical_page": 3,
+          "location": "Section 2.2, closing paragraph",
+          "normalized_quote": "a pre-trained bi-encoder from DPR to initialize our retriever and to build the document index.",
+          "raw_quote": "a pre-trained bi-encoder from DPR to initialize our retriever and to build the document index.",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 2623,
+          "reference_text_end": 2717,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ],
+      "accepted_target_strings": [
+        "DPR"
+      ],
+      "target_must_be_literal_in_binding_quote": true
+    },
+    "anchors": [
+      {
+        "anchor": "a pre-trained bi-encoder from DPR to initialize our retriever and to build the document index.",
+        "spans": [
+          {
+            "file_id": "18eaa5a313824309a081713d13a55e2d",
+            "start": 9433,
+            "end": 9527
+          }
+        ]
+      }
+    ],
+    "fully_mapped": true,
+    "canonical_matches": [
+      {
+        "file_id": "18eaa5a313824309a081713d13a55e2d",
+        "start": 9433,
+        "end": 9527,
+        "text": "a pre-trained bi-encoder from DPR to initialize our retriever and to build the document index.",
+        "source_ref": "#/texts/74"
+      }
+    ],
+    "physical_page": 3,
+    "normalization": "Whitespace removed and casefolded only; original offsets preserved.",
+    "ambiguity": null
+  },
+  "negative_gold": {
+    "fact": {
+      "id": "negative_gold",
+      "expected": "The best DPR model uses gold (positive) passages from the same mini-batch as negatives.",
+      "evidence": [
+        {
+          "file": "dpr-paper.pdf",
+          "source_sha256": "2abfc7991519be2b8ce30215905516fdb593218b7bf59e50ece0d8a088a7c4d5",
+          "physical_page": 3,
+          "location": "Right column, Positive and negative passages",
+          "normalized_quote": "Our best model uses gold passages from the same mini-batch and one BM25 negative passage.",
+          "raw_quote": "Our best model\nuses gold passages from the same mini-batch and\none BM25 negative passage.",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 3749,
+          "reference_text_end": 3838,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ]
+    },
+    "anchors": [
+      {
+        "anchor": "Our best model uses gold passages from the same mini-batch and one BM25 negative passage.",
+        "spans": [
+          {
+            "file_id": "3664f78cd7ea4cb3b0c46eaa03bdbc60",
+            "start": 12759,
+            "end": 12848
+          }
+        ]
+      }
+    ],
+    "fully_mapped": true,
+    "canonical_matches": [
+      {
+        "file_id": "3664f78cd7ea4cb3b0c46eaa03bdbc60",
+        "start": 12759,
+        "end": 12848,
+        "text": "Our best model uses gold passages from the same mini-batch and one BM25 negative passage.",
+        "source_ref": "#/texts/37"
+      }
+    ],
+    "physical_page": 3,
+    "normalization": "Whitespace removed and casefolded only; original offsets preserved.",
+    "ambiguity": null
+  },
+  "negative_bm25": {
+    "fact": {
+      "id": "negative_bm25",
+      "expected": "The best DPR model also uses one BM25 negative passage.",
+      "evidence": [
+        {
+          "file": "dpr-paper.pdf",
+          "source_sha256": "2abfc7991519be2b8ce30215905516fdb593218b7bf59e50ece0d8a088a7c4d5",
+          "physical_page": 3,
+          "location": "Right column, Positive and negative passages",
+          "normalized_quote": "Our best model uses gold passages from the same mini-batch and one BM25 negative passage.",
+          "raw_quote": "Our best model\nuses gold passages from the same mini-batch and\none BM25 negative passage.",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 3749,
+          "reference_text_end": 3838,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ]
+    },
+    "anchors": [
+      {
+        "anchor": "Our best model uses gold passages from the same mini-batch and one BM25 negative passage.",
+        "spans": [
+          {
+            "file_id": "3664f78cd7ea4cb3b0c46eaa03bdbc60",
+            "start": 12759,
+            "end": 12848
+          }
+        ]
+      }
+    ],
+    "fully_mapped": true,
+    "canonical_matches": [
+      {
+        "file_id": "3664f78cd7ea4cb3b0c46eaa03bdbc60",
+        "start": 12759,
+        "end": 12848,
+        "text": "Our best model uses gold passages from the same mini-batch and one BM25 negative passage.",
+        "source_ref": "#/texts/37"
+      }
+    ],
+    "physical_page": 3,
+    "normalization": "Whitespace removed and casefolded only; original offsets preserved.",
+    "ambiguity": null
+  },
+  "overfitting_definition": {
+    "fact": {
+      "id": "overfitting_definition",
+      "expected": "Overfitting means fitting noise or attending to irrelevant parts of the data.",
+      "evidence": [
+        {
+          "file": "decision-trees.pdf",
+          "source_sha256": "6e867284dd975b8c365a1ced8e419648264a0623fbaca1564ce3443f59e982b8",
+          "physical_page": 35,
+          "location": "Upper slide, printed Slide 69, definition bullet",
+          "normalized_quote": "algorithm fits noise (i.e. pays attention to parts of the data that are irrelevant)",
+          "raw_quote": "algorithm fits noise (i.e. pays attention to\nparts of the data that are irrelevant)",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 51,
+          "reference_text_end": 134,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ],
+      "printed_label": "Slide 69"
+    },
+    "anchors": [
+      {
+        "anchor": "algorithm fits noise (i.e. pays attention to parts of the data that are irrelevant)",
+        "spans": [
+          {
+            "file_id": "cd6684c353e44c7c88e349fccb10f8d0",
+            "start": 17040,
+            "end": 17123
+          }
+        ]
+      }
+    ],
+    "fully_mapped": true,
+    "canonical_matches": [
+      {
+        "file_id": "cd6684c353e44c7c88e349fccb10f8d0",
+        "start": 17040,
+        "end": 17123,
+        "text": "algorithm fits noise (i.e. pays attention to parts of the data that are irrelevant)",
+        "source_ref": "#/texts/710"
+      }
+    ],
+    "physical_page": 35,
+    "normalization": "Whitespace removed and casefolded only; original offsets preserved.",
+    "ambiguity": null
+  },
+  "overfitting_effect": {
+    "fact": {
+      "id": "overfitting_effect",
+      "expected": "An overfitting algorithm may perform less well on test-set data.",
+      "evidence": [
+        {
+          "file": "decision-trees.pdf",
+          "source_sha256": "6e867284dd975b8c365a1ced8e419648264a0623fbaca1564ce3443f59e982b8",
+          "physical_page": 35,
+          "location": "Upper slide, printed Slide 69, second bullet",
+          "normalized_quote": "then it may perform less well on test set data.",
+          "raw_quote": "then it may perform less well on test set\ndata.",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 240,
+          "reference_text_end": 287,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ],
+      "printed_label": "Slide 69"
+    },
+    "anchors": [
+      {
+        "anchor": "then it may perform less well on test set data.",
+        "spans": [
+          {
+            "file_id": "cd6684c353e44c7c88e349fccb10f8d0",
+            "start": 17229,
+            "end": 17276
+          }
+        ]
+      }
+    ],
+    "fully_mapped": true,
+    "canonical_matches": [
+      {
+        "file_id": "cd6684c353e44c7c88e349fccb10f8d0",
+        "start": 17229,
+        "end": 17276,
+        "text": "then it may perform less well on test set data.",
+        "source_ref": "#/texts/711"
+      }
+    ],
+    "physical_page": 35,
+    "normalization": "Whitespace removed and casefolded only; original offsets preserved.",
+    "ambiguity": null
+  },
+  "quarter_gaap": {
+    "fact": {
+      "id": "quarter_gaap",
+      "expected": "Q4 FY25 GAAP operating income is USD 24,034 million.",
+      "evidence": [
+        {
+          "file": "nvidia-fy25.pdf",
+          "source_sha256": "1c716d4fb428ad371801ecc2f71f4ec0d71d87e77649852d6d1449b37b0c8c9e",
+          "physical_page": 1,
+          "location": "GAAP summary table; Operating income row; Q4 FY25 column",
+          "normalized_quote": "$24,034",
+          "raw_quote": "$24,034",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 1884,
+          "reference_text_end": 1891,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ],
+      "table": {
+        "row": "Operating income",
+        "group": "GAAP",
+        "period": "Q4 FY25",
+        "value": "24,034",
+        "currency": "USD",
+        "scale": "millions",
+        "distractor_rows": [
+          "Operating expenses",
+          "Net income"
+        ],
+        "alternate_original_pages": [
+          4,
+          8
+        ],
+        "continued_table_header_page": 7,
+        "alternative_note": "Page 4 is the GAAP income statement; page 8 continues the reconciliation table whose units/date headings are on page 7. Alternatives were visually checked; labels are not exhaustive semantic relevance."
+      }
+    },
+    "anchors": [
+      {
+        "anchor": "$24,034",
+        "spans": [
+          {
+            "file_id": "386256a4a8c843d591c3fe8a92a2236b",
+            "start": 1871,
+            "end": 1878
+          }
+        ]
+      }
+    ],
+    "fully_mapped": true,
+    "canonical_matches": [
+      {
+        "file_id": "386256a4a8c843d591c3fe8a92a2236b",
+        "start": 1871,
+        "end": 1878,
+        "text": "$24,034",
+        "source_ref": "#/tables/0"
+      }
+    ],
+    "physical_page": 1,
+    "normalization": "Whitespace removed and casefolded only; original offsets preserved.",
+    "ambiguity": null
+  },
+  "quarter_nongaap": {
+    "fact": {
+      "id": "quarter_nongaap",
+      "expected": "Q4 FY25 Non-GAAP operating income is USD 25,516 million.",
+      "evidence": [
+        {
+          "file": "nvidia-fy25.pdf",
+          "source_sha256": "1c716d4fb428ad371801ecc2f71f4ec0d71d87e77649852d6d1449b37b0c8c9e",
+          "physical_page": 1,
+          "location": "Non-GAAP summary table; Operating income row; Q4 FY25 column",
+          "normalized_quote": "$25,516",
+          "raw_quote": "$25,516",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 2329,
+          "reference_text_end": 2336,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ],
+      "table": {
+        "row": "Operating income",
+        "group": "Non-GAAP",
+        "period": "Q4 FY25",
+        "value": "25,516",
+        "currency": "USD",
+        "scale": "millions",
+        "distractor_rows": [
+          "Operating expenses",
+          "Net income"
+        ],
+        "alternate_original_pages": [
+          8
+        ],
+        "continued_table_header_page": 7,
+        "alternative_note": "Page 4 is the GAAP income statement; page 8 continues the reconciliation table whose units/date headings are on page 7. Alternatives were visually checked; labels are not exhaustive semantic relevance."
+      }
+    },
+    "anchors": [
+      {
+        "anchor": "$25,516",
+        "spans": [
+          {
+            "file_id": "386256a4a8c843d591c3fe8a92a2236b",
+            "start": 2276,
+            "end": 2283
+          }
+        ]
+      }
+    ],
+    "fully_mapped": true,
+    "canonical_matches": [
+      {
+        "file_id": "386256a4a8c843d591c3fe8a92a2236b",
+        "start": 2276,
+        "end": 2283,
+        "text": "$25,516",
+        "source_ref": "#/tables/1"
+      }
+    ],
+    "physical_page": 1,
+    "normalization": "Whitespace removed and casefolded only; original offsets preserved.",
+    "ambiguity": null
+  },
+  "annual_gaap": {
+    "fact": {
+      "id": "annual_gaap",
+      "expected": "FY25 GAAP operating income is USD 81,453 million.",
+      "evidence": [
+        {
+          "file": "nvidia-fy25.pdf",
+          "source_sha256": "1c716d4fb428ad371801ecc2f71f4ec0d71d87e77649852d6d1449b37b0c8c9e",
+          "physical_page": 2,
+          "location": "GAAP summary table; Operating income row; FY25 column",
+          "normalized_quote": "$81,453",
+          "raw_quote": "$81,453",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 184,
+          "reference_text_end": 191,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ],
+      "table": {
+        "row": "Operating income",
+        "group": "GAAP",
+        "period": "FY25",
+        "value": "81,453",
+        "currency": "USD",
+        "scale": "millions",
+        "distractor_rows": [
+          "Operating expenses",
+          "Net income"
+        ],
+        "alternate_original_pages": [
+          4,
+          8
+        ],
+        "continued_table_header_page": 7,
+        "alternative_note": "Page 4 is the GAAP income statement; page 8 continues the reconciliation table whose units/date headings are on page 7. Alternatives were visually checked; labels are not exhaustive semantic relevance."
+      }
+    },
+    "anchors": [
+      {
+        "anchor": "$81,453",
+        "spans": [
+          {
+            "file_id": "386256a4a8c843d591c3fe8a92a2236b",
+            "start": 2635,
+            "end": 2642
+          }
+        ]
+      }
+    ],
+    "fully_mapped": true,
+    "canonical_matches": [
+      {
+        "file_id": "386256a4a8c843d591c3fe8a92a2236b",
+        "start": 2635,
+        "end": 2642,
+        "text": "$81,453",
+        "source_ref": "#/tables/2"
+      }
+    ],
+    "physical_page": 2,
+    "normalization": "Whitespace removed and casefolded only; original offsets preserved.",
+    "ambiguity": null
+  },
+  "annual_nongaap": {
+    "fact": {
+      "id": "annual_nongaap",
+      "expected": "FY25 Non-GAAP operating income is USD 86,789 million.",
+      "evidence": [
+        {
+          "file": "nvidia-fy25.pdf",
+          "source_sha256": "1c716d4fb428ad371801ecc2f71f4ec0d71d87e77649852d6d1449b37b0c8c9e",
+          "physical_page": 2,
+          "location": "Non-GAAP summary table; Operating income row; FY25 column",
+          "normalized_quote": "$86,789",
+          "raw_quote": "$86,789",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 407,
+          "reference_text_end": 414,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ],
+      "table": {
+        "row": "Operating income",
+        "group": "Non-GAAP",
+        "period": "FY25",
+        "value": "86,789",
+        "currency": "USD",
+        "scale": "millions",
+        "distractor_rows": [
+          "Operating expenses",
+          "Net income"
+        ],
+        "alternate_original_pages": [
+          8
+        ],
+        "continued_table_header_page": 7,
+        "alternative_note": "Page 4 is the GAAP income statement; page 8 continues the reconciliation table whose units/date headings are on page 7. Alternatives were visually checked; labels are not exhaustive semantic relevance."
+      }
+    },
+    "anchors": [
+      {
+        "anchor": "$86,789",
+        "spans": [
+          {
+            "file_id": "386256a4a8c843d591c3fe8a92a2236b",
+            "start": 2936,
+            "end": 2943
+          }
+        ]
+      }
+    ],
+    "fully_mapped": true,
+    "canonical_matches": [
+      {
+        "file_id": "386256a4a8c843d591c3fe8a92a2236b",
+        "start": 2936,
+        "end": 2943,
+        "text": "$86,789",
+        "source_ref": "#/tables/3"
+      }
+    ],
+    "physical_page": 2,
+    "normalization": "Whitespace removed and casefolded only; original offsets preserved.",
+    "ambiguity": null
+  },
+  "income_units": {
+    "fact": {
+      "id": "income_units",
+      "expected": "All four operating-income amounts are expressed in millions of dollars.",
+      "evidence": [
+        {
+          "file": "nvidia-fy25.pdf",
+          "source_sha256": "1c716d4fb428ad371801ecc2f71f4ec0d71d87e77649852d6d1449b37b0c8c9e",
+          "physical_page": 1,
+          "location": "GAAP summary table unit note; repeated in the Non-GAAP table",
+          "normalized_quote": "($ in millions, except earnings per share)",
+          "raw_quote": "($ in millions, except earnings\nper share)",
+          "match_count_on_page": 2,
+          "match_occurrence": 0,
+          "reference_text_start": 1613,
+          "reference_text_end": 1655,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ],
+      "table": {
+        "currency": "USD",
+        "scale": "millions",
+        "note": "The earnings-per-share exception does not apply to operating income."
+      }
+    },
+    "anchors": [
+      {
+        "anchor": "($ in millions, except earnings per share)",
+        "spans": [
+          {
+            "file_id": "386256a4a8c843d591c3fe8a92a2236b",
+            "start": 1624,
+            "end": 1666
+          },
+          {
+            "file_id": "386256a4a8c843d591c3fe8a92a2236b",
+            "start": 2028,
+            "end": 2070
+          }
+        ]
+      }
+    ],
+    "fully_mapped": true,
+    "canonical_matches": [
+      {
+        "file_id": "386256a4a8c843d591c3fe8a92a2236b",
+        "start": 1624,
+        "end": 1666,
+        "text": "($ in millions, except earnings per share)",
+        "source_ref": "#/tables/0"
+      },
+      {
+        "file_id": "386256a4a8c843d591c3fe8a92a2236b",
+        "start": 2028,
+        "end": 2070,
+        "text": "($ in millions, except earnings per share)",
+        "source_ref": "#/tables/1"
+      }
+    ],
+    "physical_page": 1,
+    "normalization": "Whitespace removed and casefolded only; original offsets preserved.",
+    "ambiguity": "Repeated identical unit notes on the same page are equivalent for this unit fact."
+  }
+}

@@ -1,0 +1,2349 @@
+{
+  "summary": {
+    "K": 5,
+    "label_scope": "Frozen full-anchor binary child relevance, incomplete for equivalent/supporting passages; no-gold case excluded.",
+    "final_selected_macro": {
+      "Recall@K": 0.625,
+      "Precision@K": 0.2,
+      "Hit Rate@K": 0.75,
+      "MRR": 0.625,
+      "NDCG@K": 0.5967132018086354,
+      "fact_anchor_recall": 0.6666666666666666
+    },
+    "final_selected_case_count": 4,
+    "final_selected_expected_case_count": 5,
+    "final_selected_unavailable": [
+      "retriever-training-restricted: request failed before final selection; no zero substitution"
+    ],
+    "final_evidence_coverage": {
+      "covered": 6,
+      "expected": 13
+    },
+    "first_answer_delta": {
+      "n": 5,
+      "mean": 8.27902219176758,
+      "p50": 5.748155541950837,
+      "p95": 15.22069000774063,
+      "unit": "seconds",
+      "percentile_method": "linear interpolation"
+    },
+    "complete_response": {
+      "n": 5,
+      "mean": 9.128602650179527,
+      "p50": 5.75710354198236,
+      "p95": 16.699443508358673,
+      "unit": "seconds",
+      "percentile_method": "linear interpolation"
+    },
+    "stages": {
+      "provider_ingestion_embedding": {
+        "n": 4,
+        "mean": 1.8193950622226112,
+        "p50": 1.7817344789509661,
+        "p95": 2.3115952767780983,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "provider_retrieval_plan": {
+        "n": 6,
+        "mean": 3.050100715345858,
+        "p50": 3.209909500030335,
+        "p95": 4.506142802507384,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "provider_query_embedding": {
+        "n": 10,
+        "mean": 0.40206680389819666,
+        "p50": 0.3466034375014715,
+        "p95": 0.689101257943548,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "provider_evidence_assessment": {
+        "n": 5,
+        "mean": 2.3606483082054184,
+        "p50": 2.1323978330474347,
+        "p95": 3.9732092581922185,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "provider_generation": {
+        "n": 3,
+        "mean": 2.22794619431564,
+        "p50": 2.307040083920583,
+        "p95": 3.0161173077416605,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "retrieval_per_query": {
+        "n": 14,
+        "mean": 1.5039817170722276,
+        "p50": 1.9424352084752172,
+        "p95": 2.836335789359873,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "query_scope_seconds": {
+        "n": 14,
+        "mean": 0.0012474226615657763,
+        "p50": 0.0008291460108011961,
+        "p95": 0.0033217247691936787,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "query_embedding_seconds": {
+        "n": 10,
+        "mean": 0.40250596679979933,
+        "p50": 0.3470549584599212,
+        "p95": 0.6895251395530064,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "query_rerank_seconds": {
+        "n": 10,
+        "mean": 1.6848841542843729,
+        "p50": 1.9981975625269115,
+        "p95": 2.355584614787949,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "retrieval_round": {
+        "n": 6,
+        "mean": 3.5163866113095232,
+        "p50": 3.227823625493329,
+        "p95": 7.268141250038752,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "cross_query_merge": {
+        "n": 6,
+        "mean": 0.00016379884133736292,
+        "p50": 0.0001918335328809917,
+        "p95": 0.00022485473891720176,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "packing_round": {
+        "n": 6,
+        "mean": 0.0015956874703988433,
+        "p50": 0.0015900414437055588,
+        "p95": 0.0030067815096117556,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      }
+    },
+    "stage_limit": "Search/BM25/fusion sub-timers and provider queue time are unavailable. Query retrieval includes embedding/search/reranking; stage timers overlap and are not additive.",
+    "token_usage_by_role": {
+      "ingestion_embedding": {
+        "input_tokens": 41775,
+        "output_tokens": null,
+        "total_tokens": 41775,
+        "cached_input_tokens": null,
+        "calls": 4,
+        "cached_input_status": "unavailable: provider embedding usage does not expose cached counts",
+        "output_status": "not_applicable: embeddings return vectors"
+      },
+      "retrieval_plan": {
+        "input_tokens": 10632,
+        "output_tokens": 1326,
+        "total_tokens": 11958,
+        "cached_input_tokens": 1664,
+        "calls": 6
+      },
+      "query_embedding": {
+        "input_tokens": 233,
+        "output_tokens": null,
+        "total_tokens": 233,
+        "cached_input_tokens": null,
+        "calls": 10,
+        "cached_input_status": "unavailable: provider embedding usage does not expose cached counts",
+        "output_status": "not_applicable: embeddings return vectors"
+      },
+      "evidence_assessment": {
+        "input_tokens": 21505,
+        "output_tokens": 732,
+        "total_tokens": 22237,
+        "cached_input_tokens": 0,
+        "calls": 5
+      },
+      "generation": {
+        "input_tokens": 13480,
+        "output_tokens": 233,
+        "total_tokens": 13713,
+        "cached_input_tokens": 0,
+        "calls": 3
+      }
+    },
+    "resolved_models": [
+      "gpt-4.1-2025-04-14",
+      "text-embedding-3-small"
+    ],
+    "sdk_starts": 28,
+    "sdk_terminals": 28,
+    "sdk_errors": 0,
+    "sdk_timeouts": 0,
+    "provider_retries": 0,
+    "requests": {
+      "completed": 5,
+      "error": 1
+    },
+    "history_matches": 5,
+    "concurrency": 1,
+    "request_wall_interval_seconds": 58.15678930282593,
+    "completed_requests_per_second": 0.08597448483554855,
+    "billing": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "SDK reports tokens, not billed currency; no billing API used."
+    }
+  },
+  "cases": [
+    {
+      "case_id": "rag-document-granularity",
+      "artifact": "rag-document-granularity-planned.json",
+      "status": "completed",
+      "first_delta": 16.393766540917568,
+      "completion": 17.61490149993915,
+      "at": "2026-10-01T15:58:58.444384+00:00",
+      "selected_scores": {
+        "Recall@K": 1.0,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0,
+        "relevant_child_count": 1,
+        "top_ids": [
+          "18eaa5a313824309a081713d13a55e2d:child:6",
+          "18eaa5a313824309a081713d13a55e2d:child:5",
+          "18eaa5a313824309a081713d13a55e2d:child:23",
+          "18eaa5a313824309a081713d13a55e2d:child:17",
+          "18eaa5a313824309a081713d13a55e2d:child:33"
+        ],
+        "binary_relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "fact_anchor_recall": 1.0
+      },
+      "retrieval_status": "final completed trace",
+      "last_observed_scores": {
+        "Recall@K": 1.0,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0,
+        "relevant_child_count": 1,
+        "top_ids": [
+          "18eaa5a313824309a081713d13a55e2d:child:6",
+          "18eaa5a313824309a081713d13a55e2d:child:5",
+          "18eaa5a313824309a081713d13a55e2d:child:23",
+          "18eaa5a313824309a081713d13a55e2d:child:17",
+          "18eaa5a313824309a081713d13a55e2d:child:33"
+        ],
+        "binary_relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "fact_anchor_recall": 1.0
+      },
+      "query_scores": [
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q1"
+          ],
+          "text": "In the context of RAG-Sequence, can the retrieved document change while generating an answer?",
+          "seconds": 2.9119870408903807,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:6",
+                "18eaa5a313824309a081713d13a55e2d:child:17",
+                "18eaa5a313824309a081713d13a55e2d:child:5",
+                "18eaa5a313824309a081713d13a55e2d:child:33",
+                "18eaa5a313824309a081713d13a55e2d:child:22"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "bm25_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 0.5,
+              "NDCG@K": 0.6309297535714575,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:5",
+                "18eaa5a313824309a081713d13a55e2d:child:6",
+                "18eaa5a313824309a081713d13a55e2d:child:17",
+                "18eaa5a313824309a081713d13a55e2d:child:13",
+                "18eaa5a313824309a081713d13a55e2d:child:23"
+              ],
+              "binary_relevance": [
+                0,
+                1,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "fused_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:6",
+                "18eaa5a313824309a081713d13a55e2d:child:5",
+                "18eaa5a313824309a081713d13a55e2d:child:17",
+                "18eaa5a313824309a081713d13a55e2d:child:13",
+                "18eaa5a313824309a081713d13a55e2d:child:33"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "reranked": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:6",
+                "18eaa5a313824309a081713d13a55e2d:child:5",
+                "18eaa5a313824309a081713d13a55e2d:child:17",
+                "18eaa5a313824309a081713d13a55e2d:child:26",
+                "18eaa5a313824309a081713d13a55e2d:child:35"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q2"
+          ],
+          "text": "In the context of RAG-Token, can the retrieved document change while generating an answer?",
+          "seconds": 2.4376573329791427,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:6",
+                "18eaa5a313824309a081713d13a55e2d:child:17",
+                "18eaa5a313824309a081713d13a55e2d:child:23",
+                "18eaa5a313824309a081713d13a55e2d:child:33",
+                "18eaa5a313824309a081713d13a55e2d:child:5"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "bm25_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 0.5,
+              "NDCG@K": 0.6309297535714575,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:5",
+                "18eaa5a313824309a081713d13a55e2d:child:6",
+                "18eaa5a313824309a081713d13a55e2d:child:17",
+                "18eaa5a313824309a081713d13a55e2d:child:24",
+                "18eaa5a313824309a081713d13a55e2d:child:23"
+              ],
+              "binary_relevance": [
+                0,
+                1,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "fused_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:6",
+                "18eaa5a313824309a081713d13a55e2d:child:17",
+                "18eaa5a313824309a081713d13a55e2d:child:5",
+                "18eaa5a313824309a081713d13a55e2d:child:23",
+                "18eaa5a313824309a081713d13a55e2d:child:24"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "reranked": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:6",
+                "18eaa5a313824309a081713d13a55e2d:child:5",
+                "18eaa5a313824309a081713d13a55e2d:child:17",
+                "18eaa5a313824309a081713d13a55e2d:child:23",
+                "18eaa5a313824309a081713d13a55e2d:child:24"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q3"
+          ],
+          "text": "What is the difference between RAG-Sequence and RAG-Token regarding whether the retrieved document can change during answer generation?",
+          "seconds": 2.5702951659914106,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:6",
+                "18eaa5a313824309a081713d13a55e2d:child:5",
+                "18eaa5a313824309a081713d13a55e2d:child:23",
+                "18eaa5a313824309a081713d13a55e2d:child:10",
+                "18eaa5a313824309a081713d13a55e2d:child:27"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "bm25_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:6",
+                "18eaa5a313824309a081713d13a55e2d:child:26",
+                "18eaa5a313824309a081713d13a55e2d:child:13",
+                "18eaa5a313824309a081713d13a55e2d:child:33",
+                "18eaa5a313824309a081713d13a55e2d:child:9"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "fused_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:6",
+                "18eaa5a313824309a081713d13a55e2d:child:5",
+                "18eaa5a313824309a081713d13a55e2d:child:26",
+                "18eaa5a313824309a081713d13a55e2d:child:23",
+                "18eaa5a313824309a081713d13a55e2d:child:33"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "reranked": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:6",
+                "18eaa5a313824309a081713d13a55e2d:child:23",
+                "18eaa5a313824309a081713d13a55e2d:child:5",
+                "18eaa5a313824309a081713d13a55e2d:child:33",
+                "18eaa5a313824309a081713d13a55e2d:child:10"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            }
+          }
+        }
+      ],
+      "final_evidence_coverage": [
+        {
+          "fact_id": "rag_sequence",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "TheRAG-Sequencemodelusesthesameretrieveddocumenttogenerate the complete sequence.",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        },
+        {
+          "fact_id": "rag_token",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "IntheRAG-Tokenmodelwecandrawadifferentlatentdocumentforeach target token",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        }
+      ],
+      "assessment_round": 1,
+      "evidence_tokens": 3633,
+      "excluded": [],
+      "unexpanded_parents": [
+        {
+          "chunk_id": "18eaa5a313824309a081713d13a55e2d:parent:19",
+          "file_id": "18eaa5a313824309a081713d13a55e2d",
+          "token_count": 1180,
+          "trial_context_tokens": 5786,
+          "reason": "context_budget"
+        }
+      ],
+      "history_match": true
+    },
+    {
+      "case_id": "retriever-training-hop",
+      "artifact": "retriever-training-hop-planned.json",
+      "status": "completed",
+      "first_delta": 10.528383875032887,
+      "completion": 13.037611542036757,
+      "at": "2026-10-01T15:59:16.083461+00:00",
+      "selected_scores": {
+        "Recall@K": 0.5,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 0.5,
+        "NDCG@K": 0.38685280723454163,
+        "relevant_child_count": 2,
+        "top_ids": [
+          "18eaa5a313824309a081713d13a55e2d:child:17",
+          "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:10",
+          "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:4",
+          "18eaa5a313824309a081713d13a55e2d:child:3",
+          "18eaa5a313824309a081713d13a55e2d:child:5"
+        ],
+        "binary_relevance": [
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "fact_anchor_recall": 0.6666666666666666
+      },
+      "retrieval_status": "final completed trace",
+      "last_observed_scores": {
+        "Recall@K": 0.5,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 0.5,
+        "NDCG@K": 0.38685280723454163,
+        "relevant_child_count": 2,
+        "top_ids": [
+          "18eaa5a313824309a081713d13a55e2d:child:17",
+          "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:10",
+          "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:4",
+          "18eaa5a313824309a081713d13a55e2d:child:3",
+          "18eaa5a313824309a081713d13a55e2d:child:5"
+        ],
+        "binary_relevance": [
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "fact_anchor_recall": 0.6666666666666666
+      },
+      "query_scores": [
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q1"
+          ],
+          "text": "In the supplied papers, which retriever provides the pretrained bi-encoder used to initialize RAG, and what is reported about this initialization relationship?",
+          "seconds": 2.4870029999874532,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:9",
+                "18eaa5a313824309a081713d13a55e2d:child:3",
+                "18eaa5a313824309a081713d13a55e2d:child:27",
+                "18eaa5a313824309a081713d13a55e2d:child:5",
+                "18eaa5a313824309a081713d13a55e2d:child:36"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "bm25_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:7",
+                "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:87",
+                "18eaa5a313824309a081713d13a55e2d:child:17",
+                "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:93",
+                "18eaa5a313824309a081713d13a55e2d:child:9"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.3333333333333333
+            },
+            "fused_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 0.25,
+              "NDCG@K": 0.2640681225725909,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:9",
+                "18eaa5a313824309a081713d13a55e2d:child:3",
+                "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:93",
+                "18eaa5a313824309a081713d13a55e2d:child:7",
+                "18eaa5a313824309a081713d13a55e2d:child:17"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                1,
+                0
+              ],
+              "fact_anchor_recall": 0.3333333333333333
+            },
+            "reranked": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 0.25,
+              "NDCG@K": 0.2640681225725909,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:17",
+                "18eaa5a313824309a081713d13a55e2d:child:3",
+                "18eaa5a313824309a081713d13a55e2d:child:1",
+                "18eaa5a313824309a081713d13a55e2d:child:7",
+                "18eaa5a313824309a081713d13a55e2d:child:27"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                1,
+                0
+              ],
+              "fact_anchor_recall": 0.3333333333333333
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q2"
+          ],
+          "text": "In the supplied papers, what combination of negative passages is used during training by the best model of the retriever that supplies the pretrained bi-encoder used to initialize RAG?",
+          "seconds": 2.7956005000742152,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 0.3333333333333333,
+              "NDCG@K": 0.3065735963827292,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:93",
+                "18eaa5a313824309a081713d13a55e2d:child:9",
+                "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:10",
+                "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:8",
+                "18eaa5a313824309a081713d13a55e2d:child:5"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                1,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.6666666666666666
+            },
+            "bm25_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 0.2,
+              "NDCG@K": 0.23719771276929622,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:93",
+                "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:19",
+                "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:21",
+                "18eaa5a313824309a081713d13a55e2d:child:9",
+                "18eaa5a313824309a081713d13a55e2d:child:7"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "fact_anchor_recall": 0.3333333333333333
+            },
+            "fused_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 0.3333333333333333,
+              "NDCG@K": 0.3065735963827292,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:93",
+                "18eaa5a313824309a081713d13a55e2d:child:9",
+                "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:10",
+                "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:21",
+                "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:11"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                1,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.6666666666666666
+            },
+            "reranked": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:10",
+                "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:21",
+                "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:19",
+                "3664f78cd7ea4cb3b0c46eaa03bdbc60:child:28",
+                "18eaa5a313824309a081713d13a55e2d:child:3"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.6666666666666666
+            }
+          }
+        }
+      ],
+      "final_evidence_coverage": [
+        {
+          "fact_id": "retriever_bridge",
+          "covered": false,
+          "anchors": [
+            {
+              "anchor": "a pre-trained bi-encoder from DPR to initialize our retriever and to build the document index.",
+              "source_ids": [],
+              "covered": false
+            }
+          ]
+        },
+        {
+          "fact_id": "negative_gold",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "Our best model uses gold passages from the same mini-batch and one BM25 negative passage.",
+              "source_ids": [
+                2
+              ],
+              "covered": true
+            }
+          ]
+        },
+        {
+          "fact_id": "negative_bm25",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "Our best model uses gold passages from the same mini-batch and one BM25 negative passage.",
+              "source_ids": [
+                2
+              ],
+              "covered": true
+            }
+          ]
+        }
+      ],
+      "assessment_round": 1,
+      "evidence_tokens": 3891,
+      "excluded": [],
+      "unexpanded_parents": [
+        {
+          "chunk_id": "18eaa5a313824309a081713d13a55e2d:parent:15",
+          "file_id": "18eaa5a313824309a081713d13a55e2d",
+          "token_count": 699,
+          "trial_context_tokens": 5114,
+          "reason": "context_budget"
+        }
+      ],
+      "history_match": true
+    },
+    {
+      "case_id": "retriever-training-restricted",
+      "artifact": "retriever-training-restricted-planned.json",
+      "status": "error",
+      "first_delta": null,
+      "completion": 12.443530249991454,
+      "at": "2026-10-01T15:59:29.147914+00:00",
+      "selected_scores": null,
+      "retrieval_status": "last observed retrieval; no final answer context or final selection",
+      "last_observed_scores": {
+        "Recall@K": 0.0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0,
+        "MRR": 0,
+        "NDCG@K": 0.0,
+        "relevant_child_count": 1,
+        "top_ids": [
+          "18eaa5a313824309a081713d13a55e2d:child:17",
+          "18eaa5a313824309a081713d13a55e2d:child:9",
+          "18eaa5a313824309a081713d13a55e2d:child:3",
+          "18eaa5a313824309a081713d13a55e2d:child:5",
+          "18eaa5a313824309a081713d13a55e2d:child:1"
+        ],
+        "binary_relevance": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "fact_anchor_recall": 0.0
+      },
+      "query_scores": [
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q1"
+          ],
+          "text": "In the supplied papers, which retriever supplies the pretrained bi-encoder used to initialize RAG, and what is the stated initialization relationship?",
+          "seconds": 2.33311483298894,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:9",
+                "18eaa5a313824309a081713d13a55e2d:child:3",
+                "18eaa5a313824309a081713d13a55e2d:child:5",
+                "18eaa5a313824309a081713d13a55e2d:child:10",
+                "18eaa5a313824309a081713d13a55e2d:child:27"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "bm25_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:7",
+                "18eaa5a313824309a081713d13a55e2d:child:9",
+                "18eaa5a313824309a081713d13a55e2d:child:17",
+                "18eaa5a313824309a081713d13a55e2d:child:6",
+                "18eaa5a313824309a081713d13a55e2d:child:13"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "fused_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 0.3333333333333333,
+              "NDCG@K": 0.5,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:9",
+                "18eaa5a313824309a081713d13a55e2d:child:3",
+                "18eaa5a313824309a081713d13a55e2d:child:7",
+                "18eaa5a313824309a081713d13a55e2d:child:6",
+                "18eaa5a313824309a081713d13a55e2d:child:5"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                1,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "reranked": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:17",
+                "18eaa5a313824309a081713d13a55e2d:child:3",
+                "18eaa5a313824309a081713d13a55e2d:child:1",
+                "18eaa5a313824309a081713d13a55e2d:child:27",
+                "18eaa5a313824309a081713d13a55e2d:child:5"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q2"
+          ],
+          "text": "In the supplied papers, what combination of negative passages does the best model of that retriever use during training? Provide training details.",
+          "seconds": 2.5526227080263197,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 0.5,
+              "NDCG@K": 0.6309297535714575,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:9",
+                "18eaa5a313824309a081713d13a55e2d:child:7",
+                "18eaa5a313824309a081713d13a55e2d:child:2",
+                "18eaa5a313824309a081713d13a55e2d:child:5",
+                "18eaa5a313824309a081713d13a55e2d:child:34"
+              ],
+              "binary_relevance": [
+                0,
+                1,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "bm25_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:9",
+                "18eaa5a313824309a081713d13a55e2d:child:13",
+                "18eaa5a313824309a081713d13a55e2d:child:11",
+                "18eaa5a313824309a081713d13a55e2d:child:27",
+                "18eaa5a313824309a081713d13a55e2d:child:5"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "fused_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:9",
+                "18eaa5a313824309a081713d13a55e2d:child:5",
+                "18eaa5a313824309a081713d13a55e2d:child:2",
+                "18eaa5a313824309a081713d13a55e2d:child:27",
+                "18eaa5a313824309a081713d13a55e2d:child:17"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "reranked": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "18eaa5a313824309a081713d13a55e2d:child:9",
+                "18eaa5a313824309a081713d13a55e2d:child:5",
+                "18eaa5a313824309a081713d13a55e2d:child:3",
+                "18eaa5a313824309a081713d13a55e2d:child:27",
+                "18eaa5a313824309a081713d13a55e2d:child:1"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            }
+          }
+        }
+      ],
+      "final_evidence_coverage": [
+        {
+          "fact_id": "retriever_bridge",
+          "covered": false,
+          "anchors": [
+            {
+              "anchor": "a pre-trained bi-encoder from DPR to initialize our retriever and to build the document index.",
+              "source_ids": [],
+              "covered": false
+            }
+          ]
+        }
+      ],
+      "assessment_round": null,
+      "evidence_tokens": null,
+      "excluded": null,
+      "unexpanded_parents": null,
+      "history_match": false
+    },
+    {
+      "case_id": "lecture-overfitting",
+      "artifact": "lecture-overfitting-planned.json",
+      "status": "completed",
+      "first_delta": 4.706315083894879,
+      "completion": 5.211284958990291,
+      "at": "2026-10-01T15:59:41.592055+00:00",
+      "selected_scores": {
+        "Recall@K": 1.0,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0,
+        "relevant_child_count": 2,
+        "top_ids": [
+          "cd6684c353e44c7c88e349fccb10f8d0:child:165",
+          "cd6684c353e44c7c88e349fccb10f8d0:child:166",
+          "cd6684c353e44c7c88e349fccb10f8d0:child:171",
+          "cd6684c353e44c7c88e349fccb10f8d0:child:257",
+          "cd6684c353e44c7c88e349fccb10f8d0:child:164"
+        ],
+        "binary_relevance": [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "fact_anchor_recall": 1.0
+      },
+      "retrieval_status": "final completed trace",
+      "last_observed_scores": {
+        "Recall@K": 1.0,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0,
+        "relevant_child_count": 2,
+        "top_ids": [
+          "cd6684c353e44c7c88e349fccb10f8d0:child:165",
+          "cd6684c353e44c7c88e349fccb10f8d0:child:166",
+          "cd6684c353e44c7c88e349fccb10f8d0:child:171",
+          "cd6684c353e44c7c88e349fccb10f8d0:child:257",
+          "cd6684c353e44c7c88e349fccb10f8d0:child:164"
+        ],
+        "binary_relevance": [
+          1,
+          1,
+          0,
+          0,
+          0
+        ],
+        "fact_anchor_recall": 1.0
+      },
+      "query_scores": [
+        {
+          "round_index": 1,
+          "query_ids": [
+            "Q1"
+          ],
+          "text": "In the decision-tree lecture, how is overfitting defined?",
+          "seconds": 0.7636184580624104,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 0.5,
+              "NDCG@K": 0.38685280723454163,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "cd6684c353e44c7c88e349fccb10f8d0:child:164",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:165",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:243",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:168",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:257"
+              ],
+              "binary_relevance": [
+                0,
+                1,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.5
+            },
+            "bm25_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "cd6684c353e44c7c88e349fccb10f8d0:child:86",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:206",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:117",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:10",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:134"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "fused_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "cd6684c353e44c7c88e349fccb10f8d0:child:243",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:171",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:233",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:89",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:164"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "reranked": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "cd6684c353e44c7c88e349fccb10f8d0:child:165",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:167",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:171",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:89",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:233"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.5
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "Q2"
+          ],
+          "text": "In the decision-tree lecture, what effect can overfitting have on test-set performance?",
+          "seconds": 0.6405729170655832,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.8503449055347546,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "cd6684c353e44c7c88e349fccb10f8d0:child:166",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:164",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:243",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:257",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:165"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "bm25_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "cd6684c353e44c7c88e349fccb10f8d0:child:86",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:150",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:117",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:152",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:142"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "fused_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "cd6684c353e44c7c88e349fccb10f8d0:child:166",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:150",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:251",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:252",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:257"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.5
+            },
+            "reranked": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "cd6684c353e44c7c88e349fccb10f8d0:child:166",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:211",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:257",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:171",
+                "cd6684c353e44c7c88e349fccb10f8d0:child:243"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.5
+            }
+          }
+        }
+      ],
+      "final_evidence_coverage": [
+        {
+          "fact_id": "overfitting_definition",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "algorithm fits noise (i.e. pays attention to parts of the data that are irrelevant)",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        },
+        {
+          "fact_id": "overfitting_effect",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "then it may perform less well on test set data.",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        }
+      ],
+      "assessment_round": 1,
+      "evidence_tokens": 706,
+      "excluded": [],
+      "unexpanded_parents": [],
+      "history_match": true
+    },
+    {
+      "case_id": "income-period-basis",
+      "artifact": "income-period-basis-planned.json",
+      "status": "completed",
+      "first_delta": 4.018489917041734,
+      "completion": 4.02211170794908,
+      "at": "2026-10-01T15:59:46.817825+00:00",
+      "selected_scores": {
+        "Recall@K": 0.0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0,
+        "MRR": 0,
+        "NDCG@K": 0.0,
+        "relevant_child_count": 4,
+        "top_ids": [],
+        "binary_relevance": [],
+        "fact_anchor_recall": 0.0
+      },
+      "retrieval_status": "final completed trace",
+      "last_observed_scores": {
+        "Recall@K": 0.0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0,
+        "MRR": 0,
+        "NDCG@K": 0.0,
+        "relevant_child_count": 4,
+        "top_ids": [],
+        "binary_relevance": [],
+        "fact_anchor_recall": 0.0
+      },
+      "query_scores": [
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q1"
+          ],
+          "text": "In the relevant document, what was NVIDIA's GAAP operating income for Q4 FY25? State the amount and units.",
+          "seconds": 0.004221374983899295,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [],
+              "binary_relevance": [],
+              "fact_anchor_recall": 0.0
+            },
+            "bm25_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [],
+              "binary_relevance": [],
+              "fact_anchor_recall": 0.0
+            },
+            "fused_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [],
+              "binary_relevance": [],
+              "fact_anchor_recall": 0.0
+            },
+            "reranked": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [],
+              "binary_relevance": [],
+              "fact_anchor_recall": 0.0
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q2"
+          ],
+          "text": "In the relevant document, what was NVIDIA's non-GAAP operating income for Q4 FY25? State the amount and units.",
+          "seconds": 0.002313625067472458,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [],
+              "binary_relevance": [],
+              "fact_anchor_recall": 0.0
+            },
+            "bm25_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [],
+              "binary_relevance": [],
+              "fact_anchor_recall": 0.0
+            },
+            "fused_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [],
+              "binary_relevance": [],
+              "fact_anchor_recall": 0.0
+            },
+            "reranked": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [],
+              "binary_relevance": [],
+              "fact_anchor_recall": 0.0
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q3"
+          ],
+          "text": "In the relevant document, what was NVIDIA's GAAP operating income for the full fiscal year 2025? State the amount and units.",
+          "seconds": 0.0028770409990102053,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [],
+              "binary_relevance": [],
+              "fact_anchor_recall": 0.0
+            },
+            "bm25_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [],
+              "binary_relevance": [],
+              "fact_anchor_recall": 0.0
+            },
+            "fused_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [],
+              "binary_relevance": [],
+              "fact_anchor_recall": 0.0
+            },
+            "reranked": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [],
+              "binary_relevance": [],
+              "fact_anchor_recall": 0.0
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q4"
+          ],
+          "text": "In the relevant document, what was NVIDIA's non-GAAP operating income for the full fiscal year 2025? State the amount and units.",
+          "seconds": 0.0021044579334557056,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [],
+              "binary_relevance": [],
+              "fact_anchor_recall": 0.0
+            },
+            "bm25_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [],
+              "binary_relevance": [],
+              "fact_anchor_recall": 0.0
+            },
+            "fused_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [],
+              "binary_relevance": [],
+              "fact_anchor_recall": 0.0
+            },
+            "reranked": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [],
+              "binary_relevance": [],
+              "fact_anchor_recall": 0.0
+            }
+          }
+        }
+      ],
+      "final_evidence_coverage": [
+        {
+          "fact_id": "quarter_gaap",
+          "covered": false,
+          "anchors": [
+            {
+              "anchor": "$24,034",
+              "source_ids": [],
+              "covered": false
+            }
+          ]
+        },
+        {
+          "fact_id": "quarter_nongaap",
+          "covered": false,
+          "anchors": [
+            {
+              "anchor": "$25,516",
+              "source_ids": [],
+              "covered": false
+            }
+          ]
+        },
+        {
+          "fact_id": "annual_gaap",
+          "covered": false,
+          "anchors": [
+            {
+              "anchor": "$81,453",
+              "source_ids": [],
+              "covered": false
+            }
+          ]
+        },
+        {
+          "fact_id": "annual_nongaap",
+          "covered": false,
+          "anchors": [
+            {
+              "anchor": "$86,789",
+              "source_ids": [],
+              "covered": false
+            }
+          ]
+        },
+        {
+          "fact_id": "income_units",
+          "covered": false,
+          "anchors": [
+            {
+              "anchor": "($ in millions, except earnings per share)",
+              "source_ids": [],
+              "covered": false
+            }
+          ]
+        }
+      ],
+      "assessment_round": 1,
+      "evidence_tokens": 0,
+      "excluded": [],
+      "unexpanded_parents": [],
+      "history_match": true
+    },
+    {
+      "case_id": "forecast-is-not-actual",
+      "artifact": "forecast-is-not-actual-planned.json",
+      "status": "completed",
+      "first_delta": 5.748155541950837,
+      "completion": 5.75710354198236,
+      "at": "2026-10-01T15:59:50.844070+00:00",
+      "selected_scores": null,
+      "retrieval_status": "final completed trace",
+      "last_observed_scores": null,
+      "query_scores": [
+        {
+          "round_index": 1,
+          "query_ids": [
+            "direct"
+          ],
+          "text": "What actual revenue did NVIDIA report for the first quarter of fiscal 2026? Answer only from the selected report.",
+          "seconds": 1.5517555839614943,
+          "stage_scores": {
+            "vector_matches": null,
+            "bm25_matches": null,
+            "fused_matches": null,
+            "reranked": null
+          }
+        }
+      ],
+      "final_evidence_coverage": [],
+      "assessment_round": 1,
+      "evidence_tokens": 1585,
+      "excluded": [],
+      "unexpanded_parents": [],
+      "history_match": true
+    }
+  ],
+  "provider_calls": [
+    {
+      "call_id": "8ad0300ec6a144d19c6354db438665bb",
+      "request": "ingest-rag-paper",
+      "role": "ingestion_embedding",
+      "api": "embeddings",
+      "seconds": 2.164939499925822,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 15325,
+        "total_tokens": 15325
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "92d3b052a4d04b3cb5fb4fe07aa3ab54",
+      "request": "ingest-dpr-paper",
+      "role": "ingestion_embedding",
+      "api": "embeddings",
+      "seconds": 1.3985294579761103,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 13409,
+        "total_tokens": 13409
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "ded4c855f9344f57a3566dd7f490cd7c",
+      "request": "ingest-decision-trees",
+      "role": "ingestion_embedding",
+      "api": "embeddings",
+      "seconds": 2.3374757079873234,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 6467,
+        "total_tokens": 6467
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "5cb98532700242f99ec9373044aecb7c",
+      "request": "ingest-nvidia-fy25",
+      "role": "ingestion_embedding",
+      "api": "embeddings",
+      "seconds": 1.376635583001189,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 6574,
+        "total_tokens": 6574
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "b5999ff21e2945d8821193e003550675",
+      "request": "rag-document-granularity-planned",
+      "role": "retrieval_plan",
+      "api": "responses",
+      "seconds": 4.675307083991356,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 1754,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 302,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2056
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "1bc0e096bca340968775640b0715f9b9",
+      "request": "rag-document-granularity-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.8005160829052329,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 19,
+        "total_tokens": 19
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "7c4a07becd7e4548861f4f6b20e32e93",
+      "request": "rag-document-granularity-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.5347002079943195,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 18,
+        "total_tokens": 18
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "e55c463fd1364854b1adcd879f6065da",
+      "request": "rag-document-granularity-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.5529275829903781,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 24,
+        "total_tokens": 24
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "6fbbf781a7d746ba9277e3b6dbc4c7ce",
+      "request": "rag-document-granularity-planned",
+      "role": "evidence_assessment",
+      "api": "responses",
+      "seconds": 2.6440872909734026,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 5383,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 212,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5595
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "aad39282f48943b3a419813845e13503",
+      "request": "rag-document-granularity-planned",
+      "role": "generation",
+      "api": "responses",
+      "seconds": 2.307040083920583,
+      "kind": "sdk_stream_terminal",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 5448,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 91,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5539
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "4a29de230dd04de89952187d734bfdf8",
+      "request": "retriever-training-hop-planned",
+      "role": "retrieval_plan",
+      "api": "responses",
+      "seconds": 3.187039375072345,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 1794,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 193,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1987
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "e7e2a91c216d4f21a58c0ced25e64bcc",
+      "request": "retriever-training-hop-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.19902854110114276,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 29,
+        "total_tokens": 29
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "fa2c1207ac8e4695ae4218f3aeec3217",
+      "request": "retriever-training-hop-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.340363375027664,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 35,
+        "total_tokens": 35
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "74f7376ea3554f769b89952707d57cef",
+      "request": "retriever-training-hop-planned",
+      "role": "evidence_assessment",
+      "api": "responses",
+      "seconds": 1.4104183750459924,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 5468,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 123,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5591
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "6146f81974ad4bc982392fb5191dc41f",
+      "request": "retriever-training-hop-planned",
+      "role": "generation",
+      "api": "responses",
+      "seconds": 3.0949036659440026,
+      "kind": "sdk_stream_terminal",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 5618,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 89,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5707
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "69d1dd3db88e4b50aaa83fd42181f0f2",
+      "request": "retriever-training-restricted-planned",
+      "role": "retrieval_plan",
+      "api": "responses",
+      "seconds": 3.232779624988325,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 1794,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 1664
+        },
+        "output_tokens": 204,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1998
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "7e2f20c048b34df594cdf703314432da",
+      "request": "retriever-training-restricted-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.2633580829715356,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 28,
+        "total_tokens": 28
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "471da0e84f3347e8a04302fe04adbf9b",
+      "request": "retriever-training-restricted-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.5445000409381464,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 26
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "c10ccc37b8974f4a9eb0c21e1fe0131d",
+      "request": "retriever-training-restricted-planned",
+      "role": "evidence_assessment",
+      "api": "responses",
+      "seconds": 4.305489749996923,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 5517,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 232,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5749
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "31516479ddfb4d18ac4cef55a09408ba",
+      "request": "lecture-overfitting-planned",
+      "role": "retrieval_plan",
+      "api": "responses",
+      "seconds": 1.179243625025265,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 1748,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 136,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1884
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "2c7e0e3275b14d049977b1937a9adf9c",
+      "request": "lecture-overfitting-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.21019474999047816,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 13,
+        "total_tokens": 13
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "d7b73310c3c54dabb77e8a7a4cb42dff",
+      "request": "lecture-overfitting-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.2222358750877902,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 18,
+        "total_tokens": 18
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "ac0e95f8298841c180b3e21d8b5a36aa",
+      "request": "lecture-overfitting-planned",
+      "role": "evidence_assessment",
+      "api": "responses",
+      "seconds": 1.3108482919633389,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 2174,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 109,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2283
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "8bc58e693b17443e8db52316480d20dc",
+      "request": "lecture-overfitting-planned",
+      "role": "generation",
+      "api": "responses",
+      "seconds": 1.2818948330823332,
+      "kind": "sdk_stream_terminal",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 2414,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 53,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2467
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "1014fda5283c4320a1eece478c64e147",
+      "request": "income-period-basis-planned",
+      "role": "retrieval_plan",
+      "api": "responses",
+      "seconds": 3.9986499580554664,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 1792,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 464,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2256
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "2335ea1923d646a58d8609c4371d0f7f",
+      "request": "forecast-is-not-actual-planned",
+      "role": "retrieval_plan",
+      "api": "responses",
+      "seconds": 2.027584624942392,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 1750,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 27,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1777
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "c4ffe87bab844874b183dba11884fbf8",
+      "request": "forecast-is-not-actual-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.352843499975279,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 23,
+        "total_tokens": 23
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "c34cebd332ca447f92c3e582ecf8cdee",
+      "request": "forecast-is-not-actual-planned",
+      "role": "evidence_assessment",
+      "api": "responses",
+      "seconds": 2.1323978330474347,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 2963,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 56,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 3019
+      },
+      "response_status": "completed",
+      "error_type": null
+    }
+  ]
+}

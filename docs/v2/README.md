@@ -311,3 +311,23 @@ is preparation only: product ingestion, live answers, canonical span mapping and
 browser execution are still pending. A first official report download returned
 403; a different official PDF was frozen before question authoring, and the failed
 attempt remains recorded. No model-quality score or merge follows from preparation.
+
+The [first-use new-PDF execution](../../evals/library-runs/20261001-new-pdf-acceptance/README.md)
+now completes the planned ingestion and one-pass six-question attempt. All four
+PDFs (90 pages) ingest and all 12 unique reference facts map, but only **4/6 answer
+cases pass**, with **7/13 positive points delivered**. The restricted RAG-only
+request fails when an invalid supplementary query aborts assessment validation.
+The financial request incorrectly refuses after interpreting the planner's
+`relevant document` wording as a literal filename. Both failures reproduce offline
+from retained inputs. The cross-paper answer is correct through two independent
+searches; true dependent execution remains `not_exercised`.
+
+Desktop/mobile citation pages and lecture navigation are verified. Financial
+citation checks are blocked by the missing answer; history restore passes for
+saved snapshots, but no conversation picker or dependent-trace display is
+established. All browser reads add zero provider calls. All 20 metrics, failed
+harness attempts, raw results and screenshots remain recorded; billed cost stays
+unavailable. The corpus is now development material. The next scoped repair should
+address generic document-scope wording and invalid optional supplementary proposals
+without changing frozen questions or weakening provenance validation. No product
+implementation or merge was made in this acceptance run.

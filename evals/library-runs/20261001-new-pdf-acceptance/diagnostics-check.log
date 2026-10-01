@@ -1,0 +1,199 @@
+{
+  "K": 5,
+  "label_scope": "Frozen full-anchor binary child relevance, incomplete for equivalent/supporting passages; no-gold case excluded.",
+  "final_selected_macro": {
+    "Recall@K": 0.625,
+    "Precision@K": 0.2,
+    "Hit Rate@K": 0.75,
+    "MRR": 0.625,
+    "NDCG@K": 0.5967132018086354,
+    "fact_anchor_recall": 0.6666666666666666
+  },
+  "final_selected_case_count": 4,
+  "final_selected_expected_case_count": 5,
+  "final_selected_unavailable": [
+    "retriever-training-restricted: request failed before final selection; no zero substitution"
+  ],
+  "final_evidence_coverage": {
+    "covered": 6,
+    "expected": 13
+  },
+  "first_answer_delta": {
+    "n": 5,
+    "mean": 8.27902219176758,
+    "p50": 5.748155541950837,
+    "p95": 15.22069000774063,
+    "unit": "seconds",
+    "percentile_method": "linear interpolation"
+  },
+  "complete_response": {
+    "n": 5,
+    "mean": 9.128602650179527,
+    "p50": 5.75710354198236,
+    "p95": 16.699443508358673,
+    "unit": "seconds",
+    "percentile_method": "linear interpolation"
+  },
+  "stages": {
+    "provider_ingestion_embedding": {
+      "n": 4,
+      "mean": 1.8193950622226112,
+      "p50": 1.7817344789509661,
+      "p95": 2.3115952767780983,
+      "unit": "seconds",
+      "percentile_method": "linear interpolation"
+    },
+    "provider_retrieval_plan": {
+      "n": 6,
+      "mean": 3.050100715345858,
+      "p50": 3.209909500030335,
+      "p95": 4.506142802507384,
+      "unit": "seconds",
+      "percentile_method": "linear interpolation"
+    },
+    "provider_query_embedding": {
+      "n": 10,
+      "mean": 0.40206680389819666,
+      "p50": 0.3466034375014715,
+      "p95": 0.689101257943548,
+      "unit": "seconds",
+      "percentile_method": "linear interpolation"
+    },
+    "provider_evidence_assessment": {
+      "n": 5,
+      "mean": 2.3606483082054184,
+      "p50": 2.1323978330474347,
+      "p95": 3.9732092581922185,
+      "unit": "seconds",
+      "percentile_method": "linear interpolation"
+    },
+    "provider_generation": {
+      "n": 3,
+      "mean": 2.22794619431564,
+      "p50": 2.307040083920583,
+      "p95": 3.0161173077416605,
+      "unit": "seconds",
+      "percentile_method": "linear interpolation"
+    },
+    "retrieval_per_query": {
+      "n": 14,
+      "mean": 1.5039817170722276,
+      "p50": 1.9424352084752172,
+      "p95": 2.836335789359873,
+      "unit": "seconds",
+      "percentile_method": "linear interpolation"
+    },
+    "query_scope_seconds": {
+      "n": 14,
+      "mean": 0.0012474226615657763,
+      "p50": 0.0008291460108011961,
+      "p95": 0.0033217247691936787,
+      "unit": "seconds",
+      "percentile_method": "linear interpolation"
+    },
+    "query_embedding_seconds": {
+      "n": 10,
+      "mean": 0.40250596679979933,
+      "p50": 0.3470549584599212,
+      "p95": 0.6895251395530064,
+      "unit": "seconds",
+      "percentile_method": "linear interpolation"
+    },
+    "query_rerank_seconds": {
+      "n": 10,
+      "mean": 1.6848841542843729,
+      "p50": 1.9981975625269115,
+      "p95": 2.355584614787949,
+      "unit": "seconds",
+      "percentile_method": "linear interpolation"
+    },
+    "retrieval_round": {
+      "n": 6,
+      "mean": 3.5163866113095232,
+      "p50": 3.227823625493329,
+      "p95": 7.268141250038752,
+      "unit": "seconds",
+      "percentile_method": "linear interpolation"
+    },
+    "cross_query_merge": {
+      "n": 6,
+      "mean": 0.00016379884133736292,
+      "p50": 0.0001918335328809917,
+      "p95": 0.00022485473891720176,
+      "unit": "seconds",
+      "percentile_method": "linear interpolation"
+    },
+    "packing_round": {
+      "n": 6,
+      "mean": 0.0015956874703988433,
+      "p50": 0.0015900414437055588,
+      "p95": 0.0030067815096117556,
+      "unit": "seconds",
+      "percentile_method": "linear interpolation"
+    }
+  },
+  "stage_limit": "Search/BM25/fusion sub-timers and provider queue time are unavailable. Query retrieval includes embedding/search/reranking; stage timers overlap and are not additive.",
+  "token_usage_by_role": {
+    "ingestion_embedding": {
+      "input_tokens": 41775,
+      "output_tokens": null,
+      "total_tokens": 41775,
+      "cached_input_tokens": null,
+      "calls": 4,
+      "cached_input_status": "unavailable: provider embedding usage does not expose cached counts",
+      "output_status": "not_applicable: embeddings return vectors"
+    },
+    "retrieval_plan": {
+      "input_tokens": 10632,
+      "output_tokens": 1326,
+      "total_tokens": 11958,
+      "cached_input_tokens": 1664,
+      "calls": 6
+    },
+    "query_embedding": {
+      "input_tokens": 233,
+      "output_tokens": null,
+      "total_tokens": 233,
+      "cached_input_tokens": null,
+      "calls": 10,
+      "cached_input_status": "unavailable: provider embedding usage does not expose cached counts",
+      "output_status": "not_applicable: embeddings return vectors"
+    },
+    "evidence_assessment": {
+      "input_tokens": 21505,
+      "output_tokens": 732,
+      "total_tokens": 22237,
+      "cached_input_tokens": 0,
+      "calls": 5
+    },
+    "generation": {
+      "input_tokens": 13480,
+      "output_tokens": 233,
+      "total_tokens": 13713,
+      "cached_input_tokens": 0,
+      "calls": 3
+    }
+  },
+  "resolved_models": [
+    "gpt-4.1-2025-04-14",
+    "text-embedding-3-small"
+  ],
+  "sdk_starts": 28,
+  "sdk_terminals": 28,
+  "sdk_errors": 0,
+  "sdk_timeouts": 0,
+  "provider_retries": 0,
+  "requests": {
+    "completed": 5,
+    "error": 1
+  },
+  "history_matches": 5,
+  "concurrency": 1,
+  "request_wall_interval_seconds": 58.15678930282593,
+  "completed_requests_per_second": 0.08597448483554855,
+  "billing": {
+    "status": "unavailable",
+    "value": null,
+    "reason": "SDK reports tokens, not billed currency; no billing API used."
+  }
+}
