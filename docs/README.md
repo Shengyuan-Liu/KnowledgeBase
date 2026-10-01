@@ -1,5 +1,8 @@
 # Documentation
 
+The [OOP refactoring plan](v2/oop-refactoring.md) records the current component
+boundaries, migration stages and behavior-preservation checks.
+
 ## v2 Design
 
 The [v2 design set](v2/README.md) specifies PDF ingestion with page citations,
