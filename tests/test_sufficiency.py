@@ -11,12 +11,14 @@ from sqlalchemy import func, select
 
 from knowledgebase.config import PlanningOptions
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
-from knowledgebase.rag.sufficiency import SufficiencyAssessment, assessment_excerpts, validate_assessment
+from knowledgebase.schemas import SufficiencyAssessment
+from knowledgebase.rag.sufficiency import assessment_excerpts, validate_assessment
 from knowledgebase.services.chat import stream_answer_in_conversation
 from knowledgebase.storage.models import MessageRecord
 from knowledgebase.storage.operations import update_file_status
 from test_automatic_planning import DIRECT, response, events_from
-from test_dependent_retrieval import hop_api, ask, QUESTION, PLAN, DOCUMENTS
+from test_dependent_retrieval import ask, QUESTION, PLAN, DOCUMENTS
+from test_dependent_retrieval import hop_api as hop_api
 
 
 def payload_catalog(payload):
@@ -311,7 +313,7 @@ async def test_cancel_during_assessment_does_not_continue_or_save(assessed_api, 
 
 
 def test_direct_plan_merges_supplementary_candidates(hop_api):
-    from knowledgebase.rag.planning import PlannedQuery, direct_plan
+    from knowledgebase.schemas import PlannedQuery, direct_plan
     from knowledgebase.rag.planned_retrieval import retrieve_plan
     _, resources, _, _, _, files = hop_api
     plan = direct_plan(QUESTION)
@@ -327,7 +329,7 @@ def test_direct_plan_merges_supplementary_candidates(hop_api):
 
 def test_assessment_catalog_includes_pdf_supplement_offsets():
     from types import SimpleNamespace
-    from knowledgebase.rag.planning import AnswerRequirement
+    from knowledgebase.schemas import AnswerRequirement
     from knowledgebase.schemas import PdfRegion
 
     result = SimpleNamespace(evidence=SimpleNamespace(chunks=[SimpleNamespace(
@@ -422,7 +424,7 @@ def test_initial_context_can_satisfy_a_whole_dependency_chain(assessed_api):
 
 
 def test_question_filename_reformulation_does_not_require_a_source_target():
-    from knowledgebase.rag.planning import AnswerRequirement
+    from knowledgebase.schemas import AnswerRequirement
 
     requirements = [AnswerRequirement(requirement_id='grades', description='Grades in course.pdf')]
     value = {'requirements': [{'requirement_id': 'grades', 'status': 'missing',
@@ -442,7 +444,7 @@ def test_separate_table_passage_ids_preserve_exact_source_spans():
 
     from pydantic import ValidationError
 
-    from knowledgebase.rag.planning import AnswerRequirement
+    from knowledgebase.schemas import AnswerRequirement
 
     text = 'Three Months Ended\tTwelve Months Ended\nOther rows\nNet income\t$ 14,736\t$ 93,736'
     packed = SimpleNamespace(evidence=SimpleNamespace(chunks=[SimpleNamespace(
@@ -469,7 +471,7 @@ def test_separate_table_passage_ids_preserve_exact_source_spans():
 def test_supplementary_target_must_occur_in_selected_passage():
     from types import SimpleNamespace
 
-    from knowledgebase.rag.planning import AnswerRequirement
+    from knowledgebase.schemas import AnswerRequirement
 
     text = DOCUMENTS[0][1]
     packed = SimpleNamespace(evidence=SimpleNamespace(chunks=[SimpleNamespace(

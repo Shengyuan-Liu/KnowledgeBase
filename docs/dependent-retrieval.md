@@ -30,7 +30,7 @@ binding model cannot rewrite the search or select file IDs. Initial planner
 instructions preserve names, years, file restrictions and bridge requirements;
 model adherence to those semantic instructions remains a live evaluation concern.
 
-`rag/planning.py` validates the graph: unique IDs, known earlier prerequisites,
+`schemas/planning.py` validates the graph: unique IDs, known earlier prerequisites,
 coverage of all required points, at least one initial query, no cycles, no more
 than three levels and six total query nodes. Independent/direct plans cannot
 contain dependencies. Every template contains exactly one literal `{target}`.

@@ -6,8 +6,9 @@ from unittest.mock import Mock
 from knowledgebase.config import PlanningOptions
 from knowledgebase.providers.planner import PlannerClient
 from knowledgebase.rag.generation import _answer_messages
-from knowledgebase.rag.planning import PlanDecision, RetrievalPlan
-from knowledgebase.rag.planned_retrieval import PlannedEvidence
+from knowledgebase.schemas import (
+    PlanDecision, RetrievalPlan, PlannedEvidence,
+)
 from knowledgebase.services.hops import HopController
 from knowledgebase.services.planning import PreparedPlanning, RequestControl
 from test_automatic_planning import DIRECT, response

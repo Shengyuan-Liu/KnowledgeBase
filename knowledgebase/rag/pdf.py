@@ -16,10 +16,7 @@ from docling_core.types.doc import (
     BoundingBox, ContentLayer, DocItemLabel, DoclingDocument, PictureItem, TableItem, TextItem,
 )
 
-from knowledgebase.rag.pdf_models import (
-    PdfBlock, PdfCell, PdfExtraction, PdfPage, PdfParserIdentity, PdfRegion,
-    PdfTable, PdfWarning,
-)
+from knowledgebase.schemas import PdfBlock, PdfCell, PdfExtraction, PdfPage, PdfParserIdentity, PdfRegion, PdfTable, PdfWarning
 from knowledgebase.rag.pdf_tables import RECOVERY_SETTINGS, recover_collapsed_tables
 
 

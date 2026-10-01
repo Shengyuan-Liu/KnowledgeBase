@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from knowledgebase.rag.pdf_evidence import pdf_evidence
-from knowledgebase.rag.pdf_models import PdfExtraction
+from knowledgebase.schemas import PdfExtraction
 
 
 ROOT = Path(__file__).resolve().parents[1]

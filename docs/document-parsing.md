@@ -19,7 +19,7 @@ Both public functions accept decoded text and return an ordered `list[SourceBloc
 They perform no file, database, network, embedding, or model operations. Empty and
 blank-only input returns an empty list; upload validation remains a service concern.
 
-`SourceBlock` in `knowledgebase/schemas.py` is an in-memory Pydantic data model,
+`SourceBlock` in `knowledgebase/schemas/` is an in-memory Pydantic data model,
 not a database table, stored chunk, or HTTP response contract.
 
 | Field | Meaning |

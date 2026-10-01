@@ -3,14 +3,11 @@ from time import perf_counter
 from uuid import uuid4
 
 from knowledgebase.rag.context import build_context
-from knowledgebase.rag.dependencies import (
-    BINDING_INSTRUCTIONS, TargetDecisions, adds_source_text, context_spans,
-    dependency_evidence, validate_binding,
+from knowledgebase.schemas import (
+    TargetDecisions, PlannedQuery, SufficiencyAssessment,
 )
-from knowledgebase.rag.planning import PlannedQuery
-from knowledgebase.rag.sufficiency import (
-    ASSESSMENT_INSTRUCTIONS, SufficiencyAssessment, assessment_excerpts, assessment_context, validate_assessment,
-)
+from knowledgebase.rag.dependencies import BINDING_INSTRUCTIONS, adds_source_text, context_spans, dependency_evidence, validate_binding
+from knowledgebase.rag.sufficiency import ASSESSMENT_INSTRUCTIONS, assessment_excerpts, assessment_context, validate_assessment
 from knowledgebase.rag.planned_retrieval import retrieve_plan
 from knowledgebase.rag.retrieval import resolve_ready_scope
 

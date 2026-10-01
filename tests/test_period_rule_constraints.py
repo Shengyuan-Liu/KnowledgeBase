@@ -9,7 +9,7 @@ from knowledgebase.config import PlanningOptions
 from knowledgebase.providers.llm import LLMClient
 from knowledgebase.providers.planner import PlannerClient
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE, generate_answer
-from knowledgebase.rag.planned_retrieval import PlannedEvidence
+from knowledgebase.schemas import PlannedEvidence
 from knowledgebase.services.hops import HopController
 from knowledgebase.services.planning import PreparedPlanning, RequestControl
 from test_automatic_planning import response

@@ -8,8 +8,9 @@ import pytest
 from knowledgebase.config import PlanningOptions
 from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.generation import _answer_messages, generate_answer
-from knowledgebase.rag.planned_retrieval import PlannedEvidence
-from knowledgebase.rag.planning import RetrievalPlan
+from knowledgebase.schemas import (
+    PlannedEvidence, RetrievalPlan,
+)
 from knowledgebase.services.hops import HopController
 from knowledgebase.services.planning import PreparedPlanning, RequestControl
 from test_automatic_planning import response

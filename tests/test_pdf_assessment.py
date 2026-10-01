@@ -8,12 +8,10 @@ import pytest
 
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.pdf_evidence import pdf_evidence
-from knowledgebase.rag.pdf_models import PdfExtraction
-from knowledgebase.rag.planning import AnswerRequirement
-from knowledgebase.rag.sufficiency import (
-    SufficiencyAssessment, assessment_context, assessment_excerpts, validate_assessment,
+from knowledgebase.schemas import (
+    PdfExtraction, AnswerRequirement, SufficiencyAssessment, RetrievedEvidence, StructuredChunk,
 )
-from knowledgebase.schemas import RetrievedEvidence, StructuredChunk
+from knowledgebase.rag.sufficiency import assessment_context, assessment_excerpts, validate_assessment
 
 ROOT = Path(__file__).resolve().parents[1]
 

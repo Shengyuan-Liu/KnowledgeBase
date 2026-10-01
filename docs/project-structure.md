@@ -30,7 +30,11 @@ KnowledgeBase/
 ├── knowledgebase/
 │   ├── cli.py
 │   ├── config.py
-│   ├── schemas.py
+│   ├── schemas/                # Shared contracts, independent of component implementations
+│   │   ├── documents.py         # Canonical text, chunks and immutable PDF extraction
+│   │   ├── retrieval.py         # Rankings, evidence and query traces
+│   │   ├── planning.py          # Plans, target binding and evidence assessment
+│   │   └── chat.py              # Requests, answers and conversation snapshots
 │   ├── api/
 │   │   ├── app.py
 │   │   ├── dependencies.py
@@ -83,9 +87,9 @@ KnowledgeBase/
 ```
 
 Package markers and individual documentation/test files are omitted for readability.
-There is no retained upload directory: [document storage](document-storage.md)
-keeps complete canonical documents, parser blocks, exact chunks, and structural
-metadata in SQLite. Existing `.env` values can override the default data directory.
+The [document store](document-storage.md) keeps canonical text, parser blocks,
+exact chunks and structural metadata in SQLite. Original PDF bytes are retained
+under the configured data directory for source-page viewing. Existing `.env` values can override the default data directory.
 
 ## Responsibilities
 
@@ -93,7 +97,7 @@ metadata in SQLite. Existing `.env` values can override the default data directo
 | --- | --- |
 | `cli.py` | Parse terminal options, ingest supplied files, and run the conversation loop |
 | `config.py` | Read shared credentials, models, chunking, retrieval, and storage settings from environment variables or `.env` |
-| `schemas.py` | Define data snapshots, requests, responses, and stream events independently of ORM and HTTP handlers |
+| `schemas/` | Define data snapshots, requests, responses, and stream events independently of ORM and HTTP handlers |
 | `api/app.py` | Assemble the app, register routes, and own storage/SDK lifetimes |
 | `api/dependencies.py` | Define one `AppResources` object and expose it to all routes |
 | `api/files.py` | Translate file upload/list/delete operations into HTTP responses |

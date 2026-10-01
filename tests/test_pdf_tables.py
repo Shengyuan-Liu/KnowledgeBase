@@ -16,9 +16,10 @@ from knowledgebase.rag.chunking import split_parent_child
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.pdf import adapt_pdf_document
 from knowledgebase.rag.pdf_evidence import pdf_evidence, table_rows
-from knowledgebase.rag.pdf_models import PdfParserIdentity
+from knowledgebase.schemas import (
+    PdfParserIdentity, RetrievedChunk,
+)
 from knowledgebase.rag.pdf_tables import recover_collapsed_tables
-from knowledgebase.schemas import RetrievedChunk
 
 
 ROOT = Path(__file__).resolve().parents[1]

@@ -1,7 +1,6 @@
 """Offline regression checks for automated evaluation, not live quality scores."""
 
 import json
-from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import Mock
 

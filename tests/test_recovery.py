@@ -5,12 +5,11 @@ import subprocess
 import sys
 from unittest.mock import Mock
 
-import pytest
 from fastapi.testclient import TestClient
 
 from knowledgebase.api import app as api_module
 from knowledgebase.rag.chunking import split_text
-from knowledgebase.rag.retrieval import retrieve
+from knowledgebase.rag.retrieval import retrieve_evidence
 from knowledgebase.services.files import delete_file, ingest_file, recover_interrupted_files
 from knowledgebase.storage.operations import create_file, get_chunks, get_file, save_chunks
 from knowledgebase.storage.runtime import open_storage
@@ -35,7 +34,7 @@ def test_recovery_removes_partial_chunks_vectors_and_preserves_ready_files(stora
         assert failed.status == "failed" and "Re-upload" in failed.error_message
         assert get_chunks(session, "abandoned") == []
         assert get_file(session, ready).status == "ready"
-        assert {r.chunk.file_id for r in retrieve("Evidence?", session, embeddings, store)} == {ready}
+        assert {r.chunk.file_id for r in retrieve_evidence("Evidence?", session, embeddings, store).chunks} == {ready}
     assert collection.get()["ids"] == [f"{ready}:child:0"]
     delete_file("abandoned", sessions, store)
     with sessions() as session:
@@ -50,7 +49,7 @@ def test_recovery_cleanup_failure_remains_ineligible_and_deletable(storage, embe
     recover_interrupted_files(sessions, broken)
     with sessions() as session:
         assert "Cleanup pending" in get_file(session, "abandoned").error_message
-        assert retrieve("Unfinished?", session, embeddings, store) == []
+        assert retrieve_evidence("Unfinished?", session, embeddings, store).chunks == []
     delete_file("abandoned", sessions, store)
     assert collection.count() == 0
 

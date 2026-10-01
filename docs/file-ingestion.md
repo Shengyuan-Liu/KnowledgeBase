@@ -41,7 +41,7 @@ With a configured session factory and model/vector clients:
 ```python
 from pathlib import Path
 
-from knowledgebase.rag.retrieval import retrieve
+from knowledgebase.rag.retrieval import retrieve_evidence
 from knowledgebase.services.files import ingest_file
 
 path = Path("notes.md")
@@ -54,8 +54,8 @@ file_id = ingest_file(
 )
 
 with session_factory() as session:
-    results = retrieve("What do the notes explain?", session, embedding_client, vector_store)
-    for result in results:
+    results = retrieve_evidence("What do the notes explain?", session, embedding_client, vector_store)
+    for result in results.chunks:
         print(result.chunk.text, result.distance)
 ```
 

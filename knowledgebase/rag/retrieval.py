@@ -17,36 +17,13 @@ from knowledgebase.rag.fusion import fuse_rrf
 from knowledgebase.rag.reranking import rerank
 from knowledgebase.rag.scope import document_references, identity_labels, resolve_document_scope, prioritize_documents
 from knowledgebase.schemas import (
-    ChildChunk, RetrievedChunk, RetrievedEvidence, RetrievedCandidates, DocumentScope, FileInfo,
+    ChildChunk, RetrievedChunk, RetrievedEvidence, DocumentScope, FileInfo,
     RetrievalCandidate, RetrievalDiagnostics, RerankCandidate, StructuredChunk, ScopeFile,
 )
 from knowledgebase.storage.vectordb import ChromaStore
 from knowledgebase.storage.operations import (
     get_chunks_by_ids, get_chunks_for_files, get_files, get_parents_by_ids, get_source_texts, get_pdf_extraction,
 )
-
-
-def retrieve(
-    question: str,
-    session: Session,
-    embedding_client: EmbeddingClient,
-    vector_store: ChromaStore,
-    top_k: int = DEFAULT_TOP_K,
-    *, evidence_max_tokens: int = DEFAULT_EVIDENCE_MAX_TOKENS,
-    encoding_name: str = DEFAULT_CHUNK_TOKENIZER,
-    retrieval_options: RetrievalOptions | None = None,
-    reranker_client: RerankerClient | None = None,
-    file_ids: list[str] | None = None,
-    scope_question: str | None = None,
-) -> list[RetrievedChunk]:
-    """Return packed evidence; use retrieve_evidence for candidates and exclusions."""
-    return retrieve_evidence(
-        question, session, embedding_client, vector_store, top_k,
-        evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
-        retrieval_options=retrieval_options,
-        reranker_client=reranker_client,
-        file_ids=file_ids, scope_question=scope_question,
-    ).chunks
 
 
 def retrieve_evidence(
@@ -68,7 +45,7 @@ def retrieve_evidence(
     )
     if candidates.diagnostics.embedding_seconds is None:
         return RetrievedEvidence(chunks=[], diagnostics=candidates.diagnostics)
-    return pack_retrieval_candidates(candidates.hits, session, candidates.diagnostics)
+    return pack_retrieval_candidates(candidates.chunks, session, candidates.diagnostics)
 
 
 def retrieve_candidates(
@@ -82,7 +59,7 @@ def retrieve_candidates(
     scope_question: str | None = None,
     allowed_file_ids: list[str] | None = None,
     prioritize_scope: bool = True,
-) -> RetrievedCandidates:
+) -> RetrievedEvidence:
     """Search ready children before expansion or packing; retain query-local ranks."""
     if top_k <= 0:
         raise ValueError("top_k must be positive.")
@@ -106,7 +83,7 @@ def retrieve_candidates(
     if scope is not None:
         diagnostics.scope_seconds = perf_counter() - started
     if not ready_files:
-        return RetrievedCandidates(hits=[], diagnostics=diagnostics)
+        return RetrievedEvidence(chunks=[], diagnostics=diagnostics)
 
     scoped_files = diagnostics.document_scope.matches if diagnostics.document_scope else []
     labels_by_file = {file.file_id: file.labels for file in scoped_files}
@@ -204,7 +181,7 @@ def retrieve_candidates(
             document_labels=identity_labels_for_chunk,
             parent_id=parent_id, matched_child_ids=[chunk_id] if parent_id else [],
         ))
-    return RetrievedCandidates(hits=child_hits, diagnostics=diagnostics)
+    return RetrievedEvidence(chunks=child_hits, diagnostics=diagnostics)
 
 
 def resolve_ready_scope(

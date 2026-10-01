@@ -3,7 +3,7 @@
 from pathlib import Path
 from threading import Lock
 
-from knowledgebase.rag.pdf_models import PdfExtraction
+from knowledgebase.schemas import PdfExtraction
 
 
 class LocalPdfParser:

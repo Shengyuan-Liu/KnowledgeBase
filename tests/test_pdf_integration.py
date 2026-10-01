@@ -1,3 +1,4 @@
+from knowledgebase.config import RetrievalOptions
 """PDF ingestion/lifecycle with frozen real extraction and offline providers."""
 
 from pathlib import Path
@@ -10,17 +11,16 @@ from sqlalchemy import inspect
 from knowledgebase.api import app as api_module
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.chunking import split_parent_child
-from knowledgebase.rag.pdf_models import PdfExtraction
+from knowledgebase.schemas import (
+    PdfExtraction, RetrievedChunk, RetrievalDiagnostics,
+)
 from knowledgebase.rag.pdf_evidence import pdf_evidence, table_rows
-from knowledgebase.schemas import RetrievedChunk, RetrievalDiagnostics, RetrievalOptions
 from knowledgebase.rag.packing import pack_evidence
-from knowledgebase.rag.retrieval import retrieve
-from knowledgebase.services.files import ingest_file, delete_file, recover_interrupted_files
+from knowledgebase.rag.retrieval import retrieve_evidence
 from knowledgebase.storage.operations import (
     create_file, get_file, get_document_source, get_pdf_extraction, get_chunks,
-    save_pdf_source, update_file_status,
+    save_pdf_source,
 )
-from knowledgebase.storage.pdf_assets import PdfAssets
 from knowledgebase.storage.database import init_db
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -83,7 +83,7 @@ def test_upload_query_original_range_and_historical_evidence(pdf_api, extraction
     assert all(s["file_deleted"] for s in saved)
     with resources.sessions() as session:
         assert get_pdf_extraction(session, file_id) is None
-        assert retrieve("net sales", session, resources.embeddings, resources.store) == []
+        assert retrieve_evidence("net sales", session, resources.embeddings, resources.store).chunks == []
 
 
 def test_streaming_and_history_share_pdf_provenance(pdf_api):
@@ -167,7 +167,7 @@ def test_asset_delete_failure_is_ineligible_until_retry(pdf_api):
     assert client.delete(f"/api/files/{file['file_id']}").status_code == 500
     with resources.sessions() as session:
         assert get_file(session, file["file_id"]).status == "failed"
-        assert retrieve("net sales", session, resources.embeddings, resources.store) == []
+        assert retrieve_evidence("net sales", session, resources.embeddings, resources.store).chunks == []
     resources.assets = assets
     assert client.delete(f"/api/files/{file['file_id']}").status_code == 204
     assert not assets.path(file["file_id"]).exists()

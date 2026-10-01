@@ -1,24 +1,6 @@
 """Bind dependent search targets to literal, previously supplied source text."""
-from pydantic import Field
 
-from knowledgebase.rag.planning import PlanRecord
-from knowledgebase.rag.planned_retrieval import PlannedEvidence
-
-
-class EvidenceReference(PlanRecord):
-    evidence_id: str
-    quote: str = Field(min_length=1)
-
-
-class TargetDecision(PlanRecord):
-    query_id: str
-    status: str = Field(pattern="^(resolved|missing|ambiguous)$")
-    target: str
-    references: list[EvidenceReference]
-
-
-class TargetDecisions(PlanRecord):
-    decisions: list[TargetDecision] = Field(max_length=5)
+from knowledgebase.schemas import PlannedEvidence, TargetDecision
 
 
 BINDING_INSTRUCTIONS = """Resolve search placeholders using only the supplied excerpts.
@@ -44,7 +26,7 @@ Return the structured object only."""
 def dependency_evidence(result: PlannedEvidence, depends_on: list[str]) -> list[dict]:
     """Expose packed excerpts associated with prerequisite query hits, not raw candidates."""
     prerequisite_ids = {hit.chunk.chunk_id for run in result.trace.runs
-                        if set(run.query_ids) & set(depends_on) for hit in run.result.hits}
+                        if set(run.query_ids) & set(depends_on) for hit in run.result.chunks}
     excerpts = {}
     for hit in result.evidence.chunks:
         if not ({hit.chunk.chunk_id, *hit.matched_child_ids} & prerequisite_ids):

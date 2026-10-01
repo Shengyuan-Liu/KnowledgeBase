@@ -1,3 +1,4 @@
+from knowledgebase.config import RetrievalOptions
 """Regressions for the real page-62 title/body separation and its PDF boundaries."""
 
 import json
@@ -11,9 +12,10 @@ from knowledgebase.rag.chunking import split_parent_child
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.pdf_chunking import PDF_PARENT_CONTEXT_VERSION, join_heading_parents
 from knowledgebase.rag.pdf_evidence import table_rows
-from knowledgebase.rag.pdf_models import PdfExtraction
+from knowledgebase.schemas import (
+    PdfExtraction, ChildChunk, ParentChildChunks, ParentChunk, RetrievedChunk, RetrievalDiagnostics,
+)
 from knowledgebase.rag.retrieval import pack_retrieval_candidates
-from knowledgebase.schemas import ChildChunk, ParentChildChunks, ParentChunk, RetrievedChunk, RetrievalDiagnostics, RetrievalOptions
 from knowledgebase.services.files import ingest_file
 from knowledgebase.storage.operations import create_file, get_chunks, get_document_source, get_parents, save_parent_child_chunks, save_pdf_source
 from knowledgebase.storage.pdf_assets import PdfAssets

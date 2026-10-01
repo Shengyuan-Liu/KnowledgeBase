@@ -21,7 +21,7 @@ tables retain v1 information without requiring column migrations for MVP data:
 
 `DocumentSourceRecord` and `ChunkStructureRecord` in
 `knowledgebase/storage/models.py` define the two new database tables.
-`DocumentSource` and `StructuredChunk` in `knowledgebase/schemas.py` are independent
+`DocumentSource` and `StructuredChunk` in `knowledgebase/schemas/` are independent
 in-memory snapshots returned to callers, not ORM objects or new HTTP contracts.
 The separate [parent-child storage guide](parent-child-storage.md) describes the
 parent and relationship tables, which are not yet used by active uploads.

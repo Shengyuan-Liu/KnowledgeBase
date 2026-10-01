@@ -199,41 +199,28 @@ def get_chunks(session: Session, file_id: str) -> list[Chunk]:
     This storage query does not filter file status. Retrieval must separately
     ensure that a file is ready before using its chunks as answer evidence.
     """
-    statement = (
-        select(ChunkRecord, ChunkStructureRecord, ChildParentRecord)
-        .outerjoin(ChunkStructureRecord, ChunkStructureRecord.chunk_id == ChunkRecord.chunk_id)
-        .outerjoin(ChildParentRecord, ChildParentRecord.chunk_id == ChunkRecord.chunk_id)
-        .where(ChunkRecord.file_id == file_id)
-        .order_by(ChunkRecord.index)
-    )
-    return [
-        _chunk_snapshot(record, structure, parent)
-        for record, structure, parent in session.execute(statement)
-    ]
+    return _read_chunks(session, ChunkRecord.file_id == file_id, order_by=(ChunkRecord.index,))
 
 
 def get_chunks_by_ids(session: Session, chunk_ids: list[str]) -> list[Chunk]:
     """Load existing chunks by ID; the query does not preserve requested order."""
-    statement = (
-        select(ChunkRecord, ChunkStructureRecord, ChildParentRecord)
-        .outerjoin(ChunkStructureRecord, ChunkStructureRecord.chunk_id == ChunkRecord.chunk_id)
-        .outerjoin(ChildParentRecord, ChildParentRecord.chunk_id == ChunkRecord.chunk_id)
-        .where(ChunkRecord.chunk_id.in_(chunk_ids))
-    )
-    return [
-        _chunk_snapshot(record, structure, parent)
-        for record, structure, parent in session.execute(statement)
-    ]
+    return _read_chunks(session, ChunkRecord.chunk_id.in_(chunk_ids))
 
 
 def get_chunks_for_files(session: Session, file_ids: list[str]) -> list[Chunk]:
     """Load the lexical corpus for the caller's eligible files in one query."""
+    return _read_chunks(session, ChunkRecord.file_id.in_(file_ids),
+                        order_by=(ChunkRecord.file_id, ChunkRecord.index))
+
+
+def _read_chunks(session: Session, condition, *, order_by=()) -> list[Chunk]:
+    """Use the same joins and snapshot conversion for every chunk lookup."""
     statement = (
         select(ChunkRecord, ChunkStructureRecord, ChildParentRecord)
         .outerjoin(ChunkStructureRecord, ChunkStructureRecord.chunk_id == ChunkRecord.chunk_id)
         .outerjoin(ChildParentRecord, ChildParentRecord.chunk_id == ChunkRecord.chunk_id)
-        .where(ChunkRecord.file_id.in_(file_ids))
-        .order_by(ChunkRecord.file_id, ChunkRecord.index)
+        .where(condition)
+        .order_by(*order_by)
     )
     return [
         _chunk_snapshot(record, structure, parent)
@@ -398,7 +385,7 @@ def get_conversation_detail(session: Session, conversation_id: str) -> Conversat
 
 
 def get_pdf_extraction(session: Session, file_id: str):
-    from knowledgebase.rag.pdf_models import PdfExtraction
+    from knowledgebase.schemas import PdfExtraction
 
     record = session.get(PdfSourceRecord, file_id)
     return PdfExtraction.model_validate(record.extraction) if record is not None else None

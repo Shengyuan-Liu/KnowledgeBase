@@ -6,7 +6,7 @@ import pytest
 
 from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
-from knowledgebase.rag.retrieval import retrieve
+from knowledgebase.rag.retrieval import retrieve_evidence
 from knowledgebase.services.chat import answer_question
 from knowledgebase.services.files import delete_file, ingest_file
 from knowledgebase.storage.operations import create_file, get_chunks, get_file, get_files, update_file_status
@@ -67,7 +67,7 @@ def test_vector_failure_leaves_committed_nonready_file_and_cleanup_is_retryable(
         # A new session must see exclusion before any vector removal begins.
         with sessions() as session:
             assert get_file(session, file_id).status == "failed"
-            hits = retrieve("What remains?", session, embeddings, store, top_k=5)
+            hits = retrieve_evidence("What remains?", session, embeddings, store, top_k=5).chunks
             assert [hit.chunk.file_id for hit in hits] == [kept]
         if partial_delete:
             collection.delete(ids=[f"{file_id}:0"])
@@ -83,7 +83,7 @@ def test_vector_failure_leaves_committed_nonready_file_and_cleanup_is_retryable(
         assert file.status == "failed"
         assert "Retry deletion" in file.error_message
         assert len(get_chunks(session, removed)) == 2
-        assert [hit.chunk.file_id for hit in retrieve("What remains?", session, embeddings, store)] == [kept]
+        assert [hit.chunk.file_id for hit in retrieve_evidence("What remains?", session, embeddings, store).chunks] == [kept]
     assert len(collection.get(where={"file_id": removed})["ids"]) == (1 if partial_delete else 2)
 
     delete_file(removed, sessions, store)
@@ -112,7 +112,7 @@ def test_sql_cleanup_failure_rolls_back_chunks_and_can_retry_without_vectors(
     with sessions() as session:
         assert get_file(session, file_id).status == "failed"
         assert len(get_chunks(session, file_id)) == 1
-        assert retrieve("What is in the notes?", session, embeddings, store) == []
+        assert retrieve_evidence("What is in the notes?", session, embeddings, store).chunks == []
 
     monkeypatch.setattr(files, "delete_file_record", original)
     delete_file(file_id, sessions, store)

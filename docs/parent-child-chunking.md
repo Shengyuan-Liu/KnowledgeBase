@@ -11,7 +11,7 @@ indexing, and parent expansion through the default `parent_child` strategy.
 source, its ordered `SourceBlock` list, a file ID, and explicit parent/child token
 limits plus a tokenizer name. It returns `ParentChildChunks`:
 
-| Model in `knowledgebase/schemas.py` | Role |
+| Model in `knowledgebase/schemas/` | Role |
 | --- | --- |
 | `ParentChunk` | Bounded section context, identified by `parent_id` |
 | `ChildChunk` | Extends `StructuredChunk` with the ID of its one enclosing parent |

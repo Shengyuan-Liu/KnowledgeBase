@@ -16,7 +16,7 @@ from docling_core.types.doc import (
 )
 
 from knowledgebase.rag.pdf import PdfParser, adapt_pdf_document
-from knowledgebase.rag.pdf_models import PdfExtraction, PdfParserIdentity
+from knowledgebase.schemas import PdfExtraction, PdfParserIdentity
 
 
 ROOT = Path(__file__).resolve().parents[1]

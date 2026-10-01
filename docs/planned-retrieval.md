@@ -14,7 +14,7 @@ behavior described below is available with `PLANNING__SUFFICIENCY_ENABLED=false`
 | --- | --- |
 | `providers/planner.py` | Make one strict structured-output call and validate its direct/decomposed/narrowing decision |
 | `services/planning.py` | Freeze ready-file scope, track deadlines/cancellation and reserve answer time |
-| `rag/planning.py` | Validate an original/resolved question, required answer points and independent query records |
+| `schemas/planning.py` | Validate an original/resolved question, required answer points and independent query records |
 | `direct_plan` | Construct the existing single-query route without calling a model |
 | `rag/retrieval.py: retrieve_candidates` | Resolve Ready-only scope and return bounded, unpacked child hits with query-local scores |
 | `resolve_ready_scope` | Resolve document references within an allowed ready-file catalog |
@@ -87,7 +87,7 @@ refusal remain correct. This is one fixed-context development pass, not held-out
 or full retrieval-chain acceptance.
 
 ```python
-from knowledgebase.rag.planning import AnswerRequirement, PlannedQuery, RetrievalPlan
+from knowledgebase.schemas import AnswerRequirement, PlannedQuery, RetrievalPlan
 from knowledgebase.rag.planned_retrieval import retrieve_plan
 
 plan = RetrievalPlan(

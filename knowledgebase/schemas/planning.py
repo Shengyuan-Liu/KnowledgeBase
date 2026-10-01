@@ -1,4 +1,4 @@
-"""Typed, bounded plans supplied by callers; no model calls or response repair."""
+"""Shared planning, dependency and evidence-assessment contracts."""
 
 from typing import Literal, Self
 
@@ -14,10 +14,14 @@ class AnswerRequirement(PlanRecord):
     description: str = Field(min_length=1)
 
 
-class PlannedQuery(PlanRecord):
+class DraftQuery(PlanRecord):
     query_id: str = Field(min_length=1)
-    text: str = Field(min_length=1, pattern=r"\S")
+    text: str = Field(pattern=r"\S")
     requirement_ids: list[str] = Field(min_length=1)
+
+
+class PlannedQuery(DraftQuery):
+    text: str = Field(min_length=1, pattern=r"\S")
     # None inherits the user's scope. An explicit list can only narrow it.
     file_ids: list[str] | None = None
 
@@ -85,12 +89,6 @@ def direct_plan(question: str, *, resolved_question: str | None = None) -> Retri
     )
 
 
-class DraftQuery(PlanRecord):
-    query_id: str = Field(min_length=1)
-    text: str = Field(pattern=r"\S")
-    requirement_ids: list[str] = Field(min_length=1)
-
-
 class PlanDecision(PlanRecord):
     """Model output cannot replace questions or authorize file identities."""
     route: Literal["direct", "decomposed", "dependent", "needs_narrowing"]
@@ -115,3 +113,42 @@ class PlanDecision(PlanRecord):
             dependencies=self.dependencies,
             answer_rules=self.answer_rules,
         )
+
+
+class EvidenceReference(PlanRecord):
+    evidence_id: str
+    quote: str = Field(min_length=1)
+
+
+class TargetDecision(PlanRecord):
+    query_id: str
+    status: str = Field(pattern="^(resolved|missing|ambiguous)$")
+    target: str
+    references: list[EvidenceReference]
+
+
+class TargetDecisions(PlanRecord):
+    decisions: list[TargetDecision] = Field(max_length=5)
+
+
+class PassageReference(PlanRecord):
+    evidence_id: str
+
+
+class RequirementAssessment(PlanRecord):
+    requirement_id: str
+    status: Literal["supported", "partial", "missing", "conflicting"]
+    gap: str = Field(max_length=320)
+    references: list[PassageReference]
+
+
+class GapQuery(PlanRecord):
+    requirement_ids: list[str] = Field(min_length=1, max_length=6)
+    query_template: str = Field(min_length=1)
+    target: str
+    references: list[PassageReference]
+
+
+class SufficiencyAssessment(PlanRecord):
+    requirements: list[RequirementAssessment] = Field(min_length=1, max_length=6)
+    queries: list[GapQuery] = Field(max_length=6)

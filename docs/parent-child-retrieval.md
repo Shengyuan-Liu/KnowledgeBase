@@ -106,8 +106,8 @@ selected child rankings. See the [source identity comparison](../evals/library-r
 
 ## Responses and Saved Evidence
 
-`rag.retrieval.retrieve()` retains its list return value. `retrieve_evidence()`
-returns both the packed list and `RetrievalDiagnostics`. Services use the latter.
+`retrieve_evidence()` returns `RetrievedEvidence` with the packed `chunks` list
+and `RetrievalDiagnostics`. The redundant list-only `retrieve()` wrapper was removed.
 
 Every answer source describes the actual text supplied to generation:
 

@@ -9,9 +9,10 @@ import anyio
 from knowledgebase.config import PlanningOptions
 from knowledgebase.providers.limits import GenerationLimits
 from knowledgebase.providers.planner import PlannerClient
-from knowledgebase.rag.planning import RetrievalPlan, direct_plan
+from knowledgebase.schemas import (
+    RetrievalPlan, direct_plan, DocumentScope,
+)
 from knowledgebase.rag.retrieval import resolve_ready_scope
-from knowledgebase.schemas import DocumentScope
 
 NARROWING_MESSAGE = "This question needs more than six answer points or searches. Please narrow it or split it into smaller questions."
 

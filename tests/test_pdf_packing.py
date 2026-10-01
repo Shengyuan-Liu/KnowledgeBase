@@ -6,9 +6,10 @@ import pytest
 import tiktoken
 
 from knowledgebase.rag.context import build_context
-from knowledgebase.rag.pdf_models import PdfExtraction
+from knowledgebase.schemas import (
+    PdfExtraction, RetrievedChunk, RetrievalDiagnostics, ParentChildChunks, ChildChunk, ParentChunk,
+)
 from knowledgebase.rag.retrieval import pack_retrieval_candidates
-from knowledgebase.schemas import RetrievedChunk, RetrievalDiagnostics, ParentChildChunks, ChildChunk, ParentChunk
 from knowledgebase.storage.operations import create_file, save_pdf_source, save_parent_child_chunks
 
 ROOT = Path(__file__).resolve().parents[1]

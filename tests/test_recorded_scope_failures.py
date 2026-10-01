@@ -4,10 +4,11 @@ from pathlib import Path
 
 import pytest
 
-from knowledgebase.rag.planning import AnswerRequirement
+from knowledgebase.schemas import (
+    AnswerRequirement, SufficiencyAssessment, ScopeFile,
+)
 from knowledgebase.rag.scope import document_references, resolve_document_scope
-from knowledgebase.rag.sufficiency import SufficiencyAssessment, validate_assessment
-from knowledgebase.schemas import ScopeFile
+from knowledgebase.rag.sufficiency import validate_assessment
 
 
 FIXTURE = json.loads((Path(__file__).parent / "fixtures/new_pdf_scope_failures.json").read_text())

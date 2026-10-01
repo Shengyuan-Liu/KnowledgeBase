@@ -11,8 +11,10 @@ import pytest
 from sqlalchemy import func, select
 
 from knowledgebase.config import PlanningOptions
-from knowledgebase.rag.dependencies import TargetDecision, adds_source_text, validate_binding
-from knowledgebase.rag.planning import PlanDecision
+from knowledgebase.schemas import (
+    TargetDecision, PlanDecision,
+)
+from knowledgebase.rag.dependencies import adds_source_text, validate_binding
 from knowledgebase.services.chat import stream_answer_in_conversation
 from knowledgebase.storage.models import MessageRecord
 from knowledgebase.storage.operations import update_file_status

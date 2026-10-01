@@ -37,6 +37,18 @@ export interface FusedMatch {
   vector_rank: number | null;
 }
 
+export interface RerankedMatch extends FusedMatch {
+  rerank_score: number;
+  rerank_rank: number;
+  score_kind?: string;
+}
+
+export interface EvidenceReference {
+  evidence_id: string;
+  quote: string;
+  file_name: string;
+}
+
 export interface Source {
   pdf?: PdfEvidence | null;
   document_labels?: string[];
@@ -47,7 +59,7 @@ export interface Source {
   text: string;
   distance: number | null;
   fusion?: FusedMatch | null;
-  rerank?: (FusedMatch & { rerank_score: number; rerank_rank: number; score_kind?: string }) | null;
+  rerank?: RerankedMatch | null;
   file_deleted?: boolean;
   parent_id?: string | null;
   matched_child_ids?: string[];
@@ -69,8 +81,8 @@ export interface RetrievalDiagnostics {
         requirement_id: string; description: string;
         status: "supported" | "partial" | "missing" | "conflicting";
         gap: string;
-        references: { evidence_id: string; quote: string; file_name: string }[];
-        table_context?: { evidence_id: string; quote: string; file_name: string }[];
+        references: EvidenceReference[];
+        table_context?: EvidenceReference[];
       }[];
     };
     hops?: {
@@ -79,7 +91,7 @@ export interface RetrievalDiagnostics {
       dependencies: {
         query_id: string; depends_on: string[]; query_template: string; status: string;
         target: string | null; query: string | null; references_in_final_context: boolean;
-        references: { evidence_id: string; quote: string; file_id: string; file_name: string; start_offset: number; end_offset: number }[];
+        references: (EvidenceReference & { file_id: string; start_offset: number; end_offset: number })[];
       }[];
     };
     trace: {
@@ -114,7 +126,7 @@ export interface RetrievalDiagnostics {
     model: string;
     model_revision?: string | null;
     device?: string | null;
-    matches: (FusedMatch & { rerank_score: number; rerank_rank: number; score_kind?: string })[];
+    matches: RerankedMatch[];
   } | null;
 }
 

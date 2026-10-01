@@ -2,9 +2,6 @@
 
 from time import perf_counter
 from collections.abc import Callable
-from typing import Literal
-
-from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
 from knowledgebase.config import (
@@ -13,68 +10,12 @@ from knowledgebase.config import (
 )
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.reranker import RerankerClient
-from knowledgebase.rag.planning import PlannedQuery, RetrievalPlan
-from knowledgebase.rag.retrieval import retrieve_candidates, resolve_ready_scope, pack_retrieval_candidates
 from knowledgebase.schemas import (
-    DocumentScope, RetrievedCandidates, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics,
+    PlannedQuery, RetrievalPlan, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, QueryRun,
+    QueryVote, MergedCandidate, PlanTrace, PlannedEvidence, RequirementEvidence,
 )
+from knowledgebase.rag.retrieval import retrieve_candidates, resolve_ready_scope, pack_retrieval_candidates
 from knowledgebase.storage.vectordb import ChromaStore
-
-
-class QueryRun(BaseModel):
-    round_index: int = 1
-    query_ids: list[str]
-    requirement_ids: list[str]
-    text: str
-    requested_file_ids: list[str] | None
-    result: RetrievedCandidates
-    seconds: float
-
-
-class QueryVote(BaseModel):
-    run_index: int
-    rank: int
-
-
-class MergedCandidate(BaseModel):
-    chunk_id: str
-    file_id: str
-    score: float
-    rank: int
-    votes: list[QueryVote]
-
-
-class RequirementEvidence(BaseModel):
-    """Retrieval attribution only; a hit does not prove semantic support."""
-    requirement_id: str
-    candidate_ids: list[str]
-    selected_ids: list[str]
-    supplied_ids: list[str]
-    budget_excluded_ids: list[str]
-
-
-class PlanTrace(BaseModel):
-    version: Literal[1] = 1
-    plan: RetrievalPlan
-    allowed_file_ids: list[str]
-    document_scope: DocumentScope | None
-    cross_query_rrf_k: float
-    per_query_limit: int
-    top_k: int
-    max_evidence_tokens: int
-    runs: list[QueryRun] = Field(default_factory=list)
-    merged: list[MergedCandidate] = Field(default_factory=list)
-    selected_ids: list[str] = Field(default_factory=list)
-    requirements: list[RequirementEvidence] = Field(default_factory=list)
-    stop_reason: Literal["independent_queries_complete", "scope_unresolved", "no_ready_files"]
-    scope_seconds: float = 0
-    merge_seconds: float = 0
-    total_seconds: float = 0
-
-
-class PlannedEvidence(BaseModel):
-    evidence: RetrievedEvidence
-    trace: PlanTrace
 
 
 def merge_query_runs(runs: list[QueryRun], *, k: float) -> list[MergedCandidate]:
@@ -86,7 +27,7 @@ def merge_query_runs(runs: list[QueryRun], *, k: float) -> list[MergedCandidate]
     votes: dict[str, dict[str, QueryVote]] = {}
     files = {}
     for run_index, run in enumerate(runs):
-        for rank, hit in enumerate(run.result.hits, start=1):
+        for rank, hit in enumerate(run.result.chunks, start=1):
             identity = hit.chunk.chunk_id
             files[identity] = hit.chunk.file_id
             by_query = votes.setdefault(identity, {})
@@ -112,7 +53,7 @@ def _select_representatives(merged: list[MergedCandidate], runs: list[QueryRun],
         ranks: dict[str, int] = {}
         for run in runs:
             if requirement.requirement_id in run.requirement_ids:
-                for rank, hit in enumerate(run.result.hits, start=1):
+                for rank, hit in enumerate(run.result.chunks, start=1):
                     identity = hit.chunk.chunk_id
                     ranks[identity] = min(rank, ranks.get(identity, rank))
         groups: dict[str, list[str]] = {}
@@ -179,7 +120,7 @@ def retrieve_plan(
     # Each round rechecks Ready status. Raw prior results remain in round snapshots.
     for previous in previous_runs or []:
         run = previous.model_copy(deep=True)
-        run.result.hits = [hit for hit in run.result.hits if hit.chunk.file_id in ready]
+        run.result.chunks = [hit for hit in run.result.chunks if hit.chunk.file_id in ready]
         run.result.diagnostics.candidates = [hit for hit in run.result.diagnostics.candidates if hit.file_id in ready]
         trace.runs.append(run)
     batch = plan.queries if queries is None else queries
@@ -222,7 +163,7 @@ def retrieve_plan(
     if checkpoint:
         checkpoint()
     trace.merged = merge_query_runs(trace.runs, k=options.rrf_k)
-    trace.selected_ids = ([hit.chunk.chunk_id for hit in trace.runs[0].result.hits]
+    trace.selected_ids = ([hit.chunk.chunk_id for hit in trace.runs[0].result.chunks]
                           if plan.route == "direct" and len(trace.runs) == 1 else
                           _select_representatives(trace.merged, trace.runs, plan, top_k))
     merged_by_id = {candidate.chunk_id: candidate for candidate in trace.merged}
@@ -230,7 +171,7 @@ def retrieve_plan(
     for identity in trace.selected_ids:
         vote = min(merged_by_id[identity].votes, key=lambda vote: (vote.rank, vote.run_index))
         result = trace.runs[vote.run_index].result
-        selected.append(next(hit for hit in result.hits if hit.chunk.chunk_id == identity).model_copy(deep=True))
+        selected.append(next(hit for hit in result.chunks if hit.chunk.chunk_id == identity).model_copy(deep=True))
         diagnostics.candidates.append(next(candidate for candidate in result.diagnostics.candidates if candidate.chunk_id == identity))
     trace.merge_seconds = perf_counter() - merge_started
     if plan.route == "direct" and len(trace.runs) == 1:
@@ -241,7 +182,7 @@ def retrieve_plan(
     supplied.update(identity for hit in evidence.chunks for identity in hit.matched_child_ids)
     for requirement in plan.requirements:
         candidates = {hit.chunk.chunk_id for run in trace.runs if requirement.requirement_id in run.requirement_ids
-                      for hit in run.result.hits}
+                      for hit in run.result.chunks}
         selected_ids = [identity for identity in trace.selected_ids if identity in candidates]
         trace.requirements.append(RequirementEvidence(
             requirement_id=requirement.requirement_id,

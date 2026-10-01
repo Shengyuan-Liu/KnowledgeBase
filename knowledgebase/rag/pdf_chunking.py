@@ -2,8 +2,9 @@
 
 import tiktoken
 
-from knowledgebase.rag.pdf_models import PdfExtraction
-from knowledgebase.schemas import ParentChildChunks
+from knowledgebase.schemas import (
+    PdfExtraction, ParentChildChunks,
+)
 
 
 PDF_PARENT_CONTEXT_VERSION = "adjacent-heading-body-v1"

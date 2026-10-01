@@ -12,12 +12,12 @@ from knowledgebase.config import RetrievalOptions
 from knowledgebase.rag.chunking import split_parent_child
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.parsing import parse_markdown
-from knowledgebase.rag.planning import AnswerRequirement, PlannedQuery, RetrievalPlan, direct_plan
-from knowledgebase.rag.planned_retrieval import (
-    PlannedEvidence, QueryRun, _select_representatives, merge_query_runs, retrieve_plan,
+from knowledgebase.schemas import (
+    AnswerRequirement, PlannedQuery, RetrievalPlan, direct_plan, PlannedEvidence, QueryRun, Chunk,
+    RetrievedEvidence, RetrievedChunk, RetrievalDiagnostics,
 )
+from knowledgebase.rag.planned_retrieval import _select_representatives, merge_query_runs, retrieve_plan
 from knowledgebase.rag.retrieval import retrieve_candidates, retrieve_evidence
-from knowledgebase.schemas import Chunk, RetrievedCandidates, RetrievedChunk, RetrievalDiagnostics
 from knowledgebase.storage.operations import (
     create_file, save_document_source, save_parent_child_chunks, update_file_status,
 )
@@ -84,10 +84,10 @@ def test_unpacked_candidates_do_not_spend_context_budget(library):
     sessions, store, embeddings = library
     with sessions() as session:
         hits = retrieve_candidates("method", session, embeddings, store, evidence_max_tokens=1)
-    assert hits.hits
+    assert hits.chunks
     assert hits.diagnostics.packing_seconds is None
     assert not hits.diagnostics.excluded
-    assert all(hit.chunk.chunk_id != hit.parent_id for hit in hits.hits)
+    assert all(hit.chunk.chunk_id != hit.parent_id for hit in hits.chunks)
 
 
 @pytest.mark.parametrize("strategy", ["vector", "hybrid"])
@@ -111,7 +111,7 @@ def fake_run(text, identities):
                                       start_offset=0, end_offset=len(identity)),
                            file_name=identity[0], distance=None) for identity in identities]
     return QueryRun(query_ids=[text], requirement_ids=[text], text=text, requested_file_ids=None,
-                    result=RetrievedCandidates(hits=hits, diagnostics=RetrievalDiagnostics(max_tokens=10, tokenizer="cl100k_base")), seconds=0)
+                    result=RetrievedEvidence(chunks=hits, diagnostics=RetrievalDiagnostics(max_tokens=10, tokenizer="cl100k_base")), seconds=0)
 
 
 def test_cross_query_rrf_and_repeated_text_votes():
@@ -137,7 +137,7 @@ def test_pdf_answer_points_keep_their_query_local_leaders(case):
                                file_name="ml-lecture.pdf", distance=None) for hit in row["hits"]]
         runs.append(QueryRun(**{k: v for k, v in row.items() if k != "hits"},
                              requested_file_ids=None, seconds=0,
-                             result=RetrievedCandidates(hits=hits, diagnostics=RetrievalDiagnostics(
+                             result=RetrievedEvidence(chunks=hits, diagnostics=RetrievalDiagnostics(
                                  max_tokens=4096, tokenizer="cl100k_base"))))
     selected = _select_representatives(merge_query_runs(runs, k=60), runs,
                                       RetrievalPlan.model_validate(case["plan"]), 5)
@@ -237,11 +237,11 @@ def test_query_candidate_ranks_remain_fusion_ranks_in_multiple_file_scope(librar
         result = retrieve_plan(plan_for([query("a", "labeled examples"), query("b", "accuracy")]), session, embeddings, store,
                                file_ids=["alpha", "beta"], retrieval_options=RetrievalOptions(candidate_limit=3))
     for run in result.trace.runs:
-        assert [hit.chunk.chunk_id for hit in run.result.hits] == [hit.chunk_id for hit in run.result.diagnostics.fused_matches[:3]]
+        assert [hit.chunk.chunk_id for hit in run.result.chunks] == [hit.chunk_id for hit in run.result.diagnostics.fused_matches[:3]]
 
 
 def test_pdf_supplements_remain_inside_final_shared_budget(storage, embeddings):
-    from knowledgebase.rag.pdf_models import PdfExtraction
+    from knowledgebase.schemas import PdfExtraction
     from knowledgebase.services.files import ingest_file
     from knowledgebase.storage.pdf_assets import PdfAssets
     from tempfile import TemporaryDirectory
@@ -259,7 +259,8 @@ def test_pdf_supplements_remain_inside_final_shared_budget(storage, embeddings):
     assert result.evidence.chunks
     assert all(hit.pdf and hit.pdf.revision_id == extraction.revision_id for hit in result.evidence.chunks)
     assert any(hit.pdf.supplements for hit in result.evidence.chunks)
-    from knowledgebase.rag.dependencies import dependency_evidence, validate_binding, TargetDecision
+    from knowledgebase.rag.dependencies import dependency_evidence, validate_binding
+    from knowledgebase.schemas import TargetDecision
     excerpts = dependency_evidence(result, ["sales", "income"])
     supplement = next(extra for hit in result.evidence.chunks for extra in hit.pdf.supplements)
     excerpt = next(e for e in excerpts if e["start_offset"] == supplement.start_offset and e["text"] == supplement.text)

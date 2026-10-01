@@ -20,8 +20,9 @@ from knowledgebase.providers.planner import PlannerClient
 from knowledgebase.config import PlanningOptions
 from knowledgebase.storage.runtime import open_storage
 from knowledgebase.storage.pdf_assets import PdfAssets
-from knowledgebase.rag.pdf_models import PdfExtraction
-from knowledgebase.schemas import RelevanceScore
+from knowledgebase.schemas import (
+    PdfExtraction, RelevanceScore,
+)
 
 
 def payload_catalog(payload):

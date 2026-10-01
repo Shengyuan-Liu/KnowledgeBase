@@ -3,8 +3,9 @@
 import json
 import re
 
-from knowledgebase.rag.pdf_models import PdfBlock, PdfExtraction, PdfTable
-from knowledgebase.schemas import PdfEvidence, PdfSupplement, PdfTableSpan
+from knowledgebase.schemas import (
+    PdfBlock, PdfExtraction, PdfTable, PdfEvidence, PdfSupplement, PdfTableSpan,
+)
 
 
 def table_rows(extraction: PdfExtraction) -> dict[int, list[tuple[int, int]]]:

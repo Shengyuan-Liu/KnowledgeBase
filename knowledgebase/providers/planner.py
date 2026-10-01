@@ -9,7 +9,7 @@ from openai import OpenAI
 
 from knowledgebase.config import PlanningOptions
 from knowledgebase.providers.limits import input_tokens
-from knowledgebase.rag.planning import DraftQuery, PlanDecision, RetrievalPlan
+from knowledgebase.schemas import DraftQuery, PlanDecision, RetrievalPlan
 
 PROMPT_VERSION = "dependent-planner-v8"
 INSTRUCTIONS = """Plan retrieval for an English local document question. The supplied

@@ -9,9 +9,10 @@ import tiktoken
 from knowledgebase.config import RetrievalOptions
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.pdf_evidence import pdf_evidence
-from knowledgebase.rag.pdf_models import PdfExtraction
+from knowledgebase.schemas import (
+    PdfExtraction, ChildChunk, ParentChildChunks, ParentChunk, RetrievedChunk, RetrievalDiagnostics,
+)
 from knowledgebase.rag.retrieval import pack_retrieval_candidates
-from knowledgebase.schemas import ChildChunk, ParentChildChunks, ParentChunk, RetrievedChunk, RetrievalDiagnostics
 from knowledgebase.storage.operations import create_file, save_parent_child_chunks, save_pdf_source
 
 ROOT = Path(__file__).resolve().parents[1]

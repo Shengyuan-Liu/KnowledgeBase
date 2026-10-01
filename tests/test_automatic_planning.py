@@ -16,7 +16,7 @@ from sqlalchemy import func, select
 
 from knowledgebase.config import PlanningOptions, Settings
 from knowledgebase.providers.planner import PlannerClient
-from knowledgebase.rag.planning import PlanDecision
+from knowledgebase.schemas import PlanDecision
 from knowledgebase.services.chat import stream_answer_in_conversation
 from knowledgebase.services.planning import NARROWING_MESSAGE
 from knowledgebase.storage.models import MessageRecord
