@@ -1,4 +1,3 @@
-from knowledgebase.config import RetrievalOptions
 """Regressions for the real page-62 title/body separation and its PDF boundaries."""
 
 import json
@@ -8,6 +7,7 @@ from unittest.mock import Mock
 import pytest
 import tiktoken
 
+from knowledgebase.config import RetrievalOptions
 from knowledgebase.rag.chunking import split_parent_child
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.pdf_chunking import PDF_PARENT_CONTEXT_VERSION, join_heading_parents

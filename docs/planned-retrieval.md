@@ -158,12 +158,14 @@ standalone executor directly leaves timeout/retry policy to its caller.
 
 ## Trace and Coverage Boundaries
 
-`PlanTrace` version 1 retains the plan, ready-file boundary, scope result, resolved
+`PlanTrace` version 2 retains the plan, ready-file boundary, scope result, resolved
 limits, executed query aliases, query-local diagnostics, exact candidate excerpts,
 cross-query votes/ranks, selected IDs, requirement attribution and timings. The
 returned `evidence` retains the exact supplied passages and budget exclusions.
 Canonical offsets identify stable source spans; query ranks are not citation IDs.
 The chat service numbers final packed sources once, before publishing citations.
+Query results now share `RetrievedEvidence.chunks` with packed results. Historical
+version-1 query results using `hits` still load; no stored history is rewritten.
 
 For each requirement, the trace distinguishes candidate, selected, supplied and
 budget-excluded child IDs. These lists refer to that requirement's own query hits;
@@ -220,7 +222,8 @@ The existing evaluation runner does not yet select this controller automatically
    one answer. Dependent plans invoke the bounded [multi-hop controller](dependent-retrieval.md);
    [evidence sufficiency](evidence-sufficiency.md) provides bounded supplementary searches.
 
-`retrieval.planning` version 1 (independent) or version 2 (dependent) persists
+`retrieval.planning` version 1 (independent), version 2 (dependent), or version 3
+(with evidence assessment) persists
 inside the existing diagnostics snapshot;
 no database migration or reindex is needed. It includes planner prompt/output,
 requested/resolved model, response ID, actual usage when provided, limits, exact

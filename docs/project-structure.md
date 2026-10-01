@@ -89,7 +89,24 @@ KnowledgeBase/
 Package markers and individual documentation/test files are omitted for readability.
 The [document store](document-storage.md) keeps canonical text, parser blocks,
 exact chunks and structural metadata in SQLite. Original PDF bytes are retained
-under the configured data directory for source-page viewing. Existing `.env` values can override the default data directory.
+under the configured data directory for source-page viewing. Existing `.env`
+values can override the default data directory.
+
+## Shared Schema Ownership
+
+Import application contracts from `knowledgebase.schemas`. The four modules inside
+that package describe shared domains, not individual processing components.
+Source content and structure are defined once for parent/child chunks; ranking
+and evidence metadata are shared by retrieval and answer snapshots. Candidate and
+packed results use the same `RetrievedEvidence` container, with stage diagnostics
+showing whether packing occurred.
+
+Keep genuinely different validation contracts: a planner draft cannot choose file
+IDs, binding references require literal quotes, and assessment references select
+passage IDs. ORM records stay in `storage/models.py` because database relationships
+and lifecycle constraints are not API snapshots. Runtime settings stay in
+`config.py`. The [cleanup record](../evals/check-runs/20261001-code-consolidation/README.md)
+documents compatibility checks, removed wrappers and the BM25 library comparison.
 
 ## Responsibilities
 

@@ -64,6 +64,13 @@ def test_common_terms_and_one_document_still_produce_positive_hits():
     assert result[0].rank == 1
 
 
+def test_zero_k1_ignores_frequency_and_length_but_preserves_positive_matches():
+    documents = [chunk("a", "apple " * 20), chunk("z", "apple"), chunk("other", "pear")]
+    result = search_bm25("apple unknown", documents, top_k=10, k1=0, b=1)
+    assert [hit.chunk_id for hit in result] == ["a", "z"]
+    assert [hit.score for hit in result] == pytest.approx([0.4700036292] * 2)
+
+
 @pytest.mark.parametrize(("question", "documents"), [
     ("GPA", []), ("GPA", [chunk("punctuation", "---")]),
     ("", [chunk("a", "GPA")]), ("?!", [chunk("a", "GPA")]),
