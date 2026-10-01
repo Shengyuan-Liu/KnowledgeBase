@@ -1,5 +1,7 @@
 """Regressions for the real page-62 title/body separation and its PDF boundaries."""
 
+from knowledgebase.rag.retrieval import Retriever
+
 from dataclasses import asdict
 
 import json
@@ -17,7 +19,7 @@ from knowledgebase.rag.pdf_evidence import table_rows
 from knowledgebase.schemas import (
     File, Chunk, ChunkBatch, RetrievedChunk, RetrievalDiagnostics,
 )
-from knowledgebase.rag.retrieval import pack_retrieval_candidates
+
 from knowledgebase.rag.chunking import DocumentChunker
 from knowledgebase.services.files import FileService
 from knowledgebase.storage.operations import create_file, get_chunks, get_document_source, get_parents, save_parent_child_chunks, save_pdf_source
@@ -80,9 +82,8 @@ def test_lecture_title_hit_supplies_both_count_bullets_with_original_page_citati
         save_pdf_source(session, child.file_id, extraction, {})
         save_parent_child_chunks(session, merged)
     with sessions() as session:
-        result = pack_retrieval_candidates([RetrievedChunk(chunk=child, file_name='ml-lecture.pdf',
-            distance=0, parent_id=child.parent_id, matched_child_ids=[child.chunk_id])], session,
-            RetrievalDiagnostics(max_tokens=4096, tokenizer='cl100k_base',
+        result = Retriever.pack([RetrievedChunk(chunk=child, file_name='ml-lecture.pdf',
+            distance=0, parent_id=child.parent_id, matched_child_ids=[child.chunk_id])], session, RetrievalDiagnostics(max_tokens=4096, tokenizer='cl100k_base',
                                  options=RetrievalOptions(packing_strategy='parent_then_child')))
     context = build_context(result.chunks)
     assert DOCUMENT_COUNT in context and WORD_COUNT in context

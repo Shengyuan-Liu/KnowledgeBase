@@ -1,5 +1,7 @@
 """Independent-plan contracts with real SQLite/Chroma and offline query vectors."""
 
+from knowledgebase.rag.retrieval import Retriever
+
 from pathlib import Path
 import json
 from unittest.mock import Mock
@@ -16,8 +18,8 @@ from knowledgebase.schemas import (
     AnswerRequirement, PlannedQuery, RetrievalPlan, direct_plan, PlannedEvidence, QueryRun, Chunk,
     RetrievedEvidence, RetrievedChunk, RetrievalDiagnostics,
 )
-from knowledgebase.rag.planned_retrieval import _select_representatives, merge_query_runs, retrieve_plan
-from knowledgebase.rag.retrieval import retrieve_candidates, retrieve_evidence
+from knowledgebase.rag.planned_retrieval import _select_representatives, merge_query_runs
+
 from knowledgebase.storage.operations import (
     create_file, save_document_source, save_parent_child_chunks, update_file_status,
 )
@@ -80,10 +82,25 @@ def test_plan_validation_and_direct_constructor():
             RetrievalPlan.model_validate(value)
 
 
+def test_reused_retriever_keeps_each_scope_and_diagnostics_independent(library):
+    sessions, store, embeddings = library
+    retriever = Retriever(embeddings, store, top_k=3)
+    with sessions() as session:
+        first = retriever.retrieve("method", session, file_ids=["alpha"])
+        saved = first.model_dump()
+        second = retriever.retrieve("method", session, file_ids=["beta"])
+        empty = retriever.retrieve("method", session, file_ids=["missing"])
+    assert {hit.chunk.file_id for hit in first.chunks} == {"alpha"}
+    assert {hit.chunk.file_id for hit in second.chunks} == {"beta"}
+    assert empty.chunks == []
+    assert first.model_dump() == saved
+    assert retriever.top_k == 3
+
+
 def test_unpacked_candidates_do_not_spend_context_budget(library):
     sessions, store, embeddings = library
     with sessions() as session:
-        hits = retrieve_candidates("method", session, embeddings, store, evidence_max_tokens=1)
+        hits = Retriever(embeddings, store, evidence_max_tokens=1).retrieve_candidates("method", session)
     assert hits.chunks
     assert hits.diagnostics.packing_seconds is None
     assert not hits.diagnostics.excluded
@@ -97,8 +114,8 @@ def test_direct_plan_preserves_existing_evidence(library, strategy, scoped):
     options = RetrievalOptions(strategy=strategy)
     kwargs = {"retrieval_options": options, "file_ids": ["alpha", "beta"] if scoped else None, "top_k": 3}
     with sessions() as session:
-        baseline = retrieve_evidence("method", session, embeddings, store, **kwargs)
-        planned = retrieve_plan(direct_plan("method"), session, embeddings, store, **kwargs)
+        baseline = Retriever(embeddings, store, top_k=kwargs["top_k"], options=kwargs["retrieval_options"]).retrieve("method", session, file_ids=kwargs["file_ids"])
+        planned = Retriever(embeddings, store, top_k=kwargs["top_k"], options=kwargs["retrieval_options"]).retrieve_plan(direct_plan("method"), session, file_ids=kwargs["file_ids"])
     assert planned.evidence.chunks == baseline.chunks
     assert build_context(planned.evidence.chunks) == build_context(baseline.chunks)
     assert planned.evidence.diagnostics.evidence_tokens == baseline.diagnostics.evidence_tokens
@@ -149,7 +166,7 @@ def test_duplicate_queries_execute_once_and_keep_both_requirements(library):
     sessions, store, embeddings = library
     plan = plan_for([query("one", "method", "method"), query("two", "method", "result")])
     with sessions() as session:
-        result = retrieve_plan(plan, session, embeddings, store)
+        result = Retriever(embeddings, store).retrieve_plan(plan, session)
     embeddings.embed_query.assert_called_once_with("method")
     assert result.trace.runs[0].query_ids == ["one", "two"]
     assert all(len(hit.votes) == 1 for hit in result.trace.merged)
@@ -162,8 +179,8 @@ def test_independent_queries_have_one_budget_and_record_what_was_excluded(librar
     sessions, store, embeddings = library
     plan = plan_for([query("a", "alpha method", file_ids=["alpha"]), query("b", "beta method", file_ids=["beta"])])
     with sessions() as session:
-        complete = retrieve_plan(plan, session, embeddings, store, top_k=2)
-        tiny = retrieve_plan(plan, session, embeddings, store, top_k=2, evidence_max_tokens=1)
+        complete = Retriever(embeddings, store, top_k=2).retrieve_plan(plan, session)
+        tiny = Retriever(embeddings, store, top_k=2, evidence_max_tokens=1).retrieve_plan(plan, session)
     assert {hit.chunk.file_id for hit in complete.evidence.chunks} == {"alpha", "beta"}
     assert len({hit.chunk.chunk_id for hit in complete.evidence.chunks}) == len(complete.evidence.chunks)
     for result in [complete, tiny]:
@@ -178,7 +195,7 @@ def test_multiple_query_hits_share_one_parent(library):
     sessions, store, embeddings = library
     plan = plan_for([query("one", "labeled", file_ids=["alpha"]), query("two", "accuracy", file_ids=["alpha"])])
     with sessions() as session:
-        result = retrieve_plan(plan, session, embeddings, store, top_k=5)
+        result = Retriever(embeddings, store, top_k=5).retrieve_plan(plan, session)
     assert len(result.evidence.chunks) == 1
     assert len(set(result.trace.selected_ids)) == len(result.trace.selected_ids)
     assert set(result.evidence.chunks[0].matched_child_ids) == set(result.trace.selected_ids)
@@ -188,7 +205,7 @@ def test_scope_expansion_is_rejected_before_any_query(library):
     sessions, store, embeddings = library
     plan = plan_for([query("allowed", "method", file_ids=["alpha"]), query("outside", "results", file_ids=["beta"])])
     with sessions() as session, pytest.raises(ValueError, match="expand"):
-        retrieve_plan(plan, session, embeddings, store, file_ids=["alpha"])
+        Retriever(embeddings, store).retrieve_plan(plan, session, file_ids=["alpha"])
     embeddings.embed_query.assert_not_called()
 
 
@@ -197,7 +214,7 @@ def test_textual_subquery_cannot_escape_parent_scope(library, question):
     sessions, store, embeddings = library
     plan = plan_for([query("outside", 'In "beta.md", describe results.')], question=question)
     with sessions() as session:
-        result = retrieve_plan(plan, session, embeddings, store, file_ids=["alpha"])
+        result = Retriever(embeddings, store).retrieve_plan(plan, session, file_ids=["alpha"])
     assert not result.evidence.chunks
     assert result.trace.runs[0].result.diagnostics.document_scope.status == "not_found"
     assert result.trace.requirements[0].candidate_ids == []
@@ -207,8 +224,8 @@ def test_textual_subquery_cannot_escape_parent_scope(library, question):
 def test_empty_scope_is_not_global_scope(library):
     sessions, store, embeddings = library
     with sessions() as session:
-        result = retrieve_plan(direct_plan("method"), session, embeddings, store, file_ids=[])
-        narrowed = retrieve_plan(plan_for([query("empty", "method", file_ids=[])]), session, embeddings, store)
+        result = Retriever(embeddings, store).retrieve_plan(direct_plan("method"), session, file_ids=[])
+        narrowed = Retriever(embeddings, store).retrieve_plan(plan_for([query("empty", "method", file_ids=[])]), session)
     assert not result.trace.runs and result.trace.stop_reason == "no_ready_files"
     assert not narrowed.evidence.chunks
     embeddings.embed_query.assert_not_called()
@@ -217,7 +234,7 @@ def test_empty_scope_is_not_global_scope(library):
 def test_unknown_scope_does_not_query(library):
     sessions, store, embeddings = library
     with sessions() as session:
-        result = retrieve_plan(direct_plan('In "unknown.md", describe results.'), session, embeddings, store)
+        result = Retriever(embeddings, store).retrieve_plan(direct_plan('In "unknown.md", describe results.'), session)
     assert result.trace.stop_reason == "scope_unresolved"
     assert not result.trace.runs
     embeddings.embed_query.assert_not_called()
@@ -227,15 +244,14 @@ def test_provider_error_propagates_without_retry(library):
     sessions, store, embeddings = library
     embeddings.embed_query.side_effect = RuntimeError("offline provider failed")
     with sessions() as session, pytest.raises(RuntimeError, match="offline provider failed"):
-        retrieve_plan(plan_for([query("a", "alpha"), query("b", "beta")]), session, embeddings, store)
+        Retriever(embeddings, store).retrieve_plan(plan_for([query("a", "alpha"), query("b", "beta")]), session)
     embeddings.embed_query.assert_called_once_with("alpha")
 
 
 def test_query_candidate_ranks_remain_fusion_ranks_in_multiple_file_scope(library):
     sessions, store, embeddings = library
     with sessions() as session:
-        result = retrieve_plan(plan_for([query("a", "labeled examples"), query("b", "accuracy")]), session, embeddings, store,
-                               file_ids=["alpha", "beta"], retrieval_options=RetrievalOptions(candidate_limit=3))
+        result = Retriever(embeddings, store, options=RetrievalOptions(candidate_limit=3)).retrieve_plan(plan_for([query("a", "labeled examples"), query("b", "accuracy")]), session, file_ids=["alpha", "beta"])
     for run in result.trace.runs:
         assert [hit.chunk.chunk_id for hit in run.result.chunks] == [hit.chunk_id for hit in run.result.diagnostics.fused_matches[:3]]
 
@@ -243,7 +259,7 @@ def test_query_candidate_ranks_remain_fusion_ranks_in_multiple_file_scope(librar
 def test_pdf_supplements_remain_inside_final_shared_budget(storage, embeddings):
     from knowledgebase.schemas import File
     from knowledgebase.rag.chunking import DocumentChunker
-from knowledgebase.services.files import FileService
+    from knowledgebase.services.files import FileService
     from knowledgebase.storage.pdf_assets import PdfAssets
     from tempfile import TemporaryDirectory
 
@@ -253,8 +269,7 @@ from knowledgebase.services.files import FileService
     with TemporaryDirectory() as directory:
         identity = FileService(sessions, store, embeddings=embeddings, assets=PdfAssets(Path(directory)), pdf_parser=Mock(parse=Mock(return_value=extraction)), chunker=DocumentChunker(chunk_max_tokens=48, parent_max_tokens=96)).ingest("apple.pdf", (root / "evals/materials/pdf-v2/apple-fy24.pdf").read_bytes())
         with sessions() as session:
-            result = retrieve_plan(plan_for([query("sales", "net sales"), query("income", "net income")]),
-                                   session, embeddings, store, file_ids=[identity], evidence_max_tokens=1800)
+            result = Retriever(embeddings, store, evidence_max_tokens=1800).retrieve_plan(plan_for([query("sales", "net sales"), query("income", "net income")]), session, file_ids=[identity])
     assert result.evidence.chunks
     assert all(hit.pdf and hit.pdf.revision_id == extraction.revision_id for hit in result.evidence.chunks)
     assert any(hit.pdf.supplements for hit in result.evidence.chunks)
@@ -278,7 +293,7 @@ def test_round_robin_gives_later_requirements_a_slot(library):
     plan = plan_for([query("a", "methods", file_ids=["alpha", "gamma"]),
                      query("b", "beta results", file_ids=["beta"])])
     with sessions() as session:
-        result = retrieve_plan(plan, session, embeddings, store, top_k=2)
+        result = Retriever(embeddings, store, top_k=2).retrieve_plan(plan, session)
     assert all(requirement.selected_ids for requirement in result.trace.requirements)
     assert len(result.trace.selected_ids) == 2
     assert any(hit.chunk.file_id == "beta" for hit in result.evidence.chunks)
@@ -287,7 +302,7 @@ def test_round_robin_gives_later_requirements_a_slot(library):
 def test_no_ready_library_has_no_execution(storage, embeddings):
     sessions, store, _ = storage
     with sessions() as session:
-        result = retrieve_plan(direct_plan("method"), session, embeddings, store)
+        result = Retriever(embeddings, store).retrieve_plan(direct_plan("method"), session)
     assert result.trace.stop_reason == "no_ready_files"
     assert not result.trace.runs and not result.evidence.chunks
     embeddings.embed_query.assert_not_called()
@@ -297,6 +312,6 @@ def test_original_scope_survives_resolved_question_rewrite(library):
     sessions, store, embeddings = library
     plan = direct_plan('In "alpha.md", explain the method.', resolved_question="Explain training methods.")
     with sessions() as session:
-        result = retrieve_plan(plan, session, embeddings, store)
+        result = Retriever(embeddings, store).retrieve_plan(plan, session)
     assert result.trace.allowed_file_ids == ["alpha"]
     assert {hit.chunk.file_id for hit in result.evidence.chunks} == {"alpha"}

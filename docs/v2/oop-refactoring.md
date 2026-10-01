@@ -33,7 +33,7 @@ dependency-injection framework, plugin registry or repository framework is neede
 
 | Class | Responsibilities | Main interface | Stable dependencies |
 | --- | --- | --- | --- |
-| `Retriever` | Resolve eligible file scope; retrieve candidates; coordinate vector/BM25/RRF/reranking; execute supplied query plans; expand and pack evidence | `retrieve`, `retrieve_candidates`, `retrieve_plan`, `pack` | Session factory, embeddings, Chroma store, optional reranker, retrieval settings |
+| `Retriever` | Resolve eligible file scope; retrieve candidates; coordinate vector/BM25/RRF/reranking; execute supplied query plans; expand and pack evidence | `retrieve`, `retrieve_candidates`, `retrieve_plan`, `pack` | Embeddings, Chroma store, optional reranker, retrieval settings |
 | `Reranker` | Bound candidate window and input budget; score, sort and retain ranking diagnostics | `rerank` | Reranker client, candidate/input limits, tokenizer |
 | `RagClient` | Prepare plans; coordinate single/planned/multi-hop evidence; build answer sources; generate complete or streamed answers; check citation IDs | `answer`, `stream`; private planning, evidence and source assembly methods | Retriever, sync/streaming LLM clients, optional planner, planning options |
 | `ChatService` | Read conversation history; resolve follow-ups; call RAG; persist completed exchanges; read saved conversations | `answer`, `stream`, `get_conversation`; private history/persistence methods | Session factory, RagClient, resolver LLM, history limit |
@@ -212,8 +212,17 @@ Record documentation-only reviews in the commit message or a check record.
   [the check directory](../../evals/check-runs/20261001-oop-refactoring/README.md).
 - Document processing: moved parser/chunker/PDF runtime classes and bound semantic
   embeddings to the chunker. Existing ingestion and source-preservation checks pass.
-- Reranking and retrieval: pending.
+- Reranking and retrieval: classes introduced; active retrieval tests use the new
+  interfaces. Transitional adapters remain for chat callers until the next stage.
 - RAG and conversations: pending.
 - Bootstrap and consumers: pending.
 - Final verification: pending.
 - Merge: not authorized.
+
+## Implementation decisions
+
+Retriever receives the current read Session as an operation argument, while
+RagClient and HopController retain their session factories. This preserves the
+existing transaction boundaries and lets retrieval observe the caller's current
+transaction without storing a mutable Session on a shared instance. Retriever.pack
+is a static method because its recorded diagnostics supply the full packing budget.

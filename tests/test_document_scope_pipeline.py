@@ -1,11 +1,14 @@
 """Exercise actual SQLite/Chroma filtering, shared service paths and snapshots."""
+
+from knowledgebase.rag.reranking import Reranker
+from knowledgebase.rag.retrieval import Retriever
 from unittest.mock import Mock
 
 import pytest
 
 from knowledgebase.config import RetrievalOptions
 from knowledgebase.providers.llm import LLMClient
-from knowledgebase.rag.retrieval import retrieve_evidence
+
 from knowledgebase.services.chat import answer_question, answer_in_conversation, stream_answer_in_conversation
 from knowledgebase.rag.chunking import DocumentChunker
 from knowledgebase.services.files import FileService
@@ -28,8 +31,7 @@ def test_scope_filters_candidate_search_and_parent_expansion(storage,embeddings,
     sessions,store,_=storage;g,a=scope_library
     observed=Mock(wraps=store)
     with sessions() as session:
-        result=retrieve_evidence('According to the general FAQ, how are scholarships awarded?',session,embeddings,observed,
-                                 top_k=1,retrieval_options=RetrievalOptions(strategy=strategy))
+        result=Retriever(embeddings, observed, top_k=1, options=RetrievalOptions(strategy=strategy)).retrieve('According to the general FAQ, how are scholarships awarded?', session)
     assert observed.search.call_args.kwargs['file_ids']==[g]
     assert {c.file_id for c in result.diagnostics.candidates}=={g}
     assert {c.chunk.file_id for c in result.chunks}=={g}
@@ -161,8 +163,7 @@ def test_one_document_cannot_consume_all_comparison_candidates(storage,embedding
         score=lambda question,candidates:[RelevanceScore(chunk_id=c.chunk_id,score=0 if 'All applicants' in c.text else 3) for c in candidates]) if rerank_enabled else None
     observed=Mock(wraps=store)
     with sessions() as session:
-        result=retrieve_evidence('According to general FAQ and admissions FAQ, how do scholarships work?',session,
-            embeddings,observed,top_k=3,retrieval_options=RetrievalOptions(strategy=strategy,rerank_enabled=rerank_enabled),reranker_client=reranker)
+        result=Retriever(embeddings, observed, top_k=3, options=RetrievalOptions(strategy=strategy,rerank_enabled=rerank_enabled), reranker=Reranker(reranker, candidate_limit=(RetrievalOptions(strategy=strategy,rerank_enabled=rerank_enabled)).rerank_candidate_limit, max_input_tokens=(RetrievalOptions(strategy=strategy,rerank_enabled=rerank_enabled)).rerank_max_input_tokens)).retrieve('According to general FAQ and admissions FAQ, how do scholarships work?', session)
     assert {tuple(call.kwargs['file_ids']) for call in observed.search.call_args_list}=={(g,),(a,)}
     assert len(result.diagnostics.candidates)==3
     assert {c.file_id for c in result.diagnostics.candidates[:2]}=={g,a}

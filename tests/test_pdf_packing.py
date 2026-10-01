@@ -1,4 +1,6 @@
 """Replay the real financial selected hits through the production packing path."""
+
+from knowledgebase.rag.retrieval import Retriever
 import json
 from pathlib import Path
 
@@ -9,7 +11,7 @@ from knowledgebase.rag.context import build_context
 from knowledgebase.schemas import (
     File, RetrievedChunk, RetrievalDiagnostics, ChunkBatch, Chunk,
 )
-from knowledgebase.rag.retrieval import pack_retrieval_candidates
+
 from knowledgebase.storage.operations import create_file, save_pdf_source, save_parent_child_chunks
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -41,7 +43,7 @@ def test_financial_hits_keep_values_periods_units_and_exact_budget(sessions, fin
             parents=[Chunk.model_validate({**c, "chunk_id": c["parent_id"], "parent_id": None, "type": "parent"}) for c in document['parents']],children=list(children.values())))
     selected=[RetrievedChunk.model_validate({**hit,'chunk':children[hit['chunk']['chunk_id']]}) for hit in row['selected']]
     with sessions() as session:
-        result=pack_retrieval_candidates(selected,session,RetrievalDiagnostics.model_validate(row['diagnostics']))
+        result=Retriever.pack(selected, session, RetrievalDiagnostics.model_validate(row['diagnostics']))
     context=build_context(result.chunks)
     expected=['14,736','93,736'] if case_id=='apple-income' else ['94,930','391,035']
     assert all(value in context for value in [*expected,'Three Months Ended','Twelve Months Ended','September 28, 2024','In millions'])

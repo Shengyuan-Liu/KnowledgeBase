@@ -1,12 +1,14 @@
 """HTTP file workflows with real SQLite/Chroma and offline embeddings."""
 
+from knowledgebase.rag.retrieval import Retriever
+
 from unittest.mock import Mock
 
 from fastapi.testclient import TestClient
 import pytest
 
 from knowledgebase.api import app as api_module
-from knowledgebase.rag.retrieval import retrieve_evidence
+
 from knowledgebase.storage.operations import get_chunks, get_document_source, get_file
 
 
@@ -38,7 +40,7 @@ def test_upload_list_retrieve_delete_preserves_other_file(api):
     assert {f["file_id"] for f in client.get("/api/files").json()} == {first["file_id"], second["file_id"]}
     with resources.sessions() as session:
         assert get_chunks(session, first["file_id"])[0].text == text
-        hits = retrieve_evidence("When does the library close?", session, embeddings, resources.store).chunks
+        hits = Retriever(embeddings, resources.store).retrieve("When does the library close?", session).chunks
         assert {h.chunk.file_id for h in hits} == {first["file_id"], second["file_id"]}
 
     deleted = client.delete(f"/api/files/{first['file_id']}")
@@ -48,7 +50,7 @@ def test_upload_list_retrieve_delete_preserves_other_file(api):
     with resources.sessions() as session:
         assert get_file(session, first["file_id"]) is None
         assert get_chunks(session, first["file_id"]) == []
-        assert [h.chunk.file_id for h in retrieve_evidence("What remains?", session, embeddings, resources.store).chunks] == [second["file_id"]]
+        assert [h.chunk.file_id for h in Retriever(embeddings, resources.store).retrieve("What remains?", session).chunks] == [second["file_id"]]
 
 
 @pytest.mark.parametrize("name, content, message", [
@@ -116,7 +118,7 @@ def test_delete_failure_is_500_and_retry_cleans_the_file(api, error_type):
     assert "Retry deletion" in response.json()["detail"]
     assert client.get("/api/files").json()[0]["status"] == "failed"
     with resources.sessions() as session:
-        assert retrieve_evidence("What is in the file?", session, embeddings, store).chunks == []
+        assert Retriever(embeddings, store).retrieve("What is in the file?", session).chunks == []
     resources.store = store
     assert client.delete(f"/api/files/{file_id}").status_code == 204
     assert client.get("/api/files").json() == []

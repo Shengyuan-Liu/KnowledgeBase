@@ -1,5 +1,7 @@
 """Exercise child indexing, parent evidence, budget accounting, and saved answers."""
 
+from knowledgebase.rag.retrieval import Retriever
+
 import json
 from unittest.mock import MagicMock, Mock
 
@@ -12,7 +14,7 @@ from knowledgebase.api import app as api_module
 from knowledgebase.config import RetrievalOptions
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
-from knowledgebase.rag.retrieval import retrieve_evidence
+
 from knowledgebase.schemas import VectorMatch
 from knowledgebase.services.chat import answer_in_conversation
 from knowledgebase.rag.chunking import DocumentChunker
@@ -58,7 +60,7 @@ def test_ingestion_indexes_only_children_and_one_hit_expands_exact_parent(storag
     selected = next(child for child in children if "5 PM" in child.text)
     store.upsert_chunks(children, [[1.0, 0.0] if child == selected else [0.0, 1.0] for child in children])
     with sessions() as session:
-        evidence = retrieve_evidence("Closing time?", session, embeddings, store, top_k=1)
+        evidence = Retriever(embeddings, store, top_k=1).retrieve("Closing time?", session)
         assert get_document_source(session, file_id).text == SOURCE
     assert len(evidence.chunks) == 1
     result = evidence.chunks[0]
@@ -80,7 +82,7 @@ def test_parent_deduplication_best_child_rank_and_mixed_flat_files(storage, embe
     with sessions() as session:
         flat = get_chunks(session, flat_id)[0]
         matches = ranked_store(store, [first[0], second, flat, first[1]], [0.4, 0.2, 0.3, 0.1])
-        evidence = retrieve_evidence("Question?", session, embeddings, matches, top_k=4)
+        evidence = Retriever(embeddings, matches, top_k=4).retrieve("Question?", session)
     assert [item.chunk.chunk_id for item in evidence.chunks] == [parents[0].chunk_id, parents[1].chunk_id, flat.chunk_id]
     assert [item.distance for item in evidence.chunks] == [0.1, 0.2, 0.3]
     assert evidence.chunks[0].matched_child_ids == [first[1].chunk_id, first[0].chunk_id]
@@ -94,7 +96,7 @@ def test_equal_distance_candidates_use_stable_identity_order(storage, embeddings
     _, parents, children = index_parent_file(storage, embeddings)
     selected = [next(c for c in children if c.parent_id == p.chunk_id) for p in parents]
     with sessions() as session:
-        evidence = retrieve_evidence("Question?", session, embeddings, ranked_store(store, selected[::-1], [0.1, 0.1]))
+        evidence = Retriever(embeddings, ranked_store(store, selected[::-1], [0.1, 0.1])).retrieve("Question?", session)
     assert [candidate.chunk_id for candidate in evidence.diagnostics.candidates] == sorted(c.chunk_id for c in selected)
     assert [item.parent_id for item in evidence.chunks] == [p.chunk_id for p in parents]
 
@@ -106,16 +108,16 @@ def test_budget_counts_labels_and_separators_without_truncating_parents(storage,
     matches = ranked_store(store, selected, [0.1, 0.2])
     encoding = tiktoken.get_encoding("cl100k_base")
     with sessions() as session:
-        full = retrieve_evidence("Question?", session, embeddings, matches, retrieval_options=RetrievalOptions(packing_strategy="parent_first"))
+        full = Retriever(embeddings, matches, options=RetrievalOptions(packing_strategy="parent_first")).retrieve("Question?", session)
         exact = len(encoding.encode_ordinary(build_context(full.chunks)))
-        packed = retrieve_evidence("Question?", session, embeddings, matches, evidence_max_tokens=exact, retrieval_options=RetrievalOptions(packing_strategy="parent_first"))
+        packed = Retriever(embeddings, matches, evidence_max_tokens=exact, options=RetrievalOptions(packing_strategy="parent_first")).retrieve("Question?", session)
         assert packed.chunks == full.chunks
         assert packed.diagnostics.evidence_tokens == exact
-        short = retrieve_evidence("Question?", session, embeddings, matches, evidence_max_tokens=exact - 1, retrieval_options=RetrievalOptions(packing_strategy="parent_first"))
+        short = Retriever(embeddings, matches, evidence_max_tokens=exact - 1, options=RetrievalOptions(packing_strategy="parent_first")).retrieve("Question?", session)
         assert [item.parent_id for item in short.chunks] == [parents[0].chunk_id]
         assert short.diagnostics.excluded[0].chunk_id == parents[1].chunk_id
         small_budget = len(encoding.encode_ordinary(build_context([full.chunks[1]])))
-        skipped = retrieve_evidence("Question?", session, embeddings, matches, evidence_max_tokens=small_budget, retrieval_options=RetrievalOptions(packing_strategy="parent_first"))
+        skipped = Retriever(embeddings, matches, evidence_max_tokens=small_budget, options=RetrievalOptions(packing_strategy="parent_first")).retrieve("Question?", session)
     assert [item.parent_id for item in skipped.chunks] == [parents[1].chunk_id]
     assert skipped.chunks[0].chunk.text == parents[1].text
     assert skipped.diagnostics.evidence_tokens == small_budget

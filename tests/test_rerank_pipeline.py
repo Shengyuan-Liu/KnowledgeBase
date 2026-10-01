@@ -1,5 +1,8 @@
 """Exercise reranking before selection, parent packing, and saved chat evidence."""
 
+from knowledgebase.rag.reranking import Reranker
+from knowledgebase.rag.retrieval import Retriever
+
 import json
 from unittest.mock import Mock
 
@@ -11,7 +14,7 @@ from sqlalchemy import func, select
 from knowledgebase.api import app as api_module
 from knowledgebase.config import RetrievalOptions
 from knowledgebase.rag.context import build_context
-from knowledgebase.rag.retrieval import retrieve_evidence
+
 from knowledgebase.schemas import RelevanceScore
 from knowledgebase.rag.chunking import DocumentChunker
 from knowledgebase.services.files import FileService
@@ -40,17 +43,15 @@ def test_rerank_precedes_top_k_parent_deduplication_and_budget(storage, embeddin
         children = get_chunks(session, second)
         parent = get_parents(session, second)[0]
         store.upsert_chunks(children, [[0, 1] for _ in children])
-        baseline = retrieve_evidence("requirements", session, embeddings, store, top_k=1)
+        baseline = Retriever(embeddings, store, top_k=1).retrieve("requirements", session)
         assert baseline.chunks[0].chunk.file_id == first
-        one = retrieve_evidence("requirements", session, embeddings, store, top_k=1,
-                                retrieval_options=options, reranker_client=scorer)
+        one = Retriever(embeddings, store, top_k=1, options=options, reranker=Reranker(scorer, candidate_limit=(options).rerank_candidate_limit, max_input_tokens=(options).rerank_max_input_tokens)).retrieve("requirements", session)
         assert one.chunks[0].chunk.file_id == second
         assert one.chunks[0].fusion.rank > 1
         assert one.chunks[0].rerank.rerank_rank == 1
         assert one.chunks[0].chunk.text == parent.text
         budget = len(tiktoken.get_encoding("cl100k_base").encode_ordinary(build_context(one.chunks)))
-        packed = retrieve_evidence("requirements", session, embeddings, store, top_k=10,
-                                   evidence_max_tokens=budget, retrieval_options=options, reranker_client=scorer)
+        packed = Retriever(embeddings, store, top_k=10, evidence_max_tokens=budget, options=options, reranker=Reranker(scorer, candidate_limit=(options).rerank_candidate_limit, max_input_tokens=(options).rerank_max_input_tokens)).retrieve("requirements", session)
         assert [s.chunk.file_id for s in packed.chunks] == [second]
         assert packed.chunks[0].chunk.text == facts
         assert len(packed.chunks[0].matched_child_ids) >= 2
@@ -65,8 +66,7 @@ def test_rerank_precedes_top_k_parent_deduplication_and_budget(storage, embeddin
     with sessions.begin() as session:
         update_file_status(session, second, "failed")
     with sessions() as session:
-        ready = retrieve_evidence("requirements", session, embeddings, store,
-                                  retrieval_options=options, reranker_client=scorer)
+        ready = Retriever(embeddings, store, options=options, reranker=Reranker(scorer, candidate_limit=(options).rerank_candidate_limit, max_input_tokens=(options).rerank_max_input_tokens)).retrieve("requirements", session)
         assert all(not c.chunk_id.startswith(second) for c in ready.diagnostics.rerank.candidates)
 
 
@@ -74,12 +74,11 @@ def test_disabled_and_empty_library_do_not_call_reranker(storage, embeddings):
     sessions, store, _ = storage
     client = reranker()
     with sessions() as session:
-        empty = retrieve_evidence("Question", session, embeddings, store,
-                                  retrieval_options=RetrievalOptions(rerank_enabled=True), reranker_client=client)
+        empty = Retriever(embeddings, store, options=RetrievalOptions(rerank_enabled=True), reranker=Reranker(client, candidate_limit=(RetrievalOptions(rerank_enabled=True)).rerank_candidate_limit, max_input_tokens=(RetrievalOptions(rerank_enabled=True)).rerank_max_input_tokens)).retrieve("Question", session)
         assert empty.chunks == []
     FileService(sessions, store, embeddings=embeddings).ingest("facts.txt", b"Maintain GPA 3.0.")
     with sessions() as session:
-        disabled = retrieve_evidence("GPA", session, embeddings, store, reranker_client=client)
+        disabled = Retriever(embeddings, store, reranker=Reranker(client)).retrieve("GPA", session)
     assert disabled.diagnostics.rerank is None
     assert disabled.chunks[0].rerank is None
     client.score.assert_not_called()
@@ -88,8 +87,7 @@ def test_disabled_and_empty_library_do_not_call_reranker(storage, embeddings):
 def test_enabled_reranking_requires_a_client(storage, embeddings):
     sessions, store, _ = storage
     with sessions() as session, pytest.raises(ValueError, match="requires a reranker client"):
-        retrieve_evidence("Question", session, embeddings, store,
-                          retrieval_options=RetrievalOptions(rerank_enabled=True))
+        Retriever(embeddings, store, options=RetrievalOptions(rerank_enabled=True)).retrieve("Question", session)
 
 
 @pytest.fixture(params=["child", "parent"])
@@ -209,11 +207,8 @@ def test_parent_scoring_keeps_other_region_when_siblings_dominate_child_top_k(st
         RelevanceScore(chunk_id=c.chunk_id, score=10 if 'Working' in c.text else 5 if 'summer' in c.text else 0)
         for c in candidates]
     with sessions() as session:
-        control = retrieve_evidence('working enrollment', session, embeddings, store, top_k=2,
-                                    retrieval_options=RetrievalOptions(rerank_enabled=True), reranker_client=scorer)
-        result = retrieve_evidence('working enrollment', session, embeddings, store, top_k=2,
-            retrieval_options=RetrievalOptions(rerank_enabled=True, rerank_unit='parent', rerank_candidate_limit=2),
-            reranker_client=scorer)
+        control = Retriever(embeddings, store, top_k=2, options=RetrievalOptions(rerank_enabled=True), reranker=Reranker(scorer, candidate_limit=(RetrievalOptions(rerank_enabled=True)).rerank_candidate_limit, max_input_tokens=(RetrievalOptions(rerank_enabled=True)).rerank_max_input_tokens)).retrieve('working enrollment', session)
+        result = Retriever(embeddings, store, top_k=2, options=RetrievalOptions(rerank_enabled=True, rerank_unit='parent', rerank_candidate_limit=2), reranker=Reranker(scorer, candidate_limit=(RetrievalOptions(rerank_enabled=True, rerank_unit='parent', rerank_candidate_limit=2)).rerank_candidate_limit, max_input_tokens=(RetrievalOptions(rerank_enabled=True, rerank_unit='parent', rerank_candidate_limit=2)).rerank_max_input_tokens)).retrieve('working enrollment', session)
         canonical = {c.chunk_id: c for file_id in ids for c in get_chunks(session, file_id)}
     assert {c.file_id for c in control.diagnostics.candidates} == {ids[0]}
     assert [s.chunk.text for s in result.chunks] == [work, summer]
@@ -237,8 +232,7 @@ def test_parent_mode_preserves_flat_chunks_without_fabricating_a_parent(storage,
         update_file_status(session, 'flat', 'ready')
     store.upsert_chunks([flat], [[1, 0]])
     with sessions() as session:
-        result = retrieve_evidence('GPA', session, embeddings, store,
-            retrieval_options=RetrievalOptions(rerank_enabled=True, rerank_unit='parent'), reranker_client=reranker())
+        result = Retriever(embeddings, store, options=RetrievalOptions(rerank_enabled=True, rerank_unit='parent'), reranker=Reranker(reranker(), candidate_limit=(RetrievalOptions(rerank_enabled=True, rerank_unit='parent')).rerank_candidate_limit, max_input_tokens=(RetrievalOptions(rerank_enabled=True, rerank_unit='parent')).rerank_max_input_tokens)).retrieve('GPA', session)
     assert result.chunks[0].chunk == flat
     assert result.chunks[0].rerank.scoring_parent_id is None
     assert result.diagnostics.rerank.candidates[0].text == flat.text

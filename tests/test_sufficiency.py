@@ -1,4 +1,6 @@
 """Packed-context assessment and bounded gap searches, with offline provider outputs."""
+
+from knowledgebase.rag.retrieval import Retriever
 from contextlib import aclosing
 from copy import deepcopy
 import json
@@ -314,16 +316,13 @@ async def test_cancel_during_assessment_does_not_continue_or_save(assessed_api, 
 
 def test_direct_plan_merges_supplementary_candidates(hop_api):
     from knowledgebase.schemas import PlannedQuery, direct_plan
-    from knowledgebase.rag.planned_retrieval import retrieve_plan
+
     _, resources, _, _, _, files = hop_api
     plan = direct_plan(QUESTION)
     plan.queries[0].file_ids = [files[0]]
     with resources.sessions() as session:
-        initial = retrieve_plan(plan, session, resources.embeddings, resources.store,
-            top_k=3, retrieval_options=resources.settings.retrieval_options)
-        final = retrieve_plan(plan, session, resources.embeddings, resources.store,
-            top_k=3, retrieval_options=resources.settings.retrieval_options, previous_runs=initial.trace.runs,
-            queries=[PlannedQuery(query_id="extra", text="Mira Cole employer", requirement_ids=["answer"], file_ids=[files[1]])])
+        initial = Retriever(resources.embeddings, resources.store, top_k=3, options=resources.settings.retrieval_options).retrieve_plan(plan, session)
+        final = Retriever(resources.embeddings, resources.store, top_k=3, options=resources.settings.retrieval_options).retrieve_plan(plan, session, previous_runs=initial.trace.runs, queries=[PlannedQuery(query_id="extra", text="Mira Cole employer", requirement_ids=["answer"], file_ids=[files[1]])])
     assert {h.file_name for h in final.evidence.chunks} == {"award.txt", "staff.txt"}
 
 

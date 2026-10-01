@@ -1,11 +1,13 @@
 """Check identity, bounded scoring, reproducible inputs, and independent ranks."""
 
+from knowledgebase.rag.reranking import Reranker
+
 from unittest.mock import Mock
 
 import pytest
 import tiktoken
 
-from knowledgebase.rag.reranking import rerank
+
 from knowledgebase.providers.reranker import build_rerank_pairs
 from knowledgebase.schemas import FusedMatch, RelevanceScore, RerankCandidate, RerankResult
 
@@ -29,7 +31,7 @@ def test_scores_map_by_identity_and_preserve_exact_input_and_route_metadata():
               candidate("b", 2, "  GPA ≥ 3.0.\r\nComplete 66% of credits.\n", ["Academic progress"])]
     original = [item.model_dump() for item in inputs]
     client = scorer([("b", 3), ("a", 1)])
-    result = rerank("What academic progress requirements apply?", inputs, client, top_k=1)
+    result = Reranker(client).rerank("What academic progress requirements apply?", inputs, top_k=1)
     assert [hit.chunk_id for hit in result.matches] == ["b", "a"]
     assert [hit.rerank_rank for hit in result.matches] == [1, 2]
     assert [hit.rank for hit in result.matches] == [2, 1]
@@ -51,7 +53,7 @@ def test_scores_map_by_identity_and_preserve_exact_input_and_route_metadata():
 def test_score_window_is_selected_by_rrf_rank_before_the_model_call():
     inputs = [candidate("c", 3), candidate("b", 2), candidate("a", 1)]
     client = scorer([("b", 3), ("a", 0)])
-    result = rerank("Question", inputs, client, top_k=1, candidate_limit=2)
+    result = Reranker(client, candidate_limit=2).rerank("Question", inputs, top_k=1)
     assert [item.chunk_id for item in result.candidates] == ["a", "b"]
     assert [hit.chunk_id for hit in result.selected] == ["b"]
     assert len(result.matches) == 2
@@ -61,13 +63,13 @@ def test_score_window_is_selected_by_rrf_rank_before_the_model_call():
 def test_ties_use_rrf_rank_then_stable_child_identity_and_keep_siblings():
     inputs = [candidate("parent:child:2", 2), candidate("parent:child:1", 2), candidate("other:child:0", 1)]
     client = scorer([(item.chunk_id, 3) for item in inputs])
-    result = rerank("Question", inputs, client)
+    result = Reranker(client).rerank("Question", inputs)
     assert [hit.chunk_id for hit in result.matches] == ["other:child:0", "parent:child:1", "parent:child:2"]
 
 
 def test_empty_candidates_do_not_call_model():
     client = scorer([])
-    result = rerank("Question", [], client)
+    result = Reranker(client).rerank("Question", [])
     assert result.candidates == result.matches == result.selected == []
     assert result.input_tokens == 0
     client.score.assert_not_called()
@@ -79,13 +81,13 @@ def test_input_budget_counts_exact_messages_and_never_truncates():
     encoding = tiktoken.get_encoding("o200k_base")
     tokens = sum(len(encoding.encode_ordinary(text)) for pair in pairs for text in pair)
     client = scorer([("a", 2)])
-    result = rerank("Question", inputs, client, max_input_tokens=tokens, encoding_name="o200k_base")
+    result = Reranker(client, max_input_tokens=tokens, encoding_name="o200k_base").rerank("Question", inputs)
     assert result.input_tokens == tokens
     assert result.tokenizer == "o200k_base"
     client.score.assert_called_once_with("Question", inputs)
     client.reset_mock()
     with pytest.raises(ValueError, match="no text was truncated"):
-        rerank("Question", inputs, client, max_input_tokens=tokens - 1, encoding_name="o200k_base")
+        Reranker(client, max_input_tokens=tokens - 1, encoding_name="o200k_base").rerank("Question", inputs)
     client.score.assert_not_called()
 
 
@@ -93,7 +95,7 @@ def test_input_budget_counts_exact_messages_and_never_truncates():
 def test_every_scored_id_must_match_exactly_one_input_without_fallback(scores):
     client = scorer(scores)
     with pytest.raises(ValueError, match="every supplied chunk ID exactly once"):
-        rerank("Question", [candidate("a", 1), candidate("b", 2)], client)
+        Reranker(client).rerank("Question", [candidate("a", 1), candidate("b", 2)])
     assert client.score.call_count == 1
 
 
@@ -101,18 +103,19 @@ def test_provider_failure_propagates_without_repair_or_rrf_fallback():
     client = scorer([])
     client.score.side_effect = RuntimeError("Provider failed")
     with pytest.raises(RuntimeError, match="Provider failed"):
-        rerank("Question", [candidate("a", 1)], client)
+        Reranker(client).rerank("Question", [candidate("a", 1)])
     assert client.score.call_count == 1
 
 
 @pytest.mark.parametrize("options", [{"top_k": 0}, {"candidate_limit": 0}, {"max_input_tokens": 0}])
 def test_limits_are_positive(options):
     with pytest.raises(ValueError, match="must be positive"):
-        rerank("Question", [], scorer([]), **options)
+        Reranker(scorer([]), candidate_limit=options.get("candidate_limit", 20),
+                 max_input_tokens=options.get("max_input_tokens", 16384)).rerank("Question", [], top_k=options.get("top_k", 5))
 
 
 def test_duplicate_candidate_identity_is_rejected_before_scoring():
     client = scorer([])
     with pytest.raises(ValueError, match="IDs must be unique"):
-        rerank("Question", [candidate("a", 1), candidate("a", 2)], client)
+        Reranker(client).rerank("Question", [candidate("a", 1), candidate("a", 2)])
     client.score.assert_not_called()

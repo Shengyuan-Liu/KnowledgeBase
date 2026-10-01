@@ -1,5 +1,7 @@
 """Verify route integration, source provenance, and persisted library lifecycle."""
 
+from knowledgebase.rag.retrieval import Retriever
+
 import json
 from unittest.mock import Mock
 
@@ -10,7 +12,7 @@ from fastapi.testclient import TestClient
 from knowledgebase.api import app as api_module
 from knowledgebase.config import RetrievalOptions
 from knowledgebase.rag.context import build_context
-from knowledgebase.rag.retrieval import retrieve_evidence
+
 from knowledgebase.schemas import Chunk
 from knowledgebase.rag.chunking import DocumentChunker
 from knowledgebase.services.files import FileService
@@ -38,8 +40,7 @@ def test_fusion_selects_children_after_both_route_windows(storage, embeddings, s
         add_flat(session, store, "c", "needle other", [0, 1])
     observed = Mock(wraps=store)
     with sessions() as session:
-        result = retrieve_evidence("needle", session, embeddings, observed, top_k=1,
-                                  retrieval_options=RetrievalOptions(strategy=strategy, candidate_limit=2))
+        result = Retriever(embeddings, observed, top_k=1, options=RetrievalOptions(strategy=strategy, candidate_limit=2)).retrieve("needle", session)
     assert [item.chunk.chunk_id for item in result.chunks] == [expected]
     assert observed.search.call_args.kwargs["top_k"] == (2 if strategy == "hybrid" else 1)
     if strategy == "hybrid":
@@ -61,12 +62,12 @@ def test_ready_filter_precedes_both_route_limits_and_bm25_statistics(storage, em
     with sessions.begin() as session:
         add_flat(session, store, "ready", "needle", [0, 1])
     with sessions() as session:
-        baseline = retrieve_evidence("needle", session, embeddings, store, retrieval_options=options)
+        baseline = Retriever(embeddings, store, options=options).retrieve("needle", session)
     with sessions.begin() as session:
         for status in ("processing", "failed"):
             add_flat(session, store, status, "needle needle needle", [1, 0], status)
     with sessions() as session:
-        result = retrieve_evidence("needle", session, embeddings, store, retrieval_options=options)
+        result = Retriever(embeddings, store, options=options).retrieve("needle", session)
     assert result.model_dump(exclude={"diagnostics": {"packing_seconds", "embedding_seconds", "retrieval_seconds"}}) == baseline.model_dump(exclude={"diagnostics": {"packing_seconds", "embedding_seconds", "retrieval_seconds"}})
     assert [hit.chunk_id for hit in result.diagnostics.vector_matches] == ["ready"]
 
@@ -81,8 +82,7 @@ def test_parent_keeps_best_fused_child_provenance_when_sibling_has_vector_hit(st
         vector = children[-1]
         assert lexical.index < vector.index
         store.upsert_chunks(children, [[1, 0] if c == vector else [0, 1] for c in children])
-        result = retrieve_evidence("orchid", session, embeddings, store, top_k=2,
-                                   retrieval_options=RetrievalOptions(candidate_limit=1))
+        result = Retriever(embeddings, store, top_k=2, options=RetrievalOptions(candidate_limit=1)).retrieve("orchid", session)
     assert len(result.chunks) == 1
     source = result.chunks[0]
     assert source.chunk.text == text
@@ -169,12 +169,10 @@ def test_budget_keeps_fused_order_and_records_whole_region_exclusion(storage, em
         a = add_flat(session, store, "a", "needle needle", [0, 1])
         add_flat(session, store, "b", "unrelated text", [1, 0])
     with sessions() as session:
-        full = retrieve_evidence("needle", session, embeddings, store, top_k=2,
-                                 retrieval_options=RetrievalOptions(candidate_limit=1))
+        full = Retriever(embeddings, store, top_k=2, options=RetrievalOptions(candidate_limit=1)).retrieve("needle", session)
         assert full.chunks[0].chunk == a
         budget = len(tiktoken.get_encoding("cl100k_base").encode_ordinary(build_context(full.chunks[:1])))
-        packed = retrieve_evidence("needle", session, embeddings, store, top_k=2,
-                                   evidence_max_tokens=budget, retrieval_options=RetrievalOptions(candidate_limit=1))
+        packed = Retriever(embeddings, store, top_k=2, evidence_max_tokens=budget, options=RetrievalOptions(candidate_limit=1)).retrieve("needle", session)
     assert packed.chunks == full.chunks[:1]
     assert packed.diagnostics.evidence_tokens == budget
     assert [hit.chunk_id for hit in packed.diagnostics.excluded] == ["b"]

@@ -1,9 +1,11 @@
+
+from knowledgebase.rag.retrieval import Retriever
 from unittest.mock import Mock
 
 import pytest
 
 from knowledgebase.rag.chunking import split_text
-from knowledgebase.rag.retrieval import retrieve_evidence
+
 from knowledgebase.storage.operations import (
     create_file,
     save_chunks,
@@ -36,7 +38,7 @@ def test_retrieve_returns_sqlite_text_offsets_and_distances_in_search_order(
     )
     other = index_file(session, store, "file-a", "Third.", [[0.0, 1.0]])
 
-    result = retrieve_evidence("  A question?\n", session, embeddings, store, top_k=3).chunks
+    result = Retriever(embeddings, store, top_k=3).retrieve("  A question?\n", session).chunks
 
     embeddings.embed_query.assert_called_once_with("  A question?\n")
     assert [item.chunk for item in result] == [chunks[1], chunks[0], other[0]]
@@ -52,7 +54,7 @@ def test_processing_and_failed_files_do_not_consume_top_k(retrieval_storage, emb
         session, store, "ready", "First. Second.", [[0.8, 0.6], [0.0, 1.0]]
     )
 
-    result = retrieve_evidence("Question?", session, embeddings, store, top_k=2).chunks
+    result = Retriever(embeddings, store, top_k=2).retrieve("Question?", session).chunks
 
     assert [item.chunk for item in result] == ready
     assert [item.distance for item in result] == pytest.approx([0.2, 1.0])
@@ -65,7 +67,7 @@ def test_no_ready_files_returns_no_evidence_without_embedding(retrieval_storage,
         index_file(session, store, status, "Hidden.", [[1.0, 0.0]], status=status)
     observed_store = Mock(wraps=store)
 
-    assert retrieve_evidence("Question?", session, embeddings, observed_store).chunks == []
+    assert Retriever(embeddings, observed_store).retrieve("Question?", session).chunks == []
 
     embeddings.embed_query.assert_not_called()
     observed_store.search.assert_not_called()
@@ -76,5 +78,5 @@ def test_no_vector_matches_returns_no_evidence(retrieval_storage, embeddings):
     create_file(session, "ready", "ready.txt")
     update_file_status(session, "ready", "ready")
 
-    assert retrieve_evidence("Question?", session, embeddings, store).chunks == []
+    assert Retriever(embeddings, store).retrieve("Question?", session).chunks == []
     embeddings.embed_query.assert_called_once_with("Question?")

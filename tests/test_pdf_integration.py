@@ -1,5 +1,7 @@
 """PDF ingestion/lifecycle with frozen real extraction and offline providers."""
 
+from knowledgebase.rag.retrieval import Retriever
+
 import json
 
 from pathlib import Path
@@ -18,7 +20,7 @@ from knowledgebase.schemas import (
 )
 from knowledgebase.rag.pdf_evidence import pdf_evidence, table_rows
 from knowledgebase.rag.packing import pack_evidence
-from knowledgebase.rag.retrieval import retrieve_evidence
+
 from knowledgebase.storage.operations import (
     create_file, get_file, get_document_source, get_pdf_extraction, get_chunks,
     save_pdf_source,
@@ -88,7 +90,7 @@ def test_upload_query_original_range_and_historical_evidence(pdf_api, extraction
     assert all(s["file_deleted"] for s in saved)
     with resources.sessions() as session:
         assert get_pdf_extraction(session, file_id) is None
-        assert retrieve_evidence("net sales", session, resources.embeddings, resources.store).chunks == []
+        assert Retriever(resources.embeddings, resources.store).retrieve("net sales", session).chunks == []
 
 
 def test_streaming_and_history_share_pdf_provenance(pdf_api):
@@ -172,7 +174,7 @@ def test_asset_delete_failure_is_ineligible_until_retry(pdf_api):
     assert client.delete(f"/api/files/{file['file_id']}").status_code == 500
     with resources.sessions() as session:
         assert get_file(session, file["file_id"]).status == "failed"
-        assert retrieve_evidence("net sales", session, resources.embeddings, resources.store).chunks == []
+        assert Retriever(resources.embeddings, resources.store).retrieve("net sales", session).chunks == []
     resources.assets = assets
     assert client.delete(f"/api/files/{file['file_id']}").status_code == 204
     assert not assets.path(file["file_id"]).exists()

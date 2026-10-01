@@ -32,3 +32,14 @@ Implementation and final comparison remain pending.
   changed an unrelated file-status patch; restored its services import.
 - `document-processing-final`: 29 passed. Corrected semantic dependency injection
   and patch locations; the frozen HTTP/prompt/history contract remains equal.
+
+## Retrieval components
+
+- `retrieval-components`: collection failed on a nested import indentation changed
+  during the parser/chunker move. Corrected the test import.
+- `retrieval-components-2`: 94 passed, 63 failed from a missing RequirementEvidence
+  import in the moved plan executor; downstream API failures share that cause.
+- `retrieval-components-3`: 158 passed, including reused-retriever scope isolation,
+  independent/dependent plans, assessment, cancellation and frozen contract equality.
+- `retrieval-consumers`: 62 passed across storage-backed retrieval, file API,
+  ingestion/deletion, PDF packing and recovery.

@@ -1,10 +1,12 @@
+
+from knowledgebase.rag.retrieval import Retriever
 from unittest.mock import Mock
 
 import pytest
 from sqlalchemy import select
 
 from knowledgebase.rag.chunking import split_text
-from knowledgebase.rag.retrieval import retrieve_evidence
+
 from knowledgebase.storage.models import ChunkStructureRecord, DocumentSourceRecord
 from knowledgebase.rag.chunking import DocumentChunker
 from knowledgebase.services.files import InvalidUploadError, FileService
@@ -22,7 +24,7 @@ def test_ingested_file_is_ready_and_retrievable(storage, embeddings):
         assert file.file_name == "Library.TXT"
         assert file.status == "ready"
         assert file.error_message is None
-        results = retrieve_evidence("Where are books stored?", session, embeddings, store, top_k=1).chunks
+        results = Retriever(embeddings, store, top_k=1).retrieve("Where are books stored?", session).chunks
 
     assert results[0].chunk.file_id == file_id
     assert results[0].chunk.text == text
@@ -49,7 +51,7 @@ def test_structural_upload_persists_source_blocks_and_indexed_chunks(storage, em
             assert {tuple(chunk.heading_path) for chunk in chunks} == {("Guide",), ("Guide", "Setup")}
         else:
             assert all(chunk.heading_path == [] for chunk in chunks)
-        results = retrieve_evidence("What does the guide say?", session, embeddings, store, top_k=len(chunks)).chunks
+        results = Retriever(embeddings, store, top_k=len(chunks)).retrieve("What does the guide say?", session).chunks
         assert {hit.chunk.chunk_id for hit in results} == {chunk.chunk_id for chunk in chunks}
     embeddings.embed_documents.assert_called_once_with([chunk.text for chunk in chunks])
     assert collection.count() == len(chunks)

@@ -26,7 +26,7 @@ from knowledgebase.rag.context import build_context
 from knowledgebase.rag.citations import validate_citations
 from knowledgebase.rag.generation import generate_answer, stream_answer
 from knowledgebase.rag.query import resolve_question
-from knowledgebase.rag.retrieval import retrieve_evidence
+from knowledgebase.rag.retrieval import retrieve_evidence, _configured_retriever
 from knowledgebase.schemas import (
     AnswerSource, ChatAnswer, ChatStreamEvent, ConversationAnswer, MessageInfo,
     RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics,
@@ -76,9 +76,9 @@ def answer_question(
         llm_client = llm_client.bounded(control.generation_limits())
     hops = None
     if prepared and prepared.plan and prepared.allowed_file_ids and (prepared.plan.dependencies or control.options.sufficiency_enabled):
-        hops = HopController(prepared, session_factory, embedding_client, vector_store, planner_client, control,
+        hops = HopController(prepared, session_factory, _configured_retriever(embedding_client, vector_store,
             top_k=top_k, evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
-            retrieval_options=retrieval_options, reranker_client=reranker_client, file_ids=file_ids)
+            retrieval_options=retrieval_options, reranker_client=reranker_client), planner_client, control, file_ids=file_ids)
         while not hops.finished:
             hops.step()
             if hops.needs_assessment:
@@ -304,9 +304,9 @@ async def stream_answer_in_conversation(
                                                     file_ids, planner_client, control)
                 hops = None
                 if prepared.plan and prepared.allowed_file_ids and (prepared.plan.dependencies or control.options.sufficiency_enabled):
-                    hops = HopController(prepared, session_factory, embedding_client, vector_store, planner_client, control,
+                    hops = HopController(prepared, session_factory, _configured_retriever(embedding_client, vector_store,
                         top_k=top_k, evidence_max_tokens=evidence_max_tokens, encoding_name=encoding_name,
-                        retrieval_options=retrieval_options, reranker_client=reranker_client, file_ids=file_ids)
+                        retrieval_options=retrieval_options, reranker_client=reranker_client), planner_client, control, file_ids=file_ids)
                     while not hops.finished:
                         yield event("progress", stage="retrieving", message=f"Searching round {hops.round_index + 1}…")
                         await control.run_search(hops.step)

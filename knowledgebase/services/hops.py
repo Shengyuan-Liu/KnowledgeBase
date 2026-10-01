@@ -8,14 +8,13 @@ from knowledgebase.schemas import (
 )
 from knowledgebase.rag.dependencies import BINDING_INSTRUCTIONS, adds_source_text, context_spans, dependency_evidence, validate_binding
 from knowledgebase.rag.sufficiency import ASSESSMENT_INSTRUCTIONS, assessment_excerpts, assessment_context, validate_assessment
-from knowledgebase.rag.planned_retrieval import retrieve_plan
 from knowledgebase.rag.retrieval import resolve_ready_scope
 
 
 class HopController:
-    def __init__(self, prepared, sessions, embeddings, store, planner, control, **retrieval):
-        self.prepared, self.sessions, self.embeddings, self.store = prepared, sessions, embeddings, store
-        self.planner, self.control, self.retrieval = planner, control, retrieval
+    def __init__(self, prepared, sessions, retriever, planner, control, *, file_ids=None):
+        self.prepared, self.sessions, self.retriever = prepared, sessions, retriever
+        self.planner, self.control, self.file_ids = planner, control, file_ids
         self.result = None
         self.round_index = 0
         self.finished = False
@@ -37,8 +36,8 @@ class HopController:
     def retrieve(self, queries):
         started = perf_counter()
         with self.sessions() as session:
-            result = retrieve_plan(self.prepared.plan, session, self.embeddings, self.store,
-                **self.retrieval, allowed_file_ids=self.prepared.allowed_file_ids,
+            result = self.retriever.retrieve_plan(self.prepared.plan, session,
+                file_ids=self.file_ids, allowed_file_ids=self.prepared.allowed_file_ids,
                 checkpoint=self.control.before_answer, queries=queries,
                 previous_runs=self.result.trace.runs if self.result else None,
                 round_index=self.round_index)
@@ -148,7 +147,7 @@ class HopController:
         # A source deleted while the model was running cannot authorize the next search.
         with self.sessions() as session:
             eligible, _ = resolve_ready_scope(plan.resolved_question, session,
-                file_ids=self.retrieval.get("file_ids"), scope_question=plan.original_question,
+                file_ids=self.file_ids, scope_question=plan.original_question,
                 allowed_file_ids=self.prepared.allowed_file_ids)
         for query in queries:
             if any(ref["file_id"] not in eligible for ref in self.states[query.query_id]["references"]):
@@ -167,7 +166,7 @@ class HopController:
         previous.update(q.text.strip() for q in queries)
         with self.sessions() as session:
             eligible, _ = resolve_ready_scope(self.prepared.plan.resolved_question, session,
-                file_ids=self.retrieval.get("file_ids"), scope_question=self.prepared.plan.original_question,
+                file_ids=self.file_ids, scope_question=self.prepared.plan.original_question,
                 allowed_file_ids=self.prepared.allowed_file_ids)
         for proposal in self.supplements:
             reason = ("duplicate" if proposal["text"] in previous else

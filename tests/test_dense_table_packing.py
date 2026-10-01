@@ -1,5 +1,7 @@
 """Keep the previously excluded dense table inside its unchanged evidence budget."""
 
+from knowledgebase.rag.retrieval import Retriever
+
 import json
 from pathlib import Path
 
@@ -12,7 +14,7 @@ from knowledgebase.rag.pdf_evidence import pdf_evidence
 from knowledgebase.schemas import (
     File, Chunk, ChunkBatch, RetrievedChunk, RetrievalDiagnostics,
 )
-from knowledgebase.rag.retrieval import pack_retrieval_candidates
+
 from knowledgebase.storage.operations import create_file, save_parent_child_chunks, save_pdf_source
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -112,7 +114,7 @@ def test_observed_rankings_supply_target_rows_with_headers_and_page(sessions, de
     selected = [RetrievedChunk.model_validate({**hit, "chunk": children[hit["chunk_id"]],
                 "file_name": "background-checks.pdf", "document_labels": ["background-checks"]}) for hit in row["candidates"]]
     with sessions() as session:
-        packed = pack_retrieval_candidates(selected, session, RetrievalDiagnostics(
+        packed = Retriever.pack(selected, session, RetrievalDiagnostics(
             max_tokens=4096, tokenizer="cl100k_base", options=RetrievalOptions(packing_strategy="parent_then_child")))
     context = build_context(packed.chunks)
     assert all(value in context for value in ["Alabama", "Alaska", "Arizona", "18,870", "23,022", "22,650", "71,137", "7,095", "27,087", "November - 2015"])
