@@ -1,0 +1,1306 @@
+{
+  "status": "completed_with_known_product_failure",
+  "code_commit": "d6e99d6264af939fe4ad438e1beba7bee4350665",
+  "metric_inventory": {
+    "Recall@K": {
+      "status": "measured",
+      "value": {
+        "candidate_fusion_per_query": {
+          "value": 0.8333333333333334,
+          "sample_count": 6
+        },
+        "reranking_per_query": {
+          "value": 0.8333333333333334,
+          "sample_count": 6
+        },
+        "final_supplied_documents_per_answer": {
+          "value": 0.8,
+          "sample_count": 5
+        }
+      },
+      "unit": "see value and method",
+      "reason": null,
+      "sample_count": 17,
+      "population": "This synthetic acceptance workload only",
+      "method": "K=5, binary document relevance, deduplicate documents before cutoff; precision denominator stays 5 when fewer documents are returned. Candidate fusion and reranking use five executed subqueries plus one failed-scope query; final evidence uses five answerable questions. Planned subquery labels follow its explicit file scope.",
+      "aggregation": "macro mean within each stage; never across stages",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "Precision@K": {
+      "status": "measured",
+      "value": {
+        "candidate_fusion_per_query": {
+          "value": 0.16666666666666666,
+          "sample_count": 6
+        },
+        "reranking_per_query": {
+          "value": 0.16666666666666666,
+          "sample_count": 6
+        },
+        "final_supplied_documents_per_answer": {
+          "value": 0.2,
+          "sample_count": 5
+        }
+      },
+      "unit": "see value and method",
+      "reason": null,
+      "sample_count": 17,
+      "population": "This synthetic acceptance workload only",
+      "method": "K=5, binary document relevance, deduplicate documents before cutoff; precision denominator stays 5 when fewer documents are returned. Candidate fusion and reranking use five executed subqueries plus one failed-scope query; final evidence uses five answerable questions. Planned subquery labels follow its explicit file scope.",
+      "aggregation": "macro mean within each stage; never across stages",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "Hit Rate@K": {
+      "status": "measured",
+      "value": {
+        "candidate_fusion_per_query": {
+          "value": 0.8333333333333334,
+          "sample_count": 6
+        },
+        "reranking_per_query": {
+          "value": 0.8333333333333334,
+          "sample_count": 6
+        },
+        "final_supplied_documents_per_answer": {
+          "value": 0.8,
+          "sample_count": 5
+        }
+      },
+      "unit": "see value and method",
+      "reason": null,
+      "sample_count": 17,
+      "population": "This synthetic acceptance workload only",
+      "method": "K=5, binary document relevance, deduplicate documents before cutoff; precision denominator stays 5 when fewer documents are returned. Candidate fusion and reranking use five executed subqueries plus one failed-scope query; final evidence uses five answerable questions. Planned subquery labels follow its explicit file scope.",
+      "aggregation": "macro mean within each stage; never across stages",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "MRR": {
+      "status": "measured",
+      "value": {
+        "candidate_fusion_per_query": {
+          "value": 0.8333333333333334,
+          "sample_count": 6
+        },
+        "reranking_per_query": {
+          "value": 0.8333333333333334,
+          "sample_count": 6
+        },
+        "final_supplied_documents_per_answer": {
+          "value": 0.8,
+          "sample_count": 5
+        }
+      },
+      "unit": "see value and method",
+      "reason": null,
+      "sample_count": 17,
+      "population": "This synthetic acceptance workload only",
+      "method": "K=5, binary document relevance, deduplicate documents before cutoff; precision denominator stays 5 when fewer documents are returned. Candidate fusion and reranking use five executed subqueries plus one failed-scope query; final evidence uses five answerable questions. Planned subquery labels follow its explicit file scope.",
+      "aggregation": "macro mean within each stage; never across stages",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "NDCG@K": {
+      "status": "measured",
+      "value": {
+        "candidate_fusion_per_query": {
+          "value": 0.8333333333333334,
+          "sample_count": 6
+        },
+        "reranking_per_query": {
+          "value": 0.8333333333333334,
+          "sample_count": 6
+        },
+        "final_supplied_documents_per_answer": {
+          "value": 0.8,
+          "sample_count": 5
+        }
+      },
+      "unit": "see value and method",
+      "reason": null,
+      "sample_count": 17,
+      "population": "This synthetic acceptance workload only",
+      "method": "K=5, binary document relevance, deduplicate documents before cutoff; precision denominator stays 5 when fewer documents are returned. Candidate fusion and reranking use five executed subqueries plus one failed-scope query; final evidence uses five answerable questions. Planned subquery labels follow its explicit file scope.",
+      "aggregation": "macro mean within each stage; never across stages",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "Final evidence coverage": {
+      "status": "measured",
+      "value": {
+        "covered": 6,
+        "total": 7,
+        "ratio": 0.8571428571428571
+      },
+      "unit": "see value and method",
+      "reason": null,
+      "sample_count": 7,
+      "population": "This synthetic acceptance workload only",
+      "method": "Frozen source facts; whitespace-normalized exact quote present in actual supplied sources, including the supplemental false refusal.",
+      "aggregation": "micro facts",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "Answer correctness": {
+      "status": "measured",
+      "value": {
+        "passed": 5,
+        "total": 7,
+        "ratio": 0.7142857142857143
+      },
+      "unit": "see value and method",
+      "reason": null,
+      "sample_count": 7,
+      "population": "This synthetic acceptance workload only",
+      "method": "Codex review of unique cases: correct expected facts or a justified source-based abstention. Both generic-source cases fail. Not independent ground truth.",
+      "aggregation": "case pass rate",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "Faithfulness": {
+      "status": "measured",
+      "value": {
+        "supported": 7,
+        "total": 7,
+        "ratio": 1
+      },
+      "unit": "see value and method",
+      "reason": null,
+      "sample_count": 7,
+      "population": "This synthetic acceptance workload only",
+      "method": "Seven substantive claims in five useful answers, including one explicitly scoped absence claim; scope-error messages are separate correctness failures.",
+      "aggregation": "claim support rate",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "Answer completeness": {
+      "status": "measured",
+      "value": {
+        "present": 6,
+        "expected": 7,
+        "ratio": 0.8571428571428571
+      },
+      "unit": "see value and method",
+      "reason": null,
+      "sample_count": 7,
+      "population": "This synthetic acceptance workload only",
+      "method": "Expected fact coverage across five answerable questions; the supplemental false refusal contributes one missing fact.",
+      "aggregation": "micro facts",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "Answer relevance": {
+      "status": "measured",
+      "value": {
+        "passed": 5,
+        "total": 7,
+        "ratio": 0.7142857142857143
+      },
+      "unit": "see value and method",
+      "reason": null,
+      "sample_count": 7,
+      "population": "This synthetic acceptance workload only",
+      "method": "Addresses the requested facts or explains absent source information; unrelated missing-filename messages fail.",
+      "aggregation": "case pass rate",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "Citation support": {
+      "status": "measured",
+      "value": {
+        "supported": 7,
+        "total": 7,
+        "ratio": 1
+      },
+      "unit": "see value and method",
+      "reason": null,
+      "sample_count": 7,
+      "population": "This synthetic acceptance workload only",
+      "method": "Review each claim-to-citation pair against the actual excerpt; see reviewed_claims in review.json.",
+      "aggregation": "claim-citation pairs",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "Citation coverage": {
+      "status": "measured",
+      "value": {
+        "cited_supported": 7,
+        "requires_citation": 7,
+        "ratio": 1
+      },
+      "unit": "see value and method",
+      "reason": null,
+      "sample_count": 7,
+      "population": "This synthetic acceptance workload only",
+      "method": "All seven substantive source claims require citations, including the scoped absence claim; generic-scope error messages are excluded and reported as failures.",
+      "aggregation": "claim rate",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "Abstention": {
+      "status": "measured",
+      "value": {
+        "unanswerable": {
+          "withheld_unknown_secret": 2,
+          "total": 2,
+          "appropriate_source_based_reason": 1
+        },
+        "answerable": {
+          "incorrect_abstentions": 1,
+          "total": 5
+        }
+      },
+      "unit": "see value and method",
+      "reason": null,
+      "sample_count": 7,
+      "population": "This synthetic acceptance workload only",
+      "method": "Separate refusal to invent a PIN from giving an appropriate reason; retain incorrect abstention on an answerable question.",
+      "aggregation": "none",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "First-answer-delta latency": {
+      "status": "measured",
+      "value": {
+        "single_model_answer": {
+          "first_answer_delta": {
+            "sample_count": 3,
+            "mean": 3022.466666698456,
+            "p50": 3255.2000000476837,
+            "p95": 4299.200000047684,
+            "percentile_method": "nearest rank",
+            "unit": "milliseconds"
+          },
+          "complete_response": {
+            "sample_count": 3,
+            "mean": 4237.033333381017,
+            "p50": 3494.2000000476837,
+            "p95": 7233.900000095367,
+            "percentile_method": "nearest rank",
+            "unit": "milliseconds"
+          }
+        },
+        "planned_model_answer": {
+          "first_answer_delta": {
+            "sample_count": 1,
+            "mean": 11720.5,
+            "p50": 11720.5,
+            "p95": 11720.5,
+            "percentile_method": "nearest rank",
+            "unit": "milliseconds"
+          },
+          "complete_response": {
+            "sample_count": 1,
+            "mean": 13059.399999976158,
+            "p50": 13059.399999976158,
+            "p95": 13059.399999976158,
+            "percentile_method": "nearest rank",
+            "unit": "milliseconds"
+          }
+        },
+        "scope_error_response": {
+          "first_answer_delta": {
+            "sample_count": 1,
+            "mean": 3.100000023841858,
+            "p50": 3.100000023841858,
+            "p95": 3.100000023841858,
+            "percentile_method": "nearest rank",
+            "unit": "milliseconds"
+          },
+          "complete_response": {
+            "sample_count": 1,
+            "mean": 4.800000071525574,
+            "p50": 4.800000071525574,
+            "p95": 4.800000071525574,
+            "percentile_method": "nearest rank",
+            "unit": "milliseconds"
+          }
+        }
+      },
+      "unit": "see value and method",
+      "reason": "Supplemental probe timings are unavailable; its UI completion duration is retained separately. Cancellation is retained separately, not counted as a completed answer.",
+      "sample_count": 5,
+      "population": "This synthetic acceptance workload only",
+      "method": "Fetch invocation to first nonempty answer_delta observed through cloned SSE reader; includes queue/network and local inference, excludes startup/ingestion.",
+      "aggregation": "mean/P50/P95 nearest rank, grouped by response type",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "Complete-response latency": {
+      "status": "measured",
+      "value": {
+        "single_model_answer": {
+          "first_answer_delta": {
+            "sample_count": 3,
+            "mean": 3022.466666698456,
+            "p50": 3255.2000000476837,
+            "p95": 4299.200000047684,
+            "percentile_method": "nearest rank",
+            "unit": "milliseconds"
+          },
+          "complete_response": {
+            "sample_count": 3,
+            "mean": 4237.033333381017,
+            "p50": 3494.2000000476837,
+            "p95": 7233.900000095367,
+            "percentile_method": "nearest rank",
+            "unit": "milliseconds"
+          }
+        },
+        "planned_model_answer": {
+          "first_answer_delta": {
+            "sample_count": 1,
+            "mean": 11720.5,
+            "p50": 11720.5,
+            "p95": 11720.5,
+            "percentile_method": "nearest rank",
+            "unit": "milliseconds"
+          },
+          "complete_response": {
+            "sample_count": 1,
+            "mean": 13059.399999976158,
+            "p50": 13059.399999976158,
+            "p95": 13059.399999976158,
+            "percentile_method": "nearest rank",
+            "unit": "milliseconds"
+          }
+        },
+        "scope_error_response": {
+          "first_answer_delta": {
+            "sample_count": 1,
+            "mean": 3.100000023841858,
+            "p50": 3.100000023841858,
+            "p95": 3.100000023841858,
+            "percentile_method": "nearest rank",
+            "unit": "milliseconds"
+          },
+          "complete_response": {
+            "sample_count": 1,
+            "mean": 4.800000071525574,
+            "p50": 4.800000071525574,
+            "p95": 4.800000071525574,
+            "percentile_method": "nearest rank",
+            "unit": "milliseconds"
+          }
+        }
+      },
+      "unit": "see value and method",
+      "reason": "Supplemental probe has UI-ready duration only, not equivalent SSE completion measurement.",
+      "sample_count": 5,
+      "population": "This synthetic acceptance workload only",
+      "method": "Fetch invocation to complete SSE event, after persistence. Scope-error response stays separate from model answers.",
+      "aggregation": "mean/P50/P95 nearest rank, grouped by response type",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "Stage latency": {
+      "status": "measured",
+      "value": [
+        {
+          "id": "weekday",
+          "retrieval": {
+            "scope_seconds": 0.0030741658993065357,
+            "retrieval_seconds": 0.8403428340097889,
+            "embedding_seconds": 0.43759204202797264,
+            "rerank_seconds": 0.3866018339758739,
+            "packing_seconds": 0.00009087508078664541
+          },
+          "planned_queries": []
+        },
+        {
+          "id": "followup",
+          "retrieval": {
+            "scope_seconds": 0.0009464999893680215,
+            "retrieval_seconds": 0.3532548329094425,
+            "embedding_seconds": 0.25279508298262954,
+            "rerank_seconds": 0.09300724999047816,
+            "packing_seconds": 0.00008866703137755394
+          },
+          "planned_queries": []
+        },
+        {
+          "id": "markdown",
+          "retrieval": {
+            "scope_seconds": 0.0029779589967802167,
+            "retrieval_seconds": 1.6851007089717314,
+            "embedding_seconds": 1.5313028750242665,
+            "rerank_seconds": 0.14135649998206645,
+            "packing_seconds": 0.00012758409138768911
+          },
+          "planned_queries": []
+        },
+        {
+          "id": "pdf-planned",
+          "retrieval": {
+            "retrieval_seconds": 0.6345682488754392,
+            "packing_seconds": 0.0002512920182198286
+          },
+          "planned_queries": [
+            {
+              "query_ids": [
+                "Q1"
+              ],
+              "total_seconds": 0.2930307079805061,
+              "scope_seconds": 0.0015469579957425594,
+              "retrieval_seconds": 0.2930307079805061,
+              "embedding_seconds": 0.18703787494450808,
+              "rerank_seconds": 0.10194175003562123
+            },
+            {
+              "query_ids": [
+                "Q2"
+              ],
+              "total_seconds": 0.3318997910246253,
+              "scope_seconds": 0.001242334023118019,
+              "retrieval_seconds": 0.3318997910246253,
+              "embedding_seconds": 0.20292104210238904,
+              "rerank_seconds": 0.12535958306398243
+            }
+          ]
+        },
+        {
+          "id": "unanswerable",
+          "retrieval": {
+            "scope_seconds": 0.000851707998663187,
+            "retrieval_seconds": 0.001441334025003016
+          },
+          "planned_queries": []
+        },
+        {
+          "id": "generic-source-answerable",
+          "retrieval": {
+            "scope_seconds": 0.0035145420115441084,
+            "retrieval_seconds": 0.005192709038965404
+          },
+          "planned_queries": []
+        },
+        {
+          "id": "explicit-source-unanswerable",
+          "retrieval": {
+            "scope_seconds": 0.001403458067215979,
+            "retrieval_seconds": 0.6293181250803173,
+            "embedding_seconds": 0.523407708038576,
+            "rerank_seconds": 0.10135274997446686,
+            "packing_seconds": 0.00007595797069370747
+          },
+          "planned_queries": []
+        }
+      ],
+      "unit": "see value and method",
+      "reason": "Search/fusion are not timed separately by the application; provider generation-only time and queue separation unavailable. Do not sum duplicated retained trace snapshots.",
+      "sample_count": 7,
+      "population": "This synthetic acceptance workload only",
+      "method": "Recorded application diagnostic stage boundaries in seconds, plus final planned-trace per-query times.",
+      "aggregation": "raw per-case values",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "Token usage and cost": {
+      "status": "measured",
+      "value": {
+        "recorded_structured_calls": {
+          "resp_02e83d36cf73e91c006abeb815003887d29de881c7858f4ea1": {
+            "model": "gpt-4.1-2025-04-14",
+            "usage": {
+              "input_tokens": 1762,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 205,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 1967
+            },
+            "billed_cost": null,
+            "billed_cost_status": "unavailable",
+            "seconds": 4.758705125073902
+          },
+          "resp_08a1aaded733e93d006abeb81d241487d2bf92c4dad35f23e6": {
+            "model": "gpt-4.1-2025-04-14",
+            "usage": {
+              "input_tokens": 727,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 67,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 794
+            },
+            "billed_cost": null,
+            "billed_cost_status": "unavailable",
+            "seconds": 1.6559564580675215
+          },
+          "resp_0bb2ee3429b68bda006abeb819fb8487d2a5784a6096862077": {
+            "model": "gpt-4.1-2025-04-14",
+            "usage": {
+              "input_tokens": 1537,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 189,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 1726
+            },
+            "billed_cost": null,
+            "billed_cost_status": "unavailable",
+            "seconds": 3.154685416026041
+          },
+          "resp_029bcf1fd85741ea006abeb81f26dc87d29d3a71a6bc78a668": {
+            "model": "gpt-4.1-2025-04-14",
+            "usage": {
+              "input_tokens": 1727,
+              "input_tokens_details": {
+                "cache_write_tokens": 0,
+                "cached_tokens": 0
+              },
+              "output_tokens": 58,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 1785
+            },
+            "billed_cost": null,
+            "billed_cost_status": "unavailable",
+            "seconds": 0.9536668749060482
+          }
+        },
+        "evidence_tokens": [
+          {
+            "id": "weekday",
+            "tokens": 72
+          },
+          {
+            "id": "followup",
+            "tokens": 72
+          },
+          {
+            "id": "markdown",
+            "tokens": 125
+          },
+          {
+            "id": "pdf-planned",
+            "tokens": 349
+          },
+          {
+            "id": "unanswerable",
+            "tokens": 0
+          },
+          {
+            "id": "generic-source-answerable",
+            "tokens": 0
+          },
+          {
+            "id": "explicit-source-unanswerable",
+            "tokens": 72
+          }
+        ],
+        "answer_embedding_usage": {
+          "status": "unavailable",
+          "reason": "Production answer and embedding clients do not expose usage in HTTP/history records."
+        },
+        "billed_cost": {
+          "status": "unavailable",
+          "reason": "No billing figures returned in saved records."
+        },
+        "local_reranking": "Local MPS compute, not a paid reranking API call."
+      },
+      "unit": "see value and method",
+      "reason": "Only structured planning/binding/assessment usage is available; this is not total request token usage or a cost estimate.",
+      "sample_count": 4,
+      "population": "This synthetic acceptance workload only",
+      "method": "Deduplicate structured-call usage by response_id; keep source records and requested/resolved model IDs.",
+      "aggregation": "none",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "Reliability": {
+      "status": "measured",
+      "value": {
+        "stream_attempts": 9,
+        "completed_persisted_exchanges": 8,
+        "intentional_cancellations": 1,
+        "server_error_responses": 0,
+        "browser_page_errors": 0,
+        "unique_semantic_cases_passed": 5,
+        "unique_semantic_cases_failed": 2,
+        "test_harness_failures": 1,
+        "sdk_retries": {
+          "status": "unavailable",
+          "reason": "Configured maximum is 2; individual retries are not emitted by the application."
+        }
+      },
+      "unit": "see value and method",
+      "reason": "One failed harness attempt produced a duplicate scope-error exchange; retained in final storage and excluded from unique-question scoring.",
+      "sample_count": 9,
+      "population": "This synthetic acceptance workload only",
+      "method": "Server access log, persisted snapshots, browser events and all command attempts. HTTP 200/completed is distinct from answer correctness.",
+      "aggregation": "none",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "Concurrency and throughput": {
+      "status": "unavailable",
+      "value": null,
+      "unit": null,
+      "reason": "Sequential browser interaction at concurrency 1; deliberate UI pauses and inspection make this unsuitable as a throughput or load-capacity benchmark.",
+      "sample_count": 1,
+      "population": "This synthetic acceptance workload only",
+      "method": "not measured",
+      "aggregation": "none",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    },
+    "Ingestion and index": {
+      "status": "measured",
+      "value": {
+        "uploads": [
+          {
+            "file_name": "cedar-hours.txt",
+            "ui_ready_ms": 2356
+          },
+          {
+            "file_name": "cedar-access.md",
+            "ui_ready_ms": 807
+          },
+          {
+            "file_name": "assignment.pdf",
+            "ui_ready_ms": 2803
+          },
+          {
+            "file_name": "laboratory-register.pdf",
+            "ui_ready_ms": 792
+          }
+        ],
+        "initial_index_and_db_bytes": 1140391,
+        "final_index_and_db_bytes": 1138596,
+        "original_file_count": 4,
+        "final_file_count": 3,
+        "deleted_original_http_status": 404,
+        "historical_sources_preserved": true,
+        "updates": {
+          "status": "not_applicable",
+          "reason": "No document update feature exercised."
+        }
+      },
+      "unit": "see value and method",
+      "reason": "Size includes database, Chroma files and PDF originals; history grows during the run, so before/after byte difference is not a deletion-efficiency metric. First PDF ingestion includes lazy model startup.",
+      "sample_count": 4,
+      "population": "This synthetic acceptance workload only",
+      "method": "File chooser action to Ready UI; read-only SQLite snapshots and directory byte totals.",
+      "aggregation": "none",
+      "artifact": "measurement.json; review.json; raw answer/stream/storage artifacts"
+    }
+  },
+  "ranking_rows": [
+    {
+      "stage": "candidate_fusion_per_query",
+      "question": "weekday",
+      "documents": [
+        "cedar-hours.txt"
+      ],
+      "relevant": [
+        "cedar-hours.txt"
+      ],
+      "K": 5,
+      "recall": 1,
+      "precision": 0.2,
+      "hit_rate": 1,
+      "mrr": 1,
+      "ndcg": 1
+    },
+    {
+      "stage": "reranking_per_query",
+      "question": "weekday",
+      "documents": [
+        "cedar-hours.txt"
+      ],
+      "relevant": [
+        "cedar-hours.txt"
+      ],
+      "K": 5,
+      "recall": 1,
+      "precision": 0.2,
+      "hit_rate": 1,
+      "mrr": 1,
+      "ndcg": 1
+    },
+    {
+      "stage": "final_supplied_documents_per_answer",
+      "question": "weekday",
+      "documents": [
+        "cedar-hours.txt"
+      ],
+      "relevant": [
+        "cedar-hours.txt"
+      ],
+      "K": 5,
+      "recall": 1,
+      "precision": 0.2,
+      "hit_rate": 1,
+      "mrr": 1,
+      "ndcg": 1
+    },
+    {
+      "stage": "candidate_fusion_per_query",
+      "question": "followup",
+      "documents": [
+        "cedar-hours.txt"
+      ],
+      "relevant": [
+        "cedar-hours.txt"
+      ],
+      "K": 5,
+      "recall": 1,
+      "precision": 0.2,
+      "hit_rate": 1,
+      "mrr": 1,
+      "ndcg": 1
+    },
+    {
+      "stage": "reranking_per_query",
+      "question": "followup",
+      "documents": [
+        "cedar-hours.txt"
+      ],
+      "relevant": [
+        "cedar-hours.txt"
+      ],
+      "K": 5,
+      "recall": 1,
+      "precision": 0.2,
+      "hit_rate": 1,
+      "mrr": 1,
+      "ndcg": 1
+    },
+    {
+      "stage": "final_supplied_documents_per_answer",
+      "question": "followup",
+      "documents": [
+        "cedar-hours.txt"
+      ],
+      "relevant": [
+        "cedar-hours.txt"
+      ],
+      "K": 5,
+      "recall": 1,
+      "precision": 0.2,
+      "hit_rate": 1,
+      "mrr": 1,
+      "ndcg": 1
+    },
+    {
+      "stage": "candidate_fusion_per_query",
+      "question": "markdown",
+      "documents": [
+        "cedar-access.md"
+      ],
+      "relevant": [
+        "cedar-access.md"
+      ],
+      "K": 5,
+      "recall": 1,
+      "precision": 0.2,
+      "hit_rate": 1,
+      "mrr": 1,
+      "ndcg": 1
+    },
+    {
+      "stage": "reranking_per_query",
+      "question": "markdown",
+      "documents": [
+        "cedar-access.md"
+      ],
+      "relevant": [
+        "cedar-access.md"
+      ],
+      "K": 5,
+      "recall": 1,
+      "precision": 0.2,
+      "hit_rate": 1,
+      "mrr": 1,
+      "ndcg": 1
+    },
+    {
+      "stage": "final_supplied_documents_per_answer",
+      "question": "markdown",
+      "documents": [
+        "cedar-access.md"
+      ],
+      "relevant": [
+        "cedar-access.md"
+      ],
+      "K": 5,
+      "recall": 1,
+      "precision": 0.2,
+      "hit_rate": 1,
+      "mrr": 1,
+      "ndcg": 1
+    },
+    {
+      "stage": "candidate_fusion_per_query",
+      "question": "pdf-planned:Q1",
+      "documents": [
+        "assignment.pdf"
+      ],
+      "relevant": [
+        "assignment.pdf"
+      ],
+      "K": 5,
+      "recall": 1,
+      "precision": 0.2,
+      "hit_rate": 1,
+      "mrr": 1,
+      "ndcg": 1
+    },
+    {
+      "stage": "reranking_per_query",
+      "question": "pdf-planned:Q1",
+      "documents": [
+        "assignment.pdf"
+      ],
+      "relevant": [
+        "assignment.pdf"
+      ],
+      "K": 5,
+      "recall": 1,
+      "precision": 0.2,
+      "hit_rate": 1,
+      "mrr": 1,
+      "ndcg": 1
+    },
+    {
+      "stage": "candidate_fusion_per_query",
+      "question": "pdf-planned:Q2",
+      "documents": [
+        "laboratory-register.pdf"
+      ],
+      "relevant": [
+        "laboratory-register.pdf"
+      ],
+      "K": 5,
+      "recall": 1,
+      "precision": 0.2,
+      "hit_rate": 1,
+      "mrr": 1,
+      "ndcg": 1
+    },
+    {
+      "stage": "reranking_per_query",
+      "question": "pdf-planned:Q2",
+      "documents": [
+        "laboratory-register.pdf"
+      ],
+      "relevant": [
+        "laboratory-register.pdf"
+      ],
+      "K": 5,
+      "recall": 1,
+      "precision": 0.2,
+      "hit_rate": 1,
+      "mrr": 1,
+      "ndcg": 1
+    },
+    {
+      "stage": "final_supplied_documents_per_answer",
+      "question": "pdf-planned",
+      "documents": [
+        "assignment.pdf",
+        "laboratory-register.pdf"
+      ],
+      "relevant": [
+        "assignment.pdf",
+        "laboratory-register.pdf"
+      ],
+      "K": 5,
+      "recall": 1,
+      "precision": 0.4,
+      "hit_rate": 1,
+      "mrr": 1,
+      "ndcg": 1
+    },
+    {
+      "stage": "candidate_fusion_per_query",
+      "question": "generic-source-answerable",
+      "documents": [],
+      "relevant": [
+        "cedar-hours.txt"
+      ],
+      "K": 5,
+      "recall": 0,
+      "precision": 0,
+      "hit_rate": 0,
+      "mrr": 0,
+      "ndcg": 0
+    },
+    {
+      "stage": "reranking_per_query",
+      "question": "generic-source-answerable",
+      "documents": [],
+      "relevant": [
+        "cedar-hours.txt"
+      ],
+      "K": 5,
+      "recall": 0,
+      "precision": 0,
+      "hit_rate": 0,
+      "mrr": 0,
+      "ndcg": 0
+    },
+    {
+      "stage": "final_supplied_documents_per_answer",
+      "question": "generic-source-answerable",
+      "documents": [],
+      "relevant": [
+        "cedar-hours.txt"
+      ],
+      "K": 5,
+      "recall": 0,
+      "precision": 0,
+      "hit_rate": 0,
+      "mrr": 0,
+      "ndcg": 0
+    }
+  ],
+  "ranking_summary": {
+    "candidate_fusion_per_query": {
+      "sample_count": 6,
+      "recall": 0.8333333333333334,
+      "precision": 0.16666666666666666,
+      "hit_rate": 0.8333333333333334,
+      "mrr": 0.8333333333333334,
+      "ndcg": 0.8333333333333334
+    },
+    "reranking_per_query": {
+      "sample_count": 6,
+      "recall": 0.8333333333333334,
+      "precision": 0.16666666666666666,
+      "hit_rate": 0.8333333333333334,
+      "mrr": 0.8333333333333334,
+      "ndcg": 0.8333333333333334
+    },
+    "final_supplied_documents_per_answer": {
+      "sample_count": 5,
+      "recall": 0.8,
+      "precision": 0.2,
+      "hit_rate": 0.8,
+      "mrr": 0.8,
+      "ndcg": 0.8
+    }
+  },
+  "coverage": [
+    {
+      "id": "weekday",
+      "facts": [
+        {
+          "file": "cedar-hours.txt",
+          "quote": "Cedar Library closes at 5 PM Monday through Friday.",
+          "expected": "5 PM",
+          "covered": true
+        }
+      ]
+    },
+    {
+      "id": "followup",
+      "facts": [
+        {
+          "file": "cedar-hours.txt",
+          "quote": "Cedar Library closes at 7 PM on Saturday and Sunday.",
+          "expected": "7 PM",
+          "covered": true
+        }
+      ]
+    },
+    {
+      "id": "markdown",
+      "facts": [
+        {
+          "file": "cedar-access.md",
+          "quote": "Reserve the quiet room at least 24 hours in advance.",
+          "expected": "24 hours",
+          "covered": true
+        },
+        {
+          "file": "cedar-access.md",
+          "quote": "The quiet room is on the second floor.",
+          "expected": "second floor",
+          "covered": true
+        }
+      ]
+    },
+    {
+      "id": "pdf-planned",
+      "facts": [
+        {
+          "file": "assignment.pdf",
+          "quote": "Project Juniper was assigned to Quenwick Laboratory.",
+          "expected": "Quenwick Laboratory",
+          "covered": true
+        },
+        {
+          "file": "laboratory-register.pdf",
+          "quote": "Quenwick Laboratory: calibration interval is 17 days.",
+          "expected": "17 calendar days",
+          "covered": true
+        }
+      ]
+    },
+    {
+      "id": "generic-source-answerable",
+      "facts": [
+        {
+          "file": "cedar-hours.txt",
+          "quote": "Cedar Library closes at 5 PM Monday through Friday.",
+          "covered": false
+        }
+      ]
+    }
+  ],
+  "timings": [
+    {
+      "question": "According to cedar-hours.txt, when does Cedar Library close on weekdays? Answer briefly with a citation.",
+      "mode": "single",
+      "first_answer_delta_ms": 1513,
+      "complete_response_ms": 1983,
+      "outcome": "completed",
+      "type": "single_model_answer"
+    },
+    {
+      "question": "What about on Saturday?",
+      "mode": "single",
+      "first_answer_delta_ms": 3255.2000000476837,
+      "complete_response_ms": 3494.2000000476837,
+      "outcome": "completed",
+      "type": "single_model_answer"
+    },
+    {
+      "question": "According to cedar-access.md, how far in advance must I reserve the quiet room, and where is it?",
+      "mode": "single",
+      "first_answer_delta_ms": 4299.200000047684,
+      "complete_response_ms": 7233.900000095367,
+      "outcome": "completed",
+      "type": "single_model_answer"
+    },
+    {
+      "question": "Which laboratory was assigned to Project Juniper in \"assignment.pdf\", and what calibration interval does \"laboratory-register.pdf\" specify for that laboratory?",
+      "mode": "planned",
+      "first_answer_delta_ms": 11720.5,
+      "complete_response_ms": 13059.399999976158,
+      "outcome": "completed",
+      "type": "planned_model_answer"
+    },
+    {
+      "question": "According to cedar-hours.txt, write forty numbered visitor reminders using only its hours and library-card requirement. Cite the document in each item.",
+      "mode": "single",
+      "first_answer_delta_ms": 2429,
+      "complete_response_ms": null,
+      "outcome": "cancelled_by_test",
+      "type": "single_model_answer"
+    },
+    {
+      "question": "Using only my uploaded documents, what is the exact secret PIN of my personal Cedar Library account?",
+      "mode": "single",
+      "first_answer_delta_ms": 3.100000023841858,
+      "complete_response_ms": 4.800000071525574,
+      "outcome": "completed",
+      "type": "scope_error_response"
+    }
+  ],
+  "timing_summary": {
+    "single_model_answer": {
+      "first_answer_delta": {
+        "sample_count": 3,
+        "mean": 3022.466666698456,
+        "p50": 3255.2000000476837,
+        "p95": 4299.200000047684,
+        "percentile_method": "nearest rank",
+        "unit": "milliseconds"
+      },
+      "complete_response": {
+        "sample_count": 3,
+        "mean": 4237.033333381017,
+        "p50": 3494.2000000476837,
+        "p95": 7233.900000095367,
+        "percentile_method": "nearest rank",
+        "unit": "milliseconds"
+      }
+    },
+    "planned_model_answer": {
+      "first_answer_delta": {
+        "sample_count": 1,
+        "mean": 11720.5,
+        "p50": 11720.5,
+        "p95": 11720.5,
+        "percentile_method": "nearest rank",
+        "unit": "milliseconds"
+      },
+      "complete_response": {
+        "sample_count": 1,
+        "mean": 13059.399999976158,
+        "p50": 13059.399999976158,
+        "p95": 13059.399999976158,
+        "percentile_method": "nearest rank",
+        "unit": "milliseconds"
+      }
+    },
+    "scope_error_response": {
+      "first_answer_delta": {
+        "sample_count": 1,
+        "mean": 3.100000023841858,
+        "p50": 3.100000023841858,
+        "p95": 3.100000023841858,
+        "percentile_method": "nearest rank",
+        "unit": "milliseconds"
+      },
+      "complete_response": {
+        "sample_count": 1,
+        "mean": 4.800000071525574,
+        "p50": 4.800000071525574,
+        "p95": 4.800000071525574,
+        "percentile_method": "nearest rank",
+        "unit": "milliseconds"
+      }
+    }
+  },
+  "stage_timings": [
+    {
+      "id": "weekday",
+      "retrieval": {
+        "scope_seconds": 0.0030741658993065357,
+        "retrieval_seconds": 0.8403428340097889,
+        "embedding_seconds": 0.43759204202797264,
+        "rerank_seconds": 0.3866018339758739,
+        "packing_seconds": 0.00009087508078664541
+      },
+      "planned_queries": []
+    },
+    {
+      "id": "followup",
+      "retrieval": {
+        "scope_seconds": 0.0009464999893680215,
+        "retrieval_seconds": 0.3532548329094425,
+        "embedding_seconds": 0.25279508298262954,
+        "rerank_seconds": 0.09300724999047816,
+        "packing_seconds": 0.00008866703137755394
+      },
+      "planned_queries": []
+    },
+    {
+      "id": "markdown",
+      "retrieval": {
+        "scope_seconds": 0.0029779589967802167,
+        "retrieval_seconds": 1.6851007089717314,
+        "embedding_seconds": 1.5313028750242665,
+        "rerank_seconds": 0.14135649998206645,
+        "packing_seconds": 0.00012758409138768911
+      },
+      "planned_queries": []
+    },
+    {
+      "id": "pdf-planned",
+      "retrieval": {
+        "retrieval_seconds": 0.6345682488754392,
+        "packing_seconds": 0.0002512920182198286
+      },
+      "planned_queries": [
+        {
+          "query_ids": [
+            "Q1"
+          ],
+          "total_seconds": 0.2930307079805061,
+          "scope_seconds": 0.0015469579957425594,
+          "retrieval_seconds": 0.2930307079805061,
+          "embedding_seconds": 0.18703787494450808,
+          "rerank_seconds": 0.10194175003562123
+        },
+        {
+          "query_ids": [
+            "Q2"
+          ],
+          "total_seconds": 0.3318997910246253,
+          "scope_seconds": 0.001242334023118019,
+          "retrieval_seconds": 0.3318997910246253,
+          "embedding_seconds": 0.20292104210238904,
+          "rerank_seconds": 0.12535958306398243
+        }
+      ]
+    },
+    {
+      "id": "unanswerable",
+      "retrieval": {
+        "scope_seconds": 0.000851707998663187,
+        "retrieval_seconds": 0.001441334025003016
+      },
+      "planned_queries": []
+    },
+    {
+      "id": "generic-source-answerable",
+      "retrieval": {
+        "scope_seconds": 0.0035145420115441084,
+        "retrieval_seconds": 0.005192709038965404
+      },
+      "planned_queries": []
+    },
+    {
+      "id": "explicit-source-unanswerable",
+      "retrieval": {
+        "scope_seconds": 0.001403458067215979,
+        "retrieval_seconds": 0.6293181250803173,
+        "embedding_seconds": 0.523407708038576,
+        "rerank_seconds": 0.10135274997446686,
+        "packing_seconds": 0.00007595797069370747
+      },
+      "planned_queries": []
+    }
+  ],
+  "model_resolution": {
+    "answer": "Requested gpt-4.1; exact answer response revision not retained.",
+    "embedding": "Requested text-embedding-3-small; exact response revision not retained.",
+    "structured_calls": [
+      "gpt-4.1-2025-04-14",
+      "gpt-4.1-2025-04-14",
+      "gpt-4.1-2025-04-14",
+      "gpt-4.1-2025-04-14"
+    ],
+    "reranker": {
+      "question": "According to cedar-hours.txt, when does Cedar Library close on weekdays? Answer briefly with a citation.",
+      "model": "BAAI/bge-reranker-v2-m3",
+      "prompt_version": "cross-encoder-pairs-v1",
+      "score_kind": "logit",
+      "model_revision": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+      "device": "mps",
+      "max_pair_tokens": 1024,
+      "batch_size": 4,
+      "tokenizer": "cl100k_base",
+      "input_tokens": 59,
+      "candidate_limit": 20,
+      "max_input_tokens": 16384,
+      "top_k": 5,
+      "candidates": [
+        {
+          "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+          "rrf_score": 0.03278688524590164,
+          "rank": 1,
+          "bm25_score": 1.2266004847394611,
+          "bm25_rank": 1,
+          "vector_distance": 0.2420780062675476,
+          "vector_rank": 1,
+          "text": "Cedar Library visitor guide.\nCedar Library closes at 5 PM Monday through Friday.\nCedar Library closes at 7 PM on Saturday and Sunday.\nVisitors must bring their library card.\n",
+          "heading_path": [],
+          "scoring_parent_id": null
+        }
+      ],
+      "matches": [
+        {
+          "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+          "rrf_score": 0.03278688524590164,
+          "rank": 1,
+          "bm25_score": 1.2266004847394611,
+          "bm25_rank": 1,
+          "vector_distance": 0.2420780062675476,
+          "vector_rank": 1,
+          "rerank_score": 3.5943682193756104,
+          "rerank_rank": 1,
+          "score_kind": "logit",
+          "scoring_parent_id": null
+        }
+      ]
+    }
+  },
+  "limits": [
+    "Synthetic small corpus; no general RAG quality or load-capacity claim.",
+    "No live before/after baseline on the pre-refactor commit; prior offline equality is a separate record.",
+    "Original protocol regex smoke check accepted a generic-scope refusal; semantic review overrides that as a failure without rewriting raw artifacts.",
+    "All attempts remain, including the first supplemental capture failure."
+  ]
+}

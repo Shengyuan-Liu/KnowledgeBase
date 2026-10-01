@@ -1,0 +1,206 @@
+{
+  "status": "measured",
+  "note": "Companion to measurement.json; separate response types and pipeline stages. Planned top-level and query values overlap and must not be added together. Ingestion includes first PDF lazy model startup; query stages exclude process startup. Queue waiting is included in stage time where performed inside the recorded call.",
+  "groups": {
+    "single_retrieval": {
+      "scope_seconds": {
+        "sample_count": 4,
+        "mean": 0.0021005207381676883,
+        "p50": 0.001403458067215979,
+        "p95": 0.0030741658993065357,
+        "unit": "seconds",
+        "percentile_method": "nearest rank",
+        "raw_values": [
+          0.0030741658993065357,
+          0.0009464999893680215,
+          0.0029779589967802167,
+          0.001403458067215979
+        ]
+      },
+      "retrieval_seconds": {
+        "sample_count": 4,
+        "mean": 0.87700412524282,
+        "p50": 0.6293181250803173,
+        "p95": 1.6851007089717314,
+        "unit": "seconds",
+        "percentile_method": "nearest rank",
+        "raw_values": [
+          0.8403428340097889,
+          0.3532548329094425,
+          1.6851007089717314,
+          0.6293181250803173
+        ]
+      },
+      "embedding_seconds": {
+        "sample_count": 4,
+        "mean": 0.6862744270183612,
+        "p50": 0.43759204202797264,
+        "p95": 1.5313028750242665,
+        "unit": "seconds",
+        "percentile_method": "nearest rank",
+        "raw_values": [
+          0.43759204202797264,
+          0.25279508298262954,
+          1.5313028750242665,
+          0.523407708038576
+        ]
+      },
+      "rerank_seconds": {
+        "sample_count": 4,
+        "mean": 0.18057958348072134,
+        "p50": 0.10135274997446686,
+        "p95": 0.3866018339758739,
+        "unit": "seconds",
+        "percentile_method": "nearest rank",
+        "raw_values": [
+          0.3866018339758739,
+          0.09300724999047816,
+          0.14135649998206645,
+          0.10135274997446686
+        ]
+      },
+      "packing_seconds": {
+        "sample_count": 4,
+        "mean": 0.00009577104356139898,
+        "p50": 0.00008866703137755394,
+        "p95": 0.00012758409138768911,
+        "unit": "seconds",
+        "percentile_method": "nearest rank",
+        "raw_values": [
+          0.00009087508078664541,
+          0.00008866703137755394,
+          0.00012758409138768911,
+          0.00007595797069370747
+        ]
+      }
+    },
+    "planned_answer_top_level": {
+      "retrieval_seconds": {
+        "sample_count": 1,
+        "mean": 0.6345682488754392,
+        "p50": 0.6345682488754392,
+        "p95": 0.6345682488754392,
+        "unit": "seconds",
+        "percentile_method": "nearest rank",
+        "raw_values": [
+          0.6345682488754392
+        ]
+      },
+      "packing_seconds": {
+        "sample_count": 1,
+        "mean": 0.0002512920182198286,
+        "p50": 0.0002512920182198286,
+        "p95": 0.0002512920182198286,
+        "unit": "seconds",
+        "percentile_method": "nearest rank",
+        "raw_values": [
+          0.0002512920182198286
+        ]
+      }
+    },
+    "planned_subqueries": {
+      "total_seconds": {
+        "sample_count": 2,
+        "mean": 0.3124652495025657,
+        "p50": 0.2930307079805061,
+        "p95": 0.3318997910246253,
+        "unit": "seconds",
+        "percentile_method": "nearest rank",
+        "raw_values": [
+          0.2930307079805061,
+          0.3318997910246253
+        ]
+      },
+      "scope_seconds": {
+        "sample_count": 2,
+        "mean": 0.0013946460094302893,
+        "p50": 0.001242334023118019,
+        "p95": 0.0015469579957425594,
+        "unit": "seconds",
+        "percentile_method": "nearest rank",
+        "raw_values": [
+          0.0015469579957425594,
+          0.001242334023118019
+        ]
+      },
+      "retrieval_seconds": {
+        "sample_count": 2,
+        "mean": 0.3124652495025657,
+        "p50": 0.2930307079805061,
+        "p95": 0.3318997910246253,
+        "unit": "seconds",
+        "percentile_method": "nearest rank",
+        "raw_values": [
+          0.2930307079805061,
+          0.3318997910246253
+        ]
+      },
+      "embedding_seconds": {
+        "sample_count": 2,
+        "mean": 0.19497945852344856,
+        "p50": 0.18703787494450808,
+        "p95": 0.20292104210238904,
+        "unit": "seconds",
+        "percentile_method": "nearest rank",
+        "raw_values": [
+          0.18703787494450808,
+          0.20292104210238904
+        ]
+      },
+      "rerank_seconds": {
+        "sample_count": 2,
+        "mean": 0.11365066654980183,
+        "p50": 0.10194175003562123,
+        "p95": 0.12535958306398243,
+        "unit": "seconds",
+        "percentile_method": "nearest rank",
+        "raw_values": [
+          0.10194175003562123,
+          0.12535958306398243
+        ]
+      }
+    },
+    "scope_error_responses": {
+      "scope_seconds": {
+        "sample_count": 2,
+        "mean": 0.0021831250051036477,
+        "p50": 0.000851707998663187,
+        "p95": 0.0035145420115441084,
+        "unit": "seconds",
+        "percentile_method": "nearest rank",
+        "raw_values": [
+          0.000851707998663187,
+          0.0035145420115441084
+        ]
+      },
+      "retrieval_seconds": {
+        "sample_count": 2,
+        "mean": 0.00331702153198421,
+        "p50": 0.001441334025003016,
+        "p95": 0.005192709038965404,
+        "unit": "seconds",
+        "percentile_method": "nearest rank",
+        "raw_values": [
+          0.001441334025003016,
+          0.005192709038965404
+        ]
+      }
+    },
+    "ingestion": {
+      "ui_upload_to_ready_seconds": {
+        "sample_count": 4,
+        "mean": 1.6894999999999998,
+        "p50": 0.807,
+        "p95": 2.803,
+        "unit": "seconds",
+        "percentile_method": "nearest rank",
+        "raw_values": [
+          2.356,
+          0.807,
+          2.803,
+          0.792
+        ]
+      }
+    }
+  }
+}

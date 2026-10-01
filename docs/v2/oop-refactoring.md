@@ -231,6 +231,13 @@ Record documentation-only reviews in the commit message or a check record.
   warnings remain visible in the logs.
 - Merge: not authorized.
 
+Follow-up [real-browser verification](../../evals/browser-runs/20261001-oop-live-browser-1/README.md)
+used Chrome and the configured real providers. Uploads, citations, two-round PDF
+retrieval, history, cancellation and deletion worked. A generic source phrase,
+`my uploaded documents`, caused a false missing-file response even for an
+answerable question. The unchanged source-scope parser remains a known defect;
+the report retains this failure, timing observations and measurement limitations.
+
 | Stage | Implementation commit |
 | --- | --- |
 | Plan | `d5a1cde` |

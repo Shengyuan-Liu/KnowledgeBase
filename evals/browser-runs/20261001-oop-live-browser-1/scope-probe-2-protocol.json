@@ -1,0 +1,23 @@
+{
+  "frozen_at": "2026-10-01T19:46:52.406Z",
+  "purpose": "Follow up observed source-scope misinterpretation; keep original workflow and scores unchanged.",
+  "cases": [
+    {
+      "id": "generic-source-answerable",
+      "question": "Using only my uploaded documents, when does Cedar Library close on weekdays?",
+      "expected": "5 PM with a supported citation",
+      "gold": [
+        {
+          "file": "cedar-hours.txt",
+          "quote": "Cedar Library closes at 5 PM Monday through Friday."
+        }
+      ]
+    },
+    {
+      "id": "explicit-source-unanswerable",
+      "question": "According to cedar-hours.txt, what is the exact secret PIN of my personal Cedar Library account?",
+      "expected": "Explain that the document does not provide the PIN; do not invent one.",
+      "gold": []
+    }
+  ]
+}

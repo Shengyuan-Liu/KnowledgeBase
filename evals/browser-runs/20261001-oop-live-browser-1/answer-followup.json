@@ -1,0 +1,227 @@
+{
+  "id": "followup",
+  "question": "What about on Saturday?",
+  "gold": [
+    {
+      "file": "cedar-hours.txt",
+      "quote": "Cedar Library closes at 7 PM on Saturday and Sunday.",
+      "expected": "7 PM"
+    }
+  ],
+  "ui_complete_ms": 3815,
+  "answer": {
+    "message_id": 4,
+    "conversation_id": "0c33f25d6e4a43a29089c1dce5d30c49",
+    "role": "assistant",
+    "content": "Cedar Library closes at 7 PM on Saturday [1].",
+    "created_at": "2026-10-01T19:44:12.885825",
+    "retrieval_question": "According to cedar-hours.txt, when does Cedar Library close on Saturday? Answer briefly with a citation.",
+    "sources": [
+      {
+        "distance": 0.231056809425354,
+        "fusion": {
+          "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+          "rrf_score": 0.03278688524590164,
+          "rank": 1,
+          "bm25_score": 1.514282557191242,
+          "bm25_rank": 1,
+          "vector_distance": 0.231056809425354,
+          "vector_rank": 1
+        },
+        "rerank": {
+          "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+          "rrf_score": 0.03278688524590164,
+          "rank": 1,
+          "bm25_score": 1.514282557191242,
+          "bm25_rank": 1,
+          "vector_distance": 0.231056809425354,
+          "vector_rank": 1,
+          "rerank_score": 4.669162750244141,
+          "rerank_rank": 1,
+          "score_kind": "logit",
+          "scoring_parent_id": null
+        },
+        "parent_id": "2dd0a98baa6749fda8b28cb201386fc4:parent:0",
+        "pdf": null,
+        "document_labels": [
+          "cedar-hours"
+        ],
+        "file_name": "cedar-hours.txt",
+        "matched_child_ids": [
+          "2dd0a98baa6749fda8b28cb201386fc4:child:0"
+        ],
+        "source_id": 1,
+        "file_id": "2dd0a98baa6749fda8b28cb201386fc4",
+        "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:parent:0",
+        "text": "Cedar Library visitor guide.\nCedar Library closes at 5 PM Monday through Friday.\nCedar Library closes at 7 PM on Saturday and Sunday.\nVisitors must bring their library card.\n",
+        "start_offset": 0,
+        "end_offset": 174,
+        "start_line": 1,
+        "end_line": 4,
+        "heading_path": [],
+        "source_block_indices": [
+          0
+        ],
+        "token_count": 39,
+        "tokenizer": "cl100k_base",
+        "max_tokens": 1536,
+        "file_deleted": false
+      }
+    ],
+    "citation_check": {
+      "valid_source_ids": [
+        1
+      ],
+      "invalid_source_ids": [],
+      "no_citations": false
+    },
+    "retrieval": {
+      "planning": null,
+      "document_scope": {
+        "status": "resolved",
+        "references": [
+          "cedar-hours.txt"
+        ],
+        "file_ids": [
+          "2dd0a98baa6749fda8b28cb201386fc4"
+        ],
+        "matches": [
+          {
+            "file_id": "2dd0a98baa6749fda8b28cb201386fc4",
+            "file_name": "cedar-hours.txt",
+            "labels": [
+              "cedar-hours"
+            ]
+          }
+        ],
+        "message": null
+      },
+      "scope_seconds": 0.0009464999893680215,
+      "retrieval_seconds": 0.3532548329094425,
+      "embedding_seconds": 0.25279508298262954,
+      "rerank": {
+        "question": "According to cedar-hours.txt, when does Cedar Library close on Saturday? Answer briefly with a citation.",
+        "model": "BAAI/bge-reranker-v2-m3",
+        "prompt_version": "cross-encoder-pairs-v1",
+        "score_kind": "logit",
+        "model_revision": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+        "device": "mps",
+        "max_pair_tokens": 1024,
+        "batch_size": 4,
+        "tokenizer": "cl100k_base",
+        "input_tokens": 59,
+        "candidate_limit": 20,
+        "max_input_tokens": 16384,
+        "top_k": 5,
+        "candidates": [
+          {
+            "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+            "rrf_score": 0.03278688524590164,
+            "rank": 1,
+            "bm25_score": 1.514282557191242,
+            "bm25_rank": 1,
+            "vector_distance": 0.231056809425354,
+            "vector_rank": 1,
+            "text": "Cedar Library visitor guide.\nCedar Library closes at 5 PM Monday through Friday.\nCedar Library closes at 7 PM on Saturday and Sunday.\nVisitors must bring their library card.\n",
+            "heading_path": [],
+            "scoring_parent_id": null
+          }
+        ],
+        "matches": [
+          {
+            "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+            "rrf_score": 0.03278688524590164,
+            "rank": 1,
+            "bm25_score": 1.514282557191242,
+            "bm25_rank": 1,
+            "vector_distance": 0.231056809425354,
+            "vector_rank": 1,
+            "rerank_score": 4.669162750244141,
+            "rerank_rank": 1,
+            "score_kind": "logit",
+            "scoring_parent_id": null
+          }
+        ]
+      },
+      "rerank_seconds": 0.09300724999047816,
+      "options": {
+        "strategy": "hybrid",
+        "packing_strategy": "parent_then_child",
+        "candidate_limit": 20,
+        "bm25_k1": 1.2,
+        "bm25_b": 0.75,
+        "rrf_k": 60,
+        "rerank_enabled": true,
+        "rerank_unit": "child",
+        "rerank_candidate_limit": 20,
+        "rerank_max_input_tokens": 16384
+      },
+      "top_k": 5,
+      "vector_matches": [
+        {
+          "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+          "distance": 0.231056809425354
+        }
+      ],
+      "bm25_matches": [
+        {
+          "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+          "score": 1.514282557191242,
+          "rank": 1
+        }
+      ],
+      "fused_matches": [
+        {
+          "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+          "rrf_score": 0.03278688524590164,
+          "rank": 1,
+          "bm25_score": 1.514282557191242,
+          "bm25_rank": 1,
+          "vector_distance": 0.231056809425354,
+          "vector_rank": 1
+        }
+      ],
+      "candidates": [
+        {
+          "distance": 0.231056809425354,
+          "fusion": {
+            "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+            "rrf_score": 0.03278688524590164,
+            "rank": 1,
+            "bm25_score": 1.514282557191242,
+            "bm25_rank": 1,
+            "vector_distance": 0.231056809425354,
+            "vector_rank": 1
+          },
+          "rerank": {
+            "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+            "rrf_score": 0.03278688524590164,
+            "rank": 1,
+            "bm25_score": 1.514282557191242,
+            "bm25_rank": 1,
+            "vector_distance": 0.231056809425354,
+            "vector_rank": 1,
+            "rerank_score": 4.669162750244141,
+            "rerank_rank": 1,
+            "score_kind": "logit",
+            "scoring_parent_id": null
+          },
+          "parent_id": "2dd0a98baa6749fda8b28cb201386fc4:parent:0",
+          "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+          "file_id": "2dd0a98baa6749fda8b28cb201386fc4",
+          "text": "Cedar Library visitor guide.\nCedar Library closes at 5 PM Monday through Friday.\nCedar Library closes at 7 PM on Saturday and Sunday.\nVisitors must bring their library card.\n",
+          "start_offset": 0,
+          "end_offset": 174
+        }
+      ],
+      "excluded": [],
+      "unexpanded_parents": [],
+      "packing_seconds": 0.00008866703137755394,
+      "context_format": "source-metadata-v2",
+      "evidence_tokens": 72,
+      "max_tokens": 4096,
+      "tokenizer": "cl100k_base"
+    }
+  },
+  "conversation_id": "0c33f25d6e4a43a29089c1dce5d30c49"
+}
