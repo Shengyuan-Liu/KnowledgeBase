@@ -104,6 +104,8 @@ def test_three_hops_bind_exact_targets_and_persist_final_context(hop_api):
     assert [s["file_name"] for s in answer["sources"]] == ["award.txt", "staff.txt", "place.txt"]
     assert all(s["references_in_final_context"] for s in hops["dependencies"])
     assert all("Oslo" not in json.dumps(p) for p in bindings)
+    assert bindings[0]["pending_queries"][0]["prerequisite_queries"] == ["Aster Prize winner"]
+    assert bindings[1]["pending_queries"][0]["prerequisite_queries"] == ["Who employs Mira Cole?"]
     generation = sdk.responses.create.call_args.kwargs["input"][0]["content"]
     assert planning["context"] in generation and "query_template" not in generation
     assert "The Aster Prize winner is Mira Cole." in hops["dependencies"][0]["references"][0]["quote"]

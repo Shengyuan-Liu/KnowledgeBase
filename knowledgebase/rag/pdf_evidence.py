@@ -1,6 +1,7 @@
 """Locate PDF evidence and retain separately cited table context before packing."""
 
 import json
+import re
 
 from knowledgebase.rag.pdf_models import PdfBlock, PdfExtraction, PdfTable
 from knowledgebase.schemas import PdfEvidence, PdfSupplement, PdfTableSpan
@@ -32,9 +33,25 @@ def _preceding_table_text(extraction: PdfExtraction, index: int) -> PdfBlock | N
     return None
 
 
-def _table_reading(table: PdfTable, start: int, end: int) -> str:
+def _continuation_origin(extraction: PdfExtraction, index: int) -> int:
+    """Locate the header before an adjacent currency-row table continuation."""
+    if index == 0:
+        return index
+    previous, current = extraction.blocks[index - 1:index + 1]
+    headers = [c for c in current.table.cells if c.column_header and c.text.strip()]
+    if (previous.table is not None and previous.heading_path == current.heading_path
+            and previous.table.columns == current.table.columns
+            and {r.page_index for r in current.regions} == {r.page_index + 1 for r in previous.regions}
+            and headers and all(re.fullmatch(r"\$\s*[\d,]+(?:\.\d+)?", c.text.strip()) for c in headers)
+            and any(c.column_header for c in previous.table.cells)):
+        return index - 1
+    return index
+
+
+def _table_reading(table: PdfTable, start: int, end: int, header_cells=None) -> str:
     """Bind complete supplied cells to their row labels and parent/leaf headers."""
-    headers = sorted((c for c in table.cells if c.column_header and c.text.strip()
+    headers = sorted((c for c in (header_cells if header_cells is not None else table.cells)
+                      if c.column_header and c.text.strip()
                       and (table.columns == 1 or c.column_end - c.column_start < table.columns)),
                      key=lambda c: (c.row_start, c.column_start))
     rows = {}
@@ -70,11 +87,18 @@ def pdf_evidence(extraction: PdfExtraction, start: int, end: int) -> PdfEvidence
         if block.table is None or block.end_offset <= start or end <= block.start_offset:
             continue
         table = block.table
+        origin = _continuation_origin(extraction, index)
+        header_cells = [c for c in extraction.blocks[origin].table.cells if c.column_header]
+        if origin != index:
+            # Only the derived reading changes; canonical extraction stays immutable.
+            table = table.model_copy(update={"cells": tuple(c.model_copy(update={
+                "column_header": False, "row_header": c.column_start == 0,
+            }) for c in table.cells)})
         selected = [c for c in table.cells if c.start_offset < end and start < c.end_offset]
         # Include coordinates for supplied body cells and any separately supplied headers.
-        context_cells = [c for c in table.cells if c.column_header or (
+        context_cells = [*header_cells, *[c for c in table.cells if (
             c.row_header and any(c.row_start < hit.row_end and hit.row_start < c.row_end for hit in selected)
-        )]
+        )]]
         cells = list(selected)
         for cell in context_cells:
             if cell not in cells:
@@ -95,7 +119,7 @@ def pdf_evidence(extraction: PdfExtraction, start: int, end: int) -> PdfEvidence
                         start_offset=associated.start_offset, end_offset=associated.end_offset,
                         regions=list(associated.regions),
                     ))
-        previous = _preceding_table_text(extraction, index)
+        previous = _preceding_table_text(extraction, origin)
         if (previous is not None
                 and previous.source_ref not in (*table.caption_refs, *table.note_refs)
                 and not (start <= previous.start_offset and previous.end_offset <= end)):
@@ -107,8 +131,8 @@ def pdf_evidence(extraction: PdfExtraction, start: int, end: int) -> PdfEvidence
         tables.append(PdfTableSpan(table_id=table.table_id, cells=[
             (c.row_start, c.row_end, c.column_start, c.column_end, c.start_offset, c.end_offset)
             for c in cells
-        ], column_header_spans=[(c.start_offset, c.end_offset) for c in table.cells if c.column_header],
-            reading=_table_reading(table, start, end)))
+        ], column_header_spans=[(c.start_offset, c.end_offset) for c in header_cells],
+            reading=_table_reading(table, start, end, header_cells)))
     regions = list(extraction.locate(start, end))
     pages = {r.page_index for r in regions}
     pages.update(r.page_index for s in supplements for r in s.regions)

@@ -1,0 +1,47 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+____ test_continued_currency_table_retains_previous_page_periods_and_units _____
+
+    def test_continued_currency_table_retains_previous_page_periods_and_units():
+        snapshot = json.loads((ROOT / "evals/library-runs/20261001-new-pdf-acceptance/index-snapshot.json").read_text())
+        doc = next(item for item in snapshot["files"] if item["file"]["file_name"] == "nvidia-fy25.pdf")
+        extraction = PdfExtraction.model_validate(doc["extraction"])
+        block = next(b for b in extraction.blocks if b.source_ref == "#/tables/9")
+        evidence = pdf_evidence(extraction, block.start_offset, block.end_offset)
+    
+>       assert any("Three Months Ended" in s.text for s in evidence.supplements)
+E       assert False
+E        +  where False = any(<generator object test_continued_currency_table_retains_previous_page_periods_and_units.<locals>.<genexpr> at 0x122609700>)
+
+tests/test_pdf_table_context.py:122: AssertionError
+_________ test_three_hops_bind_exact_targets_and_persist_final_context _________
+
+hop_api = (<starlette.testclient.TestClient object at 0x122690c20>, AppResources(sessions=sessionmaker(class_='Session', bind=En... ...}]}], ['4d78686947d84b54bdb542f89fede43a', '35460c1069374ee382d94331183da153', '7d6ff521525d4fa485fc036120d22efc'])
+
+    def test_three_hops_bind_exact_targets_and_persist_final_context(hop_api):
+        client, resources, sdk, _, bindings, _ = hop_api
+        answer = ask(client).json()
+        planning = answer["retrieval"]["planning"]
+        hops = planning["hops"]
+        assert hops["stop_reason"] == "dependencies_complete"
+        assert len(hops["rounds"]) == 3 and len(hops["bindings"]) == 2
+        assert [c.args[0] for c in resources.embeddings.embed_query.call_args_list] == [
+            "Aster Prize winner", "Who employs Mira Cole?", "Where is Birch Institute located?"]
+        assert [s["file_name"] for s in answer["sources"]] == ["award.txt", "staff.txt", "place.txt"]
+        assert all(s["references_in_final_context"] for s in hops["dependencies"])
+        assert all("Oslo" not in json.dumps(p) for p in bindings)
+>       assert bindings[0]["pending_queries"][0]["prerequisite_queries"] == ["Aster Prize winner"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'prerequisite_queries'
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_dependent_retrieval.py:107: KeyError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_pdf_table_context.py::test_continued_currency_table_retains_previous_page_periods_and_units
+FAILED tests/test_dependent_retrieval.py::test_three_hops_bind_exact_targets_and_persist_final_context
+2 failed, 1 warning in 0.29s

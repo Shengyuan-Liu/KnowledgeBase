@@ -110,3 +110,36 @@ def test_doclaynet_running_headers_are_not_table_context():
 
         assert not any(extra.role == "preceding_text" for extra in evidence.supplements)
         assert not any(extra.start_offset == header.start_offset for extra in evidence.supplements)
+
+
+def test_continued_currency_table_retains_previous_page_periods_and_units():
+    snapshot = json.loads((ROOT / "evals/library-runs/20261001-new-pdf-acceptance/index-snapshot.json").read_text())
+    doc = next(item for item in snapshot["files"] if item["file"]["file_name"] == "nvidia-fy25.pdf")
+    extraction = PdfExtraction.model_validate(doc["extraction"])
+    block = next(b for b in extraction.blocks if b.source_ref == "#/tables/9")
+    evidence = pdf_evidence(extraction, block.start_offset, block.end_offset)
+
+    assert any("Three Months Ended" in s.text for s in evidence.supplements)
+    assert any("Twelve Months Ended" in s.text for s in evidence.supplements)
+    assert any("In millions, except per share data" in s.text for s in evidence.supplements)
+    assert all(s.text == extraction.text[s.start_offset:s.end_offset] for s in evidence.supplements)
+    assert {r.page_index for s in evidence.supplements for r in s.regions} == {6}
+    reading = evidence.tables[0].reading
+    assert '["Three Months Ended > January 26, 2025","$ 24,034"]' in reading
+    assert '["Twelve Months Ended > January 26, 2025","$ 81,453"]' in reading
+    assert '["$ 3,378","$ 24,034"]' not in reading
+    # The observed false header is also a body value, not discarded evidence.
+    assert '["Three Months Ended > January 26, 2025","$ 3,378"]' in reading
+    assert next(c for c in block.table.cells if c.text == "$ 3,378").column_header
+
+
+def test_continuation_context_does_not_cross_a_new_section():
+    snapshot = json.loads((ROOT / "evals/library-runs/20261001-new-pdf-acceptance/index-snapshot.json").read_text())
+    doc = next(item for item in snapshot["files"] if item["file"]["file_name"] == "nvidia-fy25.pdf")
+    extraction = PdfExtraction.model_validate(doc["extraction"])
+    blocks = list(extraction.blocks)
+    i = next(i for i, b in enumerate(blocks) if b.source_ref == "#/tables/9")
+    blocks[i] = blocks[i].model_copy(update={"heading_path": ("Different financial statement",)})
+    extraction = extraction.model_copy(update={"blocks": tuple(blocks)})
+    evidence = pdf_evidence(extraction, blocks[i].start_offset, blocks[i].end_offset)
+    assert not any(r.page_index == 6 for s in evidence.supplements for r in s.regions)

@@ -123,14 +123,16 @@ class HopController:
                 by_parent = [dependency_evidence(self.result, [parent]) for parent in dependency.depends_on]
                 excerpts = list({e["evidence_id"]: e for group in by_parent for e in group}.values())
                 if all(by_parent):
-                    ready.append({**dependency.model_dump(), "evidence": excerpts})
+                    ready.append({**dependency.model_dump(), "evidence": excerpts,
+                        "prerequisite_queries": [run.text for run in self.result.trace.runs
+                            if set(run.query_ids) & set(dependency.depends_on)]})
                 else:
                     state["status"] = "missing"
         if not ready:
             return []
         decisions, record = self.planner.structured(TargetDecisions, "dependency_targets", BINDING_INSTRUCTIONS,
             {"original_question": plan.original_question, "resolved_question": plan.resolved_question,
-             "pending_queries": ready}, self.control.before_answer, prompt_version="dependency-targets-v1")
+             "pending_queries": ready}, self.control.before_answer, prompt_version="dependency-targets-v2")
         by_id = {item["query_id"]: item for item in ready}
         if len(decisions.decisions) != len(by_id) or {d.query_id for d in decisions.decisions} != by_id.keys():
             raise ValueError("Dependency decisions must cover the exact pending batch once.")
