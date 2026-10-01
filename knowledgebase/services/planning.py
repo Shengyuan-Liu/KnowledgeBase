@@ -8,11 +8,9 @@ import anyio
 
 from knowledgebase.config import PlanningOptions
 from knowledgebase.providers.limits import GenerationLimits
-from knowledgebase.providers.planner import PlannerClient
 from knowledgebase.schemas import (
-    RetrievalPlan, direct_plan, DocumentScope,
+    RetrievalPlan, DocumentScope,
 )
-from knowledgebase.rag.retrieval import resolve_ready_scope
 
 NARROWING_MESSAGE = "This question needs more than six answer points or searches. Please narrow it or split it into smaller questions."
 
@@ -56,17 +54,3 @@ class PreparedPlanning:
     allowed_file_ids: list[str]
     record: dict | None
     scope_failure: DocumentScope | None = None
-
-
-def prepare_planning(original, resolved, sessions, file_ids, planner: PlannerClient, control: RequestControl) -> PreparedPlanning:
-    control.before_answer()
-    with sessions() as session:
-        ready, scope = resolve_ready_scope(resolved, session, file_ids=file_ids, scope_question=original)
-    if not ready:
-        return PreparedPlanning(
-            direct_plan(original, resolved_question=resolved), [], None,
-            scope if scope and scope.status != "resolved" else None,
-        )
-    generated = planner.plan(original, resolved, control.before_answer)
-    control.before_answer()
-    return PreparedPlanning(generated.plan, list(ready), generated.record)

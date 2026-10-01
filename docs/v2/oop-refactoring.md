@@ -214,7 +214,8 @@ Record documentation-only reviews in the commit message or a check record.
   embeddings to the chunker. Existing ingestion and source-preservation checks pass.
 - Reranking and retrieval: classes introduced; active retrieval tests use the new
   interfaces. Transitional adapters remain for chat callers until the next stage.
-- RAG and conversations: pending.
+- RAG and conversations: RagClient and ChatService implemented; 155 existing
+  checks and 2 new shared-service/request-isolation checks pass.
 - Bootstrap and consumers: pending.
 - Final verification: pending.
 - Merge: not authorized.

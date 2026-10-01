@@ -43,3 +43,11 @@ Implementation and final comparison remain pending.
   independent/dependent plans, assessment, cancellation and frozen contract equality.
 - `retrieval-consumers`: 62 passed across storage-backed retrieval, file API,
   ingestion/deletion, PDF packing and recovery.
+
+## RAG and conversation components
+
+- `rag-chat-components`: 155 passed, including JSON/SSE equality, cancellation,
+  time budgets, binding/assessment failures and the frozen contract comparison.
+- `service-reuse`: 2 passed. Two overlapping streams through one ChatService keep
+  file scope, answer text and saved histories separate; request deadlines and
+  cancellation do not overwrite shared model client limits.
