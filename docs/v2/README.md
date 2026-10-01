@@ -37,6 +37,7 @@ unproven supplementary-search quality benefit remain in the report.
 - [Frontend design](v2-frontend-design.md)
 - [Evaluation protocol](v2-evaluation-plan.md)
 - [Historical development and retained failures](development-history.md)
+- [Unified file/chunk models and file services](../file-ingestion.md)
 - [PDF setup and integration](../pdf-integration.md)
 - [Independent planning](../planned-retrieval.md)
 - [Dependent retrieval](../dependent-retrieval.md)

@@ -9,7 +9,7 @@ from sqlalchemy import select
 from knowledgebase.rag.chunking import split_parent_child
 from knowledgebase.rag.parsing import parse_markdown, parse_txt
 from knowledgebase.rag.semantic_chunking import split_semantic
-from knowledgebase.services.files import delete_file, ingest_file
+from knowledgebase.services.files import DocumentChunker, FileService
 from knowledgebase.storage.models import DocumentIndexRecord
 from knowledgebase.storage.operations import get_chunks, get_document_source, get_files, get_parents
 
@@ -30,7 +30,7 @@ def split(text, vectors=None, threshold=0.5, child_budget=64, parent_budget=256,
     assert result.parents == control.parents
     encoding = tiktoken.get_encoding("cl100k_base")
     end = 0
-    parents = {p.parent_id: p for p in result.parents}
+    parents = {p.chunk_id: p for p in result.parents}
     for index, child in enumerate(result.children):
         assert child.text == text[child.start_offset:child.end_offset]
         assert not text[end:child.start_offset].strip()
@@ -105,9 +105,7 @@ def test_semantic_upload_records_configuration_and_delete_cascades(storage, embe
     text = "Cats sleep. Cats purr. Databases store records."
     embeddings.embed_documents.side_effect = lambda texts: [
         [0., 1.] if "Databases" in value else [1., 0.] for value in texts]
-    file_id = ingest_file("topics.txt", text.encode(), sessions, embeddings, store,
-        chunking_strategy="semantic", chunk_max_tokens=64, parent_max_tokens=128,
-        semantic_similarity_threshold=.25, semantic_batch_size=2, embedding_model="fixed-vectors")
+    file_id = FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(chunking_strategy="semantic", chunk_max_tokens=64, parent_max_tokens=128, semantic_similarity_threshold=.25, semantic_batch_size=2, embedding_model="fixed-vectors")).ingest("topics.txt", text.encode())
     with sessions() as session:
         source = get_document_source(session, file_id)
         children = get_chunks(session, file_id)
@@ -119,7 +117,7 @@ def test_semantic_upload_records_configuration_and_delete_cascades(storage, embe
     assert len(parents) == 1 and len(children) == 2
     assert set(collection.get()["ids"]) == {c.chunk_id for c in children}
     assert embeddings.embed_documents.call_args.args[0] == [c.text for c in children]
-    delete_file(file_id, sessions, store)
+    FileService(sessions, store).delete(file_id)
     with sessions() as session:
         assert session.scalars(select(DocumentIndexRecord)).all() == []
         assert get_document_source(session, file_id) is None
@@ -129,8 +127,7 @@ def test_semantic_embedding_failure_keeps_file_failed_and_library_clean(storage,
     sessions, store, collection = storage
     embeddings.embed_documents.side_effect = RuntimeError("Observed provider failure")
     with pytest.raises(RuntimeError, match="provider failure"):
-        ingest_file("topics.txt", b"Cats sleep. Databases store records.", sessions, embeddings, store,
-                    chunking_strategy="semantic")
+        FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(chunking_strategy="semantic")).ingest("topics.txt", b"Cats sleep. Databases store records.")
     with sessions() as session:
         file = get_files(session)[0]
         assert file.status == "failed"

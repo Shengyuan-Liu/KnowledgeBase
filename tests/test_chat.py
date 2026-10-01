@@ -10,13 +10,13 @@ from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
 from knowledgebase.schemas import ChatAnswer, CitationCheck, RetrievalDiagnostics
 from knowledgebase.services.chat import answer_in_conversation, answer_question
-from knowledgebase.services.files import delete_file, ingest_file
+from knowledgebase.services.files import DocumentChunker, FileService
 from knowledgebase.storage.operations import create_conversation, get_conversation, get_messages, save_message
 
 
 def test_answer_loads_file_metadata_once(storage, embeddings, engine):
     sessions, store, _ = storage
-    ingest_file("hours.txt", b"The library closes at 5 PM.", sessions, embeddings, store)
+    FileService(sessions, store, embeddings=embeddings).ingest("hours.txt", b"The library closes at 5 PM.")
     file_queries = []
 
     @event.listens_for(engine, "before_cursor_execute")
@@ -40,14 +40,9 @@ def test_ingestion_to_answer_keeps_sources_aligned_with_prompt(storage, top_k):
         [[1.0, 0.0]],
     ]
     embeddings.embed_query.return_value = [1.0, 0.0]
-    first_id = ingest_file(
-        "notes.txt", b"First. Second.", sessions, embeddings, store,
-        chunk_size=7, overlap=0, chunking_strategy="character",
-    )
+    first_id = FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(chunk_size=7, overlap=0, chunking_strategy="character")).ingest("notes.txt", b"First. Second.")
     second_text = "  The café closes at 5 PM.\n"
-    second_id = ingest_file(
-        "hours.txt", second_text.encode("utf-8"), sessions, embeddings, store
-    )
+    second_id = FileService(sessions, store, embeddings=embeddings).ingest("hours.txt", second_text.encode("utf-8"))
     llm = Mock(spec=LLMClient)
     llm.generate.return_value = "The café closes at 5 PM. [1]\n"
     question = "  When does the café close?\n"
@@ -110,7 +105,7 @@ def conversational_clients(storage):
     embeddings = Mock(spec=EmbeddingClient)
     embeddings.embed_documents.side_effect = lambda texts: [[1.0, 0.0] for _ in texts]
     embeddings.embed_query.return_value = [1.0, 0.0]
-    file_id = ingest_file("msds.txt", b"NYU MSDS is a master's program requiring 36 credits.", sessions, embeddings, store)
+    file_id = FileService(sessions, store, embeddings=embeddings).ingest("msds.txt", b"NYU MSDS is a master's program requiring 36 credits.")
     return embeddings, Mock(spec=LLMClient), file_id
 
 
@@ -170,7 +165,7 @@ def test_followup_after_deletion_cannot_answer_from_saved_history(storage, conve
     embeddings, llm, file_id = conversational_clients
     llm.generate.return_value = "It requires 36 credits. [1]"
     first = answer_in_conversation("How many credits does NYU MSDS require?", sessions, embeddings, store, llm)
-    delete_file(file_id, sessions, store)
+    FileService(sessions, store).delete(file_id)
     llm.reset_mock()
     embeddings.reset_mock()
     llm.generate.return_value = "How many credits does NYU MSDS require?"

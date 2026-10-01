@@ -17,8 +17,7 @@ from knowledgebase.rag.fusion import fuse_rrf
 from knowledgebase.rag.reranking import rerank
 from knowledgebase.rag.scope import document_references, identity_labels, resolve_document_scope, prioritize_documents
 from knowledgebase.schemas import (
-    ChildChunk, RetrievedChunk, RetrievedEvidence, DocumentScope, FileInfo,
-    RetrievalCandidate, RetrievalDiagnostics, RerankCandidate, StructuredChunk, ScopeFile,
+    RetrievedChunk, RetrievedEvidence, DocumentScope, File, RetrievalCandidate, RetrievalDiagnostics, RerankCandidate, ScopeFile,
 )
 from knowledgebase.storage.vectordb import ChromaStore
 from knowledgebase.storage.operations import (
@@ -115,10 +114,10 @@ def retrieve_candidates(
             corpus_by_id = {chunk.chunk_id: chunk for chunk in corpus}
             scoring_parents = {}
             if options.rerank_unit == "parent":
-                scoring_parents = {parent.parent_id: parent for parent in get_parents_by_ids(
+                scoring_parents = {parent.chunk_id: parent for parent in get_parents_by_ids(
                     session, [corpus_by_id[match.chunk_id].parent_id
                               for match in diagnostics.fused_matches
-                              if isinstance(corpus_by_id[match.chunk_id], ChildChunk)],
+                              if corpus_by_id[match.chunk_id].type == "child"],
                 )}
             candidates, seen = [], set()
             window = diagnostics.fused_matches
@@ -128,8 +127,8 @@ def retrieve_candidates(
                 )]
             for match in window:
                 child = corpus_by_id[match.chunk_id]
-                parent = (scoring_parents.get(child.parent_id) if isinstance(child, ChildChunk) else None)
-                identity = parent.parent_id if parent else child.chunk_id
+                parent = (scoring_parents.get(child.parent_id) if child.type == "child" else None)
+                identity = parent.chunk_id if parent else child.chunk_id
                 if identity in seen:
                     continue
                 seen.add(identity)
@@ -137,7 +136,7 @@ def retrieve_candidates(
                 candidates.append(RerankCandidate(
                     **match.model_dump(), text=region.text,
                     heading_path=getattr(region, "heading_path", []),
-                    scoring_parent_id=parent.parent_id if parent else None,
+                    scoring_parent_id=parent.chunk_id if parent else None,
                 ))
                 if len(candidates) == options.rerank_candidate_limit:
                     break
@@ -171,7 +170,7 @@ def retrieve_candidates(
         provenance = {"distance": distances.get(chunk_id), "fusion": fusion_by_id.get(chunk_id),
                       "rerank": rerank_by_id.get(chunk_id)}
         identity_labels_for_chunk = labels_by_file.get(chunk.file_id, [])
-        parent_id = chunk.parent_id if isinstance(chunk, ChildChunk) else None
+        parent_id = chunk.parent_id
         diagnostics.candidates.append(RetrievalCandidate(
             chunk_id=chunk_id, **provenance, file_id=chunk.file_id, parent_id=parent_id,
             text=chunk.text, start_offset=chunk.start_offset, end_offset=chunk.end_offset,
@@ -187,7 +186,7 @@ def retrieve_candidates(
 def resolve_ready_scope(
     question: str, session: Session, *, file_ids: list[str] | None = None,
     scope_question: str | None = None, allowed_file_ids: list[str] | None = None,
-) -> tuple[dict[str, FileInfo], DocumentScope | None]:
+) -> tuple[dict[str, File], DocumentScope | None]:
     """Resolve a document request inside the caller's ready-file boundary."""
     ready_files = {file.file_id: file for file in get_files(session)
                    if file.status == "ready" and (allowed_file_ids is None or file.file_id in allowed_file_ids)}
@@ -209,7 +208,7 @@ def pack_retrieval_candidates(
     child_hits: list[RetrievedChunk], session: Session, diagnostics: RetrievalDiagnostics,
 ) -> RetrievedEvidence:
     """Expand a selected, deduplicated child list and charge one context budget."""
-    parents = {parent.parent_id: parent for parent in get_parents_by_ids(
+    parents = {parent.chunk_id: parent for parent in get_parents_by_ids(
         session, [hit.parent_id for hit in child_hits if hit.parent_id is not None],
     )}
     regions: dict[str, RetrievedChunk] = {}
@@ -220,7 +219,7 @@ def pack_retrieval_candidates(
                 regions[parent_id].matched_child_ids.append(chunk.chunk_id)
                 continue
             parent = parents[parent_id]
-            excerpt = StructuredChunk(chunk_id=parent.parent_id, **parent.model_dump(exclude={"parent_id"}))
+            excerpt = parent
             regions[parent_id] = hit.model_copy(update={"chunk": excerpt, "matched_child_ids": [chunk.chunk_id]})
         else:
             regions[chunk.chunk_id] = hit.model_copy()

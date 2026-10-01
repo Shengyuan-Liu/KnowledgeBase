@@ -25,7 +25,7 @@ def test_empty_and_single_paragraph_sources(parse, text):
     assert len(blocks) == (1 if text.strip() else 0)
     if blocks:
         assert blocks[0].kind == "paragraph"
-        assert blocks[0].heading_path == []
+        assert list(blocks[0].heading_path) == []
 
 
 @pytest.mark.parametrize("newline", ["\n", "\r\n", "\r"])
@@ -38,7 +38,7 @@ def test_txt_preserves_paragraphs_and_does_not_interpret_markdown(newline):
 
     assert_source_spans(text, blocks)
     assert [block.text for block in blocks] == [first, second]
-    assert all(block.kind == "paragraph" and block.heading_path == [] for block in blocks)
+    assert all(block.kind == "paragraph" and list(block.heading_path) == [] for block in blocks)
 
 
 def test_heading_paths_follow_levels_and_reset_for_siblings():
@@ -51,7 +51,7 @@ def test_heading_paths_follow_levels_and_reset_for_siblings():
     blocks = parse_markdown(text)
 
     assert_source_spans(text, blocks)
-    assert [block.heading_path for block in blocks] == [
+    assert [list(block.heading_path) for block in blocks] == [
         [], ["Guide"], ["Guide"], ["Guide", "Install"], ["Guide", "Install"],
         ["Guide", "Usage"], ["Guide", "Usage"], ["Reference"], ["Reference"],
     ]
@@ -65,7 +65,7 @@ def test_setext_and_atx_headings_keep_inline_markdown_as_metadata():
     blocks = parse_markdown(text)
 
     assert_source_spans(text, blocks)
-    assert [block.heading_path for block in blocks] == [
+    assert [list(block.heading_path) for block in blocks] == [
         ["**Guide**"], ["**Guide**", "API `fields`"],
         ["**Guide**", "API `fields`", "Next"],
     ]
@@ -94,7 +94,7 @@ def test_fenced_code_is_one_block_and_does_not_change_heading_path(fence):
     assert_source_spans(text, blocks)
     assert [block.kind for block in blocks] == ["heading", "code", "paragraph"]
     assert blocks[1].text == code
-    assert all(block.heading_path == ["Guide"] for block in blocks)
+    assert all(list(block.heading_path) == ["Guide"] for block in blocks)
 
 
 def test_unclosed_fence_preserves_content_to_end_of_source():
@@ -123,7 +123,7 @@ def test_lists_tables_and_quotes_remain_nonoverlapping_containers():
     assert [block.text.rstrip("\n") for block in blocks[1:5]] == [
         value.rstrip("\n") for value in [unordered, ordered, table, quote]
     ]
-    assert all(block.heading_path == ["Guide"] for block in blocks)
+    assert all(list(block.heading_path) == ["Guide"] for block in blocks)
 
 
 def test_indented_code_thematic_break_and_link_definitions_are_retained():
@@ -159,7 +159,7 @@ def test_heading_state_does_not_leak_between_documents():
 
     blocks = parse_markdown("Unrelated content.")
 
-    assert blocks[0].heading_path == []
+    assert list(blocks[0].heading_path) == []
 
 
 def test_frozen_deepseek_corpus_retains_all_nonblank_source_text():

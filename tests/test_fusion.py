@@ -1,5 +1,7 @@
 """Rank-based fusion must preserve identities and separate incomparable scores."""
 
+from dataclasses import asdict
+
 import pytest
 
 from knowledgebase.rag.bm25 import search_bm25
@@ -114,9 +116,9 @@ def test_pure_bm25_and_rrf_composition_retains_distinct_children_of_one_parent()
     assert len(hierarchy.parents) == 1 and len(hierarchy.children) == 2
     bm25 = search_bm25("ANTHROPIC_API_KEY", hierarchy.children)
     vectors = [vector(child.chunk_id, 0.1 + i * 0.1) for i, child in enumerate(hierarchy.children)]
-    before = [match.model_dump() for match in bm25], [match.model_dump() for match in vectors], hierarchy.model_dump()
+    before = [match.model_dump() for match in bm25], [match.model_dump() for match in vectors], asdict(hierarchy)
     result = fuse_rrf(bm25, vectors)
     assert result[0].chunk_id == bm25[0].chunk_id
     assert {hit.chunk_id for hit in result} == {child.chunk_id for child in hierarchy.children}
-    assert not {hit.chunk_id for hit in result}.intersection(parent.parent_id for parent in hierarchy.parents)
-    assert before == ([match.model_dump() for match in bm25], [match.model_dump() for match in vectors], hierarchy.model_dump())
+    assert not {hit.chunk_id for hit in result}.intersection(parent.chunk_id for parent in hierarchy.parents)
+    assert before == ([match.model_dump() for match in bm25], [match.model_dump() for match in vectors], asdict(hierarchy))

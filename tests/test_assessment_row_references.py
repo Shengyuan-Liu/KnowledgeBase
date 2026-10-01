@@ -11,7 +11,7 @@ from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.generation import generate_answer, stream_answer
 from knowledgebase.rag.sufficiency import assessment_context, assessment_excerpts
-from knowledgebase.schemas import RetrievedChunk, StructuredChunk
+from knowledgebase.schemas import RetrievedChunk, Chunk
 
 LIVE = Path(__file__).resolve().parents[1] / 'evals/library-runs/20260929-pdf-heading-acceptance'
 CASES = [c['id'] for c in json.loads((LIVE/'frozen-cases.json').read_text())['cases']]
@@ -23,7 +23,7 @@ def frozen_cases():
     for name in CASES:
         raw = json.loads((LIVE/(name+'-planned.json')).read_text())
         chunks = [RetrievedChunk(file_name=s['file_name'], distance=s['distance'], pdf=s['pdf'],
-            document_labels=s['document_labels'], chunk=StructuredChunk.model_validate({**s, 'index': i}))
+            document_labels=s['document_labels'], chunk=Chunk.model_validate({**s, 'index': i}))
             for i, s in enumerate(raw['answer']['sources'])]
         cases[name] = raw, SimpleNamespace(evidence=SimpleNamespace(chunks=chunks))
     return cases

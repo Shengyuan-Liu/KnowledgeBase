@@ -16,7 +16,7 @@ from docling_core.types.doc import (
     BoundingBox, ContentLayer, DocItemLabel, DoclingDocument, PictureItem, TableItem, TextItem,
 )
 
-from knowledgebase.schemas import PdfBlock, PdfCell, PdfExtraction, PdfPage, PdfParserIdentity, PdfRegion, PdfTable, PdfWarning
+from knowledgebase.schemas import SourceBlock, PdfCell, File, PdfPage, PdfParserIdentity, PdfRegion, PdfTable, PdfWarning
 from knowledgebase.rag.pdf_tables import RECOVERY_SETTINGS, recover_collapsed_tables
 
 
@@ -84,10 +84,10 @@ def _table(
 def adapt_pdf_document(
     document: DoclingDocument, source: bytes, parser: PdfParserIdentity,
     *, recovered_tables: tuple[str, ...] = (),
-) -> PdfExtraction:
+) -> File:
     """Freeze ordered Docling output; exact slices do not establish PDF fidelity."""
     parts: list[str] = []
-    blocks: list[PdfBlock] = []
+    blocks: list[SourceBlock] = []
     warnings = [
         PdfWarning(code="scope", message=(
             "OCR, visual figure/chart interpretation, and formula understanding are disabled. "
@@ -164,7 +164,7 @@ def adapt_pdf_document(
                 code="location_unavailable", message="Parser supplied no original-page location for this block.",
                 source_ref=item.self_ref,
             ))
-        blocks.append(PdfBlock(
+        blocks.append(SourceBlock(
             source_ref=item.self_ref, kind=kind, label=item.label.value, text=text,
             start_offset=start, end_offset=end, heading_path=tuple(t for _, t in headings),
             heading_level=level, regions=tuple(regions), table=table,
@@ -181,11 +181,12 @@ def adapt_pdf_document(
                 code="no_extracted_text", message="No supported text was extracted from this page; OCR is disabled.",
                 page_indices=(page.page_index,),
             ))
-    extraction = PdfExtraction(
+    extraction = File(
+        type="pdf", page_count=len(pages),
         source_hash=sha256(source).hexdigest(), extraction_hash=_digest(text), revision_id="",
         text=text, pages=pages, blocks=tuple(blocks), parser=parser, warnings=tuple(warnings),
     )
-    return extraction.model_copy(update={"revision_id": _digest(_json(extraction.model_dump(mode="json")))})
+    return extraction.model_copy(update={"revision_id": _digest(_json(extraction.extraction_data()))})
 
 
 class PdfParser:
@@ -222,7 +223,7 @@ class PdfParser:
             format_options={InputFormat.PDF: PdfFormatOption(pipeline_options=options)},
         )
 
-    def parse(self, source: bytes) -> PdfExtraction:
+    def parse(self, source: bytes) -> File:
         """Parse PDF bytes into a new immutable revision; partial conversions fail."""
         result = self.converter.convert(DocumentStream(name="source.pdf", stream=BytesIO(source)))
         if result.status != ConversionStatus.SUCCESS:

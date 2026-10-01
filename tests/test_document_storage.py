@@ -6,8 +6,10 @@ from sqlalchemy.exc import IntegrityError
 
 from knowledgebase.rag.chunking import split_structured, split_text
 from knowledgebase.rag.parsing import parse_markdown, parse_txt
-from knowledgebase.schemas import AnswerSource, ChatAnswer, Chunk, CitationCheck, StructuredChunk
-from knowledgebase.services.files import delete_file
+from knowledgebase.schemas import (
+    AnswerSource, ChatAnswer, Chunk, CitationCheck,
+)
+from knowledgebase.services.files import FileService
 from knowledgebase.storage.database import build_session_factory, init_db
 from knowledgebase.storage.models import (
     Base, ChunkRecord, ChunkStructureRecord, DocumentSourceRecord,
@@ -51,12 +53,12 @@ def test_source_and_structured_chunks_survive_reopening_database(engine, session
         assert get_file(reader, "file-1").status == "processing"
 
     assert source.file_id == "file-1"
-    assert source.source_format == source_format
+    assert source.type == source_format
     assert source.text == SOURCE
     assert source.source_hash == sha256(SOURCE.encode("utf-8")).hexdigest()
-    assert source.blocks == expected_blocks
+    assert list(source.blocks) == expected_blocks
     assert chunks == expected_chunks
-    assert all(isinstance(chunk, StructuredChunk) for chunk in chunks)
+    assert all(chunk.type == "flat" and chunk.token_count is not None for chunk in chunks)
     for chunk in chunks:
         assert chunk.text == source.text[chunk.start_offset:chunk.end_offset]
         assert chunk.tokenizer == "cl100k_base"
@@ -117,14 +119,14 @@ def test_source_and_chunk_reads_are_detached_snapshots(sessions):
     with sessions.begin() as session:
         source = get_document_source(session, "file-1")
         stored_chunks = get_chunks(session, "file-1")
-        source.text = "Local mutation."
-        source.blocks[0].heading_path.clear()
-        source.blocks[0].text = "Changed heading."
+        source = source.model_copy(update={"text": "Local mutation."})
+        changed_block = source.blocks[0].model_copy(update={"text": "Changed heading."})
+        source = source.model_copy(update={"blocks": (changed_block, *source.blocks[1:])})
         stored_chunks[0].heading_path.clear()
         stored_chunks[0].source_block_indices.clear()
     with sessions() as reader:
         assert get_document_source(reader, "file-1").text == SOURCE
-        assert get_document_source(reader, "file-1").blocks == blocks
+        assert list(get_document_source(reader, "file-1").blocks) == blocks
         assert get_chunks(reader, "file-1") == chunks
 
 
@@ -136,7 +138,7 @@ def test_source_chunk_metadata_and_ready_status_share_callers_transaction(sessio
         save_document_source(session, "file-1", "md", SOURCE, blocks)
         save_chunks(session, chunks)
         update_file_status(session, "file-1", "ready")
-        assert get_document_source(session, "file-1").blocks == blocks
+        assert list(get_document_source(session, "file-1").blocks) == blocks
         assert get_chunks(session, "file-1") == chunks
         session.rollback()
 
@@ -155,7 +157,7 @@ def test_duplicate_source_does_not_replace_original_document(sessions):
             save_document_source(session, "file-1", "txt", "Replacement.", parse_txt("Replacement."))
         session.rollback()
         assert get_document_source(session, "file-1").text == SOURCE
-        assert get_document_source(session, "file-1").source_format == "md"
+        assert get_document_source(session, "file-1").type == "md"
 
 
 def test_source_requires_a_file_record(sessions):
@@ -228,7 +230,7 @@ def test_init_db_adds_v1_tables_without_rewriting_mvp_records(engine):
     legacy_chunks = split_text("Original MVP text.", "legacy")
     with sessions.begin() as session:
         create_file(session, "legacy", "legacy.txt")
-        session.add_all(ChunkRecord(**chunk.model_dump()) for chunk in legacy_chunks)
+        session.add_all(ChunkRecord(**chunk.model_dump(include=set(ChunkRecord.__table__.columns.keys()))) for chunk in legacy_chunks)
     columns_before = {
         name: [column["name"] for column in inspect(engine).get_columns(name)]
         for name in ("files", "chunks")
@@ -266,7 +268,7 @@ def test_existing_delete_service_cleans_v1_records_and_preserves_answer_evidence
         message = save_message(session, "conversation-1", "assistant", answer.answer)
         save_answer_snapshot(session, message.message_id, "What does the guide say?", answer)
 
-    delete_file("file-1", sessions, store)
+    FileService(sessions, store).delete("file-1")
 
     assert collection.count() == 0
     with sessions() as reader:

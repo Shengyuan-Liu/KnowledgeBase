@@ -18,6 +18,7 @@ export interface PdfEvidence {
 
 /** File metadata returned by the FastAPI file endpoints. */
 export interface FileInfo {
+  type: "txt" | "md" | "pdf";
   file_id: string;
   file_name: string;
   status: "processing" | "ready" | "failed";

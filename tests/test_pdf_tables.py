@@ -164,7 +164,7 @@ def test_alabama_child_keeps_exact_values_headers_and_title_on_page_one(recovere
     extraction, table = recovered_pdf.after, recovered_pdf.table
     cells = row_cells(table, "Alabama")
     start, end = min(cell.start_offset for cell in cells), max(cell.end_offset for cell in cells)
-    hierarchy = split_parent_child(extraction.text, extraction.source_blocks(), "background",
+    hierarchy = split_parent_child(extraction.text, extraction.blocks, "background",
         parent_max_tokens=768, child_max_tokens=128, encoding_name="cl100k_base",
         table_row_spans=table_rows(extraction))
     child = next(chunk for chunk in hierarchy.children

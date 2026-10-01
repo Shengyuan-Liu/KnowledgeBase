@@ -14,6 +14,7 @@ import type { SavedConversation } from "./types";
 
 const files = [
   {
+    type: "txt",
     file_id: "file-1",
     file_name: "hours.txt",
     status: "ready",
@@ -21,6 +22,7 @@ const files = [
     created_at: "2026-09-20T10:00:00Z",
   },
   {
+    type: "txt",
     file_id: "file-2",
     file_name: "other.txt",
     status: "ready",

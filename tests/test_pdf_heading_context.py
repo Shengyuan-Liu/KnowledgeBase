@@ -1,5 +1,7 @@
 """Regressions for the real page-62 title/body separation and its PDF boundaries."""
 
+from dataclasses import asdict
+
 import json
 from pathlib import Path
 from unittest.mock import Mock
@@ -13,10 +15,10 @@ from knowledgebase.rag.context import build_context
 from knowledgebase.rag.pdf_chunking import PDF_PARENT_CONTEXT_VERSION, join_heading_parents
 from knowledgebase.rag.pdf_evidence import table_rows
 from knowledgebase.schemas import (
-    PdfExtraction, ChildChunk, ParentChildChunks, ParentChunk, RetrievedChunk, RetrievalDiagnostics,
+    File, Chunk, ChunkBatch, RetrievedChunk, RetrievalDiagnostics,
 )
 from knowledgebase.rag.retrieval import pack_retrieval_candidates
-from knowledgebase.services.files import ingest_file
+from knowledgebase.services.files import DocumentChunker, FileService
 from knowledgebase.storage.operations import create_file, get_chunks, get_document_source, get_parents, save_parent_child_chunks, save_pdf_source
 from knowledgebase.storage.pdf_assets import PdfAssets
 
@@ -34,25 +36,25 @@ def documents():
 
 
 def records(document):
-    return (PdfExtraction.model_validate(document['extraction']), ParentChildChunks(
-        parents=[ParentChunk.model_validate(p) for p in document['parents']],
-        children=[ChildChunk.model_validate(c) for c in document['chunks']],
+    return (File.model_validate({"type": "pdf", **document['extraction']}), ChunkBatch(
+        parents=[Chunk.model_validate({**p, "chunk_id": p["parent_id"], "parent_id": None, "type": "parent"}) for p in document['parents']],
+        children=[Chunk.model_validate({**c, "type": "child"}) for c in document['chunks']],
     ))
 
 
 @pytest.mark.parametrize('name', ['ml-lecture.pdf', 'doclaynet.pdf', 'docling-report.pdf', 'apple-fy24.pdf', 'background-checks.pdf'])
 def test_frozen_pdf_context_keeps_exact_children_source_regions_and_parent_budget(documents, name):
     extraction, original = records(documents[name])
-    before = original.model_dump()
+    before = asdict(original)
     result = join_heading_parents(extraction, original)
-    assert original.model_dump() == before
+    assert asdict(original) == before
     assert [c.model_dump(exclude={'parent_id'}) for c in result.children] == [c.model_dump(exclude={'parent_id'}) for c in original.children]
     assert result == join_heading_parents(extraction, original)
-    parents = {p.parent_id: p for p in result.parents}
+    parents = {p.chunk_id: p for p in result.parents}
     encoding = tiktoken.get_encoding('cl100k_base')
     end = 0
     for i, parent in enumerate(result.parents):
-        assert parent.index == i and parent.parent_id.endswith(f':parent:{i}')
+        assert parent.index == i and parent.chunk_id.endswith(f':parent:{i}')
         assert parent.text == extraction.text[parent.start_offset:parent.end_offset]
         assert not extraction.text[end:parent.start_offset].strip()
         assert parent.token_count == len(encoding.encode_ordinary(parent.text)) <= parent.max_tokens
@@ -71,7 +73,7 @@ def test_lecture_title_hit_supplies_both_count_bullets_with_original_page_citati
     merged = join_heading_parents(extraction, original)
     child = next(c for c in merged.children if c.text == TITLE)
     original_child = next(c for c in original.children if c.chunk_id == child.chunk_id)
-    assert next(p for p in original.parents if p.parent_id == original_child.parent_id).text == TITLE
+    assert next(p for p in original.parents if p.chunk_id == original_child.parent_id).text == TITLE
     with sessions.begin() as session:
         create_file(session, child.file_id, 'ml-lecture.pdf')
         save_pdf_source(session, child.file_id, extraction, {})
@@ -97,12 +99,12 @@ def test_real_cross_page_title_and_footer_only_section_do_not_join(documents):
         extraction, original = records(documents[name])
         result = join_heading_parents(extraction, original)
         child = next(c for c in result.children if c.text == title)
-        assert next(p for p in result.parents if p.parent_id == child.parent_id).text == title
+        assert next(p for p in result.parents if p.chunk_id == child.parent_id).text == title
 
 
 def test_real_heading_body_pair_remains_separate_when_combined_parent_exceeds_budget(documents):
     extraction, _ = records(documents['ml-lecture.pdf'])
-    original = split_parent_child(extraction.text, extraction.source_blocks(), 'file',
+    original = split_parent_child(extraction.text, extraction.blocks, 'file',
         parent_max_tokens=64, child_max_tokens=32, encoding_name='cl100k_base', table_row_spans=table_rows(extraction))
     result = join_heading_parents(extraction, original)
     title = next(c for c in result.children if c.text == TITLE)
@@ -116,15 +118,13 @@ def test_pdf_ingestion_persists_joined_parents_and_embeds_original_children(sess
     embeddings = Mock()
     embeddings.embed_documents.side_effect = lambda texts: [[1.0] for _ in texts]
     store = Mock()
-    file_id = ingest_file('ml-lecture.pdf', (ROOT / 'evals/materials/pdf-v2/ml-lecture.pdf').read_bytes(),
-        sessions, embeddings, store, pdf_parser=Mock(parse=Mock(return_value=extraction)),
-        assets=PdfAssets(tmp_path), parent_max_tokens=1536, chunk_max_tokens=512)
-    baseline = split_parent_child(extraction.text, extraction.source_blocks(), file_id,
+    file_id = FileService(sessions, store, embeddings=embeddings, assets=PdfAssets(tmp_path), pdf_parser=Mock(parse=Mock(return_value=extraction)), chunker=DocumentChunker(parent_max_tokens=1536, chunk_max_tokens=512)).ingest('ml-lecture.pdf', (ROOT / 'evals/materials/pdf-v2/ml-lecture.pdf').read_bytes())
+    baseline = split_parent_child(extraction.text, extraction.blocks, file_id,
         parent_max_tokens=1536, child_max_tokens=512, encoding_name='cl100k_base', table_row_spans=table_rows(extraction))
     assert embeddings.embed_documents.call_args.args[0] == [c.text for c in baseline.children]
     with sessions() as session:
         children = get_chunks(session, file_id)
-        parents = {p.parent_id: p for p in get_parents(session, file_id)}
+        parents = {p.chunk_id: p for p in get_parents(session, file_id)}
         source = get_document_source(session, file_id)
     title = next(c for c in children if c.text == TITLE)
     assert DOCUMENT_COUNT in parents[title.parent_id].text and WORD_COUNT in parents[title.parent_id].text

@@ -21,7 +21,7 @@ from knowledgebase.config import PlanningOptions
 from knowledgebase.storage.runtime import open_storage
 from knowledgebase.storage.pdf_assets import PdfAssets
 from knowledgebase.schemas import (
-    PdfExtraction, RelevanceScore,
+    File, RelevanceScore,
 )
 
 
@@ -142,9 +142,7 @@ async def lifespan(app):
                     chunking_strategy="parent_child", chunk_max_tokens=16, rerank_enabled=True,
                 ),
                 assets=PdfAssets(Path(directory)),
-                pdf_parser=Mock(parse=Mock(return_value=PdfExtraction.model_validate_json(
-                    (Path(__file__).resolve().parents[1] / "evals/check-runs/20260926-pdf-parser-selection/adapter-2/apple-fy24.json").read_text()
-                ))),
+                pdf_parser=Mock(parse=Mock(return_value=File.model_validate({"type": "pdf", **json.loads((Path(__file__).resolve().parents[1] / "evals/check-runs/20260926-pdf-parser-selection/adapter-2/apple-fy24.json").read_text())}))),
                 sessions=sessions,
                 store=store,
                 embeddings=embeddings,

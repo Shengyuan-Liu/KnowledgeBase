@@ -6,7 +6,9 @@ import pytest
 
 from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.generation import generate_answer, stream_answer
-from knowledgebase.schemas import Chunk, PdfEvidence, PdfSupplement, RetrievedChunk, StructuredChunk
+from knowledgebase.schemas import (
+    Chunk, PdfEvidence, PdfSupplement, RetrievedChunk,
+)
 
 
 def test_empty_retrieval_returns_insufficient_evidence_without_calling_model():
@@ -232,7 +234,7 @@ async def test_historical_income_failure_gets_current_source_hints_without_rewri
     case = json.loads(path.read_text())
     answer = case['answer']
     chunks = [RetrievedChunk(file_name=s['file_name'], distance=s['distance'], pdf=s['pdf'], document_labels=s['document_labels'],
-        chunk=StructuredChunk.model_validate({**s, 'index': i})) for i, s in enumerate(answer['sources'])]
+        chunk=Chunk.model_validate({**s, 'index': i})) for i, s in enumerate(answer['sources'])]
     assessment = answer['retrieval']['planning']['assessment']
     llm = Mock(spec=LLMClient)
     llm.generate.return_value = answer['answer']

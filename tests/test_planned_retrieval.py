@@ -241,18 +241,16 @@ def test_query_candidate_ranks_remain_fusion_ranks_in_multiple_file_scope(librar
 
 
 def test_pdf_supplements_remain_inside_final_shared_budget(storage, embeddings):
-    from knowledgebase.schemas import PdfExtraction
-    from knowledgebase.services.files import ingest_file
+    from knowledgebase.schemas import File
+    from knowledgebase.services.files import DocumentChunker, FileService
     from knowledgebase.storage.pdf_assets import PdfAssets
     from tempfile import TemporaryDirectory
 
     sessions, store, _ = storage
     root = Path(__file__).resolve().parents[1]
-    extraction = PdfExtraction.model_validate_json((root / "evals/check-runs/20260926-pdf-parser-selection/adapter-2/apple-fy24.json").read_text())
+    extraction = File.model_validate({"type": "pdf", **json.loads((root / "evals/check-runs/20260926-pdf-parser-selection/adapter-2/apple-fy24.json").read_text())})
     with TemporaryDirectory() as directory:
-        identity = ingest_file("apple.pdf", (root / "evals/materials/pdf-v2/apple-fy24.pdf").read_bytes(), sessions,
-                               embeddings, store, pdf_parser=Mock(parse=Mock(return_value=extraction)),
-                               assets=PdfAssets(Path(directory)), chunk_max_tokens=48, parent_max_tokens=96)
+        identity = FileService(sessions, store, embeddings=embeddings, assets=PdfAssets(Path(directory)), pdf_parser=Mock(parse=Mock(return_value=extraction)), chunker=DocumentChunker(chunk_max_tokens=48, parent_max_tokens=96)).ingest("apple.pdf", (root / "evals/materials/pdf-v2/apple-fy24.pdf").read_bytes())
         with sessions() as session:
             result = retrieve_plan(plan_for([query("sales", "net sales"), query("income", "net income")]),
                                    session, embeddings, store, file_ids=[identity], evidence_max_tokens=1800)

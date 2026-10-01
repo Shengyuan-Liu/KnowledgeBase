@@ -127,7 +127,16 @@ def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkey
     llm_factory = Mock(side_effect=[llm, resolver])
     monkeypatch.setattr(cli, "LLMClient", llm_factory)
     ingest = Mock(return_value="file")
-    monkeypatch.setattr(cli, "ingest_file", ingest)
+    monkeypatch.setattr(cli.FileService, "ingest", ingest)
+    created_services = []
+    factory = cli.FileService.from_settings
+
+    def create_service(*args, **kwargs):
+        service = factory(*args, **kwargs)
+        created_services.append(service)
+        return service
+
+    monkeypatch.setattr(cli.FileService, "from_settings", create_service)
     answer = Mock(return_value=ConversationAnswer(
         answer="Answer", sources=[], citation_check=CitationCheck(valid_source_ids=[], invalid_source_ids=[], no_citations=True),
         conversation_id="conversation", message_id=1, question="Question", retrieval_question="Question",
@@ -144,9 +153,11 @@ def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkey
     assert llm_factory.call_args_list[0].kwargs["reasoning_effort"] == "low"
     assert "reasoning_effort" not in llm_factory.call_args_list[1].kwargs
     cli.EmbeddingClient.assert_called_once_with(sdk, model="file-embedding")
-    assert ingest.call_args.kwargs["assets"].directory == (tmp_path / "data" / "v1" / "originals").resolve()
-    assert ingest.call_args.kwargs["pdf_parser"].model_dir == Path("data/pdf-models")
-    assert {key: value for key, value in ingest.call_args.kwargs.items() if key not in ("assets", "pdf_parser")} == {
+    service, = created_services
+    ingest.assert_called_once_with("notes.md", b"Example text")
+    assert service.assets.directory == (tmp_path / "data" / "v1" / "originals").resolve()
+    assert service.parser.pdf_parser.model_dir == Path("data/pdf-models")
+    assert vars(service.chunker) == {
         "chunk_size": 12, "overlap": 3, "chunking_strategy": "structural",
         "chunk_max_tokens": 17, "chunk_tokenizer": "o200k_base", "parent_max_tokens": 33,
         "semantic_similarity_threshold": 0.5, "semantic_batch_size": 32, "embedding_model": "file-embedding",

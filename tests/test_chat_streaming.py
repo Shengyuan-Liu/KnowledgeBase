@@ -13,7 +13,7 @@ from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
 from knowledgebase.storage.models import AnswerSnapshotRecord, ConversationRecord, MessageRecord
 from knowledgebase.storage.operations import get_conversation_detail
-from knowledgebase.services.files import ingest_file
+from knowledgebase.services.files import FileService
 
 
 class TextStream:
@@ -49,8 +49,7 @@ def streaming_app(configured_app, monkeypatch):
 
 
 def ingest(resources):
-    return ingest_file("hours.txt", "The café closes at 5 PM.".encode(),
-                       resources.sessions, resources.embeddings, resources.store)
+    return FileService(resources.sessions, resources.store, embeddings=resources.embeddings).ingest("hours.txt", "The café closes at 5 PM.".encode())
 
 
 def frames(text):

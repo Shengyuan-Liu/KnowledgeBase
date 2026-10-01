@@ -12,6 +12,7 @@ import { Workspace } from "./Workspace";
 import type { FileInfo } from "./types";
 
 const ready: FileInfo = {
+  type: "txt",
   file_id: "file-1",
   file_name: "campus-notes.txt",
   status: "ready",

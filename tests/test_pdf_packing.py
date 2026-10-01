@@ -7,7 +7,7 @@ import tiktoken
 
 from knowledgebase.rag.context import build_context
 from knowledgebase.schemas import (
-    PdfExtraction, RetrievedChunk, RetrievalDiagnostics, ParentChildChunks, ChildChunk, ParentChunk,
+    File, RetrievedChunk, RetrievalDiagnostics, ChunkBatch, Chunk,
 )
 from knowledgebase.rag.retrieval import pack_retrieval_candidates
 from knowledgebase.storage.operations import create_file, save_pdf_source, save_parent_child_chunks
@@ -31,14 +31,14 @@ def financial_inputs():
 def test_financial_hits_keep_values_periods_units_and_exact_budget(sessions, financial_inputs, case_id, arm):
     document,rows=financial_inputs
     row=rows[(case_id,arm)]
-    extraction=PdfExtraction.model_validate(document['extraction'])
+    extraction=File.model_validate({"type": "pdf", **document['extraction']})
     identity=document['file']['file_id']
-    children={c['chunk_id']:ChildChunk.model_validate(c) for c in document['chunks']}
+    children={c['chunk_id']:Chunk.model_validate({**c, "type": "child"}) for c in document['chunks']}
     with sessions.begin() as session:
         create_file(session,identity,'apple-fy24.pdf')
         save_pdf_source(session,identity,extraction,indexing={})
-        save_parent_child_chunks(session,ParentChildChunks(
-            parents=[ParentChunk.model_validate(c) for c in document['parents']],children=list(children.values())))
+        save_parent_child_chunks(session,ChunkBatch(
+            parents=[Chunk.model_validate({**c, "chunk_id": c["parent_id"], "parent_id": None, "type": "parent"}) for c in document['parents']],children=list(children.values())))
     selected=[RetrievedChunk.model_validate({**hit,'chunk':children[hit['chunk']['chunk_id']]}) for hit in row['selected']]
     with sessions() as session:
         result=pack_retrieval_candidates(selected,session,RetrievalDiagnostics.model_validate(row['diagnostics']))

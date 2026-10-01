@@ -7,7 +7,7 @@ from knowledgebase.config import RetrievalOptions
 from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.retrieval import retrieve_evidence
 from knowledgebase.services.chat import answer_question, answer_in_conversation, stream_answer_in_conversation
-from knowledgebase.services.files import ingest_file, delete_file
+from knowledgebase.services.files import DocumentChunker, FileService
 from knowledgebase.storage.operations import get_conversation_detail
 
 
@@ -16,8 +16,8 @@ def scope_library(storage,embeddings):
     sessions,store,_=storage
     # The disallowed file has the stronger lexical match; top-K must be scoped
     # before ranking, not filtered after losing all in-scope candidates.
-    g=ingest_file('general-faq.txt',b'Title: General FAQ\n\nAll applicants are considered competitively.',sessions,embeddings,store)
-    a=ingest_file('admissions-faq.txt',b'Title: Admissions FAQ\n\nScholarships scholarships scholarships. No separate application is needed.',sessions,embeddings,store)
+    g=FileService(sessions, store, embeddings=embeddings).ingest('general-faq.txt', b'Title: General FAQ\n\nAll applicants are considered competitively.')
+    a=FileService(sessions, store, embeddings=embeddings).ingest('admissions-faq.txt', b'Title: Admissions FAQ\n\nScholarships scholarships scholarships. No separate application is needed.')
     embeddings.embed_query.reset_mock()
     return g,a
 
@@ -77,7 +77,7 @@ async def test_json_and_streaming_scope_prompt_sources_history_match(storage,emb
     if file_ids_mode in {'automatic','explicit'}:
         assert captured==[llm.generate.call_args.args[0]]
         assert {s.file_id for s in sync.sources}=={g}
-        delete_file(g,sessions,store)
+        FileService(sessions, store).delete(g)
     else:
         assert captured==[]
         llm.generate.assert_not_called();embeddings.embed_query.assert_not_called()
@@ -128,8 +128,8 @@ def test_http_explicit_scope_and_missing_file_return_completed_answers(configure
     monkeypatch.setattr(api_module,'StreamingLLMClient',Mock(return_value=Stream()))
     with TestClient(app) as client:
         resources=app.state.resources
-        g=ingest_file('general.txt',b'General facts.',resources.sessions,resources.embeddings,resources.store)
-        ingest_file('other.txt',b'Other facts.',resources.sessions,resources.embeddings,resources.store)
+        g=FileService(resources.sessions, resources.store, embeddings=resources.embeddings).ingest('general.txt', b'General facts.')
+        FileService(resources.sessions, resources.store, embeddings=resources.embeddings).ingest('other.txt', b'Other facts.')
         for ids in ([g],['deleted']):
             response=client.post(endpoint,json={'question':'What facts?', 'request_id':'scope', 'file_ids':ids})
             assert response.status_code==200
@@ -153,10 +153,9 @@ def test_one_document_cannot_consume_all_comparison_candidates(storage,embedding
     from knowledgebase.rag.context import build_context
     from knowledgebase.schemas import RelevanceScore
     sessions,store,_=storage
-    a=ingest_file('admissions-faq.txt',b'Scholarship application details. '*35,sessions,embeddings,store,
-                  chunking_strategy='character',chunk_size=40,overlap=0)
+    a=FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(chunking_strategy='character', chunk_size=40, overlap=0)).ingest('admissions-faq.txt', b'Scholarship application details. '*35)
     embeddings.embed_documents.side_effect=lambda texts:[[0.0,1.0] for _ in texts]
-    g=ingest_file('general-faq.txt',b'Title: General FAQ\n\nAll applicants are considered.',sessions,embeddings,store)
+    g=FileService(sessions, store, embeddings=embeddings).ingest('general-faq.txt', b'Title: General FAQ\n\nAll applicants are considered.')
     reranker=SimpleNamespace(model='offline',model_revision='test',device='cpu',max_pair_tokens=512,batch_size=4,
         score=lambda question,candidates:[RelevanceScore(chunk_id=c.chunk_id,score=0 if 'All applicants' in c.text else 3) for c in candidates]) if rerank_enabled else None
     observed=Mock(wraps=store)

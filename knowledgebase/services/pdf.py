@@ -3,7 +3,7 @@
 from pathlib import Path
 from threading import Lock
 
-from knowledgebase.schemas import PdfExtraction
+from knowledgebase.schemas import File
 
 
 class LocalPdfParser:
@@ -12,7 +12,7 @@ class LocalPdfParser:
         self._parser = None
         self._lock = Lock()
 
-    def parse(self, content: bytes) -> PdfExtraction:
+    def parse(self, content: bytes) -> File:
         # Share loaded models, but do not run simultaneous conversions on this instance.
         with self._lock:
             if self._parser is None:

@@ -1,15 +1,16 @@
 from copy import deepcopy
 from hashlib import sha256
+from pathlib import Path
 from typing import Literal
 
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
 from knowledgebase.schemas import (
-    ChatAnswer, ChildChunk, Chunk, ConversationDetail, ConversationInfo, ConversationMessage,
-    DocumentSource, FileInfo, HistoricalSource, MessageInfo, ParentChildChunks, ParentChunk,
-    SourceBlock, StructuredChunk, PdfWarning,
+    ChatAnswer, Chunk, ChunkBatch, File, SourceBlock, ConversationDetail,
+    ConversationInfo, ConversationMessage, HistoricalSource, MessageInfo,
 )
+
 from knowledgebase.storage.models import (
     AnswerSnapshotRecord,
     ChildParentRecord,
@@ -40,36 +41,25 @@ def create_file(session: Session, file_id: str, file_name: str) -> None:
     session.flush()
 
 
-def get_files(session: Session) -> list[FileInfo]:
-    """Return all files newest first, breaking timestamp ties by file ID.
-
-    Results are data snapshots independent of the session. The caller retains
-    ownership of the transaction.
-    """
-    statement = select(FileRecord).order_by(
-        FileRecord.created_at.desc(), FileRecord.file_id.asc()
-    )
-    metadata = {row.file_id: row for row in session.execute(select(
-        PdfSourceRecord.file_id, PdfSourceRecord.page_count, PdfSourceRecord.warnings,
-    ))}
-    return [FileInfo.model_validate(record, from_attributes=True).model_copy(update={
-        "page_count": metadata[record.file_id].page_count,
-        "extraction_warnings": [PdfWarning.model_validate(w) for w in metadata[record.file_id].warnings],
-    }) if record.file_id in metadata else FileInfo.model_validate(record, from_attributes=True)
-            for record in session.scalars(statement)]
-
-
-def get_file(session: Session, file_id: str) -> FileInfo | None:
-    """Return one file as a data snapshot, or None if it does not exist."""
-    record = session.get(FileRecord, file_id)
-    if record is None:
-        return None
-    info = FileInfo.model_validate(record, from_attributes=True)
-    pdf = session.get(PdfSourceRecord, file_id)
+def _file_snapshot(record: FileRecord, pdf=None) -> File:
+    values = {name: getattr(record, name) for name in FileRecord.__table__.columns.keys()}
+    values["type"] = Path(record.file_name).suffix.lower().lstrip(".")
     if pdf is not None:
-        info.page_count = pdf.page_count
-        info.extraction_warnings = [PdfWarning.model_validate(w) for w in pdf.warnings]
-    return info
+        values.update(page_count=pdf.page_count, warnings=pdf.warnings)
+    return File(**values)
+
+
+def get_files(session: Session) -> list[File]:
+    """Read metadata without loading document text or PDF geometry."""
+    rows = session.execute(select(FileRecord, PdfSourceRecord.page_count, PdfSourceRecord.warnings)
+                           .outerjoin(PdfSourceRecord, PdfSourceRecord.file_id == FileRecord.file_id)
+                           .order_by(FileRecord.created_at.desc(), FileRecord.file_id.asc()))
+    return [_file_snapshot(row[0], row if row.page_count is not None else None) for row in rows]
+
+
+def get_file(session: Session, file_id: str) -> File | None:
+    record = session.get(FileRecord, file_id)
+    return _file_snapshot(record, session.get(PdfSourceRecord, file_id)) if record is not None else None
 
 
 def get_source_texts(session: Session, file_ids: list[str]) -> dict[str, str]:
@@ -103,28 +93,24 @@ def save_document_source(
         session.flush()
 
 
-def get_document_source(session: Session, file_id: str) -> DocumentSource | None:
-    """Return a source snapshot, or None for missing files and MVP-only records."""
+def get_document_source(session: Session, file_id: str) -> File | None:
+    """Load parsed content using the existing on-disk tables."""
     record = session.get(DocumentSourceRecord, file_id)
     if record is None:
-        pdf = session.get(PdfSourceRecord, file_id)
-        if pdf is None:
-            return None
-        extraction = get_pdf_extraction(session, file_id)
-        return DocumentSource(file_id=file_id, source_format="pdf", text=extraction.text,
-                              source_hash=extraction.source_hash, blocks=extraction.source_blocks(),
-                              indexing=deepcopy(pdf.indexing))
-    source = DocumentSource.model_validate(record, from_attributes=True)
+        return get_pdf_extraction(session, file_id)
+    metadata = get_file(session, file_id)
     indexing = session.get(DocumentIndexRecord, file_id)
-    source.indexing = deepcopy(indexing.details) if indexing is not None else None
-    return source
+    return metadata.model_copy(update={
+        "text": record.text, "source_hash": record.source_hash,
+        "blocks": tuple(SourceBlock.model_validate(b) for b in record.blocks),
+        "indexing": deepcopy(indexing.details) if indexing is not None else None,
+    })
 
 
 def save_chunks(session: Session, chunks: list[Chunk]) -> None:
     """Insert chunks and check constraints without committing or marking ready.
 
-    StructuredChunk inputs also persist their metadata and token configuration.
-    ChildChunk inputs additionally link to an existing parent. Use
+    Structured spans retain their token metadata; child spans link to a parent. Use
     save_parent_child_chunks to insert new parents and their children together.
     Duplicate IDs or file/index pairs raise IntegrityError; existing chunks are
     not overwritten. The caller must roll back a failed transaction.
@@ -132,70 +118,61 @@ def save_chunks(session: Session, chunks: list[Chunk]) -> None:
     if not chunks:
         return
     session.add_all(
-        ChunkRecord(**chunk.model_dump(include=set(Chunk.model_fields))) for chunk in chunks
+        ChunkRecord(**chunk.model_dump(include=set(ChunkRecord.__table__.columns.keys()))) for chunk in chunks
     )
     session.flush()
     session.add_all(
-        ChunkStructureRecord(
-            chunk_id=chunk.chunk_id,
-            **chunk.model_dump(include=set(StructuredChunk.model_fields) - set(Chunk.model_fields)),
-        )
-        for chunk in chunks if isinstance(chunk, StructuredChunk)
+        ChunkStructureRecord(**chunk.model_dump(include=set(ChunkStructureRecord.__table__.columns.keys())))
+        for chunk in chunks if chunk.token_count is not None
     )
     session.flush()
     session.add_all(
         ChildParentRecord(chunk_id=chunk.chunk_id, parent_id=chunk.parent_id)
-        for chunk in chunks if isinstance(chunk, ChildChunk)
+        for chunk in chunks if chunk.type == "child"
     )
     session.flush()
 
 
-def save_parent_child_chunks(session: Session, chunks: ParentChildChunks) -> None:
-    """Insert parents before children; flush without committing the caller's work.
-
-    Supply the output of split_parent_child for the same canonical source.
-    The splitter owns source containment and same-file membership; storage retains
-    that output and enforces record identities and references with foreign keys.
-    """
-    session.add_all(ParentChunkRecord(**parent.model_dump()) for parent in chunks.parents)
+def save_parent_child_chunks(session: Session, chunks: ChunkBatch) -> None:
+    """Persist parent spans before their indexed children in the caller's transaction."""
+    fields = set(ParentChunkRecord.__table__.columns.keys()) - {"parent_id"}
+    session.add_all(ParentChunkRecord(parent_id=parent.chunk_id, **parent.model_dump(include=fields))
+                    for parent in chunks.parents)
     session.flush()
     save_chunks(session, chunks.children)
 
 
-def get_parents(session: Session, file_id: str) -> list[ParentChunk]:
-    """Return a file's parent snapshots in source order, without filtering status."""
+def _parent_snapshot(record: ParentChunkRecord) -> Chunk:
+    fields = set(ParentChunkRecord.__table__.columns.keys()) - {"parent_id"}
+    return Chunk(chunk_id=record.parent_id, type="parent", **{name: getattr(record, name) for name in fields})
+
+
+def get_parents(session: Session, file_id: str) -> list[Chunk]:
+    """Return a file's parent spans in source order."""
     statement = select(ParentChunkRecord).where(ParentChunkRecord.file_id == file_id).order_by(ParentChunkRecord.index)
-    return [ParentChunk.model_validate(record, from_attributes=True) for record in session.scalars(statement)]
+    return [_parent_snapshot(record) for record in session.scalars(statement)]
 
 
-def get_parents_by_ids(session: Session, parent_ids: list[str]) -> list[ParentChunk]:
+def get_parents_by_ids(session: Session, parent_ids: list[str]) -> list[Chunk]:
     """Load existing parents once per ID; requested order is not preserved."""
     statement = select(ParentChunkRecord).where(ParentChunkRecord.parent_id.in_(parent_ids))
-    return [ParentChunk.model_validate(record, from_attributes=True) for record in session.scalars(statement)]
+    return [_parent_snapshot(record) for record in session.scalars(statement)]
 
 
 def _chunk_snapshot(
     record: ChunkRecord, structure: ChunkStructureRecord | None, parent: ChildParentRecord | None,
 ) -> Chunk:
-    """Restore the data model stored for this chunk, including optional v1 metadata."""
-    chunk = Chunk.model_validate(record, from_attributes=True)
-    if structure is None:
-        return chunk
-    structured = StructuredChunk(
-        **chunk.model_dump(), heading_path=structure.heading_path,
-        source_block_indices=structure.source_block_indices, token_count=structure.token_count,
-        tokenizer=structure.tokenizer, max_tokens=structure.max_tokens,
-    )
+    values = {name: getattr(record, name) for name in ChunkRecord.__table__.columns.keys()}
+    if structure is not None:
+        values.update({name: getattr(structure, name) for name in ChunkStructureRecord.__table__.columns.keys()})
     if parent is not None:
-        return ChildChunk(**structured.model_dump(), parent_id=parent.parent_id)
-    return structured
+        values.update(type="child", parent_id=parent.parent_id)
+    return Chunk(**values)
 
 
 def get_chunks(session: Session, file_id: str) -> list[Chunk]:
     """Return a file's chunks ordered by index, or an empty list.
 
-    Child records return ChildChunk, flat structural records return StructuredChunk,
-    and MVP records return Chunk.
     This storage query does not filter file status. Retrieval must separately
     ensure that a file is ready before using its chunks as answer evidence.
     """
@@ -384,18 +361,20 @@ def get_conversation_detail(session: Session, conversation_id: str) -> Conversat
     return ConversationDetail(**conversation.model_dump(), messages=messages)
 
 
-def get_pdf_extraction(session: Session, file_id: str):
-    from knowledgebase.schemas import PdfExtraction
-
+def get_pdf_extraction(session: Session, file_id: str) -> File | None:
     record = session.get(PdfSourceRecord, file_id)
-    return PdfExtraction.model_validate(record.extraction) if record is not None else None
+    if record is None:
+        return None
+    metadata = get_file(session, file_id)
+    return File.model_validate({**record.extraction, **metadata.model_dump(exclude_unset=True),
+                                "indexing": deepcopy(record.indexing)})
 
 
 def save_pdf_source(session: Session, file_id: str, extraction, indexing: dict) -> None:
     session.add(PdfSourceRecord(
         file_id=file_id, revision_id=extraction.revision_id, source_hash=extraction.source_hash,
         page_count=extraction.page_count, warnings=[w.model_dump(mode="json") for w in extraction.warnings],
-        extraction=extraction.model_dump(mode="json"), indexing=indexing,
+        extraction=extraction.extraction_data(), indexing=indexing,
     ))
     session.flush()
 

@@ -12,7 +12,7 @@ from knowledgebase.config import RetrievalOptions
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.retrieval import retrieve_evidence
 from knowledgebase.schemas import Chunk
-from knowledgebase.services.files import ingest_file
+from knowledgebase.services.files import DocumentChunker, FileService
 from knowledgebase.storage.operations import (
     create_file, get_chunks, save_chunks, update_file_status,
 )
@@ -73,8 +73,7 @@ def test_ready_filter_precedes_both_route_limits_and_bm25_statistics(storage, em
 def test_parent_keeps_best_fused_child_provenance_when_sibling_has_vector_hit(storage, embeddings):
     sessions, store, _ = storage
     text = "# Plant\n\norchid\n\nKeep indoors.\n\nAsk the gardener.\n"
-    file_id = ingest_file("plant.md", text.encode(), sessions, embeddings, store,
-                          chunk_max_tokens=5, parent_max_tokens=128)
+    file_id = FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(chunk_max_tokens=5, parent_max_tokens=128)).ingest("plant.md", text.encode())
     with sessions() as session:
         children = get_chunks(session, file_id)
         lexical = next(c for c in children if "orchid" in c.text)

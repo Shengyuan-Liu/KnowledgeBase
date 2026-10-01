@@ -1,9 +1,10 @@
 """Canonical source, chunk and PDF records shared by ingestion and retrieval."""
 
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 BlockType = Literal[
@@ -61,83 +62,30 @@ class PdfEvidence(BaseModel):
     warnings: list[PdfWarning] = Field(default_factory=list)
 
 
-class FileInfo(BaseModel):
-    file_id: str
-    file_name: str
-    status: str
-    error_message: str | None
-    created_at: datetime
-    page_count: int | None = None
-    extraction_warnings: list[PdfWarning] = Field(default_factory=list)
+class Chunk(BaseModel):
+    """One canonical span; type distinguishes flat, parent and child roles."""
 
-
-class ChunkContent(BaseModel):
-    """Canonical content shared by flat, child and parent chunks."""
-
+    chunk_id: str
     file_id: str
     text: str
     index: int
     start_offset: int
     end_offset: int
+    type: Literal["flat", "parent", "child"] = "flat"
+    parent_id: str | None = None
+    heading_path: list[str] = Field(default_factory=list)
+    source_block_indices: list[int] = Field(default_factory=list)
+    token_count: int | None = None
+    tokenizer: str | None = None
+    max_tokens: int | None = None
 
 
-class Chunk(ChunkContent):
-    chunk_id: str
+@dataclass
+class ChunkBatch:
+    """A split result groups two lists of the same Chunk model."""
 
-
-class SourceBlock(BaseModel):
-    """A structural block whose text is an exact slice of the original source."""
-
-    kind: BlockType
-    text: str
-    start_offset: int
-    end_offset: int
-    heading_path: list[str]
-    heading_level: int | None = None
-
-
-class StructuredContent(ChunkContent):
-    """Structural metadata shared by parents and retrieval-sized chunks."""
-
-    heading_path: list[str]
-    source_block_indices: list[int]
-    token_count: int
-    tokenizer: str
-    max_tokens: int
-
-
-class StructuredChunk(Chunk, StructuredContent):
-    """A bounded source slice with its structure and token-counting settings."""
-
-
-class ParentChunk(StructuredContent):
-    """A bounded section region that supplies context for its child chunks."""
-
-    parent_id: str
-
-
-class ChildChunk(StructuredChunk):
-    """A retrieval-sized source slice contained in exactly one parent."""
-
-    parent_id: str
-
-
-class ParentChildChunks(BaseModel):
-    """Ordered parent and child snapshots, before persistence or indexing."""
-
-    parents: list[ParentChunk]
-    children: list[ChildChunk]
-
-
-class DocumentSource(BaseModel):
-    """Canonical document and parser output, independent of a database session."""
-
-    file_id: str
-    source_format: Literal["txt", "md", "pdf"]
-    text: str
-    source_hash: str
-    blocks: list[SourceBlock]
-    indexing: dict[str, Any] | None = None
+    parents: list[Chunk]
+    children: list[Chunk]
 
 
 class PdfPage(FrozenRecord):
@@ -170,16 +118,18 @@ class PdfTable(FrozenRecord):
     note_refs: tuple[str, ...]
 
 
-class PdfBlock(FrozenRecord):
-    source_ref: str
+class SourceBlock(FrozenRecord):
+    """An exact source slice, with optional PDF location and table data."""
+
     kind: BlockType
-    label: str
     text: str
     start_offset: int
     end_offset: int
-    heading_path: tuple[str, ...]
-    heading_level: int | None
-    regions: tuple[PdfRegion, ...]
+    heading_path: tuple[str, ...] = ()
+    heading_level: int | None = None
+    source_ref: str | None = None
+    label: str | None = None
+    regions: tuple[PdfRegion, ...] = ()
     table: PdfTable | None = None
 
 
@@ -190,28 +140,45 @@ class PdfParserIdentity(FrozenRecord):
     model_file_hashes: tuple[tuple[str, str], ...]
 
 
-class PdfExtraction(FrozenRecord):
+class File(FrozenRecord):
+    """A file snapshot shared by parsing, storage and the API.
+
+    Metadata-only reads leave content empty. PDF geometry is optional; type is
+    the single dispatch field for parsing and indexing.
+    """
+
+    type: Literal["txt", "md", "pdf"]
+    file_id: str = ""
+    file_name: str = ""
+    status: str = "processing"
+    error_message: str | None = None
+    created_at: datetime | None = None
+    text: str = ""
+    source_hash: str = ""
+    blocks: tuple[SourceBlock, ...] = ()
+    indexing: dict[str, Any] | None = None
+    page_count: int | None = None
+    pages: tuple[PdfPage, ...] = ()
+    warnings: tuple[PdfWarning, ...] = Field(default=(), serialization_alias="extraction_warnings")
+    parser: PdfParserIdentity | None = None
     schema_version: Literal[1] = 1
-    source_hash: str
-    extraction_hash: str
-    revision_id: str
-    text: str
-    pages: tuple[PdfPage, ...]
-    blocks: tuple[PdfBlock, ...]
-    parser: PdfParserIdentity
-    warnings: tuple[PdfWarning, ...]
+    extraction_hash: str | None = None
+    revision_id: str | None = None
     serialization: str = "Block separator: two newlines; table cells: tabs/newlines; separators are synthetic."
 
-    @property
-    def page_count(self) -> int:
-        return len(self.pages)
+    @model_validator(mode="after")
+    def page_metadata(self):
+        # Frozen pre-unification PDF records store pages but no page_count field.
+        if self.type == "pdf" and self.page_count is None:
+            object.__setattr__(self, "page_count", len(self.pages))
+        return self
 
-    def source_blocks(self) -> list[SourceBlock]:
-        """Return independent copies for the existing structural chunker."""
-        return [SourceBlock(
-            kind=b.kind, text=b.text, start_offset=b.start_offset, end_offset=b.end_offset,
-            heading_path=list(b.heading_path), heading_level=b.heading_level,
-        ) for b in self.blocks]
+    def extraction_data(self) -> dict:
+        """Keep the established PDF revision payload independent of file metadata."""
+        return self.model_dump(mode="json", include={
+            "schema_version", "source_hash", "extraction_hash", "revision_id", "text",
+            "pages", "blocks", "parser", "warnings", "serialization",
+        })
 
     def locate(self, start: int, end: int) -> tuple[PdfRegion, ...]:
         """Find all intersecting page regions without inventing smaller boxes."""

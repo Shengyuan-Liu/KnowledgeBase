@@ -289,7 +289,7 @@ def run(args):
         from knowledgebase.providers.llm import LLMClient
         from knowledgebase.providers.reranker import RerankerClient
         from knowledgebase.services.chat import answer_question
-        from knowledgebase.services.files import ingest_file
+        from knowledgebase.services.files import FileService
         from knowledgebase.storage.database import build_engine, build_session_factory, init_db
         from knowledgebase.storage.vectordb import ChromaStore
 
@@ -312,12 +312,7 @@ def run(args):
                 batch_size=settings.rerank_batch_size, max_pair_tokens=settings.rerank_max_pair_tokens,
             ) if settings.rerank_enabled else None
             for name, content in documents.items():
-                ingest_file(name, content.encode(), sessions, embeddings, store,
-                            chunk_size=args.chunk_size, overlap=args.overlap,
-                            chunking_strategy=args.chunking_strategy, chunk_max_tokens=args.chunk_max_tokens,
-                            chunk_tokenizer=args.chunk_tokenizer, parent_max_tokens=args.parent_max_tokens,
-                            semantic_similarity_threshold=settings.semantic_similarity_threshold,
-                            semantic_batch_size=settings.semantic_batch_size, embedding_model=settings.embedding_model)
+                FileService.from_settings(settings, sessions, embeddings, store).ingest(name, content.encode())
             def ask(question):
                 result = answer_question(
                     question, sessions, embeddings, store, llm, top_k=args.top_k,

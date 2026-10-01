@@ -6,7 +6,7 @@ from sqlalchemy.exc import IntegrityError
 
 from knowledgebase.rag.chunking import split_text
 from knowledgebase.storage.models import FileRecord
-from knowledgebase.schemas import Chunk, FileInfo
+from knowledgebase.schemas import Chunk, File
 from knowledgebase.storage.operations import (
     create_file,
     delete_chunks,
@@ -106,7 +106,7 @@ def test_get_files_returns_all_statuses_in_stable_newest_first_order(sessions):
     with sessions() as session:
         files = get_files(session)
 
-    assert all(isinstance(file, FileInfo) for file in files)
+    assert all(isinstance(file, File) for file in files)
     assert [file.file_id for file in files] == ["file-b", "file-c", "file-a"]
     assert [file.status for file in files] == ["processing", "failed", "ready"]
     assert files[0].file_name == "pending.txt"
@@ -131,7 +131,7 @@ def test_get_files_returns_data_independent_of_orm_records(sessions):
 
     with sessions.begin() as session:
         files = get_files(session)
-        files[0].file_name = "local-change.txt"
+        files[0] = files[0].model_copy(update={"file_name": "local-change.txt"})
 
     with sessions() as reader:
         assert get_files(reader)[0].file_name == "notes.txt"
@@ -145,7 +145,7 @@ def test_get_file_returns_the_requested_file_as_a_snapshot(sessions):
     with sessions() as session:
         file = get_file(session, "file-2")
 
-    assert isinstance(file, FileInfo)
+    assert isinstance(file, File)
     assert file.file_id == "file-2"
     assert file.file_name == "second.txt"
     assert file.status == "processing"

@@ -10,7 +10,7 @@ from knowledgebase.config import RetrievalOptions
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.pdf_evidence import pdf_evidence
 from knowledgebase.schemas import (
-    PdfExtraction, ChildChunk, ParentChildChunks, ParentChunk, RetrievedChunk, RetrievalDiagnostics,
+    File, Chunk, ChunkBatch, RetrievedChunk, RetrievalDiagnostics,
 )
 from knowledgebase.rag.retrieval import pack_retrieval_candidates
 from knowledgebase.storage.operations import create_file, save_parent_child_chunks, save_pdf_source
@@ -29,8 +29,8 @@ def dense_inputs():
 
 def test_table_serialization_preserves_every_coordinate_and_canonical_blank(dense_inputs):
     document, _, gold = dense_inputs
-    extraction = PdfExtraction.model_validate(document["extraction"])
-    child = ChildChunk.model_validate(document["chunks"][0])
+    extraction = File.model_validate({"type": "pdf", **document["extraction"]})
+    child = Chunk.model_validate(document["chunks"][0])
     evidence = pdf_evidence(extraction, child.start_offset, child.end_offset)
     item = RetrievedChunk(chunk=child, file_name="background-checks.pdf", distance=0,
                           document_labels=["background-checks"], pdf=evidence)
@@ -72,7 +72,7 @@ def test_table_serialization_preserves_every_coordinate_and_canonical_blank(dens
 
 def test_partial_cell_is_not_reported_as_a_complete_value_or_blank(dense_inputs):
     document, _, _ = dense_inputs
-    extraction = PdfExtraction.model_validate(document["extraction"])
+    extraction = File.model_validate({"type": "pdf", **document["extraction"]})
     # Start inside Alabama's Handgun value and end inside its Redemption value.
     evidence = pdf_evidence(extraction, 381, 416)
     reading = evidence.tables[0].reading
@@ -86,8 +86,8 @@ def test_partial_cell_is_not_reported_as_a_complete_value_or_blank(dense_inputs)
 
 def test_historical_table_snapshot_without_reading_keeps_coordinates(dense_inputs):
     document, _, _ = dense_inputs
-    extraction = PdfExtraction.model_validate(document["extraction"])
-    child = ChildChunk.model_validate(document["chunks"][0])
+    extraction = File.model_validate({"type": "pdf", **document["extraction"]})
+    child = Chunk.model_validate(document["chunks"][0])
     evidence = pdf_evidence(extraction, child.start_offset, child.end_offset)
     evidence.tables[0].reading = None
     item = RetrievedChunk(chunk=child, file_name="background-checks.pdf", distance=0, pdf=evidence)
@@ -100,14 +100,14 @@ def test_historical_table_snapshot_without_reading_keeps_coordinates(dense_input
 @pytest.mark.parametrize("arm", ["single", "planned"])
 def test_observed_rankings_supply_target_rows_with_headers_and_page(sessions, dense_inputs, case_id, arm):
     document, rankings, _ = dense_inputs
-    extraction = PdfExtraction.model_validate(document["extraction"])
+    extraction = File.model_validate({"type": "pdf", **document["extraction"]})
     identity = document["file"]["file_id"]
-    children = {chunk["chunk_id"]: ChildChunk.model_validate(chunk) for chunk in document["chunks"]}
+    children = {chunk["chunk_id"]: Chunk.model_validate(chunk) for chunk in document["chunks"]}
     with sessions.begin() as session:
         create_file(session, identity, "background-checks.pdf")
         save_pdf_source(session, identity, extraction, indexing={})
-        save_parent_child_chunks(session, ParentChildChunks(
-            parents=[ParentChunk.model_validate(parent) for parent in document["parents"]], children=list(children.values())))
+        save_parent_child_chunks(session, ChunkBatch(
+            parents=[Chunk.model_validate({**parent, "chunk_id": parent["parent_id"], "parent_id": None, "type": "parent"}) for parent in document["parents"]], children=list(children.values())))
     row = rankings[case_id + "-" + arm]
     selected = [RetrievedChunk.model_validate({**hit, "chunk": children[hit["chunk_id"]],
                 "file_name": "background-checks.pdf", "document_labels": ["background-checks"]}) for hit in row["candidates"]]

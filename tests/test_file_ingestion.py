@@ -5,9 +5,8 @@ from sqlalchemy import select
 
 from knowledgebase.rag.chunking import split_text
 from knowledgebase.rag.retrieval import retrieve_evidence
-from knowledgebase.schemas import StructuredChunk
 from knowledgebase.storage.models import ChunkStructureRecord, DocumentSourceRecord
-from knowledgebase.services.files import InvalidUploadError, ingest_file
+from knowledgebase.services.files import DocumentChunker, InvalidUploadError, FileService
 from knowledgebase.storage.operations import get_chunks, get_document_source, get_file, get_files
 
 
@@ -15,7 +14,7 @@ def test_ingested_file_is_ready_and_retrievable(storage, embeddings):
     sessions, store, collection = storage
     text = "A library stores books."
 
-    file_id = ingest_file("Library.TXT", text.encode("utf-8"), sessions, embeddings, store)
+    file_id = FileService(sessions, store, embeddings=embeddings).ingest("Library.TXT", text.encode("utf-8"))
 
     with sessions() as session:
         file = get_file(session, file_id)
@@ -34,21 +33,18 @@ def test_ingested_file_is_ready_and_retrievable(storage, embeddings):
 def test_structural_upload_persists_source_blocks_and_indexed_chunks(storage, embeddings, name):
     sessions, store, collection = storage
     text = "# Guide\r\n\r\nThe café closes at 5 PM.\r\n\r\n## Setup\r\n\r\nInstall the package.\r\n"
-    file_id = ingest_file(
-        name, text.encode("utf-8"), sessions, embeddings, store,
-        chunking_strategy="structural", chunk_max_tokens=16, chunk_tokenizer="cl100k_base",
-    )
+    file_id = FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(chunking_strategy="structural", chunk_max_tokens=16, chunk_tokenizer="cl100k_base")).ingest(name, text.encode("utf-8"))
 
     with sessions() as session:
         source = get_document_source(session, file_id)
         chunks = get_chunks(session, file_id)
         assert get_file(session, file_id).status == "ready"
         assert source.text == text
-        assert source.source_format == ("md" if name.endswith("MD") else "txt")
-        assert all(isinstance(chunk, StructuredChunk) for chunk in chunks)
+        assert source.type == ("md" if name.endswith("MD") else "txt")
+        assert all(chunk.type == "flat" and chunk.token_count is not None for chunk in chunks)
         assert all(chunk.token_count <= 16 and chunk.max_tokens == 16 for chunk in chunks)
         assert all(chunk.text == text[chunk.start_offset:chunk.end_offset] for chunk in chunks)
-        if source.source_format == "md":
+        if source.type == "md":
             assert {tuple(chunk.heading_path) for chunk in chunks} == {("Guide",), ("Guide", "Setup")}
         else:
             assert all(chunk.heading_path == [] for chunk in chunks)
@@ -64,7 +60,7 @@ def test_parser_failure_leaves_a_failed_record_without_indexing(storage, embeddi
     sessions, store, collection = storage
     monkeypatch.setattr(files, "parse_markdown", Mock(side_effect=ValueError("Parsing failed.")))
     with pytest.raises(ValueError, match="Parsing failed"):
-        ingest_file("guide.md", b"# Guide", sessions, embeddings, store)
+        FileService(sessions, store, embeddings=embeddings).ingest("guide.md", b"# Guide")
     with sessions() as session:
         file = get_files(session)[0]
         assert file.status == "failed"
@@ -82,7 +78,7 @@ def test_partial_structural_index_failure_rolls_back_source_and_metadata(storage
     broken = Mock(wraps=store)
     broken.upsert_chunks.side_effect = partial_upsert
     with pytest.raises(RuntimeError, match="Vector write failed"):
-        ingest_file("guide.md", b"# First\n\nFirst.\n\n# Second\n\nSecond.", sessions, embeddings, broken)
+        FileService(sessions, broken, embeddings=embeddings).ingest("guide.md", b"# First\n\nFirst.\n\n# Second\n\nSecond.")
     with sessions() as session:
         file = get_files(session)[0]
         assert file.status == "failed"
@@ -97,10 +93,7 @@ def test_ingestion_preserves_text_offsets_and_uses_chunk_settings(storage, embed
     sessions, store, collection = storage
     text = "  café 🙂\r\nSecond line.\n"
 
-    file_id = ingest_file(
-        "notes.txt", text.encode("utf-8"), sessions, embeddings, store,
-        chunk_size=8, overlap=2, chunking_strategy="character",
-    )
+    file_id = FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(chunk_size=8, overlap=2, chunking_strategy="character")).ingest("notes.txt", text.encode("utf-8"))
 
     expected = split_text(text, file_id, chunk_size=8, overlap=2)
     with sessions() as session:
@@ -112,8 +105,8 @@ def test_ingestion_preserves_text_offsets_and_uses_chunk_settings(storage, embed
 def test_same_filename_gets_distinct_file_ids(storage, embeddings):
     sessions, store, collection = storage
 
-    first = ingest_file("notes.txt", b"First.", sessions, embeddings, store)
-    second = ingest_file("notes.txt", b"Second.", sessions, embeddings, store)
+    first = FileService(sessions, store, embeddings=embeddings).ingest("notes.txt", b"First.")
+    second = FileService(sessions, store, embeddings=embeddings).ingest("notes.txt", b"Second.")
 
     assert first != second
     with sessions() as session:
@@ -137,7 +130,7 @@ def test_invalid_upload_is_rejected_before_creating_records(
     sessions, store, collection = storage
 
     with pytest.raises(error_type):
-        ingest_file(name, content, sessions, embeddings, store)
+        FileService(sessions, store, embeddings=embeddings).ingest(name, content)
 
     with sessions() as session:
         assert get_files(session) == []
@@ -162,7 +155,7 @@ def test_processing_is_visible_until_all_writes_finish(storage, embeddings):
     observed_store = Mock(wraps=store)
     observed_store.upsert_chunks.side_effect = upsert
 
-    file_id = ingest_file("notes.txt", b"Text.", sessions, embeddings, observed_store)
+    file_id = FileService(sessions, observed_store, embeddings=embeddings).ingest("notes.txt", b"Text.")
 
     with sessions() as session:
         assert get_file(session, file_id).status == "ready"
@@ -175,7 +168,7 @@ def test_embedding_failure_is_recorded_and_propagated(storage, embeddings):
     embeddings.embed_documents.side_effect = failure
 
     with pytest.raises(RuntimeError) as caught:
-        ingest_file("notes.txt", b"Text.", sessions, embeddings, store)
+        FileService(sessions, store, embeddings=embeddings).ingest("notes.txt", b"Text.")
 
     assert caught.value is failure
     with sessions() as session:
@@ -190,7 +183,7 @@ def test_partial_vector_failure_rolls_back_chunks_and_cleans_only_new_file(
     storage, embeddings
 ):
     sessions, store, collection = storage
-    existing_id = ingest_file("existing.txt", b"Keep.", sessions, embeddings, store)
+    existing_id = FileService(sessions, store, embeddings=embeddings).ingest("existing.txt", b"Keep.")
     failure = RuntimeError("Vector write failed.")
 
     def partial_upsert(chunks, vectors):
@@ -200,10 +193,7 @@ def test_partial_vector_failure_rolls_back_chunks_and_cleans_only_new_file(
     failing_store = Mock(wraps=store)
     failing_store.upsert_chunks.side_effect = partial_upsert
     with pytest.raises(RuntimeError) as caught:
-        ingest_file(
-            "new.txt", b"First. Second.", sessions, embeddings, failing_store,
-            chunk_size=7, overlap=0, chunking_strategy="character",
-        )
+        FileService(sessions, failing_store, embeddings=embeddings, chunker=DocumentChunker(chunk_size=7, overlap=0, chunking_strategy="character")).ingest("new.txt", b"First. Second.")
 
     assert caught.value is failure
     with sessions() as session:
@@ -231,7 +221,7 @@ def test_ready_update_failure_rolls_back_chunks_and_removes_written_vectors(
 
     monkeypatch.setattr(files, "update_file_status", fail_ready)
     with pytest.raises(RuntimeError) as caught:
-        ingest_file("notes.txt", b"Text.", sessions, embeddings, store)
+        FileService(sessions, store, embeddings=embeddings).ingest("notes.txt", b"Text.")
 
     assert caught.value is failure
     with sessions() as session:

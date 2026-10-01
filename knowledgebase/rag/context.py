@@ -3,7 +3,7 @@
 import json
 from collections.abc import Callable
 
-from knowledgebase.schemas import RetrievedChunk, StructuredChunk
+from knowledgebase.schemas import RetrievedChunk
 
 
 PDF_CONTEXT_FORMAT = "source-metadata-pdf-v4"
@@ -19,7 +19,7 @@ def build_context(chunks: list[RetrievedChunk], *,
     for number, item in enumerate(chunks, start=1):
         identity = {
             "file_name": item.file_name,
-            "heading_path": item.chunk.heading_path if isinstance(item.chunk, StructuredChunk) else [],
+            "heading_path": item.chunk.heading_path,
         }
         if item.document_labels:
             identity["document_labels"] = item.document_labels

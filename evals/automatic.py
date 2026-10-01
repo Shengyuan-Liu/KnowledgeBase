@@ -163,7 +163,7 @@ def chunk_snapshot(sessions):
 
 async def collect(settings, directory, metadata, cases, documents, sdk, async_sdk, calls):
     from knowledgebase.providers.reranker import RerankerClient
-    from knowledgebase.services.files import ingest_file
+    from knowledgebase.services.files import FileService
     from knowledgebase.storage.runtime import open_storage
     from knowledgebase.storage.operations import get_document_source
 
@@ -184,12 +184,7 @@ async def collect(settings, directory, metadata, cases, documents, sdk, async_sd
         start = perf_counter()
         for name, content in documents.items():
             t = perf_counter()
-            file_id = ingest_file(name, content.encode(), sessions, embeddings, store,
-                chunk_size=settings.chunk_size, overlap=settings.chunk_overlap,
-                chunking_strategy=settings.chunking_strategy, chunk_max_tokens=settings.chunk_max_tokens,
-                chunk_tokenizer=settings.chunk_tokenizer, parent_max_tokens=settings.parent_max_tokens,
-                semantic_similarity_threshold=settings.semantic_similarity_threshold,
-                semantic_batch_size=settings.semantic_batch_size, embedding_model=settings.embedding_model)
+            file_id = FileService.from_settings(settings, sessions, embeddings, store).ingest(name, content.encode())
             duration = perf_counter() - t
             with sessions() as session:
                 indexing = get_document_source(session, file_id).indexing

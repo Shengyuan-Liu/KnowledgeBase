@@ -29,12 +29,12 @@ from knowledgebase.rag.query import resolve_question
 from knowledgebase.rag.retrieval import retrieve_evidence
 from knowledgebase.schemas import (
     AnswerSource, ChatAnswer, ChatStreamEvent, ConversationAnswer, MessageInfo,
-    RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, StructuredChunk,
+    RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics,
 )
 from knowledgebase.storage.operations import (
     create_conversation,
     get_conversation,
-    get_document_source,
+    get_source_texts,
     get_messages,
     save_answer_snapshot,
     save_message,
@@ -150,11 +150,11 @@ def _retrieve_evidence(
                 file_ids=file_ids, scope_question=scope_question,
             )
         chunks = evidence.chunks
-        line_starts = {}
-        for file_id in {item.chunk.file_id for item in chunks}:
-            document = get_document_source(session, file_id)
-            if document is not None and document.source_format != "pdf":
-                line_starts[file_id] = [0, *(m.end() for m in re.finditer(r"\r\n|\r|\n", document.text))]
+        text_files = list({item.chunk.file_id for item in chunks if item.pdf is None})
+        line_starts = {
+            file_id: [0, *(m.end() for m in re.finditer(r"\r\n|\r|\n", text))]
+            for file_id, text in get_source_texts(session, text_files).items()
+        }
         sources = [
             AnswerSource(
                 source_id=number, pdf=item.pdf,
@@ -170,9 +170,9 @@ def _retrieve_evidence(
                     if item.chunk.file_id in line_starts else None,
                 end_line=bisect_right(line_starts[item.chunk.file_id], item.chunk.end_offset - 1)
                     if item.chunk.file_id in line_starts else None,
-                **(item.chunk.model_dump(include={
+                **item.chunk.model_dump(include={
                     "heading_path", "source_block_indices", "token_count", "tokenizer", "max_tokens",
-                }) if isinstance(item.chunk, StructuredChunk) else {}),
+                }),
             )
             for number, item in enumerate(chunks, start=1)
         ]

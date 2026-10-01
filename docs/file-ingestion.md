@@ -1,84 +1,73 @@
 # File Ingestion
 
-`knowledgebase/services/files.py` provides `ingest_file` for indexing TXT/Markdown content.
-It accepts the original filename and bytes, a SQLAlchemy session factory, an
-`EmbeddingClient`, and a `ChromaStore`. It returns the generated file ID after
-successful indexing.
+`FileService` in `knowledgebase/services/files.py` owns upload transactions,
+indexing, interrupted-upload recovery and deletion. API, CLI and evaluation
+entry points construct it from the shared [Settings](configuration.md).
+
+## Models and responsibilities
+
+- `File` represents TXT, Markdown and PDF. Its `type` is `txt`, `md` or `pdf`.
+  Parsed text and `SourceBlock` records live on that same object. Pages, regions,
+  tables and parser identity are optional PDF data, not alternative file models.
+- `Chunk` represents flat, parent and child spans. Every span has a `chunk_id`;
+  `type` identifies its role and a child's `parent_id` refers to its parent.
+  `ChunkBatch` is a plain dataclass grouping parent and indexed-span lists.
+- `DocumentParser` validates upload bytes and selects parsing by `File.type`.
+- `DocumentChunker` owns splitting settings. Pure splitting algorithms remain
+  independently testable; this class selects and configures them.
+- `FileService` shares the parser, chunker, embedding client, vector store,
+  original-file storage and session factory across its operations.
+
+`File` and `SourceBlock` are immutable snapshots. Use `model_copy(update=...)`
+when attaching new metadata; their contents are independent of database sessions.
 
 ## Workflow
 
-1. Require a `.txt` or `.md` extension (case-insensitive), decode UTF-8, and reject empty
-   or whitespace-only content. `InvalidUploadError` (a `ValueError` subclass)
-   propagates before a file record is created, including invalid UTF-8 input.
-2. Generate a file ID and commit a `processing` record, preserving the filename.
-3. Parse the unchanged text with `parse_txt` or `parse_markdown`, then chunk it
-   using the selected strategy. The default is parent-child chunking with
-   512-token children, 1536-token parents, `cl100k_base` counting, and no overlap.
-   Only children are embedded; parent context is expanded during retrieval.
-   Explicit `structural` mode retains flat 512-token structural chunks. Explicit
-   `character` mode retains the MVP's 2048-character size and 256-character overlap.
-4. Embed the chunk texts in one provider call.
-5. Save the complete source, hash, parser blocks, chunks and structural metadata;
-   write vectors and mark the file `ready`. All SQLite writes in this step share
-   one transaction. SQLite and Chroma do not share a transaction.
+1. Check the extension, UTF-8/nonempty text for TXT/Markdown, or the PDF signature
+   and configured PDF resources. Invalid uploads create no file record.
+2. Commit a new `processing` file ID. Repeated filenames still get distinct IDs.
+3. Parse the source and split it. PDF uses parent-child splitting with table-row
+   boundaries and heading context. Text uses the configured strategy. The default
+   is 512-token children, 1536-token parents and `cl100k_base` counting. Structural,
+   character and semantic strategies remain available for TXT/Markdown.
+4. Embed indexed spans. Parents provide retrieval context and are not embedded.
+5. Persist source content, indexing settings, chunk metadata and links; write
+   vectors; mark the file `ready`. SQLite writes share one transaction, while
+   SQLite, Chroma and original PDF assets do not share a transaction.
 
-Original text and exact chunk offsets are retained in SQLite, including in
-character mode. This workflow does not save a separate uploaded file on disk.
-Each upload gets a new ID,
-including uploads with the same filename.
-
-If parsing, chunking, embedding, or final persistence fails, source/chunk writes
-are absent or roll back together, including structural metadata.
-The service marks the file `failed`, stores the error message, removes vectors
-for that file ID, and propagates the exception. Other files remain unchanged.
-Cleanup errors also propagate; this function does not implement automatic retries
-or recovery after process termination.
+TXT/Markdown retain the exact decoded source in SQLite. PDF also retains original
+bytes for page navigation. A processing failure marks the file `failed` before
+cleanup, then removes its vectors, chunks and original PDF. Failed cleanup remains
+visible and can be retried by deleting the file. Startup calls `FileService.recover`
+under the data-directory ownership lock; it does not resume embedding jobs.
 
 ## Usage
-
-With a configured session factory and model/vector clients:
 
 ```python
 from pathlib import Path
 
-from knowledgebase.rag.retrieval import retrieve_evidence
-from knowledgebase.services.files import ingest_file
+from knowledgebase.services.files import FileService
+from knowledgebase.services.pdf import LocalPdfParser
+from knowledgebase.storage.pdf_assets import PdfAssets
 
-path = Path("notes.md")
-file_id = ingest_file(
-    file_name=path.name,
-    content=path.read_bytes(),
-    session_factory=session_factory,
-    embedding_client=embedding_client,
-    vector_store=vector_store,
+files = FileService.from_settings(
+    settings, sessions, embeddings, store,
+    assets=PdfAssets(settings.data_dir),
+    pdf_parser=LocalPdfParser(settings.pdf_model_dir),
 )
-
-with session_factory() as session:
-    results = retrieve_evidence("What do the notes explain?", session, embedding_client, vector_store)
-    for result in results.chunks:
-        print(result.chunk.text, result.distance)
+path = Path("notes.md")
+file_id = files.ingest(path.name, path.read_bytes())
+files.delete(file_id)
 ```
 
-The service owns its database transactions. Pass a session factory rather than
-an existing session. With real OpenAI clients, launch Python using
-`uv run --env-file .env python`. Each document embedding call contains all chunks;
-the provider's request limits apply.
+Direct offline callers can inject a `DocumentChunker` and test doubles through the
+constructor. No extra configuration model or schema per parser is required.
+Changing settings affects new uploads only; existing records need no migration
+for this model refactor. The established SQLite tables and PDF revision payload
+remain compatible with prior v2 records.
 
-API, CLI, and evaluation entry points pass the shared [Settings](configuration.md)
-to this service. Direct callers can supply `chunking_strategy`, `chunk_max_tokens`,
-and `chunk_tokenizer`, or `chunk_size`/`overlap` for character mode. Changing these
-options affects only new uploads. The default parent-child strategy is a functional baseline;
-live quality comparisons remain separate work.
-
-See [embedding setup](embeddings.md), [vector database setup](vectordb.md),
-[retrieval](retrieval.md), [file deletion](file-deletion.md), and the
-[file management API](file-api.md). Restart recovery remains a separate step.
-
-## Verification
-
-`make test` verifies ingestion through retrieval using real temporary SQLite and
-Chroma databases with fixed embeddings. It also covers UTF-8 and TXT/MD validation,
-source preservation, distinct upload IDs, observable processing state, embedding
-failure, parser failure, partial vector writes, rollback of source/metadata, and
-failure of the ready transition. These tests
-verify workflow behavior, not semantic retrieval quality with a live model.
+See [PDF setup](pdf-integration.md), [file API](file-api.md),
+[chunk storage](document-storage.md) and [deletion](file-deletion.md).
+The [refactor verification](../evals/check-runs/20261001-unified-file-oop/README.md)
+records offline regressions and matched frozen-data comparisons; it makes no new
+live answer-quality or performance claim.

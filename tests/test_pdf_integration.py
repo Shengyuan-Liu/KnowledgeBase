@@ -1,5 +1,7 @@
 """PDF ingestion/lifecycle with frozen real extraction and offline providers."""
 
+import json
+
 from pathlib import Path
 from unittest.mock import Mock
 
@@ -12,7 +14,7 @@ from knowledgebase.config import RetrievalOptions
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.chunking import split_parent_child
 from knowledgebase.schemas import (
-    PdfExtraction, RetrievedChunk, RetrievalDiagnostics,
+    File, RetrievedChunk, RetrievalDiagnostics,
 )
 from knowledgebase.rag.pdf_evidence import pdf_evidence, table_rows
 from knowledgebase.rag.packing import pack_evidence
@@ -30,7 +32,7 @@ EXTRACTION = ROOT / "evals/check-runs/20260926-pdf-parser-selection/adapter-2/ap
 
 @pytest.fixture
 def extraction():
-    return PdfExtraction.model_validate_json(EXTRACTION.read_text())
+    return File.model_validate({"type": "pdf", **json.loads(EXTRACTION.read_text())})
 
 
 @pytest.fixture
@@ -51,12 +53,15 @@ def upload_pdf(client):
 def test_upload_query_original_range_and_historical_evidence(pdf_api, extraction):
     client, resources, _ = pdf_api
     file = upload_pdf(client)
+    assert file["type"] == "pdf"
+    assert not {"text", "blocks", "pages", "parser", "indexing"}.intersection(file)
     assert file["page_count"] == 4 and file["extraction_warnings"]
     file_id = file["file_id"]
     with resources.sessions() as session:
         source = get_document_source(session, file_id)
-        assert source.source_format == "pdf"
-        assert get_pdf_extraction(session, file_id) == extraction
+        assert source.type == "pdf"
+        assert get_pdf_extraction(session, file_id).extraction_data() == extraction.extraction_data()
+        assert source.file_id == file_id and source.status == "ready"
         assert all(c.text == source.text[c.start_offset:c.end_offset] for c in get_chunks(session, file_id))
     url = f"/api/files/{file_id}/original?revision={extraction.revision_id}"
     original = client.get(url)
@@ -189,7 +194,7 @@ def test_additive_schema_keeps_existing_txt_constraints_and_data(engine, session
 
 
 def test_split_table_headers_are_separately_located_and_budgeted(extraction):
-    hierarchy = split_parent_child(extraction.text, extraction.source_blocks(), "file",
+    hierarchy = split_parent_child(extraction.text, extraction.blocks, "file",
         parent_max_tokens=96, child_max_tokens=48, encoding_name="cl100k_base", table_row_spans=table_rows(extraction))
     chunk = next(c for c in hierarchy.children if "94,930" in c.text)
     item = RetrievedChunk(chunk=chunk, file_name="report.pdf", distance=0,
@@ -208,7 +213,7 @@ def test_split_table_headers_are_separately_located_and_budgeted(extraction):
 
 
 def test_pdf_rows_fit_whole_when_budget_allows(extraction):
-    hierarchy = split_parent_child(extraction.text, extraction.source_blocks(), "file",
+    hierarchy = split_parent_child(extraction.text, extraction.blocks, "file",
         parent_max_tokens=120, child_max_tokens=60, encoding_name="cl100k_base", table_row_spans=table_rows(extraction))
     import tiktoken
     encoding = tiktoken.get_encoding("cl100k_base")
@@ -216,3 +221,26 @@ def test_pdf_rows_fit_whole_when_budget_allows(extraction):
         for start, end in rows:
             if start < end and len(encoding.encode_ordinary(extraction.text[start:end])) <= 60:
                 assert any(c.start_offset <= start and end <= c.end_offset for c in hierarchy.children)
+
+
+def test_one_service_dispatches_formats_without_changing_its_chunking_settings(pdf_api):
+    _, resources, _ = pdf_api
+    resources.settings.chunking_strategy = "character"
+    resources.settings.chunk_size = 8
+    resources.settings.chunk_overlap = 0
+    service = resources.files
+    pdf_id = service.ingest("Report.PDF", PDF.read_bytes())
+    text_id = service.ingest("notes.TXT", b"First sentence. Second sentence.")
+    markdown_id = service.ingest("notes.MD", b"# Heading\n\nBody.")
+    with resources.sessions() as session:
+        pdf = get_document_source(session, pdf_id)
+        text = get_document_source(session, text_id)
+        markdown = get_document_source(session, markdown_id)
+        assert type(pdf) is type(text) is type(markdown) is File
+        assert (pdf.type, text.type, markdown.type) == ("pdf", "txt", "md")
+        assert markdown.blocks[0].kind == "heading"
+        assert pdf.indexing["strategy"] == "parent_child"
+        assert text.indexing["strategy"] == markdown.indexing["strategy"] == "character"
+        assert all(c.type == "child" and c.parent_id for c in get_chunks(session, pdf_id))
+        assert [c.text for c in get_chunks(session, text_id)] == ["First se", "ntence. ", "Second s", "entence."]
+        assert all(c.type == "flat" and c.parent_id is None for c in get_chunks(session, text_id))

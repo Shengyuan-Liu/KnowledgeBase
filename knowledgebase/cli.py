@@ -13,7 +13,7 @@ from knowledgebase.providers.planner import PlannerClient
 from knowledgebase.providers.reranker import RerankerClient
 from knowledgebase.schemas import ChatAnswer, ConversationAnswer
 from knowledgebase.services.chat import answer_in_conversation
-from knowledgebase.services.files import ingest_file
+from knowledgebase.services.files import FileService
 from knowledgebase.storage.runtime import open_storage
 from knowledgebase.storage.pdf_assets import PdfAssets
 from knowledgebase.services.pdf import LocalPdfParser
@@ -97,19 +97,10 @@ def cli() -> None:
             pdf_parser = LocalPdfParser(settings.pdf_model_dir)
             planner = PlannerClient(sdk, settings.planner_model or settings.answer_model,
                                     settings.planning, settings.chunk_tokenizer)
+            files = FileService.from_settings(settings, sessions, embeddings, store,
+                                              assets=PdfAssets(args.data_dir), pdf_parser=pdf_parser)
             for path in args.files:
-                file_id = ingest_file(
-                    path.name, path.read_bytes(), sessions, embeddings, store,
-                    chunk_size=settings.chunk_size, overlap=settings.chunk_overlap,
-                    chunking_strategy=settings.chunking_strategy,
-                    chunk_max_tokens=settings.chunk_max_tokens,
-                    chunk_tokenizer=settings.chunk_tokenizer,
-                    parent_max_tokens=settings.parent_max_tokens,
-                    semantic_similarity_threshold=settings.semantic_similarity_threshold,
-                    semantic_batch_size=settings.semantic_batch_size,
-                    embedding_model=settings.embedding_model,
-                    assets=PdfAssets(args.data_dir), pdf_parser=pdf_parser,
-                )
+                file_id = files.ingest(path.name, path.read_bytes())
                 print(f"Indexed {path.name} ({file_id})")
             conversation_id = args.conversation_id
 

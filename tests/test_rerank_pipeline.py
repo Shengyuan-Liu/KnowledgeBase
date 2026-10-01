@@ -13,7 +13,7 @@ from knowledgebase.config import RetrievalOptions
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.retrieval import retrieve_evidence
 from knowledgebase.schemas import RelevanceScore
-from knowledgebase.services.files import ingest_file
+from knowledgebase.services.files import DocumentChunker, FileService
 from knowledgebase.storage.models import MessageRecord
 from knowledgebase.storage.operations import get_chunks, get_parents, update_file_status
 
@@ -31,10 +31,8 @@ def test_rerank_precedes_top_k_parent_deduplication_and_budget(storage, embeddin
     sessions, store, _ = storage
     pointer = "# Requirements\n\n" + "See the requirements page for more details. " * 8
     facts = "# Progress\n\nMaintain GPA 3.0 each semester.\n\nComplete 66% of attempted credits.\n"
-    first = ingest_file("pointer.md", pointer.encode(), sessions, embeddings, store,
-                        chunk_max_tokens=12, parent_max_tokens=128)
-    second = ingest_file("facts.md", facts.encode(), sessions, embeddings, store,
-                         chunk_max_tokens=12, parent_max_tokens=128)
+    first = FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(chunk_max_tokens=12, parent_max_tokens=128)).ingest("pointer.md", pointer.encode())
+    second = FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(chunk_max_tokens=12, parent_max_tokens=128)).ingest("facts.md", facts.encode())
     scorer = reranker()
     options = RetrievalOptions(rerank_enabled=True)
     with sessions() as session:
@@ -78,7 +76,7 @@ def test_disabled_and_empty_library_do_not_call_reranker(storage, embeddings):
         empty = retrieve_evidence("Question", session, embeddings, store,
                                   retrieval_options=RetrievalOptions(rerank_enabled=True), reranker_client=client)
         assert empty.chunks == []
-    ingest_file("facts.txt", b"Maintain GPA 3.0.", sessions, embeddings, store)
+    FileService(sessions, store, embeddings=embeddings).ingest("facts.txt", b"Maintain GPA 3.0.")
     with sessions() as session:
         disabled = retrieve_evidence("GPA", session, embeddings, store, reranker_client=client)
     assert disabled.diagnostics.rerank is None
@@ -203,8 +201,7 @@ def test_parent_scoring_keeps_other_region_when_siblings_dominate_child_top_k(st
     sessions, store, _ = storage
     work = '# Work\n\n' + '\n\n'.join(f'Working students have workload requirement {i}.' for i in range(5))
     summer = '# Enrollment\n\nContinuous enrollment excludes summer.'
-    ids = [ingest_file(name, text.encode(), sessions, embeddings, store,
-                      chunk_max_tokens=12, parent_max_tokens=128)
+    ids = [FileService(sessions, store, embeddings=embeddings, chunker=DocumentChunker(chunk_max_tokens=12, parent_max_tokens=128)).ingest(name, text.encode())
            for name, text in [('work.md', work), ('summer.md', summer)]]
     scorer = reranker()
     scorer.score.side_effect = lambda question, candidates: [

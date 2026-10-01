@@ -10,7 +10,7 @@ from fastapi.testclient import TestClient
 from knowledgebase.api import app as api_module
 from knowledgebase.rag.chunking import split_text
 from knowledgebase.rag.retrieval import retrieve_evidence
-from knowledgebase.services.files import delete_file, ingest_file, recover_interrupted_files
+from knowledgebase.services.files import FileService
 from knowledgebase.storage.operations import create_file, get_chunks, get_file, save_chunks
 from knowledgebase.storage.runtime import open_storage
 
@@ -25,10 +25,10 @@ def seed_partial(sessions, store, file_id="abandoned"):
 
 def test_recovery_removes_partial_chunks_vectors_and_preserves_ready_files(storage, embeddings):
     sessions, store, collection = storage
-    ready = ingest_file("ready.txt", b"Keep this evidence.", sessions, embeddings, store)
+    ready = FileService(sessions, store, embeddings=embeddings).ingest("ready.txt", b"Keep this evidence.")
     seed_partial(sessions, store)
-    recover_interrupted_files(sessions, store)
-    recover_interrupted_files(sessions, store)
+    FileService(sessions, store).recover()
+    FileService(sessions, store).recover()
     with sessions() as session:
         failed = get_file(session, "abandoned")
         assert failed.status == "failed" and "Re-upload" in failed.error_message
@@ -36,7 +36,7 @@ def test_recovery_removes_partial_chunks_vectors_and_preserves_ready_files(stora
         assert get_file(session, ready).status == "ready"
         assert {r.chunk.file_id for r in retrieve_evidence("Evidence?", session, embeddings, store).chunks} == {ready}
     assert collection.get()["ids"] == [f"{ready}:child:0"]
-    delete_file("abandoned", sessions, store)
+    FileService(sessions, store).delete("abandoned")
     with sessions() as session:
         assert get_file(session, "abandoned") is None
 
@@ -46,11 +46,11 @@ def test_recovery_cleanup_failure_remains_ineligible_and_deletable(storage, embe
     seed_partial(sessions, store)
     broken = Mock(wraps=store)
     broken.delete_by_file_id.side_effect = RuntimeError("Cleanup unavailable.")
-    recover_interrupted_files(sessions, broken)
+    FileService(sessions, broken).recover()
     with sessions() as session:
         assert "Cleanup pending" in get_file(session, "abandoned").error_message
         assert retrieve_evidence("Unfinished?", session, embeddings, store).chunks == []
-    delete_file("abandoned", sessions, store)
+    FileService(sessions, store).delete("abandoned")
     assert collection.count() == 0
 
 
