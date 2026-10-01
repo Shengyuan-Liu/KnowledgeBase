@@ -71,7 +71,7 @@ def test_all_frozen_pdf_contexts_keep_metadata_and_only_select_supplied_text(fro
         catalog = assessment_excerpts(result)
         annotated = assessment_context(result, catalog)
         current = build_context(result.evidence.chunks)
-        assert re.sub(r"(?m)^\[p\d+\] ", "", annotated) == current
+        assert re.sub(r"(?m)^(?:\[p\d+\])+ ", "", annotated) == current
         # Derived table readings may change; canonical excerpts and supplements do not.
         old_lines = [line for line in row["context"].splitlines() if not line.startswith("Table cells [")]
         new_lines = [line for line in current.splitlines()

@@ -275,3 +275,14 @@ All six requests and 40 provider calls complete without error; billed cost remai
 unavailable. A retained shutdown semaphore warning does not prevent verified
 server/lock release. The run does not establish broader acceptance or authorize
 a merge.
+
+The [assessment row-reference change](../../evals/check-runs/20261001-assessment-row-references/README.md)
+then adds the true current passage IDs beside table readings, separating table
+coordinates such as `Row 15` from passage IDs such as `p19`. All 75 table readings
+in the six frozen final contexts gain correct span-based markers, while source
+text, catalog IDs, answer context and 16/16 supplied fact anchors remain unchanged.
+The generation instructions also require citations on comparisons and computed
+conclusions even when earlier operand items are cited. Scoped offline checks pass
+161 tests. No new provider answers are generated: assessor selection quality and
+the prior uncited conclusion still need a matched live acceptance run. Existing
+PDFs do not need another reindex for this prompt/context change.

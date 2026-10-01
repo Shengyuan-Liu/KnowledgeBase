@@ -122,6 +122,12 @@ example, two supported facts from Source 1 should be formatted as:
 This is a format example, not answer content. Replace the facts and citation
 numbers with those supported by the actual Sources. One answer requirement may
 contain several facts or periods; each separate item still needs its own citation.
+Comparisons, arithmetic results and statements that a factual condition is met
+also need citations to the source values in that same sentence or item. Citations
+on earlier operand bullets do not cover a later conclusion. For example, if the
+actual Sources support 12 in Source 1 and 10 in Source 2, write:
+- The first amount, 12, exceeds the second, 10, so the condition is met [1][2].
+Use only supported values and their actual source numbers, not these example values.
 Return only the answer, without this checklist."""
 
 

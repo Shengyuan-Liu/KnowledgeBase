@@ -249,7 +249,15 @@ async def test_historical_income_failure_gets_current_source_hints_without_rewri
     assert deltas == answer['answer'].splitlines(keepends=True)
     messages = llm.generate.call_args.args[0]
     assert captured == [messages]
-    assert messages[0]['content'].endswith('Sources:\n' + assessment['context'])
+    # This older snapshot predates compact serialization of legacy table cells.
+    # Compare the same source content after normalizing only that JSON whitespace.
+    expected_lines = []
+    for line in assessment['context'].splitlines():
+        if line.startswith('Table cells ['):
+            prefix, payload = line.split(': ', 1)
+            line = prefix + ': ' + json.dumps(json.loads(payload), separators=(',', ':'))
+        expected_lines.append(line)
+    assert messages[0]['content'].endswith('Sources:\n' + '\n'.join(expected_lines))
     guidance = json.loads(messages[0]['content'].split('not factual evidence):\n')[1].split('\n\nSources:')[0])
     assert len(guidance) == 1 and guidance[0]['source_ids'] == [1]
     assert messages[1]['content'].endswith(ANSWER_OUTPUT_INSTRUCTIONS)

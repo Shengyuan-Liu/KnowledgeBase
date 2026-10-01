@@ -1,4 +1,5 @@
 """Assess packed evidence and validate source-bound supplementary queries."""
+import re
 from typing import Literal
 
 from pydantic import Field
@@ -45,6 +46,11 @@ means excerpts offer incompatible statements without an explicit resolution. Do 
 infer precedence from titles, dates or specificity. Silence is not disagreement.
 Source lines carry passage markers such as [p1]. These IDs belong only to this
 assessment; source citation numbers such as [1] are not passage IDs.
+Table readings repeat the passage markers beside their corresponding rows.
+Row/column numbers are table coordinates, not evidence IDs: never turn Row 7
+into p7. Copy the printed [p...] marker and check the text of that passage before
+selecting it. Match the row label, value, column group and period to the requested
+measure; omit unrelated rows even when they are in the same source or table.
 For supported/partial select passage IDs whose source text supports the point.
 References contain only evidence_id; the application supplies each passage's exact
 quote and source location. Do not write quotes or offsets. Select separate IDs for
@@ -142,7 +148,20 @@ def assessment_context(result, excerpts) -> str:
             start = end
         return "".join(lines)
 
-    return build_context(result.evidence.chunks, render_text=annotate)
+    def annotate_reading(file_id, reading):
+        def label_row(match):
+            start, end = map(int, match.groups())
+            markers = "".join(f"[{e['evidence_id']}]" for e in excerpts
+                              if e["file_id"] == file_id
+                              and e["start_offset"] < end and start < e["end_offset"])
+            return (markers + " " if markers else "") + match[0]
+
+        # _table_reading emits these canonical cell bounds, independent of row coordinates.
+        return re.sub(r"(?m)^Row \d+:\d+ .* \(canonical offsets (\d+):(\d+)\):",
+                      label_row, reading)
+
+    return build_context(result.evidence.chunks, render_text=annotate,
+                         render_table_reading=annotate_reading)
 
 
 def validate_assessment(assessment, requirements, excerpts):

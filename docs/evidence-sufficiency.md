@@ -46,6 +46,15 @@ page indices from overlapping stored regions. These are the existing parser's
 regions, not new line-accurate bounding boxes. The answer context is unchanged;
 only the assessor's view receives passage markers.
 
+Derived PDF table readings also repeat the current passage IDs whose canonical
+spans overlap the displayed cells. For example, a table coordinate `Row 15:16`
+can be labeled `[p19]`; row coordinates must not be converted into passage IDs.
+The markers link existing source lines, not a new quote or verified semantic
+support. Multiple overlapping lines may supply multiple markers. Canonical text,
+the catalog, answer context and its evidence budget remain unchanged. The
+[row-reference regression](../evals/check-runs/20261001-assessment-row-references/README.md)
+records the observed confusion and the matched offline rendering comparison.
+
 Every requirement must appear exactly once. Referenced IDs must belong to the
 current catalog. Model references contain only `evidence_id`; the application
 resolves the quote, file identity/name, offsets and PDF pages from that catalog.
@@ -100,7 +109,7 @@ new candidates when supplementary searches run.
 | Provider retries | Zero; invalid schemas, unknown passage IDs and unbound targets fail without repair |
 
 The same planner model performs assessment with prompt version
-`evidence-sufficiency-v5`. It scores only the supplied factual requirements;
+`evidence-sufficiency-v6`. It scores only the supplied factual requirements;
 answering instructions remain outside that set. The planner separately records
 `answer_rules`, while original user instructions remain in the generation question.
 A factual conditional question still needs source evidence. Missing or partial

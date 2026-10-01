@@ -12,7 +12,8 @@ LABELED_CONTEXT_FORMAT = "source-metadata-v2"
 
 
 def build_context(chunks: list[RetrievedChunk], *,
-                  render_text: Callable[[str, int, str], str] | None = None) -> str:
+                  render_text: Callable[[str, int, str], str] | None = None,
+                  render_table_reading: Callable[[str, str], str] | None = None) -> str:
     """Count identity labels as context while preserving canonical source slices."""
     sources = []
     for number, item in enumerate(chunks, start=1):
@@ -31,13 +32,15 @@ def build_context(chunks: list[RetrievedChunk], *,
             context += f"\nExcerpt canonical offsets: {item.chunk.start_offset}:{item.chunk.end_offset}"
             for table in item.pdf.tables:
                 if table.reading is not None:
+                    reading = (render_table_reading(item.chunk.file_id, table.reading)
+                               if render_table_reading else table.reading)
                     context += (f"\nTable readings for {table.table_id} derived from source cells: "
                                 'each row lists [full column header, value]. {"state":"blank"} '
                                 "means the source cell is blank: report it as blank, not unknown, unavailable, "
                                 "or numeric zero. Legacy null markers have the same meaning. "
                                 "These markers describe cell contents, not missing excerpts. "
                                 "Only complete supplied cells are listed. "
-                                "Bounds are exclusive." + ("\n" + table.reading if table.reading else ""))
+                                "Bounds are exclusive." + ("\n" + reading if reading else ""))
                 else:
                     # Saved evidence from earlier versions has coordinates but no reading aid.
                     context += "\nTable cells [row start, row end, column start, column end, canonical start, canonical end]; bounds exclusive; partial cells may intersect excerpt edges: "
