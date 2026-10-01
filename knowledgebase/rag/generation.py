@@ -2,11 +2,13 @@
 
 from collections.abc import AsyncGenerator
 from contextlib import aclosing
+import json
 
 from openai.types.responses import EasyInputMessageParam
 
 from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.rag.context import build_context
+from knowledgebase.rag.sufficiency import all_missing
 from knowledgebase.schemas import RetrievedChunk
 
 
@@ -23,6 +25,17 @@ Omit it unless needed to answer the question; if needed, explicitly identify the
 other document and cite its excerpt. Similar wording does not transfer support
 between documents. Match each claim to its actual supporting excerpt before
 choosing the citation number. Do not add blanket assurances about source support.
+Match each requested value to its document, entity, period and complete column
+group together. Read the source's period headers with the value row. Never relabel
+a value from another period with the requested year, even if an assessment calls
+it supported. An explicit requested period remains required when an assessment or
+plan drops or changes it. If the supplied evidence has only another period, state
+that the requested-period value is unavailable; do not substitute the other value.
+Preserve each column's own group path and qualifiers from the original question.
+In a list of independently named columns, do not carry a locally attached modifier
+from the first column to the next. Assessment descriptions and query wording may
+contain that mistake; use the user's original column names when answering or
+describing unavailable values.
 Do not reproduce Source metadata objects in the answer. Write citations as
 bracketed numbers only (for example [1]), not [cite: 1] or [source 1].
 A page title, URL, or list of links is not the contents of the linked page.
@@ -92,11 +105,51 @@ Use English for all explanatory text, including uncertainty and status labels;
 preserve source names and code identifiers as written."""
 
 
+ASSESSMENT_ANSWER_INSTRUCTIONS = """An optional evidence assessment is fallible guidance, not an additional source.
+Verify its conclusions against the actual Sources. Address every partial or missing
+point with supported details and explicit limits. For conflicting evidence, cite
+both statements and preserve the unresolved conflict; do not invent a resolution.
+source_ids locate the assessment's selected passages and attached table context
+within the current Sources. They are navigation hints, not verified support for
+every claim in a requirement. Check the actual excerpts, including table periods,
+dates and units, before choosing a citation."""
+
+ANSWER_OUTPUT_INSTRUCTIONS = """Final citation check: inspect each factual sentence or list item independently.
+If several items use the same excerpt, repeat its citation in each item. For
+example, two supported facts from Source 1 should be formatted as:
+- First requested fact [1].
+- Second requested fact [1].
+This is a format example, not answer content. Replace the facts and citation
+numbers with those supported by the actual Sources. One answer requirement may
+contain several facts or periods; each separate item still needs its own citation.
+Comparisons, arithmetic results and statements that a factual condition is met
+also need citations to the source values in that same sentence or item. Citations
+on earlier operand bullets do not cover a later conclusion. For example, if the
+actual Sources support 12 in Source 1 and 10 in Source 2, write:
+- The first amount, 12, exceeds the second, 10, so the condition is met [1][2].
+Use only supported values and their actual source numbers, not these example values.
+Return only the answer, without this checklist."""
+
+
+def _assessment_source_ids(requirement: dict, chunks: list[RetrievedChunk]) -> list[int]:
+    """Locate selected and attached spans in the currently numbered sources."""
+    references = [*requirement["references"], *requirement.get("table_context", [])]
+    source_ids = []
+    for number, hit in enumerate(chunks, start=1):
+        spans = [(hit.chunk.start_offset, hit.chunk.end_offset)]
+        if hit.pdf:
+            spans.extend((s.start_offset, s.end_offset) for s in hit.pdf.supplements)
+        if any(r["file_id"] == hit.chunk.file_id and any(
+            start <= r["start_offset"] < r["end_offset"] <= end for start, end in spans
+        ) for r in references):
+            source_ids.append(number)
+    return source_ids
+
 def generate_answer(
     question: str,
     chunks: list[RetrievedChunk],
     llm_client: LLMClient,
-    *, retrieval_question: str | None = None,
+    *, retrieval_question: str | None = None, assessment: dict | None = None,
 ) -> str:
     """Number chunks in retrieval order and return the model's answer text.
 
@@ -104,30 +157,36 @@ def generate_answer(
     evidence response without calling the model. The chat service checks source
     numbers after generation; this function requests citations through the prompt.
     """
-    if not chunks:
+    if not chunks or all_missing(assessment):
         return INSUFFICIENT_EVIDENCE
 
-    return llm_client.generate(_answer_messages(question, chunks, retrieval_question))
+    return llm_client.generate(_answer_messages(question, chunks, retrieval_question, assessment))
 
 
-def _answer_messages(question: str, chunks: list[RetrievedChunk], retrieval_question: str | None = None) -> list[EasyInputMessageParam]:
+def _answer_messages(question: str, chunks: list[RetrievedChunk], retrieval_question: str | None = None, assessment: dict | None = None) -> list[EasyInputMessageParam]:
     context = build_context(chunks)
     interpretation = (f"\n\nConversation interpretation (not evidence):\n{retrieval_question}"
                       if retrieval_question and retrieval_question != question else "")
+    guidance = ""
+    if assessment:
+        points = [{**{key: r[key] for key in ("description", "status", "gap")},
+                   "source_ids": _assessment_source_ids(r, chunks)} for r in assessment["requirements"]]
+        guidance = "\n\nEvidence assessment (fallible guidance, not factual evidence):\n" + json.dumps(points)
     return [
-        {"role": "user", "content": f"Question:\n{question}{interpretation}\n\nSources:\n{context}"},
-        {"role": "developer", "content": ANSWER_INSTRUCTIONS},
+        {"role": "user", "content": f"Question:\n{question}{interpretation}{guidance}\n\nSources:\n{context}"},
+        {"role": "developer", "content": ANSWER_INSTRUCTIONS + ("\n" + ASSESSMENT_ANSWER_INSTRUCTIONS if assessment else "")
+            + "\n" + ANSWER_OUTPUT_INSTRUCTIONS},
     ]
 
 
 async def stream_answer(
     question: str, chunks: list[RetrievedChunk], llm_client: StreamingLLMClient,
-    *, retrieval_question: str | None = None,
+    *, retrieval_question: str | None = None, assessment: dict | None = None,
 ) -> AsyncGenerator[str]:
     """Use the same evidence prompt while yielding text as it arrives."""
-    if not chunks:
+    if not chunks or all_missing(assessment):
         yield INSUFFICIENT_EVIDENCE
         return
-    async with aclosing(llm_client.stream(_answer_messages(question, chunks, retrieval_question))) as stream:
+    async with aclosing(llm_client.stream(_answer_messages(question, chunks, retrieval_question, assessment))) as stream:
         async for delta in stream:
             yield delta

@@ -1,0 +1,63 @@
+{
+  "restricted": {
+    "error_type": "ValueError",
+    "message": "Question reformulations cannot contain an unbound target.",
+    "proposal": {
+      "requirement_ids": [
+        "r2"
+      ],
+      "query_template": "In the DPR paper referenced as [26], what combination of negative passages does the best model use during training?",
+      "target": "",
+      "references": [
+        {
+          "evidence_id": "p2"
+        },
+        {
+          "evidence_id": "p27"
+        }
+      ]
+    },
+    "supported_bridge_decision": {
+      "requirement_id": "r1",
+      "status": "supported",
+      "gap": "",
+      "references": [
+        {
+          "evidence_id": "p2"
+        },
+        {
+          "evidence_id": "p27"
+        }
+      ]
+    },
+    "gap_decision": {
+      "requirement_id": "r2",
+      "status": "missing",
+      "gap": "No supplied passage describes what combination of negative passages is used during training by DPR's best model. No explicit negative passage training details for the retriever used to initialize RAG are present.",
+      "references": []
+    },
+    "allowed_file_ids": [
+      "18eaa5a313824309a081713d13a55e2d"
+    ],
+    "scope_preserved": true,
+    "limitation": "Exact retained output reproduces local validator error; live API exposed a generic processing failure, not a saved exception stack."
+  },
+  "finance": {
+    "query": "In the relevant document, what was NVIDIA's GAAP operating income for Q4 FY25? State the amount and units.",
+    "references": [
+      "relevant document"
+    ],
+    "scope": {
+      "status": "not_found",
+      "references": [
+        "relevant document"
+      ],
+      "file_ids": [],
+      "matches": [],
+      "message": "I could not find a ready document matching \"relevant document\". Please specify its exact filename or upload it."
+    },
+    "same_failure_in_all_four_live_queries": true
+  },
+  "provider_calls": 0,
+  "product_changes": false
+}

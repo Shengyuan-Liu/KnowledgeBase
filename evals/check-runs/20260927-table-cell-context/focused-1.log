@@ -1,0 +1,30 @@
+...........F..........................                                   [100%]
+=================================== FAILURES ===================================
+___ test_all_frozen_pdf_contexts_keep_metadata_and_only_select_supplied_text ___
+
+frozen_pdf_evidence = ([{'case_id': 'paper-facts', 'arm': 'single', 'question': 'In "doclaynet.pdf", how many manually annotated pages and l... such as Author and A\uffffliation, as seen\n\nPhase 1: Data selection and preparation. Our inclusion cri-\n\n9', ...})
+
+    def test_all_frozen_pdf_contexts_keep_metadata_and_only_select_supplied_text(frozen_pdf_evidence):
+        rows, documents = frozen_pdf_evidence
+        for row in rows:
+            result = SimpleNamespace(evidence=row["evidence"])
+            catalog = assessment_excerpts(result)
+            annotated = assessment_context(result, catalog)
+            current = build_context(result.evidence.chunks)
+            assert re.sub(r"(?m)^\[p\d+\] ", "", annotated) == current
+            # Derived table readings may change; canonical excerpts and supplements do not.
+            old_lines = [line for line in row["context"].splitlines() if not line.startswith("Table cells [")]
+            new_lines = [line for line in current.splitlines()
+                         if not line.startswith(("Table readings for ", "Row "))]
+>           assert old_lines == new_lines
+E           AssertionError: assert ['[1]', 'Sour...n shell', ...] == ['[1]', 'Sour...n shell', ...]
+E             
+E             At index 14 diff: 'Extraction limitations: OCR, visual figure/chart interpretation, and formula understanding are disabled. Reading order, spacing and table structure are parser estimates; review the original pages. Printed page labels are not extracted; page indices refer to physical PDF pages. Extracted cell/header associations are unverified. Dense and merged tables can lose values or group rows incorrectly; consult the original page.' != ''
+E             Right contains one more item: 'Extraction limitations: OCR, visual figure/chart interpretation, and formula understanding are di...
+E             
+E             ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests/test_pdf_assessment.py:79: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_pdf_assessment.py::test_all_frozen_pdf_contexts_keep_metadata_and_only_select_supplied_text
+1 failed, 37 passed in 0.77s

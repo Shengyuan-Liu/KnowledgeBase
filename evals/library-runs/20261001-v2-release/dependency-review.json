@@ -1,0 +1,43 @@
+{
+  "reviewer": "Codex model",
+  "synthetic": true,
+  "before": {
+    "file": "../20261001-v2-closeout-matched/dependency/unknown-laboratory-planned.json",
+    "correct_facts": 1,
+    "expected_facts": 2,
+    "gate_passed": false,
+    "reason": "Explicit identity was incorrectly classified missing because the final attribute was absent."
+  },
+  "after": {
+    "file": "dependency/unknown-laboratory--D.json",
+    "correct_facts": 2,
+    "expected_facts": 2,
+    "gate_passed": true,
+    "trace": {
+      "query_id": "Q2",
+      "depends_on": [
+        "Q1"
+      ],
+      "query_template": "In \"laboratory-register.pdf\", what calibration interval is specified for {target} laboratory?",
+      "requirement_ids": [
+        "R2"
+      ],
+      "status": "executed",
+      "target": "Quenwick Laboratory",
+      "query": "In \"laboratory-register.pdf\", what calibration interval is specified for Quenwick Laboratory laboratory?",
+      "references": [
+        {
+          "evidence_id": "aa14ab9c69064b4687870a411dc73896@0:329",
+          "quote": "Project Juniper was assigned to Quenwick Laboratory.",
+          "file_id": "aa14ab9c69064b4687870a411dc73896",
+          "file_name": "assignment.pdf",
+          "start_offset": 155,
+          "end_offset": 207
+        }
+      ],
+      "references_in_final_context": true
+    },
+    "rounds": 2
+  },
+  "scope": "Same exact two PDF bytes and question; changed generic binding instructions and prerequisite query payload. No expected target supplied in request. The original RAG/DPR question remains independently searched; do not reclassify it as dependent."
+}

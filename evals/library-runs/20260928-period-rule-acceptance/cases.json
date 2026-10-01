@@ -1,0 +1,79 @@
+[
+  {
+    "id": "original-rule",
+    "question": "In \"background-checks.pdf\" for November 2015, what is Alabama's Handgun value in the ungrouped column, and what is its Pre-Pawn Handgun value? What do Alabama's Rentals Handgun and Rentals Long Gun cells record? If the supplied excerpts do not establish a requested cell's contents, state that limitation.",
+    "expected_answer_rules": [
+      "If the supplied excerpts do not establish a requested cell's contents, state that limitation."
+    ],
+    "expected_points": [
+      "Alabama ungrouped Handgun is 23,022 for November 2015",
+      "Alabama Pre-Pawn Handgun is 14 for November 2015",
+      "Alabama Rentals Handgun cell is blank",
+      "Alabama Rentals Long Gun cell is blank"
+    ],
+    "available_fact_ids": [
+      "alabama_handgun",
+      "alabama_prepawn_handgun",
+      "alabama_rentals_handgun_blank",
+      "alabama_rentals_longgun_blank"
+    ],
+    "absent_points": [],
+    "fully_answerable": true
+  },
+  {
+    "id": "paraphrased-rule",
+    "question": "In \"background-checks.pdf\" for November 2015, what is Alabama's Handgun value in the ungrouped column, and what is its Pre-Pawn Handgun value? What do Alabama's Rentals Handgun and Rentals Long Gun cells record? Report only values established by the excerpts; for any requested cell that they do not establish, explicitly say the evidence is insufficient.",
+    "expected_answer_rules": [
+      "Report only values established by the excerpts; for any requested cell that they do not establish, explicitly say the evidence is insufficient."
+    ],
+    "expected_points": [
+      "Alabama ungrouped Handgun is 23,022 for November 2015",
+      "Alabama Pre-Pawn Handgun is 14 for November 2015",
+      "Alabama Rentals Handgun cell is blank",
+      "Alabama Rentals Long Gun cell is blank"
+    ],
+    "available_fact_ids": [
+      "alabama_handgun",
+      "alabama_prepawn_handgun",
+      "alabama_rentals_handgun_blank",
+      "alabama_rentals_longgun_blank"
+    ],
+    "absent_points": [],
+    "fully_answerable": true
+  },
+  {
+    "id": "factual-condition",
+    "question": "In \"background-checks.pdf\" for November 2015, if Alabama's Rentals Handgun cell is blank, what is Alabama's ungrouped Handgun value, and does the document explain why that Rentals Handgun cell is blank?",
+    "expected_answer_rules": [],
+    "expected_points": [
+      "Alabama Rentals Handgun cell is blank",
+      "Alabama ungrouped Handgun is 23,022 for November 2015",
+      "The supplied document does not explain why the Rentals Handgun cell is blank"
+    ],
+    "available_fact_ids": [
+      "alabama_handgun",
+      "alabama_rentals_handgun_blank"
+    ],
+    "absent_points": [
+      "Explanation for the blank Rentals Handgun cell"
+    ],
+    "fully_answerable": false
+  },
+  {
+    "id": "missing-year",
+    "question": "In \"background-checks.pdf\", what are Alabama's ungrouped Handgun and Pre-Pawn Handgun values for November 2016? If the supplied excerpts do not establish these values for that year, state that limitation.",
+    "expected_answer_rules": [
+      "If the supplied excerpts do not establish these values for that year, state that limitation."
+    ],
+    "expected_points": [
+      "Disclose that November 2016 Handgun value is not established",
+      "Disclose that November 2016 Pre-Pawn Handgun value is not established"
+    ],
+    "available_fact_ids": [],
+    "absent_points": [
+      "November 2016 Handgun",
+      "November 2016 Pre-Pawn Handgun"
+    ],
+    "fully_answerable": false
+  }
+]

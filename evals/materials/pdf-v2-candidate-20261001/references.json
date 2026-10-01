@@ -1,0 +1,408 @@
+{
+  "version": 1,
+  "created_at": "2026-10-01T15:02:33.266415+00:00",
+  "reviewer": "Codex (model)",
+  "human_review": false,
+  "facts": [
+    {
+      "id": "rag_sequence",
+      "expected": "RAG-Sequence uses the same retrieved document for the complete output sequence.",
+      "evidence": [
+        {
+          "file": "rag-paper.pdf",
+          "source_sha256": "720f67eb41aa49995d5fcf3d24ac7efe431fbe08ce109b14b5a9fa4d4ebe2f8b",
+          "physical_page": 3,
+          "location": "Section 2.1, first prose sentence",
+          "normalized_quote": "The RAG-Sequence model uses the same retrieved document to generate the complete sequence.",
+          "raw_quote": "The RAG-Sequence model uses the same retrieved document to generate\nthe complete sequence.",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 737,
+          "reference_text_end": 827,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ]
+    },
+    {
+      "id": "rag_token",
+      "expected": "RAG-Token can use a different retrieved document for each target token.",
+      "evidence": [
+        {
+          "file": "rag-paper.pdf",
+          "source_sha256": "720f67eb41aa49995d5fcf3d24ac7efe431fbe08ce109b14b5a9fa4d4ebe2f8b",
+          "physical_page": 3,
+          "location": "Section 2.1, RAG-Token prose",
+          "normalized_quote": "In the RAG-Token model we can draw a different latent document for each target token",
+          "raw_quote": "In the RAG-Token model we can draw a different latent document for each\ntarget token",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 1305,
+          "reference_text_end": 1389,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ]
+    },
+    {
+      "id": "retriever_bridge",
+      "expected": "A pretrained bi-encoder from DPR initializes the RAG retriever.",
+      "evidence": [
+        {
+          "file": "rag-paper.pdf",
+          "source_sha256": "720f67eb41aa49995d5fcf3d24ac7efe431fbe08ce109b14b5a9fa4d4ebe2f8b",
+          "physical_page": 3,
+          "location": "Section 2.2, closing paragraph",
+          "normalized_quote": "a pre-trained bi-encoder from DPR to initialize our retriever and to build the document index.",
+          "raw_quote": "a pre-trained bi-encoder from DPR to initialize our retriever and to build the document index.",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 2623,
+          "reference_text_end": 2717,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ],
+      "accepted_target_strings": [
+        "DPR"
+      ],
+      "target_must_be_literal_in_binding_quote": true
+    },
+    {
+      "id": "negative_gold",
+      "expected": "The best DPR model uses gold (positive) passages from the same mini-batch as negatives.",
+      "evidence": [
+        {
+          "file": "dpr-paper.pdf",
+          "source_sha256": "2abfc7991519be2b8ce30215905516fdb593218b7bf59e50ece0d8a088a7c4d5",
+          "physical_page": 3,
+          "location": "Right column, Positive and negative passages",
+          "normalized_quote": "Our best model uses gold passages from the same mini-batch and one BM25 negative passage.",
+          "raw_quote": "Our best model\nuses gold passages from the same mini-batch and\none BM25 negative passage.",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 3749,
+          "reference_text_end": 3838,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ]
+    },
+    {
+      "id": "negative_bm25",
+      "expected": "The best DPR model also uses one BM25 negative passage.",
+      "evidence": [
+        {
+          "file": "dpr-paper.pdf",
+          "source_sha256": "2abfc7991519be2b8ce30215905516fdb593218b7bf59e50ece0d8a088a7c4d5",
+          "physical_page": 3,
+          "location": "Right column, Positive and negative passages",
+          "normalized_quote": "Our best model uses gold passages from the same mini-batch and one BM25 negative passage.",
+          "raw_quote": "Our best model\nuses gold passages from the same mini-batch and\none BM25 negative passage.",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 3749,
+          "reference_text_end": 3838,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ]
+    },
+    {
+      "id": "overfitting_definition",
+      "expected": "Overfitting means fitting noise or attending to irrelevant parts of the data.",
+      "evidence": [
+        {
+          "file": "decision-trees.pdf",
+          "source_sha256": "6e867284dd975b8c365a1ced8e419648264a0623fbaca1564ce3443f59e982b8",
+          "physical_page": 35,
+          "location": "Upper slide, printed Slide 69, definition bullet",
+          "normalized_quote": "algorithm fits noise (i.e. pays attention to parts of the data that are irrelevant)",
+          "raw_quote": "algorithm fits noise (i.e. pays attention to\nparts of the data that are irrelevant)",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 51,
+          "reference_text_end": 134,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ],
+      "printed_label": "Slide 69"
+    },
+    {
+      "id": "overfitting_effect",
+      "expected": "An overfitting algorithm may perform less well on test-set data.",
+      "evidence": [
+        {
+          "file": "decision-trees.pdf",
+          "source_sha256": "6e867284dd975b8c365a1ced8e419648264a0623fbaca1564ce3443f59e982b8",
+          "physical_page": 35,
+          "location": "Upper slide, printed Slide 69, second bullet",
+          "normalized_quote": "then it may perform less well on test set data.",
+          "raw_quote": "then it may perform less well on test set\ndata.",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 240,
+          "reference_text_end": 287,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ],
+      "printed_label": "Slide 69"
+    },
+    {
+      "id": "quarter_gaap",
+      "expected": "Q4 FY25 GAAP operating income is USD 24,034 million.",
+      "evidence": [
+        {
+          "file": "nvidia-fy25.pdf",
+          "source_sha256": "1c716d4fb428ad371801ecc2f71f4ec0d71d87e77649852d6d1449b37b0c8c9e",
+          "physical_page": 1,
+          "location": "GAAP summary table; Operating income row; Q4 FY25 column",
+          "normalized_quote": "$24,034",
+          "raw_quote": "$24,034",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 1884,
+          "reference_text_end": 1891,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ],
+      "table": {
+        "row": "Operating income",
+        "group": "GAAP",
+        "period": "Q4 FY25",
+        "value": "24,034",
+        "currency": "USD",
+        "scale": "millions",
+        "distractor_rows": [
+          "Operating expenses",
+          "Net income"
+        ],
+        "alternate_original_pages": [
+          4,
+          8
+        ],
+        "continued_table_header_page": 7,
+        "alternative_note": "Page 4 is the GAAP income statement; page 8 continues the reconciliation table whose units/date headings are on page 7. Alternatives were visually checked; labels are not exhaustive semantic relevance."
+      }
+    },
+    {
+      "id": "quarter_nongaap",
+      "expected": "Q4 FY25 Non-GAAP operating income is USD 25,516 million.",
+      "evidence": [
+        {
+          "file": "nvidia-fy25.pdf",
+          "source_sha256": "1c716d4fb428ad371801ecc2f71f4ec0d71d87e77649852d6d1449b37b0c8c9e",
+          "physical_page": 1,
+          "location": "Non-GAAP summary table; Operating income row; Q4 FY25 column",
+          "normalized_quote": "$25,516",
+          "raw_quote": "$25,516",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 2329,
+          "reference_text_end": 2336,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ],
+      "table": {
+        "row": "Operating income",
+        "group": "Non-GAAP",
+        "period": "Q4 FY25",
+        "value": "25,516",
+        "currency": "USD",
+        "scale": "millions",
+        "distractor_rows": [
+          "Operating expenses",
+          "Net income"
+        ],
+        "alternate_original_pages": [
+          8
+        ],
+        "continued_table_header_page": 7,
+        "alternative_note": "Page 4 is the GAAP income statement; page 8 continues the reconciliation table whose units/date headings are on page 7. Alternatives were visually checked; labels are not exhaustive semantic relevance."
+      }
+    },
+    {
+      "id": "annual_gaap",
+      "expected": "FY25 GAAP operating income is USD 81,453 million.",
+      "evidence": [
+        {
+          "file": "nvidia-fy25.pdf",
+          "source_sha256": "1c716d4fb428ad371801ecc2f71f4ec0d71d87e77649852d6d1449b37b0c8c9e",
+          "physical_page": 2,
+          "location": "GAAP summary table; Operating income row; FY25 column",
+          "normalized_quote": "$81,453",
+          "raw_quote": "$81,453",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 184,
+          "reference_text_end": 191,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ],
+      "table": {
+        "row": "Operating income",
+        "group": "GAAP",
+        "period": "FY25",
+        "value": "81,453",
+        "currency": "USD",
+        "scale": "millions",
+        "distractor_rows": [
+          "Operating expenses",
+          "Net income"
+        ],
+        "alternate_original_pages": [
+          4,
+          8
+        ],
+        "continued_table_header_page": 7,
+        "alternative_note": "Page 4 is the GAAP income statement; page 8 continues the reconciliation table whose units/date headings are on page 7. Alternatives were visually checked; labels are not exhaustive semantic relevance."
+      }
+    },
+    {
+      "id": "annual_nongaap",
+      "expected": "FY25 Non-GAAP operating income is USD 86,789 million.",
+      "evidence": [
+        {
+          "file": "nvidia-fy25.pdf",
+          "source_sha256": "1c716d4fb428ad371801ecc2f71f4ec0d71d87e77649852d6d1449b37b0c8c9e",
+          "physical_page": 2,
+          "location": "Non-GAAP summary table; Operating income row; FY25 column",
+          "normalized_quote": "$86,789",
+          "raw_quote": "$86,789",
+          "match_count_on_page": 1,
+          "match_occurrence": 0,
+          "reference_text_start": 407,
+          "reference_text_end": 414,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ],
+      "table": {
+        "row": "Operating income",
+        "group": "Non-GAAP",
+        "period": "FY25",
+        "value": "86,789",
+        "currency": "USD",
+        "scale": "millions",
+        "distractor_rows": [
+          "Operating expenses",
+          "Net income"
+        ],
+        "alternate_original_pages": [
+          8
+        ],
+        "continued_table_header_page": 7,
+        "alternative_note": "Page 4 is the GAAP income statement; page 8 continues the reconciliation table whose units/date headings are on page 7. Alternatives were visually checked; labels are not exhaustive semantic relevance."
+      }
+    },
+    {
+      "id": "income_units",
+      "expected": "All four operating-income amounts are expressed in millions of dollars.",
+      "evidence": [
+        {
+          "file": "nvidia-fy25.pdf",
+          "source_sha256": "1c716d4fb428ad371801ecc2f71f4ec0d71d87e77649852d6d1449b37b0c8c9e",
+          "physical_page": 1,
+          "location": "GAAP summary table unit note; repeated in the Non-GAAP table",
+          "normalized_quote": "($ in millions, except earnings per share)",
+          "raw_quote": "($ in millions, except earnings\nper share)",
+          "match_count_on_page": 2,
+          "match_occurrence": 0,
+          "reference_text_start": 1613,
+          "reference_text_end": 1655,
+          "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+        }
+      ],
+      "table": {
+        "currency": "USD",
+        "scale": "millions",
+        "note": "The earnings-per-share exception does not apply to operating income."
+      }
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "rag-document-granularity",
+      "answerability": "full",
+      "fact_ids": [
+        "rag_sequence",
+        "rag_token"
+      ],
+      "gap_ids": []
+    },
+    {
+      "case_id": "retriever-training-hop",
+      "answerability": "full",
+      "fact_ids": [
+        "retriever_bridge",
+        "negative_gold",
+        "negative_bm25"
+      ],
+      "gap_ids": [],
+      "dependency": {
+        "seed": "RAG retriever initialization",
+        "bridge_fact": "retriever_bridge",
+        "target": "DPR",
+        "downstream_facts": [
+          "negative_gold",
+          "negative_bm25"
+        ],
+        "prerequisite_file": "rag-paper.pdf",
+        "downstream_file": "dpr-paper.pdf",
+        "gate": "Report answer quality and actual dependent execution separately. Require a resolved target from retained prerequisite evidence before the downstream search; a correct answer or two independent searches alone does not pass the dependent-execution gate."
+      }
+    },
+    {
+      "case_id": "retriever-training-restricted",
+      "answerability": "partial",
+      "fact_ids": [
+        "retriever_bridge"
+      ],
+      "gap_ids": [
+        "negative_gold",
+        "negative_bm25"
+      ],
+      "abstention": "Name DPR with support, but disclose that its negative-training recipe is absent from the selected RAG paper. Do not refuse the supported bridge or use DPR paper evidence outside scope.",
+      "scope_pair": "retriever-training-hop"
+    },
+    {
+      "case_id": "lecture-overfitting",
+      "answerability": "full",
+      "fact_ids": [
+        "overfitting_definition",
+        "overfitting_effect"
+      ],
+      "gap_ids": []
+    },
+    {
+      "case_id": "income-period-basis",
+      "answerability": "full",
+      "fact_ids": [
+        "quarter_gaap",
+        "quarter_nongaap",
+        "annual_gaap",
+        "annual_nongaap",
+        "income_units"
+      ],
+      "gap_ids": []
+    },
+    {
+      "case_id": "forecast-is-not-actual",
+      "answerability": "none",
+      "fact_ids": [],
+      "gap_ids": [
+        "actual_q1_fy26_revenue"
+      ],
+      "abstention": "The selected report has an outlook, not actual Q1 FY26 revenue. Refuse the unavailable actual amount. An optional clearly labeled forecast needs its own source citation.",
+      "tempting_but_not_answer": {
+        "file": "nvidia-fy25.pdf",
+        "source_sha256": "1c716d4fb428ad371801ecc2f71f4ec0d71d87e77649852d6d1449b37b0c8c9e",
+        "physical_page": 2,
+        "location": "Outlook, first bullet",
+        "normalized_quote": "Revenue is expected to be $43.0 billion, plus or minus 2%.",
+        "raw_quote": "Revenue is expected to be $43.0 billion, plus or minus 2%.",
+        "match_count_on_page": 1,
+        "match_occurrence": 0,
+        "reference_text_start": 875,
+        "reference_text_end": 933,
+        "offset_system": "Page-local Poppler reading text; NOT production canonical offsets."
+      }
+    }
+  ],
+  "counting": "12 unique positive facts; 13 positive case-fact instances, because the bridge is repeated in the paired scope case. Four fully answerable, one partial and one fully unanswerable question.",
+  "production_span_mapping": "unavailable until future production ingestion; map frozen references without changing missing facts into zero-length successes."
+}

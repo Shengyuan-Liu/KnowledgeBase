@@ -1,0 +1,1333 @@
+{
+  "timestamp": "2026-09-27T16:00:33.792686+00:00",
+  "scope": "Offline packing component comparison; no live evaluation or answer-quality claim",
+  "frozen_sha256": "0d9ce8171865e01835560a4fa1503a26b849d9b80cde7c122045dd284c7d8417",
+  "annotations": "../../library-runs/20260927-v2-pdf-live/anchor-labels.json",
+  "changes": [
+    "Selected-rank immediate child fallback under parent_then_child",
+    "Same-page, same-section immediately preceding paragraph added to table context"
+  ],
+  "limitations": [
+    "Candidate retrieval, reranking, corpus and questions fixed; no retrieval gain is claimed.",
+    "Literal Yaoliang Yu anchor does not match joined parser text; four Alabama values remain absent.",
+    "The source-bound assessor quote failure remains outside this change.",
+    "Preceding text is structural adjacency, not a certified semantic unit association.",
+    "A parent that fits can still consume budget needed by a later requirement; this is not a child-first reservation policy."
+  ],
+  "rows": [
+    {
+      "case_id": "paper-facts",
+      "arm": "single",
+      "question": "In \"doclaynet.pdf\", how many manually annotated pages and layout classes does DocLayNet contain?",
+      "selected_ids": [
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:7",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:24",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:23"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.6,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.7227265726449519
+      },
+      "before_covered": {
+        "paper_pages": 1,
+        "paper_classes": 1
+      },
+      "after_covered": {
+        "paper_pages": 1,
+        "paper_classes": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 3727,
+      "after_tokens": 3727
+    },
+    {
+      "case_id": "paper-facts",
+      "arm": "planned",
+      "question": "In \"doclaynet.pdf\", how many manually annotated pages and layout classes does DocLayNet contain?",
+      "selected_ids": [
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:7",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:24",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:23"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.6,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.7227265726449519
+      },
+      "before_covered": {
+        "paper_pages": 1,
+        "paper_classes": 1
+      },
+      "after_covered": {
+        "paper_pages": 1,
+        "paper_classes": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 3727,
+      "after_tokens": 3727
+    },
+    {
+      "case_id": "paper-paraphrase",
+      "arm": "single",
+      "question": "In \"doclaynet.pdf\", how does the way DocLayNet was labeled differ from PubLayNet and DocBank, and what limits the older datasets' layout variety?",
+      "selected_ids": [
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:6",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:45",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:47",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:17"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 0.5,
+        "NDCG@K": 0.34519134224686937
+      },
+      "before_covered": {
+        "paper_human": 1,
+        "paper_automatic": 1
+      },
+      "after_covered": {
+        "paper_human": 1,
+        "paper_automatic": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 4019,
+      "after_tokens": 4019
+    },
+    {
+      "case_id": "paper-paraphrase",
+      "arm": "planned",
+      "question": "In \"doclaynet.pdf\", how does the way DocLayNet was labeled differ from PubLayNet and DocBank, and what limits the older datasets' layout variety?",
+      "selected_ids": [
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:7",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:6",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:47",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:45",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:4"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.5,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 0.5,
+        "NDCG@K": 0.21398626473452756
+      },
+      "before_covered": {
+        "paper_human": 1,
+        "paper_automatic": 1
+      },
+      "after_covered": {
+        "paper_human": 1,
+        "paper_automatic": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 3447,
+      "after_tokens": 3447
+    },
+    {
+      "case_id": "lecture-logistics",
+      "arm": "single",
+      "question": "In \"ml-lecture.pdf\", is a textbook required, where are readings assigned, and who are the guest lecturers?",
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:18",
+        "e38c730b3b714c5a8913e530695fd03b:child:10",
+        "e38c730b3b714c5a8913e530695fd03b:child:9",
+        "e38c730b3b714c5a8913e530695fd03b:child:8",
+        "e38c730b3b714c5a8913e530695fd03b:child:1"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.3333333333333333,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 0.5,
+        "NDCG@K": 0.5307212739772434
+      },
+      "before_covered": {
+        "lecture_book": 1,
+        "lecture_yu": 0,
+        "lecture_wilson": 1
+      },
+      "after_covered": {
+        "lecture_book": 1,
+        "lecture_yu": 0,
+        "lecture_wilson": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 432,
+      "after_tokens": 432
+    },
+    {
+      "case_id": "lecture-logistics",
+      "arm": "planned",
+      "question": "In \"ml-lecture.pdf\", is a textbook required, where are readings assigned, and who are the guest lecturers?",
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:9",
+        "e38c730b3b714c5a8913e530695fd03b:child:10",
+        "e38c730b3b714c5a8913e530695fd03b:child:18",
+        "e38c730b3b714c5a8913e530695fd03b:child:25",
+        "e38c730b3b714c5a8913e530695fd03b:child:371"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.3333333333333333,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.7653606369886217
+      },
+      "before_covered": {
+        "lecture_book": 1,
+        "lecture_yu": 0,
+        "lecture_wilson": 1
+      },
+      "after_covered": {
+        "lecture_book": 1,
+        "lecture_yu": 0,
+        "lecture_wilson": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 648,
+      "after_tokens": 648
+    },
+    {
+      "case_id": "lecture-grades",
+      "arm": "single",
+      "question": "In \"ml-lecture.pdf\", give the grade weights for homework, the final project and the midterm, and state the project team size.",
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:37",
+        "e38c730b3b714c5a8913e530695fd03b:child:28",
+        "e38c730b3b714c5a8913e530695fd03b:child:38",
+        "e38c730b3b714c5a8913e530695fd03b:child:25",
+        "e38c730b3b714c5a8913e530695fd03b:child:408"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.8,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_covered": {
+        "lecture_homework": 1,
+        "lecture_project": 1,
+        "lecture_exam": 1,
+        "lecture_team": 1
+      },
+      "after_covered": {
+        "lecture_homework": 1,
+        "lecture_project": 1,
+        "lecture_exam": 1,
+        "lecture_team": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 749,
+      "after_tokens": 749
+    },
+    {
+      "case_id": "lecture-grades",
+      "arm": "planned",
+      "question": "In \"ml-lecture.pdf\", give the grade weights for homework, the final project and the midterm, and state the project team size.",
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:25",
+        "e38c730b3b714c5a8913e530695fd03b:child:28",
+        "e38c730b3b714c5a8913e530695fd03b:child:38",
+        "e38c730b3b714c5a8913e530695fd03b:child:37",
+        "e38c730b3b714c5a8913e530695fd03b:child:3"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.8,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_covered": {
+        "lecture_homework": 1,
+        "lecture_project": 1,
+        "lecture_exam": 1,
+        "lecture_team": 1
+      },
+      "after_covered": {
+        "lecture_homework": 1,
+        "lecture_project": 1,
+        "lecture_exam": 1,
+        "lecture_team": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 709,
+      "after_tokens": 709
+    },
+    {
+      "case_id": "lecture-followup",
+      "arm": "single",
+      "question": "When should those teams be formed?",
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:37",
+        "e38c730b3b714c5a8913e530695fd03b:child:0",
+        "e38c730b3b714c5a8913e530695fd03b:child:28",
+        "e38c730b3b714c5a8913e530695fd03b:child:100",
+        "e38c730b3b714c5a8913e530695fd03b:child:383"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_covered": {
+        "lecture_when": 1
+      },
+      "after_covered": {
+        "lecture_when": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 853,
+      "after_tokens": 853
+    },
+    {
+      "case_id": "lecture-followup",
+      "arm": "planned",
+      "question": "When should those teams be formed?",
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:37",
+        "e38c730b3b714c5a8913e530695fd03b:child:0",
+        "e38c730b3b714c5a8913e530695fd03b:child:28",
+        "e38c730b3b714c5a8913e530695fd03b:child:385",
+        "e38c730b3b714c5a8913e530695fd03b:child:100"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_covered": {
+        "lecture_when": 1
+      },
+      "after_covered": {
+        "lecture_when": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 807,
+      "after_tokens": 807
+    },
+    {
+      "case_id": "apple-sales",
+      "arm": "single",
+      "question": "In \"apple-fy24.pdf\", compare total net sales for the three and twelve months ended September 28, 2024, and state the units.",
+      "selected_ids": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:6"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.6666666666666666,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.7653606369886217
+      },
+      "before_covered": {
+        "apple_sales_q": 0,
+        "apple_sales_y": 0,
+        "apple_units": 0
+      },
+      "after_covered": {
+        "apple_sales_q": 1,
+        "apple_sales_y": 1,
+        "apple_units": 1
+      },
+      "improved": [
+        "apple_sales_q",
+        "apple_sales_y",
+        "apple_units"
+      ],
+      "regressed": [],
+      "before_tokens": 2653,
+      "after_tokens": 2712
+    },
+    {
+      "case_id": "apple-sales",
+      "arm": "planned",
+      "question": "In \"apple-fy24.pdf\", compare total net sales for the three and twelve months ended September 28, 2024, and state the units.",
+      "selected_ids": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:6"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.6666666666666666,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.6713860725233041
+      },
+      "before_covered": {
+        "apple_sales_q": 1,
+        "apple_sales_y": 1,
+        "apple_units": 0
+      },
+      "after_covered": {
+        "apple_sales_q": 1,
+        "apple_sales_y": 1,
+        "apple_units": 1
+      },
+      "improved": [
+        "apple_units"
+      ],
+      "regressed": [],
+      "before_tokens": 3843,
+      "after_tokens": 2712
+    },
+    {
+      "case_id": "apple-income",
+      "arm": "single",
+      "question": "In \"apple-fy24.pdf\", what was net income for the three and twelve months ended September 28, 2024? Include units.",
+      "selected_ids": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:6",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.6666666666666666,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.6131471927654584
+      },
+      "before_covered": {
+        "apple_income_q": 0,
+        "apple_income_y": 0,
+        "apple_units": 0
+      },
+      "after_covered": {
+        "apple_income_q": 1,
+        "apple_income_y": 1,
+        "apple_units": 1
+      },
+      "improved": [
+        "apple_income_q",
+        "apple_income_y",
+        "apple_units"
+      ],
+      "regressed": [],
+      "before_tokens": 3843,
+      "after_tokens": 2712
+    },
+    {
+      "case_id": "apple-income",
+      "arm": "planned",
+      "question": "In \"apple-fy24.pdf\", what was net income for the three and twelve months ended September 28, 2024? Include units.",
+      "selected_ids": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:6",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.6666666666666666,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.6131471927654584
+      },
+      "before_covered": {
+        "apple_income_q": 0,
+        "apple_income_y": 0,
+        "apple_units": 0
+      },
+      "after_covered": {
+        "apple_income_q": 1,
+        "apple_income_y": 1,
+        "apple_units": 1
+      },
+      "improved": [
+        "apple_income_q",
+        "apple_income_y",
+        "apple_units"
+      ],
+      "regressed": [],
+      "before_tokens": 3843,
+      "after_tokens": 2712
+    },
+    {
+      "case_id": "technical-table",
+      "arm": "single",
+      "question": "In \"docling-report.pdf\", compare TTS and pages per second for the native and pypdfium backends on Apple M3 Max with four threads. Was OCR enabled for that table?",
+      "selected_ids": [
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:24",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:22",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:23",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:19",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:15"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.9197207891481876
+      },
+      "before_covered": {
+        "technical_native": 1,
+        "technical_pypdfium": 1,
+        "technical_ocr": 1
+      },
+      "after_covered": {
+        "technical_native": 1,
+        "technical_pypdfium": 1,
+        "technical_ocr": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 1847,
+      "after_tokens": 1847
+    },
+    {
+      "case_id": "technical-table",
+      "arm": "planned",
+      "question": "In \"docling-report.pdf\", compare TTS and pages per second for the native and pypdfium backends on Apple M3 Max with four threads. Was OCR enabled for that table?",
+      "selected_ids": [
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:22",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:24",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:23",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:15",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:3"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 0.5,
+        "NDCG@K": 0.6934264036172708
+      },
+      "before_covered": {
+        "technical_native": 1,
+        "technical_pypdfium": 1,
+        "technical_ocr": 1
+      },
+      "after_covered": {
+        "technical_native": 1,
+        "technical_pypdfium": 1,
+        "technical_ocr": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 1805,
+      "after_tokens": 1805
+    },
+    {
+      "case_id": "technical-tradeoff",
+      "arm": "single",
+      "question": "In \"docling-report.pdf\", which PDF backend is recommended for very low-resource environments, and what quality tradeoff is stated?",
+      "selected_ids": [
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:22",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:15",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:19",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:3",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:24"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_covered": {
+        "technical_lowresource": 1,
+        "technical_tradeoff": 1
+      },
+      "after_covered": {
+        "technical_lowresource": 1,
+        "technical_tradeoff": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 2041,
+      "after_tokens": 2041
+    },
+    {
+      "case_id": "technical-tradeoff",
+      "arm": "planned",
+      "question": "In \"docling-report.pdf\", which PDF backend is recommended for very low-resource environments, and what quality tradeoff is stated?",
+      "selected_ids": [
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:22",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:15",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:19",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:3",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:24"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_covered": {
+        "technical_lowresource": 1,
+        "technical_tradeoff": 1
+      },
+      "after_covered": {
+        "technical_lowresource": 1,
+        "technical_tradeoff": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 2041,
+      "after_tokens": 2041
+    },
+    {
+      "case_id": "dependent-dataset",
+      "arm": "single",
+      "question": "Which public dataset was used to retrain the layout model described in \"docling-report.pdf\", and how many pages and layout classes does that dataset's paper, \"doclaynet.pdf\", report?",
+      "selected_ids": [
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:17",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:7",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:49"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.8,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.8687949224876582
+      },
+      "before_covered": {
+        "technical_dataset": 1,
+        "paper_pages": 1,
+        "paper_classes": 1
+      },
+      "after_covered": {
+        "technical_dataset": 1,
+        "paper_pages": 1,
+        "paper_classes": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 3412,
+      "after_tokens": 3412
+    },
+    {
+      "case_id": "dependent-dataset",
+      "arm": "planned",
+      "question": "Which public dataset was used to retrain the layout model described in \"docling-report.pdf\", and how many pages and layout classes does that dataset's paper, \"doclaynet.pdf\", report?",
+      "selected_ids": [
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:17",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:6",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:49",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:16"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.5087403079104241
+      },
+      "before_covered": {
+        "technical_dataset": 1,
+        "paper_pages": 1,
+        "paper_classes": 1
+      },
+      "after_covered": {
+        "technical_dataset": 1,
+        "paper_pages": 1,
+        "paper_classes": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 2420,
+      "after_tokens": 2420
+    },
+    {
+      "case_id": "dense-table",
+      "arm": "single",
+      "question": "In \"background-checks.pdf\", report Alabama's Permit, Handgun, Long Gun and Totals values for November 2015. Do these statistics represent firearms sold?",
+      "selected_ids": [
+        "fb736e72b6cd41ae9fcd8265674abc32:child:2",
+        "fb736e72b6cd41ae9fcd8265674abc32:child:1",
+        "fb736e72b6cd41ae9fcd8265674abc32:child:0",
+        "fb736e72b6cd41ae9fcd8265674abc32:child:4",
+        "fb736e72b6cd41ae9fcd8265674abc32:child:3"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.2,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_covered": {
+        "alabama_permit": 0,
+        "alabama_handgun": 0,
+        "alabama_longgun": 0,
+        "alabama_total": 0,
+        "checks_not_sales": 1
+      },
+      "after_covered": {
+        "alabama_permit": 0,
+        "alabama_handgun": 0,
+        "alabama_longgun": 0,
+        "alabama_total": 0,
+        "checks_not_sales": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 1493,
+      "after_tokens": 1493
+    },
+    {
+      "case_id": "dense-table",
+      "arm": "planned",
+      "question": "In \"background-checks.pdf\", report Alabama's Permit, Handgun, Long Gun and Totals values for November 2015. Do these statistics represent firearms sold?",
+      "selected_ids": [
+        "fb736e72b6cd41ae9fcd8265674abc32:child:1",
+        "fb736e72b6cd41ae9fcd8265674abc32:child:0",
+        "fb736e72b6cd41ae9fcd8265674abc32:child:2",
+        "fb736e72b6cd41ae9fcd8265674abc32:child:4",
+        "fb736e72b6cd41ae9fcd8265674abc32:child:3"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.2,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 0.3333333333333333,
+        "NDCG@K": 0.5
+      },
+      "before_covered": {
+        "alabama_permit": 0,
+        "alabama_handgun": 0,
+        "alabama_longgun": 0,
+        "alabama_total": 0,
+        "checks_not_sales": 1
+      },
+      "after_covered": {
+        "alabama_permit": 0,
+        "alabama_handgun": 0,
+        "alabama_longgun": 0,
+        "alabama_total": 0,
+        "checks_not_sales": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 1493,
+      "after_tokens": 1493
+    },
+    {
+      "case_id": "apparent-conflict",
+      "arm": "single",
+      "question": "In \"apple-fy24.pdf\", are the 2024 total net sales figures 94,930 and 391,035 contradictory? Explain their respective reporting periods.",
+      "selected_ids": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:6",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_covered": {
+        "apple_sales_q": 0,
+        "apple_sales_y": 0
+      },
+      "after_covered": {
+        "apple_sales_q": 1,
+        "apple_sales_y": 1
+      },
+      "improved": [
+        "apple_sales_q",
+        "apple_sales_y"
+      ],
+      "regressed": [],
+      "before_tokens": 3994,
+      "after_tokens": 3884
+    },
+    {
+      "case_id": "apparent-conflict",
+      "arm": "planned",
+      "question": "In \"apple-fy24.pdf\", are the 2024 total net sales figures 94,930 and 391,035 contradictory? Explain their respective reporting periods.",
+      "selected_ids": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:11"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_covered": {
+        "apple_sales_q": 0,
+        "apple_sales_y": 0
+      },
+      "after_covered": {
+        "apple_sales_q": 1,
+        "apple_sales_y": 1
+      },
+      "improved": [
+        "apple_sales_q",
+        "apple_sales_y"
+      ],
+      "regressed": [],
+      "before_tokens": 2788,
+      "after_tokens": 4019
+    },
+    {
+      "case_id": "partial-lecture",
+      "arm": "single",
+      "question": "In \"ml-lecture.pdf\", name the guest lecturers and give the exact number of students enrolled in this course.",
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:18",
+        "e38c730b3b714c5a8913e530695fd03b:child:1",
+        "e38c730b3b714c5a8913e530695fd03b:child:0",
+        "e38c730b3b714c5a8913e530695fd03b:child:3",
+        "e38c730b3b714c5a8913e530695fd03b:child:406"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0,
+        "MRR": 0,
+        "NDCG@K": 0.0
+      },
+      "before_covered": {
+        "lecture_yu": 0,
+        "lecture_wilson": 1
+      },
+      "after_covered": {
+        "lecture_yu": 0,
+        "lecture_wilson": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 667,
+      "after_tokens": 667
+    },
+    {
+      "case_id": "partial-lecture",
+      "arm": "planned",
+      "question": "In \"ml-lecture.pdf\", name the guest lecturers and give the exact number of students enrolled in this course.",
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:18",
+        "e38c730b3b714c5a8913e530695fd03b:child:0",
+        "e38c730b3b714c5a8913e530695fd03b:child:3",
+        "e38c730b3b714c5a8913e530695fd03b:child:100",
+        "e38c730b3b714c5a8913e530695fd03b:child:383"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0,
+        "MRR": 0,
+        "NDCG@K": 0.0
+      },
+      "before_covered": {
+        "lecture_yu": 0,
+        "lecture_wilson": 1
+      },
+      "after_covered": {
+        "lecture_yu": 0,
+        "lecture_wilson": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 862,
+      "after_tokens": 862
+    },
+    {
+      "case_id": "forecast-missing",
+      "arm": "single",
+      "question": "In \"apple-fy24.pdf\", what exact total net sales does Apple forecast for the twelve months ending in fiscal 2025?",
+      "selected_ids": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:6"
+      ],
+      "candidate_metrics": null,
+      "before_covered": {},
+      "after_covered": {},
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 2653,
+      "after_tokens": 2712
+    },
+    {
+      "case_id": "forecast-missing",
+      "arm": "planned",
+      "question": "In \"apple-fy24.pdf\", what exact total net sales does Apple forecast for the twelve months ending in fiscal 2025?",
+      "selected_ids": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:11",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:4",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:0",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:7"
+      ],
+      "candidate_metrics": null,
+      "before_covered": {},
+      "after_covered": {},
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 2500,
+      "after_tokens": 2541
+    },
+    {
+      "case_id": "restricted-dependency",
+      "arm": "single",
+      "question": "Using only \"docling-report.pdf\", name the public dataset used to retrain its layout model and state how many of its pages have two human annotations.",
+      "selected_ids": [
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:17",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:46",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:12",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:41",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:50"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_covered": {
+        "technical_dataset": 1
+      },
+      "after_covered": {
+        "technical_dataset": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 4078,
+      "after_tokens": 4078
+    },
+    {
+      "case_id": "restricted-dependency",
+      "arm": "planned",
+      "question": "Using only \"docling-report.pdf\", name the public dataset used to retrain its layout model and state how many of its pages have two human annotations.",
+      "selected_ids": [
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:17",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:24",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:22",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:46",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:4"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_covered": {
+        "technical_dataset": 1
+      },
+      "after_covered": {
+        "technical_dataset": 1
+      },
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 3301,
+      "after_tokens": 3301
+    },
+    {
+      "case_id": "unsupported-screenshot",
+      "arm": "single",
+      "question": "In \"ml-lecture.pdf\", transcribe every navigation label visible inside the embedded browser screenshot on physical page 2.",
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:10",
+        "e38c730b3b714c5a8913e530695fd03b:child:3",
+        "e38c730b3b714c5a8913e530695fd03b:child:323",
+        "e38c730b3b714c5a8913e530695fd03b:child:383",
+        "e38c730b3b714c5a8913e530695fd03b:child:4"
+      ],
+      "candidate_metrics": null,
+      "before_covered": {},
+      "after_covered": {},
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 866,
+      "after_tokens": 866
+    },
+    {
+      "case_id": "unsupported-screenshot",
+      "arm": "planned",
+      "question": "In \"ml-lecture.pdf\", transcribe every navigation label visible inside the embedded browser screenshot on physical page 2.",
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:10",
+        "e38c730b3b714c5a8913e530695fd03b:child:383",
+        "e38c730b3b714c5a8913e530695fd03b:child:3",
+        "e38c730b3b714c5a8913e530695fd03b:child:323",
+        "e38c730b3b714c5a8913e530695fd03b:child:4"
+      ],
+      "candidate_metrics": null,
+      "before_covered": {},
+      "after_covered": {},
+      "improved": [],
+      "regressed": [],
+      "before_tokens": 866,
+      "after_tokens": 866
+    }
+  ],
+  "metric_inventory": {
+    "Recall@K": {
+      "status": "measured",
+      "value": 0.7583333333333333,
+      "unit": "ratio",
+      "sample_count": 28,
+      "population": "14 fact-bearing questions in two modes; same K=5 selected children before/after",
+      "method": "Frozen original-page anchor labels; selected stage fixed by design. Recall uses complete fact anchor sets; precision/binary ranking uses any anchor intersection and denominator 5; incomplete labels. No-gold cases excluded.",
+      "aggregation": "macro mean",
+      "artifact": "../../library-runs/20260927-v2-pdf-live/anchor-labels.json"
+    },
+    "Precision@K": {
+      "status": "measured",
+      "value": 0.35000000000000003,
+      "unit": "ratio",
+      "sample_count": 28,
+      "population": "14 fact-bearing questions in two modes; same K=5 selected children before/after",
+      "method": "Frozen original-page anchor labels; selected stage fixed by design. Recall uses complete fact anchor sets; precision/binary ranking uses any anchor intersection and denominator 5; incomplete labels. No-gold cases excluded.",
+      "aggregation": "macro mean",
+      "artifact": "../../library-runs/20260927-v2-pdf-live/anchor-labels.json"
+    },
+    "Hit Rate@K": {
+      "status": "measured",
+      "value": 0.9285714285714286,
+      "unit": "ratio",
+      "sample_count": 28,
+      "population": "14 fact-bearing questions in two modes; same K=5 selected children before/after",
+      "method": "Frozen original-page anchor labels; selected stage fixed by design. Recall uses complete fact anchor sets; precision/binary ranking uses any anchor intersection and denominator 5; incomplete labels. No-gold cases excluded.",
+      "aggregation": "macro mean",
+      "artifact": "../../library-runs/20260927-v2-pdf-live/anchor-labels.json"
+    },
+    "MRR": {
+      "status": "measured",
+      "value": 0.8333333333333334,
+      "unit": "ratio",
+      "sample_count": 28,
+      "population": "14 fact-bearing questions in two modes; same K=5 selected children before/after",
+      "method": "Frozen original-page anchor labels; selected stage fixed by design. Recall uses complete fact anchor sets; precision/binary ranking uses any anchor intersection and denominator 5; incomplete labels. No-gold cases excluded.",
+      "aggregation": "macro mean",
+      "artifact": "../../library-runs/20260927-v2-pdf-live/anchor-labels.json"
+    },
+    "NDCG@K": {
+      "status": "measured",
+      "value": 0.7305155779086981,
+      "unit": "ratio",
+      "sample_count": 28,
+      "population": "14 fact-bearing questions in two modes; same K=5 selected children before/after",
+      "method": "Frozen original-page anchor labels; selected stage fixed by design. Recall uses complete fact anchor sets; precision/binary ranking uses any anchor intersection and denominator 5; incomplete labels. No-gold cases excluded.",
+      "aggregation": "macro mean",
+      "artifact": "../../library-runs/20260927-v2-pdf-live/anchor-labels.json"
+    },
+    "Final evidence coverage": {
+      "status": "measured",
+      "value": {
+        "before": 0.6928571428571428,
+        "after": 0.8833333333333333
+      },
+      "unit": "ratio",
+      "sample_count": 28,
+      "population": "Same 28 fact-bearing mode/question pairs; 72 fact instances",
+      "method": "Macro mean of fully covered original-page anchor sets in actual packed body/supplement spans. Exact canonical offsets; partial sets receive 0, missing parser anchors remain misses. This is an evidence diagnostic, not answer correctness.",
+      "aggregation": "macro mean",
+      "artifact": "comparison-2.json#rows"
+    },
+    "Answer correctness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate packing replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after-2.json",
+      "reason": "No provider requests, answer generation, ingestion, lifecycle or load experiment; this replay compares only packing and supplied context."
+    },
+    "Faithfulness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate packing replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after-2.json",
+      "reason": "No provider requests, answer generation, ingestion, lifecycle or load experiment; this replay compares only packing and supplied context."
+    },
+    "Answer completeness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate packing replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after-2.json",
+      "reason": "No provider requests, answer generation, ingestion, lifecycle or load experiment; this replay compares only packing and supplied context."
+    },
+    "Answer relevance": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate packing replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after-2.json",
+      "reason": "No provider requests, answer generation, ingestion, lifecycle or load experiment; this replay compares only packing and supplied context."
+    },
+    "Citation support": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate packing replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after-2.json",
+      "reason": "No provider requests, answer generation, ingestion, lifecycle or load experiment; this replay compares only packing and supplied context."
+    },
+    "Citation coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate packing replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after-2.json",
+      "reason": "No provider requests, answer generation, ingestion, lifecycle or load experiment; this replay compares only packing and supplied context."
+    },
+    "Abstention": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate packing replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after-2.json",
+      "reason": "No provider requests, answer generation, ingestion, lifecycle or load experiment; this replay compares only packing and supplied context."
+    },
+    "First-answer-delta latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate packing replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after-2.json",
+      "reason": "No provider requests, answer generation, ingestion, lifecycle or load experiment; this replay compares only packing and supplied context."
+    },
+    "Complete-response latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate packing replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after-2.json",
+      "reason": "No provider requests, answer generation, ingestion, lifecycle or load experiment; this replay compares only packing and supplied context."
+    },
+    "Stage latency": {
+      "status": "measured",
+      "value": {
+        "before": {
+          "n": 32,
+          "mean": 0.00499144662899198,
+          "p50": 0.0016360834706574678,
+          "p95": 0.011376741231651976,
+          "unit": "seconds",
+          "percentile": "linear"
+        },
+        "after": {
+          "n": 32,
+          "mean": 0.005255070336716017,
+          "p50": 0.001645729469601065,
+          "p95": 0.01279905643314123,
+          "unit": "seconds",
+          "percentile": "linear"
+        }
+      },
+      "unit": "seconds",
+      "sample_count": 32,
+      "population": "Each local fixed-candidate set once per version",
+      "method": "perf_counter across PDF evidence attachment and packing; parse/index/provider/network/model loading and queue waiting excluded. First call includes local tokenizer cache initialization. CPU-only developer-machine measurement, not production response latency.",
+      "aggregation": "mean/P50/P95",
+      "artifact": "before.json; after-2.json"
+    },
+    "Token usage and cost": {
+      "status": "measured",
+      "value": {
+        "before_evidence_tokens": [
+          3727,
+          3727,
+          4019,
+          3447,
+          432,
+          648,
+          749,
+          709,
+          853,
+          807,
+          2653,
+          3843,
+          3843,
+          3843,
+          1847,
+          1805,
+          2041,
+          2041,
+          3412,
+          2420,
+          1493,
+          1493,
+          3994,
+          2788,
+          667,
+          862,
+          2653,
+          2500,
+          4078,
+          3301,
+          866,
+          866
+        ],
+        "after_evidence_tokens": [
+          3727,
+          3727,
+          4019,
+          3447,
+          432,
+          648,
+          749,
+          709,
+          853,
+          807,
+          2712,
+          2712,
+          2712,
+          2712,
+          1847,
+          1805,
+          2041,
+          2041,
+          3412,
+          2420,
+          1493,
+          1493,
+          3884,
+          4019,
+          667,
+          862,
+          2712,
+          2541,
+          4078,
+          3301,
+          866,
+          866
+        ],
+        "provider_usage": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "No API call or generated answer."
+        },
+        "billed_cost": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "No paid workload."
+        }
+      },
+      "unit": "local cl100k_base context tokens",
+      "sample_count": 32,
+      "population": "Actual rendered source context, including metadata, headers, warnings and preceding text",
+      "method": "Count build_context() under the same 4096 budget. Local compute has no measured monetary cost.",
+      "aggregation": "per-case values",
+      "artifact": "before.json; after-2.json"
+    },
+    "Reliability": {
+      "status": "measured",
+      "value": {
+        "before_completed": 32,
+        "after_completed": 32,
+        "errors": 0,
+        "retries": 0,
+        "exact_body_and_supplement_spans_verified": true
+      },
+      "unit": "counts",
+      "sample_count": 64,
+      "population": "Offline packing calls only; initial harness construction failure separately retained in before-record.log",
+      "method": "Completion, fixed selection, budget and canonical-slice assertions; no network reliability claim.",
+      "aggregation": "counts",
+      "artifact": "before.json; after-2.json"
+    },
+    "Concurrency and throughput": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate packing replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after-2.json",
+      "reason": "No provider requests, answer generation, ingestion, lifecycle or load experiment; this replay compares only packing and supplied context."
+    },
+    "Ingestion and index": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate packing replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after-2.json",
+      "reason": "No provider requests, answer generation, ingestion, lifecycle or load experiment; this replay compares only packing and supplied context."
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "at": "2026-10-01T16:54:03.012228+00:00",
+  "questions": [
+    {
+      "id": "rag-document-granularity",
+      "question": "How do RAG-Sequence and RAG-Token differ in whether they can change the retrieved document while generating an answer?",
+      "files": [
+        "rag-paper.pdf"
+      ]
+    },
+    {
+      "id": "retriever-training-restricted",
+      "question": "Which retriever supplies the pretrained bi-encoder used to initialize RAG, and what combination of negative passages does that retriever's best model use during training? Cite the initialization relationship and the training details from the supplied papers.",
+      "files": [
+        "rag-paper.pdf"
+      ]
+    },
+    {
+      "id": "income-period-basis",
+      "question": "What were NVIDIA's GAAP and non-GAAP operating income for Q4 FY25 and for the full fiscal year 2025? Give all four amounts, label each accounting basis and period, and state the units.",
+      "files": [
+        "nvidia-fy25.pdf"
+      ]
+    },
+    {
+      "id": "unknown-laboratory",
+      "question": "Which laboratory was assigned to Project Juniper in \"assignment.pdf\", and what calibration interval does \"laboratory-register.pdf\" specify for that laboratory?",
+      "files": [
+        "assignment.pdf",
+        "laboratory-register.pdf"
+      ]
+    }
+  ],
+  "arms": {
+    "A": "Production single retrieval, no planner/assessor",
+    "B": "Independent planner instruction override, no dependencies or assessment",
+    "C": "Production planner and dependency binding, no sufficiency assessment/actions during answer",
+    "D": "Unchanged production planned controller; reuse final matched outputs once, declared before other arm results"
+  },
+  "shadow": "C frozen final context assessed once after all its answers; never act on proposals. Same production assessor as D; final C evidence and answer remain frozen.",
+  "fixed": "Same six-file index, file scopes, question text, parser, embeddings, reranker, top_k=5, context=4096 and base final-answer prompt. D additionally supplies assessment guidance, which is part of that component; the base answer instructions are not changed.",
+  "order": "Matched D batch then case-major A/B/C, then shadow C. Sequential; cache/time order effects not isolated.",
+  "rubric": "Original six-case reference point/claim review and synthetic dependency protocol. No aggregate superiority requirement: report all improvements, regressions, extra calls, tokens and latency. B/C are comparisons, not claims that every arm must pass every question.",
+  "limits": "Four diagnostic development cases, including one explicitly synthetic controller case. One sample per arm. Not a statistical generalization or equal-compute comparison.",
+  "code": "c702c3f",
+  "input_hashes": {
+    "evals/materials/pdf-v2-candidate-20261001/questions.json": "c814134f9964fd0c6d224b99198bc496b929ed1f3771ffd9677837e0c8fd08b9",
+    "evals/materials/pdf-v2-candidate-20261001/references.json": "73330b4b51b66bb74bfacef349519c5d29d806ad130b69caaaf2132c0f1c4532",
+    "evals/materials/pdf-v2-closeout-dependency/protocol.json": "d046b4b174b1e2370336b4f57b95adc4c4f5889c78a91eab378ac00f282d2a64",
+    "evals/materials/pdf-v2-closeout-heldout/protocol.json": "e0508b003f293898f865249b1c797b3c2f3386e6547acf5dc4e0688c1601b5ce"
+  }
+}

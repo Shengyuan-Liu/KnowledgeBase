@@ -1,0 +1,1007 @@
+{
+  "reviewer": "Codex model reviewer /root/citation_design_review; independently reviewed by root Codex model; no human or paid judge",
+  "reviewed_at": "2026-09-27T19:33:18.888520+00:00",
+  "code_version": "ae59147a00cfcaa1755587156636c02282e371ef",
+  "review_scope": "All three planned-mode raw assessment outputs and all six normalized requirements. Model-selected references and application-attached table context are inspected separately. No new model calls and no semantic-score repair.",
+  "source_artifact": "server-observations.jsonl",
+  "source_artifact_sha256": "39d4e45a23bd71f6e7fa584bb37c05403658b6a45eff878163bd8c294767802b",
+  "canonical_source_artifact": "../20260927-v2-pdf-live/index-snapshot.json",
+  "canonical_source_sha256": "450eeab0b1ebb017fa8983e3bb7bc9ba114a1173837a2e12ba1a188dd9cb7476",
+  "final_answer_review_artifact": "reviewed-cases.json",
+  "final_answer_review_sha256": "677027919fad9fd9f2fc4619f0ad304bbf40ebf20e0f1ff40ba1e1395612acaf",
+  "method": "Compare selected IDs/status/gap with the raw provider decision, resolve quotes against frozen canonical text and actual supplied context, and independently inspect table cells, header spans, same-table supplement roles and linked selected IDs. Review each requirement first using only model selections, then with separately attached context. The role preceding_text remains provenance, not a semantic units classifier; this observed paragraph explicitly contains units and its exceptions. Attachments remain fallible parser associations, not evidence that the model selected or understood them.",
+  "observations": [
+    {
+      "request": "apple-sales-planned",
+      "source_artifact": "apple-sales-planned.json",
+      "source_artifact_sha256": "e7be2c05d6decb0afb24ba8a61691e1b08a434dcf300deddd631222741cfffec",
+      "call_id": "baf43e958b0a4c7f953ede1454177073",
+      "input_line": 17,
+      "output_line": 18,
+      "file_name": "apple-fy24.pdf",
+      "source_id": 1,
+      "physical_page": 1,
+      "table_id": "#/tables/0",
+      "raw_assessment": {
+        "requirements": [
+          {
+            "requirement_id": "r1",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p6"
+              },
+              {
+                "evidence_id": "p2"
+              }
+            ]
+          },
+          {
+            "requirement_id": "r2",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p6"
+              },
+              {
+                "evidence_id": "p2"
+              }
+            ]
+          },
+          {
+            "requirement_id": "r3",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p28"
+              }
+            ]
+          }
+        ],
+        "queries": []
+      },
+      "requirements": [
+        {
+          "requirement_id": "r1",
+          "description": "Find the total net sales for the three months ended September 28, 2024.",
+          "assessor_status": "supported",
+          "gap": "",
+          "selected_passages": [
+            {
+              "evidence_id": "p6",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 380,
+              "end_offset": 430,
+              "page_indices": [
+                0
+              ],
+              "quote": "Total net sales (1)\t94,930\t89,498\t391,035\t383,285\n"
+            },
+            {
+              "evidence_id": "p2",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 209,
+              "end_offset": 285,
+              "page_indices": [
+                0
+              ],
+              "quote": "September 28, 2024\tSeptember 30, 2023\tSeptember 28, 2024\tSeptember 30, 2023\n"
+            }
+          ],
+          "application_table_context": [
+            {
+              "evidence_id": "p1",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 170,
+              "end_offset": 209,
+              "page_indices": [
+                0
+              ],
+              "quote": "Three Months Ended\tTwelve Months Ended\n",
+              "table_id": "#/tables/0",
+              "role": "column_header",
+              "for_evidence_ids": [
+                "p6",
+                "p2"
+              ]
+            },
+            {
+              "evidence_id": "p28",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 73,
+              "end_offset": 168,
+              "page_indices": [
+                0
+              ],
+              "quote": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+              "table_id": "#/tables/0",
+              "role": "preceding_text",
+              "for_evidence_ids": [
+                "p6",
+                "p2"
+              ]
+            }
+          ],
+          "reference_bundle_judgment": "The selected sales row and date row do not independently distinguish three-month from twelve-month columns.",
+          "selected_bundle_contains": [
+            "Total net sales row with all four values",
+            "2024 and 2023 date columns"
+          ],
+          "missing_from_selected_bundle": [
+            {
+              "evidence_id": "p1",
+              "text": "Three Months Ended\tTwelve Months Ended\n",
+              "role": "three-month versus twelve-month column group names"
+            }
+          ],
+          "combined_bundle_judgment": "Application-added p1 preserves the missing period-group header, and p28 retains the exact same-table unit note. Together with selected values and dates, the saved bundle contains the required period-specific sales evidence. These additions are not counted as model selections.",
+          "raw_model_selection_preserved": true,
+          "raw_status_and_gap_preserved": true,
+          "selected_quotes_are_exact_canonical_slices": true,
+          "selected_quotes_already_supplied": true,
+          "application_context_checks": [
+            {
+              "evidence_id": "p1",
+              "table_id": "#/tables/0",
+              "role": "column_header",
+              "for_evidence_ids": [
+                "p6",
+                "p2"
+              ],
+              "exact_canonical_slice": true,
+              "already_supplied_in_context": true,
+              "same_source_file": true,
+              "same_table_as_linked_selected_passages": true,
+              "linked_ids_are_model_selected": true,
+              "role_matches_supplied_table_provenance": true,
+              "separate_from_selected_ids": true,
+              "physical_page": [
+                1
+              ]
+            },
+            {
+              "evidence_id": "p28",
+              "table_id": "#/tables/0",
+              "role": "preceding_text",
+              "for_evidence_ids": [
+                "p6",
+                "p2"
+              ],
+              "exact_canonical_slice": true,
+              "already_supplied_in_context": true,
+              "same_source_file": true,
+              "same_table_as_linked_selected_passages": true,
+              "linked_ids_are_model_selected": true,
+              "role_matches_supplied_table_provenance": true,
+              "separate_from_selected_ids": true,
+              "physical_page": [
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "requirement_id": "r2",
+          "description": "Find the total net sales for the twelve months ended September 28, 2024.",
+          "assessor_status": "supported",
+          "gap": "",
+          "selected_passages": [
+            {
+              "evidence_id": "p6",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 380,
+              "end_offset": 430,
+              "page_indices": [
+                0
+              ],
+              "quote": "Total net sales (1)\t94,930\t89,498\t391,035\t383,285\n"
+            },
+            {
+              "evidence_id": "p2",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 209,
+              "end_offset": 285,
+              "page_indices": [
+                0
+              ],
+              "quote": "September 28, 2024\tSeptember 30, 2023\tSeptember 28, 2024\tSeptember 30, 2023\n"
+            }
+          ],
+          "application_table_context": [
+            {
+              "evidence_id": "p1",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 170,
+              "end_offset": 209,
+              "page_indices": [
+                0
+              ],
+              "quote": "Three Months Ended\tTwelve Months Ended\n",
+              "table_id": "#/tables/0",
+              "role": "column_header",
+              "for_evidence_ids": [
+                "p6",
+                "p2"
+              ]
+            },
+            {
+              "evidence_id": "p28",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 73,
+              "end_offset": 168,
+              "page_indices": [
+                0
+              ],
+              "quote": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+              "table_id": "#/tables/0",
+              "role": "preceding_text",
+              "for_evidence_ids": [
+                "p6",
+                "p2"
+              ]
+            }
+          ],
+          "reference_bundle_judgment": "The selected sales row and date row do not independently distinguish three-month from twelve-month columns.",
+          "selected_bundle_contains": [
+            "Total net sales row with all four values",
+            "2024 and 2023 date columns"
+          ],
+          "missing_from_selected_bundle": [
+            {
+              "evidence_id": "p1",
+              "text": "Three Months Ended\tTwelve Months Ended\n",
+              "role": "three-month versus twelve-month column group names"
+            }
+          ],
+          "combined_bundle_judgment": "Application-added p1 preserves the missing period-group header, and p28 retains the exact same-table unit note. Together with selected values and dates, the saved bundle contains the required period-specific sales evidence. These additions are not counted as model selections.",
+          "raw_model_selection_preserved": true,
+          "raw_status_and_gap_preserved": true,
+          "selected_quotes_are_exact_canonical_slices": true,
+          "selected_quotes_already_supplied": true,
+          "application_context_checks": [
+            {
+              "evidence_id": "p1",
+              "table_id": "#/tables/0",
+              "role": "column_header",
+              "for_evidence_ids": [
+                "p6",
+                "p2"
+              ],
+              "exact_canonical_slice": true,
+              "already_supplied_in_context": true,
+              "same_source_file": true,
+              "same_table_as_linked_selected_passages": true,
+              "linked_ids_are_model_selected": true,
+              "role_matches_supplied_table_provenance": true,
+              "separate_from_selected_ids": true,
+              "physical_page": [
+                1
+              ]
+            },
+            {
+              "evidence_id": "p28",
+              "table_id": "#/tables/0",
+              "role": "preceding_text",
+              "for_evidence_ids": [
+                "p6",
+                "p2"
+              ],
+              "exact_canonical_slice": true,
+              "already_supplied_in_context": true,
+              "same_source_file": true,
+              "same_table_as_linked_selected_passages": true,
+              "linked_ids_are_model_selected": true,
+              "role_matches_supplied_table_provenance": true,
+              "separate_from_selected_ids": true,
+              "physical_page": [
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "requirement_id": "r3",
+          "description": "State the units used for net sales figures.",
+          "assessor_status": "supported",
+          "gap": "",
+          "selected_passages": [
+            {
+              "evidence_id": "p28",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 73,
+              "end_offset": 168,
+              "page_indices": [
+                0
+              ],
+              "quote": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)"
+            }
+          ],
+          "application_table_context": [],
+          "reference_bundle_judgment": "The selected units passage answers this units requirement; its exceptions do not apply to net sales.",
+          "selected_bundle_contains": [
+            "Exact same-table unit note including share-count and per-share exceptions"
+          ],
+          "missing_from_selected_bundle": [],
+          "combined_bundle_judgment": "No additional table context is needed or attached for this already selected units paragraph.",
+          "raw_model_selection_preserved": true,
+          "raw_status_and_gap_preserved": true,
+          "selected_quotes_are_exact_canonical_slices": true,
+          "selected_quotes_already_supplied": true,
+          "application_context_checks": []
+        }
+      ],
+      "saved_assessment_matches_response": true,
+      "full_context_has_required_period_date_values_and_units": true,
+      "final_answer_source_has_required_period_date_values_and_units": true
+    },
+    {
+      "request": "apple-income-planned",
+      "source_artifact": "apple-income-planned.json",
+      "source_artifact_sha256": "28ec06e724dc057d7c35f1198427940ef5e7a37769a2eb68b22acbc5c98eca2b",
+      "call_id": "519318f747804de8ae3cb7f907f845eb",
+      "input_line": 28,
+      "output_line": 29,
+      "file_name": "apple-fy24.pdf",
+      "source_id": 1,
+      "physical_page": 1,
+      "table_id": "#/tables/0",
+      "raw_assessment": {
+        "requirements": [
+          {
+            "requirement_id": "answer",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p1"
+              },
+              {
+                "evidence_id": "p2"
+              },
+              {
+                "evidence_id": "p20"
+              },
+              {
+                "evidence_id": "p28"
+              }
+            ]
+          }
+        ],
+        "queries": []
+      },
+      "requirements": [
+        {
+          "requirement_id": "answer",
+          "description": "In \"apple-fy24.pdf\", what was net income for the three and twelve months ended September 28, 2024? Include units.",
+          "assessor_status": "supported",
+          "gap": "",
+          "selected_passages": [
+            {
+              "evidence_id": "p1",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 170,
+              "end_offset": 209,
+              "page_indices": [
+                0
+              ],
+              "quote": "Three Months Ended\tTwelve Months Ended\n"
+            },
+            {
+              "evidence_id": "p2",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 209,
+              "end_offset": 285,
+              "page_indices": [
+                0
+              ],
+              "quote": "September 28, 2024\tSeptember 30, 2023\tSeptember 28, 2024\tSeptember 30, 2023\n"
+            },
+            {
+              "evidence_id": "p20",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 1014,
+              "end_offset": 1061,
+              "page_indices": [
+                0
+              ],
+              "quote": "Net income\t$ 14,736\t$ 22,956\t$ 93,736\t$ 96,995\n"
+            },
+            {
+              "evidence_id": "p28",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 73,
+              "end_offset": 168,
+              "page_indices": [
+                0
+              ],
+              "quote": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)"
+            }
+          ],
+          "application_table_context": [],
+          "reference_bundle_judgment": "The selected bundle contains the requested income values, period groups, ending dates and applicable units.",
+          "selected_bundle_contains": [
+            "Net income row",
+            "three- and twelve-month group header",
+            "2024 and 2023 date row",
+            "Exact units including exceptions"
+          ],
+          "missing_from_selected_bundle": [],
+          "combined_bundle_judgment": "No additional table context is attached because the model already selected the relevant headers and units.",
+          "raw_model_selection_preserved": true,
+          "raw_status_and_gap_preserved": true,
+          "selected_quotes_are_exact_canonical_slices": true,
+          "selected_quotes_already_supplied": true,
+          "application_context_checks": []
+        }
+      ],
+      "saved_assessment_matches_response": true,
+      "full_context_has_required_period_date_values_and_units": true,
+      "final_answer_source_has_required_period_date_values_and_units": true
+    },
+    {
+      "request": "apparent-conflict-planned",
+      "source_artifact": "apparent-conflict-planned.json",
+      "source_artifact_sha256": "542af83d009f9bd6b4115ef3ff91e38bc2fddd621197f6faa6b0e1a66939f162",
+      "call_id": "786a6bae26084a5585e98d98ec7dc075",
+      "input_line": 55,
+      "output_line": 56,
+      "file_name": "apple-fy24.pdf",
+      "source_id": 1,
+      "physical_page": 1,
+      "table_id": "#/tables/0",
+      "raw_assessment": {
+        "requirements": [
+          {
+            "requirement_id": "r1",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p6"
+              },
+              {
+                "evidence_id": "p13"
+              },
+              {
+                "evidence_id": "p14"
+              },
+              {
+                "evidence_id": "p15"
+              },
+              {
+                "evidence_id": "p16"
+              },
+              {
+                "evidence_id": "p18"
+              }
+            ]
+          },
+          {
+            "requirement_id": "r2",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p6"
+              },
+              {
+                "evidence_id": "p13"
+              },
+              {
+                "evidence_id": "p14"
+              },
+              {
+                "evidence_id": "p15"
+              },
+              {
+                "evidence_id": "p16"
+              },
+              {
+                "evidence_id": "p18"
+              }
+            ]
+          }
+        ],
+        "queries": []
+      },
+      "requirements": [
+        {
+          "requirement_id": "r1",
+          "description": "Determine if the total net sales figures 94,930 and 391,035 for 2024 in \"apple-fy24.pdf\" are contradictory.",
+          "assessor_status": "supported",
+          "gap": "",
+          "selected_passages": [
+            {
+              "evidence_id": "p6",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 1539,
+              "end_offset": 1593,
+              "page_indices": [
+                0
+              ],
+              "quote": "Total net sales\t$ 94,930\t$ 89,498\t$ 391,035\t$ 383,285\n"
+            },
+            {
+              "evidence_id": "p13",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 1821,
+              "end_offset": 1874,
+              "page_indices": [
+                0
+              ],
+              "quote": "Total net sales\t$ 94,930\t$ 89,498\t$ 391,035\t$ 383,285"
+            },
+            {
+              "evidence_id": "p14",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 170,
+              "end_offset": 188,
+              "page_indices": [
+                0
+              ],
+              "quote": "Three Months Ended"
+            },
+            {
+              "evidence_id": "p15",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 189,
+              "end_offset": 208,
+              "page_indices": [
+                0
+              ],
+              "quote": "Twelve Months Ended"
+            },
+            {
+              "evidence_id": "p16",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 209,
+              "end_offset": 227,
+              "page_indices": [
+                0
+              ],
+              "quote": "September 28, 2024"
+            },
+            {
+              "evidence_id": "p18",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 247,
+              "end_offset": 265,
+              "page_indices": [
+                0
+              ],
+              "quote": "September 28, 2024"
+            }
+          ],
+          "application_table_context": [
+            {
+              "evidence_id": "p17",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 228,
+              "end_offset": 246,
+              "page_indices": [
+                0
+              ],
+              "quote": "September 30, 2023",
+              "table_id": "#/tables/0",
+              "role": "column_header",
+              "for_evidence_ids": [
+                "p6",
+                "p13",
+                "p14",
+                "p15",
+                "p16",
+                "p18"
+              ]
+            },
+            {
+              "evidence_id": "p19",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 266,
+              "end_offset": 284,
+              "page_indices": [
+                0
+              ],
+              "quote": "September 30, 2023",
+              "table_id": "#/tables/0",
+              "role": "column_header",
+              "for_evidence_ids": [
+                "p6",
+                "p13",
+                "p14",
+                "p15",
+                "p16",
+                "p18"
+              ]
+            },
+            {
+              "evidence_id": "p20",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 73,
+              "end_offset": 168,
+              "page_indices": [
+                0
+              ],
+              "quote": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+              "table_id": "#/tables/0",
+              "role": "preceding_text",
+              "for_evidence_ids": [
+                "p6",
+                "p13",
+                "p14",
+                "p15",
+                "p16",
+                "p18"
+              ]
+            }
+          ],
+          "reference_bundle_judgment": "The selected bundle supports the requested period distinction and the absence of a contradiction when read with its located table-column provenance. The two total rows repeat the same values; they are not conflicting claims.",
+          "selected_bundle_contains": [
+            "Two repeated total-net-sales rows",
+            "three- and twelve-month period headers",
+            "Both located September 28, 2024 headers"
+          ],
+          "missing_from_selected_bundle": [],
+          "combined_bundle_judgment": "Application-added 2023 date headers and the exact units paragraph provide neighboring same-table context. Units are not needed to distinguish the requested periods, but support the final answer's million-dollar wording. No attachment labels fiscal Q4 or a full fiscal year.",
+          "raw_model_selection_preserved": true,
+          "raw_status_and_gap_preserved": true,
+          "selected_quotes_are_exact_canonical_slices": true,
+          "selected_quotes_already_supplied": true,
+          "application_context_checks": [
+            {
+              "evidence_id": "p17",
+              "table_id": "#/tables/0",
+              "role": "column_header",
+              "for_evidence_ids": [
+                "p6",
+                "p13",
+                "p14",
+                "p15",
+                "p16",
+                "p18"
+              ],
+              "exact_canonical_slice": true,
+              "already_supplied_in_context": true,
+              "same_source_file": true,
+              "same_table_as_linked_selected_passages": true,
+              "linked_ids_are_model_selected": true,
+              "role_matches_supplied_table_provenance": true,
+              "separate_from_selected_ids": true,
+              "physical_page": [
+                1
+              ]
+            },
+            {
+              "evidence_id": "p19",
+              "table_id": "#/tables/0",
+              "role": "column_header",
+              "for_evidence_ids": [
+                "p6",
+                "p13",
+                "p14",
+                "p15",
+                "p16",
+                "p18"
+              ],
+              "exact_canonical_slice": true,
+              "already_supplied_in_context": true,
+              "same_source_file": true,
+              "same_table_as_linked_selected_passages": true,
+              "linked_ids_are_model_selected": true,
+              "role_matches_supplied_table_provenance": true,
+              "separate_from_selected_ids": true,
+              "physical_page": [
+                1
+              ]
+            },
+            {
+              "evidence_id": "p20",
+              "table_id": "#/tables/0",
+              "role": "preceding_text",
+              "for_evidence_ids": [
+                "p6",
+                "p13",
+                "p14",
+                "p15",
+                "p16",
+                "p18"
+              ],
+              "exact_canonical_slice": true,
+              "already_supplied_in_context": true,
+              "same_source_file": true,
+              "same_table_as_linked_selected_passages": true,
+              "linked_ids_are_model_selected": true,
+              "role_matches_supplied_table_provenance": true,
+              "separate_from_selected_ids": true,
+              "physical_page": [
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "requirement_id": "r2",
+          "description": "Identify the respective reporting periods corresponding to the 94,930 and 391,035 total net sales figures in \"apple-fy24.pdf\" and explain them.",
+          "assessor_status": "supported",
+          "gap": "",
+          "selected_passages": [
+            {
+              "evidence_id": "p6",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 1539,
+              "end_offset": 1593,
+              "page_indices": [
+                0
+              ],
+              "quote": "Total net sales\t$ 94,930\t$ 89,498\t$ 391,035\t$ 383,285\n"
+            },
+            {
+              "evidence_id": "p13",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 1821,
+              "end_offset": 1874,
+              "page_indices": [
+                0
+              ],
+              "quote": "Total net sales\t$ 94,930\t$ 89,498\t$ 391,035\t$ 383,285"
+            },
+            {
+              "evidence_id": "p14",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 170,
+              "end_offset": 188,
+              "page_indices": [
+                0
+              ],
+              "quote": "Three Months Ended"
+            },
+            {
+              "evidence_id": "p15",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 189,
+              "end_offset": 208,
+              "page_indices": [
+                0
+              ],
+              "quote": "Twelve Months Ended"
+            },
+            {
+              "evidence_id": "p16",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 209,
+              "end_offset": 227,
+              "page_indices": [
+                0
+              ],
+              "quote": "September 28, 2024"
+            },
+            {
+              "evidence_id": "p18",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 247,
+              "end_offset": 265,
+              "page_indices": [
+                0
+              ],
+              "quote": "September 28, 2024"
+            }
+          ],
+          "application_table_context": [
+            {
+              "evidence_id": "p17",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 228,
+              "end_offset": 246,
+              "page_indices": [
+                0
+              ],
+              "quote": "September 30, 2023",
+              "table_id": "#/tables/0",
+              "role": "column_header",
+              "for_evidence_ids": [
+                "p6",
+                "p13",
+                "p14",
+                "p15",
+                "p16",
+                "p18"
+              ]
+            },
+            {
+              "evidence_id": "p19",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 266,
+              "end_offset": 284,
+              "page_indices": [
+                0
+              ],
+              "quote": "September 30, 2023",
+              "table_id": "#/tables/0",
+              "role": "column_header",
+              "for_evidence_ids": [
+                "p6",
+                "p13",
+                "p14",
+                "p15",
+                "p16",
+                "p18"
+              ]
+            },
+            {
+              "evidence_id": "p20",
+              "source_number": 1,
+              "file_id": "1459e2b88b634fc2bbfd307abe5ec136",
+              "file_name": "apple-fy24.pdf",
+              "start_offset": 73,
+              "end_offset": 168,
+              "page_indices": [
+                0
+              ],
+              "quote": "(In millions, except number of shares, which are reflected in thousands, and per-share amounts)",
+              "table_id": "#/tables/0",
+              "role": "preceding_text",
+              "for_evidence_ids": [
+                "p6",
+                "p13",
+                "p14",
+                "p15",
+                "p16",
+                "p18"
+              ]
+            }
+          ],
+          "reference_bundle_judgment": "The selected bundle supports the requested period distinction and the absence of a contradiction when read with its located table-column provenance. The two total rows repeat the same values; they are not conflicting claims.",
+          "selected_bundle_contains": [
+            "Two repeated total-net-sales rows",
+            "three- and twelve-month period headers",
+            "Both located September 28, 2024 headers"
+          ],
+          "missing_from_selected_bundle": [],
+          "combined_bundle_judgment": "Application-added 2023 date headers and the exact units paragraph provide neighboring same-table context. Units are not needed to distinguish the requested periods, but support the final answer's million-dollar wording. No attachment labels fiscal Q4 or a full fiscal year.",
+          "raw_model_selection_preserved": true,
+          "raw_status_and_gap_preserved": true,
+          "selected_quotes_are_exact_canonical_slices": true,
+          "selected_quotes_already_supplied": true,
+          "application_context_checks": [
+            {
+              "evidence_id": "p17",
+              "table_id": "#/tables/0",
+              "role": "column_header",
+              "for_evidence_ids": [
+                "p6",
+                "p13",
+                "p14",
+                "p15",
+                "p16",
+                "p18"
+              ],
+              "exact_canonical_slice": true,
+              "already_supplied_in_context": true,
+              "same_source_file": true,
+              "same_table_as_linked_selected_passages": true,
+              "linked_ids_are_model_selected": true,
+              "role_matches_supplied_table_provenance": true,
+              "separate_from_selected_ids": true,
+              "physical_page": [
+                1
+              ]
+            },
+            {
+              "evidence_id": "p19",
+              "table_id": "#/tables/0",
+              "role": "column_header",
+              "for_evidence_ids": [
+                "p6",
+                "p13",
+                "p14",
+                "p15",
+                "p16",
+                "p18"
+              ],
+              "exact_canonical_slice": true,
+              "already_supplied_in_context": true,
+              "same_source_file": true,
+              "same_table_as_linked_selected_passages": true,
+              "linked_ids_are_model_selected": true,
+              "role_matches_supplied_table_provenance": true,
+              "separate_from_selected_ids": true,
+              "physical_page": [
+                1
+              ]
+            },
+            {
+              "evidence_id": "p20",
+              "table_id": "#/tables/0",
+              "role": "preceding_text",
+              "for_evidence_ids": [
+                "p6",
+                "p13",
+                "p14",
+                "p15",
+                "p16",
+                "p18"
+              ],
+              "exact_canonical_slice": true,
+              "already_supplied_in_context": true,
+              "same_source_file": true,
+              "same_table_as_linked_selected_passages": true,
+              "linked_ids_are_model_selected": true,
+              "role_matches_supplied_table_provenance": true,
+              "separate_from_selected_ids": true,
+              "physical_page": [
+                1
+              ]
+            }
+          ]
+        }
+      ],
+      "saved_assessment_matches_response": true,
+      "full_context_has_required_period_date_values_and_units": true,
+      "final_answer_source_has_required_period_date_values_and_units": true
+    }
+  ],
+  "conclusion": "The two sales-period requirements still omit the selected period-group header. Their separate application table context now preserves that exact header and the units note. Income already selected its required row, headers and units. The two conflict requirements selected the period/date evidence; attached neighboring 2023 headers and units remain distinct context. Every observed attachment is an exact already-supplied same-table slice, and the saved history preserves raw selections, statuses and added context. These three development cases do not establish general table-association or sufficiency accuracy.",
+  "metric_effect": "No model-selected IDs or statuses, raw final answers, historical scores or current final-answer scores are repaired. No additional aggregate assessor-quality score is introduced."
+}

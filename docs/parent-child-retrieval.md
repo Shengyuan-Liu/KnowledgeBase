@@ -59,20 +59,35 @@ not convert existing chunks.
    matched child in the selected retrieval order. Retain all matched child IDs in candidate order. Parent text has
    no separately computed embedding score. Deduplication can leave fewer than
    top-k sources; this stage does not fetch more candidates to fill the list.
-4. Greedily pack whole parent/flat regions in that order. Count the exact
-   `build_context()` output, including citation labels, source metadata (file name
-   and heading path), excerpt labels and separators. Keep every
-   admitted parent; the next pass never evicts it.
-5. With `EVIDENCE_PACKING_STRATEGY=parent_then_child` (the default), revisit selected
-   hits whose parents did not fit. Admit each complete child if the resulting
-   numbered context fits. Do not fetch additional candidates or truncate text.
+4. With `EVIDENCE_PACKING_STRATEGY=parent_then_child` (the default), visit selected
+   hits in rank order. For parents without PDF table evidence, try a whole parent at its first selected child. If it does
+   not fit, immediately try that complete child before considering any lower-ranked
+   evidence. Later siblings of an omitted parent are tried individually in order;
+   siblings of an admitted parent are already represented. Defer PDF table parents:
+   first try their complete selected children, including notes whose parent contains
+   table rows. After the selected pass, replace a table parent's retained children
+   with that whole parent only if the resulting context fits while keeping every
+   unrelated retained source. A deferred parent with no retained child is also
+   tried in its selected-rank position. Parent upgrades never displace retained hits.
+5. Count the exact `build_context()` output, including citation labels, source
+   metadata, PDF cell coordinates, headers, nearby table context and warnings.
+   Keep admitted regions; do not fetch more candidates or truncate text.
    Expanded parents and their children never appear together; retained siblings
-   remain separate exact excerpts. `parent_first` preserves the earlier control.
+   remain separate exact excerpts. `parent_first` preserves the earlier control,
+   which tries only complete parent/flat regions with no child fallback.
 6. Number the final regions in selected-hit order and generate using those exact
    slices. If no region fits, skip answer generation and report insufficient evidence.
 
-This policy uses otherwise unused budget while preserving admitted parent context.
-It does not guarantee that every selected child fits. A strict child-first reservation
+The [v2 financial packing replay](../evals/check-runs/20260927-pdf-evidence-packing/README.md)
+records why child fallback now precedes lower-ranked parents: correct sales rows
+were retrieved but excluded behind unrelated cash-flow context. This changes the
+shared packer for all source formats; a later flat hit can lose its slot to an
+earlier child. It does not guarantee that every selected child fits: an admitted
+non-table parent may still consume space needed by later requirements. PDF table
+parents now use the bounded reservation described above; the
+[dense-table repair replay](../evals/check-runs/20260927-table-context-scope/README.md)
+records why a fitting table-tail parent must not displace the selected state rows.
+A strict child-first reservation
 prototype recovered CPT evidence but displaced useful GPA parent context; that
 regression is retained in the [packing comparison](../evals/library-runs/20260924T004817Z-child-first/README.md).
 
@@ -120,6 +135,10 @@ parent-first control keeps its historical whole-region exclusion meaning. The SS
 event already contains the final parent/child source list. `evidence_tokens` counts the
 formatted context; source `token_count` counts only that source text using its
 stored tokenizer. These can differ after tokenizer settings change. Newly packed
+exclusions also record `trial_context_tokens`: the entire numbered context at the
+failed admission or parent replacement, including other sources in that attempt.
+This is neither a standalone source cost nor a marginal cost; historical entries
+without it read as null. PDF table contexts use `source-metadata-pdf-v2`. Non-PDF
 contexts record `context_format: "source-metadata-v1"`; historical snapshots
 without a recorded version deserialize as null, not as the current format.
 Empty retrieval also has no packed context format.

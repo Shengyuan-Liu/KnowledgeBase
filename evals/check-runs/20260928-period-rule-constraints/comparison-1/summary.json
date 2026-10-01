@@ -1,0 +1,46 @@
+{
+  "historical_product_commit": "5447c29",
+  "current_base_commit": "9a6e65c",
+  "source_hashes": {
+    "evals/library-runs/20260928-answer-rules-acceptance/cases.json": "7c356e84013b7eb4c3bd22c2b847f81f94e334cf4953884608cd993afa5fc8ed",
+    "evals/library-runs/20260928-answer-rules-acceptance/protocol.md": "d7fa9430b0d261d67d9b538d6967f5d06b8289b965b9abb5b6dc2a9acd32c2ba",
+    "evals/library-runs/20260928-answer-rules-acceptance/factual-condition.json": "53326a57f6fcb9016849ab7b8caad7506f07b423be29f16b00e19f7981410d69",
+    "evals/library-runs/20260928-answer-rules-acceptance/missing-year.json": "71ad8ce13bf9df4a3a0ce69361d088ac07cf018e23ebf993b34ae57a4103c84b",
+    "evals/library-runs/20260928-answer-rules-acceptance/frozen-evidence.json": "a891dc0f630bfe3598777fe6c3f64e476200b05c07175f9839bc093cdc0542aa"
+  },
+  "invented_rule": {
+    "before": "Historical live plan accepted the unrequested rule; final answer was correct.",
+    "after": {
+      "error_type": "ValueError",
+      "error": "Answer rules must quote the original question exactly.",
+      "provider_mock_calls": 1
+    },
+    "consequence": "Current validation rejects the plan rather than deleting the rule or making another provider call. A live model that repeats this output will fail the request."
+  },
+  "period_replays": [
+    {
+      "artifact": "recorded-wrong-year.json",
+      "context_sha256": "8e74d2fcb4c4026d8a1c07dc097d546dd4681e248b441de306cc746cc975d5e5",
+      "statuses": [
+        "supported",
+        "supported"
+      ],
+      "stop_reason": "requirements_supported",
+      "answer": "- Alabama's ungrouped Handgun value for November 2016 is 23,022 [1].\n- Alabama's ungrouped Pre-Pawn Handgun value for November 2016 is 14 [1].",
+      "provider_mock_calls": 3
+    },
+    {
+      "artifact": "annotated-missing.json",
+      "context_sha256": "8e74d2fcb4c4026d8a1c07dc097d546dd4681e248b441de306cc746cc975d5e5",
+      "statuses": [
+        "missing",
+        "missing"
+      ],
+      "stop_reason": "round_limit",
+      "answer": "There is not enough information in the provided sources to answer this question.",
+      "provider_mock_calls": 2
+    }
+  ],
+  "reviewer": "Codex /root; development annotation, no human or independent second review",
+  "limitation": "No live requests. Prompt semantics remain unverified; wrong-year historical output still passes provenance validation. Annotation is a desired decision, not model improvement."
+}

@@ -1,0 +1,3684 @@
+{
+  "scope": "Targeted financial acceptance only; three frozen questions x two retrieval modes. No release or merge authorization.",
+  "reviewer": "Codex model review; no independent human review or paid LLM judge",
+  "metric_definition": "20 required metrics per arm and overall; candidate and final supplied evidence are distinct. Quality results are model assessments under the retained rubric.",
+  "baseline": "../20260927-v2-pdf-live/repair-1",
+  "current": ".",
+  "frozen_sha256": "2bb0ff372b880afaecc776c7ef3a95f579513bcda43b92b675daf6aecc7a9e91",
+  "groups": {
+    "baseline-single": {
+      "Recall@K": {
+        "status": "measured",
+        "value": 0.7777777777777778,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.8888888888888888,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.7777777777777778,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.7777777777777778,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.7777777777777778,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Precision@K": {
+        "status": "measured",
+        "value": 0.33333333333333337,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.4,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.26666666666666666,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.33333333333333337,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.33333333333333337,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Hit Rate@K": {
+        "status": "measured",
+        "value": 1,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 1,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 1,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 1,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "MRR": {
+        "status": "measured",
+        "value": 1.0,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1.0,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.8333333333333334,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.8333333333333334,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 1.0,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "NDCG@K": {
+        "status": "measured",
+        "value": 0.79283594325136,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.8533498740971442,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.618710511085766,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.6860796265859486,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.79283594325136,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Final evidence coverage": {
+        "status": "measured",
+        "value": 0.3333333333333333,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json",
+        "point_micro_average": 0.375,
+        "point_count": 8,
+        "literal_anchor_diagnostic": {
+          "value": 0.0,
+          "method": "Same original page anchor spans including supplements; equivalent facts elsewhere may miss. This does not replace semantic evidence review.",
+          "artifact": "retrieval-diagnostics.json"
+        }
+      },
+      "Answer correctness": {
+        "status": "measured",
+        "value": 0.6666666666666666,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json",
+        "point_micro_average": 0.625,
+        "point_count": 8
+      },
+      "Answer completeness": {
+        "status": "measured",
+        "value": 0.6666666666666666,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json",
+        "point_micro_average": 0.625,
+        "point_count": 8
+      },
+      "Faithfulness": {
+        "status": "measured",
+        "value": 0.4,
+        "unit": "score 0..1",
+        "sample_count": 5,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json"
+      },
+      "Citation support": {
+        "status": "measured",
+        "value": 0.3333333333333333,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json"
+      },
+      "Citation coverage": {
+        "status": "measured",
+        "value": 0.2,
+        "unit": "score 0..1",
+        "sample_count": 5,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json"
+      },
+      "Answer relevance": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "1 for addressing the requested topic including relevant refusal; 0 for error/wrong document.",
+        "aggregation": "macro mean",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json"
+      },
+      "Abstention": {
+        "status": "measured",
+        "value": {
+          "appropriate": {
+            "status": "not_applicable",
+            "numerator": null,
+            "denominator": 0,
+            "rate": null,
+            "reason": "No unanswerable questions in this targeted workload."
+          },
+          "incorrect": {
+            "numerator": 1,
+            "denominator": 3,
+            "rate": 0.3333333333333333
+          }
+        },
+        "unit": "counts and rates",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Full refusals only. Failed requests are errors, not abstentions. No unanswerable behavior validated here.",
+        "aggregation": "separate denominators",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json"
+      },
+      "First-answer-delta latency": {
+        "status": "measured",
+        "value": {
+          "n": 3,
+          "mean": 1.8776805136197556,
+          "p50": 1.9002546250121668,
+          "p95": 1.9112366121495143,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 3,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / SSE close. Server startup excluded; request queue/provider waiting included; deterministic replies retained.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "../20260927-v2-pdf-live/repair-1/case-arm JSON files"
+      },
+      "Complete-response latency": {
+        "status": "measured",
+        "value": {
+          "n": 3,
+          "mean": 2.5365867499882975,
+          "p50": 2.421797209070064,
+          "p95": 2.804480958345812,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 3,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / SSE close. Server startup excluded; request queue/provider waiting included; deterministic replies retained.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "../20260927-v2-pdf-live/repair-1/case-arm JSON files"
+      },
+      "Stage latency": {
+        "status": "measured",
+        "value": {
+          "embedding_sdk": {
+            "n": 3,
+            "mean": 0.1767097363481298,
+            "p50": 0.18091029208153486,
+            "p95": 0.20634387984173372,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "single_retrieval": {
+            "n": 3,
+            "mean": 1.330792138663431,
+            "p50": 1.3360444579739124,
+            "p95": 1.3605798458098435,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "packing_observed_call": {
+            "n": 3,
+            "mean": 0.00687841628678143,
+            "p50": 0.0070614159340038896,
+            "p95": 0.007092278730124235,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "answer_generation_sdk": {
+            "n": 3,
+            "mean": 1.1948855833616108,
+            "p50": 1.077338375034742,
+            "p95": 1.4953098500147461,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "embedding_seconds": {
+            "n": 3,
+            "mean": 0.17712441637801626,
+            "p50": 0.1811277080560103,
+            "p95": 0.20683620799100028,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "rerank_seconds": {
+            "n": 3,
+            "mean": 1.1322902636990573,
+            "p50": 1.163385583087802,
+            "p95": 1.171523795207031,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "unit": "seconds",
+        "sample_count": 21,
+        "population": "Observed calls including failed downstream validation",
+        "method": "SDK boundaries include provider/network waits; retrieval entrypoint and packing diagnostic timers; final traces provide unique per-query rerank/embedding observations. Per-stage sample counts are explicit. Startup excluded; first request may include local lazy loading; no isolated cold/warm attribution.",
+        "aggregation": "per-stage distributions",
+        "artifact": "../20260927-v2-pdf-live/repair-1/server-observations.jsonl",
+        "unavailable": {
+          "search_fusion_separate": "No dedicated search/fusion wall timer; not inferred by subtracting unlike boundaries.",
+          "provider_queue_separate": "Provider does not expose queue duration.",
+          "model_loading_separate": "No separately instrumented lazy model load duration; may be included in first retrieval."
+        }
+      },
+      "Token usage and cost": {
+        "status": "measured",
+        "value": {
+          "by_model": {
+            "text-embedding-3-small": {
+              "calls": 3,
+              "input_tokens": 96,
+              "output_tokens": null,
+              "output_tokens_status": "not_applicable",
+              "output_tokens_reason": "Embedding calls produce vectors, not generated text.",
+              "cached_input_tokens": null,
+              "cached_input_tokens_status": "unavailable",
+              "cached_input_tokens_reason": "At least one provider response omits this usage field."
+            },
+            "gpt-4.1-2025-04-14": {
+              "calls": 3,
+              "input_tokens": 13963,
+              "output_tokens": 280,
+              "cached_input_tokens": 13440
+            }
+          },
+          "terminal_results_without_usage": 0,
+          "billed_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "Provider billing statement unavailable; no fabricated or estimated bill."
+          },
+          "local_compute": {
+            "device": "Apple Silicon; BGE reranker on MPS; resolved-runtime.json records exact configuration.",
+            "cost": null,
+            "cost_status": "unavailable",
+            "reason": "No local energy/hardware billing measurement."
+          }
+        },
+        "unit": "provider tokens; billed cost unavailable",
+        "sample_count": 6,
+        "population": "Actual SDK terminal responses for selected requests",
+        "method": "Preserved provider usage, including planner/assessor calls that later failed validation; no token estimation. Model identifiers are provider-resolved.",
+        "aggregation": "sum by resolved model",
+        "artifact": "../20260927-v2-pdf-live/repair-1/server-observations.jsonl",
+        "local_evidence_tokens": {
+          "values": [
+            2653,
+            3843,
+            3994
+          ],
+          "mean": 3496.6666666666665,
+          "max_budget": 4096,
+          "method": "Production cl100k_base exact context counts; not provider billing. Error final candidate contexts may never reach generation."
+        }
+      },
+      "Reliability": {
+        "status": "measured",
+        "value": {
+          "intended_requests": 3,
+          "submitted_requests": 3,
+          "completed": 3,
+          "errors": 0,
+          "incomplete": 0,
+          "blocked": 0,
+          "success_rate": 1.0,
+          "error_rate": 0.0,
+          "observed_sdk_errors": 0,
+          "observed_sdk_timeouts": 0,
+          "client_timeouts": 0,
+          "sdk_stream_failed": 0,
+          "sdk_stream_incomplete": 0,
+          "http_status_counts": {
+            "200": 3
+          },
+          "sdk_retry_configuration": 0,
+          "application_replays": 0,
+          "retries": 0,
+          "error_http_close_latency": null,
+          "saved_answer_and_trace_parity": 3
+        },
+        "unit": "counts and rates",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Actual SSE terminal status, SDK errors and saved-history equality. SDK retries disabled; one request per pair. Completion alone does not establish correctness.",
+        "aggregation": "counts; denominator intended requests",
+        "artifact": "../20260927-v2-pdf-live/repair-1/case-arm JSON files"
+      },
+      "Concurrency and throughput": {
+        "status": "unavailable",
+        "value": null,
+        "unit": null,
+        "sample_count": null,
+        "population": "3 financial question/mode pairs; all answerable",
+        "reason": "Historical six requests were interleaved with 26 other cases. No isolated comparable six-request wall interval; concurrency was one. The original 32-request wall rate is a different workload.",
+        "method": "Historical six requests were interleaved with 26 other cases. No isolated comparable six-request wall interval; concurrency was one. The original 32-request wall rate is a different workload.",
+        "aggregation": "none",
+        "artifact": "../20260927-v2-pdf-live/repair-1/answers-run-1.json"
+      },
+      "Ingestion and index": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "sample_count": null,
+        "population": "3 financial question/mode pairs; all answerable",
+        "reason": "Answer pass uses restored frozen chunks in an isolated five-PDF index; no upload/parser/update/delete workload. Preparation restoration and its provider usage are recorded separately.",
+        "method": "Answer pass uses restored frozen chunks in an isolated five-PDF index; no upload/parser/update/delete workload. Preparation restoration and its provider usage are recorded separately.",
+        "aggregation": "none",
+        "artifact": "preparation.json"
+      }
+    },
+    "baseline-planned": {
+      "Recall@K": {
+        "status": "measured",
+        "value": 0.7777777777777778,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.8333333333333333,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.8333333333333333,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.8333333333333333,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.8333333333333333,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Precision@K": {
+        "status": "measured",
+        "value": 0.33333333333333337,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.375,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.30000000000000004,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.375,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.375,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Hit Rate@K": {
+        "status": "measured",
+        "value": 1,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 1,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 1,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 1,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "MRR": {
+        "status": "measured",
+        "value": 1.0,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1.0,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.8541666666666666,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.9375,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 1.0,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "NDCG@K": {
+        "status": "measured",
+        "value": 0.7615110884295875,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.8636536379664155,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.6706663380322664,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.8001263781005568,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.836546180419629,
+            "query_count": 8,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Final evidence coverage": {
+        "status": "measured",
+        "value": 0.2777777777777778,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json",
+        "point_micro_average": 0.3125,
+        "point_count": 8,
+        "literal_anchor_diagnostic": {
+          "value": 0.2222222222222222,
+          "method": "Same original page anchor spans including supplements; equivalent facts elsewhere may miss. This does not replace semantic evidence review.",
+          "artifact": "retrieval-diagnostics.json"
+        }
+      },
+      "Answer correctness": {
+        "status": "measured",
+        "value": 0.3333333333333333,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json",
+        "point_micro_average": 0.375,
+        "point_count": 8
+      },
+      "Answer completeness": {
+        "status": "measured",
+        "value": 0.3333333333333333,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json",
+        "point_micro_average": 0.375,
+        "point_count": 8
+      },
+      "Faithfulness": {
+        "status": "measured",
+        "value": 0.5,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json"
+      },
+      "Citation support": {
+        "status": "measured",
+        "value": 0.5,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json"
+      },
+      "Citation coverage": {
+        "status": "measured",
+        "value": 0.5,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json"
+      },
+      "Answer relevance": {
+        "status": "measured",
+        "value": 0.6666666666666666,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "1 for addressing the requested topic including relevant refusal; 0 for error/wrong document.",
+        "aggregation": "macro mean",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json"
+      },
+      "Abstention": {
+        "status": "measured",
+        "value": {
+          "appropriate": {
+            "status": "not_applicable",
+            "numerator": null,
+            "denominator": 0,
+            "rate": null,
+            "reason": "No unanswerable questions in this targeted workload."
+          },
+          "incorrect": {
+            "numerator": 1,
+            "denominator": 3,
+            "rate": 0.3333333333333333
+          }
+        },
+        "unit": "counts and rates",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Full refusals only. Failed requests are errors, not abstentions. No unanswerable behavior validated here.",
+        "aggregation": "separate denominators",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json"
+      },
+      "First-answer-delta latency": {
+        "status": "measured",
+        "value": {
+          "n": 2,
+          "mean": 10.677717499493156,
+          "p50": 10.677717499493156,
+          "p95": 11.45565413684235,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 2,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / SSE close. Server startup excluded; request queue/provider waiting included; deterministic replies retained.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "../20260927-v2-pdf-live/repair-1/case-arm JSON files"
+      },
+      "Complete-response latency": {
+        "status": "measured",
+        "value": {
+          "n": 2,
+          "mean": 11.80674758303212,
+          "p50": 11.80674758303212,
+          "p95": 12.031342995219166,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 2,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / SSE close. Server startup excluded; request queue/provider waiting included; deterministic replies retained.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "../20260927-v2-pdf-live/repair-1/case-arm JSON files"
+      },
+      "Stage latency": {
+        "status": "measured",
+        "value": {
+          "retrieval_plan": {
+            "n": 3,
+            "mean": 1.394069805702505,
+            "p50": 1.4101827080594376,
+            "p95": 1.8598459586035458,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "embedding_sdk": {
+            "n": 8,
+            "mean": 0.2074387240136275,
+            "p50": 0.20866258355090395,
+            "p95": 0.24975483338348567,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "planned_retrieval": {
+            "n": 7,
+            "mean": 1.604458779262911,
+            "p50": 1.4108957080170512,
+            "p95": 3.701281903614289,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "packing_observed_call": {
+            "n": 7,
+            "mean": 0.007982386858202517,
+            "p50": 0.007111832965165377,
+            "p95": 0.011188987770583478,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "evidence_assessment": {
+            "n": 5,
+            "mean": 1.872352866618894,
+            "p50": 1.602968208026141,
+            "p95": 2.942926016636193,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "answer_generation_sdk": {
+            "n": 1,
+            "mean": 2.6988229169510305,
+            "p50": 2.6988229169510305,
+            "p95": 2.6988229169510305,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "embedding_seconds": {
+            "n": 8,
+            "mean": 0.20793095297995023,
+            "p50": 0.20920162496622652,
+            "p95": 0.2501882767712232,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "rerank_seconds": {
+            "n": 8,
+            "mean": 1.1557579688815167,
+            "p50": 1.1551532084704377,
+            "p95": 1.2192540005140473,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "scope_seconds": {
+            "n": 3,
+            "mean": 0.0020943330212806663,
+            "p50": 0.001204208005219698,
+            "p95": 0.0037454326753504573,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "merge_seconds": {
+            "n": 3,
+            "mean": 0.00021359731908887625,
+            "p50": 0.00020720798056572676,
+            "p95": 0.0002930085989646614,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "unit": "seconds",
+        "sample_count": 43,
+        "population": "Observed calls including failed downstream validation",
+        "method": "SDK boundaries include provider/network waits; retrieval entrypoint and packing diagnostic timers; final traces provide unique per-query rerank/embedding observations. Per-stage sample counts are explicit. Startup excluded; first request may include local lazy loading; no isolated cold/warm attribution.",
+        "aggregation": "per-stage distributions",
+        "artifact": "../20260927-v2-pdf-live/repair-1/server-observations.jsonl",
+        "unavailable": {
+          "search_fusion_separate": "No dedicated search/fusion wall timer; not inferred by subtracting unlike boundaries.",
+          "provider_queue_separate": "Provider does not expose queue duration.",
+          "model_loading_separate": "No separately instrumented lazy model load duration; may be included in first retrieval."
+        }
+      },
+      "Token usage and cost": {
+        "status": "measured",
+        "value": {
+          "by_model": {
+            "gpt-4.1-2025-04-14": {
+              "calls": 9,
+              "input_tokens": 30497,
+              "output_tokens": 2144,
+              "cached_input_tokens": 6784
+            },
+            "text-embedding-3-small": {
+              "calls": 8,
+              "input_tokens": 257,
+              "output_tokens": null,
+              "output_tokens_status": "not_applicable",
+              "output_tokens_reason": "Embedding calls produce vectors, not generated text.",
+              "cached_input_tokens": null,
+              "cached_input_tokens_status": "unavailable",
+              "cached_input_tokens_reason": "At least one provider response omits this usage field."
+            }
+          },
+          "terminal_results_without_usage": 0,
+          "billed_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "Provider billing statement unavailable; no fabricated or estimated bill."
+          },
+          "local_compute": {
+            "device": "Apple Silicon; BGE reranker on MPS; resolved-runtime.json records exact configuration.",
+            "cost": null,
+            "cost_status": "unavailable",
+            "reason": "No local energy/hardware billing measurement."
+          }
+        },
+        "unit": "provider tokens; billed cost unavailable",
+        "sample_count": 17,
+        "population": "Actual SDK terminal responses for selected requests",
+        "method": "Preserved provider usage, including planner/assessor calls that later failed validation; no token estimation. Model identifiers are provider-resolved.",
+        "aggregation": "sum by resolved model",
+        "artifact": "../20260927-v2-pdf-live/repair-1/server-observations.jsonl",
+        "local_evidence_tokens": {
+          "values": [
+            3843,
+            3843,
+            2788
+          ],
+          "mean": 3491.3333333333335,
+          "max_budget": 4096,
+          "method": "Production cl100k_base exact context counts; not provider billing. Error final candidate contexts may never reach generation."
+        }
+      },
+      "Reliability": {
+        "status": "measured",
+        "value": {
+          "intended_requests": 3,
+          "submitted_requests": 3,
+          "completed": 2,
+          "errors": 1,
+          "incomplete": 0,
+          "blocked": 0,
+          "success_rate": 0.6666666666666666,
+          "error_rate": 0.3333333333333333,
+          "observed_sdk_errors": 0,
+          "observed_sdk_timeouts": 0,
+          "client_timeouts": 0,
+          "sdk_stream_failed": 0,
+          "sdk_stream_incomplete": 0,
+          "http_status_counts": {
+            "200": 3
+          },
+          "sdk_retry_configuration": 0,
+          "application_replays": 0,
+          "retries": 0,
+          "error_http_close_latency": {
+            "n": 1,
+            "mean": 3.9831614589784294,
+            "p50": 3.9831614589784294,
+            "p95": 3.9831614589784294,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "saved_answer_and_trace_parity": 2
+        },
+        "unit": "counts and rates",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Actual SSE terminal status, SDK errors and saved-history equality. SDK retries disabled; one request per pair. Completion alone does not establish correctness.",
+        "aggregation": "counts; denominator intended requests",
+        "artifact": "../20260927-v2-pdf-live/repair-1/case-arm JSON files"
+      },
+      "Concurrency and throughput": {
+        "status": "unavailable",
+        "value": null,
+        "unit": null,
+        "sample_count": null,
+        "population": "3 financial question/mode pairs; all answerable",
+        "reason": "Historical six requests were interleaved with 26 other cases. No isolated comparable six-request wall interval; concurrency was one. The original 32-request wall rate is a different workload.",
+        "method": "Historical six requests were interleaved with 26 other cases. No isolated comparable six-request wall interval; concurrency was one. The original 32-request wall rate is a different workload.",
+        "aggregation": "none",
+        "artifact": "../20260927-v2-pdf-live/repair-1/answers-run-1.json"
+      },
+      "Ingestion and index": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "sample_count": null,
+        "population": "3 financial question/mode pairs; all answerable",
+        "reason": "Answer pass uses restored frozen chunks in an isolated five-PDF index; no upload/parser/update/delete workload. Preparation restoration and its provider usage are recorded separately.",
+        "method": "Answer pass uses restored frozen chunks in an isolated five-PDF index; no upload/parser/update/delete workload. Preparation restoration and its provider usage are recorded separately.",
+        "aggregation": "none",
+        "artifact": "preparation.json"
+      }
+    },
+    "baseline-all": {
+      "Recall@K": {
+        "status": "measured",
+        "value": 0.7777777777777778,
+        "unit": "ratio",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.8484848484848485,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.8181818181818181,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.8181818181818181,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.8181818181818181,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Precision@K": {
+        "status": "measured",
+        "value": 0.33333333333333337,
+        "unit": "ratio",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.38181818181818183,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.29090909090909095,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.36363636363636365,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.36363636363636365,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Hit Rate@K": {
+        "status": "measured",
+        "value": 1,
+        "unit": "ratio",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 1,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 1,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 1,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "MRR": {
+        "status": "measured",
+        "value": 1.0,
+        "unit": "ratio",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1.0,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.8484848484848485,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.9090909090909091,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 1.0,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "NDCG@K": {
+        "status": "measured",
+        "value": 0.7771735158404738,
+        "unit": "ratio",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.8608435205475233,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.6564965670468572,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.7690227185965727,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.8246252066464647,
+            "query_count": 11,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Final evidence coverage": {
+        "status": "measured",
+        "value": 0.3055555555555556,
+        "unit": "score 0..1",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json",
+        "point_micro_average": 0.34375,
+        "point_count": 16,
+        "literal_anchor_diagnostic": {
+          "value": 0.1111111111111111,
+          "method": "Same original page anchor spans including supplements; equivalent facts elsewhere may miss. This does not replace semantic evidence review.",
+          "artifact": "retrieval-diagnostics.json"
+        }
+      },
+      "Answer correctness": {
+        "status": "measured",
+        "value": 0.5,
+        "unit": "score 0..1",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json",
+        "point_micro_average": 0.5,
+        "point_count": 16
+      },
+      "Answer completeness": {
+        "status": "measured",
+        "value": 0.5,
+        "unit": "score 0..1",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json",
+        "point_micro_average": 0.5,
+        "point_count": 16
+      },
+      "Faithfulness": {
+        "status": "measured",
+        "value": 0.4375,
+        "unit": "score 0..1",
+        "sample_count": 8,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json"
+      },
+      "Citation support": {
+        "status": "measured",
+        "value": 0.4166666666666667,
+        "unit": "score 0..1",
+        "sample_count": 6,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json"
+      },
+      "Citation coverage": {
+        "status": "measured",
+        "value": 0.3125,
+        "unit": "score 0..1",
+        "sample_count": 8,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json"
+      },
+      "Answer relevance": {
+        "status": "measured",
+        "value": 0.8333333333333334,
+        "unit": "score 0..1",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "1 for addressing the requested topic including relevant refusal; 0 for error/wrong document.",
+        "aggregation": "macro mean",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json"
+      },
+      "Abstention": {
+        "status": "measured",
+        "value": {
+          "appropriate": {
+            "status": "not_applicable",
+            "numerator": null,
+            "denominator": 0,
+            "rate": null,
+            "reason": "No unanswerable questions in this targeted workload."
+          },
+          "incorrect": {
+            "numerator": 2,
+            "denominator": 6,
+            "rate": 0.3333333333333333
+          }
+        },
+        "unit": "counts and rates",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "Full refusals only. Failed requests are errors, not abstentions. No unanswerable behavior validated here.",
+        "aggregation": "separate denominators",
+        "artifact": "../20260927-v2-pdf-live/reviewed-cases.json"
+      },
+      "First-answer-delta latency": {
+        "status": "measured",
+        "value": {
+          "n": 5,
+          "mean": 5.397695307969116,
+          "p50": 1.9124568329425529,
+          "p95": 11.196341924392618,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 5,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / SSE close. Server startup excluded; request queue/provider waiting included; deterministic replies retained.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "../20260927-v2-pdf-live/repair-1/case-arm JSON files"
+      },
+      "Complete-response latency": {
+        "status": "measured",
+        "value": {
+          "n": 5,
+          "mean": 6.244651083205826,
+          "p50": 2.847001374932006,
+          "p95": 11.956477857823483,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 5,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / SSE close. Server startup excluded; request queue/provider waiting included; deterministic replies retained.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "../20260927-v2-pdf-live/repair-1/case-arm JSON files"
+      },
+      "Stage latency": {
+        "status": "measured",
+        "value": {
+          "retrieval_plan": {
+            "n": 3,
+            "mean": 1.394069805702505,
+            "p50": 1.4101827080594376,
+            "p95": 1.8598459586035458,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "embedding_sdk": {
+            "n": 11,
+            "mean": 0.1990580910139463,
+            "p50": 0.19436345901340246,
+            "p95": 0.24886158353183419,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "planned_retrieval": {
+            "n": 7,
+            "mean": 1.604458779262911,
+            "p50": 1.4108957080170512,
+            "p95": 3.701281903614289,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "packing_observed_call": {
+            "n": 10,
+            "mean": 0.007651195686776191,
+            "p50": 0.007078561931848526,
+            "p95": 0.010637731599854301,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "evidence_assessment": {
+            "n": 5,
+            "mean": 1.872352866618894,
+            "p50": 1.602968208026141,
+            "p95": 2.942926016636193,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "answer_generation_sdk": {
+            "n": 4,
+            "mean": 1.5708699167589657,
+            "p50": 1.3095447500236332,
+            "p95": 2.5252621481602544,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "single_retrieval": {
+            "n": 3,
+            "mean": 1.330792138663431,
+            "p50": 1.3360444579739124,
+            "p95": 1.3605798458098435,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "embedding_seconds": {
+            "n": 11,
+            "mean": 0.19952917027033187,
+            "p50": 0.19487391598522663,
+            "p95": 0.24932789552258328,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "rerank_seconds": {
+            "n": 11,
+            "mean": 1.1493576856499368,
+            "p50": 1.1563013750128448,
+            "p95": 1.2170382504700683,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "scope_seconds": {
+            "n": 3,
+            "mean": 0.0020943330212806663,
+            "p50": 0.001204208005219698,
+            "p95": 0.0037454326753504573,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "merge_seconds": {
+            "n": 3,
+            "mean": 0.00021359731908887625,
+            "p50": 0.00020720798056572676,
+            "p95": 0.0002930085989646614,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "unit": "seconds",
+        "sample_count": 64,
+        "population": "Observed calls including failed downstream validation",
+        "method": "SDK boundaries include provider/network waits; retrieval entrypoint and packing diagnostic timers; final traces provide unique per-query rerank/embedding observations. Per-stage sample counts are explicit. Startup excluded; first request may include local lazy loading; no isolated cold/warm attribution.",
+        "aggregation": "per-stage distributions",
+        "artifact": "../20260927-v2-pdf-live/repair-1/server-observations.jsonl",
+        "unavailable": {
+          "search_fusion_separate": "No dedicated search/fusion wall timer; not inferred by subtracting unlike boundaries.",
+          "provider_queue_separate": "Provider does not expose queue duration.",
+          "model_loading_separate": "No separately instrumented lazy model load duration; may be included in first retrieval."
+        }
+      },
+      "Token usage and cost": {
+        "status": "measured",
+        "value": {
+          "by_model": {
+            "gpt-4.1-2025-04-14": {
+              "calls": 12,
+              "input_tokens": 44460,
+              "output_tokens": 2424,
+              "cached_input_tokens": 20224
+            },
+            "text-embedding-3-small": {
+              "calls": 11,
+              "input_tokens": 353,
+              "output_tokens": null,
+              "output_tokens_status": "not_applicable",
+              "output_tokens_reason": "Embedding calls produce vectors, not generated text.",
+              "cached_input_tokens": null,
+              "cached_input_tokens_status": "unavailable",
+              "cached_input_tokens_reason": "At least one provider response omits this usage field."
+            }
+          },
+          "terminal_results_without_usage": 0,
+          "billed_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "Provider billing statement unavailable; no fabricated or estimated bill."
+          },
+          "local_compute": {
+            "device": "Apple Silicon; BGE reranker on MPS; resolved-runtime.json records exact configuration.",
+            "cost": null,
+            "cost_status": "unavailable",
+            "reason": "No local energy/hardware billing measurement."
+          }
+        },
+        "unit": "provider tokens; billed cost unavailable",
+        "sample_count": 23,
+        "population": "Actual SDK terminal responses for selected requests",
+        "method": "Preserved provider usage, including planner/assessor calls that later failed validation; no token estimation. Model identifiers are provider-resolved.",
+        "aggregation": "sum by resolved model",
+        "artifact": "../20260927-v2-pdf-live/repair-1/server-observations.jsonl",
+        "local_evidence_tokens": {
+          "values": [
+            2653,
+            3843,
+            3843,
+            3843,
+            3994,
+            2788
+          ],
+          "mean": 3494,
+          "max_budget": 4096,
+          "method": "Production cl100k_base exact context counts; not provider billing. Error final candidate contexts may never reach generation."
+        }
+      },
+      "Reliability": {
+        "status": "measured",
+        "value": {
+          "intended_requests": 6,
+          "submitted_requests": 6,
+          "completed": 5,
+          "errors": 1,
+          "incomplete": 0,
+          "blocked": 0,
+          "success_rate": 0.8333333333333334,
+          "error_rate": 0.16666666666666666,
+          "observed_sdk_errors": 0,
+          "observed_sdk_timeouts": 0,
+          "client_timeouts": 0,
+          "sdk_stream_failed": 0,
+          "sdk_stream_incomplete": 0,
+          "http_status_counts": {
+            "200": 6
+          },
+          "sdk_retry_configuration": 0,
+          "application_replays": 0,
+          "retries": 0,
+          "error_http_close_latency": {
+            "n": 1,
+            "mean": 3.9831614589784294,
+            "p50": 3.9831614589784294,
+            "p95": 3.9831614589784294,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "saved_answer_and_trace_parity": 5
+        },
+        "unit": "counts and rates",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "Actual SSE terminal status, SDK errors and saved-history equality. SDK retries disabled; one request per pair. Completion alone does not establish correctness.",
+        "aggregation": "counts; denominator intended requests",
+        "artifact": "../20260927-v2-pdf-live/repair-1/case-arm JSON files"
+      },
+      "Concurrency and throughput": {
+        "status": "unavailable",
+        "value": null,
+        "unit": null,
+        "sample_count": null,
+        "population": "6 financial question/mode pairs; all answerable",
+        "reason": "Historical six requests were interleaved with 26 other cases. No isolated comparable six-request wall interval; concurrency was one. The original 32-request wall rate is a different workload.",
+        "method": "Historical six requests were interleaved with 26 other cases. No isolated comparable six-request wall interval; concurrency was one. The original 32-request wall rate is a different workload.",
+        "aggregation": "none",
+        "artifact": "../20260927-v2-pdf-live/repair-1/answers-run-1.json"
+      },
+      "Ingestion and index": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "sample_count": null,
+        "population": "6 financial question/mode pairs; all answerable",
+        "reason": "Answer pass uses restored frozen chunks in an isolated five-PDF index; no upload/parser/update/delete workload. Preparation restoration and its provider usage are recorded separately.",
+        "method": "Answer pass uses restored frozen chunks in an isolated five-PDF index; no upload/parser/update/delete workload. Preparation restoration and its provider usage are recorded separately.",
+        "aggregation": "none",
+        "artifact": "preparation.json"
+      }
+    },
+    "current-single": {
+      "Recall@K": {
+        "status": "measured",
+        "value": 0.7777777777777778,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.8888888888888888,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.7777777777777778,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.7777777777777778,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.7777777777777778,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Precision@K": {
+        "status": "measured",
+        "value": 0.33333333333333337,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.4,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.26666666666666666,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.33333333333333337,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.33333333333333337,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Hit Rate@K": {
+        "status": "measured",
+        "value": 1,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 1,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 1,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 1,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "MRR": {
+        "status": "measured",
+        "value": 1.0,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1.0,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.8333333333333334,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.8333333333333334,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 1.0,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "NDCG@K": {
+        "status": "measured",
+        "value": 0.79283594325136,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.8533498740971442,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.618710511085766,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.6860796265859486,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.79283594325136,
+            "query_count": 3,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Final evidence coverage": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "reviewed-cases.json",
+        "point_micro_average": 1,
+        "point_count": 8,
+        "literal_anchor_diagnostic": {
+          "value": 1.0,
+          "method": "Same original page anchor spans including supplements; equivalent facts elsewhere may miss. This does not replace semantic evidence review.",
+          "artifact": "retrieval-diagnostics.json"
+        }
+      },
+      "Answer correctness": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "reviewed-cases.json",
+        "point_micro_average": 1,
+        "point_count": 8
+      },
+      "Answer completeness": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "reviewed-cases.json",
+        "point_micro_average": 1,
+        "point_count": 8
+      },
+      "Faithfulness": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 6,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "reviewed-cases.json"
+      },
+      "Citation support": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 6,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "reviewed-cases.json"
+      },
+      "Citation coverage": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 6,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "reviewed-cases.json"
+      },
+      "Answer relevance": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "1 for addressing the requested topic including relevant refusal; 0 for error/wrong document.",
+        "aggregation": "macro mean",
+        "artifact": "reviewed-cases.json"
+      },
+      "Abstention": {
+        "status": "measured",
+        "value": {
+          "appropriate": {
+            "status": "not_applicable",
+            "numerator": null,
+            "denominator": 0,
+            "rate": null,
+            "reason": "No unanswerable questions in this targeted workload."
+          },
+          "incorrect": {
+            "numerator": 0,
+            "denominator": 3,
+            "rate": 0.0
+          }
+        },
+        "unit": "counts and rates",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Full refusals only. Failed requests are errors, not abstentions. No unanswerable behavior validated here.",
+        "aggregation": "separate denominators",
+        "artifact": "reviewed-cases.json"
+      },
+      "First-answer-delta latency": {
+        "status": "measured",
+        "value": {
+          "n": 3,
+          "mean": 2.4819572779815644,
+          "p50": 2.4274257079232484,
+          "p95": 2.8357206088723617,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 3,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / SSE close. Server startup excluded; request queue/provider waiting included; deterministic replies retained.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "case-arm JSON files"
+      },
+      "Complete-response latency": {
+        "status": "measured",
+        "value": {
+          "n": 3,
+          "mean": 3.7356357916335887,
+          "p50": 3.425680416985415,
+          "p95": 5.143949503533076,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 3,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / SSE close. Server startup excluded; request queue/provider waiting included; deterministic replies retained.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "case-arm JSON files"
+      },
+      "Stage latency": {
+        "status": "measured",
+        "value": {
+          "embedding_sdk": {
+            "n": 3,
+            "mean": 0.3476646807199965,
+            "p50": 0.3769541661022231,
+            "p95": 0.43210215475410224,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "single_retrieval": {
+            "n": 3,
+            "mean": 1.6185767363058403,
+            "p50": 1.6227587499888614,
+            "p95": 1.8745663380832411,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "packing_observed_call": {
+            "n": 3,
+            "mean": 0.007549666993630429,
+            "p50": 0.0079650420229882,
+            "p95": 0.008015441987663508,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "answer_generation_sdk": {
+            "n": 3,
+            "mean": 2.0976003333150097,
+            "p50": 1.4890013749245554,
+            "p95": 3.7412779996753667,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "embedding_seconds": {
+            "n": 3,
+            "mean": 0.3481273469903196,
+            "p50": 0.37742487504146993,
+            "p95": 0.4327471999451518,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "rerank_seconds": {
+            "n": 3,
+            "mean": 1.2198117779723059,
+            "p50": 1.2218072089599445,
+            "p95": 1.3431055333581754,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "unit": "seconds",
+        "sample_count": 21,
+        "population": "Observed calls including failed downstream validation",
+        "method": "SDK boundaries include provider/network waits; retrieval entrypoint and packing diagnostic timers; final traces provide unique per-query rerank/embedding observations. Per-stage sample counts are explicit. Startup excluded; first request may include local lazy loading; no isolated cold/warm attribution.",
+        "aggregation": "per-stage distributions",
+        "artifact": "server-observations.jsonl",
+        "unavailable": {
+          "search_fusion_separate": "No dedicated search/fusion wall timer; not inferred by subtracting unlike boundaries.",
+          "provider_queue_separate": "Provider does not expose queue duration.",
+          "model_loading_separate": "No separately instrumented lazy model load duration; may be included in first retrieval."
+        }
+      },
+      "Token usage and cost": {
+        "status": "measured",
+        "value": {
+          "by_model": {
+            "text-embedding-3-small": {
+              "calls": 3,
+              "input_tokens": 96,
+              "output_tokens": null,
+              "output_tokens_status": "not_applicable",
+              "output_tokens_reason": "Embedding calls produce vectors, not generated text.",
+              "cached_input_tokens": null,
+              "cached_input_tokens_status": "unavailable",
+              "cached_input_tokens_reason": "At least one provider response omits this usage field."
+            },
+            "gpt-4.1-2025-04-14": {
+              "calls": 3,
+              "input_tokens": 12780,
+              "output_tokens": 278,
+              "cached_input_tokens": 0
+            }
+          },
+          "terminal_results_without_usage": 0,
+          "billed_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "Provider billing statement unavailable; no fabricated or estimated bill."
+          },
+          "local_compute": {
+            "device": "Apple Silicon; BGE reranker on MPS; resolved-runtime.json records exact configuration.",
+            "cost": null,
+            "cost_status": "unavailable",
+            "reason": "No local energy/hardware billing measurement."
+          }
+        },
+        "unit": "provider tokens; billed cost unavailable",
+        "sample_count": 6,
+        "population": "Actual SDK terminal responses for selected requests",
+        "method": "Preserved provider usage, including planner/assessor calls that later failed validation; no token estimation. Model identifiers are provider-resolved.",
+        "aggregation": "sum by resolved model",
+        "artifact": "server-observations.jsonl",
+        "local_evidence_tokens": {
+          "values": [
+            2712,
+            2712,
+            3884
+          ],
+          "mean": 3102.6666666666665,
+          "max_budget": 4096,
+          "method": "Production cl100k_base exact context counts; not provider billing. Error final candidate contexts may never reach generation."
+        }
+      },
+      "Reliability": {
+        "status": "measured",
+        "value": {
+          "intended_requests": 3,
+          "submitted_requests": 3,
+          "completed": 3,
+          "errors": 0,
+          "incomplete": 0,
+          "blocked": 0,
+          "success_rate": 1.0,
+          "error_rate": 0.0,
+          "observed_sdk_errors": 0,
+          "observed_sdk_timeouts": 0,
+          "client_timeouts": 0,
+          "sdk_stream_failed": 0,
+          "sdk_stream_incomplete": 0,
+          "http_status_counts": {
+            "200": 3
+          },
+          "sdk_retry_configuration": 0,
+          "application_replays": 0,
+          "retries": 0,
+          "error_http_close_latency": null,
+          "saved_answer_and_trace_parity": 3
+        },
+        "unit": "counts and rates",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Actual SSE terminal status, SDK errors and saved-history equality. SDK retries disabled; one request per pair. Completion alone does not establish correctness.",
+        "aggregation": "counts; denominator intended requests",
+        "artifact": "case-arm JSON files"
+      },
+      "Concurrency and throughput": {
+        "status": "measured",
+        "value": {
+          "concurrency": 1,
+          "completed": 3,
+          "workload_wall_seconds": 34.212411666987464,
+          "completed_per_workload_second": 0.08768747521224252
+        },
+        "unit": "completed requests/second",
+        "sample_count": 3,
+        "population": "One sequential alternating six-request command",
+        "method": "Command wall includes both arms, history/client I/O and setup; arm contributions add to overall throughput. No load-capacity claim.",
+        "aggregation": "command wall-clock rate",
+        "artifact": "answers-1.json"
+      },
+      "Ingestion and index": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "sample_count": null,
+        "population": "3 financial question/mode pairs; all answerable",
+        "reason": "Answer pass uses restored frozen chunks in an isolated five-PDF index; no upload/parser/update/delete workload. Preparation restoration and its provider usage are recorded separately.",
+        "method": "Answer pass uses restored frozen chunks in an isolated five-PDF index; no upload/parser/update/delete workload. Preparation restoration and its provider usage are recorded separately.",
+        "aggregation": "none",
+        "artifact": "preparation.json"
+      }
+    },
+    "current-planned": {
+      "Recall@K": {
+        "status": "measured",
+        "value": 0.7777777777777778,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.8333333333333333,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.8333333333333333,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.8333333333333333,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.8333333333333333,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Precision@K": {
+        "status": "measured",
+        "value": 0.33333333333333337,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.3666666666666667,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.30000000000000004,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.3666666666666667,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.3666666666666667,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Hit Rate@K": {
+        "status": "measured",
+        "value": 1,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 1,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 1,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 1,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "MRR": {
+        "status": "measured",
+        "value": 1.0,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1.0,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.75,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.9166666666666666,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 1.0,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "NDCG@K": {
+        "status": "measured",
+        "value": 0.7615110884295875,
+        "unit": "ratio",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.8573114111237836,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.5982463969754409,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.7882708253801917,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.8368305618056213,
+            "query_count": 6,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Final evidence coverage": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "reviewed-cases.json",
+        "point_micro_average": 1,
+        "point_count": 8,
+        "literal_anchor_diagnostic": {
+          "value": 1.0,
+          "method": "Same original page anchor spans including supplements; equivalent facts elsewhere may miss. This does not replace semantic evidence review.",
+          "artifact": "retrieval-diagnostics.json"
+        }
+      },
+      "Answer correctness": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "reviewed-cases.json",
+        "point_micro_average": 1,
+        "point_count": 8
+      },
+      "Answer completeness": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "reviewed-cases.json",
+        "point_micro_average": 1,
+        "point_count": 8
+      },
+      "Faithfulness": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 8,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "reviewed-cases.json"
+      },
+      "Citation support": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 7,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "reviewed-cases.json"
+      },
+      "Citation coverage": {
+        "status": "measured",
+        "value": 0.875,
+        "unit": "score 0..1",
+        "sample_count": 8,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "reviewed-cases.json"
+      },
+      "Answer relevance": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "1 for addressing the requested topic including relevant refusal; 0 for error/wrong document.",
+        "aggregation": "macro mean",
+        "artifact": "reviewed-cases.json"
+      },
+      "Abstention": {
+        "status": "measured",
+        "value": {
+          "appropriate": {
+            "status": "not_applicable",
+            "numerator": null,
+            "denominator": 0,
+            "rate": null,
+            "reason": "No unanswerable questions in this targeted workload."
+          },
+          "incorrect": {
+            "numerator": 0,
+            "denominator": 3,
+            "rate": 0.0
+          }
+        },
+        "unit": "counts and rates",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Full refusals only. Failed requests are errors, not abstentions. No unanswerable behavior validated here.",
+        "aggregation": "separate denominators",
+        "artifact": "reviewed-cases.json"
+      },
+      "First-answer-delta latency": {
+        "status": "measured",
+        "value": {
+          "n": 3,
+          "mean": 6.9800203467020765,
+          "p50": 7.027016291045584,
+          "p95": 9.428427716332953,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 3,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / SSE close. Server startup excluded; request queue/provider waiting included; deterministic replies retained.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "case-arm JSON files"
+      },
+      "Complete-response latency": {
+        "status": "measured",
+        "value": {
+          "n": 3,
+          "mean": 7.61084668035619,
+          "p50": 7.664069166057743,
+          "p95": 10.204458516568412,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 3,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / SSE close. Server startup excluded; request queue/provider waiting included; deterministic replies retained.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "case-arm JSON files"
+      },
+      "Stage latency": {
+        "status": "measured",
+        "value": {
+          "retrieval_plan": {
+            "n": 3,
+            "mean": 1.5036342920114596,
+            "p50": 1.847489583073184,
+            "p95": 1.8821322713512927,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "embedding_sdk": {
+            "n": 6,
+            "mean": 0.31394638200678554,
+            "p50": 0.27098074997775257,
+            "p95": 0.5385019377572462,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "planned_retrieval": {
+            "n": 3,
+            "mean": 3.266869041680669,
+            "p50": 3.131777292001061,
+            "p95": 5.0096064795041455,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "packing_observed_call": {
+            "n": 3,
+            "mean": 0.007706041641843815,
+            "p50": 0.007765999995172024,
+            "p95": 0.009916700271423906,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "evidence_assessment": {
+            "n": 3,
+            "mean": 1.5429651246716578,
+            "p50": 1.306763333035633,
+            "p95": 1.9875202954979612,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "answer_generation_sdk": {
+            "n": 3,
+            "mean": 1.2656253193272278,
+            "p50": 1.3102021249942482,
+            "p95": 1.3158843128127047,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "embedding_seconds": {
+            "n": 6,
+            "mean": 0.3146024931726667,
+            "p50": 0.2716328960377723,
+            "p95": 0.5389092812256422,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "rerank_seconds": {
+            "n": 6,
+            "mean": 1.3021044378207687,
+            "p50": 1.2695806045085192,
+            "p95": 1.4424880315200426,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "scope_seconds": {
+            "n": 3,
+            "mean": 0.002994125010445714,
+            "p50": 0.0034235420171171427,
+            "p95": 0.003712629247456789,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "merge_seconds": {
+            "n": 3,
+            "mean": 0.00021554199823488793,
+            "p50": 0.00021758407820016146,
+            "p95": 0.00028913399437442423,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "unit": "seconds",
+        "sample_count": 39,
+        "population": "Observed calls including failed downstream validation",
+        "method": "SDK boundaries include provider/network waits; retrieval entrypoint and packing diagnostic timers; final traces provide unique per-query rerank/embedding observations. Per-stage sample counts are explicit. Startup excluded; first request may include local lazy loading; no isolated cold/warm attribution.",
+        "aggregation": "per-stage distributions",
+        "artifact": "server-observations.jsonl",
+        "unavailable": {
+          "search_fusion_separate": "No dedicated search/fusion wall timer; not inferred by subtracting unlike boundaries.",
+          "provider_queue_separate": "Provider does not expose queue duration.",
+          "model_loading_separate": "No separately instrumented lazy model load duration; may be included in first retrieval."
+        }
+      },
+      "Token usage and cost": {
+        "status": "measured",
+        "value": {
+          "by_model": {
+            "gpt-4.1-2025-04-14": {
+              "calls": 9,
+              "input_tokens": 25044,
+              "output_tokens": 1328,
+              "cached_input_tokens": 0
+            },
+            "text-embedding-3-small": {
+              "calls": 6,
+              "input_tokens": 224,
+              "output_tokens": null,
+              "output_tokens_status": "not_applicable",
+              "output_tokens_reason": "Embedding calls produce vectors, not generated text.",
+              "cached_input_tokens": null,
+              "cached_input_tokens_status": "unavailable",
+              "cached_input_tokens_reason": "At least one provider response omits this usage field."
+            }
+          },
+          "terminal_results_without_usage": 0,
+          "billed_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "Provider billing statement unavailable; no fabricated or estimated bill."
+          },
+          "local_compute": {
+            "device": "Apple Silicon; BGE reranker on MPS; resolved-runtime.json records exact configuration.",
+            "cost": null,
+            "cost_status": "unavailable",
+            "reason": "No local energy/hardware billing measurement."
+          }
+        },
+        "unit": "provider tokens; billed cost unavailable",
+        "sample_count": 15,
+        "population": "Actual SDK terminal responses for selected requests",
+        "method": "Preserved provider usage, including planner/assessor calls that later failed validation; no token estimation. Model identifiers are provider-resolved.",
+        "aggregation": "sum by resolved model",
+        "artifact": "server-observations.jsonl",
+        "local_evidence_tokens": {
+          "values": [
+            2712,
+            2712,
+            2271
+          ],
+          "mean": 2565,
+          "max_budget": 4096,
+          "method": "Production cl100k_base exact context counts; not provider billing. Error final candidate contexts may never reach generation."
+        }
+      },
+      "Reliability": {
+        "status": "measured",
+        "value": {
+          "intended_requests": 3,
+          "submitted_requests": 3,
+          "completed": 3,
+          "errors": 0,
+          "incomplete": 0,
+          "blocked": 0,
+          "success_rate": 1.0,
+          "error_rate": 0.0,
+          "observed_sdk_errors": 0,
+          "observed_sdk_timeouts": 0,
+          "client_timeouts": 0,
+          "sdk_stream_failed": 0,
+          "sdk_stream_incomplete": 0,
+          "http_status_counts": {
+            "200": 3
+          },
+          "sdk_retry_configuration": 0,
+          "application_replays": 0,
+          "retries": 0,
+          "error_http_close_latency": null,
+          "saved_answer_and_trace_parity": 3
+        },
+        "unit": "counts and rates",
+        "sample_count": 3,
+        "population": "3 financial question/mode pairs; all answerable",
+        "method": "Actual SSE terminal status, SDK errors and saved-history equality. SDK retries disabled; one request per pair. Completion alone does not establish correctness.",
+        "aggregation": "counts; denominator intended requests",
+        "artifact": "case-arm JSON files"
+      },
+      "Concurrency and throughput": {
+        "status": "measured",
+        "value": {
+          "concurrency": 1,
+          "completed": 3,
+          "workload_wall_seconds": 34.212411666987464,
+          "completed_per_workload_second": 0.08768747521224252
+        },
+        "unit": "completed requests/second",
+        "sample_count": 3,
+        "population": "One sequential alternating six-request command",
+        "method": "Command wall includes both arms, history/client I/O and setup; arm contributions add to overall throughput. No load-capacity claim.",
+        "aggregation": "command wall-clock rate",
+        "artifact": "answers-1.json"
+      },
+      "Ingestion and index": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "sample_count": null,
+        "population": "3 financial question/mode pairs; all answerable",
+        "reason": "Answer pass uses restored frozen chunks in an isolated five-PDF index; no upload/parser/update/delete workload. Preparation restoration and its provider usage are recorded separately.",
+        "method": "Answer pass uses restored frozen chunks in an isolated five-PDF index; no upload/parser/update/delete workload. Preparation restoration and its provider usage are recorded separately.",
+        "aggregation": "none",
+        "artifact": "preparation.json"
+      }
+    },
+    "current-all": {
+      "Recall@K": {
+        "status": "measured",
+        "value": 0.7777777777777778,
+        "unit": "ratio",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.8518518518518519,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.8148148148148148,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.8148148148148148,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.8148148148148148,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Precision@K": {
+        "status": "measured",
+        "value": 0.33333333333333337,
+        "unit": "ratio",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.37777777777777777,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.2888888888888889,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.35555555555555557,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.35555555555555557,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Hit Rate@K": {
+        "status": "measured",
+        "value": 1,
+        "unit": "ratio",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 1,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 1,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 1,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "MRR": {
+        "status": "measured",
+        "value": 1.0,
+        "unit": "ratio",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 1.0,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.7777777777777778,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.8888888888888888,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 1.0,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "NDCG@K": {
+        "status": "measured",
+        "value": 0.7771735158404738,
+        "unit": "ratio",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "K=5 final selected children, frozen non-exhaustive literal anchor labels. Fact Recall and child Precision are different units; errors retain observed retrieval.",
+        "aggregation": "macro mean",
+        "artifact": "retrieval-diagnostics.json",
+        "per_query_stage_metrics": {
+          "vector_matches": {
+            "value": 0.8559908987815705,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "bm25_matches": {
+            "value": 0.6050677683455493,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "fused_matches": {
+            "value": 0.7542070924487773,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          },
+          "reranked": {
+            "value": 0.8221656889542008,
+            "query_count": 9,
+            "aggregation": "macro mean per executed query; planned requests can run several queries"
+          }
+        }
+      },
+      "Final evidence coverage": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "reviewed-cases.json",
+        "point_micro_average": 1,
+        "point_count": 16,
+        "literal_anchor_diagnostic": {
+          "value": 1.0,
+          "method": "Same original page anchor spans including supplements; equivalent facts elsewhere may miss. This does not replace semantic evidence review.",
+          "artifact": "retrieval-diagnostics.json"
+        }
+      },
+      "Answer correctness": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "reviewed-cases.json",
+        "point_micro_average": 1,
+        "point_count": 16
+      },
+      "Answer completeness": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "Unchanged 0/0.5/1 rubric; Codex model review against frozen original-page facts and actual supplied sources. Errors count zero for requested points.",
+        "aggregation": "macro mean",
+        "artifact": "reviewed-cases.json",
+        "point_micro_average": 1,
+        "point_count": 16
+      },
+      "Faithfulness": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 14,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "reviewed-cases.json"
+      },
+      "Citation support": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 13,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "reviewed-cases.json"
+      },
+      "Citation coverage": {
+        "status": "measured",
+        "value": 0.9285714285714286,
+        "unit": "score 0..1",
+        "sample_count": 14,
+        "population": "Factual claim groups in completed answers; errors and claim-free refusals excluded",
+        "method": "Unchanged 0/0.5/1 model review of factual paragraphs/bullets against actual context and specifically cited sources; syntactic citation IDs are insufficient.",
+        "aggregation": "micro mean over reviewed claim groups",
+        "artifact": "reviewed-cases.json"
+      },
+      "Answer relevance": {
+        "status": "measured",
+        "value": 1,
+        "unit": "score 0..1",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "1 for addressing the requested topic including relevant refusal; 0 for error/wrong document.",
+        "aggregation": "macro mean",
+        "artifact": "reviewed-cases.json"
+      },
+      "Abstention": {
+        "status": "measured",
+        "value": {
+          "appropriate": {
+            "status": "not_applicable",
+            "numerator": null,
+            "denominator": 0,
+            "rate": null,
+            "reason": "No unanswerable questions in this targeted workload."
+          },
+          "incorrect": {
+            "numerator": 0,
+            "denominator": 6,
+            "rate": 0.0
+          }
+        },
+        "unit": "counts and rates",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "Full refusals only. Failed requests are errors, not abstentions. No unanswerable behavior validated here.",
+        "aggregation": "separate denominators",
+        "artifact": "reviewed-cases.json"
+      },
+      "First-answer-delta latency": {
+        "status": "measured",
+        "value": {
+          "n": 6,
+          "mean": 4.7309888123418204,
+          "p50": 3.549440125003457,
+          "p95": 9.028192478785058,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 6,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / SSE close. Server startup excluded; request queue/provider waiting included; deterministic replies retained.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "case-arm JSON files"
+      },
+      "Complete-response latency": {
+        "status": "measured",
+        "value": {
+          "n": 6,
+          "mean": 5.673241235994889,
+          "p50": 5.008307582989801,
+          "p95": 9.7810602914833,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "unit": "seconds",
+        "sample_count": 6,
+        "population": "Completed SSE requests in this subset",
+        "method": "Client perf_counter from HTTP start to first nonempty answer delta / SSE close. Server startup excluded; request queue/provider waiting included; deterministic replies retained.",
+        "aggregation": "mean/P50/P95; linear interpolation",
+        "artifact": "case-arm JSON files"
+      },
+      "Stage latency": {
+        "status": "measured",
+        "value": {
+          "embedding_sdk": {
+            "n": 9,
+            "mean": 0.3251858149111892,
+            "p50": 0.28548874997068197,
+            "p95": 0.5271282338071615,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "single_retrieval": {
+            "n": 3,
+            "mean": 1.6185767363058403,
+            "p50": 1.6227587499888614,
+            "p95": 1.8745663380832411,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "packing_observed_call": {
+            "n": 6,
+            "mean": 0.007627854317737122,
+            "p50": 0.007865521009080112,
+            "p95": 0.009622010722523555,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "answer_generation_sdk": {
+            "n": 6,
+            "mean": 1.6816128263211187,
+            "p50": 1.3133588960045017,
+            "p95": 3.3658985622168984,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "retrieval_plan": {
+            "n": 3,
+            "mean": 1.5036342920114596,
+            "p50": 1.847489583073184,
+            "p95": 1.8821322713512927,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "planned_retrieval": {
+            "n": 3,
+            "mean": 3.266869041680669,
+            "p50": 3.131777292001061,
+            "p95": 5.0096064795041455,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "evidence_assessment": {
+            "n": 3,
+            "mean": 1.5429651246716578,
+            "p50": 1.306763333035633,
+            "p95": 1.9875202954979612,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "embedding_seconds": {
+            "n": 9,
+            "mean": 0.32577744444521767,
+            "p50": 0.2861266670515761,
+            "p95": 0.5275840249611065,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "rerank_seconds": {
+            "n": 9,
+            "mean": 1.2746735512046143,
+            "p50": 1.2460867500631139,
+            "p95": 1.4287463002139702,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "scope_seconds": {
+            "n": 3,
+            "mean": 0.002994125010445714,
+            "p50": 0.0034235420171171427,
+            "p95": 0.003712629247456789,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "merge_seconds": {
+            "n": 3,
+            "mean": 0.00021554199823488793,
+            "p50": 0.00021758407820016146,
+            "p95": 0.00028913399437442423,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "unit": "seconds",
+        "sample_count": 60,
+        "population": "Observed calls including failed downstream validation",
+        "method": "SDK boundaries include provider/network waits; retrieval entrypoint and packing diagnostic timers; final traces provide unique per-query rerank/embedding observations. Per-stage sample counts are explicit. Startup excluded; first request may include local lazy loading; no isolated cold/warm attribution.",
+        "aggregation": "per-stage distributions",
+        "artifact": "server-observations.jsonl",
+        "unavailable": {
+          "search_fusion_separate": "No dedicated search/fusion wall timer; not inferred by subtracting unlike boundaries.",
+          "provider_queue_separate": "Provider does not expose queue duration.",
+          "model_loading_separate": "No separately instrumented lazy model load duration; may be included in first retrieval."
+        }
+      },
+      "Token usage and cost": {
+        "status": "measured",
+        "value": {
+          "by_model": {
+            "text-embedding-3-small": {
+              "calls": 9,
+              "input_tokens": 320,
+              "output_tokens": null,
+              "output_tokens_status": "not_applicable",
+              "output_tokens_reason": "Embedding calls produce vectors, not generated text.",
+              "cached_input_tokens": null,
+              "cached_input_tokens_status": "unavailable",
+              "cached_input_tokens_reason": "At least one provider response omits this usage field."
+            },
+            "gpt-4.1-2025-04-14": {
+              "calls": 12,
+              "input_tokens": 37824,
+              "output_tokens": 1606,
+              "cached_input_tokens": 0
+            }
+          },
+          "terminal_results_without_usage": 0,
+          "billed_cost": {
+            "status": "unavailable",
+            "value": null,
+            "reason": "Provider billing statement unavailable; no fabricated or estimated bill."
+          },
+          "local_compute": {
+            "device": "Apple Silicon; BGE reranker on MPS; resolved-runtime.json records exact configuration.",
+            "cost": null,
+            "cost_status": "unavailable",
+            "reason": "No local energy/hardware billing measurement."
+          }
+        },
+        "unit": "provider tokens; billed cost unavailable",
+        "sample_count": 21,
+        "population": "Actual SDK terminal responses for selected requests",
+        "method": "Preserved provider usage, including planner/assessor calls that later failed validation; no token estimation. Model identifiers are provider-resolved.",
+        "aggregation": "sum by resolved model",
+        "artifact": "server-observations.jsonl",
+        "local_evidence_tokens": {
+          "values": [
+            2712,
+            2712,
+            2712,
+            2712,
+            3884,
+            2271
+          ],
+          "mean": 2833.8333333333335,
+          "max_budget": 4096,
+          "method": "Production cl100k_base exact context counts; not provider billing. Error final candidate contexts may never reach generation."
+        }
+      },
+      "Reliability": {
+        "status": "measured",
+        "value": {
+          "intended_requests": 6,
+          "submitted_requests": 6,
+          "completed": 6,
+          "errors": 0,
+          "incomplete": 0,
+          "blocked": 0,
+          "success_rate": 1.0,
+          "error_rate": 0.0,
+          "observed_sdk_errors": 0,
+          "observed_sdk_timeouts": 0,
+          "client_timeouts": 0,
+          "sdk_stream_failed": 0,
+          "sdk_stream_incomplete": 0,
+          "http_status_counts": {
+            "200": 6
+          },
+          "sdk_retry_configuration": 0,
+          "application_replays": 0,
+          "retries": 0,
+          "error_http_close_latency": null,
+          "saved_answer_and_trace_parity": 6
+        },
+        "unit": "counts and rates",
+        "sample_count": 6,
+        "population": "6 financial question/mode pairs; all answerable",
+        "method": "Actual SSE terminal status, SDK errors and saved-history equality. SDK retries disabled; one request per pair. Completion alone does not establish correctness.",
+        "aggregation": "counts; denominator intended requests",
+        "artifact": "case-arm JSON files"
+      },
+      "Concurrency and throughput": {
+        "status": "measured",
+        "value": {
+          "concurrency": 1,
+          "completed": 6,
+          "workload_wall_seconds": 34.212411666987464,
+          "completed_per_workload_second": 0.17537495042448503
+        },
+        "unit": "completed requests/second",
+        "sample_count": 6,
+        "population": "One sequential alternating six-request command",
+        "method": "Command wall includes both arms, history/client I/O and setup; arm contributions add to overall throughput. No load-capacity claim.",
+        "aggregation": "command wall-clock rate",
+        "artifact": "answers-1.json"
+      },
+      "Ingestion and index": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "sample_count": null,
+        "population": "6 financial question/mode pairs; all answerable",
+        "reason": "Answer pass uses restored frozen chunks in an isolated five-PDF index; no upload/parser/update/delete workload. Preparation restoration and its provider usage are recorded separately.",
+        "method": "Answer pass uses restored frozen chunks in an isolated five-PDF index; no upload/parser/update/delete workload. Preparation restoration and its provider usage are recorded separately.",
+        "aggregation": "none",
+        "artifact": "preparation.json"
+      }
+    }
+  },
+  "per_case_comparison": [
+    {
+      "case_id": "apple-sales",
+      "arm": "single",
+      "before_status": "completed",
+      "after_status": "completed",
+      "points": [
+        {
+          "fact_id": "apple_sales_q",
+          "reference_correctness": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          },
+          "completeness": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          },
+          "supplied_evidence_coverage": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          }
+        },
+        {
+          "fact_id": "apple_sales_y",
+          "reference_correctness": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          },
+          "completeness": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          },
+          "supplied_evidence_coverage": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          }
+        },
+        {
+          "fact_id": "apple_units",
+          "reference_correctness": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          },
+          "completeness": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          },
+          "supplied_evidence_coverage": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          }
+        }
+      ],
+      "before_note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context.",
+      "after_note": "Source 1 is page 1 statement-of-operations child 2. The Total net sales row reports 94,930 and 391,035 under the correct three- and twelve-month September 28, 2024 columns. Its exact same-table preceding-text supplement explicitly supplies millions."
+    },
+    {
+      "case_id": "apple-sales",
+      "arm": "planned",
+      "before_status": "completed",
+      "after_status": "completed",
+      "points": [
+        {
+          "fact_id": "apple_sales_q",
+          "reference_correctness": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          },
+          "completeness": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          },
+          "supplied_evidence_coverage": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          }
+        },
+        {
+          "fact_id": "apple_sales_y",
+          "reference_correctness": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          },
+          "completeness": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          },
+          "supplied_evidence_coverage": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          }
+        },
+        {
+          "fact_id": "apple_units",
+          "reference_correctness": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          },
+          "completeness": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          },
+          "supplied_evidence_coverage": {
+            "before": 0.5,
+            "after": 1,
+            "delta": 0.5
+          }
+        }
+      ],
+      "before_note": "The sales child plus header supplements supplies both periods and totals. Its cited excerpt lacks a units label; millions appears in a different supplied income statement. Unit attribution is only partial support in this context.",
+      "after_note": "Source 1 is page 1 statement-of-operations child 2. The Total net sales row reports 94,930 and 391,035 under the correct three- and twelve-month September 28, 2024 columns. Its exact same-table preceding-text supplement explicitly supplies millions."
+    },
+    {
+      "case_id": "apple-income",
+      "arm": "single",
+      "before_status": "completed",
+      "after_status": "completed",
+      "points": [
+        {
+          "fact_id": "apple_income_q",
+          "reference_correctness": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          },
+          "completeness": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          },
+          "supplied_evidence_coverage": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          }
+        },
+        {
+          "fact_id": "apple_income_y",
+          "reference_correctness": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          },
+          "completeness": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          },
+          "supplied_evidence_coverage": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          }
+        },
+        {
+          "fact_id": "apple_units",
+          "reference_correctness": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          },
+          "completeness": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          },
+          "supplied_evidence_coverage": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          }
+        }
+      ],
+      "before_note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation.",
+      "after_note": "Source 1 is page 1 statement-of-operations child 2. Its Net income row reports 14,736 and 93,736 under the correct three- and twelve-month September 28, 2024 columns, and its preceding-text supplement states millions. These are reported income values, not the larger adjusted non-GAAP amounts."
+    },
+    {
+      "case_id": "apple-income",
+      "arm": "planned",
+      "before_status": "error",
+      "after_status": "completed",
+      "points": [
+        {
+          "fact_id": "apple_income_q",
+          "reference_correctness": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          },
+          "completeness": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          },
+          "supplied_evidence_coverage": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          }
+        },
+        {
+          "fact_id": "apple_income_y",
+          "reference_correctness": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          },
+          "completeness": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          },
+          "supplied_evidence_coverage": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          }
+        },
+        {
+          "fact_id": "apple_units",
+          "reference_correctness": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          },
+          "completeness": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          },
+          "supplied_evidence_coverage": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          }
+        }
+      ],
+      "before_note": "Page 4 GAAP reconciliation supports 14,736 and 93,736 million, with explicitly separate non-GAAP amounts. Both planned attempts fabricated a non-contiguous assessor quote and correctly failed strict validation.",
+      "after_note": "Source 1 is page 1 statement-of-operations child 2. Its Net income row reports 14,736 and 93,736 under the correct three- and twelve-month September 28, 2024 columns, and its preceding-text supplement states millions. These are reported income values, not the larger adjusted non-GAAP amounts. Residual presentation failure: the first bullet is correctly grounded but lacks its own inline citation."
+    },
+    {
+      "case_id": "apparent-conflict",
+      "arm": "single",
+      "before_status": "completed",
+      "after_status": "completed",
+      "points": [
+        {
+          "fact_id": "apple_sales_q",
+          "reference_correctness": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          },
+          "completeness": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          },
+          "supplied_evidence_coverage": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          }
+        },
+        {
+          "fact_id": "apple_sales_y",
+          "reference_correctness": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          },
+          "completeness": {
+            "before": 1,
+            "after": 1,
+            "delta": 0
+          },
+          "supplied_evidence_coverage": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          }
+        }
+      ],
+      "before_note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ.",
+      "after_note": "Source 1 is the page 1 net-sales table continuation. Its exact column-header supplements bind 94,930 to three months and 391,035 to twelve months ended September 28, 2024; the same-table preceding paragraph supplies millions. The explanation is a period distinction, not an actual contradiction. The answer cites source 1, not an unrelated reconciliation."
+    },
+    {
+      "case_id": "apparent-conflict",
+      "arm": "planned",
+      "before_status": "completed",
+      "after_status": "completed",
+      "points": [
+        {
+          "fact_id": "apple_sales_q",
+          "reference_correctness": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          },
+          "completeness": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          },
+          "supplied_evidence_coverage": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          }
+        },
+        {
+          "fact_id": "apple_sales_y",
+          "reference_correctness": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          },
+          "completeness": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          },
+          "supplied_evidence_coverage": {
+            "before": 0,
+            "after": 1,
+            "delta": 1
+          }
+        }
+      ],
+      "before_note": "Original page 1 establishes quarter versus year. Both single answers are correct against the original but cite the income reconciliation, which does not contain these sales figures. Planned mode abstains after relevant sales candidates are excluded by packing. Correctness and faithfulness differ.",
+      "after_note": "Source 1 is the page 1 net-sales table continuation. Its exact column-header supplements bind 94,930 to three months and 391,035 to twelve months ended September 28, 2024; the same-table preceding paragraph supplies millions. The explanation is a period distinction, not an actual contradiction. The answer cites source 1, not an unrelated reconciliation."
+    }
+  ],
+  "validity": {
+    "same_questions_facts_and_original_pdf": true,
+    "frozen_original_chunks_restored": true,
+    "vector_index_difference": "The prior lifecycle check deleted Apple. Current isolated index clones remaining four files and restores 17 original Apple children with exact IDs/text/offsets/parents/revision; their vectors are regenerated using the same embedding model. Provider vectors and live planning are not guaranteed identical. Actual candidate rankings are retained and compared, not asserted fixed.",
+    "settings_diff": {
+      "data_dir": {
+        "before": "/Users/lucas/Documents/Projects/KnowledgeBase/data/evals/20260927-v2-pdf-live",
+        "after": "/Users/lucas/Documents/Projects/KnowledgeBase/data/evals/20260927-financial-acceptance"
+      }
+    },
+    "before_code_commit": "3106e060b36857fe73588851d0de3d65987f3dba",
+    "after_code_commit": "8f24ba3a87c270f8c9fa11c727ac7467db9c0915",
+    "source_hash_differences": [
+      "knowledgebase/rag/context.py",
+      "knowledgebase/rag/packing.py",
+      "knowledgebase/schemas.py",
+      "knowledgebase/rag/pdf_evidence.py",
+      "knowledgebase/rag/sufficiency.py",
+      "knowledgebase/services/hops.py"
+    ],
+    "latency_limit": "Single stochastic pass. Historical repair pass overlapped backend tests; current process cache/state and short workload differ. Descriptive latency is not a causal speed claim.",
+    "missing_populations": [
+      "unanswerable questions",
+      "genuine contradictory sources",
+      "dense table extraction repair",
+      "held-out corpus",
+      "concurrency above one",
+      "billing statement"
+    ],
+    "baseline_review_note": "Historical scores retained verbatim; some reused explanatory notes in original review were imprecise. New reviewer documents those limitations without overwriting history."
+  },
+  "preparation_provider_usage": {
+    "by_model": {
+      "text-embedding-3-small": {
+        "calls": 1,
+        "input_tokens": 2545,
+        "output_tokens": null,
+        "output_tokens_status": "not_applicable",
+        "output_tokens_reason": "Embedding calls produce vectors, not generated text.",
+        "cached_input_tokens": null,
+        "cached_input_tokens_status": "unavailable",
+        "cached_input_tokens_reason": "At least one provider response omits this usage field."
+      }
+    },
+    "terminal_results_without_usage": 0,
+    "billed_cost": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "Provider billing statement unavailable; no fabricated or estimated bill."
+    },
+    "local_compute": {
+      "device": "Apple Silicon; BGE reranker on MPS; resolved-runtime.json records exact configuration.",
+      "cost": null,
+      "cost_status": "unavailable",
+      "reason": "No local energy/hardware billing measurement."
+    }
+  },
+  "shared_preparation": {
+    "Recall@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Restore one deleted document in disposable index",
+      "reason": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "method": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "aggregation": "none",
+      "artifact": "preparation.json"
+    },
+    "Precision@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Restore one deleted document in disposable index",
+      "reason": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "method": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "aggregation": "none",
+      "artifact": "preparation.json"
+    },
+    "Hit Rate@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Restore one deleted document in disposable index",
+      "reason": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "method": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "aggregation": "none",
+      "artifact": "preparation.json"
+    },
+    "MRR": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Restore one deleted document in disposable index",
+      "reason": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "method": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "aggregation": "none",
+      "artifact": "preparation.json"
+    },
+    "NDCG@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Restore one deleted document in disposable index",
+      "reason": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "method": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "aggregation": "none",
+      "artifact": "preparation.json"
+    },
+    "Final evidence coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Restore one deleted document in disposable index",
+      "reason": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "method": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "aggregation": "none",
+      "artifact": "preparation.json"
+    },
+    "Answer correctness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Restore one deleted document in disposable index",
+      "reason": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "method": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "aggregation": "none",
+      "artifact": "preparation.json"
+    },
+    "Faithfulness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Restore one deleted document in disposable index",
+      "reason": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "method": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "aggregation": "none",
+      "artifact": "preparation.json"
+    },
+    "Answer completeness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Restore one deleted document in disposable index",
+      "reason": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "method": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "aggregation": "none",
+      "artifact": "preparation.json"
+    },
+    "Answer relevance": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Restore one deleted document in disposable index",
+      "reason": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "method": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "aggregation": "none",
+      "artifact": "preparation.json"
+    },
+    "Citation support": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Restore one deleted document in disposable index",
+      "reason": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "method": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "aggregation": "none",
+      "artifact": "preparation.json"
+    },
+    "Citation coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Restore one deleted document in disposable index",
+      "reason": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "method": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "aggregation": "none",
+      "artifact": "preparation.json"
+    },
+    "Abstention": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Restore one deleted document in disposable index",
+      "reason": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "method": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "aggregation": "none",
+      "artifact": "preparation.json"
+    },
+    "First-answer-delta latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Restore one deleted document in disposable index",
+      "reason": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "method": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "aggregation": "none",
+      "artifact": "preparation.json"
+    },
+    "Complete-response latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Restore one deleted document in disposable index",
+      "reason": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "method": "Frozen index restoration is preparation, not a question answering or new parser/upload/lifecycle workload.",
+      "aggregation": "none",
+      "artifact": "preparation.json"
+    },
+    "Stage latency": {
+      "status": "measured",
+      "value": {
+        "embedding_sdk": {
+          "n": 1,
+          "mean": 1.348348916042596,
+          "p50": 1.348348916042596,
+          "p95": 1.348348916042596,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        }
+      },
+      "unit": "seconds",
+      "sample_count": 1,
+      "population": "Observed restoration provider calls",
+      "method": "SDK embedding call start to completion, including provider/network wait; setup and file copying are outside that timer.",
+      "aggregation": "per-stage distributions",
+      "artifact": "server-observations.jsonl"
+    },
+    "Token usage and cost": {
+      "status": "measured",
+      "value": {
+        "by_model": {
+          "text-embedding-3-small": {
+            "calls": 1,
+            "input_tokens": 2545,
+            "output_tokens": null,
+            "output_tokens_status": "not_applicable",
+            "output_tokens_reason": "Embedding calls produce vectors, not generated text.",
+            "cached_input_tokens": null,
+            "cached_input_tokens_status": "unavailable",
+            "cached_input_tokens_reason": "At least one provider response omits this usage field."
+          }
+        },
+        "terminal_results_without_usage": 0,
+        "billed_cost": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "Provider billing statement unavailable; no fabricated or estimated bill."
+        },
+        "local_compute": {
+          "device": "Apple Silicon; BGE reranker on MPS; resolved-runtime.json records exact configuration.",
+          "cost": null,
+          "cost_status": "unavailable",
+          "reason": "No local energy/hardware billing measurement."
+        }
+      },
+      "unit": "provider tokens; billed cost unavailable",
+      "sample_count": 1,
+      "population": "Restored Apple chunk embeddings only",
+      "method": "Actual embedding SDK usage; independent from six live answer requests.",
+      "aggregation": "sum by resolved model",
+      "artifact": "server-observations.jsonl"
+    },
+    "Reliability": {
+      "status": "measured",
+      "value": {
+        "verified_files": 5,
+        "verified_children": 621,
+        "regenerated_vectors": 17,
+        "sdk_errors": 0
+      },
+      "unit": "counts",
+      "sample_count": 5,
+      "population": "Preparation only",
+      "method": "Restoration verifies every document/chunk/parent/extraction against frozen snapshot; the command record preserves success/failure.",
+      "aggregation": "counts",
+      "artifact": "preparation.json; prepare-1.json"
+    },
+    "Concurrency and throughput": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "preparation",
+      "reason": "Single index restoration, not an ingestion or answering throughput benchmark; restoration duration recorded separately.",
+      "method": "Single index restoration, not an ingestion or answering throughput benchmark; restoration duration recorded separately.",
+      "aggregation": "none",
+      "artifact": "preparation.json"
+    },
+    "Ingestion and index": {
+      "status": "measured",
+      "value": {
+        "restored_documents": 1,
+        "restored_vectors": 17,
+        "index_bytes_after_restore": 47819728,
+        "restoration_seconds": 1.590636207954958,
+        "upload_to_ready": {
+          "status": "not_applicable",
+          "reason": "No PDF upload or parser call; existing frozen index restored."
+        },
+        "update_delete": {
+          "status": "not_applicable",
+          "reason": "No update/delete tested in this workload."
+        }
+      },
+      "unit": "counts, bytes, seconds",
+      "sample_count": 1,
+      "population": "Disposable frozen index restoration",
+      "method": "Not fresh ingestion performance; copied four PDFs plus one restored extraction/chunk/parent set and regenerated its vectors. No product reindex requirement is inferred.",
+      "aggregation": "absolute size and one restoration duration",
+      "artifact": "preparation.json"
+    }
+  },
+  "raw_artifacts": [
+    "server-observations.jsonl",
+    "resolved-runtime.json",
+    "retrieval-diagnostics.json",
+    "reviewed-cases.json",
+    "answers-1.json"
+  ]
+}

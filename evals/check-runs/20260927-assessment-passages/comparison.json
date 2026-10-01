@@ -1,0 +1,1496 @@
+{
+  "timestamp": "2026-09-27T17:09:35.430226+00:00",
+  "scope": "Offline source passage contract comparison; no model evaluation",
+  "reviewer": "Codex; deterministic span assertions and manual inspection of original financial error and selected header/date/value/unit passages; not human review",
+  "baseline_commit": "a96d460",
+  "device": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "concurrency": 1,
+  "models_and_revisions": "No model loaded or called. Historical failed request resolved gpt-4.1-2025-04-14; that result is retained only as failure evidence.",
+  "packed_input_sha256": "427125ede00f8db36fbefe6874b0da1f277ddc4fae3a1fef5efac084b862e438",
+  "labels_sha256": "02b7f8792cbb5b199c325ef927b93abd3b337c546c24f138b3d09f89e328c314",
+  "limitations": [
+    "New model ID selection, semantic sufficiency decisions and final answer quality remain unmeasured.",
+    "Original historical free-form quote failure remains a failure; manual fixture validation is not acceptance evidence.",
+    "Current packing inputs include the prior financial packing fix; older failing context differs and is replayed separately.",
+    "No new retrieval, reranking, ingestion or parsing; dense-table missing values and literal-anchor mismatches remain unchanged.",
+    "Measurements cover the 32 frozen PDF contexts, not every future document or input length."
+  ],
+  "rows": [
+    {
+      "case_id": "paper-facts",
+      "arm": "single",
+      "facts": [
+        "paper_pages",
+        "paper_classes"
+      ],
+      "selected_ids": [
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:7",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:24",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:23"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.6,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.7227265726449519
+      },
+      "before_fact_coverage": {
+        "paper_pages": 1,
+        "paper_classes": 1
+      },
+      "after_fact_coverage": {
+        "paper_pages": 1,
+        "paper_classes": 1
+      },
+      "before_input_tokens": 5609,
+      "after_input_tokens": 5268,
+      "input_token_difference": -341,
+      "before_catalog_entries": 5,
+      "after_passages": 34,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "paper-facts",
+      "arm": "planned",
+      "facts": [
+        "paper_pages",
+        "paper_classes"
+      ],
+      "selected_ids": [
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:7",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:24",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:23"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.6,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.7227265726449519
+      },
+      "before_fact_coverage": {
+        "paper_pages": 1,
+        "paper_classes": 1
+      },
+      "after_fact_coverage": {
+        "paper_pages": 1,
+        "paper_classes": 1
+      },
+      "before_input_tokens": 5609,
+      "after_input_tokens": 5268,
+      "input_token_difference": -341,
+      "before_catalog_entries": 5,
+      "after_passages": 34,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "paper-paraphrase",
+      "arm": "single",
+      "facts": [
+        "paper_human",
+        "paper_automatic"
+      ],
+      "selected_ids": [
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:6",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:45",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:47",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:17"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 0.5,
+        "NDCG@K": 0.34519134224686937
+      },
+      "before_fact_coverage": {
+        "paper_human": 1,
+        "paper_automatic": 1
+      },
+      "after_fact_coverage": {
+        "paper_human": 1,
+        "paper_automatic": 1
+      },
+      "before_input_tokens": 5915,
+      "after_input_tokens": 5689,
+      "input_token_difference": -226,
+      "before_catalog_entries": 4,
+      "after_passages": 41,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "paper-paraphrase",
+      "arm": "planned",
+      "facts": [
+        "paper_human",
+        "paper_automatic"
+      ],
+      "selected_ids": [
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:7",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:6",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:47",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:45",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:4"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.5,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 0.5,
+        "NDCG@K": 0.21398626473452756
+      },
+      "before_fact_coverage": {
+        "paper_human": 1,
+        "paper_automatic": 1
+      },
+      "after_fact_coverage": {
+        "paper_human": 1,
+        "paper_automatic": 1
+      },
+      "before_input_tokens": 5201,
+      "after_input_tokens": 5050,
+      "input_token_difference": -151,
+      "before_catalog_entries": 3,
+      "after_passages": 35,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "lecture-logistics",
+      "arm": "single",
+      "facts": [
+        "lecture_book",
+        "lecture_yu",
+        "lecture_wilson"
+      ],
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:18",
+        "e38c730b3b714c5a8913e530695fd03b:child:10",
+        "e38c730b3b714c5a8913e530695fd03b:child:9",
+        "e38c730b3b714c5a8913e530695fd03b:child:8",
+        "e38c730b3b714c5a8913e530695fd03b:child:1"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.3333333333333333,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 0.5,
+        "NDCG@K": 0.5307212739772434
+      },
+      "before_fact_coverage": {
+        "lecture_book": 1,
+        "lecture_yu": 0,
+        "lecture_wilson": 1
+      },
+      "after_fact_coverage": {
+        "lecture_book": 1,
+        "lecture_yu": 0,
+        "lecture_wilson": 1
+      },
+      "before_input_tokens": 2008,
+      "after_input_tokens": 1801,
+      "input_token_difference": -207,
+      "before_catalog_entries": 3,
+      "after_passages": 9,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "lecture-logistics",
+      "arm": "planned",
+      "facts": [
+        "lecture_book",
+        "lecture_yu",
+        "lecture_wilson"
+      ],
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:9",
+        "e38c730b3b714c5a8913e530695fd03b:child:10",
+        "e38c730b3b714c5a8913e530695fd03b:child:18",
+        "e38c730b3b714c5a8913e530695fd03b:child:25",
+        "e38c730b3b714c5a8913e530695fd03b:child:371"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.3333333333333333,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.7653606369886217
+      },
+      "before_fact_coverage": {
+        "lecture_book": 1,
+        "lecture_yu": 0,
+        "lecture_wilson": 1
+      },
+      "after_fact_coverage": {
+        "lecture_book": 1,
+        "lecture_yu": 0,
+        "lecture_wilson": 1
+      },
+      "before_input_tokens": 2380,
+      "after_input_tokens": 2121,
+      "input_token_difference": -259,
+      "before_catalog_entries": 4,
+      "after_passages": 22,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "lecture-grades",
+      "arm": "single",
+      "facts": [
+        "lecture_homework",
+        "lecture_project",
+        "lecture_exam",
+        "lecture_team"
+      ],
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:37",
+        "e38c730b3b714c5a8913e530695fd03b:child:28",
+        "e38c730b3b714c5a8913e530695fd03b:child:38",
+        "e38c730b3b714c5a8913e530695fd03b:child:25",
+        "e38c730b3b714c5a8913e530695fd03b:child:408"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.8,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_fact_coverage": {
+        "lecture_homework": 1,
+        "lecture_project": 1,
+        "lecture_exam": 1,
+        "lecture_team": 1
+      },
+      "after_fact_coverage": {
+        "lecture_homework": 1,
+        "lecture_project": 1,
+        "lecture_exam": 1,
+        "lecture_team": 1
+      },
+      "before_input_tokens": 2593,
+      "after_input_tokens": 2338,
+      "input_token_difference": -255,
+      "before_catalog_entries": 4,
+      "after_passages": 25,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "lecture-grades",
+      "arm": "planned",
+      "facts": [
+        "lecture_homework",
+        "lecture_project",
+        "lecture_exam",
+        "lecture_team"
+      ],
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:25",
+        "e38c730b3b714c5a8913e530695fd03b:child:28",
+        "e38c730b3b714c5a8913e530695fd03b:child:38",
+        "e38c730b3b714c5a8913e530695fd03b:child:37",
+        "e38c730b3b714c5a8913e530695fd03b:child:3"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.8,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_fact_coverage": {
+        "lecture_homework": 1,
+        "lecture_project": 1,
+        "lecture_exam": 1,
+        "lecture_team": 1
+      },
+      "after_fact_coverage": {
+        "lecture_homework": 1,
+        "lecture_project": 1,
+        "lecture_exam": 1,
+        "lecture_team": 1
+      },
+      "before_input_tokens": 2533,
+      "after_input_tokens": 2266,
+      "input_token_difference": -267,
+      "before_catalog_entries": 4,
+      "after_passages": 20,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "lecture-followup",
+      "arm": "single",
+      "facts": [
+        "lecture_when"
+      ],
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:37",
+        "e38c730b3b714c5a8913e530695fd03b:child:0",
+        "e38c730b3b714c5a8913e530695fd03b:child:28",
+        "e38c730b3b714c5a8913e530695fd03b:child:100",
+        "e38c730b3b714c5a8913e530695fd03b:child:383"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_fact_coverage": {
+        "lecture_when": 1
+      },
+      "after_fact_coverage": {
+        "lecture_when": 1
+      },
+      "before_input_tokens": 2526,
+      "after_input_tokens": 2304,
+      "input_token_difference": -222,
+      "before_catalog_entries": 4,
+      "after_passages": 35,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "lecture-followup",
+      "arm": "planned",
+      "facts": [
+        "lecture_when"
+      ],
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:37",
+        "e38c730b3b714c5a8913e530695fd03b:child:0",
+        "e38c730b3b714c5a8913e530695fd03b:child:28",
+        "e38c730b3b714c5a8913e530695fd03b:child:385",
+        "e38c730b3b714c5a8913e530695fd03b:child:100"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_fact_coverage": {
+        "lecture_when": 1
+      },
+      "after_fact_coverage": {
+        "lecture_when": 1
+      },
+      "before_input_tokens": 2474,
+      "after_input_tokens": 2240,
+      "input_token_difference": -234,
+      "before_catalog_entries": 4,
+      "after_passages": 32,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "apple-sales",
+      "arm": "single",
+      "facts": [
+        "apple_sales_q",
+        "apple_sales_y",
+        "apple_units"
+      ],
+      "selected_ids": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:6"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.6666666666666666,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.7653606369886217
+      },
+      "before_fact_coverage": {
+        "apple_sales_q": 1,
+        "apple_sales_y": 1,
+        "apple_units": 1
+      },
+      "after_fact_coverage": {
+        "apple_sales_q": 1,
+        "apple_sales_y": 1,
+        "apple_units": 1
+      },
+      "before_input_tokens": 4356,
+      "after_input_tokens": 4293,
+      "input_token_difference": -63,
+      "before_catalog_entries": 2,
+      "after_passages": 28,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "apple-sales",
+      "arm": "planned",
+      "facts": [
+        "apple_sales_q",
+        "apple_sales_y",
+        "apple_units"
+      ],
+      "selected_ids": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:6"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.6666666666666666,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.6713860725233041
+      },
+      "before_fact_coverage": {
+        "apple_sales_q": 1,
+        "apple_sales_y": 1,
+        "apple_units": 1
+      },
+      "after_fact_coverage": {
+        "apple_sales_q": 1,
+        "apple_sales_y": 1,
+        "apple_units": 1
+      },
+      "before_input_tokens": 4356,
+      "after_input_tokens": 4293,
+      "input_token_difference": -63,
+      "before_catalog_entries": 2,
+      "after_passages": 28,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "apple-income",
+      "arm": "single",
+      "facts": [
+        "apple_income_q",
+        "apple_income_y",
+        "apple_units"
+      ],
+      "selected_ids": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:6",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.6666666666666666,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.6131471927654584
+      },
+      "before_fact_coverage": {
+        "apple_income_q": 1,
+        "apple_income_y": 1,
+        "apple_units": 1
+      },
+      "after_fact_coverage": {
+        "apple_income_q": 1,
+        "apple_income_y": 1,
+        "apple_units": 1
+      },
+      "before_input_tokens": 4216,
+      "after_input_tokens": 4153,
+      "input_token_difference": -63,
+      "before_catalog_entries": 2,
+      "after_passages": 28,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "apple-income",
+      "arm": "planned",
+      "facts": [
+        "apple_income_q",
+        "apple_income_y",
+        "apple_units"
+      ],
+      "selected_ids": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:6",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.6666666666666666,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.6131471927654584
+      },
+      "before_fact_coverage": {
+        "apple_income_q": 1,
+        "apple_income_y": 1,
+        "apple_units": 1
+      },
+      "after_fact_coverage": {
+        "apple_income_q": 1,
+        "apple_income_y": 1,
+        "apple_units": 1
+      },
+      "before_input_tokens": 4216,
+      "after_input_tokens": 4153,
+      "input_token_difference": -63,
+      "before_catalog_entries": 2,
+      "after_passages": 28,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "technical-table",
+      "arm": "single",
+      "facts": [
+        "technical_native",
+        "technical_pypdfium",
+        "technical_ocr"
+      ],
+      "selected_ids": [
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:24",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:22",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:23",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:19",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:15"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.9197207891481876
+      },
+      "before_fact_coverage": {
+        "technical_native": 1,
+        "technical_pypdfium": 1,
+        "technical_ocr": 1
+      },
+      "after_fact_coverage": {
+        "technical_native": 1,
+        "technical_pypdfium": 1,
+        "technical_ocr": 1
+      },
+      "before_input_tokens": 3637,
+      "after_input_tokens": 3441,
+      "input_token_difference": -196,
+      "before_catalog_entries": 3,
+      "after_passages": 19,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "technical-table",
+      "arm": "planned",
+      "facts": [
+        "technical_native",
+        "technical_pypdfium",
+        "technical_ocr"
+      ],
+      "selected_ids": [
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:22",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:24",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:23",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:15",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:3"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 0.5,
+        "NDCG@K": 0.6934264036172708
+      },
+      "before_fact_coverage": {
+        "technical_native": 1,
+        "technical_pypdfium": 1,
+        "technical_ocr": 1
+      },
+      "after_fact_coverage": {
+        "technical_native": 1,
+        "technical_pypdfium": 1,
+        "technical_ocr": 1
+      },
+      "before_input_tokens": 3587,
+      "after_input_tokens": 3392,
+      "input_token_difference": -195,
+      "before_catalog_entries": 3,
+      "after_passages": 18,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "technical-tradeoff",
+      "arm": "single",
+      "facts": [
+        "technical_lowresource",
+        "technical_tradeoff"
+      ],
+      "selected_ids": [
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:22",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:15",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:19",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:3",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:24"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_fact_coverage": {
+        "technical_lowresource": 1,
+        "technical_tradeoff": 1
+      },
+      "after_fact_coverage": {
+        "technical_lowresource": 1,
+        "technical_tradeoff": 1
+      },
+      "before_input_tokens": 3840,
+      "after_input_tokens": 3559,
+      "input_token_difference": -281,
+      "before_catalog_entries": 4,
+      "after_passages": 21,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "technical-tradeoff",
+      "arm": "planned",
+      "facts": [
+        "technical_lowresource",
+        "technical_tradeoff"
+      ],
+      "selected_ids": [
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:22",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:15",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:19",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:3",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:24"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_fact_coverage": {
+        "technical_lowresource": 1,
+        "technical_tradeoff": 1
+      },
+      "after_fact_coverage": {
+        "technical_lowresource": 1,
+        "technical_tradeoff": 1
+      },
+      "before_input_tokens": 3840,
+      "after_input_tokens": 3559,
+      "input_token_difference": -281,
+      "before_catalog_entries": 4,
+      "after_passages": 21,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "dependent-dataset",
+      "arm": "single",
+      "facts": [
+        "technical_dataset",
+        "paper_pages",
+        "paper_classes"
+      ],
+      "selected_ids": [
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:17",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:7",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:49"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.8,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.8687949224876582
+      },
+      "before_fact_coverage": {
+        "technical_dataset": 1,
+        "paper_pages": 1,
+        "paper_classes": 1
+      },
+      "after_fact_coverage": {
+        "technical_dataset": 1,
+        "paper_pages": 1,
+        "paper_classes": 1
+      },
+      "before_input_tokens": 5473,
+      "after_input_tokens": 5134,
+      "input_token_difference": -339,
+      "before_catalog_entries": 5,
+      "after_passages": 34,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "dependent-dataset",
+      "arm": "planned",
+      "facts": [
+        "technical_dataset",
+        "paper_pages",
+        "paper_classes"
+      ],
+      "selected_ids": [
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:17",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:6",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:49",
+        "70e2b07fea7043d1a9d76a3dc4034ebd:child:16"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.5087403079104241
+      },
+      "before_fact_coverage": {
+        "technical_dataset": 1,
+        "paper_pages": 1,
+        "paper_classes": 1
+      },
+      "after_fact_coverage": {
+        "technical_dataset": 1,
+        "paper_pages": 1,
+        "paper_classes": 1
+      },
+      "before_input_tokens": 4445,
+      "after_input_tokens": 4077,
+      "input_token_difference": -368,
+      "before_catalog_entries": 5,
+      "after_passages": 25,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "dense-table",
+      "arm": "single",
+      "facts": [
+        "alabama_permit",
+        "alabama_handgun",
+        "alabama_longgun",
+        "alabama_total",
+        "checks_not_sales"
+      ],
+      "selected_ids": [
+        "fb736e72b6cd41ae9fcd8265674abc32:child:2",
+        "fb736e72b6cd41ae9fcd8265674abc32:child:1",
+        "fb736e72b6cd41ae9fcd8265674abc32:child:0",
+        "fb736e72b6cd41ae9fcd8265674abc32:child:4",
+        "fb736e72b6cd41ae9fcd8265674abc32:child:3"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.2,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_fact_coverage": {
+        "alabama_permit": 0,
+        "alabama_handgun": 0,
+        "alabama_longgun": 0,
+        "alabama_total": 0,
+        "checks_not_sales": 1
+      },
+      "after_fact_coverage": {
+        "alabama_permit": 0,
+        "alabama_handgun": 0,
+        "alabama_longgun": 0,
+        "alabama_total": 0,
+        "checks_not_sales": 1
+      },
+      "before_input_tokens": 3248,
+      "after_input_tokens": 3038,
+      "input_token_difference": -210,
+      "before_catalog_entries": 3,
+      "after_passages": 8,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "dense-table",
+      "arm": "planned",
+      "facts": [
+        "alabama_permit",
+        "alabama_handgun",
+        "alabama_longgun",
+        "alabama_total",
+        "checks_not_sales"
+      ],
+      "selected_ids": [
+        "fb736e72b6cd41ae9fcd8265674abc32:child:1",
+        "fb736e72b6cd41ae9fcd8265674abc32:child:0",
+        "fb736e72b6cd41ae9fcd8265674abc32:child:2",
+        "fb736e72b6cd41ae9fcd8265674abc32:child:4",
+        "fb736e72b6cd41ae9fcd8265674abc32:child:3"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0.2,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 0.3333333333333333,
+        "NDCG@K": 0.5
+      },
+      "before_fact_coverage": {
+        "alabama_permit": 0,
+        "alabama_handgun": 0,
+        "alabama_longgun": 0,
+        "alabama_total": 0,
+        "checks_not_sales": 1
+      },
+      "after_fact_coverage": {
+        "alabama_permit": 0,
+        "alabama_handgun": 0,
+        "alabama_longgun": 0,
+        "alabama_total": 0,
+        "checks_not_sales": 1
+      },
+      "before_input_tokens": 3248,
+      "after_input_tokens": 3038,
+      "input_token_difference": -210,
+      "before_catalog_entries": 3,
+      "after_passages": 8,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "apparent-conflict",
+      "arm": "single",
+      "facts": [
+        "apple_sales_q",
+        "apple_sales_y"
+      ],
+      "selected_ids": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:6",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_fact_coverage": {
+        "apple_sales_q": 1,
+        "apple_sales_y": 1
+      },
+      "after_fact_coverage": {
+        "apple_sales_q": 1,
+        "apple_sales_y": 1
+      },
+      "before_input_tokens": 6229,
+      "after_input_tokens": 5588,
+      "input_token_difference": -641,
+      "before_catalog_entries": 9,
+      "after_passages": 32,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "apparent-conflict",
+      "arm": "planned",
+      "facts": [
+        "apple_sales_q",
+        "apple_sales_y"
+      ],
+      "selected_ids": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:11"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.4,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_fact_coverage": {
+        "apple_sales_q": 1,
+        "apple_sales_y": 1
+      },
+      "after_fact_coverage": {
+        "apple_sales_q": 1,
+        "apple_sales_y": 1
+      },
+      "before_input_tokens": 6480,
+      "after_input_tokens": 5754,
+      "input_token_difference": -726,
+      "before_catalog_entries": 10,
+      "after_passages": 33,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "partial-lecture",
+      "arm": "single",
+      "facts": [
+        "lecture_yu",
+        "lecture_wilson"
+      ],
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:18",
+        "e38c730b3b714c5a8913e530695fd03b:child:1",
+        "e38c730b3b714c5a8913e530695fd03b:child:0",
+        "e38c730b3b714c5a8913e530695fd03b:child:3",
+        "e38c730b3b714c5a8913e530695fd03b:child:406"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0,
+        "MRR": 0,
+        "NDCG@K": 0.0
+      },
+      "before_fact_coverage": {
+        "lecture_yu": 0,
+        "lecture_wilson": 1
+      },
+      "after_fact_coverage": {
+        "lecture_yu": 0,
+        "lecture_wilson": 1
+      },
+      "before_input_tokens": 2521,
+      "after_input_tokens": 2144,
+      "input_token_difference": -377,
+      "before_catalog_entries": 5,
+      "after_passages": 11,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "partial-lecture",
+      "arm": "planned",
+      "facts": [
+        "lecture_yu",
+        "lecture_wilson"
+      ],
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:18",
+        "e38c730b3b714c5a8913e530695fd03b:child:0",
+        "e38c730b3b714c5a8913e530695fd03b:child:3",
+        "e38c730b3b714c5a8913e530695fd03b:child:100",
+        "e38c730b3b714c5a8913e530695fd03b:child:383"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0,
+        "MRR": 0,
+        "NDCG@K": 0.0
+      },
+      "before_fact_coverage": {
+        "lecture_yu": 0,
+        "lecture_wilson": 1
+      },
+      "after_fact_coverage": {
+        "lecture_yu": 0,
+        "lecture_wilson": 1
+      },
+      "before_input_tokens": 2775,
+      "after_input_tokens": 2450,
+      "input_token_difference": -325,
+      "before_catalog_entries": 5,
+      "after_passages": 29,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "forecast-missing",
+      "arm": "single",
+      "facts": [],
+      "selected_ids": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:6"
+      ],
+      "candidate_metrics": null,
+      "before_fact_coverage": {},
+      "after_fact_coverage": {},
+      "before_input_tokens": 4272,
+      "after_input_tokens": 4209,
+      "input_token_difference": -63,
+      "before_catalog_entries": 2,
+      "after_passages": 28,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "forecast-missing",
+      "arm": "planned",
+      "facts": [],
+      "selected_ids": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:11",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:4",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:0",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:7"
+      ],
+      "candidate_metrics": null,
+      "before_fact_coverage": {},
+      "after_fact_coverage": {},
+      "before_input_tokens": 5038,
+      "after_input_tokens": 4111,
+      "input_token_difference": -927,
+      "before_catalog_entries": 12,
+      "after_passages": 24,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "restricted-dependency",
+      "arm": "single",
+      "facts": [
+        "technical_dataset"
+      ],
+      "selected_ids": [
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:17",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:46",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:12",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:41",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:50"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_fact_coverage": {
+        "technical_dataset": 1
+      },
+      "after_fact_coverage": {
+        "technical_dataset": 1
+      },
+      "before_input_tokens": 6128,
+      "after_input_tokens": 5835,
+      "input_token_difference": -293,
+      "before_catalog_entries": 5,
+      "after_passages": 50,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "restricted-dependency",
+      "arm": "planned",
+      "facts": [
+        "technical_dataset"
+      ],
+      "selected_ids": [
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:17",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:24",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:22",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:46",
+        "73cd9e72503d40dc8ea4a0965b38b2c7:child:4"
+      ],
+      "candidate_metrics": {
+        "Recall@K": 1,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0
+      },
+      "before_fact_coverage": {
+        "technical_dataset": 1
+      },
+      "after_fact_coverage": {
+        "technical_dataset": 1
+      },
+      "before_input_tokens": 5193,
+      "after_input_tokens": 4953,
+      "input_token_difference": -240,
+      "before_catalog_entries": 4,
+      "after_passages": 35,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "unsupported-screenshot",
+      "arm": "single",
+      "facts": [],
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:10",
+        "e38c730b3b714c5a8913e530695fd03b:child:3",
+        "e38c730b3b714c5a8913e530695fd03b:child:323",
+        "e38c730b3b714c5a8913e530695fd03b:child:383",
+        "e38c730b3b714c5a8913e530695fd03b:child:4"
+      ],
+      "candidate_metrics": null,
+      "before_fact_coverage": {},
+      "after_fact_coverage": {},
+      "before_input_tokens": 2740,
+      "after_input_tokens": 2400,
+      "input_token_difference": -340,
+      "before_catalog_entries": 5,
+      "after_passages": 24,
+      "original_answer_context_unchanged": true
+    },
+    {
+      "case_id": "unsupported-screenshot",
+      "arm": "planned",
+      "facts": [],
+      "selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:10",
+        "e38c730b3b714c5a8913e530695fd03b:child:383",
+        "e38c730b3b714c5a8913e530695fd03b:child:3",
+        "e38c730b3b714c5a8913e530695fd03b:child:323",
+        "e38c730b3b714c5a8913e530695fd03b:child:4"
+      ],
+      "candidate_metrics": null,
+      "before_fact_coverage": {},
+      "after_fact_coverage": {},
+      "before_input_tokens": 2740,
+      "after_input_tokens": 2400,
+      "input_token_difference": -340,
+      "before_catalog_entries": 5,
+      "after_passages": 24,
+      "original_answer_context_unchanged": true
+    }
+  ],
+  "metric_inventory": {
+    "Recall@K": {
+      "status": "measured",
+      "value": {
+        "before": 0.7583333333333333,
+        "after": 0.7583333333333333
+      },
+      "unit": "ratio",
+      "sample_count": 28,
+      "population": "Same 14 fact-bearing questions in two modes; selected children at K=5",
+      "method": "Recomputed frozen-candidate diagnostic, not new retrieval. Literal original-page labels are incomplete. Recall measures complete fact anchor sets; precision and ranking use any anchor overlap, denominator 5, binary gain and log2 discount. No-gold cases excluded.",
+      "aggregation": "per case and macro mean",
+      "artifact": "comparison.json#rows; ../../library-runs/20260927-v2-pdf-live/anchor-labels.json"
+    },
+    "Precision@K": {
+      "status": "measured",
+      "value": {
+        "before": 0.35000000000000003,
+        "after": 0.35000000000000003
+      },
+      "unit": "ratio",
+      "sample_count": 28,
+      "population": "Same 14 fact-bearing questions in two modes; selected children at K=5",
+      "method": "Recomputed frozen-candidate diagnostic, not new retrieval. Literal original-page labels are incomplete. Recall measures complete fact anchor sets; precision and ranking use any anchor overlap, denominator 5, binary gain and log2 discount. No-gold cases excluded.",
+      "aggregation": "per case and macro mean",
+      "artifact": "comparison.json#rows; ../../library-runs/20260927-v2-pdf-live/anchor-labels.json"
+    },
+    "Hit Rate@K": {
+      "status": "measured",
+      "value": {
+        "before": 0.9285714285714286,
+        "after": 0.9285714285714286
+      },
+      "unit": "ratio",
+      "sample_count": 28,
+      "population": "Same 14 fact-bearing questions in two modes; selected children at K=5",
+      "method": "Recomputed frozen-candidate diagnostic, not new retrieval. Literal original-page labels are incomplete. Recall measures complete fact anchor sets; precision and ranking use any anchor overlap, denominator 5, binary gain and log2 discount. No-gold cases excluded.",
+      "aggregation": "per case and macro mean",
+      "artifact": "comparison.json#rows; ../../library-runs/20260927-v2-pdf-live/anchor-labels.json"
+    },
+    "MRR": {
+      "status": "measured",
+      "value": {
+        "before": 0.8333333333333334,
+        "after": 0.8333333333333334
+      },
+      "unit": "ratio",
+      "sample_count": 28,
+      "population": "Same 14 fact-bearing questions in two modes; selected children at K=5",
+      "method": "Recomputed frozen-candidate diagnostic, not new retrieval. Literal original-page labels are incomplete. Recall measures complete fact anchor sets; precision and ranking use any anchor overlap, denominator 5, binary gain and log2 discount. No-gold cases excluded.",
+      "aggregation": "per case and macro mean",
+      "artifact": "comparison.json#rows; ../../library-runs/20260927-v2-pdf-live/anchor-labels.json"
+    },
+    "NDCG@K": {
+      "status": "measured",
+      "value": {
+        "before": 0.7305155779086981,
+        "after": 0.7305155779086981
+      },
+      "unit": "ratio",
+      "sample_count": 28,
+      "population": "Same 14 fact-bearing questions in two modes; selected children at K=5",
+      "method": "Recomputed frozen-candidate diagnostic, not new retrieval. Literal original-page labels are incomplete. Recall measures complete fact anchor sets; precision and ranking use any anchor overlap, denominator 5, binary gain and log2 discount. No-gold cases excluded.",
+      "aggregation": "per case and macro mean",
+      "artifact": "comparison.json#rows; ../../library-runs/20260927-v2-pdf-live/anchor-labels.json"
+    },
+    "Final evidence coverage": {
+      "status": "measured",
+      "value": {
+        "before": 0.8833333333333333,
+        "after": 0.8833333333333333,
+        "regressed_case_pairs": 0
+      },
+      "unit": "ratio",
+      "sample_count": 28,
+      "population": "28 fact-bearing mode/question pairs; 72 fact instances",
+      "method": "Macro mean of fully covered literal anchor sets. Before uses whole supplied source spans, after uses the union of exact selectable passage spans; original answer contexts also match byte-for-byte after removing injected markers. No answer-quality claim.",
+      "aggregation": "per case and macro mean",
+      "artifact": "comparison.json#rows"
+    },
+    "Answer correctness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline assessor contract comparison",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after.json",
+      "reason": "No model decision, generated answer, provider call, HTTP request, ingestion or load workload."
+    },
+    "Faithfulness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline assessor contract comparison",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after.json",
+      "reason": "No model decision, generated answer, provider call, HTTP request, ingestion or load workload."
+    },
+    "Answer completeness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline assessor contract comparison",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after.json",
+      "reason": "No model decision, generated answer, provider call, HTTP request, ingestion or load workload."
+    },
+    "Answer relevance": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline assessor contract comparison",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after.json",
+      "reason": "No model decision, generated answer, provider call, HTTP request, ingestion or load workload."
+    },
+    "Citation support": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline assessor contract comparison",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after.json",
+      "reason": "No model decision, generated answer, provider call, HTTP request, ingestion or load workload."
+    },
+    "Citation coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline assessor contract comparison",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after.json",
+      "reason": "No model decision, generated answer, provider call, HTTP request, ingestion or load workload."
+    },
+    "Abstention": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline assessor contract comparison",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after.json",
+      "reason": "No model decision, generated answer, provider call, HTTP request, ingestion or load workload."
+    },
+    "First-answer-delta latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline assessor contract comparison",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after.json",
+      "reason": "No model decision, generated answer, provider call, HTTP request, ingestion or load workload."
+    },
+    "Complete-response latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline assessor contract comparison",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after.json",
+      "reason": "No model decision, generated answer, provider call, HTTP request, ingestion or load workload."
+    },
+    "Stage latency": {
+      "status": "measured",
+      "value": {
+        "before": {
+          "n": 32,
+          "mean": 0.0010164141422137618,
+          "p50": 0.0009441250585950911,
+          "p95": 0.0016484333144035188,
+          "min": 0.0006122080376371741,
+          "max": 0.00308608403429389,
+          "percentile_method": "linear"
+        },
+        "after": {
+          "n": 32,
+          "mean": 0.000921958311664639,
+          "p50": 0.0009541455074213445,
+          "p95": 0.00129962048958987,
+          "min": 0.0005777920596301556,
+          "max": 0.001527791959233582,
+          "percentile_method": "linear"
+        }
+      },
+      "unit": "seconds",
+      "sample_count": 32,
+      "population": "Each fixed context once per version, sequential local CPU calls",
+      "method": "Catalog construction, schema/request serialization and local input-token counting; source restoration and payload copying excluded. Tokenizer prewarmed, no model/network/queue. Before emits a metadata catalog; after inserts inline markers. One noisy developer-machine pass does not establish production latency or speedup.",
+      "aggregation": "n/mean/P50/P95/min/max",
+      "artifact": "before.json; after.json"
+    },
+    "Token usage and cost": {
+      "status": "measured",
+      "value": {
+        "before_assessor_input_tokens": {
+          "n": 32,
+          "mean": 4044.5625,
+          "p50": 4028.0,
+          "p95": 6173.45,
+          "min": 2008,
+          "max": 6480,
+          "percentile_method": "linear"
+        },
+        "after_assessor_input_tokens": {
+          "n": 32,
+          "mean": 3759.96875,
+          "p50": 3818.0,
+          "p95": 5718.25,
+          "min": 1801,
+          "max": 5835,
+          "percentile_method": "linear"
+        },
+        "input_token_difference": {
+          "n": 32,
+          "mean": -284.59375,
+          "p50": -257.0,
+          "p95": -63.0,
+          "min": -927,
+          "max": -63,
+          "percentile_method": "linear"
+        },
+        "max_input_tokens": 8192,
+        "before_over_budget": 0,
+        "after_over_budget": 0,
+        "answer_context_tokens_unchanged": [
+          3727,
+          3727,
+          4019,
+          3447,
+          432,
+          648,
+          749,
+          709,
+          853,
+          807,
+          2712,
+          2712,
+          2712,
+          2712,
+          1847,
+          1805,
+          2041,
+          2041,
+          3412,
+          2420,
+          1493,
+          1493,
+          3884,
+          4019,
+          667,
+          862,
+          2712,
+          2541,
+          4078,
+          3301,
+          866,
+          866
+        ],
+        "provider_usage": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "No provider calls."
+        },
+        "billed_cost": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "No paid workload; local compute monetary cost unmeasured."
+        }
+      },
+      "unit": "local cl100k_base serialized input tokens",
+      "sample_count": 32,
+      "population": "All fixed contexts; prompts, serialized messages and output schema included",
+      "method": "Uses production input_tokens, not provider billing. Historic planned requirements/control fields shared across versions and reused for hypothetical single-arm assessment. Original answer packing remains capped at4096.",
+      "aggregation": "distribution and per-case delta",
+      "artifact": "before.json; after.json; comparison.json#rows"
+    },
+    "Reliability": {
+      "status": "measured",
+      "value": {
+        "before_completed": 32,
+        "after_completed": 32,
+        "construction_errors": 0,
+        "timeouts": 0,
+        "retries": 0,
+        "historical_invalid_quote_rejected": true,
+        "manual_old_quote_fixture_validates": true,
+        "manual_new_id_fixture_validates": true,
+        "historical_failure_reclassified": false
+      },
+      "unit": "counts and booleans",
+      "sample_count": 64,
+      "population": "Local construction/token-limit checks only",
+      "method": "Historic failure is replayed with its original context. Both manual income decisions are authored fixtures, not successful model calls. No live reliability inference.",
+      "aggregation": "per case and macro mean",
+      "artifact": "before.json#historical_failure; after.json"
+    },
+    "Concurrency and throughput": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline assessor contract comparison",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after.json",
+      "reason": "No model decision, generated answer, provider call, HTTP request, ingestion or load workload."
+    },
+    "Ingestion and index": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline assessor contract comparison",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "before.json; after.json",
+      "reason": "No model decision, generated answer, provider call, HTTP request, ingestion or load workload."
+    }
+  }
+}

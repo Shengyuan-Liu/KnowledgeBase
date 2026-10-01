@@ -124,3 +124,13 @@ SSE includes this field in `complete`. Source snapshots and diagnostics persist
 in the same exchange transaction and survive source deletion. Older snapshots
 have `retrieval: null`. See [parent-child retrieval](parent-child-retrieval.md)
 for the full contract and evidence budget behavior.
+
+
+## Automatic planned retrieval
+
+An optional `retrieval_mode` field accepts `single` or `planned`, overriding the
+configured `RETRIEVAL_MODE`. The default is `single`. Planned answers include
+`retrieval.planning`, preserved in conversation history, with the validated plan,
+execution trace, limits and exact supplied context. A deadline error returns HTTP
+504; invalid/incomplete planner output returns the existing generic HTTP 500.
+See [planned retrieval](planned-retrieval.md) for limits and provider requirements.

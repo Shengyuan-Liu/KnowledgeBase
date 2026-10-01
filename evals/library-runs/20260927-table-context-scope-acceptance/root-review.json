@@ -1,0 +1,531 @@
+{
+  "reviewer": "Root Codex model reviewer; not human; no paid judge",
+  "reviewed_at": "2026-09-27T21:38:17.788109+00:00",
+  "method": "Independently read all six exact answers, supplied sources, original-page gold, row/header/cell mapping and actual generation inputs before receiving primary judgments. Scores below serialize those manual model-review judgments, not a substring scorer.",
+  "expected_points": 24,
+  "correct_complete_points": 19,
+  "supplied_evidence_points": 24,
+  "claims_supported": 19,
+  "claim_count": 23,
+  "rows": [
+    {
+      "case_id": "dense-table",
+      "arm": "single",
+      "raw_sha256": "1acecdec66a1dcf1859bc4e2c668815a192494298bbc4292ca7c90c725614f5f",
+      "answer_text": "- Alabama's values for November 2015 were:\n  - Permit: 18,870 [2].\n  - Handgun: 23,022 [2].\n  - Long Gun: 22,650 [2].\n  - Totals: 71,137 [2].\n\n- These statistics represent the number of firearm background checks initiated through the NICS; they do not represent the number of firearms sold, and a one-to-one correlation cannot be made between a firearm background check and a firearm sale [1].",
+      "points": [
+        {
+          "fact_id": "alabama_permit",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "alabama_handgun",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "alabama_longgun",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "alabama_total",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "checks_not_sales",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        }
+      ],
+      "claim_groups": [
+        {
+          "text": "Permit: 18,870 [2].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            2
+          ]
+        },
+        {
+          "text": "Handgun: 23,022 [2].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            2
+          ]
+        },
+        {
+          "text": "Long Gun: 22,650 [2].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            2
+          ]
+        },
+        {
+          "text": "Totals: 71,137 [2].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            2
+          ]
+        },
+        {
+          "text": "These statistics represent the number of firearm background checks initiated through the NICS; they do not represent the number of firearms sold, and a one-to-one correlation cannot be made between a firearm background check and a firearm sale [1].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            1
+          ]
+        }
+      ],
+      "incorrect_full_abstention": false,
+      "answer_relevance": 1,
+      "review_note": "All four values match original Alabama row and exact column positions. The separately cited disclaimer states checks rather than sales and no one-to-one correspondence. Each numeric bullet and disclaimer has its own supporting citation; the uncited heading only frames the following bullets.",
+      "actual_generation": {
+        "artifact": "server-observations.jsonl",
+        "line": 4,
+        "call_id": "ff53a0ca94b7489f89d2d1436411998a"
+      },
+      "table_source_id": 2,
+      "table_span": [
+        0,
+        942
+      ],
+      "page_indices": [
+        0
+      ],
+      "raw_history_sources_match": false,
+      "history_common_source_fields_match": true
+    },
+    {
+      "case_id": "dense-table",
+      "arm": "planned",
+      "raw_sha256": "cc071637e27a0d7b8bc2de7411a7d2b28d4a1a2c722836ff5b17af556279a7ec",
+      "answer_text": "- Alabama's Permit value for November 2015: 18,870 [1].\n- Alabama's Handgun value for November 2015: 23,022 [1].\n- Alabama's Long Gun value for November 2015: 22,650 [1].\n- Alabama's Totals value for November 2015: 71,137 [1].\n- These statistics do not represent the number of firearms sold; they represent the number of firearm background checks initiated through NICS and there is not a one-to-one correlation between a background check and a firearm sale [2].",
+      "points": [
+        {
+          "fact_id": "alabama_permit",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "alabama_handgun",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "alabama_longgun",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "alabama_total",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "checks_not_sales",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        }
+      ],
+      "claim_groups": [
+        {
+          "text": "Alabama's Permit value for November 2015: 18,870 [1].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            1
+          ]
+        },
+        {
+          "text": "Alabama's Handgun value for November 2015: 23,022 [1].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            1
+          ]
+        },
+        {
+          "text": "Alabama's Long Gun value for November 2015: 22,650 [1].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            1
+          ]
+        },
+        {
+          "text": "Alabama's Totals value for November 2015: 71,137 [1].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            1
+          ]
+        },
+        {
+          "text": "These statistics do not represent the number of firearms sold; they represent the number of firearm background checks initiated through NICS and there is not a one-to-one correlation between a background check and a firearm sale [2].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            2
+          ]
+        }
+      ],
+      "incorrect_full_abstention": false,
+      "answer_relevance": 1,
+      "review_note": "All four values match original Alabama row and exact column positions. The separately cited disclaimer states checks rather than sales and no one-to-one correspondence. Each numeric bullet and disclaimer has its own supporting citation; the uncited heading only frames the following bullets.",
+      "actual_generation": {
+        "artifact": "server-observations.jsonl",
+        "line": 23,
+        "call_id": "69669cf6fea64cf2a457345d5e831a2c"
+      },
+      "table_source_id": 1,
+      "table_span": [
+        0,
+        942
+      ],
+      "page_indices": [
+        0
+      ],
+      "raw_history_sources_match": false,
+      "history_common_source_fields_match": true
+    },
+    {
+      "case_id": "state-totals",
+      "arm": "single",
+      "raw_sha256": "5be111ff8a00e0cbcaab4ce82b82e424b533469f59da0a180a2005814b7dfde8",
+      "answer_text": "The Totals values for November 2015 are:\n- Alabama: 71,137 [1].\n- Alaska: 7,095 [1].\n- Arizona: 27,087 [1].",
+      "points": [
+        {
+          "fact_id": "alabama_total",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "alaska_total",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "arizona_total",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        }
+      ],
+      "claim_groups": [
+        {
+          "text": "Alabama: 71,137 [1].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            1
+          ]
+        },
+        {
+          "text": "Alaska: 7,095 [1].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            1
+          ]
+        },
+        {
+          "text": "Arizona: 27,087 [1].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            1
+          ]
+        }
+      ],
+      "incorrect_full_abstention": false,
+      "answer_relevance": 1,
+      "review_note": "All three state totals match the original rows in the supplied first child: Alabama71,137, Alaska7,095, Arizona27,087. Each separate bullet cites that child. No additional arithmetic or ranking claim is generated.",
+      "actual_generation": {
+        "artifact": "server-observations.jsonl",
+        "line": 45,
+        "call_id": "cee75b985ea14b80bf00c2ee25e9652c"
+      },
+      "table_source_id": 1,
+      "table_span": [
+        0,
+        942
+      ],
+      "page_indices": [
+        0
+      ],
+      "raw_history_sources_match": false,
+      "history_common_source_fields_match": true
+    },
+    {
+      "case_id": "state-totals",
+      "arm": "planned",
+      "raw_sha256": "42b3ef58b3ba77df5cf08d503ef351789959fa3c79b5cb4d1706f7e36a28520d",
+      "answer_text": "- The Totals value for Alabama for November 2015 is 71,137 [1].\n- The Totals value for Alaska for November 2015 is 7,095 [1].\n- The Totals value for Arizona for November 2015 is 27,087 [1].",
+      "points": [
+        {
+          "fact_id": "alabama_total",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "alaska_total",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "arizona_total",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        }
+      ],
+      "claim_groups": [
+        {
+          "text": "The Totals value for Alabama for November 2015 is 71,137 [1].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            1
+          ]
+        },
+        {
+          "text": "The Totals value for Alaska for November 2015 is 7,095 [1].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            1
+          ]
+        },
+        {
+          "text": "The Totals value for Arizona for November 2015 is 27,087 [1].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            1
+          ]
+        }
+      ],
+      "incorrect_full_abstention": false,
+      "answer_relevance": 1,
+      "review_note": "All three state totals match the original rows in the supplied first child: Alabama71,137, Alaska7,095, Arizona27,087. Each separate bullet cites that child. No additional arithmetic or ranking claim is generated.",
+      "actual_generation": {
+        "artifact": "server-observations.jsonl",
+        "line": 38,
+        "call_id": "d2bde2dd4a9446f9b2e8edf0486cb423"
+      },
+      "table_source_id": 1,
+      "table_span": [
+        0,
+        942
+      ],
+      "page_indices": [
+        0
+      ],
+      "raw_history_sources_match": false,
+      "history_common_source_fields_match": true
+    },
+    {
+      "case_id": "grouped-and-blank-cells",
+      "arm": "single",
+      "raw_sha256": "e8c8de3ddb90dae55d20d25652da75ecd1eefffc67e3b5399122a890c5ba858c",
+      "answer_text": "- Alabama's Handgun value in the ungrouped column for November 2015 is 23,022 [1].\n- Alabama's Pre-Pawn Handgun value is 14 [1].\n- Alabama's Rentals Handgun cell records 2,179, and the Rentals Long Gun cell records 2,307 [1].",
+      "points": [
+        {
+          "fact_id": "alabama_handgun",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "alabama_prepawn_handgun",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "alabama_rentals_handgun_blank",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "alabama_rentals_longgun_blank",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 1
+        }
+      ],
+      "claim_groups": [
+        {
+          "text": "Alabama's Handgun value in the ungrouped column for November 2015 is 23,022 [1].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            1
+          ]
+        },
+        {
+          "text": "Alabama's Pre-Pawn Handgun value is 14 [1].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            1
+          ]
+        },
+        {
+          "text": "Alabama's Rentals Handgun cell records 2,179, and the Rentals Long Gun cell records 2,307 [1].",
+          "faithfulness": 0,
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "source_ids": [
+            1
+          ]
+        }
+      ],
+      "incorrect_full_abstention": false,
+      "answer_relevance": 1,
+      "review_note": "Ungrouped Handgun23,022 and Pre-Pawn Handgun14 are correct. One bullet wrongly labels Redemption Handgun2,179 and Redemption LongGun2,307 as Rentals. Original Rentals columns16 and17 are blank with zero-width canonical positions434 and435. Those positions, full row, Rentals parent and leaf headers are actually supplied. The two wrong cell values form one unsupported factual bullet with citation[1].",
+      "actual_generation": {
+        "artifact": "server-observations.jsonl",
+        "line": 52,
+        "call_id": "cdeabd8b0ad84960bd457d91ad6c77ec"
+      },
+      "table_source_id": 1,
+      "table_span": [
+        0,
+        942
+      ],
+      "page_indices": [
+        0
+      ],
+      "raw_history_sources_match": false,
+      "history_common_source_fields_match": true
+    },
+    {
+      "case_id": "grouped-and-blank-cells",
+      "arm": "planned",
+      "raw_sha256": "76a950c7711e44ea9a99b06169870542ad758c1ce8c591f282d61176cd9dd878",
+      "answer_text": "- Alabama's Handgun value in the ungrouped column for November 2015 is 23,022 [1].\n- Alabama's Pre-Pawn Handgun value for November 2015 is 2,179 [1].\n- Alabama's Rentals Handgun cell for November 2015 records 0 [1].\n- Alabama's Rentals Long Gun cell for November 2015 records 0 [1].",
+      "points": [
+        {
+          "fact_id": "alabama_handgun",
+          "reference_correctness": 1,
+          "completeness": 1,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "alabama_prepawn_handgun",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "alabama_rentals_handgun_blank",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 1
+        },
+        {
+          "fact_id": "alabama_rentals_longgun_blank",
+          "reference_correctness": 0,
+          "completeness": 0,
+          "supplied_evidence_coverage": 1
+        }
+      ],
+      "claim_groups": [
+        {
+          "text": "Alabama's Handgun value in the ungrouped column for November 2015 is 23,022 [1].",
+          "faithfulness": 1,
+          "citation_support": 1,
+          "citation_coverage": 1,
+          "source_ids": [
+            1
+          ]
+        },
+        {
+          "text": "Alabama's Pre-Pawn Handgun value for November 2015 is 2,179 [1].",
+          "faithfulness": 0,
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "source_ids": [
+            1
+          ]
+        },
+        {
+          "text": "Alabama's Rentals Handgun cell for November 2015 records 0 [1].",
+          "faithfulness": 0,
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "source_ids": [
+            1
+          ]
+        },
+        {
+          "text": "Alabama's Rentals Long Gun cell for November 2015 records 0 [1].",
+          "faithfulness": 0,
+          "citation_support": 0,
+          "citation_coverage": 0,
+          "source_ids": [
+            1
+          ]
+        }
+      ],
+      "incorrect_full_abstention": false,
+      "answer_relevance": 1,
+      "review_note": "Only ungrouped Handgun23,022 is correct. Pre-Pawn Handgun is14; the answer substitutes Redemption Handgun2,179. Rentals Handgun and LongGun are printed blank, not0; both exact empty positions, grouped header and full row are supplied. The three wrong bullets cite[1] but that table does not support those associations.",
+      "actual_generation": {
+        "artifact": "server-observations.jsonl",
+        "line": 69,
+        "call_id": "bf2233eaca134732835d29f002eed331"
+      },
+      "table_source_id": 1,
+      "table_span": [
+        0,
+        942
+      ],
+      "page_indices": [
+        0
+      ],
+      "raw_history_sources_match": false,
+      "history_common_source_fields_match": true
+    }
+  ]
+}

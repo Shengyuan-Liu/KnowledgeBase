@@ -1,0 +1,1193 @@
+{
+  "source": "evals/library-runs/20260927-v2-pdf-live/server-observations.jsonl",
+  "cases": [
+    {
+      "case": "lecture-grades-planned",
+      "plan": {
+        "original_question": "In \"ml-lecture.pdf\", give the grade weights for homework, the final project and the midterm, and state the project team size.",
+        "resolved_question": "In \"ml-lecture.pdf\", give the grade weights for homework, the final project and the midterm, and state the project team size.",
+        "route": "decomposed",
+        "requirements": [
+          {
+            "requirement_id": "r1",
+            "description": "Find the grade weight for homework in \"ml-lecture.pdf\"."
+          },
+          {
+            "requirement_id": "r2",
+            "description": "Find the grade weight for the final project in \"ml-lecture.pdf\"."
+          },
+          {
+            "requirement_id": "r3",
+            "description": "Find the grade weight for the midterm in \"ml-lecture.pdf\"."
+          },
+          {
+            "requirement_id": "r4",
+            "description": "Find the allowed project team size in \"ml-lecture.pdf\"."
+          }
+        ],
+        "queries": [
+          {
+            "query_id": "q1",
+            "text": "In \"ml-lecture.pdf\", what is the grade weight for homework?",
+            "requirement_ids": [
+              "r1"
+            ],
+            "file_ids": null
+          },
+          {
+            "query_id": "q2",
+            "text": "In \"ml-lecture.pdf\", what is the grade weight for the final project?",
+            "requirement_ids": [
+              "r2"
+            ],
+            "file_ids": null
+          },
+          {
+            "query_id": "q3",
+            "text": "In \"ml-lecture.pdf\", what is the grade weight for the midterm?",
+            "requirement_ids": [
+              "r3"
+            ],
+            "file_ids": null
+          },
+          {
+            "query_id": "q4",
+            "text": "In \"ml-lecture.pdf\", what is the allowed project team size?",
+            "requirement_ids": [
+              "r4"
+            ],
+            "file_ids": null
+          }
+        ],
+        "dependencies": []
+      },
+      "runs": [
+        {
+          "query_ids": [
+            "q1"
+          ],
+          "requirement_ids": [
+            "r1"
+          ],
+          "text": "In \"ml-lecture.pdf\", what is the grade weight for homework?",
+          "hits": [
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:25",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c 4 homework assignments: 40% of grade"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:28",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Final project: 40% of grade"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:158",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Class prior (i.e., \"weight\"): P(Y)"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:38",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c One midterm exams: 20% of grade"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:3",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Intro to Adv. ML 10-715"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:0",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Advanced Introduction to Machine Learning\n\n10715, Fall 2014"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:120",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "For the learned F(; \uf071\uf020)"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:10",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Reading assignments on class homepage"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:100",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c This ML niche is growing"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:173",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06cWe can write the decision boundary analytically in some cases \u2026 homework!!"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:383",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "or\n\nin is lecture lecture next over person remember room sitting the the the to to up wake when you\n\n\u00a9 Eric Xing @ CMU, 2014\n\n61"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:5",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c http://www.cs.cmu.edu/~epxing/Class/10715/"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:26",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Theory exercises"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:378",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "or\n\nWhen the lecture is over, remember to wake up the person sitting next to you in the lecture room.\n\n\u00a9 Eric Xing @ CMU, 2014\n\n60"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:13",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c To contact the instructors: 10715-instructors@cs.cmu.edu"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:91",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c This ML niche is growing (why?)"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:323",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c More next lecture \u2026"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:367",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Y = {what is the topic of the article?}"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:296",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06cWhat is the difference to NB?"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:178",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Given a datum X, what is the risk?"
+            }
+          ]
+        },
+        {
+          "query_ids": [
+            "q2"
+          ],
+          "requirement_ids": [
+            "r2"
+          ],
+          "text": "In \"ml-lecture.pdf\", what is the grade weight for the final project?",
+          "hits": [
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:28",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Final project: 40% of grade"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:37",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c 3-member team to be formed in the first two weeks, proposal, mid-way report, poster & demo, final report."
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:38",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c One midterm exams: 20% of grade"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:158",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Class prior (i.e., \"weight\"): P(Y)"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:25",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c 4 homework assignments: 40% of grade"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:406",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Results: Multiple Classes\n\n\u00a9 Eric Xing @ CMU, 2014\n\n65"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:0",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Advanced Introduction to Machine Learning\n\n10715, Fall 2014"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:3",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Intro to Adv. ML 10-715"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:369",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Y = {Student, professor, project, \u2026}"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:100",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c This ML niche is growing"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:10",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Reading assignments on class homepage"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:91",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c This ML niche is growing (why?)"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:383",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "or\n\nin is lecture lecture next over person remember room sitting the the the to to up wake when you\n\n\u00a9 Eric Xing @ CMU, 2014\n\n61"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:378",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "or\n\nWhen the lecture is over, remember to wake up the person sitting next to you in the lecture room.\n\n\u00a9 Eric Xing @ CMU, 2014\n\n60"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:5",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c http://www.cs.cmu.edu/~epxing/Class/10715/"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:370",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06cWhat about the features X?"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:367",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Y = {what is the topic of the article?}"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:296",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06cWhat is the difference to NB?"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:459",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c What's the assumption"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:178",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Given a datum X, what is the risk?"
+            }
+          ]
+        },
+        {
+          "query_ids": [
+            "q3"
+          ],
+          "requirement_ids": [
+            "r3"
+          ],
+          "text": "In \"ml-lecture.pdf\", what is the grade weight for the midterm?",
+          "hits": [
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:38",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c One midterm exams: 20% of grade"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:28",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Final project: 40% of grade"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:25",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c 4 homework assignments: 40% of grade"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:158",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Class prior (i.e., \"weight\"): P(Y)"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:143",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c MLE? MCLE? Max margin?"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:3",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Intro to Adv. ML 10-715"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:100",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c This ML niche is growing"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:0",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Advanced Introduction to Machine Learning\n\n10715, Fall 2014"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:91",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c This ML niche is growing (why?)"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:10",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Reading assignments on class homepage"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:378",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "or\n\nWhen the lecture is over, remember to wake up the person sitting next to you in the lecture room.\n\n\u00a9 Eric Xing @ CMU, 2014\n\n60"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:383",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "or\n\nin is lecture lecture next over person remember room sitting the the the to to up wake when you\n\n\u00a9 Eric Xing @ CMU, 2014\n\n61"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:5",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c http://www.cs.cmu.edu/~epxing/Class/10715/"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:13",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c To contact the instructors: 10715-instructors@cs.cmu.edu"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:323",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c More next lecture \u2026"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:296",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06cWhat is the difference to NB?"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:367",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Y = {what is the topic of the article?}"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:459",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c What's the assumption"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:370",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06cWhat about the features X?"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:178",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Given a datum X, what is the risk?"
+            }
+          ]
+        },
+        {
+          "query_ids": [
+            "q4"
+          ],
+          "requirement_ids": [
+            "r4"
+          ],
+          "text": "In \"ml-lecture.pdf\", what is the allowed project team size?",
+          "hits": [
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:37",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c 3-member team to be formed in the first two weeks, proposal, mid-way report, poster & demo, final report."
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:406",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Results: Multiple Classes\n\n\u00a9 Eric Xing @ CMU, 2014\n\n65"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:3",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Intro to Adv. ML 10-715"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:100",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c This ML niche is growing"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:408",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Versus training size"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:383",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "or\n\nin is lecture lecture next over person remember room sitting the the the to to up wake when you\n\n\u00a9 Eric Xing @ CMU, 2014\n\n61"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:91",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c This ML niche is growing (why?)"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:378",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "or\n\nWhen the lecture is over, remember to wake up the person sitting next to you in the lecture room.\n\n\u00a9 Eric Xing @ CMU, 2014\n\n60"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:13",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c To contact the instructors: 10715-instructors@cs.cmu.edu"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:471",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\u00a9 Eric Xing @ CMU, 2014\n\n75"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:326",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\u00a9 Eric Xing @ CMU, 2014\n\n50"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:446",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\u00a9 Eric Xing @ CMU, 2014\n\n72"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:434",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\u00a9 Eric Xing @ CMU, 2014\n\n70"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:367",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Y = {what is the topic of the article?}"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:370",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06cWhat about the features X?"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:218",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\u00a9 Eric Xing @ CMU, 2014\n\n32"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:296",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06cWhat is the difference to NB?"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:178",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Given a datum X, what is the risk?"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:180",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\u00a9 Eric Xing @ CMU, 2014\n\n25"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:459",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c What's the assumption"
+            }
+          ]
+        }
+      ],
+      "required_child_suffixes": [
+        "25",
+        "28",
+        "38",
+        "37"
+      ],
+      "before_selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:3",
+        "e38c730b3b714c5a8913e530695fd03b:child:100",
+        "e38c730b3b714c5a8913e530695fd03b:child:383",
+        "e38c730b3b714c5a8913e530695fd03b:child:91",
+        "e38c730b3b714c5a8913e530695fd03b:child:378"
+      ]
+    },
+    {
+      "case": "lecture-logistics-planned",
+      "plan": {
+        "original_question": "In \"ml-lecture.pdf\", is a textbook required, where are readings assigned, and who are the guest lecturers?",
+        "resolved_question": "In \"ml-lecture.pdf\", is a textbook required, where are readings assigned, and who are the guest lecturers?",
+        "route": "decomposed",
+        "requirements": [
+          {
+            "requirement_id": "req1",
+            "description": "Find out if a textbook is required in 'ml-lecture.pdf'."
+          },
+          {
+            "requirement_id": "req2",
+            "description": "Locate where readings are assigned in 'ml-lecture.pdf'."
+          },
+          {
+            "requirement_id": "req3",
+            "description": "Identify the guest lecturers mentioned in 'ml-lecture.pdf'."
+          }
+        ],
+        "queries": [
+          {
+            "query_id": "q1",
+            "text": "Is a textbook required for the course?",
+            "requirement_ids": [
+              "req1"
+            ],
+            "file_ids": null
+          },
+          {
+            "query_id": "q2",
+            "text": "Where are readings assigned in the course?",
+            "requirement_ids": [
+              "req2"
+            ],
+            "file_ids": null
+          },
+          {
+            "query_id": "q3",
+            "text": "Who are the guest lecturers for the course?",
+            "requirement_ids": [
+              "req3"
+            ],
+            "file_ids": null
+          }
+        ],
+        "dependencies": []
+      },
+      "runs": [
+        {
+          "query_ids": [
+            "q1"
+          ],
+          "requirement_ids": [
+            "req1"
+          ],
+          "text": "Is a textbook required for the course?",
+          "hits": [
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:9",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c No required book"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:10",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Reading assignments on class homepage"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:8",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Text book"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:11",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Optional: David Mackay, Information Theory, Inference, and Learning Algorithms"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:25",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c 4 homework assignments: 40% of grade"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:0",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Advanced Introduction to Machine Learning\n\n10715, Fall 2014"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:72",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Reading, digesting, and categorizing a vast text database is too much for human!"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:5",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c http://www.cs.cmu.edu/~epxing/Class/10715/"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:26",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Theory exercises"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:371",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c The text!"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:67",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c The best helicopter pilot is now a computer!"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:38",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c One midterm exams: 20% of grade"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:36",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c a new sampling scheme for a non-trivial model \u2026"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:239",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c The joint probability of a datum and its label is:"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:177",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c the probability that a sample is assigned to the wrong class"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:276",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Assume some functional form for P(X|Y), P(Y) This is a 'generative'model of the data!"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:419",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "This is a 'generative'model of the data!"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:424",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "This is a 'discriminative'model of the data!"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:281",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "This is a 'discriminative'model of the data!"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:178",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Given a datum X, what is the risk?"
+            }
+          ]
+        },
+        {
+          "query_ids": [
+            "q2"
+          ],
+          "requirement_ids": [
+            "req2"
+          ],
+          "text": "Where are readings assigned in the course?",
+          "hits": [
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:10",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Reading assignments on class homepage"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:235",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c learning f: X \uf0aeY, where"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:83",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "ctgctccttcgctggggattcccctgcgggtaagcgccgcttgcttggactcgtttccaaatcccatagccacgccagcagaggagtaacagagctctgaaaacagttcatggtttaaaaatatcctttaagaaagcccatgggtataactt actgcgtcctatgcgaggaatggtctttaggttctttatggcaaagttctcgcctcgcttgcccagccgcggtacgttcttggtgatctttaggaagaatcctggactactgtcgtctgcctggcttatggccacaagacccaccaagagcg aggactgttatgattctcatgctgatgcgactgaagcttcacctgactcctgctccacaattggtggcctttatatagcgagatccacccgcatcttgcgtggaatagaaatgcgggtgactccaggaattagcattatcgatcggaaagtg ataaaactgaactaacctgacctaaatgcctggccataattaagtgcatacatacacattacattacttacatttgtataagaactaaattttatagtacataccacttgcgtatgtaaatgcttgtcttttctcttatatacgttttataa Where is the gene? \u00a9 Eric Xing @ CMU, 2014 14"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:177",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c the probability that a sample is assigned to the wrong class"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:8",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Text book"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:25",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c 4 homework assignments: 40% of grade"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:116",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Active Learning"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:26",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Theory exercises"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:1",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Introduction & Linear Classifiers\n\nEric Xing and Barnabas Poczos Lecture 1, September8, 2014"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:0",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Advanced Introduction to Machine Learning\n\n10715, Fall 2014"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:132",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Here are some important elements to consider before you start:"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:28",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Final project: 40% of grade"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:221",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Features are conditionally independent given class:"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:38",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c One midterm exams: 20% of grade"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:344",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Recall in the least square est. in linear regression, we have:"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:438",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "NB order log m (where m = # of attributes in X) LR order m"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:27",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Implementation exercises"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:349",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Recall in the least square est. in linear regression, we have:"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:333",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c In LR the \uf071is vector-valued, thus we need the following generalization:"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:338",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c In LR the \uf071is vector-valued, thus we need the following generalization:"
+            }
+          ]
+        },
+        {
+          "query_ids": [
+            "q3"
+          ],
+          "requirement_ids": [
+            "req3"
+          ],
+          "text": "Who are the guest lecturers for the course?",
+          "hits": [
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:18",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Guest Lecturers"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:1",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Introduction & Linear Classifiers\n\nEric Xing and Barnabas Poczos Lecture 1, September8, 2014"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:0",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Advanced Introduction to Machine Learning\n\n10715, Fall 2014"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:5",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c http://www.cs.cmu.edu/~epxing/Class/10715/"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:39",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Theory exercises and/or analysis. Dates already set (no 'ticket already booked', 'I am in a conference', etc. excuse \u2026)"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:378",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "or\n\nWhen the lecture is over, remember to wake up the person sitting next to you in the lecture room.\n\n\u00a9 Eric Xing @ CMU, 2014\n\n60"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:10",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Reading assignments on class homepage"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:323",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c More next lecture \u2026"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:26",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Theory exercises"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:13",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c To contact the instructors: 10715-instructors@cs.cmu.edu"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:164",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "The Bayes Decision Rule for Minimum Error"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:21",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Class Assistant:"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:346",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Now for logistic regression:"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:221",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Features are conditionally independent given class:"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:132",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Here are some important elements to consider before you start:"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:351",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Now for logistic regression:"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:453",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "for all iand b"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:452",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "1. For discrete input,"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:120",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "For the learned F(; \uf071\uf020)"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:355",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "-In each figure, red for IRLSand blue for gradient descent"
+            }
+          ]
+        }
+      ],
+      "required_child_suffixes": [
+        "9",
+        "10",
+        "18"
+      ],
+      "before_selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:10",
+        "e38c730b3b714c5a8913e530695fd03b:child:0",
+        "e38c730b3b714c5a8913e530695fd03b:child:26",
+        "e38c730b3b714c5a8913e530695fd03b:child:8",
+        "e38c730b3b714c5a8913e530695fd03b:child:1"
+      ]
+    },
+    {
+      "case": "partial-lecture-planned",
+      "plan": {
+        "original_question": "In \"ml-lecture.pdf\", name the guest lecturers and give the exact number of students enrolled in this course.",
+        "resolved_question": "In \"ml-lecture.pdf\", name the guest lecturers and give the exact number of students enrolled in this course.",
+        "route": "decomposed",
+        "requirements": [
+          {
+            "requirement_id": "r1",
+            "description": "Name the guest lecturers in the course as mentioned in \"ml-lecture.pdf\"."
+          },
+          {
+            "requirement_id": "r2",
+            "description": "Give the exact number of students enrolled in the course as mentioned in \"ml-lecture.pdf\"."
+          }
+        ],
+        "queries": [
+          {
+            "query_id": "q1",
+            "text": "In \"ml-lecture.pdf\", name the guest lecturers for this course.",
+            "requirement_ids": [
+              "r1"
+            ],
+            "file_ids": null
+          },
+          {
+            "query_id": "q2",
+            "text": "In \"ml-lecture.pdf\", what is the exact number of students enrolled in this course?",
+            "requirement_ids": [
+              "r2"
+            ],
+            "file_ids": null
+          }
+        ],
+        "dependencies": []
+      },
+      "runs": [
+        {
+          "query_ids": [
+            "q1"
+          ],
+          "requirement_ids": [
+            "r1"
+          ],
+          "text": "In \"ml-lecture.pdf\", name the guest lecturers for this course.",
+          "hits": [
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:18",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Guest Lecturers"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:1",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Introduction & Linear Classifiers\n\nEric Xing and Barnabas Poczos Lecture 1, September8, 2014"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:11",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Optional: David Mackay, Information Theory, Inference, and Learning Algorithms"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:0",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Advanced Introduction to Machine Learning\n\n10715, Fall 2014"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:406",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Results: Multiple Classes\n\n\u00a9 Eric Xing @ CMU, 2014\n\n65"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:3",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Intro to Adv. ML 10-715"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:100",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c This ML niche is growing"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:91",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c This ML niche is growing (why?)"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:10",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Reading assignments on class homepage"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:13",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c To contact the instructors: 10715-instructors@cs.cmu.edu"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:323",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c More next lecture \u2026"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:383",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "or\n\nin is lecture lecture next over person remember room sitting the the the to to up wake when you\n\n\u00a9 Eric Xing @ CMU, 2014\n\n61"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:5",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c http://www.cs.cmu.edu/~epxing/Class/10715/"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:295",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c In this case, learning p(y|x) amounts to learning ...?"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:120",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "For the learned F(; \uf071\uf020)"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:378",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "or\n\nWhen the lecture is over, remember to wake up the person sitting next to you in the lecture room.\n\n\u00a9 Eric Xing @ CMU, 2014\n\n60"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:389",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c For each topic, count how many times you saw word in documents of this topic (+ prior)"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:419",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "This is a 'generative'model of the data!"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:281",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "This is a 'discriminative'model of the data!"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:355",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "-In each figure, red for IRLSand blue for gradient descent"
+            }
+          ]
+        },
+        {
+          "query_ids": [
+            "q2"
+          ],
+          "requirement_ids": [
+            "r2"
+          ],
+          "text": "In \"ml-lecture.pdf\", what is the exact number of students enrolled in this course?",
+          "hits": [
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:0",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Advanced Introduction to Machine Learning\n\n10715, Fall 2014"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:43",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Machine Learning\n\n\u00a9 Eric Xing @ CMU, 2014\n\n6"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:406",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Results: Multiple Classes\n\n\u00a9 Eric Xing @ CMU, 2014\n\n65"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:100",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c This ML niche is growing"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:1",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Introduction & Linear Classifiers\n\nEric Xing and Barnabas Poczos Lecture 1, September8, 2014"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:3",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "Intro to Adv. ML 10-715"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:91",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c This ML niche is growing (why?)"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:5",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c http://www.cs.cmu.edu/~epxing/Class/10715/"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:383",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "or\n\nin is lecture lecture next over person remember room sitting the the the to to up wake when you\n\n\u00a9 Eric Xing @ CMU, 2014\n\n61"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:393",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\u00a9 Eric Xing @ CMU, 2014\n\n62"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:471",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\u00a9 Eric Xing @ CMU, 2014\n\n75"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:13",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c To contact the instructors: 10715-instructors@cs.cmu.edu"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:378",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "or\n\nWhen the lecture is over, remember to wake up the person sitting next to you in the lecture room.\n\n\u00a9 Eric Xing @ CMU, 2014\n\n60"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:323",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c More next lecture \u2026"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:296",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06cWhat is the difference to NB?"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:367",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Y = {what is the topic of the article?}"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:419",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "This is a 'generative'model of the data!"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:424",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "This is a 'discriminative'model of the data!"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:281",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "This is a 'discriminative'model of the data!"
+            },
+            {
+              "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:178",
+              "file_id": "e38c730b3b714c5a8913e530695fd03b",
+              "text": "\uf06c Given a datum X, what is the risk?"
+            }
+          ]
+        }
+      ],
+      "required_child_suffixes": [
+        "18",
+        "0"
+      ],
+      "before_selected_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:0",
+        "e38c730b3b714c5a8913e530695fd03b:child:1",
+        "e38c730b3b714c5a8913e530695fd03b:child:406",
+        "e38c730b3b714c5a8913e530695fd03b:child:100",
+        "e38c730b3b714c5a8913e530695fd03b:child:3"
+      ]
+    }
+  ]
+}

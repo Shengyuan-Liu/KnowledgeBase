@@ -6,11 +6,13 @@ export function Modal({
   children,
   onClose,
   drawer = false,
+  wide = false,
 }: {
   titleId: string;
   children: ReactNode;
   onClose: () => void;
   drawer?: boolean;
+  wide?: boolean;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   useLayoutEffect(() => {
@@ -28,6 +30,7 @@ export function Modal({
       ref={ref}
       aria-labelledby={titleId}
       className={drawer ? styles.drawer : styles.modal}
+      style={wide ? { width: "min(960px, calc(100vw - 32px))", maxHeight: "90vh", overflow: "auto" } : undefined}
       onCancel={(event) => {
         event.preventDefault();
         event.stopPropagation();

@@ -1,0 +1,225 @@
+{
+  "description": "Frozen synthetic multi-hop fixture; targets, model decisions and vectors are test controls, not real model predictions.",
+  "corpus": [
+    {
+      "id": "a",
+      "name": "award.txt",
+      "text": "The Aster Prize winner is Mira Cole.",
+      "vector": [
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "id": "b",
+      "name": "staff.txt",
+      "text": "Mira Cole works at Birch Institute.",
+      "vector": [
+        0.0,
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "id": "c",
+      "name": "place.txt",
+      "text": "Birch Institute is in Oslo.",
+      "vector": [
+        0.0,
+        0.0,
+        1.0
+      ]
+    },
+    {
+      "id": "d",
+      "name": "logs.txt",
+      "text": "Application logs rotate every day.",
+      "vector": [
+        0.98,
+        0.01,
+        0.1
+      ]
+    },
+    {
+      "id": "e",
+      "name": "cache.txt",
+      "text": "Cache entries expire every hour.",
+      "vector": [
+        0.96,
+        0.1,
+        0.03
+      ]
+    }
+  ],
+  "plans": {
+    "three_hop": {
+      "route": "dependent",
+      "requirements": [
+        {
+          "requirement_id": "winner",
+          "description": "Prize winner"
+        },
+        {
+          "requirement_id": "employer",
+          "description": "Winner's institute"
+        },
+        {
+          "requirement_id": "location",
+          "description": "Institute location"
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "winner",
+          "text": "Aster Prize winner",
+          "requirement_ids": [
+            "winner"
+          ]
+        }
+      ],
+      "dependencies": [
+        {
+          "query_id": "employer",
+          "query_template": "Who employs {target}?",
+          "requirement_ids": [
+            "employer"
+          ],
+          "depends_on": [
+            "winner"
+          ]
+        },
+        {
+          "query_id": "location",
+          "query_template": "Where is {target} located?",
+          "requirement_ids": [
+            "location"
+          ],
+          "depends_on": [
+            "employer"
+          ]
+        }
+      ]
+    },
+    "two_hop": {
+      "route": "dependent",
+      "requirements": [
+        {
+          "requirement_id": "winner",
+          "description": "Prize winner"
+        },
+        {
+          "requirement_id": "employer",
+          "description": "Winner's institute"
+        }
+      ],
+      "queries": [
+        {
+          "query_id": "winner",
+          "text": "Aster Prize winner",
+          "requirement_ids": [
+            "winner"
+          ]
+        }
+      ],
+      "dependencies": [
+        {
+          "query_id": "employer",
+          "query_template": "Who employs {target}?",
+          "requirement_ids": [
+            "employer"
+          ],
+          "depends_on": [
+            "winner"
+          ]
+        }
+      ]
+    }
+  },
+  "direct": {
+    "route": "direct",
+    "requirements": [],
+    "queries": [],
+    "dependencies": []
+  },
+  "targets": {
+    "employer": "Mira Cole",
+    "location": "Birch Institute"
+  },
+  "query_vectors": {
+    "Where is the institute employing the Aster Prize winner located?": [
+      1,
+      0,
+      0
+    ],
+    "Where does the Aster Prize winner work?": [
+      1,
+      0,
+      0
+    ],
+    "Aster Prize winner": [
+      1,
+      0,
+      0
+    ],
+    "Who employs Mira Cole?": [
+      0,
+      1,
+      0
+    ],
+    "Where is Birch Institute located?": [
+      0,
+      0,
+      1
+    ]
+  },
+  "cases": [
+    {
+      "id": "three_hop",
+      "question": "Where is the institute employing the Aster Prize winner located?",
+      "plan": "three_hop",
+      "gold": [
+        "a",
+        "b",
+        "c"
+      ],
+      "budget": 4096,
+      "file_ids": null
+    },
+    {
+      "id": "two_hop",
+      "question": "Where does the Aster Prize winner work?",
+      "plan": "two_hop",
+      "gold": [
+        "a",
+        "b"
+      ],
+      "budget": 4096,
+      "file_ids": null
+    },
+    {
+      "id": "scope_no_progress",
+      "question": "Where is the institute employing the Aster Prize winner located?",
+      "plan": "three_hop",
+      "gold": [
+        "a"
+      ],
+      "budget": 4096,
+      "file_ids": [
+        "a"
+      ]
+    },
+    {
+      "id": "budget_exhausted",
+      "question": "Where is the institute employing the Aster Prize winner located?",
+      "plan": "three_hop",
+      "gold": [
+        "a",
+        "b",
+        "c"
+      ],
+      "budget": 1,
+      "file_ids": null
+    }
+  ]
+}

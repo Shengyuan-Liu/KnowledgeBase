@@ -5,12 +5,17 @@
 - For code changes, write or update the relevant tests and ensure that all applicable tests and verification checks pass before delivery. For documentation-only changes, review the content and check links and formatting; automated tests are not required.
 - Use `.env` for local environment configuration and credentials, and keep it out of Git. Use `.env.example` for placeholders. Introduce a `Settings` class only when current configuration needs justify it.
 
-# v1 Branch and Merge Workflow
+# Branch and Merge Workflow
 
-- Perform all v1 development on the `v1` branch and commit changes there.
-- The user decides when each v1 feature is complete. Passing tests or finishing implementation does not authorize a merge.
+- Keep `main` and the currently active version branch locally and on GitHub. The active development branch is `v2`; perform all current development and documentation work there.
+- Retire an inactive version branch only after verifying that its commits are preserved in `main` and no ongoing work or worktree depends on it. Keep release history in Git and the version documentation; do not retain an empty version branch solely as an archive.
+- The user decides when each feature is complete. Passing tests or finishing implementation does not authorize a merge.
 - Merge each feature into `main` only after the user explicitly authorizes that feature's merge. Approval for one feature does not authorize later merges.
-- After an authorized merge, continue subsequent v1 work on the `v1` branch.
+- After an authorized feature merge, continue work on the active version branch until the user moves development to the next version.
+
+# v2 Scope
+
+- OCR, visual chart/figure understanding, and mathematical formula understanding are deferred from v2. Core PDF work targets digitally generated text and supported table structures with page citations.
 
 # Test and Experiment Measurement
 

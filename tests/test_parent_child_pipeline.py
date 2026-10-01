@@ -124,6 +124,7 @@ def test_budget_counts_labels_and_separators_without_truncating_parents(storage,
     assert skipped.diagnostics.excluded[0].model_dump() == {
         "chunk_id": parents[0].parent_id, "file_id": parents[0].file_id,
         "reason": "context_budget", "token_count": parents[0].token_count,
+        "trial_context_tokens": len(encoding.encode_ordinary(build_context([full.chunks[0]]))),
     }
     assert len(skipped.diagnostics.candidates) == 2
 

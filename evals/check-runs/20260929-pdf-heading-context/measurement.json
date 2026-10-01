@@ -1,0 +1,307 @@
+{
+  "source": "replay-results.json",
+  "source_sha256": "0aa8f519209daa4c894719c4f4e523fc6e37960ba611ed498e179cd9460b1894",
+  "correction": "Only five relative ranking-metric artifact paths are normalized. No metric value, raw context, failure or live output was changed.",
+  "metric_inventory": {
+    "Recall@K": {
+      "status": "measured",
+      "value": {
+        "before": 0.65,
+        "after": 0.65
+      },
+      "unit": "ratio",
+      "sample_count": 5,
+      "population": "Same selected children for five answerable cases; one no-gold case excluded",
+      "method": "K=5 frozen full-anchor binary child labels, unchanged child content/IDs/ranks. Child recall denominator is all labeled relevant children; precision denominator is 5. Ranking scores copied from frozen diagnostics because every scoring input is unchanged. Labels are non-exhaustive.",
+      "aggregation": "Case macro mean",
+      "artifact": "../../library-runs/20260929-new-pdf-chain/diagnostics.json"
+    },
+    "Precision@K": {
+      "status": "measured",
+      "value": {
+        "before": 0.2,
+        "after": 0.2
+      },
+      "unit": "ratio",
+      "sample_count": 5,
+      "population": "Same selected children for five answerable cases; one no-gold case excluded",
+      "method": "K=5 frozen full-anchor binary child labels, unchanged child content/IDs/ranks. Child recall denominator is all labeled relevant children; precision denominator is 5. Ranking scores copied from frozen diagnostics because every scoring input is unchanged. Labels are non-exhaustive.",
+      "aggregation": "Case macro mean",
+      "artifact": "../../library-runs/20260929-new-pdf-chain/diagnostics.json"
+    },
+    "Hit Rate@K": {
+      "status": "measured",
+      "value": {
+        "before": 1,
+        "after": 1
+      },
+      "unit": "ratio",
+      "sample_count": 5,
+      "population": "Same selected children for five answerable cases; one no-gold case excluded",
+      "method": "K=5 frozen full-anchor binary child labels, unchanged child content/IDs/ranks. Child recall denominator is all labeled relevant children; precision denominator is 5. Ranking scores copied from frozen diagnostics because every scoring input is unchanged. Labels are non-exhaustive.",
+      "aggregation": "Case macro mean",
+      "artifact": "../../library-runs/20260929-new-pdf-chain/diagnostics.json"
+    },
+    "MRR": {
+      "status": "measured",
+      "value": {
+        "before": 1.0,
+        "after": 1.0
+      },
+      "unit": "ratio",
+      "sample_count": 5,
+      "population": "Same selected children for five answerable cases; one no-gold case excluded",
+      "method": "K=5 frozen full-anchor binary child labels, unchanged child content/IDs/ranks. Child recall denominator is all labeled relevant children; precision denominator is 5. Ranking scores copied from frozen diagnostics because every scoring input is unchanged. Labels are non-exhaustive.",
+      "aggregation": "Case macro mean",
+      "artifact": "../../library-runs/20260929-new-pdf-chain/diagnostics.json"
+    },
+    "NDCG@K": {
+      "status": "measured",
+      "value": {
+        "before": 0.7233348871046037,
+        "after": 0.7233348871046037
+      },
+      "unit": "ratio",
+      "sample_count": 5,
+      "population": "Same selected children for five answerable cases; one no-gold case excluded",
+      "method": "K=5 frozen full-anchor binary child labels, unchanged child content/IDs/ranks. Child recall denominator is all labeled relevant children; precision denominator is 5. Ranking scores copied from frozen diagnostics because every scoring input is unchanged. Labels are non-exhaustive.",
+      "aggregation": "Case macro mean",
+      "artifact": "../../library-runs/20260929-new-pdf-chain/diagnostics.json"
+    },
+    "Final evidence coverage": {
+      "status": "measured",
+      "value": {
+        "before": {
+          "covered": 14,
+          "expected": 16
+        },
+        "after": {
+          "covered": 16,
+          "expected": 16
+        }
+      },
+      "unit": "source-fact anchor groups",
+      "sample_count": 16,
+      "population": "Matched offline six-case replay",
+      "method": "Every frozen anchor present inside exact supplied body text/ranges. Same source spans before/after; does not measure correctness of a generated answer.",
+      "aggregation": "micro count",
+      "artifact": "replay-results.json"
+    },
+    "Answer correctness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate context replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "replay-results.json",
+      "reason": "No live retrieval, model inference, HTTP/SSE request, ingestion, lifecycle or load workload."
+    },
+    "Faithfulness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate context replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "replay-results.json",
+      "reason": "No live retrieval, model inference, HTTP/SSE request, ingestion, lifecycle or load workload."
+    },
+    "Answer completeness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate context replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "replay-results.json",
+      "reason": "No live retrieval, model inference, HTTP/SSE request, ingestion, lifecycle or load workload."
+    },
+    "Answer relevance": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate context replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "replay-results.json",
+      "reason": "No live retrieval, model inference, HTTP/SSE request, ingestion, lifecycle or load workload."
+    },
+    "Citation support": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate context replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "replay-results.json",
+      "reason": "No live retrieval, model inference, HTTP/SSE request, ingestion, lifecycle or load workload."
+    },
+    "Citation coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate context replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "replay-results.json",
+      "reason": "No live retrieval, model inference, HTTP/SSE request, ingestion, lifecycle or load workload."
+    },
+    "Abstention": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate context replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "replay-results.json",
+      "reason": "No live retrieval, model inference, HTTP/SSE request, ingestion, lifecycle or load workload."
+    },
+    "First-answer-delta latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate context replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "replay-results.json",
+      "reason": "No live retrieval, model inference, HTTP/SSE request, ingestion, lifecycle or load workload."
+    },
+    "Complete-response latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate context replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "replay-results.json",
+      "reason": "No live retrieval, model inference, HTTP/SSE request, ingestion, lifecycle or load workload."
+    },
+    "Stage latency": {
+      "status": "measured",
+      "value": {
+        "before": {
+          "n": 6,
+          "mean": 0.008636472164653242,
+          "p50": 0.006891020457260311,
+          "p95": 0.015324531268561259,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "after": {
+          "n": 6,
+          "mean": 0.008893652993720025,
+          "p50": 0.007016645977273583,
+          "p95": 0.015847541741095483,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        }
+      },
+      "unit": "seconds",
+      "sample_count": 12,
+      "population": "Matched offline six-case replay",
+      "method": "perf_counter around SQL parent loading, PDF provenance attachment and packing; CPU only, tokenizer loaded before both arms. Excludes parsing, embedding, search, reranking, network and model/queue time; one observation per case/arm is not a speed benchmark.",
+      "aggregation": "n/mean/P50/P95",
+      "artifact": "replay-results.json"
+    },
+    "Token usage and cost": {
+      "status": "measured",
+      "value": {
+        "evidence_tokens": [
+          {
+            "case_id": "paper-split",
+            "before": 3616,
+            "after": 3616
+          },
+          {
+            "case_id": "paper-delivery",
+            "before": 3281,
+            "after": 3281
+          },
+          {
+            "case_id": "lecture-bag-words",
+            "before": 950,
+            "after": 1007
+          },
+          {
+            "case_id": "lecture-midterm-date",
+            "before": 602,
+            "after": 641
+          },
+          {
+            "case_id": "apple-securities",
+            "before": 4062,
+            "after": 4038
+          },
+          {
+            "case_id": "apple-cash-condition",
+            "before": 3359,
+            "after": 3346
+          }
+        ],
+        "provider_usage": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "No provider calls."
+        },
+        "billed_cost": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "No paid workload."
+        }
+      },
+      "unit": "cl100k_base context tokens",
+      "sample_count": 12,
+      "population": "Matched offline six-case replay",
+      "method": "Count the complete serialized evidence, including metadata and PDF table readings, under the unchanged 4096-token cap.",
+      "aggregation": "per case",
+      "artifact": "replay-results.json"
+    },
+    "Reliability": {
+      "status": "measured",
+      "value": {
+        "completed": 12,
+        "failed": 0,
+        "retries": 0,
+        "baseline_contexts_match": 6
+      },
+      "unit": "offline packing calls",
+      "sample_count": 12,
+      "population": "Matched offline six-case replay",
+      "method": "Successful replay, exact source/provenance, unchanged selections and budget assertions; not network reliability.",
+      "aggregation": "counts",
+      "artifact": "replay-results.json"
+    },
+    "Concurrency and throughput": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate context replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "replay-results.json",
+      "reason": "No live retrieval, model inference, HTTP/SSE request, ingestion, lifecycle or load workload."
+    },
+    "Ingestion and index": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "Offline fixed-candidate context replay",
+      "method": "Not exercised",
+      "aggregation": "none",
+      "artifact": "replay-results.json",
+      "reason": "No live retrieval, model inference, HTTP/SSE request, ingestion, lifecycle or load workload."
+    }
+  }
+}

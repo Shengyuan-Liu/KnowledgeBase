@@ -1,0 +1,1434 @@
+{
+  "at": "2026-10-01T14:47:27.709939+00:00",
+  "code_commit": "46d593187b40d97f0bbf926a1f34e3ae847c4888",
+  "metric_inventory": {
+    "Recall@K": {
+      "status": "measured",
+      "value": 0.65,
+      "unit": "ratio",
+      "sample_count": 5,
+      "population": "Five answerable cases; final-round selected children",
+      "method": "K=5; frozen full-anchor binary child labels, all allowed-file children enumerated. Non-exhaustive semantic relevance. Same child contents/IDs and labels as baseline. Per-query vector/BM25/fusion/rerank scores retained separately.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Unweighted case macro mean; no-gold case excluded"
+    },
+    "Precision@K": {
+      "status": "measured",
+      "value": 0.2,
+      "unit": "ratio",
+      "sample_count": 5,
+      "population": "Five answerable cases; final-round selected children",
+      "method": "K=5; frozen full-anchor binary child labels, all allowed-file children enumerated. Non-exhaustive semantic relevance. Same child contents/IDs and labels as baseline. Per-query vector/BM25/fusion/rerank scores retained separately.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Unweighted case macro mean; no-gold case excluded"
+    },
+    "Hit Rate@K": {
+      "status": "measured",
+      "value": 1,
+      "unit": "ratio",
+      "sample_count": 5,
+      "population": "Five answerable cases; final-round selected children",
+      "method": "K=5; frozen full-anchor binary child labels, all allowed-file children enumerated. Non-exhaustive semantic relevance. Same child contents/IDs and labels as baseline. Per-query vector/BM25/fusion/rerank scores retained separately.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Unweighted case macro mean; no-gold case excluded"
+    },
+    "MRR": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "ratio",
+      "sample_count": 5,
+      "population": "Five answerable cases; final-round selected children",
+      "method": "K=5; frozen full-anchor binary child labels, all allowed-file children enumerated. Non-exhaustive semantic relevance. Same child contents/IDs and labels as baseline. Per-query vector/BM25/fusion/rerank scores retained separately.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Unweighted case macro mean; no-gold case excluded"
+    },
+    "NDCG@K": {
+      "status": "measured",
+      "value": 0.7233348871046037,
+      "unit": "ratio",
+      "sample_count": 5,
+      "population": "Five answerable cases; final-round selected children",
+      "method": "K=5; frozen full-anchor binary child labels, all allowed-file children enumerated. Non-exhaustive semantic relevance. Same child contents/IDs and labels as baseline. Per-query vector/BM25/fusion/rerank scores retained separately.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Unweighted case macro mean; no-gold case excluded"
+    },
+    "Final evidence coverage": {
+      "status": "measured",
+      "value": {
+        "covered": 16,
+        "expected": 16
+      },
+      "unit": "source-fact groups",
+      "sample_count": 16,
+      "population": "Frozen expected source anchors",
+      "method": "All anchors occur in actual supplied source text/ranges. Separate from semantic answer review.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Micro covered/expected; per-case values retained"
+    },
+    "Answer correctness": {
+      "status": "measured",
+      "value": {
+        "correct": 16,
+        "expected": 16
+      },
+      "unit": "review units",
+      "sample_count": 16,
+      "population": "Expected facts or emitted factual claims as named in value",
+      "method": "Codex model review using unchanged rubric, not human ground truth. Every point/claim compared to exact context and original pages. Claim-free refusal has no citation denominator.",
+      "artifact": "review.json",
+      "aggregation": "Micro counts; binary relevance per response"
+    },
+    "Answer completeness": {
+      "status": "measured",
+      "value": {
+        "addressed": 16,
+        "expected": 16
+      },
+      "unit": "review units",
+      "sample_count": 16,
+      "population": "Expected facts or emitted factual claims as named in value",
+      "method": "Codex model review using unchanged rubric, not human ground truth. Every point/claim compared to exact context and original pages. Claim-free refusal has no citation denominator.",
+      "artifact": "review.json",
+      "aggregation": "Micro counts; binary relevance per response"
+    },
+    "Faithfulness": {
+      "status": "measured",
+      "value": {
+        "supported": 19,
+        "claims": 19
+      },
+      "unit": "review units",
+      "sample_count": 19,
+      "population": "Expected facts or emitted factual claims as named in value",
+      "method": "Codex model review using unchanged rubric, not human ground truth. Every point/claim compared to exact context and original pages. Claim-free refusal has no citation denominator.",
+      "artifact": "review.json",
+      "aggregation": "Micro counts; binary relevance per response"
+    },
+    "Answer relevance": {
+      "status": "measured",
+      "value": {
+        "relevant": 6,
+        "total": 6
+      },
+      "unit": "review units",
+      "sample_count": 6,
+      "population": "Expected facts or emitted factual claims as named in value",
+      "method": "Codex model review using unchanged rubric, not human ground truth. Every point/claim compared to exact context and original pages. Claim-free refusal has no citation denominator.",
+      "artifact": "review.json",
+      "aggregation": "Micro counts; binary relevance per response"
+    },
+    "Citation support": {
+      "status": "measured",
+      "value": {
+        "supported": 19,
+        "cited_claims": 19
+      },
+      "unit": "review units",
+      "sample_count": 19,
+      "population": "Expected facts or emitted factual claims as named in value",
+      "method": "Codex model review using unchanged rubric, not human ground truth. Every point/claim compared to exact context and original pages. Claim-free refusal has no citation denominator.",
+      "artifact": "review.json",
+      "aggregation": "Micro counts; binary relevance per response"
+    },
+    "Citation coverage": {
+      "status": "measured",
+      "value": {
+        "supported_citations": 19,
+        "citation_required_claims": 19
+      },
+      "unit": "review units",
+      "sample_count": 19,
+      "population": "Expected facts or emitted factual claims as named in value",
+      "method": "Codex model review using unchanged rubric, not human ground truth. Every point/claim compared to exact context and original pages. Claim-free refusal has no citation denominator.",
+      "artifact": "review.json",
+      "aggregation": "Micro counts; binary relevance per response"
+    },
+    "Abstention": {
+      "status": "measured",
+      "value": {
+        "appropriate_unanswerable": 1,
+        "unanswerable": 1,
+        "incorrect_any_or_partial": 0,
+        "answerable": 5,
+        "incorrect_full": 0
+      },
+      "unit": "requests",
+      "sample_count": 6,
+      "population": "One unanswerable and five answerable questions",
+      "method": "Appropriate refusal and incorrect partial/full refusal have separate denominators.",
+      "artifact": "review.json",
+      "aggregation": "Separate numerator/denominator counts"
+    },
+    "First-answer-delta latency": {
+      "status": "measured",
+      "value": {
+        "n": 6,
+        "mean": 13.621363215148449,
+        "p50": 13.93925512500573,
+        "p95": 18.73789240620681,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "unit": "seconds",
+      "sample_count": 6,
+      "population": "Sequential HTTP/SSE requests, including local refusal",
+      "method": "Client start to first nonempty answer delta / HTTP stream end. Network/queue included; startup excluded; no warmup.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Count/mean/P50/P95, linear interpolation"
+    },
+    "Complete-response latency": {
+      "status": "measured",
+      "value": {
+        "n": 6,
+        "mean": 14.811444791499525,
+        "p50": 15.16180995805189,
+        "p95": 20.09075973974541,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "unit": "seconds",
+      "sample_count": 6,
+      "population": "Sequential HTTP/SSE requests, including local refusal",
+      "method": "Client start to first nonempty answer delta / HTTP stream end. Network/queue included; startup excluded; no warmup.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Count/mean/P50/P95, linear interpolation"
+    },
+    "Stage latency": {
+      "status": "measured",
+      "value": {
+        "distributions": {
+          "provider_retrieval_plan": {
+            "n": 6,
+            "mean": 3.5102083613552773,
+            "p50": 3.640497437561862,
+            "p95": 5.439017073309515,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "provider_query_embedding": {
+            "n": 20,
+            "mean": 0.330912231199909,
+            "p50": 0.21997299999929965,
+            "p95": 0.851321679155808,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "provider_evidence_assessment": {
+            "n": 8,
+            "mean": 2.6235283960122615,
+            "p50": 2.5317610834608786,
+            "p95": 4.618141687416936,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "provider_generation": {
+            "n": 5,
+            "mean": 2.212988358619623,
+            "p50": 2.08178750006482,
+            "p95": 2.7846678250003607,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "retrieval_per_query": {
+            "n": 20,
+            "mean": 1.7493805728910956,
+            "p50": 1.5066314374562353,
+            "p95": 3.469918345817132,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "query_scope_seconds": {
+            "n": 20,
+            "mean": 0.0018127918476238847,
+            "p50": 0.0015632084687240422,
+            "p95": 0.003240314265713096,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "query_embedding_seconds": {
+            "n": 20,
+            "mean": 0.3314126585086342,
+            "p50": 0.2205920210108161,
+            "p95": 0.8519485764845741,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "query_rerank_seconds": {
+            "n": 20,
+            "mean": 1.3991548436752055,
+            "p50": 1.3176215210114606,
+            "p95": 2.5100945249141664,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "retrieval_round": {
+            "n": 10,
+            "mean": 3.524909629090689,
+            "p50": 1.3412617290741764,
+            "p95": 9.853942451725011,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "cross_query_merge": {
+            "n": 10,
+            "mean": 0.0003071125014685094,
+            "p50": 0.0002629790105856955,
+            "p95": 0.0005659643735270946,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "packing_round": {
+            "n": 10,
+            "mean": 0.002774866716936231,
+            "p50": 0.001086083531845361,
+            "p95": 0.008720306388568131,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "startup_seconds": 7.846669082995504,
+        "unavailable": {
+          "search_fusion": "No separate vector/BM25/fusion timers.",
+          "provider_queue": "Included in provider timing but not separately exposed."
+        }
+      },
+      "unit": "seconds",
+      "sample_count": null,
+      "population": "Observed SDK calls and production retrieval/repacking stages",
+      "method": "perf_counter observers and product timers. Retrieval rounds may repack without new queries; overlapping timers are not additive. Reranker on recorded MPS device, other local retrieval on CPU.",
+      "artifact": "diagnostics.json; resolved-runtime.json",
+      "aggregation": "Count/mean/P50/P95 by stage; startup separate"
+    },
+    "Token usage and cost": {
+      "status": "measured",
+      "value": {
+        "by_role": {
+          "retrieval_plan": {
+            "input_tokens": 10618,
+            "output_tokens": 1855,
+            "total_tokens": 12473,
+            "cached_input_tokens": 0,
+            "calls": 6
+          },
+          "query_embedding": {
+            "input_tokens": 480,
+            "output_tokens": null,
+            "total_tokens": 480,
+            "cached_input_tokens": null,
+            "calls": 20,
+            "cached_input_status": "unavailable: provider embedding usage does not expose cached counts",
+            "output_status": "not_applicable: embeddings return vectors"
+          },
+          "evidence_assessment": {
+            "input_tokens": 29808,
+            "output_tokens": 1180,
+            "total_tokens": 30988,
+            "cached_input_tokens": 0,
+            "calls": 8
+          },
+          "generation": {
+            "input_tokens": 24057,
+            "output_tokens": 458,
+            "total_tokens": 24515,
+            "cached_input_tokens": 0,
+            "calls": 5
+          }
+        },
+        "resolved_models": [
+          "gpt-4.1-2025-04-14",
+          "text-embedding-3-small"
+        ],
+        "evidence_tokens": {
+          "paper-split": 3616,
+          "paper-delivery": 3281,
+          "lecture-bag-words": 955,
+          "lecture-midterm-date": 636,
+          "apple-securities": 4038,
+          "apple-cash-condition": 2986
+        },
+        "billed_cost": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "SDK reports tokens, not billed currency; no billing API used."
+        },
+        "local_compute": {
+          "retrieval": "CPU",
+          "reranker": {
+            "model": "BAAI/bge-reranker-v2-m3",
+            "revision": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+            "device": "mps"
+          },
+          "parsing": "not exercised"
+        }
+      },
+      "unit": "tokens; currency unavailable",
+      "sample_count": 39,
+      "population": "All provider calls in six answer requests; no ingestion or paid judge",
+      "method": "Actual SDK usage; missing embedding cache counts unavailable, embedding output counts not applicable. Local compute is separate from provider usage.",
+      "artifact": "server-observations.jsonl; diagnostics.json; resolved-runtime.json",
+      "aggregation": "Sum by role; evidence context tokens per case"
+    },
+    "Reliability": {
+      "status": "measured",
+      "value": {
+        "http_requests": 6,
+        "outcomes": {
+          "completed": 6
+        },
+        "sdk_calls": 39,
+        "sdk_terminals": 39,
+        "sdk_errors": 0,
+        "sdk_timeouts": 0,
+        "retries": 0,
+        "semantic_gate": {
+          "passed": 6,
+          "total": 6
+        }
+      },
+      "unit": "counts and rates",
+      "sample_count": 6,
+      "population": "User requests and SDK attempts separately",
+      "method": "Transport completion is separate from semantic acceptance. Preserve all failures; no retries.",
+      "artifact": "diagnostics.json; review.json",
+      "aggregation": "Counts with explicit denominators"
+    },
+    "Concurrency and throughput": {
+      "status": "measured",
+      "value": {
+        "concurrency": 1,
+        "wall_interval_seconds": 89.00928068161011,
+        "completed_requests_per_second": 0.06740870113828072
+      },
+      "unit": "requests/second",
+      "sample_count": 6,
+      "population": "First answer request through final HTTP completion",
+      "method": "Includes intervening history reads; sequential workload is not a load/capacity test.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Completed requests / measured wall interval"
+    },
+    "Ingestion and index": {
+      "status": "measured",
+      "value": {
+        "storage_bytes_before": 58396481,
+        "storage_bytes_at_start": 58396481,
+        "storage_bytes_after_answers": 63532865,
+        "ready_corpus_files": 5,
+        "ready_corpus_pages": 98,
+        "queried_files": 3,
+        "queried_pages": 88,
+        "upload": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Byte-identical frozen index copy; no upload, parsing or document embedding."
+        },
+        "rebuild": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "Parents and child links copied unchanged."
+        },
+        "delete": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "No deletion operation."
+        },
+        "public_update": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "No public update operation."
+        },
+        "original_access": [
+          {
+            "file": "doclaynet.pdf",
+            "file_id": "70e2b07fea7043d1a9d76a3dc4034ebd",
+            "revision": "52fbf9ed97b86f90c611f6a84d2665d2d50ef2990da1645fb665a8b94fc7ccac",
+            "http_status": 200,
+            "sha256": "5dfbd8c115a15fd3396b68409124cfee29fc8efac7b5c846634ff924e635e0dc",
+            "matches": true,
+            "byte_range_matches": true,
+            "wrong_revision_status": 409
+          },
+          {
+            "file": "ml-lecture.pdf",
+            "file_id": "e38c730b3b714c5a8913e530695fd03b",
+            "revision": "24c54850e737852d0c1cf0ff4ad50b20e2ddbfa9a6f7ae0b94b5bb5a3cd2f006",
+            "http_status": 200,
+            "sha256": "eefe52854eed1e2a0be969daed838d33e1751107a2f60ace2d1b6b8189424216",
+            "matches": true,
+            "byte_range_matches": true,
+            "wrong_revision_status": 409
+          },
+          {
+            "file": "apple-fy24.pdf",
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "revision": "3b46bc678ac3635ad4d77cec4e8d98a5d528fcdbd94a3d9e3aac8a3600726b36",
+            "http_status": 200,
+            "sha256": "af9646018330484238d357f1168ae74194fd768f4ea9921e4b2828c88309320c",
+            "matches": true,
+            "byte_range_matches": true,
+            "wrong_revision_status": 409
+          }
+        ],
+        "baseline_unchanged": true
+      },
+      "unit": "bytes; counts",
+      "sample_count": 5,
+      "population": "Five-PDF isolated index; three queried originals",
+      "method": "Total storage includes PDFs, vectors, metadata and historical/new answers; not vector-only size or ingestion latency. Indexed tables and baseline are unchanged.",
+      "artifact": "index-reuse.json; original-access.json; server-stop.json",
+      "aggregation": "Storage counts; no ingestion duration"
+    }
+  },
+  "comparison": {
+    "before_review": {
+      "case_gate": {
+        "passed": 5,
+        "total": 6
+      },
+      "correctness": {
+        "correct": 16,
+        "expected": 16
+      },
+      "completeness": {
+        "addressed": 16,
+        "expected": 16
+      },
+      "faithfulness": {
+        "supported": 19,
+        "claims": 19
+      },
+      "relevance": {
+        "relevant": 6,
+        "total": 6
+      },
+      "citation_support": {
+        "supported": 18,
+        "cited_claims": 18
+      },
+      "citation_coverage": {
+        "supported_citations": 18,
+        "citation_required_claims": 19
+      },
+      "abstention": {
+        "appropriate_unanswerable": 1,
+        "unanswerable": 1,
+        "incorrect_any_or_partial": 0,
+        "answerable": 5,
+        "incorrect_full": 0
+      },
+      "history_matches": 6
+    },
+    "after_review": {
+      "case_gate": {
+        "passed": 6,
+        "total": 6
+      },
+      "correctness": {
+        "correct": 16,
+        "expected": 16
+      },
+      "completeness": {
+        "addressed": 16,
+        "expected": 16
+      },
+      "faithfulness": {
+        "supported": 19,
+        "claims": 19
+      },
+      "relevance": {
+        "relevant": 6,
+        "total": 6
+      },
+      "citation_support": {
+        "supported": 19,
+        "cited_claims": 19
+      },
+      "citation_coverage": {
+        "supported_citations": 19,
+        "citation_required_claims": 19
+      },
+      "abstention": {
+        "appropriate_unanswerable": 1,
+        "unanswerable": 1,
+        "incorrect_any_or_partial": 0,
+        "answerable": 5,
+        "incorrect_full": 0
+      },
+      "history_matches": 6
+    },
+    "pairs": [
+      {
+        "case_id": "paper-split",
+        "before_passed": true,
+        "after_passed": true,
+        "improved_points": [],
+        "regressed_points": [],
+        "before_evidence": [
+          {
+            "fact_id": "split_boundary",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "only split on full-document boundaries",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "split_reason",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "pages of the same document are spread over train, test and validation set",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              },
+              {
+                "anchor": "overestimation of their prediction accuracy",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          }
+        ],
+        "after_evidence": [
+          {
+            "fact_id": "split_boundary",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "only split on full-document boundaries",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "split_reason",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "pages of the same document are spread over train, test and validation set",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              },
+              {
+                "anchor": "overestimation of their prediction accuracy",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          }
+        ],
+        "before_first_delta": 11.930063292034902,
+        "after_first_delta": 15.518662999966182,
+        "before_completion": 12.911230084020644,
+        "after_completion": 17.42820408300031,
+        "before_assessment_round": 1,
+        "after_assessment_round": 1,
+        "before_evidence_tokens": 3616,
+        "after_evidence_tokens": 3616
+      },
+      {
+        "case_id": "paper-delivery",
+        "before_passed": true,
+        "after_passed": true,
+        "improved_points": [],
+        "regressed_points": [],
+        "before_evidence": [
+          {
+            "fact_id": "page_images",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "PNG",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              },
+              {
+                "anchor": "1025\u00d71025 pixels",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "original_pages",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "provide the original PDF pages",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "sidecars",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "sidecar files containing parsed PDF text and text-cell coordinates (in JSON)",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          }
+        ],
+        "after_evidence": [
+          {
+            "fact_id": "page_images",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "PNG",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              },
+              {
+                "anchor": "1025\u00d71025 pixels",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "original_pages",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "provide the original PDF pages",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "sidecars",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "sidecar files containing parsed PDF text and text-cell coordinates (in JSON)",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          }
+        ],
+        "before_first_delta": 14.230553624918684,
+        "after_first_delta": 19.810968874953687,
+        "before_completion": 14.691111791995354,
+        "after_completion": 20.978278291993774,
+        "before_assessment_round": 1,
+        "after_assessment_round": 1,
+        "before_evidence_tokens": 3281,
+        "after_evidence_tokens": 3281
+      },
+      {
+        "case_id": "lecture-bag-words",
+        "before_passed": true,
+        "after_passed": true,
+        "improved_points": [],
+        "regressed_points": [],
+        "before_evidence": [
+          {
+            "fact_id": "word_order",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "order of words on the page ignored",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "topic_documents",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "Count how many documents you have from each topic (+ prior)",
+                "source_ids": [
+                  4
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "topic_words",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "For each topic, count how many times you saw word in documents of this topic (+ prior)",
+                "source_ids": [
+                  4
+                ],
+                "covered": true
+              }
+            ]
+          }
+        ],
+        "after_evidence": [
+          {
+            "fact_id": "word_order",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "order of words on the page ignored",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "topic_documents",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "Count how many documents you have from each topic (+ prior)",
+                "source_ids": [
+                  4
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "topic_words",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "For each topic, count how many times you saw word in documents of this topic (+ prior)",
+                "source_ids": [
+                  4
+                ],
+                "covered": true
+              }
+            ]
+          }
+        ],
+        "before_first_delta": 7.412505083018914,
+        "after_first_delta": 9.045652083004825,
+        "before_completion": 8.924286791007034,
+        "after_completion": 10.647253999952227,
+        "before_assessment_round": 1,
+        "after_assessment_round": 1,
+        "before_evidence_tokens": 955,
+        "after_evidence_tokens": 955
+      },
+      {
+        "case_id": "lecture-midterm-date",
+        "before_passed": true,
+        "after_passed": true,
+        "improved_points": [],
+        "regressed_points": [],
+        "before_evidence": [],
+        "after_evidence": [],
+        "before_first_delta": 13.000717916991562,
+        "after_first_delta": 9.47438508295454,
+        "before_completion": 13.015986375045031,
+        "after_completion": 9.49131245794706,
+        "before_assessment_round": 3,
+        "after_assessment_round": 3,
+        "before_evidence_tokens": 636,
+        "after_evidence_tokens": 636
+      },
+      {
+        "case_id": "apple-securities",
+        "before_passed": true,
+        "after_passed": true,
+        "improved_points": [],
+        "regressed_points": [],
+        "before_evidence": [
+          {
+            "fact_id": "current_securities",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "35,228",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "noncurrent_securities",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "91,479",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "balance_units",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "In millions",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          }
+        ],
+        "after_evidence": [
+          {
+            "fact_id": "current_securities",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "35,228",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "noncurrent_securities",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "91,479",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "balance_units",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "In millions",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          }
+        ],
+        "before_first_delta": 8.179905209108256,
+        "after_first_delta": 13.650859749992378,
+        "before_completion": 8.596231250092387,
+        "after_completion": 14.939708958030678,
+        "before_assessment_round": 1,
+        "after_assessment_round": 1,
+        "before_evidence_tokens": 4038,
+        "after_evidence_tokens": 4038
+      },
+      {
+        "case_id": "apple-cash-condition",
+        "before_passed": false,
+        "after_passed": true,
+        "improved_points": [],
+        "regressed_points": [],
+        "before_evidence": [
+          {
+            "fact_id": "cash_2024",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "118,254",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "cash_2023",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "110,543",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "cash_condition",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "118,254",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              },
+              {
+                "anchor": "110,543",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "financing_2024",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "(121,983)",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "cash_units",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "In millions",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          }
+        ],
+        "after_evidence": [
+          {
+            "fact_id": "cash_2024",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "118,254",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "cash_2023",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "110,543",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "cash_condition",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "118,254",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              },
+              {
+                "anchor": "110,543",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "financing_2024",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "(121,983)",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          },
+          {
+            "fact_id": "cash_units",
+            "covered": true,
+            "anchors": [
+              {
+                "anchor": "In millions",
+                "source_ids": [
+                  1
+                ],
+                "covered": true
+              }
+            ]
+          }
+        ],
+        "before_first_delta": 13.224673708085902,
+        "after_first_delta": 14.227650500019081,
+        "before_completion": 13.879579708096571,
+        "after_completion": 15.383910958073102,
+        "before_assessment_round": 1,
+        "after_assessment_round": 1,
+        "before_evidence_tokens": 3346,
+        "after_evidence_tokens": 2986
+      }
+    ],
+    "before_retrieval": {
+      "Recall@K": 0.65,
+      "Precision@K": 0.2,
+      "Hit Rate@K": 1,
+      "MRR": 1.0,
+      "NDCG@K": 0.7233348871046037,
+      "fact_anchor_recall": 0.76
+    },
+    "after_retrieval": {
+      "Recall@K": 0.65,
+      "Precision@K": 0.2,
+      "Hit Rate@K": 1,
+      "MRR": 1.0,
+      "NDCG@K": 0.7233348871046037,
+      "fact_anchor_recall": 0.76
+    },
+    "before_latency": {
+      "first_answer_delta": {
+        "n": 6,
+        "mean": 11.329736472359704,
+        "p50": 12.465390604513232,
+        "p95": 13.979083645710489,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "complete_response": {
+        "n": 6,
+        "mean": 12.003071000042837,
+        "p50": 12.963608229532838,
+        "p95": 14.488228771020658,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "stages": {
+        "provider_retrieval_plan": {
+          "n": 6,
+          "mean": 2.9069220970074334,
+          "p50": 2.878904145443812,
+          "p95": 3.726320124726044,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "provider_query_embedding": {
+          "n": 21,
+          "mean": 0.3043165258187357,
+          "p50": 0.22207495803013444,
+          "p95": 0.677996791084297,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "provider_evidence_assessment": {
+          "n": 8,
+          "mean": 1.8908246563951252,
+          "p50": 1.8264851665007882,
+          "p95": 2.593662437587045,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "provider_generation": {
+          "n": 5,
+          "mean": 1.3681175246136263,
+          "p50": 1.191294249962084,
+          "p95": 1.9643440996296704,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "retrieval_per_query": {
+          "n": 21,
+          "mean": 1.528827744037179,
+          "p50": 1.3812657919479534,
+          "p95": 2.7846435410901904,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "query_scope_seconds": {
+          "n": 21,
+          "mean": 0.0017236290898706233,
+          "p50": 0.0014190409565344453,
+          "p95": 0.003051042091101408,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "query_embedding_seconds": {
+          "n": 21,
+          "mean": 0.3047754741329256,
+          "p50": 0.22266283293720335,
+          "p95": 0.6786995839793235,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "query_rerank_seconds": {
+          "n": 21,
+          "mean": 1.199268067566057,
+          "p50": 1.1841465419856831,
+          "p95": 2.1167538329027593,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "retrieval_round": {
+          "n": 10,
+          "mean": 3.225274058512878,
+          "p50": 1.7433289375039749,
+          "p95": 8.757202989538197,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "cross_query_merge": {
+          "n": 10,
+          "mean": 0.0003105666022747755,
+          "p50": 0.0002572084777057171,
+          "p95": 0.0005227040383033454,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "packing_round": {
+          "n": 10,
+          "mean": 0.002574025001376867,
+          "p50": 0.0010332915699109435,
+          "p95": 0.0076873109035659574,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        }
+      }
+    },
+    "after_latency": {
+      "first_answer_delta": {
+        "n": 6,
+        "mean": 13.621363215148449,
+        "p50": 13.93925512500573,
+        "p95": 18.73789240620681,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "complete_response": {
+        "n": 6,
+        "mean": 14.811444791499525,
+        "p50": 15.16180995805189,
+        "p95": 20.09075973974541,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "stages": {
+        "provider_retrieval_plan": {
+          "n": 6,
+          "mean": 3.5102083613552773,
+          "p50": 3.640497437561862,
+          "p95": 5.439017073309515,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "provider_query_embedding": {
+          "n": 20,
+          "mean": 0.330912231199909,
+          "p50": 0.21997299999929965,
+          "p95": 0.851321679155808,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "provider_evidence_assessment": {
+          "n": 8,
+          "mean": 2.6235283960122615,
+          "p50": 2.5317610834608786,
+          "p95": 4.618141687416936,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "provider_generation": {
+          "n": 5,
+          "mean": 2.212988358619623,
+          "p50": 2.08178750006482,
+          "p95": 2.7846678250003607,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "retrieval_per_query": {
+          "n": 20,
+          "mean": 1.7493805728910956,
+          "p50": 1.5066314374562353,
+          "p95": 3.469918345817132,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "query_scope_seconds": {
+          "n": 20,
+          "mean": 0.0018127918476238847,
+          "p50": 0.0015632084687240422,
+          "p95": 0.003240314265713096,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "query_embedding_seconds": {
+          "n": 20,
+          "mean": 0.3314126585086342,
+          "p50": 0.2205920210108161,
+          "p95": 0.8519485764845741,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "query_rerank_seconds": {
+          "n": 20,
+          "mean": 1.3991548436752055,
+          "p50": 1.3176215210114606,
+          "p95": 2.5100945249141664,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "retrieval_round": {
+          "n": 10,
+          "mean": 3.524909629090689,
+          "p50": 1.3412617290741764,
+          "p95": 9.853942451725011,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "cross_query_merge": {
+          "n": 10,
+          "mean": 0.0003071125014685094,
+          "p50": 0.0002629790105856955,
+          "p95": 0.0005659643735270946,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "packing_round": {
+          "n": 10,
+          "mean": 0.002774866716936231,
+          "p50": 0.001086083531845361,
+          "p95": 0.008720306388568131,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        }
+      }
+    },
+    "before_answer_only_usage": {
+      "retrieval_plan": {
+        "input_tokens": 10618,
+        "output_tokens": 1804,
+        "total_tokens": 12422,
+        "cached_input_tokens": 0,
+        "calls": 6
+      },
+      "query_embedding": {
+        "input_tokens": 522,
+        "output_tokens": null,
+        "total_tokens": 522,
+        "cached_input_tokens": null,
+        "calls": 21,
+        "cached_input_status": "unavailable: provider embedding usage does not expose cached counts",
+        "output_status": "not_applicable: embeddings return vectors"
+      },
+      "evidence_assessment": {
+        "input_tokens": 29332,
+        "output_tokens": 1279,
+        "total_tokens": 30611,
+        "cached_input_tokens": 1792,
+        "calls": 8
+      },
+      "generation": {
+        "input_tokens": 23870,
+        "output_tokens": 432,
+        "total_tokens": 24302,
+        "cached_input_tokens": 0,
+        "calls": 5
+      }
+    },
+    "after_answer_only_usage": {
+      "retrieval_plan": {
+        "input_tokens": 10618,
+        "output_tokens": 1855,
+        "total_tokens": 12473,
+        "cached_input_tokens": 0,
+        "calls": 6
+      },
+      "query_embedding": {
+        "input_tokens": 480,
+        "output_tokens": null,
+        "total_tokens": 480,
+        "cached_input_tokens": null,
+        "calls": 20,
+        "cached_input_status": "unavailable: provider embedding usage does not expose cached counts",
+        "output_status": "not_applicable: embeddings return vectors"
+      },
+      "evidence_assessment": {
+        "input_tokens": 29808,
+        "output_tokens": 1180,
+        "total_tokens": 30988,
+        "cached_input_tokens": 0,
+        "calls": 8
+      },
+      "generation": {
+        "input_tokens": 24057,
+        "output_tokens": 458,
+        "total_tokens": 24515,
+        "cached_input_tokens": 0,
+        "calls": 5
+      }
+    }
+  },
+  "limitations": [
+    "Same familiar development corpus/questions; Codex model review, no independent human or held-out benchmark.",
+    "One live sample per case per arm. Stochastic planning, cached provider tokens and network timings limit causal speed/quality claims.",
+    "Frozen index copied without reindexing; no live ingestion/update/delete regression claim.",
+    "Incomplete retrieval labels; no unknown-entity dependent-hop, browser, OCR, chart or formula acceptance.",
+    "Provider billed cost and isolated search/fusion/queue times unavailable."
+  ]
+}

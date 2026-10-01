@@ -1,0 +1,33 @@
+Traceback (most recent call last):
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/evals/check-runs/20260927-pdf-evidence-packing/replay.py", line 90, in <module>
+    freeze() if sys.argv[1]=='freeze' else replay(sys.argv[1])
+                                           ~~~~~~^^^^^^^^^^^^^
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/evals/check-runs/20260927-pdf-evidence-packing/replay.py", line 60, in replay
+    selected=[RetrievedChunk.model_validate({**c,'chunk':StructuredChunk.model_validate(c['chunk'])}) for c in row['selected']]
+                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/pydantic/main.py", line 732, in model_validate
+    return cls.__pydantic_validator__.validate_python(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        obj,
+        ^^^^
+    ...<5 lines>...
+        by_name=by_name,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+pydantic_core._pydantic_core.ValidationError: 5 validation errors for StructuredChunk
+heading_path
+  Field required [type=missing, input_value={'chunk_id': '70e2b07fea7...053, 'end_offset': 2657}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+source_block_indices
+  Field required [type=missing, input_value={'chunk_id': '70e2b07fea7...053, 'end_offset': 2657}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+token_count
+  Field required [type=missing, input_value={'chunk_id': '70e2b07fea7...053, 'end_offset': 2657}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+tokenizer
+  Field required [type=missing, input_value={'chunk_id': '70e2b07fea7...053, 'end_offset': 2657}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+max_tokens
+  Field required [type=missing, input_value={'chunk_id': '70e2b07fea7...053, 'end_offset': 2657}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing

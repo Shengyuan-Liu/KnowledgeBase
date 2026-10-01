@@ -1,0 +1,74 @@
+{
+  "reviewer": "Codex (model)",
+  "eligible_chains": 1,
+  "executed_dependent_chains": 0,
+  "status": "not_exercised",
+  "gate_passed": false,
+  "reason": "Planner generated two independent queries and no dependencies; both execute in round 1. No binding or target-derived downstream round occurred.",
+  "answer_quality_passed": true,
+  "round_count": 1,
+  "planned_dependencies": [],
+  "bindings": [],
+  "executed_queries": [
+    {
+      "round_index": 1,
+      "text": "In the supplied papers, which retriever provides the pretrained bi-encoder used to initialize RAG, and what is reported about this initialization relationship?",
+      "requested_file_ids": [
+        "3664f78cd7ea4cb3b0c46eaa03bdbc60",
+        "18eaa5a313824309a081713d13a55e2d"
+      ]
+    },
+    {
+      "round_index": 1,
+      "text": "In the supplied papers, what combination of negative passages is used during training by the best model of the retriever that supplies the pretrained bi-encoder used to initialize RAG?",
+      "requested_file_ids": [
+        "3664f78cd7ea4cb3b0c46eaa03bdbc60",
+        "18eaa5a313824309a081713d13a55e2d"
+      ]
+    }
+  ],
+  "restricted_scope": {
+    "error_type": "ValueError",
+    "message": "Question reformulations cannot contain an unbound target.",
+    "proposal": {
+      "requirement_ids": [
+        "r2"
+      ],
+      "query_template": "In the DPR paper referenced as [26], what combination of negative passages does the best model use during training?",
+      "target": "",
+      "references": [
+        {
+          "evidence_id": "p2"
+        },
+        {
+          "evidence_id": "p27"
+        }
+      ]
+    },
+    "supported_bridge_decision": {
+      "requirement_id": "r1",
+      "status": "supported",
+      "gap": "",
+      "references": [
+        {
+          "evidence_id": "p2"
+        },
+        {
+          "evidence_id": "p27"
+        }
+      ]
+    },
+    "gap_decision": {
+      "requirement_id": "r2",
+      "status": "missing",
+      "gap": "No supplied passage describes what combination of negative passages is used during training by DPR's best model. No explicit negative passage training details for the retriever used to initialize RAG are present.",
+      "references": []
+    },
+    "allowed_file_ids": [
+      "18eaa5a313824309a081713d13a55e2d"
+    ],
+    "scope_preserved": true,
+    "limitation": "Exact retained output reproduces local validator error; live API exposed a generic processing failure, not a saved exception stack."
+  },
+  "material_status": "Development material from first result inspection onward; no tuning or answer replay performed in this run."
+}

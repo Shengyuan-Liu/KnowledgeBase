@@ -1,0 +1,376 @@
+.........FFFFFFFFFF..FF                                                  [100%]
+=================================== FAILURES ===================================
+_ test_explicit_source_clause[In "background-checks.pdf" for November 2015, report the Totals.-expected9] _
+
+question = 'In "background-checks.pdf" for November 2015, report the Totals.'
+expected = ['background-checks.pdf']
+
+    @pytest.mark.parametrize('question,expected', [
+        ('According to the saved general FAQ, how are applicants considered?', ['general FAQ']),
+        ('In the saved DeepSeek Anthropic guide, do the headers differ?', ['DeepSeek Anthropic guide']),
+        ('According to the general FAQ and the admissions FAQ, compare scholarships.', ['general FAQ','admissions FAQ']),
+        ('Compare "Research and Teaching: FAQ" and `general-faq.txt`: what differs?', ['Research and Teaching: FAQ','general-faq.txt']),
+        ('In fall 2026, how many credits?', []),
+        ('What is a general FAQ?', []),
+        ('How are scholarships awarded?', []),
+        ('Using only "docling-report.pdf", name the dataset.', ['docling-report.pdf']),
+        ('Using "only course.pdf", name the instructor.', ['only course.pdf']),
+        ('In "background-checks.pdf" for November 2015, report the Totals.', ['background-checks.pdf']),
+        ('In the uploaded `background-checks.pdf` for November 2015, report the Totals.', ['background-checks.pdf']),
+        ('Compare "first.pdf" and "second.pdf" for November 2015, report the Totals.', ['first.pdf', 'second.pdf']),
+    ])
+    def test_explicit_source_clause(question,expected):
+>       assert document_references(question)==expected
+E       assert ['background-...ovember 2015'] == ['background-checks.pdf']
+E         
+E         At index 0 diff: 'background-checks.pdf" for November 2015' != 'background-checks.pdf'
+E         Use -v to get more diff
+
+tests/test_document_scope.py:27: AssertionError
+_ test_explicit_source_clause[In the uploaded `background-checks.pdf` for November 2015, report the Totals.-expected10] _
+
+question = 'In the uploaded `background-checks.pdf` for November 2015, report the Totals.'
+expected = ['background-checks.pdf']
+
+    @pytest.mark.parametrize('question,expected', [
+        ('According to the saved general FAQ, how are applicants considered?', ['general FAQ']),
+        ('In the saved DeepSeek Anthropic guide, do the headers differ?', ['DeepSeek Anthropic guide']),
+        ('According to the general FAQ and the admissions FAQ, compare scholarships.', ['general FAQ','admissions FAQ']),
+        ('Compare "Research and Teaching: FAQ" and `general-faq.txt`: what differs?', ['Research and Teaching: FAQ','general-faq.txt']),
+        ('In fall 2026, how many credits?', []),
+        ('What is a general FAQ?', []),
+        ('How are scholarships awarded?', []),
+        ('Using only "docling-report.pdf", name the dataset.', ['docling-report.pdf']),
+        ('Using "only course.pdf", name the instructor.', ['only course.pdf']),
+        ('In "background-checks.pdf" for November 2015, report the Totals.', ['background-checks.pdf']),
+        ('In the uploaded `background-checks.pdf` for November 2015, report the Totals.', ['background-checks.pdf']),
+        ('Compare "first.pdf" and "second.pdf" for November 2015, report the Totals.', ['first.pdf', 'second.pdf']),
+    ])
+    def test_explicit_source_clause(question,expected):
+>       assert document_references(question)==expected
+E       AssertionError: assert ['background-...ovember 2015'] == ['background-checks.pdf']
+E         
+E         At index 0 diff: 'background-checks.pdf` for November 2015' != 'background-checks.pdf'
+E         Use -v to get more diff
+
+tests/test_document_scope.py:27: AssertionError
+_ test_explicit_source_clause[Compare "first.pdf" and "second.pdf" for November 2015, report the Totals.-expected11] _
+
+question = 'Compare "first.pdf" and "second.pdf" for November 2015, report the Totals.'
+expected = ['first.pdf', 'second.pdf']
+
+    @pytest.mark.parametrize('question,expected', [
+        ('According to the saved general FAQ, how are applicants considered?', ['general FAQ']),
+        ('In the saved DeepSeek Anthropic guide, do the headers differ?', ['DeepSeek Anthropic guide']),
+        ('According to the general FAQ and the admissions FAQ, compare scholarships.', ['general FAQ','admissions FAQ']),
+        ('Compare "Research and Teaching: FAQ" and `general-faq.txt`: what differs?', ['Research and Teaching: FAQ','general-faq.txt']),
+        ('In fall 2026, how many credits?', []),
+        ('What is a general FAQ?', []),
+        ('How are scholarships awarded?', []),
+        ('Using only "docling-report.pdf", name the dataset.', ['docling-report.pdf']),
+        ('Using "only course.pdf", name the instructor.', ['only course.pdf']),
+        ('In "background-checks.pdf" for November 2015, report the Totals.', ['background-checks.pdf']),
+        ('In the uploaded `background-checks.pdf` for November 2015, report the Totals.', ['background-checks.pdf']),
+        ('Compare "first.pdf" and "second.pdf" for November 2015, report the Totals.', ['first.pdf', 'second.pdf']),
+    ])
+    def test_explicit_source_clause(question,expected):
+>       assert document_references(question)==expected
+E       assert ['first.pdf',...ovember 2015'] == ['first.pdf', 'second.pdf']
+E         
+E         At index 1 diff: 'second.pdf" for November 2015' != 'second.pdf'
+E         Use -v to get more diff
+
+tests/test_document_scope.py:27: AssertionError
+_____ test_quoted_filename_date_keeps_selected_file_boundary_and_ambiguity _____
+
+    def test_quoted_filename_date_keeps_selected_file_boundary_and_ambiguity():
+        references = document_references('In "background-checks.pdf" for November 2015, report the Totals.')
+        report = file('report', 'background-checks.pdf')
+        catalog = [report, file('other', 'other.pdf')]
+>       assert resolve_document_scope(references, catalog).file_ids == ['report']
+E       AssertionError: assert [] == ['report']
+E         
+E         Right contains one more item: 'report'
+E         Use -v to get more diff
+
+tests/test_document_scope.py:76: AssertionError
+_ test_planned_scope_failure_preserves_initial_clarification_and_history[missing_reference-/api/chat] _
+
+planned_api = (<starlette.testclient.TestClient object at 0x119fe2a50>, AppResources(sessions=sessionmaker(class_='Session', bind=En...uery_id': 'result', 'text': 'evaluation result', 'requirement_ids': ['result']}]}], '609a9560566e438995d3ba57803eaa2e')
+endpoint = '/api/chat', failure = 'missing_reference'
+
+    @pytest.mark.parametrize("endpoint", ["/api/chat", "/api/chat/stream"])
+    @pytest.mark.parametrize("failure", ["missing_reference", "excluded_reference", "ambiguous_reference", "deleted_id"])
+    def test_planned_scope_failure_preserves_initial_clarification_and_history(planned_api, endpoint, failure):
+        client, resources, sdk, _, file_id = planned_api
+        question = 'In "missing.pdf" for November 2015, explain the results.'
+        selected = [file_id]
+        status = "not_found"
+        if failure in {"excluded_reference", "ambiguous_reference"}:
+            extra = client.post("/api/files", files={"file": (
+                "experiment-guide.txt", b"Title: Experiment\n\nAn outside document.", "text/plain",
+            )}).json()["file_id"]
+            if failure == "excluded_reference":
+                question = 'In "experiment-guide.txt" for November 2015, explain the results.'
+            else:
+                question = 'In "experiment" for November 2015, explain the results.'
+                selected.append(extra)
+                status = "ambiguous"
+        elif failure == "deleted_id":
+            question = 'In "experiment.txt", explain the results.'
+            selected = ["deleted"]
+        request = {"question": question, "file_ids": selected, "retrieval_mode": "single"}
+        single = client.post("/api/chat", json=request).json()
+        result = client.post(endpoint, json={**request, "retrieval_mode": "planned", "request_id": "scope-failure"})
+        assert result.status_code == 200
+        answer = events_from(result)[-1] if endpoint.endswith("/stream") else result.json()
+>       assert answer["answer"] == single["answer"]
+E       assert 'The selected...ady document.' == 'I could not ...or upload it.'
+E         
+E         - I could not find a ready document matching "missing.pdf" for November 2015". Please specify its exact filename or upload it.
+E         + The selected document is missing or not ready. Please choose a ready document.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_automatic_planning.py:256: AssertionError
+_ test_planned_scope_failure_preserves_initial_clarification_and_history[missing_reference-/api/chat/stream] _
+
+planned_api = (<starlette.testclient.TestClient object at 0x119e39590>, AppResources(sessions=sessionmaker(class_='Session', bind=En...uery_id': 'result', 'text': 'evaluation result', 'requirement_ids': ['result']}]}], 'ad47ef127916499a89b43583e1047f6b')
+endpoint = '/api/chat/stream', failure = 'missing_reference'
+
+    @pytest.mark.parametrize("endpoint", ["/api/chat", "/api/chat/stream"])
+    @pytest.mark.parametrize("failure", ["missing_reference", "excluded_reference", "ambiguous_reference", "deleted_id"])
+    def test_planned_scope_failure_preserves_initial_clarification_and_history(planned_api, endpoint, failure):
+        client, resources, sdk, _, file_id = planned_api
+        question = 'In "missing.pdf" for November 2015, explain the results.'
+        selected = [file_id]
+        status = "not_found"
+        if failure in {"excluded_reference", "ambiguous_reference"}:
+            extra = client.post("/api/files", files={"file": (
+                "experiment-guide.txt", b"Title: Experiment\n\nAn outside document.", "text/plain",
+            )}).json()["file_id"]
+            if failure == "excluded_reference":
+                question = 'In "experiment-guide.txt" for November 2015, explain the results.'
+            else:
+                question = 'In "experiment" for November 2015, explain the results.'
+                selected.append(extra)
+                status = "ambiguous"
+        elif failure == "deleted_id":
+            question = 'In "experiment.txt", explain the results.'
+            selected = ["deleted"]
+        request = {"question": question, "file_ids": selected, "retrieval_mode": "single"}
+        single = client.post("/api/chat", json=request).json()
+        result = client.post(endpoint, json={**request, "retrieval_mode": "planned", "request_id": "scope-failure"})
+        assert result.status_code == 200
+        answer = events_from(result)[-1] if endpoint.endswith("/stream") else result.json()
+>       assert answer["answer"] == single["answer"]
+E       assert 'The selected...ady document.' == 'I could not ...or upload it.'
+E         
+E         - I could not find a ready document matching "missing.pdf" for November 2015". Please specify its exact filename or upload it.
+E         + The selected document is missing or not ready. Please choose a ready document.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_automatic_planning.py:256: AssertionError
+_ test_planned_scope_failure_preserves_initial_clarification_and_history[excluded_reference-/api/chat] _
+
+planned_api = (<starlette.testclient.TestClient object at 0x11a98f390>, AppResources(sessions=sessionmaker(class_='Session', bind=En...uery_id': 'result', 'text': 'evaluation result', 'requirement_ids': ['result']}]}], '87e198619dd344b1b0a1be9c9294d245')
+endpoint = '/api/chat', failure = 'excluded_reference'
+
+    @pytest.mark.parametrize("endpoint", ["/api/chat", "/api/chat/stream"])
+    @pytest.mark.parametrize("failure", ["missing_reference", "excluded_reference", "ambiguous_reference", "deleted_id"])
+    def test_planned_scope_failure_preserves_initial_clarification_and_history(planned_api, endpoint, failure):
+        client, resources, sdk, _, file_id = planned_api
+        question = 'In "missing.pdf" for November 2015, explain the results.'
+        selected = [file_id]
+        status = "not_found"
+        if failure in {"excluded_reference", "ambiguous_reference"}:
+            extra = client.post("/api/files", files={"file": (
+                "experiment-guide.txt", b"Title: Experiment\n\nAn outside document.", "text/plain",
+            )}).json()["file_id"]
+            if failure == "excluded_reference":
+                question = 'In "experiment-guide.txt" for November 2015, explain the results.'
+            else:
+                question = 'In "experiment" for November 2015, explain the results.'
+                selected.append(extra)
+                status = "ambiguous"
+        elif failure == "deleted_id":
+            question = 'In "experiment.txt", explain the results.'
+            selected = ["deleted"]
+        request = {"question": question, "file_ids": selected, "retrieval_mode": "single"}
+        single = client.post("/api/chat", json=request).json()
+        result = client.post(endpoint, json={**request, "retrieval_mode": "planned", "request_id": "scope-failure"})
+        assert result.status_code == 200
+        answer = events_from(result)[-1] if endpoint.endswith("/stream") else result.json()
+>       assert answer["answer"] == single["answer"]
+E       assert 'The selected...ady document.' == 'I could not ...or upload it.'
+E         
+E         - I could not find a ready document matching "experiment-guide.txt" for November 2015". Please specify its exact filename or upload it.
+E         + The selected document is missing or not ready. Please choose a ready document.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_automatic_planning.py:256: AssertionError
+_ test_planned_scope_failure_preserves_initial_clarification_and_history[excluded_reference-/api/chat/stream] _
+
+planned_api = (<starlette.testclient.TestClient object at 0x11af076f0>, AppResources(sessions=sessionmaker(class_='Session', bind=En...uery_id': 'result', 'text': 'evaluation result', 'requirement_ids': ['result']}]}], '0ddd86040f6b4102afef3a4e8a57d8fb')
+endpoint = '/api/chat/stream', failure = 'excluded_reference'
+
+    @pytest.mark.parametrize("endpoint", ["/api/chat", "/api/chat/stream"])
+    @pytest.mark.parametrize("failure", ["missing_reference", "excluded_reference", "ambiguous_reference", "deleted_id"])
+    def test_planned_scope_failure_preserves_initial_clarification_and_history(planned_api, endpoint, failure):
+        client, resources, sdk, _, file_id = planned_api
+        question = 'In "missing.pdf" for November 2015, explain the results.'
+        selected = [file_id]
+        status = "not_found"
+        if failure in {"excluded_reference", "ambiguous_reference"}:
+            extra = client.post("/api/files", files={"file": (
+                "experiment-guide.txt", b"Title: Experiment\n\nAn outside document.", "text/plain",
+            )}).json()["file_id"]
+            if failure == "excluded_reference":
+                question = 'In "experiment-guide.txt" for November 2015, explain the results.'
+            else:
+                question = 'In "experiment" for November 2015, explain the results.'
+                selected.append(extra)
+                status = "ambiguous"
+        elif failure == "deleted_id":
+            question = 'In "experiment.txt", explain the results.'
+            selected = ["deleted"]
+        request = {"question": question, "file_ids": selected, "retrieval_mode": "single"}
+        single = client.post("/api/chat", json=request).json()
+        result = client.post(endpoint, json={**request, "retrieval_mode": "planned", "request_id": "scope-failure"})
+        assert result.status_code == 200
+        answer = events_from(result)[-1] if endpoint.endswith("/stream") else result.json()
+>       assert answer["answer"] == single["answer"]
+E       assert 'The selected...ady document.' == 'I could not ...or upload it.'
+E         
+E         - I could not find a ready document matching "experiment-guide.txt" for November 2015". Please specify its exact filename or upload it.
+E         + The selected document is missing or not ready. Please choose a ready document.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_automatic_planning.py:256: AssertionError
+_ test_planned_scope_failure_preserves_initial_clarification_and_history[ambiguous_reference-/api/chat] _
+
+planned_api = (<starlette.testclient.TestClient object at 0x11af069e0>, AppResources(sessions=sessionmaker(class_='Session', bind=En...uery_id': 'result', 'text': 'evaluation result', 'requirement_ids': ['result']}]}], '5c88c51729f948bf98b5d7d157b91af8')
+endpoint = '/api/chat', failure = 'ambiguous_reference'
+
+    @pytest.mark.parametrize("endpoint", ["/api/chat", "/api/chat/stream"])
+    @pytest.mark.parametrize("failure", ["missing_reference", "excluded_reference", "ambiguous_reference", "deleted_id"])
+    def test_planned_scope_failure_preserves_initial_clarification_and_history(planned_api, endpoint, failure):
+        client, resources, sdk, _, file_id = planned_api
+        question = 'In "missing.pdf" for November 2015, explain the results.'
+        selected = [file_id]
+        status = "not_found"
+        if failure in {"excluded_reference", "ambiguous_reference"}:
+            extra = client.post("/api/files", files={"file": (
+                "experiment-guide.txt", b"Title: Experiment\n\nAn outside document.", "text/plain",
+            )}).json()["file_id"]
+            if failure == "excluded_reference":
+                question = 'In "experiment-guide.txt" for November 2015, explain the results.'
+            else:
+                question = 'In "experiment" for November 2015, explain the results.'
+                selected.append(extra)
+                status = "ambiguous"
+        elif failure == "deleted_id":
+            question = 'In "experiment.txt", explain the results.'
+            selected = ["deleted"]
+        request = {"question": question, "file_ids": selected, "retrieval_mode": "single"}
+        single = client.post("/api/chat", json=request).json()
+        result = client.post(endpoint, json={**request, "retrieval_mode": "planned", "request_id": "scope-failure"})
+        assert result.status_code == 200
+        answer = events_from(result)[-1] if endpoint.endswith("/stream") else result.json()
+>       assert answer["answer"] == single["answer"]
+E       assert 'The selected...ady document.' == 'I could not ...or upload it.'
+E         
+E         - I could not find a ready document matching "experiment" for November 2015". Please specify its exact filename or upload it.
+E         + The selected document is missing or not ready. Please choose a ready document.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_automatic_planning.py:256: AssertionError
+_ test_planned_scope_failure_preserves_initial_clarification_and_history[ambiguous_reference-/api/chat/stream] _
+
+planned_api = (<starlette.testclient.TestClient object at 0x11b77e330>, AppResources(sessions=sessionmaker(class_='Session', bind=En...uery_id': 'result', 'text': 'evaluation result', 'requirement_ids': ['result']}]}], 'cff4ce61dcc7420bacb5fc87c9a43a54')
+endpoint = '/api/chat/stream', failure = 'ambiguous_reference'
+
+    @pytest.mark.parametrize("endpoint", ["/api/chat", "/api/chat/stream"])
+    @pytest.mark.parametrize("failure", ["missing_reference", "excluded_reference", "ambiguous_reference", "deleted_id"])
+    def test_planned_scope_failure_preserves_initial_clarification_and_history(planned_api, endpoint, failure):
+        client, resources, sdk, _, file_id = planned_api
+        question = 'In "missing.pdf" for November 2015, explain the results.'
+        selected = [file_id]
+        status = "not_found"
+        if failure in {"excluded_reference", "ambiguous_reference"}:
+            extra = client.post("/api/files", files={"file": (
+                "experiment-guide.txt", b"Title: Experiment\n\nAn outside document.", "text/plain",
+            )}).json()["file_id"]
+            if failure == "excluded_reference":
+                question = 'In "experiment-guide.txt" for November 2015, explain the results.'
+            else:
+                question = 'In "experiment" for November 2015, explain the results.'
+                selected.append(extra)
+                status = "ambiguous"
+        elif failure == "deleted_id":
+            question = 'In "experiment.txt", explain the results.'
+            selected = ["deleted"]
+        request = {"question": question, "file_ids": selected, "retrieval_mode": "single"}
+        single = client.post("/api/chat", json=request).json()
+        result = client.post(endpoint, json={**request, "retrieval_mode": "planned", "request_id": "scope-failure"})
+        assert result.status_code == 200
+        answer = events_from(result)[-1] if endpoint.endswith("/stream") else result.json()
+>       assert answer["answer"] == single["answer"]
+E       assert 'The selected...ady document.' == 'I could not ...or upload it.'
+E         
+E         - I could not find a ready document matching "experiment" for November 2015". Please specify its exact filename or upload it.
+E         + The selected document is missing or not ready. Please choose a ready document.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_automatic_planning.py:256: AssertionError
+_____ test_quoted_filename_scope_leaves_date_in_original_question[single] ______
+
+planned_api = (<starlette.testclient.TestClient object at 0x11ab50490>, AppResources(sessions=sessionmaker(class_='Session', bind=En...uery_id': 'result', 'text': 'evaluation result', 'requirement_ids': ['result']}]}], 'c58f94c1de3d44dea7228af6cb3bfef8')
+mode = 'single'
+
+    @pytest.mark.parametrize("mode", ["single", "planned"])
+    def test_quoted_filename_scope_leaves_date_in_original_question(planned_api, mode):
+        client, _, sdk, _, file_id = planned_api
+        question = 'In "experiment.txt" for November 2015, explain the results.'
+        result = client.post("/api/chat", json={"question": question, "file_ids": [file_id], "retrieval_mode": mode})
+        assert result.status_code == 200
+        answer = result.json()
+>       assert answer["retrieval"]["document_scope"]["file_ids"] == [file_id]
+E       AssertionError: assert [] == ['c58f94c1de3...8af6cb3bfef8']
+E         
+E         Right contains one more item: 'c58f94c1de3d44dea7228af6cb3bfef8'
+E         Use -v to get more diff
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_automatic_planning.py:281: AssertionError
+_____ test_quoted_filename_scope_leaves_date_in_original_question[planned] _____
+
+planned_api = (<starlette.testclient.TestClient object at 0x11ab1df20>, AppResources(sessions=sessionmaker(class_='Session', bind=En...uery_id': 'result', 'text': 'evaluation result', 'requirement_ids': ['result']}]}], 'ff0a255036c44d419bad429dd7c23af1')
+mode = 'planned'
+
+    @pytest.mark.parametrize("mode", ["single", "planned"])
+    def test_quoted_filename_scope_leaves_date_in_original_question(planned_api, mode):
+        client, _, sdk, _, file_id = planned_api
+        question = 'In "experiment.txt" for November 2015, explain the results.'
+        result = client.post("/api/chat", json={"question": question, "file_ids": [file_id], "retrieval_mode": mode})
+        assert result.status_code == 200
+        answer = result.json()
+>       assert answer["retrieval"]["document_scope"]["file_ids"] == [file_id]
+E       AssertionError: assert [] == ['ff0a255036c...429dd7c23af1']
+E         
+E         Right contains one more item: 'ff0a255036c44d419bad429dd7c23af1'
+E         Use -v to get more diff
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_automatic_planning.py:281: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_document_scope.py::test_explicit_source_clause[In "background-checks.pdf" for November 2015, report the Totals.-expected9]
+FAILED tests/test_document_scope.py::test_explicit_source_clause[In the uploaded `background-checks.pdf` for November 2015, report the Totals.-expected10]
+FAILED tests/test_document_scope.py::test_explicit_source_clause[Compare "first.pdf" and "second.pdf" for November 2015, report the Totals.-expected11]
+FAILED tests/test_document_scope.py::test_quoted_filename_date_keeps_selected_file_boundary_and_ambiguity
+FAILED tests/test_automatic_planning.py::test_planned_scope_failure_preserves_initial_clarification_and_history[missing_reference-/api/chat]
+FAILED tests/test_automatic_planning.py::test_planned_scope_failure_preserves_initial_clarification_and_history[missing_reference-/api/chat/stream]
+FAILED tests/test_automatic_planning.py::test_planned_scope_failure_preserves_initial_clarification_and_history[excluded_reference-/api/chat]
+FAILED tests/test_automatic_planning.py::test_planned_scope_failure_preserves_initial_clarification_and_history[excluded_reference-/api/chat/stream]
+FAILED tests/test_automatic_planning.py::test_planned_scope_failure_preserves_initial_clarification_and_history[ambiguous_reference-/api/chat]
+FAILED tests/test_automatic_planning.py::test_planned_scope_failure_preserves_initial_clarification_and_history[ambiguous_reference-/api/chat/stream]
+FAILED tests/test_automatic_planning.py::test_quoted_filename_scope_leaves_date_in_original_question[single]
+FAILED tests/test_automatic_planning.py::test_quoted_filename_scope_leaves_date_in_original_question[planned]
+12 failed, 11 passed, 29 deselected, 1 warning in 0.74s

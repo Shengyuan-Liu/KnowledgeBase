@@ -1,0 +1,1945 @@
+{
+  "reviewed_at": "2026-10-01T14:47:27.583662+00:00",
+  "reviewer": "Codex (model)",
+  "human_review": false,
+  "protocol": "protocol.md#additional-assessor-selection-review",
+  "method": "Read all eight financial requirements in each arm, selected exact source spans, attached headers, full supplied context and frozen original Apple pages 2 and 3. Semantic-role mappings are explicit reviewer decisions, not an automatic semantic judge.",
+  "independence": "Separate from final-answer acceptance. Application-attached headers and full source context are not relabeled as model-selected evidence.",
+  "original_page_artifacts": "../20260929-new-pdf-chain/source-review/",
+  "before": {
+    "rows": [
+      {
+        "case_id": "apple-securities",
+        "semantic_role": "current_securities",
+        "artifact": "20260929-pdf-heading-acceptance/apple-securities-planned.json",
+        "artifact_sha256": "8c0afb9e794e8f99237cfba05e692d999516ad6a01617d2134bc44827c850247",
+        "requirement_id": "rq1",
+        "description": "The current marketable securities balance at September 28, 2024 in \"apple-fy24.pdf\".",
+        "model_status": "supported",
+        "model_selected_references": [
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2028,
+            "end_offset": 2066,
+            "page_indices": [
+              1
+            ],
+            "quote": "September 28, 2024\tSeptember 30, 2023\n"
+          },
+          {
+            "evidence_id": "p8",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2134,
+            "end_offset": 2170,
+            "page_indices": [
+              1
+            ],
+            "quote": "Marketable securities\t35,228\t31,590\n"
+          }
+        ],
+        "application_attached_table_context": [],
+        "expected_supporting_passage": {
+          "evidence_id": "p8",
+          "source_number": 1,
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "file_name": "apple-fy24.pdf",
+          "start_offset": 2134,
+          "end_offset": 2170,
+          "text": "Marketable securities\t35,228\t31,590\n",
+          "page_indices": [
+            1
+          ],
+          "table_context": [
+            {
+              "evidence_id": "p4",
+              "table_id": "#/tables/1",
+              "role": "column_header"
+            }
+          ]
+        },
+        "supplied_disambiguating_context": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 1939,
+            "end_offset": 2027,
+            "text": "(In millions, except number of shares, which are reflected in thousands, and par value)\n",
+            "page_indices": [
+              1
+            ]
+          },
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2028,
+            "end_offset": 2066,
+            "text": "September 28, 2024\tSeptember 30, 2023\n",
+            "page_indices": [
+              1
+            ],
+            "table_context": []
+          },
+          {
+            "evidence_id": "p6",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2074,
+            "end_offset": 2090,
+            "text": "Current assets:\n",
+            "page_indices": [
+              1
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p4",
+                "table_id": "#/tables/1",
+                "role": "column_header"
+              }
+            ]
+          }
+        ],
+        "original_physical_page": 2,
+        "requested_measure_has_selected_support": true,
+        "irrelevant_selected_ids": [],
+        "supported_without_irrelevant_selections": true,
+        "reviewer_reason": "Requested value/units are in the selected passage, with the correct period and row group in supplied context."
+      },
+      {
+        "case_id": "apple-securities",
+        "semantic_role": "noncurrent_securities",
+        "artifact": "20260929-pdf-heading-acceptance/apple-securities-planned.json",
+        "artifact_sha256": "8c0afb9e794e8f99237cfba05e692d999516ad6a01617d2134bc44827c850247",
+        "requirement_id": "rq2",
+        "description": "The non-current marketable securities balance at September 28, 2024 in \"apple-fy24.pdf\".",
+        "model_status": "supported",
+        "model_selected_references": [
+          {
+            "evidence_id": "p11",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2252,
+            "end_offset": 2276,
+            "page_indices": [
+              1
+            ],
+            "quote": "Inventories\t7,286\t6,331\n"
+          },
+          {
+            "evidence_id": "p15",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2368,
+            "end_offset": 2405,
+            "page_indices": [
+              1
+            ],
+            "quote": "Marketable securities\t91,479\t100,544\n"
+          }
+        ],
+        "application_attached_table_context": [
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2028,
+            "end_offset": 2066,
+            "page_indices": [
+              1
+            ],
+            "quote": "September 28, 2024\tSeptember 30, 2023\n",
+            "table_id": "#/tables/1",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p11",
+              "p15"
+            ]
+          }
+        ],
+        "expected_supporting_passage": {
+          "evidence_id": "p15",
+          "source_number": 1,
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "file_name": "apple-fy24.pdf",
+          "start_offset": 2368,
+          "end_offset": 2405,
+          "text": "Marketable securities\t91,479\t100,544\n",
+          "page_indices": [
+            1
+          ],
+          "table_context": [
+            {
+              "evidence_id": "p4",
+              "table_id": "#/tables/1",
+              "role": "column_header"
+            }
+          ]
+        },
+        "supplied_disambiguating_context": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 1939,
+            "end_offset": 2027,
+            "text": "(In millions, except number of shares, which are reflected in thousands, and par value)\n",
+            "page_indices": [
+              1
+            ]
+          },
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2028,
+            "end_offset": 2066,
+            "text": "September 28, 2024\tSeptember 30, 2023\n",
+            "page_indices": [
+              1
+            ],
+            "table_context": []
+          },
+          {
+            "evidence_id": "p14",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2348,
+            "end_offset": 2368,
+            "text": "Non-current assets:\n",
+            "page_indices": [
+              1
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p4",
+                "table_id": "#/tables/1",
+                "role": "column_header"
+              }
+            ]
+          }
+        ],
+        "original_physical_page": 2,
+        "requested_measure_has_selected_support": true,
+        "irrelevant_selected_ids": [
+          "p11"
+        ],
+        "supported_without_irrelevant_selections": false,
+        "reviewer_reason": "Requested value/units are in the selected passage, with the correct period and row group in supplied context. Extra inventory selection does not contribute support."
+      },
+      {
+        "case_id": "apple-securities",
+        "semantic_role": "balance_units",
+        "artifact": "20260929-pdf-heading-acceptance/apple-securities-planned.json",
+        "artifact_sha256": "8c0afb9e794e8f99237cfba05e692d999516ad6a01617d2134bc44827c850247",
+        "requirement_id": "rq3",
+        "description": "The units for the marketable securities balances in \"apple-fy24.pdf\" at September 28, 2024.",
+        "model_status": "supported",
+        "model_selected_references": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 1939,
+            "end_offset": 2027,
+            "page_indices": [
+              1
+            ],
+            "quote": "(In millions, except number of shares, which are reflected in thousands, and par value)\n"
+          }
+        ],
+        "application_attached_table_context": [],
+        "expected_supporting_passage": {
+          "evidence_id": "p3",
+          "source_number": 1,
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "file_name": "apple-fy24.pdf",
+          "start_offset": 1939,
+          "end_offset": 2027,
+          "text": "(In millions, except number of shares, which are reflected in thousands, and par value)\n",
+          "page_indices": [
+            1
+          ]
+        },
+        "supplied_disambiguating_context": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 1939,
+            "end_offset": 2027,
+            "text": "(In millions, except number of shares, which are reflected in thousands, and par value)\n",
+            "page_indices": [
+              1
+            ]
+          },
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2028,
+            "end_offset": 2066,
+            "text": "September 28, 2024\tSeptember 30, 2023\n",
+            "page_indices": [
+              1
+            ],
+            "table_context": []
+          }
+        ],
+        "original_physical_page": 2,
+        "requested_measure_has_selected_support": true,
+        "irrelevant_selected_ids": [],
+        "supported_without_irrelevant_selections": true,
+        "reviewer_reason": "Requested value/units are in the selected passage, with the correct period and row group in supplied context."
+      },
+      {
+        "case_id": "apple-cash-condition",
+        "semantic_role": "cash_2024",
+        "artifact": "20260929-pdf-heading-acceptance/apple-cash-condition-planned.json",
+        "artifact_sha256": "f97a768cd9327cbd8a8ba1ff85b492bbc258f3306196484dd81cc85696d9793e",
+        "requirement_id": "req1",
+        "description": "The amount of cash generated by operating activities in fiscal 2024 from \"apple-fy24.pdf\".",
+        "model_status": "supported",
+        "model_selected_references": [
+          {
+            "evidence_id": "p15",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 4039,
+            "end_offset": 4067,
+            "page_indices": [
+              2
+            ],
+            "quote": "Inventories\t(1,046)\t(1,618)\n"
+          }
+        ],
+        "application_attached_table_context": [
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "page_indices": [
+              2
+            ],
+            "quote": "Twelve Months Ended\n",
+            "table_id": "#/tables/2",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p15"
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "page_indices": [
+              2
+            ],
+            "quote": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "table_id": "#/tables/2",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p15"
+            ]
+          }
+        ],
+        "expected_supporting_passage": {
+          "evidence_id": "p19",
+          "source_number": 1,
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "file_name": "apple-fy24.pdf",
+          "start_offset": 4207,
+          "end_offset": 4262,
+          "text": "Cash generated by operating activities\t118,254\t110,543\n",
+          "page_indices": [
+            2
+          ],
+          "table_context": [
+            {
+              "evidence_id": "p4",
+              "table_id": "#/tables/2",
+              "role": "column_header"
+            },
+            {
+              "evidence_id": "p5",
+              "table_id": "#/tables/2",
+              "role": "column_header"
+            }
+          ]
+        },
+        "supplied_disambiguating_context": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3495,
+            "end_offset": 3509,
+            "text": "(In millions)\n",
+            "page_indices": [
+              2
+            ]
+          },
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "text": "Twelve Months Ended\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p5",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "text": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p4",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          }
+        ],
+        "original_physical_page": 3,
+        "requested_measure_has_selected_support": false,
+        "irrelevant_selected_ids": [
+          "p15"
+        ],
+        "supported_without_irrelevant_selections": false,
+        "reviewer_reason": "Selected inventory or debt-issuance row does not support the requested operating/financing cash measure."
+      },
+      {
+        "case_id": "apple-cash-condition",
+        "semantic_role": "cash_2023",
+        "artifact": "20260929-pdf-heading-acceptance/apple-cash-condition-planned.json",
+        "artifact_sha256": "f97a768cd9327cbd8a8ba1ff85b492bbc258f3306196484dd81cc85696d9793e",
+        "requirement_id": "req2",
+        "description": "The amount of cash generated by operating activities in fiscal 2023 from \"apple-fy24.pdf\".",
+        "model_status": "supported",
+        "model_selected_references": [
+          {
+            "evidence_id": "p15",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 4039,
+            "end_offset": 4067,
+            "page_indices": [
+              2
+            ],
+            "quote": "Inventories\t(1,046)\t(1,618)\n"
+          }
+        ],
+        "application_attached_table_context": [
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "page_indices": [
+              2
+            ],
+            "quote": "Twelve Months Ended\n",
+            "table_id": "#/tables/2",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p15"
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "page_indices": [
+              2
+            ],
+            "quote": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "table_id": "#/tables/2",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p15"
+            ]
+          }
+        ],
+        "expected_supporting_passage": {
+          "evidence_id": "p19",
+          "source_number": 1,
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "file_name": "apple-fy24.pdf",
+          "start_offset": 4207,
+          "end_offset": 4262,
+          "text": "Cash generated by operating activities\t118,254\t110,543\n",
+          "page_indices": [
+            2
+          ],
+          "table_context": [
+            {
+              "evidence_id": "p4",
+              "table_id": "#/tables/2",
+              "role": "column_header"
+            },
+            {
+              "evidence_id": "p5",
+              "table_id": "#/tables/2",
+              "role": "column_header"
+            }
+          ]
+        },
+        "supplied_disambiguating_context": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3495,
+            "end_offset": 3509,
+            "text": "(In millions)\n",
+            "page_indices": [
+              2
+            ]
+          },
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "text": "Twelve Months Ended\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p5",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "text": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p4",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          }
+        ],
+        "original_physical_page": 3,
+        "requested_measure_has_selected_support": false,
+        "irrelevant_selected_ids": [
+          "p15"
+        ],
+        "supported_without_irrelevant_selections": false,
+        "reviewer_reason": "Selected inventory or debt-issuance row does not support the requested operating/financing cash measure."
+      },
+      {
+        "case_id": "apple-cash-condition",
+        "semantic_role": "cash_condition",
+        "artifact": "20260929-pdf-heading-acceptance/apple-cash-condition-planned.json",
+        "artifact_sha256": "f97a768cd9327cbd8a8ba1ff85b492bbc258f3306196484dd81cc85696d9793e",
+        "requirement_id": "req3",
+        "description": "Compare cash generated by operating activities between fiscal 2024 and 2023 to determine if 2024 exceeds 2023.",
+        "model_status": "supported",
+        "model_selected_references": [
+          {
+            "evidence_id": "p15",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 4039,
+            "end_offset": 4067,
+            "page_indices": [
+              2
+            ],
+            "quote": "Inventories\t(1,046)\t(1,618)\n"
+          }
+        ],
+        "application_attached_table_context": [
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "page_indices": [
+              2
+            ],
+            "quote": "Twelve Months Ended\n",
+            "table_id": "#/tables/2",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p15"
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "page_indices": [
+              2
+            ],
+            "quote": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "table_id": "#/tables/2",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p15"
+            ]
+          }
+        ],
+        "expected_supporting_passage": {
+          "evidence_id": "p19",
+          "source_number": 1,
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "file_name": "apple-fy24.pdf",
+          "start_offset": 4207,
+          "end_offset": 4262,
+          "text": "Cash generated by operating activities\t118,254\t110,543\n",
+          "page_indices": [
+            2
+          ],
+          "table_context": [
+            {
+              "evidence_id": "p4",
+              "table_id": "#/tables/2",
+              "role": "column_header"
+            },
+            {
+              "evidence_id": "p5",
+              "table_id": "#/tables/2",
+              "role": "column_header"
+            }
+          ]
+        },
+        "supplied_disambiguating_context": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3495,
+            "end_offset": 3509,
+            "text": "(In millions)\n",
+            "page_indices": [
+              2
+            ]
+          },
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "text": "Twelve Months Ended\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p5",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "text": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p4",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          }
+        ],
+        "original_physical_page": 3,
+        "requested_measure_has_selected_support": false,
+        "irrelevant_selected_ids": [
+          "p15"
+        ],
+        "supported_without_irrelevant_selections": false,
+        "reviewer_reason": "Selected inventory or debt-issuance row does not support the requested operating/financing cash measure."
+      },
+      {
+        "case_id": "apple-cash-condition",
+        "semantic_role": "financing_2024",
+        "artifact": "20260929-pdf-heading-acceptance/apple-cash-condition-planned.json",
+        "artifact_sha256": "f97a768cd9327cbd8a8ba1ff85b492bbc258f3306196484dd81cc85696d9793e",
+        "requirement_id": "req4",
+        "description": "The amount of cash used in financing activities in fiscal 2024 from \"apple-fy24.pdf\".",
+        "model_status": "supported",
+        "model_selected_references": [
+          {
+            "evidence_id": "p31",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 4825,
+            "end_offset": 4874,
+            "page_indices": [
+              2
+            ],
+            "quote": "Proceeds from issuance of term debt, net\t-\t5,228\n"
+          }
+        ],
+        "application_attached_table_context": [
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "page_indices": [
+              2
+            ],
+            "quote": "Twelve Months Ended\n",
+            "table_id": "#/tables/2",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p31"
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "page_indices": [
+              2
+            ],
+            "quote": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "table_id": "#/tables/2",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p31"
+            ]
+          }
+        ],
+        "expected_supporting_passage": {
+          "evidence_id": "p35",
+          "source_number": 1,
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "file_name": "apple-fy24.pdf",
+          "start_offset": 4999,
+          "end_offset": 5053,
+          "text": "Cash used in financing activities\t(121,983)\t(108,488)\n",
+          "page_indices": [
+            2
+          ],
+          "table_context": [
+            {
+              "evidence_id": "p4",
+              "table_id": "#/tables/2",
+              "role": "column_header"
+            },
+            {
+              "evidence_id": "p5",
+              "table_id": "#/tables/2",
+              "role": "column_header"
+            }
+          ]
+        },
+        "supplied_disambiguating_context": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3495,
+            "end_offset": 3509,
+            "text": "(In millions)\n",
+            "page_indices": [
+              2
+            ]
+          },
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "text": "Twelve Months Ended\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p5",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "text": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p4",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          }
+        ],
+        "original_physical_page": 3,
+        "requested_measure_has_selected_support": false,
+        "irrelevant_selected_ids": [
+          "p31"
+        ],
+        "supported_without_irrelevant_selections": false,
+        "reviewer_reason": "Selected inventory or debt-issuance row does not support the requested operating/financing cash measure."
+      },
+      {
+        "case_id": "apple-cash-condition",
+        "semantic_role": "cash_units",
+        "artifact": "20260929-pdf-heading-acceptance/apple-cash-condition-planned.json",
+        "artifact_sha256": "f97a768cd9327cbd8a8ba1ff85b492bbc258f3306196484dd81cc85696d9793e",
+        "requirement_id": "req5",
+        "description": "The units in which the amounts are reported.",
+        "model_status": "supported",
+        "model_selected_references": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3495,
+            "end_offset": 3509,
+            "page_indices": [
+              2
+            ],
+            "quote": "(In millions)\n"
+          }
+        ],
+        "application_attached_table_context": [],
+        "expected_supporting_passage": {
+          "evidence_id": "p3",
+          "source_number": 1,
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "file_name": "apple-fy24.pdf",
+          "start_offset": 3495,
+          "end_offset": 3509,
+          "text": "(In millions)\n",
+          "page_indices": [
+            2
+          ]
+        },
+        "supplied_disambiguating_context": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3495,
+            "end_offset": 3509,
+            "text": "(In millions)\n",
+            "page_indices": [
+              2
+            ]
+          },
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "text": "Twelve Months Ended\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p5",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "text": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p4",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          }
+        ],
+        "original_physical_page": 3,
+        "requested_measure_has_selected_support": true,
+        "irrelevant_selected_ids": [],
+        "supported_without_irrelevant_selections": true,
+        "reviewer_reason": "Requested value/units are in the selected passage, with the correct period and row group in supplied context."
+      }
+    ],
+    "summary": {
+      "requirements": 8,
+      "with_required_selected_support": 4,
+      "supported_without_irrelevant_selections": 3,
+      "requirements_with_irrelevant_selections": 5,
+      "selected_reference_instances": 10,
+      "irrelevant_reference_instances": 5
+    }
+  },
+  "after": {
+    "rows": [
+      {
+        "case_id": "apple-securities",
+        "semantic_role": "current_securities",
+        "artifact": "20261001-row-reference-acceptance/apple-securities-planned.json",
+        "artifact_sha256": "36abd2fb5f72b1e069a2ef25c10cc2e33dd48d10e7ea61d3175542f146651652",
+        "requirement_id": "r1",
+        "description": "The current marketable securities balance at September 28, 2024 in \"apple-fy24.pdf\".",
+        "model_status": "supported",
+        "model_selected_references": [
+          {
+            "evidence_id": "p8",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2134,
+            "end_offset": 2170,
+            "page_indices": [
+              1
+            ],
+            "quote": "Marketable securities\t35,228\t31,590\n"
+          }
+        ],
+        "application_attached_table_context": [
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2028,
+            "end_offset": 2066,
+            "page_indices": [
+              1
+            ],
+            "quote": "September 28, 2024\tSeptember 30, 2023\n",
+            "table_id": "#/tables/1",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p8"
+            ]
+          }
+        ],
+        "expected_supporting_passage": {
+          "evidence_id": "p8",
+          "source_number": 1,
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "file_name": "apple-fy24.pdf",
+          "start_offset": 2134,
+          "end_offset": 2170,
+          "text": "Marketable securities\t35,228\t31,590\n",
+          "page_indices": [
+            1
+          ],
+          "table_context": [
+            {
+              "evidence_id": "p4",
+              "table_id": "#/tables/1",
+              "role": "column_header"
+            }
+          ]
+        },
+        "supplied_disambiguating_context": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 1939,
+            "end_offset": 2027,
+            "text": "(In millions, except number of shares, which are reflected in thousands, and par value)\n",
+            "page_indices": [
+              1
+            ]
+          },
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2028,
+            "end_offset": 2066,
+            "text": "September 28, 2024\tSeptember 30, 2023\n",
+            "page_indices": [
+              1
+            ],
+            "table_context": []
+          },
+          {
+            "evidence_id": "p6",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2074,
+            "end_offset": 2090,
+            "text": "Current assets:\n",
+            "page_indices": [
+              1
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p4",
+                "table_id": "#/tables/1",
+                "role": "column_header"
+              }
+            ]
+          }
+        ],
+        "original_physical_page": 2,
+        "requested_measure_has_selected_support": true,
+        "irrelevant_selected_ids": [],
+        "supported_without_irrelevant_selections": true,
+        "reviewer_reason": "Requested value/units are in the selected passage, with the correct period and row group in supplied context."
+      },
+      {
+        "case_id": "apple-securities",
+        "semantic_role": "noncurrent_securities",
+        "artifact": "20261001-row-reference-acceptance/apple-securities-planned.json",
+        "artifact_sha256": "36abd2fb5f72b1e069a2ef25c10cc2e33dd48d10e7ea61d3175542f146651652",
+        "requirement_id": "r2",
+        "description": "The non-current marketable securities balance at September 28, 2024 in \"apple-fy24.pdf\".",
+        "model_status": "supported",
+        "model_selected_references": [
+          {
+            "evidence_id": "p15",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2368,
+            "end_offset": 2405,
+            "page_indices": [
+              1
+            ],
+            "quote": "Marketable securities\t91,479\t100,544\n"
+          }
+        ],
+        "application_attached_table_context": [
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2028,
+            "end_offset": 2066,
+            "page_indices": [
+              1
+            ],
+            "quote": "September 28, 2024\tSeptember 30, 2023\n",
+            "table_id": "#/tables/1",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p15"
+            ]
+          }
+        ],
+        "expected_supporting_passage": {
+          "evidence_id": "p15",
+          "source_number": 1,
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "file_name": "apple-fy24.pdf",
+          "start_offset": 2368,
+          "end_offset": 2405,
+          "text": "Marketable securities\t91,479\t100,544\n",
+          "page_indices": [
+            1
+          ],
+          "table_context": [
+            {
+              "evidence_id": "p4",
+              "table_id": "#/tables/1",
+              "role": "column_header"
+            }
+          ]
+        },
+        "supplied_disambiguating_context": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 1939,
+            "end_offset": 2027,
+            "text": "(In millions, except number of shares, which are reflected in thousands, and par value)\n",
+            "page_indices": [
+              1
+            ]
+          },
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2028,
+            "end_offset": 2066,
+            "text": "September 28, 2024\tSeptember 30, 2023\n",
+            "page_indices": [
+              1
+            ],
+            "table_context": []
+          },
+          {
+            "evidence_id": "p14",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2348,
+            "end_offset": 2368,
+            "text": "Non-current assets:\n",
+            "page_indices": [
+              1
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p4",
+                "table_id": "#/tables/1",
+                "role": "column_header"
+              }
+            ]
+          }
+        ],
+        "original_physical_page": 2,
+        "requested_measure_has_selected_support": true,
+        "irrelevant_selected_ids": [],
+        "supported_without_irrelevant_selections": true,
+        "reviewer_reason": "Requested value/units are in the selected passage, with the correct period and row group in supplied context."
+      },
+      {
+        "case_id": "apple-securities",
+        "semantic_role": "balance_units",
+        "artifact": "20261001-row-reference-acceptance/apple-securities-planned.json",
+        "artifact_sha256": "36abd2fb5f72b1e069a2ef25c10cc2e33dd48d10e7ea61d3175542f146651652",
+        "requirement_id": "r3",
+        "description": "The units used for the current and non-current marketable securities balances at September 28, 2024 in \"apple-fy24.pdf\".",
+        "model_status": "supported",
+        "model_selected_references": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 1939,
+            "end_offset": 2027,
+            "page_indices": [
+              1
+            ],
+            "quote": "(In millions, except number of shares, which are reflected in thousands, and par value)\n"
+          }
+        ],
+        "application_attached_table_context": [],
+        "expected_supporting_passage": {
+          "evidence_id": "p3",
+          "source_number": 1,
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "file_name": "apple-fy24.pdf",
+          "start_offset": 1939,
+          "end_offset": 2027,
+          "text": "(In millions, except number of shares, which are reflected in thousands, and par value)\n",
+          "page_indices": [
+            1
+          ]
+        },
+        "supplied_disambiguating_context": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 1939,
+            "end_offset": 2027,
+            "text": "(In millions, except number of shares, which are reflected in thousands, and par value)\n",
+            "page_indices": [
+              1
+            ]
+          },
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 2028,
+            "end_offset": 2066,
+            "text": "September 28, 2024\tSeptember 30, 2023\n",
+            "page_indices": [
+              1
+            ],
+            "table_context": []
+          }
+        ],
+        "original_physical_page": 2,
+        "requested_measure_has_selected_support": true,
+        "irrelevant_selected_ids": [],
+        "supported_without_irrelevant_selections": true,
+        "reviewer_reason": "Requested value/units are in the selected passage, with the correct period and row group in supplied context."
+      },
+      {
+        "case_id": "apple-cash-condition",
+        "semantic_role": "cash_2024",
+        "artifact": "20261001-row-reference-acceptance/apple-cash-condition-planned.json",
+        "artifact_sha256": "4cf94ab03ef824a88a151696d11a35564d7c6201733ff07ebc426b65665f5080",
+        "requirement_id": "R1",
+        "description": "Amount of cash generated by operating activities in fiscal 2024 from \"apple-fy24.pdf\".",
+        "model_status": "supported",
+        "model_selected_references": [
+          {
+            "evidence_id": "p19",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 4207,
+            "end_offset": 4262,
+            "page_indices": [
+              2
+            ],
+            "quote": "Cash generated by operating activities\t118,254\t110,543\n"
+          }
+        ],
+        "application_attached_table_context": [
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "page_indices": [
+              2
+            ],
+            "quote": "Twelve Months Ended\n",
+            "table_id": "#/tables/2",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p19"
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "page_indices": [
+              2
+            ],
+            "quote": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "table_id": "#/tables/2",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p19"
+            ]
+          }
+        ],
+        "expected_supporting_passage": {
+          "evidence_id": "p19",
+          "source_number": 1,
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "file_name": "apple-fy24.pdf",
+          "start_offset": 4207,
+          "end_offset": 4262,
+          "text": "Cash generated by operating activities\t118,254\t110,543\n",
+          "page_indices": [
+            2
+          ],
+          "table_context": [
+            {
+              "evidence_id": "p4",
+              "table_id": "#/tables/2",
+              "role": "column_header"
+            },
+            {
+              "evidence_id": "p5",
+              "table_id": "#/tables/2",
+              "role": "column_header"
+            }
+          ]
+        },
+        "supplied_disambiguating_context": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3495,
+            "end_offset": 3509,
+            "text": "(In millions)\n",
+            "page_indices": [
+              2
+            ]
+          },
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "text": "Twelve Months Ended\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p5",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "text": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p4",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          }
+        ],
+        "original_physical_page": 3,
+        "requested_measure_has_selected_support": true,
+        "irrelevant_selected_ids": [],
+        "supported_without_irrelevant_selections": true,
+        "reviewer_reason": "Requested value/units are in the selected passage, with the correct period and row group in supplied context."
+      },
+      {
+        "case_id": "apple-cash-condition",
+        "semantic_role": "cash_2023",
+        "artifact": "20261001-row-reference-acceptance/apple-cash-condition-planned.json",
+        "artifact_sha256": "4cf94ab03ef824a88a151696d11a35564d7c6201733ff07ebc426b65665f5080",
+        "requirement_id": "R2",
+        "description": "Amount of cash generated by operating activities in fiscal 2023 from \"apple-fy24.pdf\".",
+        "model_status": "supported",
+        "model_selected_references": [
+          {
+            "evidence_id": "p19",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 4207,
+            "end_offset": 4262,
+            "page_indices": [
+              2
+            ],
+            "quote": "Cash generated by operating activities\t118,254\t110,543\n"
+          }
+        ],
+        "application_attached_table_context": [
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "page_indices": [
+              2
+            ],
+            "quote": "Twelve Months Ended\n",
+            "table_id": "#/tables/2",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p19"
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "page_indices": [
+              2
+            ],
+            "quote": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "table_id": "#/tables/2",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p19"
+            ]
+          }
+        ],
+        "expected_supporting_passage": {
+          "evidence_id": "p19",
+          "source_number": 1,
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "file_name": "apple-fy24.pdf",
+          "start_offset": 4207,
+          "end_offset": 4262,
+          "text": "Cash generated by operating activities\t118,254\t110,543\n",
+          "page_indices": [
+            2
+          ],
+          "table_context": [
+            {
+              "evidence_id": "p4",
+              "table_id": "#/tables/2",
+              "role": "column_header"
+            },
+            {
+              "evidence_id": "p5",
+              "table_id": "#/tables/2",
+              "role": "column_header"
+            }
+          ]
+        },
+        "supplied_disambiguating_context": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3495,
+            "end_offset": 3509,
+            "text": "(In millions)\n",
+            "page_indices": [
+              2
+            ]
+          },
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "text": "Twelve Months Ended\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p5",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "text": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p4",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          }
+        ],
+        "original_physical_page": 3,
+        "requested_measure_has_selected_support": true,
+        "irrelevant_selected_ids": [],
+        "supported_without_irrelevant_selections": true,
+        "reviewer_reason": "Requested value/units are in the selected passage, with the correct period and row group in supplied context."
+      },
+      {
+        "case_id": "apple-cash-condition",
+        "semantic_role": "cash_condition",
+        "artifact": "20261001-row-reference-acceptance/apple-cash-condition-planned.json",
+        "artifact_sha256": "4cf94ab03ef824a88a151696d11a35564d7c6201733ff07ebc426b65665f5080",
+        "requirement_id": "R5",
+        "description": "Whether cash generated by operating activities in fiscal 2024 exceeds fiscal 2023 in \"apple-fy24.pdf\".",
+        "model_status": "supported",
+        "model_selected_references": [
+          {
+            "evidence_id": "p19",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 4207,
+            "end_offset": 4262,
+            "page_indices": [
+              2
+            ],
+            "quote": "Cash generated by operating activities\t118,254\t110,543\n"
+          }
+        ],
+        "application_attached_table_context": [
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "page_indices": [
+              2
+            ],
+            "quote": "Twelve Months Ended\n",
+            "table_id": "#/tables/2",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p19"
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "page_indices": [
+              2
+            ],
+            "quote": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "table_id": "#/tables/2",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p19"
+            ]
+          }
+        ],
+        "expected_supporting_passage": {
+          "evidence_id": "p19",
+          "source_number": 1,
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "file_name": "apple-fy24.pdf",
+          "start_offset": 4207,
+          "end_offset": 4262,
+          "text": "Cash generated by operating activities\t118,254\t110,543\n",
+          "page_indices": [
+            2
+          ],
+          "table_context": [
+            {
+              "evidence_id": "p4",
+              "table_id": "#/tables/2",
+              "role": "column_header"
+            },
+            {
+              "evidence_id": "p5",
+              "table_id": "#/tables/2",
+              "role": "column_header"
+            }
+          ]
+        },
+        "supplied_disambiguating_context": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3495,
+            "end_offset": 3509,
+            "text": "(In millions)\n",
+            "page_indices": [
+              2
+            ]
+          },
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "text": "Twelve Months Ended\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p5",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "text": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p4",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          }
+        ],
+        "original_physical_page": 3,
+        "requested_measure_has_selected_support": true,
+        "irrelevant_selected_ids": [],
+        "supported_without_irrelevant_selections": true,
+        "reviewer_reason": "The selected row contains both operating-cash operands; 118254 > 110543. Periods and units are in supplied context."
+      },
+      {
+        "case_id": "apple-cash-condition",
+        "semantic_role": "financing_2024",
+        "artifact": "20261001-row-reference-acceptance/apple-cash-condition-planned.json",
+        "artifact_sha256": "4cf94ab03ef824a88a151696d11a35564d7c6201733ff07ebc426b65665f5080",
+        "requirement_id": "R3",
+        "description": "Amount of cash used in financing activities in fiscal 2024 from \"apple-fy24.pdf\".",
+        "model_status": "supported",
+        "model_selected_references": [
+          {
+            "evidence_id": "p35",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 4999,
+            "end_offset": 5053,
+            "page_indices": [
+              2
+            ],
+            "quote": "Cash used in financing activities\t(121,983)\t(108,488)\n"
+          }
+        ],
+        "application_attached_table_context": [
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "page_indices": [
+              2
+            ],
+            "quote": "Twelve Months Ended\n",
+            "table_id": "#/tables/2",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p35"
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "page_indices": [
+              2
+            ],
+            "quote": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "table_id": "#/tables/2",
+            "role": "column_header",
+            "for_evidence_ids": [
+              "p35"
+            ]
+          }
+        ],
+        "expected_supporting_passage": {
+          "evidence_id": "p35",
+          "source_number": 1,
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "file_name": "apple-fy24.pdf",
+          "start_offset": 4999,
+          "end_offset": 5053,
+          "text": "Cash used in financing activities\t(121,983)\t(108,488)\n",
+          "page_indices": [
+            2
+          ],
+          "table_context": [
+            {
+              "evidence_id": "p4",
+              "table_id": "#/tables/2",
+              "role": "column_header"
+            },
+            {
+              "evidence_id": "p5",
+              "table_id": "#/tables/2",
+              "role": "column_header"
+            }
+          ]
+        },
+        "supplied_disambiguating_context": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3495,
+            "end_offset": 3509,
+            "text": "(In millions)\n",
+            "page_indices": [
+              2
+            ]
+          },
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "text": "Twelve Months Ended\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p5",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "text": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p4",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          }
+        ],
+        "original_physical_page": 3,
+        "requested_measure_has_selected_support": true,
+        "irrelevant_selected_ids": [],
+        "supported_without_irrelevant_selections": true,
+        "reviewer_reason": "Requested value/units are in the selected passage, with the correct period and row group in supplied context."
+      },
+      {
+        "case_id": "apple-cash-condition",
+        "semantic_role": "cash_units",
+        "artifact": "20261001-row-reference-acceptance/apple-cash-condition-planned.json",
+        "artifact_sha256": "4cf94ab03ef824a88a151696d11a35564d7c6201733ff07ebc426b65665f5080",
+        "requirement_id": "R4",
+        "description": "Units for the cash amounts reported in \"apple-fy24.pdf\".",
+        "model_status": "supported",
+        "model_selected_references": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3495,
+            "end_offset": 3509,
+            "page_indices": [
+              2
+            ],
+            "quote": "(In millions)\n"
+          }
+        ],
+        "application_attached_table_context": [],
+        "expected_supporting_passage": {
+          "evidence_id": "p3",
+          "source_number": 1,
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "file_name": "apple-fy24.pdf",
+          "start_offset": 3495,
+          "end_offset": 3509,
+          "text": "(In millions)\n",
+          "page_indices": [
+            2
+          ]
+        },
+        "supplied_disambiguating_context": [
+          {
+            "evidence_id": "p3",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3495,
+            "end_offset": 3509,
+            "text": "(In millions)\n",
+            "page_indices": [
+              2
+            ]
+          },
+          {
+            "evidence_id": "p4",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3510,
+            "end_offset": 3530,
+            "text": "Twelve Months Ended\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p5",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          },
+          {
+            "evidence_id": "p5",
+            "source_number": 1,
+            "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+            "file_name": "apple-fy24.pdf",
+            "start_offset": 3530,
+            "end_offset": 3671,
+            "text": "Cash, cash equivalents, and restricted cash and cash equivalents, beginning balances\tSeptember 28, 2024 $ 30,737\tSeptember 30, 2023 $ 24,977\n",
+            "page_indices": [
+              2
+            ],
+            "table_context": [
+              {
+                "evidence_id": "p4",
+                "table_id": "#/tables/2",
+                "role": "column_header"
+              }
+            ]
+          }
+        ],
+        "original_physical_page": 3,
+        "requested_measure_has_selected_support": true,
+        "irrelevant_selected_ids": [],
+        "supported_without_irrelevant_selections": true,
+        "reviewer_reason": "Requested value/units are in the selected passage, with the correct period and row group in supplied context."
+      }
+    ],
+    "summary": {
+      "requirements": 8,
+      "with_required_selected_support": 8,
+      "supported_without_irrelevant_selections": 8,
+      "requirements_with_irrelevant_selections": 0,
+      "selected_reference_instances": 8,
+      "irrelevant_reference_instances": 0
+    }
+  },
+  "limitations": [
+    "One sample of two familiar financial questions; no general reliability or causal guarantee.",
+    "The cash-flow parser still combines beginning-balance text with date headings. Original-page review confirms column associations for these values; parsing was not changed.",
+    "Periods, row groups and units need not all be explicitly selected; the frozen diagnostic allows disambiguation from actual supplied context."
+  ]
+}

@@ -1,0 +1,459 @@
+{
+  "at": "2026-09-29T20:17:14.083992+00:00",
+  "code_commit": "3333d0f3ae92720c4d54ebaca31f93cae5ebdf31",
+  "implementation_commit": "5541597",
+  "metric_inventory": {
+    "Recall@K": {
+      "status": "measured",
+      "value": 0.65,
+      "unit": "ratio",
+      "sample_count": 5,
+      "population": "Five answerable cases, final-round selected children",
+      "method": "K=5; complete-anchor binary child labels within frozen physical pages. Enumerated allowed-file children; non-exhaustive semantic relevance. Full formulas in protocol.md. Per-query vector/BM25/fusion/rerank observations retained separately.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Unweighted case macro mean"
+    },
+    "Precision@K": {
+      "status": "measured",
+      "value": 0.2,
+      "unit": "ratio",
+      "sample_count": 5,
+      "population": "Five answerable cases, final-round selected children",
+      "method": "K=5; complete-anchor binary child labels within frozen physical pages. Enumerated allowed-file children; non-exhaustive semantic relevance. Full formulas in protocol.md. Per-query vector/BM25/fusion/rerank observations retained separately.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Unweighted case macro mean"
+    },
+    "Hit Rate@K": {
+      "status": "measured",
+      "value": 1,
+      "unit": "ratio",
+      "sample_count": 5,
+      "population": "Five answerable cases, final-round selected children",
+      "method": "K=5; complete-anchor binary child labels within frozen physical pages. Enumerated allowed-file children; non-exhaustive semantic relevance. Full formulas in protocol.md. Per-query vector/BM25/fusion/rerank observations retained separately.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Unweighted case macro mean"
+    },
+    "MRR": {
+      "status": "measured",
+      "value": 1.0,
+      "unit": "ratio",
+      "sample_count": 5,
+      "population": "Five answerable cases, final-round selected children",
+      "method": "K=5; complete-anchor binary child labels within frozen physical pages. Enumerated allowed-file children; non-exhaustive semantic relevance. Full formulas in protocol.md. Per-query vector/BM25/fusion/rerank observations retained separately.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Unweighted case macro mean"
+    },
+    "NDCG@K": {
+      "status": "measured",
+      "value": 0.7233348871046037,
+      "unit": "ratio",
+      "sample_count": 5,
+      "population": "Five answerable cases, final-round selected children",
+      "method": "K=5; complete-anchor binary child labels within frozen physical pages. Enumerated allowed-file children; non-exhaustive semantic relevance. Full formulas in protocol.md. Per-query vector/BM25/fusion/rerank observations retained separately.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Unweighted case macro mean"
+    },
+    "Final evidence coverage": {
+      "status": "measured",
+      "value": {
+        "covered": 14,
+        "expected": 16
+      },
+      "unit": "facts",
+      "sample_count": 16,
+      "population": "Sixteen expected source-fact anchor groups",
+      "method": "Every anchor must occur in supplied source text and its preserved source range. Distinct from semantic support review.",
+      "artifact": "diagnostics.json",
+      "aggregation": "14/16 micro coverage; per-case records retained"
+    },
+    "Answer correctness": {
+      "status": "measured",
+      "value": {
+        "correct": 14,
+        "expected": 16
+      },
+      "unit": "review units",
+      "sample_count": 16,
+      "population": "Frozen expected points or emitted atomic factual claims as named in value",
+      "method": "Codex model review, not human ground truth; all outputs inspected against original pages and supplied context. Claim-free refusal has no citation denominator.",
+      "artifact": "review.json",
+      "aggregation": "Micro numerator/denominator; binary relevance per case"
+    },
+    "Faithfulness": {
+      "status": "measured",
+      "value": {
+        "supported": 15,
+        "claims": 15
+      },
+      "unit": "review units",
+      "sample_count": 15,
+      "population": "Frozen expected points or emitted atomic factual claims as named in value",
+      "method": "Codex model review, not human ground truth; all outputs inspected against original pages and supplied context. Claim-free refusal has no citation denominator.",
+      "artifact": "review.json",
+      "aggregation": "Micro numerator/denominator; binary relevance per case"
+    },
+    "Answer completeness": {
+      "status": "measured",
+      "value": {
+        "addressed": 14,
+        "expected": 16
+      },
+      "unit": "review units",
+      "sample_count": 16,
+      "population": "Frozen expected points or emitted atomic factual claims as named in value",
+      "method": "Codex model review, not human ground truth; all outputs inspected against original pages and supplied context. Claim-free refusal has no citation denominator.",
+      "artifact": "review.json",
+      "aggregation": "Micro numerator/denominator; binary relevance per case"
+    },
+    "Answer relevance": {
+      "status": "measured",
+      "value": {
+        "relevant": 6,
+        "total": 6
+      },
+      "unit": "review units",
+      "sample_count": 6,
+      "population": "Frozen expected points or emitted atomic factual claims as named in value",
+      "method": "Codex model review, not human ground truth; all outputs inspected against original pages and supplied context. Claim-free refusal has no citation denominator.",
+      "artifact": "review.json",
+      "aggregation": "Micro numerator/denominator; binary relevance per case"
+    },
+    "Citation support": {
+      "status": "measured",
+      "value": {
+        "supported": 15,
+        "cited_claims": 15
+      },
+      "unit": "review units",
+      "sample_count": 15,
+      "population": "Frozen expected points or emitted atomic factual claims as named in value",
+      "method": "Codex model review, not human ground truth; all outputs inspected against original pages and supplied context. Claim-free refusal has no citation denominator.",
+      "artifact": "review.json",
+      "aggregation": "Micro numerator/denominator; binary relevance per case"
+    },
+    "Citation coverage": {
+      "status": "measured",
+      "value": {
+        "supported_citations": 15,
+        "citation_required_claims": 15
+      },
+      "unit": "review units",
+      "sample_count": 15,
+      "population": "Frozen expected points or emitted atomic factual claims as named in value",
+      "method": "Codex model review, not human ground truth; all outputs inspected against original pages and supplied context. Claim-free refusal has no citation denominator.",
+      "artifact": "review.json",
+      "aggregation": "Micro numerator/denominator; binary relevance per case"
+    },
+    "Abstention": {
+      "status": "measured",
+      "value": {
+        "appropriate_unanswerable": 1,
+        "unanswerable": 1,
+        "incorrect_any_or_partial": 1,
+        "answerable": 5,
+        "incorrect_full": 0
+      },
+      "unit": "requests",
+      "sample_count": 6,
+      "population": "One unanswerable and five answerable cases",
+      "method": "Separate appropriate refusal, incorrect partial/any refusal and incorrect full refusal.",
+      "artifact": "review.json",
+      "aggregation": "Separate denominators; 1/1 appropriate, 1/5 incorrect partial, 0/5 incorrect full"
+    },
+    "First-answer-delta latency": {
+      "status": "measured",
+      "value": {
+        "n": 6,
+        "mean": 12.868469722161535,
+        "p50": 13.503320124989841,
+        "p95": 17.23255088526639,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "unit": "seconds",
+      "sample_count": 6,
+      "population": "Six completed sequential HTTP/SSE requests, including the local refusal",
+      "method": "Client request start to first nonempty answer_delta / end of HTTP stream respectively; metadata excluded. Network/queue time included, server startup excluded.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Mean/P50/P95; linear interpolation; no warmup requests"
+    },
+    "Complete-response latency": {
+      "status": "measured",
+      "value": {
+        "n": 6,
+        "mean": 13.618381993010795,
+        "p50": 14.431362145987805,
+        "p95": 18.212652239279123,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "unit": "seconds",
+      "sample_count": 6,
+      "population": "Six completed sequential HTTP/SSE requests, including the local refusal",
+      "method": "Client request start to first nonempty answer_delta / end of HTTP stream respectively; metadata excluded. Network/queue time included, server startup excluded.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Mean/P50/P95; linear interpolation; no warmup requests"
+    },
+    "Stage latency": {
+      "status": "measured",
+      "value": {
+        "distributions": {
+          "provider_ingestion_embedding": {
+            "n": 1,
+            "mean": 2.348774041980505,
+            "p50": 2.348774041980505,
+            "p95": 2.348774041980505,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "provider_retrieval_plan": {
+            "n": 6,
+            "mean": 3.196363298494058,
+            "p50": 3.087502916518133,
+            "p95": 4.342666312470101,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "provider_query_embedding": {
+            "n": 22,
+            "mean": 0.329615055011924,
+            "p50": 0.22727862553438172,
+            "p95": 0.5324942461855244,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "provider_evidence_assessment": {
+            "n": 10,
+            "mean": 1.9655849667266012,
+            "p50": 1.642567458038684,
+            "p95": 3.062441048445179,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "provider_generation": {
+            "n": 5,
+            "mean": 1.7013459500158206,
+            "p50": 1.8670484169851989,
+            "p95": 2.164447049982846,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "retrieval_per_query": {
+            "n": 22,
+            "mean": 1.5264720379385504,
+            "p50": 1.4017538959742524,
+            "p95": 2.8583773909776937,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "query_scope_seconds": {
+            "n": 22,
+            "mean": 0.0016848238989372146,
+            "p50": 0.0012982914922758937,
+            "p95": 0.003335430612787604,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "query_embedding_seconds": {
+            "n": 22,
+            "mean": 0.33021987140157516,
+            "p50": 0.22788606252288446,
+            "p95": 0.5330611146520823,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "query_rerank_seconds": {
+            "n": 22,
+            "mean": 1.180023496277334,
+            "p50": 1.1852250415249728,
+            "p95": 2.2263095252448695,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "retrieval_round": {
+            "n": 14,
+            "mean": 2.422473211506648,
+            "p50": 0.6799452085397206,
+            "p95": 8.648452149995135,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "cross_query_merge": {
+            "n": 14,
+            "mean": 0.0003079345832312746,
+            "p50": 0.00023914605844765902,
+            "p95": 0.0006910455063916741,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "packing_round": {
+            "n": 14,
+            "mean": 0.0020532976403566344,
+            "p50": 0.0008131040376611054,
+            "p95": 0.007254879106767476,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "startup_seconds": 5.154146332992241,
+        "unavailable": {
+          "search_fusion": "Vector search, BM25 and fusion have no separate timers.",
+          "provider_queue": "Provider queue wait is included but not separately exposed."
+        }
+      },
+      "unit": "seconds",
+      "sample_count": null,
+      "population": "22 unique query runs; 14 retrieve/repack invocations; 6 plans; 10 assessments; 5 answer generations",
+      "method": "Observed SDK and product timings. Retrieve/repack invocations include rounds without new queries. Overlapping timings are not additive.",
+      "artifact": "diagnostics.json; resolved-runtime.json",
+      "aggregation": "Count/mean/P50/P95 by stage, startup separate"
+    },
+    "Token usage and cost": {
+      "status": "measured",
+      "value": {
+        "by_role": {
+          "ingestion_embedding": {
+            "input_tokens": 2545,
+            "output_tokens": null,
+            "total_tokens": 2545,
+            "cached_input_tokens": null,
+            "calls": 1,
+            "cached_input_status": "unavailable: embedding usage does not expose cached-token counts",
+            "output_status": "not_applicable: embedding calls return vectors, not completion tokens"
+          },
+          "retrieval_plan": {
+            "input_tokens": 10618,
+            "output_tokens": 1785,
+            "total_tokens": 12403,
+            "cached_input_tokens": 0,
+            "calls": 6
+          },
+          "query_embedding": {
+            "input_tokens": 491,
+            "output_tokens": null,
+            "total_tokens": 491,
+            "cached_input_tokens": null,
+            "calls": 22,
+            "cached_input_status": "unavailable: embedding usage does not expose cached-token counts",
+            "output_status": "not_applicable: embedding calls return vectors, not completion tokens"
+          },
+          "evidence_assessment": {
+            "input_tokens": 33929,
+            "output_tokens": 1381,
+            "total_tokens": 35310,
+            "cached_input_tokens": 2304,
+            "calls": 10
+          },
+          "generation": {
+            "input_tokens": 23944,
+            "output_tokens": 399,
+            "total_tokens": 24343,
+            "cached_input_tokens": 0,
+            "calls": 5
+          }
+        },
+        "resolved_models": [
+          "gpt-4.1-2025-04-14",
+          "text-embedding-3-small"
+        ],
+        "evidence_tokens": {
+          "paper-split": 3616,
+          "paper-delivery": 3281,
+          "lecture-bag-words": 950,
+          "lecture-midterm-date": 602,
+          "apple-securities": 4062,
+          "apple-cash-condition": 3359
+        },
+        "billed_cost": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "SDK reports tokens, not billed currency; no billing API used."
+        },
+        "local_compute": "CPU parser/retrieval/BGE reranker; no provider currency inferred."
+      },
+      "unit": "tokens; currency unavailable",
+      "sample_count": 44,
+      "population": "All 44 provider calls including one ingestion embedding batch",
+      "method": "Actual SDK usage. Corrected interpretation: diagnostics.json initializes cached counters to zero; for embedding calls those absent counters are unavailable, not measured zero. This inventory supersedes those two cached/output placeholder fields without changing raw observations.",
+      "artifact": "server-observations.jsonl; diagnostics.json; resolved-runtime.json",
+      "aggregation": "Sum by role, preserving embedding versus response usage"
+    },
+    "Reliability": {
+      "status": "measured",
+      "value": {
+        "http_requests": 6,
+        "completed": 6,
+        "errors": 0,
+        "timeouts": 0,
+        "retries": 0,
+        "sdk_calls": 44,
+        "sdk_terminals": 44,
+        "sdk_errors": 0,
+        "sdk_timeouts": 0,
+        "sdk_retries": 0,
+        "semantic_gate": {
+          "passed": 5,
+          "total": 6
+        }
+      },
+      "unit": "counts and rates",
+      "sample_count": 6,
+      "population": "Six user requests; provider attempts reported separately",
+      "method": "HTTP/SSE outcomes and observed SDK starts/terminals. Successful transport is separate from the 5/6 semantic gate.",
+      "artifact": "diagnostics.json; review.json",
+      "aggregation": "Completion 6/6; SDK success 44/44; semantic acceptance 5/6"
+    },
+    "Concurrency and throughput": {
+      "status": "measured",
+      "value": {
+        "concurrency": 1,
+        "wall_interval_seconds": 81.86082124710083,
+        "completed_requests_per_second": 0.07329513567777082
+      },
+      "unit": "requests/second",
+      "sample_count": 6,
+      "population": "From first answer-request start to final HTTP completion, including intervening history reads",
+      "method": "Six sequential planned requests; not a load/capacity benchmark.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Completed requests / observed wall interval"
+    },
+    "Ingestion and index": {
+      "status": "measured",
+      "value": {
+        "ingested_file": "apple-fy24.pdf",
+        "pages": 4,
+        "upload_to_ready_seconds": 11.137276458088309,
+        "storage_bytes_before": 42233745,
+        "storage_bytes_after_ingestion": 47296321,
+        "storage_bytes_after_answers": 53018433,
+        "ready_corpus_files": 5,
+        "ready_corpus_pages": 98,
+        "queried_files": 3,
+        "queried_pages": 88,
+        "originals_verified": 3,
+        "update": {
+          "status": "not_applicable",
+          "reason": "No update operation in this workload."
+        },
+        "delete": {
+          "status": "not_applicable",
+          "reason": "No deletion operation in this workload."
+        },
+        "reindex": "Only Apple was newly indexed; paper/lecture extraction and embeddings were reused."
+      },
+      "unit": "seconds; bytes; counts",
+      "sample_count": 1,
+      "population": "One Apple upload plus an existing four-file evaluation index",
+      "method": "Client POST duration to ready; storage totals include original PDFs, vectors, SQLite metadata and historical/new conversations. Not vector-only size. Original bytes/ranges/revision guard checked for three queried PDFs.",
+      "artifact": "ingest-apple.json; original-access.json; index-snapshot.json; server-stop.json",
+      "aggregation": "Single upload: mean/P50/P95 all equal its observed duration; no capacity inference"
+    }
+  },
+  "limitations": [
+    "New questions on a reused development corpus; no before/after comparison.",
+    "One incorrect partial refusal; incomplete retrieval labels; no human reviewer.",
+    "No dependent entity hop, browser interaction, OCR, chart or formula evaluation.",
+    "Billed cost and isolated search/fusion/provider queue timings unavailable.",
+    "Mixed ingestion vintages; all indexed extraction and parser provenance retained."
+  ]
+}

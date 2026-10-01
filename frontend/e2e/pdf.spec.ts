@@ -1,0 +1,78 @@
+import { expect, test } from "@playwright/test";
+import path from "node:path";
+
+for (const planned of [false, true]) {
+test(`PDF upload, page links, reload and historical evidence after deletion (planned=${planned})`, async ({ page, request }, testInfo) => {
+  for (const file of await (await request.get("/api/files")).json()) await request.delete(`/api/files/${file.file_id}`);
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/");
+  await page.getByLabel("Choose TXT, Markdown or PDF file").setInputFiles(path.resolve("../evals/materials/pdf-v2/apple-fy24.pdf"));
+  await expect(page.getByText("apple-fy24.pdf is ready.")).toBeVisible();
+  await expect(page.getByText("Ready · 4 pages · Review extraction")).toBeVisible();
+  const composer = page.getByRole("textbox", { name: "Ask about your documents" });
+  if (planned) await page.getByRole("checkbox", { name: "Plan complex questions" }).check();
+  await composer.fill("What were total net sales?");
+  await composer.press("Enter");
+  await expect(page.getByText("Completed", { exact: true })).toBeVisible();
+  // The offline vectors may retain unrelated PDF passages; navigation also works after abstention.
+  await page.getByRole("button", { name: "View evidence", exact: true }).click();
+  const evidence = page.getByRole("complementary", { name: "Evidence" });
+  let tableContextText: string | null = null;
+  if (planned) {
+    await evidence.getByText("Search plan", { exact: true }).click();
+    const tableContext = evidence.getByRole("group", { name: "Table context" });
+    await expect(tableContext).toBeVisible();
+    for (const header of ["Three Months Ended", "Twelve Months Ended", "September 28, 2024", "September 30, 2023"])
+      await expect(tableContext).toContainText(header);
+    await expect(tableContext).toContainText("Added by the application from the selected table.");
+    tableContextText = await tableContext.textContent();
+    await evidence.getByRole("region", { name: "Evidence assessment" }).screenshot({
+      path: testInfo.outputPath("citation-context.png"),
+    });
+  }
+  const link = evidence.getByRole("link", { name: /Open page/ }).first();
+  await expect(link).toBeVisible();
+  const href = (await link.getAttribute("href"))!;
+  expect(href).toMatch(/original\?revision=.*#page=\d+/);
+  const original = await request.get(href.split("#")[0]);
+  expect(original.status()).toBe(200);
+  expect(original.headers()["content-type"]).toBe("application/pdf");
+  await link.click();
+  const viewer = page.getByRole("dialog", { name: "apple-fy24.pdf" });
+  const pageNumber = Number(href.split("#page=")[1]);
+  await expect(viewer.getByText(`Page ${pageNumber} of 4`, { exact: true })).toBeVisible();
+  await expect(viewer.locator("canvas[data-rendered=true]")).toBeVisible();
+  await page.screenshot({ path: testInfo.outputPath("pdf-viewer.png"), fullPage: true });
+  await viewer.getByRole("button", { name: pageNumber < 4 ? "Next page" : "Previous page" }).click();
+  await expect(viewer.getByText(`Page ${pageNumber < 4 ? pageNumber + 1 : pageNumber - 1} of 4`, { exact: true })).toBeVisible();
+  await expect(viewer.locator("canvas[data-rendered=true]")).toBeVisible();
+  await viewer.getByRole("button", { name: "Close PDF" }).click();
+  await page.screenshot({ path: testInfo.outputPath("pdf-evidence.png"), fullPage: true });
+  await page.reload();
+  // The offline vectors may retain unrelated PDF passages; navigation also works after abstention.
+  await page.getByRole("button", { name: "View evidence", exact: true }).click();
+  if (planned) {
+    await evidence.getByText("Search plan", { exact: true }).click();
+    const tableContext = evidence.getByRole("group", { name: "Table context" });
+    await expect(tableContext).toBeVisible();
+    expect(await tableContext.textContent()).toBe(tableContextText);
+  }
+  await expect(evidence.getByRole("link", { name: /Open page/ }).first()).toHaveAttribute("href", href);
+  await page.getByRole("button", { name: "apple-fy24.pdf Ready", exact: true }).click();
+  await page.getByRole("button", { name: "Delete", exact: true }).click();
+  await page.getByRole("button", { name: "Delete file", exact: true }).click();
+  await expect(page.getByText("File and indexed content deleted.")).toBeVisible();
+  await expect(evidence.getByRole("link", { name: /Open page/ })).toHaveCount(0);
+  await page.reload();
+  // The offline vectors may retain unrelated PDF passages; navigation also works after abstention.
+  await page.getByRole("button", { name: "View evidence", exact: true }).click();
+  if (planned) {
+    await evidence.getByText("Search plan", { exact: true }).click();
+    const tableContext = evidence.getByRole("group", { name: "Table context" });
+    await expect(tableContext).toBeVisible();
+    expect(await tableContext.textContent()).toBe(tableContextText);
+  }
+  await expect(evidence.getByText(/original unavailable/).first()).toBeVisible();
+  expect((await request.get(href.split("#")[0])).status()).toBe(404);
+});
+}

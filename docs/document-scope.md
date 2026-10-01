@@ -13,11 +13,16 @@ Use an explicit leading source clause, followed by a comma or colon:
 - `In the saved DeepSeek Anthropic guide, what happens to anthropic-version?`
 - `According to the general FAQ and admissions FAQ, which page describes a separate application?`
 - `Compare "general-faq.txt" and "admissions-faq.txt": what differs?`
+- `In "background-checks.pdf" for November 2015, report Alabama's Totals value.`
 
 The recognized prefixes are `According to`, `In`, `From`, `Using` and `Compare`.
 A clause must contain a document descriptor (FAQ, guide, document, file or page),
-a `.txt`/`.md` filename, or a quoted name. Quote names containing commas, colons
+a `.txt`/`.md`/`.pdf` filename, or a quoted name. Quote names containing commas, colons
 or `and`, using double quotes or backticks. Matching is case-insensitive.
+For a quoted reference, the closing quote ends the document identity. A following
+qualifier such as `for November 2015` remains in the original question supplied to
+the answer model; it is not appended to the filename. An unquoted `and` still
+separates document references.
 This is deliberately bounded syntax, **not arbitrary natural-language document
 recognition**. For example, `What does my guide say?` does not establish a scope.
 Queries such as `In fall 2026, how many credits?` remain ordinary library queries.
@@ -34,6 +39,12 @@ an English clarification with **no retrieval or answer-generation call**, not an
 answer assembled from the other files. A scope with insufficient evidence stays
 within that scope and uses the existing evidence-limitation behavior. Matching a
 name does not establish that the document contains the requested answer.
+
+Planned mode preserves the initial missing or ambiguous reference, candidate
+matches and clarification before search. It does not re-resolve that failure
+against an empty file catalog or replace it with a generic missing-file message.
+The planner is also skipped for an unresolved scope. Complete answers, streaming
+answers and saved history retain the same scope and clarification.
 
 ## Explicit API selection
 
@@ -65,7 +76,7 @@ the restricted IDs to both search paths. Canonical title text is read in one bat
 only for named requests; no index rebuild or schema migration is needed.
 
 `retrieval.document_scope` records references, resolved IDs or ambiguous candidates,
-status and clarification. `scope_seconds` measures identity lookup/resolution
+status and clarification. Where recorded, `scope_seconds` measures identity lookup/resolution
 inside total retrieval time, not an extra duration to add to it. Source IDs remain
 contiguous in packed evidence order. Existing snapshots retain scope, excerpts,
 locations and citations after refresh and file deletion. The UI's Debug details
@@ -90,6 +101,11 @@ restrictions; it does not guarantee model faithfulness, completeness or language
 
 [Check records](../evals/check-runs/20260925-document-scope/README.md) cover source
 matching, vector/BM25 filtering, API/streaming/history parity and browser workflows.
+
+The [quoted-reference regression checks](../evals/check-runs/20260927-table-context-scope/README.md)
+cover trailing date qualifiers, explicit file restrictions and ambiguous names,
+plus preservation of planned clarifications in both API modes and history. These
+are offline checks with mocked providers, not live answer-quality measurements.
 
 The [initial live acceptance](../evals/library-runs/20260925-document-scope/README.md)
 retains the multi-document candidate-starvation failure that motivated this correction.

@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/evals/library-runs/20260929-new-pdf-chain/measure.py", line 98, in <module>
+    main()
+    ~~~~^^
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/evals/library-runs/20260929-new-pdf-chain/measure.py", line 76, in main
+    ready_corpus_files=len(snapshot['files']), ready_corpus_pages=sum(d['extraction']['page_count'] for d in snapshot['files']),
+                                                                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/evals/library-runs/20260929-new-pdf-chain/measure.py", line 76, in <genexpr>
+    ready_corpus_files=len(snapshot['files']), ready_corpus_pages=sum(d['extraction']['page_count'] for d in snapshot['files']),
+                                                                      ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+KeyError: 'page_count'

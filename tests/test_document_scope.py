@@ -17,6 +17,15 @@ def file(identity, name, text=''):
     ('In fall 2026, how many credits?', []),
     ('What is a general FAQ?', []),
     ('How are scholarships awarded?', []),
+    ('Using only "docling-report.pdf", name the dataset.', ['docling-report.pdf']),
+    ('Using "only course.pdf", name the instructor.', ['only course.pdf']),
+    ('In "background-checks.pdf" for November 2015, report the Totals.', ['background-checks.pdf']),
+    ('In the uploaded `background-checks.pdf` for November 2015, report the Totals.', ['background-checks.pdf']),
+    ('Compare "first.pdf" and "second.pdf" for November 2015, report the Totals.', ['first.pdf', 'second.pdf']),
+    ('In the relevant documents, compare their results.', []),
+    ('In "relevant document", find the results.', ['relevant document']),
+    ('In relevant.pdf, find the results.', ['relevant.pdf']),
+    ('In the relevant document and "missing.pdf", compare results.', ['missing.pdf']),
 ])
 def test_explicit_source_clause(question,expected):
     assert document_references(question)==expected
@@ -55,6 +64,22 @@ def test_exact_filename_wins_over_partial_label_and_duplicate_names_are_ambiguou
     a=file('a','faq.txt');b=file('b','general-faq.txt')
     assert resolve_document_scope(['faq.txt'],[a,b]).file_ids==['a']
     assert resolve_document_scope(['faq.txt'],[a,file('duplicate','faq.txt')]).status=='ambiguous'
+
+
+def test_using_only_resolves_the_named_pdf_without_broadening():
+    references = document_references('Using only "docling-report.pdf", name the dataset.')
+    catalog = [file('report', 'docling-report.pdf'), file('paper', 'doclaynet.pdf')]
+    assert resolve_document_scope(references, catalog).file_ids == ['report']
+    assert resolve_document_scope(references, catalog, file_ids=['paper']).status == 'not_found'
+
+
+def test_quoted_filename_date_keeps_selected_file_boundary_and_ambiguity():
+    references = document_references('In "background-checks.pdf" for November 2015, report the Totals.')
+    report = file('report', 'background-checks.pdf')
+    catalog = [report, file('other', 'other.pdf')]
+    assert resolve_document_scope(references, catalog).file_ids == ['report']
+    assert resolve_document_scope(references, catalog, file_ids=['other']).status == 'not_found'
+    assert resolve_document_scope(references, [report, file('duplicate', 'background-checks.pdf')]).status == 'ambiguous'
 
 
 def test_representative_selection_retains_rank_order_within_each_group():

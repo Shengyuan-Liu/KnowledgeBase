@@ -1,0 +1,18 @@
+{
+  "request": "state-totals-planned",
+  "sdk_call_id": "8f90ed2a97ea4ea39049e2dfca2844de",
+  "provider_status": "completed",
+  "original_output": "{\"route\":\"decomposed\",\"requirements\":[{\"requirement_id\":\"r1\",\"description\":\"Find the Totals value for Alabama for November 2015.\"},{\"requirement_id\":\"r2\",\"description\":\"Find the Totals value for Alaska for November 2015.\"},{\"requirement_id\":\"r3\",\"description\":\"Find the Totals value for Arizona for November 2015.\"},{\"requirement_id\":\"r4\",\"description\":\"Compare the Totals values for Alabama, Alaska, and Arizona for November 2015.\"}],\"queries\":[{\"query_id\":\"q1\",\"text\":\"In \\\"background-checks.pdf\\\", what is the Totals value for Alabama for November 2015?\",\"requirement_ids\":[\"r1\"]},{\"query_id\":\"q2\",\"text\":\"In \\\"background-checks.pdf\\\", what is the Totals value for Alaska for November 2015?\",\"requirement_ids\":[\"r2\"]},{\"query_id\":\"q3\",\"text\":\"In \\\"background-checks.pdf\\\", what is the Totals value for Arizona for November 2015?\",\"requirement_ids\":[\"r3\"]}],\"dependencies\":[]}",
+  "unaddressed_requirements": [
+    {
+      "requirement_id": "r4",
+      "description": "Compare the Totals values for Alabama, Alaska, and Arizona for November 2015."
+    }
+  ],
+  "validation_error": "1 validation error for RetrievalPlan\n  Value error, Queries must reference known requirements and address every requirement. [type=value_error, input_value={'original_question': 'In...e)], 'dependencies': []}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/value_error",
+  "reproduced": true,
+  "interpretation": "Provider returned valid JSON with a fourth comparison requirement that no query addresses. Existing RetrievalPlan validation rejects it before retrieval. This precedes the changed table context code.",
+  "provider_calls": 0,
+  "product_changed": false,
+  "automatic_retry": false
+}

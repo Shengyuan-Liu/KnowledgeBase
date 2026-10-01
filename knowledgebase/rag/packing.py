@@ -1,26 +1,29 @@
-"""Keep admitted parent context and fill unused space with complete selected hits."""
+"""Pack complete hits, reserving table children before optional parent context."""
 
 from time import perf_counter
 
 import tiktoken
 
-from knowledgebase.rag.context import CONTEXT_FORMAT, LABELED_CONTEXT_FORMAT, build_context
+from knowledgebase.rag.context import CONTEXT_FORMAT, LABELED_CONTEXT_FORMAT, PDF_CONTEXT_FORMAT, build_context
 from knowledgebase.schemas import ExcludedEvidence, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics
 
 
 def pack_evidence(
     selected: list[RetrievedChunk], expanded: list[RetrievedChunk], diagnostics: RetrievalDiagnostics,
 ) -> RetrievedEvidence:
-    """Pack whole parents, then retain selected children of parents that did not fit.
+    """Try each parent and its child fallback before lower-ranked evidence.
 
     Expanded regions are deduplicated and follow their best selected child's rank.
-    The second pass never evicts an admitted parent. Every trial counts the actual
-    numbered context in selected-hit order; parent and child text never coexist
-    for the same parent. Parent-first alone remains available as the control.
+    PDF table parents wait until selected children are packed: upgrading to a
+    larger table must not evict retained hits. Other parents keep their immediate
+    expansion preference. Every trial counts the actual numbered context. Parent
+    and child text never coexist for the same parent; parent_first is unchanged.
     """
     started = perf_counter()
-    diagnostics.context_format = LABELED_CONTEXT_FORMAT if any(c.document_labels for c in selected) else CONTEXT_FORMAT
+    diagnostics.context_format = (PDF_CONTEXT_FORMAT if any(c.pdf for c in selected) else
+                                  LABELED_CONTEXT_FORMAT if any(c.document_labels for c in selected) else CONTEXT_FORMAT)
     encoding = tiktoken.get_encoding(diagnostics.tokenizer)
+    trial_tokens: dict[str, int] = {}
 
     def tokens(regions):
         return len(encoding.encode_ordinary(build_context(regions)))
@@ -29,35 +32,53 @@ def pack_evidence(
         return ExcludedEvidence(
             chunk_id=region.chunk.chunk_id, file_id=region.chunk.file_id,
             token_count=len(encoding.encode_ordinary(region.chunk.text)),
+            trial_context_tokens=trial_tokens[region.chunk.chunk_id],
         )
 
     packed: list[RetrievedChunk] = []
-    for region in expanded:
-        if tokens([*packed, region]) <= diagnostics.max_tokens:
-            packed.append(region)
-    admitted = {region.chunk.chunk_id for region in packed}
-    parents = {region.parent_id: region for region in packed if region.parent_id is not None}
-    retained = {region.chunk.chunk_id for region in packed if region.parent_id is None}
-    parent_first = diagnostics.options.packing_strategy == "parent_first"
-    if not parent_first:
-        def plan(child_ids):
-            regions, seen = [], set()
-            for child in selected:
-                if child.parent_id in parents:
-                    if child.parent_id not in seen:
-                        regions.append(parents[child.parent_id])
-                        seen.add(child.parent_id)
-                elif child.chunk.chunk_id in child_ids:
-                    regions.append(child)
-            return regions
 
+    def fits(region, regions):
+        trial = tokens(regions)
+        trial_tokens[region.chunk.chunk_id] = trial
+        return trial <= diagnostics.max_tokens
+
+    parent_first = diagnostics.options.packing_strategy == "parent_first"
+    admitted: set[str] = set()
+    if parent_first:
+        for region in expanded:
+            if fits(region, [*packed, region]):
+                packed.append(region)
+                admitted.add(region.chunk.chunk_id)
+    else:
+        by_id = {region.chunk.chunk_id: region for region in expanded}
+        attempted: set[str] = set()
+        deferred = []
+        order = {}
+        for rank, child in enumerate(selected):
+            order[child.chunk.chunk_id] = rank
+            order.setdefault(child.parent_id or child.chunk.chunk_id, rank)
         for child in selected:
-            if child.parent_id in parents or child.chunk.chunk_id in retained:
+            identity = child.parent_id or child.chunk.chunk_id
+            if identity in admitted:
                 continue
-            trial = plan(retained | {child.chunk.chunk_id})
-            if tokens(trial) <= diagnostics.max_tokens:
-                retained.add(child.chunk.chunk_id)
+            if identity not in attempted:
+                attempted.add(identity)
+                region = by_id[identity]
+                if child.parent_id is not None and region.pdf is not None and region.pdf.tables:
+                    deferred.append(region)
+                elif fits(region, [*packed, region]):
+                    packed.append(region)
+                    admitted.add(identity)
+                    continue
+            if child.parent_id is not None and fits(child, [*packed, child]):
+                packed.append(child)
+        for parent in deferred:
+            identity = parent.chunk.chunk_id
+            trial = sorted([*(region for region in packed if region.parent_id != identity), parent],
+                           key=lambda region: order[region.chunk.chunk_id])
+            if fits(parent, trial):
                 packed = trial
+                admitted.add(identity)
 
     represented = {region.chunk.chunk_id for region in packed}
     represented.update(child_id for region in packed for child_id in region.matched_child_ids)

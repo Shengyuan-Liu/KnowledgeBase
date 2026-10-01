@@ -1,0 +1,346 @@
+{
+  "case_id": "lecture-bag-words",
+  "artifact": "lecture-bag-words-planned.json",
+  "observed": {
+    "assessment_rounds": 3,
+    "selected_page_62_source": {
+      "source_id": 3,
+      "pdf": {
+        "revision_id": "24c54850e737852d0c1cf0ff4ad50b20e2ddbfa9a6f7ae0b94b5bb5a3cd2f006",
+        "source_hash": "eefe52854eed1e2a0be969daed838d33e1751107a2f60ace2d1b6b8189424216",
+        "page_count": 75,
+        "regions": [
+          {
+            "start_offset": 27390,
+            "end_offset": 27434,
+            "page_index": 61,
+            "bbox": [
+              61.260000000000005,
+              65.77836000000002,
+              513.9752760000003,
+              132.4950713370166
+            ],
+            "precision": "block",
+            "coordinate_system": "top_left_pdf_points"
+          }
+        ],
+        "tables": [],
+        "supplements": [],
+        "warnings": [
+          {
+            "code": "scope",
+            "message": "OCR, visual figure/chart interpretation, and formula understanding are disabled. Reading order, spacing and table structure are parser estimates; review the original pages.",
+            "page_indices": [],
+            "source_ref": null
+          },
+          {
+            "code": "printed_labels_unavailable",
+            "message": "Printed page labels are not extracted; page indices refer to physical PDF pages.",
+            "page_indices": [],
+            "source_ref": null
+          },
+          {
+            "code": "formula_not_understood",
+            "message": "Native formula text is retained without mathematical interpretation.",
+            "page_indices": [
+              61
+            ],
+            "source_ref": "#/texts/629"
+          },
+          {
+            "code": "picture_not_interpreted",
+            "message": "Picture content is omitted; native captions are retained.",
+            "page_indices": [
+              61
+            ],
+            "source_ref": "#/pictures/123"
+          }
+        ]
+      },
+      "document_labels": [
+        "ml-lecture"
+      ],
+      "file_id": "e38c730b3b714c5a8913e530695fd03b",
+      "file_name": "ml-lecture.pdf",
+      "chunk_id": "e38c730b3b714c5a8913e530695fd03b:parent:78",
+      "text": "NB with Bag of Words for text classification",
+      "distance": 0.4900183081626892,
+      "fusion": {
+        "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:384",
+        "rrf_score": 0.030309988518943745,
+        "rank": 5,
+        "bm25_score": 10.78372488096926,
+        "bm25_rank": 7,
+        "vector_distance": 0.4900183081626892,
+        "vector_rank": 5
+      },
+      "rerank": {
+        "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:384",
+        "rrf_score": 0.030309988518943745,
+        "rank": 5,
+        "bm25_score": 10.78372488096926,
+        "bm25_rank": 7,
+        "vector_distance": 0.4900183081626892,
+        "vector_rank": 5,
+        "rerank_score": -5.1768083572387695,
+        "rerank_rank": 7,
+        "score_kind": "logit",
+        "scoring_parent_id": null
+      },
+      "parent_id": "e38c730b3b714c5a8913e530695fd03b:parent:78",
+      "matched_child_ids": [
+        "e38c730b3b714c5a8913e530695fd03b:child:384"
+      ],
+      "start_offset": 27390,
+      "end_offset": 27434,
+      "start_line": null,
+      "end_line": null,
+      "heading_path": [
+        "NB with Bag of Words for text classification"
+      ],
+      "source_block_indices": [
+        496
+      ],
+      "token_count": 8,
+      "tokenizer": "cl100k_base",
+      "max_tokens": 1536
+    },
+    "exclusions": [],
+    "unexpanded_parents": [],
+    "final_context_has_document_count": false,
+    "final_context_has_word_count": false
+  },
+  "facts": [
+    {
+      "fact_id": "topic_documents",
+      "indexed_children": [
+        {
+          "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:387",
+          "file_id": "e38c730b3b714c5a8913e530695fd03b",
+          "text": "\uf06c Count how many documents you have from each topic (+ prior)",
+          "index": 387,
+          "start_offset": 27468,
+          "end_offset": 27529,
+          "heading_path": [
+            "\uf06cLearning phase:"
+          ],
+          "source_block_indices": [
+            499
+          ],
+          "token_count": 15,
+          "tokenizer": "cl100k_base",
+          "max_tokens": 512,
+          "parent_id": "e38c730b3b714c5a8913e530695fd03b:parent:79"
+        }
+      ],
+      "indexed_parents": [
+        {
+          "parent_id": "e38c730b3b714c5a8913e530695fd03b:parent:79",
+          "file_id": "e38c730b3b714c5a8913e530695fd03b",
+          "text": "\uf06cLearning phase:\n\n\uf06c Prior P(Y)\n\n\uf06c Count how many documents you have from each topic (+ prior)\n\n\uf06c P(X i |Y)\n\n\uf06c For each topic, count how many times you saw word in documents of this topic (+ prior)",
+          "index": 79,
+          "start_offset": 27436,
+          "end_offset": 27632,
+          "heading_path": [
+            "\uf06cLearning phase:"
+          ],
+          "source_block_indices": [
+            497,
+            498,
+            499,
+            500,
+            501
+          ],
+          "token_count": 59,
+          "tokenizer": "cl100k_base",
+          "max_tokens": 1536
+        }
+      ],
+      "queries": [
+        {
+          "round_index": 1,
+          "query": "In \"ml-lecture.pdf\", what does the bag-of-words model ignore about a document?",
+          "ranks": {
+            "vector_matches": [],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "rerank_candidates": []
+          },
+          "candidate_limit": 20
+        },
+        {
+          "round_index": 1,
+          "query": "In \"ml-lecture.pdf\", what is the first kind of count collected during the learning phase of Naive Bayes text classification?",
+          "ranks": {
+            "vector_matches": [],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "rerank_candidates": []
+          },
+          "candidate_limit": 20
+        },
+        {
+          "round_index": 1,
+          "query": "In \"ml-lecture.pdf\", what is the second kind of count collected during the learning phase of Naive Bayes text classification?",
+          "ranks": {
+            "vector_matches": [],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "rerank_candidates": []
+          },
+          "candidate_limit": 20
+        },
+        {
+          "round_index": 2,
+          "query": "In ml-lecture.pdf, list the two kinds of counts collected during the learning phase of Naive Bayes text classification.",
+          "ranks": {
+            "vector_matches": [],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "rerank_candidates": []
+          },
+          "candidate_limit": 20
+        },
+        {
+          "round_index": 3,
+          "query": "In ml-lecture.pdf, under Naive Bayes text classification, what kinds of counts are collected during the learning phase?",
+          "ranks": {
+            "vector_matches": [],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "rerank_candidates": []
+          },
+          "candidate_limit": 20
+        }
+      ],
+      "selected_ids": []
+    },
+    {
+      "fact_id": "topic_words",
+      "indexed_children": [
+        {
+          "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:389",
+          "file_id": "e38c730b3b714c5a8913e530695fd03b",
+          "text": "\uf06c For each topic, count how many times you saw word in documents of this topic (+ prior)",
+          "index": 389,
+          "start_offset": 27544,
+          "end_offset": 27632,
+          "heading_path": [
+            "\uf06cLearning phase:"
+          ],
+          "source_block_indices": [
+            501
+          ],
+          "token_count": 22,
+          "tokenizer": "cl100k_base",
+          "max_tokens": 512,
+          "parent_id": "e38c730b3b714c5a8913e530695fd03b:parent:79"
+        }
+      ],
+      "indexed_parents": [
+        {
+          "parent_id": "e38c730b3b714c5a8913e530695fd03b:parent:79",
+          "file_id": "e38c730b3b714c5a8913e530695fd03b",
+          "text": "\uf06cLearning phase:\n\n\uf06c Prior P(Y)\n\n\uf06c Count how many documents you have from each topic (+ prior)\n\n\uf06c P(X i |Y)\n\n\uf06c For each topic, count how many times you saw word in documents of this topic (+ prior)",
+          "index": 79,
+          "start_offset": 27436,
+          "end_offset": 27632,
+          "heading_path": [
+            "\uf06cLearning phase:"
+          ],
+          "source_block_indices": [
+            497,
+            498,
+            499,
+            500,
+            501
+          ],
+          "token_count": 59,
+          "tokenizer": "cl100k_base",
+          "max_tokens": 1536
+        }
+      ],
+      "queries": [
+        {
+          "round_index": 1,
+          "query": "In \"ml-lecture.pdf\", what does the bag-of-words model ignore about a document?",
+          "ranks": {
+            "vector_matches": [],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "rerank_candidates": []
+          },
+          "candidate_limit": 20
+        },
+        {
+          "round_index": 1,
+          "query": "In \"ml-lecture.pdf\", what is the first kind of count collected during the learning phase of Naive Bayes text classification?",
+          "ranks": {
+            "vector_matches": [],
+            "bm25_matches": [
+              {
+                "rank": 17,
+                "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:389"
+              }
+            ],
+            "fused_matches": [
+              {
+                "rank": 32,
+                "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:389"
+              }
+            ],
+            "rerank_candidates": []
+          },
+          "candidate_limit": 20
+        },
+        {
+          "round_index": 1,
+          "query": "In \"ml-lecture.pdf\", what is the second kind of count collected during the learning phase of Naive Bayes text classification?",
+          "ranks": {
+            "vector_matches": [],
+            "bm25_matches": [
+              {
+                "rank": 17,
+                "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:389"
+              }
+            ],
+            "fused_matches": [
+              {
+                "rank": 32,
+                "chunk_id": "e38c730b3b714c5a8913e530695fd03b:child:389"
+              }
+            ],
+            "rerank_candidates": []
+          },
+          "candidate_limit": 20
+        },
+        {
+          "round_index": 2,
+          "query": "In ml-lecture.pdf, list the two kinds of counts collected during the learning phase of Naive Bayes text classification.",
+          "ranks": {
+            "vector_matches": [],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "rerank_candidates": []
+          },
+          "candidate_limit": 20
+        },
+        {
+          "round_index": 3,
+          "query": "In ml-lecture.pdf, under Naive Bayes text classification, what kinds of counts are collected during the learning phase?",
+          "ranks": {
+            "vector_matches": [],
+            "bm25_matches": [],
+            "fused_matches": [],
+            "rerank_candidates": []
+          },
+          "candidate_limit": 20
+        }
+      ],
+      "selected_ids": []
+    }
+  ],
+  "conclusion": "Both page-62 count bullets are correctly indexed but absent from the final context. The selected page-62 parent contains only the slide title. The document-count child is outside all candidate lists; the word-count child reaches BM25 rank 17 and fused rank 32 for both initial count queries, outside the 20-child rerank window. Supplementary queries do not recover either fact. No context-budget exclusion caused this miss.",
+  "inference": "The generic Learning phase heading separates the count children from the descriptive slide title. This may contribute to the ranking failure; no causal repair experiment has been run.",
+  "next_scope": "Address title/body retrieval association for this concrete lecture failure with scoped offline controls, then use the same frozen questions/corpus/annotations for any authorized matched live acceptance. Do not widen budgets without evidence or treat missing context as missing source facts."
+}

@@ -1,0 +1,77 @@
+{
+  "acceptance": "passed scoped gates",
+  "classification_pass_count": 4,
+  "case_gate_pass_count": 4,
+  "models": [
+    "gpt-4.1-2025-04-14"
+  ],
+  "comparisons": [
+    {
+      "case_id": "original-rule",
+      "before_gate": true,
+      "after_gate": true,
+      "before_points": 4,
+      "after_points": 4,
+      "observation": "All four cell facts and citations remain correct; the actual answering instruction is preserved separately."
+    },
+    {
+      "case_id": "paraphrased-rule",
+      "before_gate": true,
+      "after_gate": true,
+      "before_points": 4,
+      "after_points": 4,
+      "observation": "The same four facts remain correct and cited; the paraphrased instruction stays separate without a duplicate evidence requirement."
+    },
+    {
+      "case_id": "factual-condition",
+      "before_gate": false,
+      "after_gate": true,
+      "before_points": 3,
+      "after_points": 3,
+      "observation": "The duplicated factual question disappears from answer_rules, now empty. Three independent fact queries and the complete three-point answer are preserved; the absence statement is explicitly limited to supplied excerpts. This previously failing classification gate now passes."
+    },
+    {
+      "case_id": "missing-year",
+      "before_gate": true,
+      "after_gate": true,
+      "before_points": 2,
+      "after_points": 2,
+      "observation": "Correct ungrouped Handgun and Pre-Pawn Handgun paths, November 2016 scope, two missing statuses and local refusal remain unchanged in meaning."
+    }
+  ]
+}
+{
+  "usage": {
+    "input_tokens": 38043,
+    "output_tokens": 2351,
+    "total_tokens": 40394
+  },
+  "timings": {
+    "n": 4,
+    "mean": 8.170580447971588,
+    "p50": 8.484834249946289,
+    "p95": 8.987159373163013,
+    "percentile_method": "linear interpolation",
+    "values": [
+      6.700914624962024,
+      8.121791791985743,
+      8.847876707906835,
+      9.01173866703175
+    ]
+  },
+  "points": {
+    "score": 13,
+    "denominator": 13,
+    "fraction": 1.0,
+    "unavailable_points": 0,
+    "all_intended_delivery": {
+      "score": 13,
+      "denominator": 13
+    }
+  },
+  "faithfulness": {
+    "supported": 10,
+    "denominator": 10,
+    "fraction": 1.0
+  }
+}

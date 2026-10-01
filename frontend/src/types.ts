@@ -1,3 +1,21 @@
+export interface PdfRegion {
+  page_index: number;
+  start_offset: number;
+  end_offset: number;
+  bbox: [number, number, number, number];
+  precision: "block" | "cell" | "table";
+}
+
+export interface PdfWarning { code: string; message: string; page_indices: number[]; }
+export interface PdfEvidence {
+  revision_id: string;
+  source_hash: string;
+  page_count: number;
+  regions: PdfRegion[];
+  warnings: PdfWarning[];
+  supplements: { role: string; table_id: string; text: string; start_offset: number; end_offset: number; regions: PdfRegion[] }[];
+}
+
 /** File metadata returned by the FastAPI file endpoints. */
 export interface FileInfo {
   file_id: string;
@@ -5,6 +23,8 @@ export interface FileInfo {
   status: "processing" | "ready" | "failed";
   error_message: string | null;
   created_at: string;
+  page_count?: number | null;
+  extraction_warnings?: PdfWarning[];
 }
 
 export interface FusedMatch {
@@ -18,6 +38,7 @@ export interface FusedMatch {
 }
 
 export interface Source {
+  pdf?: PdfEvidence | null;
   document_labels?: string[];
   source_id: number;
   file_id: string;
@@ -38,6 +59,36 @@ export interface Source {
 }
 
 export interface RetrievalDiagnostics {
+  planning?: {
+    version: number;
+    message: string | null;
+    planner: { route: string; model: string; seconds: number } | null;
+    assessment?: {
+      round_index: number;
+      requirements: {
+        requirement_id: string; description: string;
+        status: "supported" | "partial" | "missing" | "conflicting";
+        gap: string;
+        references: { evidence_id: string; quote: string; file_name: string }[];
+        table_context?: { evidence_id: string; quote: string; file_name: string }[];
+      }[];
+    };
+    hops?: {
+      rounds: { round_index: number }[];
+      stop_reason: string;
+      dependencies: {
+        query_id: string; depends_on: string[]; query_template: string; status: string;
+        target: string | null; query: string | null; references_in_final_context: boolean;
+        references: { evidence_id: string; quote: string; file_id: string; file_name: string; start_offset: number; end_offset: number }[];
+      }[];
+    };
+    trace: {
+      plan: { route: string; requirements: { requirement_id: string; description: string }[] };
+      runs: { query_ids: string[]; text: string }[];
+      requirements: { requirement_id: string; supplied_ids: string[]; budget_excluded_ids: string[] }[];
+      stop_reason: string;
+    } | null;
+  } | null;
   document_scope?: {
     status: "resolved" | "ambiguous" | "not_found";
     references: string[];
@@ -57,8 +108,8 @@ export interface RetrievalDiagnostics {
   packing_seconds?: number | null;
   fused_matches: FusedMatch[];
   candidates: { chunk_id: string; parent_id?: string | null }[];
-  excluded: { chunk_id: string; token_count: number; reason: string }[];
-  unexpanded_parents?: { chunk_id: string; token_count: number }[];
+  excluded: { chunk_id: string; token_count: number; trial_context_tokens?: number | null; reason: string }[];
+  unexpanded_parents?: { chunk_id: string; token_count: number; trial_context_tokens?: number | null }[];
   rerank?: {
     model: string;
     model_revision?: string | null;
@@ -92,7 +143,8 @@ export interface AnswerDebug {
 
 export type StreamEvent = { request_id: string } & (
   | { event: "start"; conversation_id: string | null }
-  | { event: "sources"; sources: Source[] }
+  | { event: "progress"; stage: "planning" | "retrieving" | "assessing"; message: string }
+  | { event: "sources"; sources: Source[]; retrieval?: RetrievalDiagnostics }
   | { event: "answer_delta"; delta: string }
   | ({ event: "debug" } & AnswerDebug)
   | ({ event: "complete" } & CompletedAnswer)
@@ -113,6 +165,7 @@ export interface SavedConversation {
 }
 
 export interface ChatMessage {
+  progress?: string;
   retrieval?: RetrievalDiagnostics | null;
   key: string;
   messageId?: number;

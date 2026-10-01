@@ -6,12 +6,61 @@ from pydantic import BaseModel, Field
 from knowledgebase.config import RetrievalOptions
 
 
+class PdfRegion(BaseModel):
+    model_config = {"frozen": True}
+    start_offset: int
+    end_offset: int
+    page_index: int
+    bbox: tuple[float, float, float, float]
+    precision: Literal["block", "cell", "table"]
+    coordinate_system: Literal["top_left_pdf_points"] = "top_left_pdf_points"
+
+
+class PdfWarning(BaseModel):
+    model_config = {"frozen": True}
+    code: str
+    message: str
+    page_indices: tuple[int, ...] = ()
+    source_ref: str | None = None
+
+
+class PdfSupplement(BaseModel):
+    """Separately located source text, never spliced into a canonical chunk."""
+    role: Literal["column_header", "row_header", "caption", "note", "preceding_text"]
+    table_id: str
+    text: str
+    start_offset: int
+    end_offset: int
+    regions: list[PdfRegion]
+
+
+class PdfTableSpan(BaseModel):
+    table_id: str
+    # [row start, row end, column start, column end, character start, character end]
+    cells: list[tuple[int, int, int, int, int, int]]
+    column_header_spans: list[tuple[int, int]] = Field(default_factory=list)
+    # Derived reading aid; original coordinates and canonical excerpts remain authoritative.
+    reading: str | None = None
+
+
+class PdfEvidence(BaseModel):
+    revision_id: str
+    source_hash: str
+    page_count: int
+    regions: list[PdfRegion]
+    tables: list[PdfTableSpan] = Field(default_factory=list)
+    supplements: list[PdfSupplement] = Field(default_factory=list)
+    warnings: list[PdfWarning] = Field(default_factory=list)
+
+
 class FileInfo(BaseModel):
     file_id: str
     file_name: str
     status: str
     error_message: str | None
     created_at: datetime
+    page_count: int | None = None
+    extraction_warnings: list[PdfWarning] = Field(default_factory=list)
 
 
 class Chunk(BaseModel):
@@ -83,7 +132,7 @@ class DocumentSource(BaseModel):
     """Canonical document and parser output, independent of a database session."""
 
     file_id: str
-    source_format: Literal["txt", "md"]
+    source_format: Literal["txt", "md", "pdf"]
     text: str
     source_hash: str
     blocks: list[SourceBlock]
@@ -168,6 +217,7 @@ class RerankResult(BaseModel):
 class RetrievedChunk(BaseModel):
     """Canonical evidence with the highest-ranked child's retrieval provenance."""
 
+    pdf: PdfEvidence | None = None
     document_labels: list[str] = Field(default_factory=list)
     chunk: Chunk
     file_name: str
@@ -193,11 +243,12 @@ class RetrievalCandidate(BaseModel):
 
 
 class ExcludedEvidence(BaseModel):
-    """An entire evidence region skipped because it cannot fit the remaining budget."""
+    """An omitted region; trial cost includes the other sources in that attempt."""
 
     chunk_id: str
     file_id: str
     token_count: int
+    trial_context_tokens: int | None = None
     reason: Literal["context_budget"] = "context_budget"
 
 
@@ -218,6 +269,7 @@ class DocumentScope(BaseModel):
 
 
 class RetrievalDiagnostics(BaseModel):
+    planning: dict[str, Any] | None = None
     document_scope: DocumentScope | None = None
     scope_seconds: float | None = None
     retrieval_seconds: float | None = None
@@ -239,6 +291,13 @@ class RetrievalDiagnostics(BaseModel):
     tokenizer: str
 
 
+class RetrievedCandidates(BaseModel):
+    """Unpacked query hits; no context has been admitted to the answer yet."""
+
+    hits: list[RetrievedChunk]
+    diagnostics: RetrievalDiagnostics
+
+
 class RetrievedEvidence(BaseModel):
     chunks: list[RetrievedChunk]
     diagnostics: RetrievalDiagnostics
@@ -248,6 +307,7 @@ class AnswerSource(BaseModel):
     """One retrieved excerpt, numbered within the current answer."""
 
     source_id: int
+    pdf: PdfEvidence | None = None
     document_labels: list[str] = Field(default_factory=list)
     file_id: str
     file_name: str
@@ -291,6 +351,7 @@ class ChatRequest(BaseModel):
 
     question: str = Field(pattern=r"\S")
     conversation_id: str | None = None
+    retrieval_mode: Literal["single", "planned"] | None = None
     file_ids: list[str] | None = Field(default=None, min_length=1)
 
 
@@ -301,7 +362,7 @@ class StreamChatRequest(ChatRequest):
 class ChatStreamEvent(BaseModel):
     """Application event; HTTP framing belongs to the API layer."""
 
-    event: Literal["start", "sources", "answer_delta", "debug", "complete", "error"]
+    event: Literal["start", "progress", "sources", "answer_delta", "debug", "complete", "error"]
     request_id: str
     data: dict[str, Any]
 

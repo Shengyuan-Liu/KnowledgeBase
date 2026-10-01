@@ -1,0 +1,660 @@
+{
+  "at": "2026-10-01T16:20:48.696988+00:00",
+  "code_commit": "377a577671e9ca03f175d16d01430b82f4918f87",
+  "metric_inventory": {
+    "Recall@K": {
+      "status": "measured",
+      "value": {
+        "macro": 0.625,
+        "available_cases": 4,
+        "planned_cases": 5,
+        "missing_case": {
+          "status": "unavailable",
+          "case": "retriever-training-restricted",
+          "reason": "Processing failed before final selection. Last observed retrieval diagnostics are separate."
+        }
+      },
+      "unit": "ratio",
+      "sample_count": 4,
+      "population": "Completed cases with positive in-scope labels; one failed positive case unavailable; no-gold refusal excluded",
+      "method": "K=5; binary full-anchor child labels inside each allowed file scope, precision denominator 5, log2 NDCG, MRR truncated at 5. Labels are not exhaustive semantic relevance. Per-query vector/BM25/fusion/rerank and last observed failed-case rankings retained.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Unweighted available-case macro; not the planned five-case macro"
+    },
+    "Precision@K": {
+      "status": "measured",
+      "value": {
+        "macro": 0.2,
+        "available_cases": 4,
+        "planned_cases": 5,
+        "missing_case": {
+          "status": "unavailable",
+          "case": "retriever-training-restricted",
+          "reason": "Processing failed before final selection. Last observed retrieval diagnostics are separate."
+        }
+      },
+      "unit": "ratio",
+      "sample_count": 4,
+      "population": "Completed cases with positive in-scope labels; one failed positive case unavailable; no-gold refusal excluded",
+      "method": "K=5; binary full-anchor child labels inside each allowed file scope, precision denominator 5, log2 NDCG, MRR truncated at 5. Labels are not exhaustive semantic relevance. Per-query vector/BM25/fusion/rerank and last observed failed-case rankings retained.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Unweighted available-case macro; not the planned five-case macro"
+    },
+    "Hit Rate@K": {
+      "status": "measured",
+      "value": {
+        "macro": 0.75,
+        "available_cases": 4,
+        "planned_cases": 5,
+        "missing_case": {
+          "status": "unavailable",
+          "case": "retriever-training-restricted",
+          "reason": "Processing failed before final selection. Last observed retrieval diagnostics are separate."
+        }
+      },
+      "unit": "ratio",
+      "sample_count": 4,
+      "population": "Completed cases with positive in-scope labels; one failed positive case unavailable; no-gold refusal excluded",
+      "method": "K=5; binary full-anchor child labels inside each allowed file scope, precision denominator 5, log2 NDCG, MRR truncated at 5. Labels are not exhaustive semantic relevance. Per-query vector/BM25/fusion/rerank and last observed failed-case rankings retained.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Unweighted available-case macro; not the planned five-case macro"
+    },
+    "MRR": {
+      "status": "measured",
+      "value": {
+        "macro": 0.625,
+        "available_cases": 4,
+        "planned_cases": 5,
+        "missing_case": {
+          "status": "unavailable",
+          "case": "retriever-training-restricted",
+          "reason": "Processing failed before final selection. Last observed retrieval diagnostics are separate."
+        }
+      },
+      "unit": "ratio",
+      "sample_count": 4,
+      "population": "Completed cases with positive in-scope labels; one failed positive case unavailable; no-gold refusal excluded",
+      "method": "K=5; binary full-anchor child labels inside each allowed file scope, precision denominator 5, log2 NDCG, MRR truncated at 5. Labels are not exhaustive semantic relevance. Per-query vector/BM25/fusion/rerank and last observed failed-case rankings retained.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Unweighted available-case macro; not the planned five-case macro"
+    },
+    "NDCG@K": {
+      "status": "measured",
+      "value": {
+        "macro": 0.5967132018086354,
+        "available_cases": 4,
+        "planned_cases": 5,
+        "missing_case": {
+          "status": "unavailable",
+          "case": "retriever-training-restricted",
+          "reason": "Processing failed before final selection. Last observed retrieval diagnostics are separate."
+        }
+      },
+      "unit": "ratio",
+      "sample_count": 4,
+      "population": "Completed cases with positive in-scope labels; one failed positive case unavailable; no-gold refusal excluded",
+      "method": "K=5; binary full-anchor child labels inside each allowed file scope, precision denominator 5, log2 NDCG, MRR truncated at 5. Labels are not exhaustive semantic relevance. Per-query vector/BM25/fusion/rerank and last observed failed-case rankings retained.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Unweighted available-case macro; not the planned five-case macro"
+    },
+    "Final evidence coverage": {
+      "status": "measured",
+      "value": {
+        "semantic": {
+          "covered": 7,
+          "expected": 13
+        },
+        "literal_anchor": {
+          "covered": 6,
+          "expected": 13
+        },
+        "bridge": {
+          "covered": 1,
+          "expected_case_instances": 2
+        }
+      },
+      "unit": "case-facts",
+      "sample_count": 13,
+      "population": "All frozen positive case-fact instances, including missing answer and incorrect refusal",
+      "method": "Model review of exact supplied context and original page associations. No final supplied answer evidence in the failed request. Valid alternate RAG bridge text supports one extra point beyond literal anchors.",
+      "artifact": "review.json; diagnostics.json",
+      "aggregation": "Micro coverage; missing delivery scores zero"
+    },
+    "Answer correctness": {
+      "status": "measured",
+      "value": {
+        "correct": 7,
+        "expected": 13
+      },
+      "unit": "review units",
+      "sample_count": 13,
+      "population": "Expected points / actual emitted factual claims / requests, as named in value",
+      "method": "Codex model review; not human ground truth. Every point and factual claim compared with supplied source text and original pages. Errors and claim-free refusals do not inflate citation denominators.",
+      "artifact": "review.json",
+      "aggregation": "Micro numerator/denominator; read with 4/6 case gate"
+    },
+    "Answer completeness": {
+      "status": "measured",
+      "value": {
+        "complete": 7,
+        "expected": 13
+      },
+      "unit": "review units",
+      "sample_count": 13,
+      "population": "Expected points / actual emitted factual claims / requests, as named in value",
+      "method": "Codex model review; not human ground truth. Every point and factual claim compared with supplied source text and original pages. Errors and claim-free refusals do not inflate citation denominators.",
+      "artifact": "review.json",
+      "aggregation": "Micro numerator/denominator; read with 4/6 case gate"
+    },
+    "Faithfulness": {
+      "status": "measured",
+      "value": {
+        "supported": 7,
+        "claims": 7
+      },
+      "unit": "review units",
+      "sample_count": 7,
+      "population": "Expected points / actual emitted factual claims / requests, as named in value",
+      "method": "Codex model review; not human ground truth. Every point and factual claim compared with supplied source text and original pages. Errors and claim-free refusals do not inflate citation denominators.",
+      "artifact": "review.json",
+      "aggregation": "Micro numerator/denominator; read with 4/6 case gate"
+    },
+    "Answer relevance": {
+      "status": "measured",
+      "value": {
+        "relevant": 5,
+        "total": 6,
+        "completed_only": {
+          "relevant": 5,
+          "total": 5
+        }
+      },
+      "unit": "review units",
+      "sample_count": 6,
+      "population": "Expected points / actual emitted factual claims / requests, as named in value",
+      "method": "Codex model review; not human ground truth. Every point and factual claim compared with supplied source text and original pages. Errors and claim-free refusals do not inflate citation denominators.",
+      "artifact": "review.json",
+      "aggregation": "Micro numerator/denominator; read with 4/6 case gate"
+    },
+    "Citation support": {
+      "status": "measured",
+      "value": {
+        "supported": 7,
+        "cited_claims": 7
+      },
+      "unit": "review units",
+      "sample_count": 7,
+      "population": "Expected points / actual emitted factual claims / requests, as named in value",
+      "method": "Codex model review; not human ground truth. Every point and factual claim compared with supplied source text and original pages. Errors and claim-free refusals do not inflate citation denominators.",
+      "artifact": "review.json",
+      "aggregation": "Micro numerator/denominator; read with 4/6 case gate"
+    },
+    "Citation coverage": {
+      "status": "measured",
+      "value": {
+        "covered": 7,
+        "citation_required_claims": 7
+      },
+      "unit": "review units",
+      "sample_count": 7,
+      "population": "Expected points / actual emitted factual claims / requests, as named in value",
+      "method": "Codex model review; not human ground truth. Every point and factual claim compared with supplied source text and original pages. Errors and claim-free refusals do not inflate citation denominators.",
+      "artifact": "review.json",
+      "aggregation": "Micro numerator/denominator; read with 4/6 case gate"
+    },
+    "Abstention": {
+      "status": "measured",
+      "value": {
+        "appropriate_full": {
+          "passed": 1,
+          "total": 1
+        },
+        "incorrect_full_on_fully_answerable": {
+          "count": 1,
+          "total": 4
+        },
+        "incorrect_partial_on_fully_answerable": {
+          "count": 0,
+          "total": 4
+        },
+        "partial_case_gap_disclosure": {
+          "passed": 0,
+          "total": 2,
+          "unavailable_due_processing_error": 2
+        },
+        "partial_supported_bridge": {
+          "delivered": 0,
+          "total": 1,
+          "error_omission": 1,
+          "incorrect_refusal": 0
+        },
+        "note": "Transport error is not successful abstention. The two local refusals emit no factual claims and have no citation denominator."
+      },
+      "unit": "cases and gaps",
+      "sample_count": 6,
+      "population": "Four full, one partial, one unanswerable question",
+      "method": "Transport error is not appropriate abstention. Separate full refusal, partial gap disclosure and missing supported bridge.",
+      "artifact": "review.json",
+      "aggregation": "Explicit separate denominators"
+    },
+    "First-answer-delta latency": {
+      "status": "measured",
+      "value": {
+        "completed": {
+          "n": 5,
+          "mean": 8.27902219176758,
+          "p50": 5.748155541950837,
+          "p95": 15.22069000774063,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "failed_request": {
+          "terminal_seconds": 12.443530249991454,
+          "first_delta": {
+            "status": "unavailable",
+            "reason": "No answer delta before processing error."
+          }
+        }
+      },
+      "unit": "seconds",
+      "sample_count": 5,
+      "population": "Five completed requests, including two local refusals; failed request terminal time separate",
+      "method": "Client perf_counter from POST to first nonempty answer delta / SSE end; network and queue included; startup and ingestion excluded.",
+      "artifact": "diagnostics.json",
+      "aggregation": "N/mean/P50/P95 with linear interpolation; no warmup"
+    },
+    "Complete-response latency": {
+      "status": "measured",
+      "value": {
+        "completed": {
+          "n": 5,
+          "mean": 9.128602650179527,
+          "p50": 5.75710354198236,
+          "p95": 16.699443508358673,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "failed_request": {
+          "terminal_seconds": 12.443530249991454,
+          "first_delta": {
+            "status": "unavailable",
+            "reason": "No answer delta before processing error."
+          }
+        }
+      },
+      "unit": "seconds",
+      "sample_count": 5,
+      "population": "Five completed requests, including two local refusals; failed request terminal time separate",
+      "method": "Client perf_counter from POST to first nonempty answer delta / SSE end; network and queue included; startup and ingestion excluded.",
+      "artifact": "diagnostics.json",
+      "aggregation": "N/mean/P50/P95 with linear interpolation; no warmup"
+    },
+    "Stage latency": {
+      "status": "measured",
+      "value": {
+        "distributions": {
+          "provider_ingestion_embedding": {
+            "n": 4,
+            "mean": 1.8193950622226112,
+            "p50": 1.7817344789509661,
+            "p95": 2.3115952767780983,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "provider_retrieval_plan": {
+            "n": 6,
+            "mean": 3.050100715345858,
+            "p50": 3.209909500030335,
+            "p95": 4.506142802507384,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "provider_query_embedding": {
+            "n": 10,
+            "mean": 0.40206680389819666,
+            "p50": 0.3466034375014715,
+            "p95": 0.689101257943548,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "provider_evidence_assessment": {
+            "n": 5,
+            "mean": 2.3606483082054184,
+            "p50": 2.1323978330474347,
+            "p95": 3.9732092581922185,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "provider_generation": {
+            "n": 3,
+            "mean": 2.22794619431564,
+            "p50": 2.307040083920583,
+            "p95": 3.0161173077416605,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "retrieval_per_query": {
+            "n": 14,
+            "mean": 1.5039817170722276,
+            "p50": 1.9424352084752172,
+            "p95": 2.836335789359873,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "query_scope_seconds": {
+            "n": 14,
+            "mean": 0.0012474226615657763,
+            "p50": 0.0008291460108011961,
+            "p95": 0.0033217247691936787,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "query_embedding_seconds": {
+            "n": 10,
+            "mean": 0.40250596679979933,
+            "p50": 0.3470549584599212,
+            "p95": 0.6895251395530064,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "query_rerank_seconds": {
+            "n": 10,
+            "mean": 1.6848841542843729,
+            "p50": 1.9981975625269115,
+            "p95": 2.355584614787949,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "retrieval_round": {
+            "n": 6,
+            "mean": 3.5163866113095232,
+            "p50": 3.227823625493329,
+            "p95": 7.268141250038752,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "cross_query_merge": {
+            "n": 6,
+            "mean": 0.00016379884133736292,
+            "p50": 0.0001918335328809917,
+            "p95": 0.00022485473891720176,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          },
+          "packing_round": {
+            "n": 6,
+            "mean": 0.0015956874703988433,
+            "p50": 0.0015900414437055588,
+            "p95": 0.0030067815096117556,
+            "unit": "seconds",
+            "percentile_method": "linear interpolation"
+          }
+        },
+        "parsing": {
+          "n": 4,
+          "mean": 10.256038864521543,
+          "p50": 10.595039250038099,
+          "p95": 13.462486216140677,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "startup_seconds": 2.7687865829793736,
+        "unavailable": {
+          "search_fusion": "No isolated vector/BM25/fusion timer.",
+          "provider_queue": "Included in provider time, not separately exposed.",
+          "embedding_model_loading": "Remote provider does not expose loading time."
+        }
+      },
+      "unit": "seconds",
+      "sample_count": null,
+      "population": "Observed retrieval, parser and SDK stages",
+      "method": "Product timers and perf_counter observers. Overlapping stages are not additive. Reranker MPS, local parsing CPU; startup includes local reranker loading, first ingestion includes parser setup.",
+      "artifact": "diagnostics.json; server-observations.jsonl; resolved-runtime-2.json",
+      "aggregation": "N/mean/P50/P95 by stage; startup separate"
+    },
+    "Token usage and cost": {
+      "status": "measured",
+      "value": {
+        "by_role": {
+          "ingestion_embedding": {
+            "input_tokens": 41775,
+            "output_tokens": null,
+            "total_tokens": 41775,
+            "cached_input_tokens": null,
+            "calls": 4,
+            "cached_input_status": "unavailable: provider embedding usage does not expose cached counts",
+            "output_status": "not_applicable: embeddings return vectors"
+          },
+          "retrieval_plan": {
+            "input_tokens": 10632,
+            "output_tokens": 1326,
+            "total_tokens": 11958,
+            "cached_input_tokens": 1664,
+            "calls": 6
+          },
+          "query_embedding": {
+            "input_tokens": 233,
+            "output_tokens": null,
+            "total_tokens": 233,
+            "cached_input_tokens": null,
+            "calls": 10,
+            "cached_input_status": "unavailable: provider embedding usage does not expose cached counts",
+            "output_status": "not_applicable: embeddings return vectors"
+          },
+          "evidence_assessment": {
+            "input_tokens": 21505,
+            "output_tokens": 732,
+            "total_tokens": 22237,
+            "cached_input_tokens": 0,
+            "calls": 5
+          },
+          "generation": {
+            "input_tokens": 13480,
+            "output_tokens": 233,
+            "total_tokens": 13713,
+            "cached_input_tokens": 0,
+            "calls": 3
+          }
+        },
+        "resolved_models": [
+          "gpt-4.1-2025-04-14",
+          "text-embedding-3-small"
+        ],
+        "evidence_tokens": {
+          "rag-document-granularity": 3633,
+          "retriever-training-hop": 3891,
+          "retriever-training-restricted": null,
+          "lecture-overfitting": 706,
+          "income-period-basis": 0,
+          "forecast-is-not-actual": 1585
+        },
+        "billed_currency": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "SDK reports tokens, not billed currency; no billing API used."
+        },
+        "local_compute": {
+          "parser": "CPU",
+          "retrieval": "CPU",
+          "reranker": {
+            "model": "BAAI/bge-reranker-v2-m3",
+            "revision": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+            "device": "mps"
+          }
+        }
+      },
+      "unit": "tokens; currency unavailable",
+      "sample_count": 28,
+      "population": "4 document-embedding plus 24 answering-path provider calls; no judge",
+      "method": "Actual SDK usage, including failed product request; missing cache/output embedding counts explicitly marked. Tokens are not billed currency.",
+      "artifact": "diagnostics.json; server-observations.jsonl",
+      "aggregation": "Sum by role; per-case evidence tokens"
+    },
+    "Reliability": {
+      "status": "measured",
+      "value": {
+        "answer_requests": {
+          "completed": 5,
+          "errors": 1,
+          "total": 6,
+          "completion_rate": 0.8333333333333334
+        },
+        "ingestions": {
+          "ready": 4,
+          "total": 4
+        },
+        "provider_calls": {
+          "starts": 28,
+          "terminals": 28,
+          "errors": 0,
+          "timeouts": 0,
+          "retries": 0
+        },
+        "semantic_gate": {
+          "passed": 4,
+          "total": 6,
+          "required": 6,
+          "accepted": false
+        },
+        "infrastructure_failures": [
+          "server-start-check.json",
+          "reference-mapping-check.json",
+          "reference-mapping-check-2.json",
+          "browser-check.json"
+        ],
+        "browser_wait_issue": "Attempt 2 page-36 screenshots caught loading despite a stale ready flag; dedicated changed-pixel navigation check supplies final visual evidence."
+      },
+      "unit": "counts and rates",
+      "sample_count": 6,
+      "population": "Product requests distinct from provider calls and harness checks",
+      "method": "Preserve all failed infrastructure attempts, generic product error and incorrect refusal. No paid retries.",
+      "artifact": "review.json; failure-reproduction.json; *-check.json",
+      "aggregation": "Separate denominators"
+    },
+    "Concurrency and throughput": {
+      "status": "measured",
+      "value": {
+        "concurrency": 1,
+        "request_wall_interval_seconds": 58.15678930282593,
+        "completed_requests_per_second": 0.08597448483554855
+      },
+      "unit": "requests/second",
+      "sample_count": 6,
+      "population": "Six sequential request attempts, including failed request and history reads",
+      "method": "Observed request interval; not a load/capacity claim.",
+      "artifact": "diagnostics.json",
+      "aggregation": "Completed requests / observed interval"
+    },
+    "Ingestion and index": {
+      "status": "measured",
+      "value": {
+        "upload_to_ready": {
+          "n": 4,
+          "mean": 12.152776885253843,
+          "p50": 12.44247800001176,
+          "p95": 15.748433934891363,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "per_file": [
+          {
+            "file": "rag-paper.pdf",
+            "seconds": 11.470796916051768,
+            "status": "ready"
+          },
+          {
+            "file": "dpr-paper.pdf",
+            "seconds": 7.5657867500558496,
+            "status": "ready"
+          },
+          {
+            "file": "decision-trees.pdf",
+            "seconds": 16.160364790936,
+            "status": "ready"
+          },
+          {
+            "file": "nvidia-fy25.pdf",
+            "seconds": 13.414159083971754,
+            "status": "ready"
+          }
+        ],
+        "files": 4,
+        "physical_pages": 90,
+        "children": 566,
+        "parents": 145,
+        "vector_rows": 566,
+        "storage_bytes_after_ingestion": 9750565,
+        "storage_bytes_after_stop": 12498981,
+        "indexed_content_unchanged": true,
+        "originals": [
+          {
+            "file": "nvidia-fy25.pdf",
+            "file_id": "386256a4a8c843d591c3fe8a92a2236b",
+            "revision": "707801531f8e401cff243badc95bf6c4f51422c5f35f4fe4164cd8a84a80229f",
+            "http_status": 200,
+            "sha256": "1c716d4fb428ad371801ecc2f71f4ec0d71d87e77649852d6d1449b37b0c8c9e",
+            "matches": true,
+            "byte_range_matches": true,
+            "wrong_revision_status": 409
+          },
+          {
+            "file": "decision-trees.pdf",
+            "file_id": "cd6684c353e44c7c88e349fccb10f8d0",
+            "revision": "447df3ec7e0b32c2016c83e30221565371d423bf346dd99438892d8ca3a27461",
+            "http_status": 200,
+            "sha256": "6e867284dd975b8c365a1ced8e419648264a0623fbaca1564ce3443f59e982b8",
+            "matches": true,
+            "byte_range_matches": true,
+            "wrong_revision_status": 409
+          },
+          {
+            "file": "dpr-paper.pdf",
+            "file_id": "3664f78cd7ea4cb3b0c46eaa03bdbc60",
+            "revision": "f67efb5b40b97f70e421f5de5c059ed42697fd405932e70afd0b633f790f3aef",
+            "http_status": 200,
+            "sha256": "2abfc7991519be2b8ce30215905516fdb593218b7bf59e50ece0d8a088a7c4d5",
+            "matches": true,
+            "byte_range_matches": true,
+            "wrong_revision_status": 409
+          },
+          {
+            "file": "rag-paper.pdf",
+            "file_id": "18eaa5a313824309a081713d13a55e2d",
+            "revision": "592f7ddb572f8b8abc6750e743dce72ed2753bc040eca21c4f9311e37835dc9e",
+            "http_status": 200,
+            "sha256": "720f67eb41aa49995d5fcf3d24ac7efe431fbe08ce109b14b5a9fa4d4ebe2f8b",
+            "matches": true,
+            "byte_range_matches": true,
+            "wrong_revision_status": 409
+          }
+        ],
+        "update": {
+          "status": "not_applicable",
+          "reason": "No update operation in protocol."
+        },
+        "delete": {
+          "status": "not_applicable",
+          "reason": "No deletion in protocol."
+        },
+        "vector_only_storage": {
+          "status": "unavailable",
+          "reason": "Directory totals include PDF, SQLite, vectors and answer history; no per-component size accounting."
+        }
+      },
+      "unit": "seconds; bytes; counts",
+      "sample_count": 4,
+      "population": "Fresh isolated four-PDF ingestion, original bytes only",
+      "method": "HTTP upload to ready; parser revisions, settings and model file hashes retained per extraction in index-snapshot.json. Post-answer snapshot equality and database row counts verified.",
+      "artifact": "ingest-*.json; index-snapshot.json; server-stop.json",
+      "aggregation": "Per-file values and distributions; storage snapshots"
+    }
+  },
+  "limitations": [
+    "One pass on public new-to-project material; model reviewer, no independent human review or pretraining holdout.",
+    "No matched before/after comparison across different corpora. No product implementation changes in this run.",
+    "Five-case final-ranking macro unavailable after one processing failure; report four-case observed macro and failed-case last-retrieval diagnostics separately.",
+    "Billed cost and isolated queue/search/fusion timers unavailable.",
+    "Fresh library is now development material; any later tuning/replay must use a new run.",
+    "Shutdown semaphore warning retained; server ports and ownership locks released."
+  ]
+}

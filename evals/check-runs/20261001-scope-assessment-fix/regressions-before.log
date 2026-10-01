@@ -1,0 +1,240 @@
+FFFFFF............F..F.......                                            [100%]
+=================================== FAILURES ===================================
+_ test_recorded_financial_query_keeps_selected_file_scope[In the relevant document, what was NVIDIA's GAAP operating income for Q4 FY25? State the amount and units.] _
+
+question = "In the relevant document, what was NVIDIA's GAAP operating income for Q4 FY25? State the amount and units."
+
+    @pytest.mark.parametrize("question", FIXTURE["finance"]["queries"])
+    def test_recorded_financial_query_keeps_selected_file_scope(question):
+        references = document_references(question)
+        catalog = [ScopeFile.model_validate(f) for f in FIXTURE["catalog"]]
+        scope = resolve_document_scope(references, catalog, file_ids=FIXTURE["finance"]["allowed_file_ids"])
+>       assert references == []
+E       AssertionError: assert ['relevant document'] == []
+E         
+E         Left contains one more item: 'relevant document'
+E         Use -v to get more diff
+
+tests/test_recorded_scope_failures.py:21: AssertionError
+_ test_recorded_financial_query_keeps_selected_file_scope[In the relevant document, what was NVIDIA's non-GAAP operating income for Q4 FY25? State the amount and units.] _
+
+question = "In the relevant document, what was NVIDIA's non-GAAP operating income for Q4 FY25? State the amount and units."
+
+    @pytest.mark.parametrize("question", FIXTURE["finance"]["queries"])
+    def test_recorded_financial_query_keeps_selected_file_scope(question):
+        references = document_references(question)
+        catalog = [ScopeFile.model_validate(f) for f in FIXTURE["catalog"]]
+        scope = resolve_document_scope(references, catalog, file_ids=FIXTURE["finance"]["allowed_file_ids"])
+>       assert references == []
+E       AssertionError: assert ['relevant document'] == []
+E         
+E         Left contains one more item: 'relevant document'
+E         Use -v to get more diff
+
+tests/test_recorded_scope_failures.py:21: AssertionError
+_ test_recorded_financial_query_keeps_selected_file_scope[In the relevant document, what was NVIDIA's GAAP operating income for the full fiscal year 2025? State the amount and units.] _
+
+question = "In the relevant document, what was NVIDIA's GAAP operating income for the full fiscal year 2025? State the amount and units."
+
+    @pytest.mark.parametrize("question", FIXTURE["finance"]["queries"])
+    def test_recorded_financial_query_keeps_selected_file_scope(question):
+        references = document_references(question)
+        catalog = [ScopeFile.model_validate(f) for f in FIXTURE["catalog"]]
+        scope = resolve_document_scope(references, catalog, file_ids=FIXTURE["finance"]["allowed_file_ids"])
+>       assert references == []
+E       AssertionError: assert ['relevant document'] == []
+E         
+E         Left contains one more item: 'relevant document'
+E         Use -v to get more diff
+
+tests/test_recorded_scope_failures.py:21: AssertionError
+_ test_recorded_financial_query_keeps_selected_file_scope[In the relevant document, what was NVIDIA's non-GAAP operating income for the full fiscal year 2025? State the amount and units.] _
+
+question = "In the relevant document, what was NVIDIA's non-GAAP operating income for the full fiscal year 2025? State the amount and units."
+
+    @pytest.mark.parametrize("question", FIXTURE["finance"]["queries"])
+    def test_recorded_financial_query_keeps_selected_file_scope(question):
+        references = document_references(question)
+        catalog = [ScopeFile.model_validate(f) for f in FIXTURE["catalog"]]
+        scope = resolve_document_scope(references, catalog, file_ids=FIXTURE["finance"]["allowed_file_ids"])
+>       assert references == []
+E       AssertionError: assert ['relevant document'] == []
+E         
+E         Left contains one more item: 'relevant document'
+E         Use -v to get more diff
+
+tests/test_recorded_scope_failures.py:21: AssertionError
+_____ test_recorded_invalid_supplement_keeps_supported_and_missing_points ______
+
+    def test_recorded_invalid_supplement_keeps_supported_and_missing_points():
+        recorded = FIXTURE["restricted"]
+        decision = SufficiencyAssessment.model_validate_json(recorded["assessment_output"])
+        original = decision.model_dump()
+>       requirements, queries, rejected = validate_assessment(decision,
+            [AnswerRequirement.model_validate(r) for r in recorded["requirements"]], recorded["evidence_catalog"])
+
+tests/test_recorded_scope_failures.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+assessment = SufficiencyAssessment(requirements=[RequirementAssessment(requirement_id='r1', status='supported', gap='', references=...e during training?', target='', references=[PassageReference(evidence_id='p2'), PassageReference(evidence_id='p27')])])
+requirements = [AnswerRequirement(requirement_id='r1', description='Identify which retriever supplies the pretrained bi-encoder used ...sages is used during training by the best model of that retriever, citing training details from the supplied papers.')]
+excerpts = [{'evidence_id': 'p1', 'source_number': 1, 'file_id': '18eaa5a313824309a081713d13a55e2d', 'file_name': 'rag-paper.pdf'..._id': 'p6', 'source_number': 1, 'file_id': '18eaa5a313824309a081713d13a55e2d', 'file_name': 'rag-paper.pdf', ...}, ...]
+
+    def validate_assessment(assessment, requirements, excerpts):
+        """Validate provenance and coverage of IDs; semantics remain a model assessment."""
+        descriptions = {r.requirement_id: r.description for r in requirements}
+        if len(assessment.requirements) != len(descriptions) or {r.requirement_id for r in assessment.requirements} != descriptions.keys():
+            raise ValueError("Assessment must cover the exact answer requirements once.")
+        normalized = []
+        for item in assessment.requirements:
+            if (item.status == "supported") != (not item.gap.strip()):
+                raise ValueError("Only supported requirements may have an empty gap.")
+            if (item.status == "missing") != (not item.references):
+                raise ValueError("Supported, partial and conflicting points need source references; missing points cannot cite support.")
+            references = validate_references(item.references, excerpts)
+            if item.status == "conflicting" and len({(r["file_id"], r["start_offset"], r["end_offset"]) for r in references}) < 2:
+                raise ValueError("A conflict requires two distinct source quotes.")
+            normalized.append({**item.model_dump(), "description": descriptions[item.requirement_id],
+                "references": references, "table_context": reference_table_context(references, excerpts)})
+        unresolved = {r.requirement_id for r in assessment.requirements if r.status != "supported"}
+        queries = []
+        for proposal in assessment.queries:
+            if not set(proposal.requirement_ids) <= unresolved:
+                raise ValueError("Supplementary queries must address unresolved requirements.")
+            if proposal.target:
+                if proposal.query_template.count("{target}") != 1:
+                    raise ValueError("Source-derived queries need exactly one target placeholder.")
+                references = validate_references(proposal.references, excerpts)
+                if (not proposal.target.strip() or not references
+                        or any(proposal.target not in r["quote"] for r in references)):
+                    raise ValueError("A supplementary target must occur in every selected passage.")
+            else:
+                if proposal.references or "{target}" in proposal.query_template:
+>                   raise ValueError("Question reformulations cannot contain an unbound target.")
+E                   ValueError: Question reformulations cannot contain an unbound target.
+
+knowledgebase/rag/sufficiency.py:197: ValueError
+__ test_valid_sibling_query_survives_without_repairing_the_rejected_proposal ___
+
+    def test_valid_sibling_query_survives_without_repairing_the_rejected_proposal():
+        recorded = FIXTURE["restricted"]
+        decision = SufficiencyAssessment.model_validate_json(recorded["assessment_output"])
+        valid = {"requirement_ids": ["r2"], "query_template": "What negative passages train the retriever?",
+                 "target": "", "references": []}
+        decision.queries.append(type(decision.queries[0]).model_validate(valid))
+>       _, queries, rejected = validate_assessment(decision,
+            [AnswerRequirement.model_validate(r) for r in recorded["requirements"]], recorded["evidence_catalog"])
+
+tests/test_recorded_scope_failures.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+assessment = SufficiencyAssessment(requirements=[RequirementAssessment(requirement_id='r1', status='supported', gap='', references=...Query(requirement_ids=['r2'], query_template='What negative passages train the retriever?', target='', references=[])])
+requirements = [AnswerRequirement(requirement_id='r1', description='Identify which retriever supplies the pretrained bi-encoder used ...sages is used during training by the best model of that retriever, citing training details from the supplied papers.')]
+excerpts = [{'evidence_id': 'p1', 'source_number': 1, 'file_id': '18eaa5a313824309a081713d13a55e2d', 'file_name': 'rag-paper.pdf'..._id': 'p6', 'source_number': 1, 'file_id': '18eaa5a313824309a081713d13a55e2d', 'file_name': 'rag-paper.pdf', ...}, ...]
+
+    def validate_assessment(assessment, requirements, excerpts):
+        """Validate provenance and coverage of IDs; semantics remain a model assessment."""
+        descriptions = {r.requirement_id: r.description for r in requirements}
+        if len(assessment.requirements) != len(descriptions) or {r.requirement_id for r in assessment.requirements} != descriptions.keys():
+            raise ValueError("Assessment must cover the exact answer requirements once.")
+        normalized = []
+        for item in assessment.requirements:
+            if (item.status == "supported") != (not item.gap.strip()):
+                raise ValueError("Only supported requirements may have an empty gap.")
+            if (item.status == "missing") != (not item.references):
+                raise ValueError("Supported, partial and conflicting points need source references; missing points cannot cite support.")
+            references = validate_references(item.references, excerpts)
+            if item.status == "conflicting" and len({(r["file_id"], r["start_offset"], r["end_offset"]) for r in references}) < 2:
+                raise ValueError("A conflict requires two distinct source quotes.")
+            normalized.append({**item.model_dump(), "description": descriptions[item.requirement_id],
+                "references": references, "table_context": reference_table_context(references, excerpts)})
+        unresolved = {r.requirement_id for r in assessment.requirements if r.status != "supported"}
+        queries = []
+        for proposal in assessment.queries:
+            if not set(proposal.requirement_ids) <= unresolved:
+                raise ValueError("Supplementary queries must address unresolved requirements.")
+            if proposal.target:
+                if proposal.query_template.count("{target}") != 1:
+                    raise ValueError("Source-derived queries need exactly one target placeholder.")
+                references = validate_references(proposal.references, excerpts)
+                if (not proposal.target.strip() or not references
+                        or any(proposal.target not in r["quote"] for r in references)):
+                    raise ValueError("A supplementary target must occur in every selected passage.")
+            else:
+                if proposal.references or "{target}" in proposal.query_template:
+>                   raise ValueError("Question reformulations cannot contain an unbound target.")
+E                   ValueError: Question reformulations cannot contain an unbound target.
+
+knowledgebase/rag/sufficiency.py:197: ValueError
+_ test_explicit_source_clause[In the relevant documents, compare their results.-expected12] _
+
+question = 'In the relevant documents, compare their results.', expected = []
+
+    @pytest.mark.parametrize('question,expected', [
+        ('According to the saved general FAQ, how are applicants considered?', ['general FAQ']),
+        ('In the saved DeepSeek Anthropic guide, do the headers differ?', ['DeepSeek Anthropic guide']),
+        ('According to the general FAQ and the admissions FAQ, compare scholarships.', ['general FAQ','admissions FAQ']),
+        ('Compare "Research and Teaching: FAQ" and `general-faq.txt`: what differs?', ['Research and Teaching: FAQ','general-faq.txt']),
+        ('In fall 2026, how many credits?', []),
+        ('What is a general FAQ?', []),
+        ('How are scholarships awarded?', []),
+        ('Using only "docling-report.pdf", name the dataset.', ['docling-report.pdf']),
+        ('Using "only course.pdf", name the instructor.', ['only course.pdf']),
+        ('In "background-checks.pdf" for November 2015, report the Totals.', ['background-checks.pdf']),
+        ('In the uploaded `background-checks.pdf` for November 2015, report the Totals.', ['background-checks.pdf']),
+        ('Compare "first.pdf" and "second.pdf" for November 2015, report the Totals.', ['first.pdf', 'second.pdf']),
+        ('In the relevant documents, compare their results.', []),
+        ('In "relevant document", find the results.', ['relevant document']),
+        ('In relevant.pdf, find the results.', ['relevant.pdf']),
+        ('In the relevant document and "missing.pdf", compare results.', ['missing.pdf']),
+    ])
+    def test_explicit_source_clause(question,expected):
+>       assert document_references(question)==expected
+E       AssertionError: assert ['relevant documents'] == []
+E         
+E         Left contains one more item: 'relevant documents'
+E         Use -v to get more diff
+
+tests/test_document_scope.py:31: AssertionError
+_ test_explicit_source_clause[In the relevant document and "missing.pdf", compare results.-expected15] _
+
+question = 'In the relevant document and "missing.pdf", compare results.'
+expected = ['missing.pdf']
+
+    @pytest.mark.parametrize('question,expected', [
+        ('According to the saved general FAQ, how are applicants considered?', ['general FAQ']),
+        ('In the saved DeepSeek Anthropic guide, do the headers differ?', ['DeepSeek Anthropic guide']),
+        ('According to the general FAQ and the admissions FAQ, compare scholarships.', ['general FAQ','admissions FAQ']),
+        ('Compare "Research and Teaching: FAQ" and `general-faq.txt`: what differs?', ['Research and Teaching: FAQ','general-faq.txt']),
+        ('In fall 2026, how many credits?', []),
+        ('What is a general FAQ?', []),
+        ('How are scholarships awarded?', []),
+        ('Using only "docling-report.pdf", name the dataset.', ['docling-report.pdf']),
+        ('Using "only course.pdf", name the instructor.', ['only course.pdf']),
+        ('In "background-checks.pdf" for November 2015, report the Totals.', ['background-checks.pdf']),
+        ('In the uploaded `background-checks.pdf` for November 2015, report the Totals.', ['background-checks.pdf']),
+        ('Compare "first.pdf" and "second.pdf" for November 2015, report the Totals.', ['first.pdf', 'second.pdf']),
+        ('In the relevant documents, compare their results.', []),
+        ('In "relevant document", find the results.', ['relevant document']),
+        ('In relevant.pdf, find the results.', ['relevant.pdf']),
+        ('In the relevant document and "missing.pdf", compare results.', ['missing.pdf']),
+    ])
+    def test_explicit_source_clause(question,expected):
+>       assert document_references(question)==expected
+E       AssertionError: assert ['relevant do...'missing.pdf'] == ['missing.pdf']
+E         
+E         At index 0 diff: 'relevant document' != 'missing.pdf'
+E         Left contains one more item: 'missing.pdf'
+E         Use -v to get more diff
+
+tests/test_document_scope.py:31: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_recorded_scope_failures.py::test_recorded_financial_query_keeps_selected_file_scope[In the relevant document, what was NVIDIA's GAAP operating income for Q4 FY25? State the amount and units.]
+FAILED tests/test_recorded_scope_failures.py::test_recorded_financial_query_keeps_selected_file_scope[In the relevant document, what was NVIDIA's non-GAAP operating income for Q4 FY25? State the amount and units.]
+FAILED tests/test_recorded_scope_failures.py::test_recorded_financial_query_keeps_selected_file_scope[In the relevant document, what was NVIDIA's GAAP operating income for the full fiscal year 2025? State the amount and units.]
+FAILED tests/test_recorded_scope_failures.py::test_recorded_financial_query_keeps_selected_file_scope[In the relevant document, what was NVIDIA's non-GAAP operating income for the full fiscal year 2025? State the amount and units.]
+FAILED tests/test_recorded_scope_failures.py::test_recorded_invalid_supplement_keeps_supported_and_missing_points
+FAILED tests/test_recorded_scope_failures.py::test_valid_sibling_query_survives_without_repairing_the_rejected_proposal
+FAILED tests/test_document_scope.py::test_explicit_source_clause[In the relevant documents, compare their results.-expected12]
+FAILED tests/test_document_scope.py::test_explicit_source_clause[In the relevant document and "missing.pdf", compare results.-expected15]
+8 failed, 21 passed in 0.08s

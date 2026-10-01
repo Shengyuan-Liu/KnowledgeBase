@@ -1,0 +1,77 @@
+{
+  "acceptance": "failed",
+  "classification_pass_count": 4,
+  "case_gate_pass_count": 2,
+  "models": [
+    "gpt-4.1-2025-04-14"
+  ],
+  "comparisons": [
+    {
+      "case_id": "original-rule",
+      "before_gate": true,
+      "after_gate": true,
+      "before_points": 4,
+      "after_points": 4,
+      "observation": "Four correct cell facts and the actual user rule remain unchanged."
+    },
+    {
+      "case_id": "paraphrased-rule",
+      "before_gate": true,
+      "after_gate": true,
+      "before_points": 4,
+      "after_points": 4,
+      "observation": "Four correct cell facts and the actual user rule remain unchanged."
+    },
+    {
+      "case_id": "factual-condition",
+      "before_gate": true,
+      "after_gate": false,
+      "before_points": 3,
+      "after_points": 0,
+      "observation": "Regresses from a complete three-point answer to a validation error. Raw model output preserves the three factual dimensions and no answering rule, but chooses dependent with two templates lacking required {target}."
+    },
+    {
+      "case_id": "missing-year",
+      "before_gate": false,
+      "after_gate": false,
+      "before_points": 2,
+      "after_points": 2,
+      "observation": "Duplicate availability requirement removed. Both requested values remain missing, now producing the local full-question refusal without generation. The plan and query still incorrectly call Pre-Pawn Handgun ungrouped."
+    }
+  ]
+}
+{
+  "usage": {
+    "input_tokens": 26972,
+    "output_tokens": 2157,
+    "total_tokens": 29129
+  },
+  "timings": {
+    "n": 4,
+    "mean": 8.056726916489424,
+    "p50": 8.882200020481832,
+    "p95": 9.220047654461814,
+    "percentile_method": "linear interpolation",
+    "values": [
+      5.239420457975939,
+      8.561576290987432,
+      9.202823749976233,
+      9.223087167018093
+    ]
+  },
+  "points": {
+    "score": 10,
+    "denominator": 10,
+    "fraction": 1.0,
+    "unavailable_points": 3,
+    "all_intended_delivery": {
+      "score": 10,
+      "denominator": 13
+    }
+  },
+  "faithfulness": {
+    "supported": 8,
+    "denominator": 8,
+    "fraction": 1.0
+  }
+}

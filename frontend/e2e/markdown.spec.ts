@@ -6,7 +6,7 @@ test("uploads Markdown, inspects exact evidence, restores history, and deletes i
   }
   const source = "# Library\n\nThe library closes at 5 PM.\n\n- Weekend visits require a reservation.\n- Bring your library card.\n";
   await page.goto("/");
-  await page.getByLabel("Choose TXT or Markdown file").setInputFiles({
+  await page.getByLabel("Choose TXT, Markdown or PDF file").setInputFiles({
     name: "library.md", mimeType: "text/markdown", buffer: Buffer.from(source),
   });
   await expect(page.getByText("library.md is ready.")).toBeVisible();

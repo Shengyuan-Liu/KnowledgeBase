@@ -1,0 +1,623 @@
+{
+  "scope": "Supplement overrides generic runner inventory for comparison-1 only; unit suites retain offline contract applicability.",
+  "quality_and_performance": "Quality diagnostics and local timing are separate; no answer correctness or performance improvement inferred.",
+  "metric_inventory": {
+    "Recall@K": {
+      "status": "measured",
+      "value": {
+        "vector": {
+          "single": 0.75,
+          "planned": 1.0
+        },
+        "hybrid": {
+          "single": 1.0,
+          "planned": 1.0
+        }
+      },
+      "unit": "fraction",
+      "sample_count": 4,
+      "population": "Scoped offline retrieval fixture",
+      "method": "Complete binary labels over four canonical source spans, one child per span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro means within each strategy/variant. No generation or semantic reviewer.",
+      "aggregation": "Macro mean across 4 cases separately for each strategy and variant",
+      "reason": "Hand-authored complete binary source-span labels; synthetic diagnostic, not live semantic quality.",
+      "artifact": "comparison-1-details.json"
+    },
+    "Precision@K": {
+      "status": "measured",
+      "value": {
+        "vector": {
+          "single": 0.5,
+          "planned": 0.75
+        },
+        "hybrid": {
+          "single": 0.75,
+          "planned": 0.75
+        }
+      },
+      "unit": "fraction",
+      "sample_count": 4,
+      "population": "Scoped offline retrieval fixture",
+      "method": "Complete binary labels over four canonical source spans, one child per span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro means within each strategy/variant. No generation or semantic reviewer.",
+      "aggregation": "Macro mean across 4 cases separately for each strategy and variant",
+      "reason": "Hand-authored complete binary source-span labels; synthetic diagnostic, not live semantic quality.",
+      "artifact": "comparison-1-details.json"
+    },
+    "Hit Rate@K": {
+      "status": "measured",
+      "value": {
+        "vector": {
+          "single": 1.0,
+          "planned": 1.0
+        },
+        "hybrid": {
+          "single": 1.0,
+          "planned": 1.0
+        }
+      },
+      "unit": "fraction",
+      "sample_count": 4,
+      "population": "Scoped offline retrieval fixture",
+      "method": "Complete binary labels over four canonical source spans, one child per span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro means within each strategy/variant. No generation or semantic reviewer.",
+      "aggregation": "Macro mean across 4 cases separately for each strategy and variant",
+      "reason": "Hand-authored complete binary source-span labels; synthetic diagnostic, not live semantic quality.",
+      "artifact": "comparison-1-details.json"
+    },
+    "MRR": {
+      "status": "measured",
+      "value": {
+        "vector": {
+          "single": 1.0,
+          "planned": 1.0
+        },
+        "hybrid": {
+          "single": 1.0,
+          "planned": 1.0
+        }
+      },
+      "unit": "fraction",
+      "sample_count": 4,
+      "population": "Scoped offline retrieval fixture",
+      "method": "Complete binary labels over four canonical source spans, one child per span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro means within each strategy/variant. No generation or semantic reviewer.",
+      "aggregation": "Macro mean across 4 cases separately for each strategy and variant",
+      "reason": "Hand-authored complete binary source-span labels; synthetic diagnostic, not live semantic quality.",
+      "artifact": "comparison-1-details.json"
+    },
+    "NDCG@K": {
+      "status": "measured",
+      "value": {
+        "vector": {
+          "single": 0.8065735963827292,
+          "planned": 1.0
+        },
+        "hybrid": {
+          "single": 1.0,
+          "planned": 1.0
+        }
+      },
+      "unit": "fraction",
+      "sample_count": 4,
+      "population": "Scoped offline retrieval fixture",
+      "method": "Complete binary labels over four canonical source spans, one child per span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro means within each strategy/variant. No generation or semantic reviewer.",
+      "aggregation": "Macro mean across 4 cases separately for each strategy and variant",
+      "reason": "Hand-authored complete binary source-span labels; synthetic diagnostic, not live semantic quality.",
+      "artifact": "comparison-1-details.json"
+    },
+    "Final evidence coverage": {
+      "status": "measured",
+      "value": {
+        "vector": {
+          "single": 0.625,
+          "planned": 0.75
+        },
+        "hybrid": {
+          "single": 0.75,
+          "planned": 0.75
+        }
+      },
+      "unit": "fraction",
+      "sample_count": 4,
+      "population": "Scoped offline retrieval fixture",
+      "method": "Complete binary labels over four canonical source spans, one child per span. Scores measure selected candidate order before packing; denominator K even for fewer hits. MRR cutoff K. NDCG binary gain, log2 discount. Final coverage counts whole gold spans in actual context. Macro means within each strategy/variant. No generation or semantic reviewer.",
+      "aggregation": "Macro mean across 4 cases separately for each strategy and variant",
+      "reason": "Hand-authored complete binary source-span labels; synthetic diagnostic, not live semantic quality.",
+      "artifact": "comparison-1-details.json"
+    },
+    "Answer correctness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": 0,
+      "population": "Scoped offline retrieval fixture",
+      "method": "No generation, provider API, ingestion lifecycle or load workload",
+      "aggregation": "none",
+      "reason": "Not exercised by this retrieval-only comparison.",
+      "artifact": "comparison-1-details.json"
+    },
+    "Faithfulness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": 0,
+      "population": "Scoped offline retrieval fixture",
+      "method": "No generation, provider API, ingestion lifecycle or load workload",
+      "aggregation": "none",
+      "reason": "Not exercised by this retrieval-only comparison.",
+      "artifact": "comparison-1-details.json"
+    },
+    "Answer completeness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": 0,
+      "population": "Scoped offline retrieval fixture",
+      "method": "No generation, provider API, ingestion lifecycle or load workload",
+      "aggregation": "none",
+      "reason": "Not exercised by this retrieval-only comparison.",
+      "artifact": "comparison-1-details.json"
+    },
+    "Answer relevance": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": 0,
+      "population": "Scoped offline retrieval fixture",
+      "method": "No generation, provider API, ingestion lifecycle or load workload",
+      "aggregation": "none",
+      "reason": "Not exercised by this retrieval-only comparison.",
+      "artifact": "comparison-1-details.json"
+    },
+    "Citation support": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": 0,
+      "population": "Scoped offline retrieval fixture",
+      "method": "No generation, provider API, ingestion lifecycle or load workload",
+      "aggregation": "none",
+      "reason": "Not exercised by this retrieval-only comparison.",
+      "artifact": "comparison-1-details.json"
+    },
+    "Citation coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": 0,
+      "population": "Scoped offline retrieval fixture",
+      "method": "No generation, provider API, ingestion lifecycle or load workload",
+      "aggregation": "none",
+      "reason": "Not exercised by this retrieval-only comparison.",
+      "artifact": "comparison-1-details.json"
+    },
+    "Abstention": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": 0,
+      "population": "Scoped offline retrieval fixture",
+      "method": "No generation, provider API, ingestion lifecycle or load workload",
+      "aggregation": "none",
+      "reason": "Not exercised by this retrieval-only comparison.",
+      "artifact": "comparison-1-details.json"
+    },
+    "First-answer-delta latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": 0,
+      "population": "Scoped offline retrieval fixture",
+      "method": "No generation, provider API, ingestion lifecycle or load workload",
+      "aggregation": "none",
+      "reason": "Not exercised by this retrieval-only comparison.",
+      "artifact": "comparison-1-details.json"
+    },
+    "Complete-response latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": 0,
+      "population": "Scoped offline retrieval fixture",
+      "method": "No generation, provider API, ingestion lifecycle or load workload",
+      "aggregation": "none",
+      "reason": "Not exercised by this retrieval-only comparison.",
+      "artifact": "comparison-1-details.json"
+    },
+    "Stage latency": {
+      "status": "measured",
+      "value": {
+        "vector": {
+          "single": {
+            "retrieval_total_seconds": {
+              "n": 4,
+              "mean": 0.011028489767340943,
+              "p50": 0.0007714590756222606,
+              "p95": 0.04166629200335592
+            },
+            "packing_seconds": {
+              "n": 4,
+              "mean": 0.009734676743391901,
+              "p50": 4.416599404066801e-05,
+              "p95": 0.03880895802285522
+            },
+            "embedding_seconds": {
+              "n": 4,
+              "mean": 1.0479037882760167e-05,
+              "p50": 7.500057108700275e-06,
+              "p95": 1.7749960534274578e-05
+            },
+            "search_fusion_separate": {
+              "status": "unavailable",
+              "reason": "Query total retained; search and fusion are not separately timed."
+            }
+          },
+          "planned": {
+            "retrieval_total_seconds": {
+              "n": 4,
+              "mean": 0.0014249270025175065,
+              "p50": 0.0014572920044884086,
+              "p95": 0.0017054580384865403
+            },
+            "packing_seconds": {
+              "n": 4,
+              "mean": 4.342698957771063e-05,
+              "p50": 4.2958068661391735e-05,
+              "p95": 4.6874978579580784e-05
+            },
+            "scope_seconds": {
+              "n": 4,
+              "mean": 0.00017767696408554912,
+              "p50": 0.00011729192920029163,
+              "p95": 0.0003471249947324395
+            },
+            "merge_seconds": {
+              "n": 4,
+              "mean": 3.469822695478797e-05,
+              "p50": 3.2832962460815907e-05,
+              "p95": 4.4042011722922325e-05
+            },
+            "query_execution_seconds": {
+              "n": 6,
+              "mean": 0.0005955206385503212,
+              "p50": 0.0004794170381501317,
+              "p95": 0.0008706660009920597
+            },
+            "embedding_seconds": {
+              "n": 6,
+              "mean": 1.0284517581264177e-05,
+              "p50": 7.833936251699924e-06,
+              "p95": 1.829105895012617e-05
+            },
+            "search_fusion_separate": {
+              "status": "unavailable",
+              "reason": "Query total retained; search and fusion are not separately timed."
+            }
+          }
+        },
+        "hybrid": {
+          "single": {
+            "retrieval_total_seconds": {
+              "n": 4,
+              "mean": 0.0009211147262249142,
+              "p50": 0.0007902089273557067,
+              "p95": 0.0012366659939289093
+            },
+            "packing_seconds": {
+              "n": 4,
+              "mean": 3.9197999285534024e-05,
+              "p50": 3.758305683732033e-05,
+              "p95": 4.5082997530698776e-05
+            },
+            "embedding_seconds": {
+              "n": 4,
+              "mean": 7.14600901119411e-06,
+              "p50": 6.334041245281696e-06,
+              "p95": 9.124982170760632e-06
+            },
+            "search_fusion_separate": {
+              "status": "unavailable",
+              "reason": "Query total retained; search and fusion are not separately timed."
+            }
+          },
+          "planned": {
+            "retrieval_total_seconds": {
+              "n": 4,
+              "mean": 0.0012028957426082343,
+              "p50": 0.0009641669457778335,
+              "p95": 0.0014786249957978725
+            },
+            "packing_seconds": {
+              "n": 4,
+              "mean": 3.566648229025304e-05,
+              "p50": 3.5458942875266075e-05,
+              "p95": 3.616604954004288e-05
+            },
+            "scope_seconds": {
+              "n": 4,
+              "mean": 0.0001143019471783191,
+              "p50": 0.00011004193220287561,
+              "p95": 0.00012474996037781239
+            },
+            "merge_seconds": {
+              "n": 4,
+              "mean": 2.95522331725806e-05,
+              "p50": 2.816703636199236e-05,
+              "p95": 3.245798870921135e-05
+            },
+            "query_execution_seconds": {
+              "n": 6,
+              "mean": 0.0005270485222960511,
+              "p50": 0.0005177500424906611,
+              "p95": 0.0005505409790202975
+            },
+            "embedding_seconds": {
+              "n": 6,
+              "mean": 7.3265206689635915e-06,
+              "p50": 6.875023245811462e-06,
+              "p95": 8.95792618393898e-06
+            },
+            "search_fusion_separate": {
+              "status": "unavailable",
+              "reason": "Query total retained; search and fusion are not separately timed."
+            }
+          }
+        }
+      },
+      "unit": "seconds",
+      "sample_count": 16,
+      "population": "Scoped offline retrieval fixture",
+      "method": "perf_counter; nearest-rank percentiles; no queues or provider/model loading; first baseline includes cold tokenizer; all subsequent cases reuse process/index",
+      "aggregation": "Separate strategy/variant; counts attached to each statistic",
+      "reason": "Offline local diagnostic only. Cold/warm and fixed ordering prevent a speedup claim.",
+      "artifact": "comparison-1-details.json"
+    },
+    "Token usage and cost": {
+      "status": "measured",
+      "value": {
+        "vector/direct": {
+          "single": 62,
+          "planned": 62
+        },
+        "vector/independent": {
+          "single": 62,
+          "planned": 62
+        },
+        "vector/duplicate": {
+          "single": 62,
+          "planned": 62
+        },
+        "vector/budget_exhausted": {
+          "single": 0,
+          "planned": 0
+        },
+        "hybrid/direct": {
+          "single": 62,
+          "planned": 62
+        },
+        "hybrid/independent": {
+          "single": 62,
+          "planned": 62
+        },
+        "hybrid/duplicate": {
+          "single": 62,
+          "planned": 62
+        },
+        "hybrid/budget_exhausted": {
+          "single": 0,
+          "planned": 0
+        }
+      },
+      "unit": "final context tokens",
+      "sample_count": 16,
+      "population": "Scoped offline retrieval fixture",
+      "method": "Actual cl100k_base count including source labels",
+      "aggregation": "Per case and variant",
+      "reason": "Provider tokens/cost not_applicable: no provider calls. Local compute billing unavailable.",
+      "artifact": "comparison-1-details.json"
+    },
+    "Reliability": {
+      "status": "measured",
+      "value": {
+        "retrieval_attempts": 16,
+        "successes": 16,
+        "errors": 0,
+        "timeouts": 0,
+        "retries": 0,
+        "success_rate": 1.0
+      },
+      "unit": "counts and fraction",
+      "sample_count": 16,
+      "population": "Scoped offline retrieval fixture",
+      "method": "Completed comparison records; errors would propagate and fail command",
+      "aggregation": "All strategy/case/variant attempts",
+      "reason": "Offline harness reliability; not provider reliability.",
+      "artifact": "comparison-1-details.json"
+    },
+    "Concurrency and throughput": {
+      "status": "unavailable",
+      "value": null,
+      "unit": null,
+      "sample_count": 16,
+      "population": "Scoped offline retrieval fixture",
+      "method": "No generation, provider API, ingestion lifecycle or load workload",
+      "aggregation": "none",
+      "reason": "Sequential concurrency 1 recorded; no sustained throughput or load workload. Timings include instrumented diagnostics, not capacity measurement.",
+      "artifact": "comparison-1-details.json"
+    },
+    "Ingestion and index": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": 0,
+      "population": "Scoped offline retrieval fixture",
+      "method": "No generation, provider API, ingestion lifecycle or load workload",
+      "aggregation": "none",
+      "reason": "Not exercised by this retrieval-only comparison.",
+      "artifact": "comparison-1-details.json"
+    }
+  },
+  "reviewer": "Codex",
+  "review_method": "Inspected all 8 paired candidate orders and supplied contexts against the four frozen corpus records; no human/LLM-judge scores.",
+  "per_case_findings": [
+    {
+      "strategy": "vector",
+      "case_id": "direct",
+      "single_ranking": [
+        "a",
+        "c"
+      ],
+      "planned_ranking": [
+        "a",
+        "c"
+      ],
+      "deltas": {
+        "Recall@K": 0.0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0.0,
+        "MRR": 0.0,
+        "NDCG@K": 0.0,
+        "Final evidence coverage": 0.0
+      }
+    },
+    {
+      "strategy": "vector",
+      "case_id": "independent",
+      "single_ranking": [
+        "a",
+        "c"
+      ],
+      "planned_ranking": [
+        "a",
+        "b"
+      ],
+      "deltas": {
+        "Recall@K": 0.5,
+        "Precision@K": 0.5,
+        "Hit Rate@K": 0.0,
+        "MRR": 0.0,
+        "NDCG@K": 0.38685280723454163,
+        "Final evidence coverage": 0.5
+      }
+    },
+    {
+      "strategy": "vector",
+      "case_id": "duplicate",
+      "single_ranking": [
+        "a",
+        "c"
+      ],
+      "planned_ranking": [
+        "a",
+        "c"
+      ],
+      "deltas": {
+        "Recall@K": 0.0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0.0,
+        "MRR": 0.0,
+        "NDCG@K": 0.0,
+        "Final evidence coverage": 0.0
+      }
+    },
+    {
+      "strategy": "vector",
+      "case_id": "budget_exhausted",
+      "single_ranking": [
+        "a",
+        "c"
+      ],
+      "planned_ranking": [
+        "a",
+        "b"
+      ],
+      "deltas": {
+        "Recall@K": 0.5,
+        "Precision@K": 0.5,
+        "Hit Rate@K": 0.0,
+        "MRR": 0.0,
+        "NDCG@K": 0.38685280723454163,
+        "Final evidence coverage": 0.0
+      }
+    },
+    {
+      "strategy": "hybrid",
+      "case_id": "direct",
+      "single_ranking": [
+        "a",
+        "c"
+      ],
+      "planned_ranking": [
+        "a",
+        "c"
+      ],
+      "deltas": {
+        "Recall@K": 0.0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0.0,
+        "MRR": 0.0,
+        "NDCG@K": 0.0,
+        "Final evidence coverage": 0.0
+      }
+    },
+    {
+      "strategy": "hybrid",
+      "case_id": "independent",
+      "single_ranking": [
+        "a",
+        "b"
+      ],
+      "planned_ranking": [
+        "a",
+        "b"
+      ],
+      "deltas": {
+        "Recall@K": 0.0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0.0,
+        "MRR": 0.0,
+        "NDCG@K": 0.0,
+        "Final evidence coverage": 0.0
+      }
+    },
+    {
+      "strategy": "hybrid",
+      "case_id": "duplicate",
+      "single_ranking": [
+        "a",
+        "c"
+      ],
+      "planned_ranking": [
+        "a",
+        "c"
+      ],
+      "deltas": {
+        "Recall@K": 0.0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0.0,
+        "MRR": 0.0,
+        "NDCG@K": 0.0,
+        "Final evidence coverage": 0.0
+      }
+    },
+    {
+      "strategy": "hybrid",
+      "case_id": "budget_exhausted",
+      "single_ranking": [
+        "a",
+        "b"
+      ],
+      "planned_ranking": [
+        "a",
+        "b"
+      ],
+      "deltas": {
+        "Recall@K": 0.0,
+        "Precision@K": 0.0,
+        "Hit Rate@K": 0.0,
+        "MRR": 0.0,
+        "NDCG@K": 0.0,
+        "Final evidence coverage": 0.0
+      }
+    }
+  ],
+  "semantic_limit": "Named requirement attribution records retrieval associations only. It does not prove requirements are supported. Plans and query vectors are fixed by the harness.",
+  "failure_review": "plans-1 failed due to a test Chunk fixture missing required index; fixed fixture. backend-1 exposed accidental empty-library packing diagnostics after refactor; restored early return without altering the test."
+}

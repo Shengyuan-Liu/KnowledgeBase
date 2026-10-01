@@ -1,0 +1,154 @@
+{
+  "at": "2026-10-01T16:51:10.875492+00:00",
+  "status": "Frozen before any application ingestion, retrieval or answer on this corpus",
+  "questions": [
+    {
+      "id": "bert-sizes",
+      "question": "How many Transformer layers and total parameters do BERT-Base and BERT-Large have? Label both models.",
+      "files": [
+        "bert.pdf"
+      ],
+      "facts": [
+        "bert_base_layers",
+        "bert_base_parameters",
+        "bert_large_layers",
+        "bert_large_parameters"
+      ]
+    },
+    {
+      "id": "bert-objectives",
+      "question": "What are the two unsupervised tasks used to pre-train BERT?",
+      "files": [
+        "bert.pdf"
+      ],
+      "facts": [
+        "masked_lm",
+        "next_sentence"
+      ]
+    },
+    {
+      "id": "transformer-training",
+      "question": "How long did the big Transformer take to train, and how many GPUs of which type were used?",
+      "files": [
+        "attention.pdf"
+      ],
+      "facts": [
+        "training_days",
+        "gpu_count",
+        "gpu_type"
+      ]
+    },
+    {
+      "id": "transformer-energy-partial",
+      "question": "How long did the big Transformer take to train, and how much total electricity in kWh did that training consume? Use only the selected paper.",
+      "files": [
+        "attention.pdf"
+      ],
+      "facts": [
+        "training_days"
+      ],
+      "gaps": [
+        "energy_kwh"
+      ]
+    },
+    {
+      "id": "bert-moon-result",
+      "question": "What measured accuracy does the BERT paper report on the Lunar Soil Classification 2026 benchmark? Use only the selected paper.",
+      "files": [
+        "bert.pdf"
+      ],
+      "facts": [],
+      "gaps": [
+        "lunar_accuracy"
+      ]
+    }
+  ],
+  "facts": [
+    {
+      "id": "bert_base_layers",
+      "file": "bert.pdf",
+      "physical_page": 3,
+      "expected": "12 layers"
+    },
+    {
+      "id": "bert_base_parameters",
+      "file": "bert.pdf",
+      "physical_page": 3,
+      "expected": "110 million parameters"
+    },
+    {
+      "id": "bert_large_layers",
+      "file": "bert.pdf",
+      "physical_page": 3,
+      "expected": "24 layers"
+    },
+    {
+      "id": "bert_large_parameters",
+      "file": "bert.pdf",
+      "physical_page": 3,
+      "expected": "340 million parameters"
+    },
+    {
+      "id": "masked_lm",
+      "file": "bert.pdf",
+      "physical_page": 4,
+      "expected": "Masked language modeling"
+    },
+    {
+      "id": "next_sentence",
+      "file": "bert.pdf",
+      "physical_page": 4,
+      "expected": "Next sentence prediction"
+    },
+    {
+      "id": "training_days",
+      "file": "attention.pdf",
+      "physical_page": 8,
+      "expected": "3.5 days"
+    },
+    {
+      "id": "gpu_count",
+      "file": "attention.pdf",
+      "physical_page": 8,
+      "expected": "8 GPUs"
+    },
+    {
+      "id": "gpu_type",
+      "file": "attention.pdf",
+      "physical_page": 8,
+      "expected": "P100 GPUs"
+    }
+  ],
+  "original_page_review": "Codex visually inspected BERT physical pages 3/4 and Attention physical page 8. Full native text inspected for absent kWh and nonexistent Lunar Soil benchmark. No OCR, formulas or diagrams needed.",
+  "rubric": "All expected facts correct, faithful to final supplied excerpts and inline-cited with support; partial question must retain 3.5 days and disclose missing kWh; absent benchmark must not invent accuracy; no scope escape. Duplicate claim wording counted once. Every substantive additional claim is reviewed.",
+  "gate": {
+    "all_case_passes": 5,
+    "correct_positive_instances": 10,
+    "unsupported_factual_claims": 0,
+    "incorrect_full_refusals": 0,
+    "proper_full_refusal": 1,
+    "partial_gap_disclosure": 1,
+    "per_request_first_delta_seconds_max": 60,
+    "per_request_complete_seconds_max": 90,
+    "transport_errors": 0
+  },
+  "threshold_rationale": "Small functional release gate, not statistical quality assurance. Quality requires all authored points, no unsupported claims; latency ceilings conservatively exceed observed development maxima while staying within the 180s product deadline. No production SLO claim.",
+  "configuration": "Retain existing .env models, hybrid reranker, top_k=5, evidence=4096 and default controller bounds; no held-out-specific tuning.",
+  "reviewer": "Codex model; no independent human reviewer; papers are public and can occur in model pretraining. Held out from project tuning, not model pretraining.",
+  "sources": [
+    {
+      "file": "attention.pdf",
+      "url": "https://arxiv.org/pdf/1706.03762v7",
+      "source_page": "https://arxiv.org/abs/1706.03762",
+      "rights": "arXiv non-exclusive distribution; retained for private evaluation and attribution, no relicensing claim",
+      "sha256": "bdfaa68d8984f0dc02beaca527b76f207d99b666d31d1da728ee0728182df697"
+    },
+    {
+      "file": "bert.pdf",
+      "url": "https://arxiv.org/pdf/1810.04805v2",
+      "source_page": "https://arxiv.org/abs/1810.04805",
+      "rights": "arXiv distribution; retained for private evaluation and attribution, no relicensing claim",
+      "sha256": "5692a5514787a8c6727b4ff3b726a3385798bc68e12138d1d4af83947e2acf6e"
+    }
+  ]
+}

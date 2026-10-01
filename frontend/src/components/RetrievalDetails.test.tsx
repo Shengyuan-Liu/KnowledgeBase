@@ -29,6 +29,17 @@ it("shows separate scores, zero values, missing timings, and budget exclusions",
   expect(screen.getByText(/Reranking: Not recorded/)).toBeInTheDocument();
   expect(screen.getByText(/child-a → parent-a/)).toBeInTheDocument();
   expect(screen.getByText(/child-b · 40 source-text tokens/)).toBeInTheDocument();
+  expect(screen.queryByText(/Attempted full context:/)).not.toBeInTheDocument();
+});
+
+it("shows recorded full packing attempts separately from source-text token counts", () => {
+  render(<RetrievalDetails data={{ ...details,
+    excluded: [{ ...details.excluded[0], trial_context_tokens: 110 }],
+    unexpanded_parents: [{ ...details.unexpanded_parents![0], trial_context_tokens: 200 }],
+  }} />);
+  expect(screen.getByText(/child-b · 40 source-text tokens/))
+    .toHaveTextContent("Attempted full context: 110 / 100 tokens");
+  expect(screen.getByText(/parent-b · Attempted full context: 200 \/ 100 tokens/)).toBeInTheDocument();
 });
 
 it("preserves completed diagnostics through streaming reconciliation and history restoration", () => {

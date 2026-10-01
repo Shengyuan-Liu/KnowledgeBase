@@ -12,6 +12,7 @@ _DESCRIPTOR_WORDS = {
     'the', 'a', 'an', 'saved', 'uploaded', 'document', 'documents',
     'file', 'files', 'guide', 'guides', 'page', 'pages',
 }
+_GENERIC_SOURCE_WORDS = _DESCRIPTOR_WORDS | {'relevant', 'selected', 'supplied', 'provided'}
 
 
 def prioritize_documents(chunk_ids: list[str], files_by_chunk: dict[str, str], limit: int) -> list[str]:
@@ -34,11 +35,12 @@ def prioritize_documents(chunk_ids: list[str], files_by_chunk: dict[str, str], l
 def document_references(question: str) -> list[str]:
     """Read a leading source clause, allowing quoted names and an 'and' list.
 
-    This is bounded syntax, not a general intent classifier. Quotes protect
-    punctuation and 'and' inside a title. Other questions remain unrestricted
-    unless the caller supplies explicit file IDs.
+    This is bounded syntax, not a general intent classifier. Quotes delimit
+    the identity before trailing qualifiers and protect punctuation and 'and'
+    inside a title. Other questions remain unrestricted unless the caller
+    supplies explicit file IDs.
     """
-    prefix = re.match(r'^\s*(?:according to|in|from|using|compare)\s+', question, re.I)
+    prefix = re.match(r'^\s*(?:according to|in|from|using|compare)\s+(?:only\s+)?', question, re.I)
     if not prefix:
         return []
     rest = question[prefix.end():]
@@ -56,11 +58,18 @@ def document_references(question: str) -> list[str]:
     if stop is None:
         return []
     clause = rest[:stop]
-    if not re.search(r'\b(?:faqs?|guides?|documents?|files?|pages?)\b|\.(?:md|txt)\b|["`]', clause, re.I):
+    if not re.search(r'\b(?:faqs?|guides?|documents?|files?|pages?)\b|\.(?:md|txt|pdf)\b|["`]', clause, re.I):
         return []
     parts = re.split(r'\s+and\s+(?=(?:[^"`]*["`][^"`]*["`])*[^"`]*$)', clause, flags=re.I)
-    return [re.sub(r'^(?:(?:the|saved|uploaded)\s+)+', '', part.strip(), flags=re.I).strip('"` ')
-            for part in parts]
+    references = []
+    for part in parts:
+        name = re.sub(r'^(?:(?:the|saved|uploaded)\s+)+', '', part.strip(), flags=re.I)
+        quoted = re.match(r'^(["`])(.+?)\1(?=\s|$)', name)
+        if quoted:
+            references.append(quoted.group(2))
+        elif set(tokenize(name)) - _GENERIC_SOURCE_WORDS:
+            references.append(name.strip('"` '))
+    return references
 
 
 def identity_labels(file_name: str, source_text: str) -> list[str]:

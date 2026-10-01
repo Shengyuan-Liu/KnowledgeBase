@@ -6,10 +6,10 @@ STOP_PORTS ?= 8000 5173 8001 5174 4173
 
 app:
 	npm --prefix frontend run build
-	uv run --locked uvicorn knowledgebase.api.app:create_app --factory --host 127.0.0.1 --port 8000
+	uv run --locked --extra pdf uvicorn knowledgebase.api.app:create_app --factory --host 127.0.0.1 --port 8000
 
 api:
-	uv run --locked uvicorn knowledgebase.api.app:create_app --factory --host 127.0.0.1 --port 8000
+	uv run --locked --extra pdf uvicorn knowledgebase.api.app:create_app --factory --host 127.0.0.1 --port 8000
 
 eval:
 	uv run --locked python -m evals.automatic $(EVAL_ARGS)
@@ -18,7 +18,7 @@ eval-calibrate:
 	uv run --locked python -m evals.calibrate
 
 test:
-	uv run --locked python -m pytest tests/
+	uv run --locked --extra pdf python -m pytest tests/
 
 test-live:
 	RUN_LIVE_API_TESTS=1 uv run --locked python -m pytest tests/test_llm_live.py -s

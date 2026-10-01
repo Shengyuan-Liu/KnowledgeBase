@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-27T14:45:25.505637+00:00",
+  "before_answer_requests": true,
+  "reviewer": "Codex (model)",
+  "reason": "Original physical page 7 reproduces the DocLayNet abstract, including 80863. The previous absence label was incorrect. Full-document text search finds no 7059 count, and the rendered abstract does not state redundant-annotation counts.",
+  "before": {
+    "id": "restricted-dependency",
+    "category": "scope_partial",
+    "question": "Using only \"docling-report.pdf\", name the public dataset used to retrain its layout model and give that dataset's exact number of annotated pages.",
+    "files": [
+      "docling-report.pdf"
+    ],
+    "expected_fact_ids": [
+      "technical_dataset"
+    ],
+    "expected_missing": [
+      "The exact number of DocLayNet pages is not supplied in this allowed report."
+    ],
+    "followup_of": null,
+    "answerable": true
+  },
+  "after": {
+    "id": "restricted-dependency",
+    "category": "scope_partial",
+    "question": "Using only \"docling-report.pdf\", name the public dataset used to retrain its layout model and state how many of its pages have two human annotations.",
+    "files": [
+      "docling-report.pdf"
+    ],
+    "expected_fact_ids": [
+      "technical_dataset"
+    ],
+    "expected_missing": [
+      "The number of DocLayNet pages with two human annotations is not supplied in this allowed report."
+    ],
+    "followup_of": null,
+    "answerable": true
+  },
+  "review_artifacts": [
+    "source-review/docling-appendix-7.png",
+    "source-review/docling-report.txt"
+  ]
+}

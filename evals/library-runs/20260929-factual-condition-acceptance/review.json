@@ -1,0 +1,330 @@
+{
+  "reviewer": "Codex /root; model-assisted semantic review, not human ground truth",
+  "method": "Read each current plan, query, rule, assessment, answer and supplied context against the unchanged questions and original cell/column annotations. The script retains explicit reviewer judgments with exact excerpts; it is not an automatic semantic grader.",
+  "independent_second_review": false,
+  "score_rubric": "Unchanged expected-point 0/0.5/1 scoring, with null reserved for unavailable answers and separate all-intended delivery. Positive factual sentence/list-item support and inline citation review; absence statements reviewed separately. Case gates also require correct classification, route and scope.",
+  "cases": [
+    {
+      "case_id": "original-rule",
+      "classification_pass": true,
+      "classification_basis": "The actual answering instruction is separated from the requested facts, without an invented or duplicate requirement.",
+      "rule_provenance_pass": true,
+      "actual_answer_rules": [
+        "If the supplied excerpts do not establish a requested cell's contents, state that limitation."
+      ],
+      "expected_answer_rules": [
+        "If the supplied excerpts do not establish a requested cell's contents, state that limitation."
+      ],
+      "route_pass": true,
+      "column_scope_pass": true,
+      "factual_plan_observation": "Document, Alabama row, requested period and each complete column path are preserved.",
+      "expected_point_review": [
+        {
+          "expected": "Alabama ungrouped Handgun is 23,022 for November 2015",
+          "score": 1,
+          "delivered_score": 1,
+          "evidence": "- Alabama's Handgun value in the ungrouped column for November 2015 is 23,022 [1].",
+          "reason": "The answer supplies the correct scoped value, explicit blank, or missing-explanation statement from the frozen reference points."
+        },
+        {
+          "expected": "Alabama Pre-Pawn Handgun is 14 for November 2015",
+          "score": 1,
+          "delivered_score": 1,
+          "evidence": "- Alabama's Pre-Pawn Handgun value for November 2015 is 14 [1].",
+          "reason": "The answer supplies the correct scoped value, explicit blank, or missing-explanation statement from the frozen reference points."
+        },
+        {
+          "expected": "Alabama Rentals Handgun cell is blank",
+          "score": 1,
+          "delivered_score": 1,
+          "evidence": "- Alabama's Rentals Handgun cell for November 2015 is blank [1].",
+          "reason": "The answer supplies the correct scoped value, explicit blank, or missing-explanation statement from the frozen reference points."
+        },
+        {
+          "expected": "Alabama Rentals Long Gun cell is blank",
+          "score": 1,
+          "delivered_score": 1,
+          "evidence": "- Alabama's Rentals Long Gun cell for November 2015 is blank [1].",
+          "reason": "The answer supplies the correct scoped value, explicit blank, or missing-explanation statement from the frozen reference points."
+        }
+      ],
+      "factual_claims": [
+        {
+          "text": "- Alabama's Handgun value in the ungrouped column for November 2015 is 23,022 [1].",
+          "supported": true,
+          "citation_ids": [
+            1
+          ],
+          "citation_supported": true,
+          "evidence": "Source 1 Alabama row p5 at 364:457, November 2015 header p2, full column paths and original-page cell labels.",
+          "reason": "The cited source supplies the value or explicit blank for the correct row, column and period."
+        },
+        {
+          "text": "- Alabama's Pre-Pawn Handgun value for November 2015 is 14 [1].",
+          "supported": true,
+          "citation_ids": [
+            1
+          ],
+          "citation_supported": true,
+          "evidence": "Source 1 Alabama row p5 at 364:457, November 2015 header p2, full column paths and original-page cell labels.",
+          "reason": "The cited source supplies the value or explicit blank for the correct row, column and period."
+        },
+        {
+          "text": "- Alabama's Rentals Handgun cell for November 2015 is blank [1].",
+          "supported": true,
+          "citation_ids": [
+            1
+          ],
+          "citation_supported": true,
+          "evidence": "Source 1 Alabama row p5 at 364:457, November 2015 header p2, full column paths and original-page cell labels.",
+          "reason": "The cited source supplies the value or explicit blank for the correct row, column and period."
+        },
+        {
+          "text": "- Alabama's Rentals Long Gun cell for November 2015 is blank [1].",
+          "supported": true,
+          "citation_ids": [
+            1
+          ],
+          "citation_supported": true,
+          "evidence": "Source 1 Alabama row p5 at 364:457, November 2015 header p2, full column paths and original-page cell labels.",
+          "reason": "The cited source supplies the value or explicit blank for the correct row, column and period."
+        }
+      ],
+      "limitation_statements": [],
+      "semantic_quality_status": "measured",
+      "semantic_quality_reason": null,
+      "assessment_semantics_pass": true,
+      "assessment_review": "All four cell values/blanks supported by row p5 with attached period/header context.",
+      "answer_relevance": 1,
+      "relevance_rubric": "Addresses requested dimensions or appropriately refuses without unrelated content.",
+      "full_abstention": false,
+      "explicit_partial_limitation": false,
+      "case_gate_pass": true,
+      "comparison_observation": "All four cell facts and citations remain correct; the actual answering instruction is preserved separately."
+    },
+    {
+      "case_id": "paraphrased-rule",
+      "classification_pass": true,
+      "classification_basis": "The actual answering instruction is separated from the requested facts, without an invented or duplicate requirement.",
+      "rule_provenance_pass": true,
+      "actual_answer_rules": [
+        "Report only values established by the excerpts; for any requested cell that they do not establish, explicitly say the evidence is insufficient."
+      ],
+      "expected_answer_rules": [
+        "Report only values established by the excerpts; for any requested cell that they do not establish, explicitly say the evidence is insufficient."
+      ],
+      "route_pass": true,
+      "column_scope_pass": true,
+      "factual_plan_observation": "Document, Alabama row, requested period and each complete column path are preserved.",
+      "expected_point_review": [
+        {
+          "expected": "Alabama ungrouped Handgun is 23,022 for November 2015",
+          "score": 1,
+          "delivered_score": 1,
+          "evidence": "- Alabama's Handgun value in the ungrouped column for November 2015 is 23,022 [1].",
+          "reason": "The answer supplies the correct scoped value, explicit blank, or missing-explanation statement from the frozen reference points."
+        },
+        {
+          "expected": "Alabama Pre-Pawn Handgun is 14 for November 2015",
+          "score": 1,
+          "delivered_score": 1,
+          "evidence": "- Alabama's Pre-Pawn Handgun value for November 2015 is 14 [1].",
+          "reason": "The answer supplies the correct scoped value, explicit blank, or missing-explanation statement from the frozen reference points."
+        },
+        {
+          "expected": "Alabama Rentals Handgun cell is blank",
+          "score": 1,
+          "delivered_score": 1,
+          "evidence": "- Alabama's Rentals Handgun cell for November 2015 is blank [1].",
+          "reason": "The answer supplies the correct scoped value, explicit blank, or missing-explanation statement from the frozen reference points."
+        },
+        {
+          "expected": "Alabama Rentals Long Gun cell is blank",
+          "score": 1,
+          "delivered_score": 1,
+          "evidence": "- Alabama's Rentals Long Gun cell for November 2015 is blank [1].",
+          "reason": "The answer supplies the correct scoped value, explicit blank, or missing-explanation statement from the frozen reference points."
+        }
+      ],
+      "factual_claims": [
+        {
+          "text": "- Alabama's Handgun value in the ungrouped column for November 2015 is 23,022 [1].",
+          "supported": true,
+          "citation_ids": [
+            1
+          ],
+          "citation_supported": true,
+          "evidence": "Source 1 Alabama row p5 at 364:457, November 2015 header p2, full column paths and original-page cell labels.",
+          "reason": "The cited source supplies the value or explicit blank for the correct row, column and period."
+        },
+        {
+          "text": "- Alabama's Pre-Pawn Handgun value for November 2015 is 14 [1].",
+          "supported": true,
+          "citation_ids": [
+            1
+          ],
+          "citation_supported": true,
+          "evidence": "Source 1 Alabama row p5 at 364:457, November 2015 header p2, full column paths and original-page cell labels.",
+          "reason": "The cited source supplies the value or explicit blank for the correct row, column and period."
+        },
+        {
+          "text": "- Alabama's Rentals Handgun cell for November 2015 is blank [1].",
+          "supported": true,
+          "citation_ids": [
+            1
+          ],
+          "citation_supported": true,
+          "evidence": "Source 1 Alabama row p5 at 364:457, November 2015 header p2, full column paths and original-page cell labels.",
+          "reason": "The cited source supplies the value or explicit blank for the correct row, column and period."
+        },
+        {
+          "text": "- Alabama's Rentals Long Gun cell for November 2015 is blank [1].",
+          "supported": true,
+          "citation_ids": [
+            1
+          ],
+          "citation_supported": true,
+          "evidence": "Source 1 Alabama row p5 at 364:457, November 2015 header p2, full column paths and original-page cell labels.",
+          "reason": "The cited source supplies the value or explicit blank for the correct row, column and period."
+        }
+      ],
+      "limitation_statements": [],
+      "semantic_quality_status": "measured",
+      "semantic_quality_reason": null,
+      "assessment_semantics_pass": true,
+      "assessment_review": "All four cell values/blanks supported by row p5 with attached period/header context.",
+      "answer_relevance": 1,
+      "relevance_rubric": "Addresses requested dimensions or appropriately refuses without unrelated content.",
+      "full_abstention": false,
+      "explicit_partial_limitation": false,
+      "case_gate_pass": true,
+      "comparison_observation": "The same four facts remain correct and cited; the paraphrased instruction stays separate without a duplicate evidence requirement."
+    },
+    {
+      "case_id": "factual-condition",
+      "classification_pass": true,
+      "classification_basis": "The three requested source facts are retained and answer_rules is empty; no factual conditional clause is duplicated.",
+      "rule_provenance_pass": true,
+      "actual_answer_rules": [],
+      "expected_answer_rules": [],
+      "route_pass": true,
+      "column_scope_pass": true,
+      "factual_plan_observation": "Three independent known-input queries retain cell content, Handgun value and the explicit explanation question, with no dependency placeholder.",
+      "expected_point_review": [
+        {
+          "expected": "Alabama Rentals Handgun cell is blank",
+          "score": 1,
+          "delivered_score": 1,
+          "evidence": "- Alabama's Rentals Handgun cell for November 2015 is blank [1].",
+          "reason": "The answer supplies the correct scoped value, explicit blank, or missing-explanation statement from the frozen reference points."
+        },
+        {
+          "expected": "Alabama ungrouped Handgun is 23,022 for November 2015",
+          "score": 1,
+          "delivered_score": 1,
+          "evidence": "- Alabama's ungrouped Handgun value for November 2015 is 23,022 [1].",
+          "reason": "The answer supplies the correct scoped value, explicit blank, or missing-explanation statement from the frozen reference points."
+        },
+        {
+          "expected": "The supplied document does not explain why the Rentals Handgun cell is blank",
+          "score": 1,
+          "delivered_score": 1,
+          "evidence": "- The supplied excerpts from \"background-checks.pdf\" for November 2015 do not explain why Alabama's Rentals Handgun cell is blank [1][2].",
+          "reason": "The answer supplies the correct scoped value, explicit blank, or missing-explanation statement from the frozen reference points."
+        }
+      ],
+      "factual_claims": [
+        {
+          "text": "- Alabama's Rentals Handgun cell for November 2015 is blank [1].",
+          "supported": true,
+          "citation_ids": [
+            1
+          ],
+          "citation_supported": true,
+          "evidence": "Source 1 Alabama row p5 at 364:457, November 2015 header p2, full column paths and original-page cell labels.",
+          "reason": "The cited source supplies the value or explicit blank for the correct row, column and period."
+        },
+        {
+          "text": "- Alabama's ungrouped Handgun value for November 2015 is 23,022 [1].",
+          "supported": true,
+          "citation_ids": [
+            1
+          ],
+          "citation_supported": true,
+          "evidence": "Source 1 Alabama row p5 at 364:457, November 2015 header p2, full column paths and original-page cell labels.",
+          "reason": "The cited source supplies the value or explicit blank for the correct row, column and period."
+        }
+      ],
+      "limitation_statements": [
+        {
+          "text": "- The supplied excerpts from \"background-checks.pdf\" for November 2015 do not explain why Alabama's Rentals Handgun cell is blank [1][2].",
+          "correct": true,
+          "citation_ids": [
+            1,
+            2
+          ],
+          "reason": "The supplied table and footnotes contain no explanation of the blank Rentals Handgun cell. The answer limits its absence statement to the supplied excerpts and invents no cause. Reviewed separately from positive factual groups."
+        }
+      ],
+      "semantic_quality_status": "measured",
+      "semantic_quality_reason": null,
+      "assessment_semantics_pass": true,
+      "assessment_review": "Blank and Handgun value supported by row p5 with period/header context; the explanation remains missing.",
+      "answer_relevance": 1,
+      "relevance_rubric": "Addresses requested dimensions or appropriately refuses without unrelated content.",
+      "full_abstention": false,
+      "explicit_partial_limitation": true,
+      "case_gate_pass": true,
+      "comparison_observation": "The duplicated factual question disappears from answer_rules, now empty. Three independent fact queries and the complete three-point answer are preserved; the absence statement is explicitly limited to supplied excerpts. This previously failing classification gate now passes."
+    },
+    {
+      "case_id": "missing-year",
+      "classification_pass": true,
+      "classification_basis": "The actual answering instruction is separated from the requested facts, without an invented or duplicate requirement.",
+      "rule_provenance_pass": true,
+      "actual_answer_rules": [
+        "If the supplied excerpts do not establish these values for that year, state that limitation."
+      ],
+      "expected_answer_rules": [
+        "If the supplied excerpts do not establish these values for that year, state that limitation."
+      ],
+      "route_pass": true,
+      "column_scope_pass": true,
+      "factual_plan_observation": "Document, Alabama row, requested period and each complete column path are preserved.",
+      "expected_point_review": [
+        {
+          "expected": "Disclose that November 2016 Handgun value is not established",
+          "score": 1,
+          "delivered_score": 1,
+          "evidence": "There is not enough information in the provided sources to answer this question.",
+          "reason": "The unchanged rubric accepts a full-question refusal for both absent November 2016 values; generic wording does not name the fields or period."
+        },
+        {
+          "expected": "Disclose that November 2016 Pre-Pawn Handgun value is not established",
+          "score": 1,
+          "delivered_score": 1,
+          "evidence": "There is not enough information in the provided sources to answer this question.",
+          "reason": "The unchanged rubric accepts a full-question refusal for both absent November 2016 values; generic wording does not name the fields or period."
+        }
+      ],
+      "factual_claims": [],
+      "limitation_statements": [
+        {
+          "text": "There is not enough information in the provided sources to answer this question.",
+          "correct": true,
+          "reason": "Only November 2015 evidence is supplied, so both requested November 2016 values are unavailable. The local refusal asserts no value and requires no factual citation."
+        }
+      ],
+      "semantic_quality_status": "measured",
+      "semantic_quality_reason": null,
+      "assessment_semantics_pass": true,
+      "assessment_review": "Both November 2016 values missing with explicit period gaps and no references.",
+      "answer_relevance": 1,
+      "relevance_rubric": "Addresses requested dimensions or appropriately refuses without unrelated content.",
+      "full_abstention": true,
+      "explicit_partial_limitation": false,
+      "case_gate_pass": true,
+      "comparison_observation": "Correct ungrouped Handgun and Pre-Pawn Handgun paths, November 2016 scope, two missing statuses and local refusal remain unchanged in meaning."
+    }
+  ]
+}

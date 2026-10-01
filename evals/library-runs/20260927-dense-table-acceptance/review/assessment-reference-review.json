@@ -1,0 +1,356 @@
+{
+  "reviewer": "Codex model reviewer /root/table_reference_context; no human or paid judge",
+  "reviewed_at": "2026-09-27T21:00:11.402240+00:00",
+  "code_version": "8d3403e8c16142be863f0a2e779bd9cb78d14be2",
+  "scope": "Both actual dense-table assessment calls, the synthetic empty-context state assessment, and grouped-case no-assessment path. Model-selected IDs, exact raw spans, application additions, and final generation citation IDs are distinguished.",
+  "rows": [
+    {
+      "case_id": "dense-table",
+      "arm": "planned",
+      "round_index": 1,
+      "origin": "provider_assessment",
+      "source_artifact": "../dense-table-planned.json#answer.retrieval.planning.hops.assessments",
+      "sdk_input": {
+        "artifact": "../server-observations.jsonl",
+        "line": 24,
+        "call_id": "f6a25497a78c43fa8677fd2f9270a026"
+      },
+      "raw_model_decision": {
+        "requirements": [
+          {
+            "requirement_id": "r1",
+            "status": "missing",
+            "gap": "No relevant passage containing Alabama's Permit value for November 2015 found.",
+            "references": []
+          },
+          {
+            "requirement_id": "r2",
+            "status": "missing",
+            "gap": "No relevant passage containing Alabama's Handgun value for November 2015 found.",
+            "references": []
+          },
+          {
+            "requirement_id": "r3",
+            "status": "missing",
+            "gap": "No relevant passage containing Alabama's Long Gun value for November 2015 found.",
+            "references": []
+          },
+          {
+            "requirement_id": "r4",
+            "status": "missing",
+            "gap": "No relevant passage containing Alabama's Totals value for November 2015 found.",
+            "references": []
+          },
+          {
+            "requirement_id": "r5",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p4"
+              }
+            ]
+          }
+        ],
+        "queries": [
+          {
+            "requirement_ids": [
+              "r1",
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "query_template": "Find the table or section in background-checks.pdf reporting Alabama's November 2015 values for Permit, Handgun, Long Gun and Totals.",
+            "target": "",
+            "references": []
+          }
+        ]
+      },
+      "requirements": [
+        {
+          "requirement_id": "r1",
+          "description": "Alabama's Permit value for November 2015",
+          "status": "missing",
+          "gap": "No relevant passage containing Alabama's Permit value for November 2015 found.",
+          "raw_model_selected_references": [],
+          "normalized_references": [],
+          "application_added_table_context": [],
+          "selected_ids_preserved": true,
+          "exact_reference_spans_preserved": true,
+          "status_supported_by_actual_assessment_context": true,
+          "note": "Missing is accurate for this supplied context; it does not assert that the original PDF is missing the fact. No selected reference is silently filled by the application."
+        },
+        {
+          "requirement_id": "r2",
+          "description": "Alabama's Handgun value for November 2015",
+          "status": "missing",
+          "gap": "No relevant passage containing Alabama's Handgun value for November 2015 found.",
+          "raw_model_selected_references": [],
+          "normalized_references": [],
+          "application_added_table_context": [],
+          "selected_ids_preserved": true,
+          "exact_reference_spans_preserved": true,
+          "status_supported_by_actual_assessment_context": true,
+          "note": "Missing is accurate for this supplied context; it does not assert that the original PDF is missing the fact. No selected reference is silently filled by the application."
+        },
+        {
+          "requirement_id": "r3",
+          "description": "Alabama's Long Gun value for November 2015",
+          "status": "missing",
+          "gap": "No relevant passage containing Alabama's Long Gun value for November 2015 found.",
+          "raw_model_selected_references": [],
+          "normalized_references": [],
+          "application_added_table_context": [],
+          "selected_ids_preserved": true,
+          "exact_reference_spans_preserved": true,
+          "status_supported_by_actual_assessment_context": true,
+          "note": "Missing is accurate for this supplied context; it does not assert that the original PDF is missing the fact. No selected reference is silently filled by the application."
+        },
+        {
+          "requirement_id": "r4",
+          "description": "Alabama's Totals value for November 2015",
+          "status": "missing",
+          "gap": "No relevant passage containing Alabama's Totals value for November 2015 found.",
+          "raw_model_selected_references": [],
+          "normalized_references": [],
+          "application_added_table_context": [],
+          "selected_ids_preserved": true,
+          "exact_reference_spans_preserved": true,
+          "status_supported_by_actual_assessment_context": true,
+          "note": "Missing is accurate for this supplied context; it does not assert that the original PDF is missing the fact. No selected reference is silently filled by the application."
+        },
+        {
+          "requirement_id": "r5",
+          "description": "Whether these statistics represent firearms sold, as stated in the document",
+          "status": "supported",
+          "gap": "",
+          "raw_model_selected_references": [
+            {
+              "evidence_id": "p4"
+            }
+          ],
+          "normalized_references": [
+            {
+              "evidence_id": "p4",
+              "source_number": 1,
+              "file_id": "6f664d31bed547c5a7920256fd940a6a",
+              "file_name": "background-checks.pdf",
+              "start_offset": 5449,
+              "end_offset": 5738,
+              "page_indices": [
+                0
+              ],
+              "quote": "These statistics represent the number of firearm background checks initiated through the NICS They do not represent the number of firearms sold Based on varying state laws and purchase scenarios, a one-to-one correlation cannot be made between a firearm background check and a firearm sale"
+            }
+          ],
+          "application_added_table_context": [],
+          "selected_ids_preserved": true,
+          "exact_reference_spans_preserved": true,
+          "status_supported_by_actual_assessment_context": true,
+          "note": "p4 is the exact NICS checks/not-sales/no-one-to-one disclaimer on physical page 1 at 5449:5738. It lies inside current generation source 1 (4907:5738). No table context is attached and no source number remapping is needed."
+        }
+      ],
+      "table_context_effectiveness": "not_applicable: no table passages were supplied or selected",
+      "supplementary_query_review": "Round 1 reformulates only original question concepts, keeps the literal original filename/month, target='', and no source-derived references. Round 2 has no remaining query budget and proposes no query. Neither invents a source-derived target."
+    },
+    {
+      "case_id": "dense-table",
+      "arm": "planned",
+      "round_index": 2,
+      "origin": "provider_assessment",
+      "source_artifact": "../dense-table-planned.json#answer.retrieval.planning.hops.assessments",
+      "sdk_input": {
+        "artifact": "../server-observations.jsonl",
+        "line": 30,
+        "call_id": "b4a0286bd76c4732b64777bd0ac2d41e"
+      },
+      "raw_model_decision": {
+        "requirements": [
+          {
+            "requirement_id": "r1",
+            "status": "missing",
+            "gap": "No passage provides Alabama's Permit value for November 2015.",
+            "references": []
+          },
+          {
+            "requirement_id": "r2",
+            "status": "missing",
+            "gap": "No passage provides Alabama's Handgun value for November 2015.",
+            "references": []
+          },
+          {
+            "requirement_id": "r3",
+            "status": "missing",
+            "gap": "No passage provides Alabama's Long Gun value for November 2015.",
+            "references": []
+          },
+          {
+            "requirement_id": "r4",
+            "status": "missing",
+            "gap": "No passage provides Alabama's Totals value for November 2015.",
+            "references": []
+          },
+          {
+            "requirement_id": "r5",
+            "status": "supported",
+            "gap": "",
+            "references": [
+              {
+                "evidence_id": "p4"
+              }
+            ]
+          }
+        ],
+        "queries": []
+      },
+      "requirements": [
+        {
+          "requirement_id": "r1",
+          "description": "Alabama's Permit value for November 2015",
+          "status": "missing",
+          "gap": "No passage provides Alabama's Permit value for November 2015.",
+          "raw_model_selected_references": [],
+          "normalized_references": [],
+          "application_added_table_context": [],
+          "selected_ids_preserved": true,
+          "exact_reference_spans_preserved": true,
+          "status_supported_by_actual_assessment_context": true,
+          "note": "Missing is accurate for this supplied context; it does not assert that the original PDF is missing the fact. No selected reference is silently filled by the application."
+        },
+        {
+          "requirement_id": "r2",
+          "description": "Alabama's Handgun value for November 2015",
+          "status": "missing",
+          "gap": "No passage provides Alabama's Handgun value for November 2015.",
+          "raw_model_selected_references": [],
+          "normalized_references": [],
+          "application_added_table_context": [],
+          "selected_ids_preserved": true,
+          "exact_reference_spans_preserved": true,
+          "status_supported_by_actual_assessment_context": true,
+          "note": "Missing is accurate for this supplied context; it does not assert that the original PDF is missing the fact. No selected reference is silently filled by the application."
+        },
+        {
+          "requirement_id": "r3",
+          "description": "Alabama's Long Gun value for November 2015",
+          "status": "missing",
+          "gap": "No passage provides Alabama's Long Gun value for November 2015.",
+          "raw_model_selected_references": [],
+          "normalized_references": [],
+          "application_added_table_context": [],
+          "selected_ids_preserved": true,
+          "exact_reference_spans_preserved": true,
+          "status_supported_by_actual_assessment_context": true,
+          "note": "Missing is accurate for this supplied context; it does not assert that the original PDF is missing the fact. No selected reference is silently filled by the application."
+        },
+        {
+          "requirement_id": "r4",
+          "description": "Alabama's Totals value for November 2015",
+          "status": "missing",
+          "gap": "No passage provides Alabama's Totals value for November 2015.",
+          "raw_model_selected_references": [],
+          "normalized_references": [],
+          "application_added_table_context": [],
+          "selected_ids_preserved": true,
+          "exact_reference_spans_preserved": true,
+          "status_supported_by_actual_assessment_context": true,
+          "note": "Missing is accurate for this supplied context; it does not assert that the original PDF is missing the fact. No selected reference is silently filled by the application."
+        },
+        {
+          "requirement_id": "r5",
+          "description": "Whether these statistics represent firearms sold, as stated in the document",
+          "status": "supported",
+          "gap": "",
+          "raw_model_selected_references": [
+            {
+              "evidence_id": "p4"
+            }
+          ],
+          "normalized_references": [
+            {
+              "evidence_id": "p4",
+              "source_number": 1,
+              "file_id": "6f664d31bed547c5a7920256fd940a6a",
+              "file_name": "background-checks.pdf",
+              "start_offset": 5449,
+              "end_offset": 5738,
+              "page_indices": [
+                0
+              ],
+              "quote": "These statistics represent the number of firearm background checks initiated through the NICS They do not represent the number of firearms sold Based on varying state laws and purchase scenarios, a one-to-one correlation cannot be made between a firearm background check and a firearm sale"
+            }
+          ],
+          "application_added_table_context": [],
+          "selected_ids_preserved": true,
+          "exact_reference_spans_preserved": true,
+          "status_supported_by_actual_assessment_context": true,
+          "note": "p4 is the exact NICS checks/not-sales/no-one-to-one disclaimer on physical page 1 at 5449:5738. It lies inside current generation source 1 (4907:5738). No table context is attached and no source number remapping is needed."
+        }
+      ],
+      "table_context_effectiveness": "not_applicable: no table passages were supplied or selected",
+      "supplementary_query_review": "Round 1 reformulates only original question concepts, keeps the literal original filename/month, target='', and no source-derived references. Round 2 has no remaining query budget and proposes no query. Neither invents a source-derived target."
+    },
+    {
+      "case_id": "state-totals",
+      "arm": "planned",
+      "round_index": 1,
+      "origin": "application_empty_context_assessment",
+      "source_artifact": "../state-totals-planned.json#answer.retrieval.planning.hops.assessments",
+      "sdk_input": null,
+      "raw_model_decision": null,
+      "requirements": [
+        {
+          "requirement_id": "r1",
+          "description": "Find the Totals value for Alabama for November 2015 in \"background-checks.pdf\".",
+          "status": "missing",
+          "gap": "No source text was retained in the answer context.",
+          "raw_model_selected_references": null,
+          "normalized_references": [],
+          "application_added_table_context": [],
+          "selected_ids_preserved": null,
+          "exact_reference_spans_preserved": true,
+          "status_supported_by_actual_assessment_context": true,
+          "note": "Missing is accurate for this supplied context; it does not assert that the original PDF is missing the fact. No selected reference is silently filled by the application."
+        },
+        {
+          "requirement_id": "r2",
+          "description": "Find the Totals value for Alaska for November 2015 in \"background-checks.pdf\".",
+          "status": "missing",
+          "gap": "No source text was retained in the answer context.",
+          "raw_model_selected_references": null,
+          "normalized_references": [],
+          "application_added_table_context": [],
+          "selected_ids_preserved": null,
+          "exact_reference_spans_preserved": true,
+          "status_supported_by_actual_assessment_context": true,
+          "note": "Missing is accurate for this supplied context; it does not assert that the original PDF is missing the fact. No selected reference is silently filled by the application."
+        },
+        {
+          "requirement_id": "r3",
+          "description": "Find the Totals value for Arizona for November 2015 in \"background-checks.pdf\".",
+          "status": "missing",
+          "gap": "No source text was retained in the answer context.",
+          "raw_model_selected_references": null,
+          "normalized_references": [],
+          "application_added_table_context": [],
+          "selected_ids_preserved": null,
+          "exact_reference_spans_preserved": true,
+          "status_supported_by_actual_assessment_context": true,
+          "note": "Missing is accurate for this supplied context; it does not assert that the original PDF is missing the fact. No selected reference is silently filled by the application."
+        }
+      ],
+      "table_context_effectiveness": "not_applicable: no table passages were supplied or selected",
+      "supplementary_query_review": "No provider assessment or supplementary query; context was empty."
+    },
+    {
+      "case_id": "grouped-and-blank-cells",
+      "arm": "planned",
+      "round_index": null,
+      "origin": "no_assessment_scope_unresolved",
+      "source_artifact": "../grouped-and-blank-cells-planned.json#answer.retrieval",
+      "requirements": [],
+      "note": "Scope resolution failed before retrieval, assessment or generation. This is not evidence that the model understood grouped headers or blank cells."
+    }
+  ],
+  "limitation": "All live table-context/header/blank association paths are unexercised because no table evidence reaches an assessor or generator. Exact selected disclaimer spans are sound; this does not establish dense-table task success."
+}

@@ -1,0 +1,5053 @@
+{
+  "baseline_commit": "b792448",
+  "frozen_inputs": "evals/check-runs/20260927-pdf-evidence-packing/frozen-inputs.json",
+  "frozen_hashes": {
+    "evals/check-runs/20260927-pdf-evidence-packing/frozen-inputs.json": "0d9ce8171865e01835560a4fa1503a26b849d9b80cde7c122045dd284c7d8417",
+    "evals/library-runs/20260927-v2-pdf-live/index-snapshot.json": "450eeab0b1ebb017fa8983e3bb7bc9ba114a1173837a2e12ba1a188dd9cb7476",
+    "evals/library-runs/20260927-v2-pdf-live/anchor-labels.json": "02b7f8792cbb5b199c325ef927b93abd3b337c546c24f138b3d09f89e328c314"
+  },
+  "source_hashes": {
+    "knowledgebase/rag/context.py": "336b6b62395243508269ba917bbd24e190669ac6915f00881dae56db49224a86",
+    "knowledgebase/rag/packing.py": "3e7630e5211cc0b1ebe86ffaf4eff85ce4557808dac7f93f069ac71e4388f758",
+    "knowledgebase/rag/pdf_evidence.py": "79fd7179acc840e85503a06b8cd9f378d6b66a9bffdd8776fe71aee4461c9a5d"
+  },
+  "source_binding_note": "The existing financial facts and source annotations are unchanged. This control additionally checks exact table row/column/header tuples and the full units sentence so unchanged substrings alone do not establish preserved meaning.",
+  "rows": [
+    {
+      "identity": "apple-sales-single",
+      "question": "In \"apple-fy24.pdf\", compare total net sales for the three and twelve months ended September 28, 2024, and state the units.",
+      "requested_facts": [
+        "apple_sales_q",
+        "apple_sales_y",
+        "apple_units"
+      ],
+      "selected_rank_order": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:6"
+      ],
+      "before": {
+        "tokens": 2712,
+        "packed_ids": [
+          "1459e2b88b634fc2bbfd307abe5ec136:child:2"
+        ],
+        "coverage": {
+          "apple_sales_q": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales (1)",
+                    "tuple": [
+                      5,
+                      6,
+                      0,
+                      1,
+                      380,
+                      399
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "94,930",
+                    "tuple": [
+                      5,
+                      6,
+                      1,
+                      2,
+                      400,
+                      406
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      32,
+                      33,
+                      0,
+                      1,
+                      1539,
+                      1554
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 94,930",
+                    "tuple": [
+                      32,
+                      33,
+                      1,
+                      2,
+                      1555,
+                      1563
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": false
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      39,
+                      40,
+                      0,
+                      1,
+                      1821,
+                      1836
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 94,930",
+                    "tuple": [
+                      39,
+                      40,
+                      1,
+                      2,
+                      1837,
+                      1845
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": false
+              }
+            ]
+          },
+          "apple_sales_y": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales (1)",
+                    "tuple": [
+                      5,
+                      6,
+                      0,
+                      1,
+                      380,
+                      399
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "391,035",
+                    "tuple": [
+                      5,
+                      6,
+                      3,
+                      4,
+                      414,
+                      421
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      32,
+                      33,
+                      0,
+                      1,
+                      1539,
+                      1554
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 391,035",
+                    "tuple": [
+                      32,
+                      33,
+                      3,
+                      4,
+                      1573,
+                      1582
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": false
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      39,
+                      40,
+                      0,
+                      1,
+                      1821,
+                      1836
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 391,035",
+                    "tuple": [
+                      39,
+                      40,
+                      3,
+                      4,
+                      1855,
+                      1864
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": false
+              }
+            ]
+          },
+          "apple_units": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "complete": true,
+                "unit_source_spans": [
+                  {
+                    "start_offset": 73,
+                    "end_offset": 168
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "context_audit": [
+          {
+            "source_id": 1,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 107,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 1
+          }
+        ],
+        "packing_seconds": 0.00892666692379862,
+        "requested_points_covered": 3,
+        "requested_points_total": 3
+      },
+      "after": {
+        "tokens": 3188,
+        "packed_ids": [
+          "1459e2b88b634fc2bbfd307abe5ec136:parent:1"
+        ],
+        "coverage": {
+          "apple_sales_q": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales (1)",
+                    "tuple": [
+                      5,
+                      6,
+                      0,
+                      1,
+                      380,
+                      399
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "94,930",
+                    "tuple": [
+                      5,
+                      6,
+                      1,
+                      2,
+                      400,
+                      406
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      32,
+                      33,
+                      0,
+                      1,
+                      1539,
+                      1554
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 94,930",
+                    "tuple": [
+                      32,
+                      33,
+                      1,
+                      2,
+                      1555,
+                      1563
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      39,
+                      40,
+                      0,
+                      1,
+                      1821,
+                      1836
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 94,930",
+                    "tuple": [
+                      39,
+                      40,
+                      1,
+                      2,
+                      1837,
+                      1845
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_sales_y": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales (1)",
+                    "tuple": [
+                      5,
+                      6,
+                      0,
+                      1,
+                      380,
+                      399
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "391,035",
+                    "tuple": [
+                      5,
+                      6,
+                      3,
+                      4,
+                      414,
+                      421
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      32,
+                      33,
+                      0,
+                      1,
+                      1539,
+                      1554
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 391,035",
+                    "tuple": [
+                      32,
+                      33,
+                      3,
+                      4,
+                      1573,
+                      1582
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      39,
+                      40,
+                      0,
+                      1,
+                      1821,
+                      1836
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 391,035",
+                    "tuple": [
+                      39,
+                      40,
+                      3,
+                      4,
+                      1855,
+                      1864
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_units": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "complete": true,
+                "unit_source_spans": [
+                  {
+                    "start_offset": 12,
+                    "end_offset": 1874
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "context_audit": [
+          {
+            "source_id": 1,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:parent:1",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 168,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 0
+          }
+        ],
+        "packing_seconds": 0.007707334007136524,
+        "requested_points_covered": 3,
+        "requested_points_total": 3
+      }
+    },
+    {
+      "identity": "apple-sales-planned",
+      "question": "In \"apple-fy24.pdf\", compare total net sales for the three and twelve months ended September 28, 2024, and state the units.",
+      "requested_facts": [
+        "apple_sales_q",
+        "apple_sales_y",
+        "apple_units"
+      ],
+      "selected_rank_order": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:6"
+      ],
+      "before": {
+        "tokens": 2712,
+        "packed_ids": [
+          "1459e2b88b634fc2bbfd307abe5ec136:child:2"
+        ],
+        "coverage": {
+          "apple_sales_q": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales (1)",
+                    "tuple": [
+                      5,
+                      6,
+                      0,
+                      1,
+                      380,
+                      399
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "94,930",
+                    "tuple": [
+                      5,
+                      6,
+                      1,
+                      2,
+                      400,
+                      406
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      32,
+                      33,
+                      0,
+                      1,
+                      1539,
+                      1554
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 94,930",
+                    "tuple": [
+                      32,
+                      33,
+                      1,
+                      2,
+                      1555,
+                      1563
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": false
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      39,
+                      40,
+                      0,
+                      1,
+                      1821,
+                      1836
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 94,930",
+                    "tuple": [
+                      39,
+                      40,
+                      1,
+                      2,
+                      1837,
+                      1845
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": false
+              }
+            ]
+          },
+          "apple_sales_y": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales (1)",
+                    "tuple": [
+                      5,
+                      6,
+                      0,
+                      1,
+                      380,
+                      399
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "391,035",
+                    "tuple": [
+                      5,
+                      6,
+                      3,
+                      4,
+                      414,
+                      421
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      32,
+                      33,
+                      0,
+                      1,
+                      1539,
+                      1554
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 391,035",
+                    "tuple": [
+                      32,
+                      33,
+                      3,
+                      4,
+                      1573,
+                      1582
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": false
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      39,
+                      40,
+                      0,
+                      1,
+                      1821,
+                      1836
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 391,035",
+                    "tuple": [
+                      39,
+                      40,
+                      3,
+                      4,
+                      1855,
+                      1864
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": false
+              }
+            ]
+          },
+          "apple_units": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "complete": true,
+                "unit_source_spans": [
+                  {
+                    "start_offset": 73,
+                    "end_offset": 168
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "context_audit": [
+          {
+            "source_id": 1,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 107,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 1
+          }
+        ],
+        "packing_seconds": 0.008374124998226762,
+        "requested_points_covered": 3,
+        "requested_points_total": 3
+      },
+      "after": {
+        "tokens": 3643,
+        "packed_ids": [
+          "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+          "1459e2b88b634fc2bbfd307abe5ec136:parent:7"
+        ],
+        "coverage": {
+          "apple_sales_q": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales (1)",
+                    "tuple": [
+                      5,
+                      6,
+                      0,
+                      1,
+                      380,
+                      399
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "94,930",
+                    "tuple": [
+                      5,
+                      6,
+                      1,
+                      2,
+                      400,
+                      406
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      32,
+                      33,
+                      0,
+                      1,
+                      1539,
+                      1554
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 94,930",
+                    "tuple": [
+                      32,
+                      33,
+                      1,
+                      2,
+                      1555,
+                      1563
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": false
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      39,
+                      40,
+                      0,
+                      1,
+                      1821,
+                      1836
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 94,930",
+                    "tuple": [
+                      39,
+                      40,
+                      1,
+                      2,
+                      1837,
+                      1845
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": false
+              }
+            ]
+          },
+          "apple_sales_y": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales (1)",
+                    "tuple": [
+                      5,
+                      6,
+                      0,
+                      1,
+                      380,
+                      399
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "391,035",
+                    "tuple": [
+                      5,
+                      6,
+                      3,
+                      4,
+                      414,
+                      421
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      32,
+                      33,
+                      0,
+                      1,
+                      1539,
+                      1554
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 391,035",
+                    "tuple": [
+                      32,
+                      33,
+                      3,
+                      4,
+                      1573,
+                      1582
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": false
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      39,
+                      40,
+                      0,
+                      1,
+                      1821,
+                      1836
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 391,035",
+                    "tuple": [
+                      39,
+                      40,
+                      3,
+                      4,
+                      1855,
+                      1864
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": false
+              }
+            ]
+          },
+          "apple_units": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "complete": true,
+                "unit_source_spans": [
+                  {
+                    "start_offset": 73,
+                    "end_offset": 168
+                  }
+                ]
+              },
+              {
+                "source_id": 2,
+                "complete": false,
+                "unit_source_spans": []
+              }
+            ]
+          }
+        },
+        "context_audit": [
+          {
+            "source_id": 1,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 107,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 1
+          },
+          {
+            "source_id": 2,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:parent:7",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 51,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 0
+          }
+        ],
+        "packing_seconds": 0.007782667060382664,
+        "requested_points_covered": 3,
+        "requested_points_total": 3
+      }
+    },
+    {
+      "identity": "apple-income-single",
+      "question": "In \"apple-fy24.pdf\", what was net income for the three and twelve months ended September 28, 2024? Include units.",
+      "requested_facts": [
+        "apple_income_q",
+        "apple_income_y",
+        "apple_units"
+      ],
+      "selected_rank_order": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:6",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3"
+      ],
+      "before": {
+        "tokens": 2712,
+        "packed_ids": [
+          "1459e2b88b634fc2bbfd307abe5ec136:child:2"
+        ],
+        "coverage": {
+          "apple_income_q": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Net income",
+                    "tuple": [
+                      19,
+                      20,
+                      0,
+                      1,
+                      1014,
+                      1024
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 14,736",
+                    "tuple": [
+                      19,
+                      20,
+                      1,
+                      2,
+                      1025,
+                      1033
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_income_y": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Net income",
+                    "tuple": [
+                      19,
+                      20,
+                      0,
+                      1,
+                      1014,
+                      1024
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 93,736",
+                    "tuple": [
+                      19,
+                      20,
+                      3,
+                      4,
+                      1043,
+                      1051
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_units": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "complete": true,
+                "unit_source_spans": [
+                  {
+                    "start_offset": 73,
+                    "end_offset": 168
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "context_audit": [
+          {
+            "source_id": 1,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 107,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 1
+          }
+        ],
+        "packing_seconds": 0.008864916977472603,
+        "requested_points_covered": 3,
+        "requested_points_total": 3
+      },
+      "after": {
+        "tokens": 3643,
+        "packed_ids": [
+          "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+          "1459e2b88b634fc2bbfd307abe5ec136:parent:7"
+        ],
+        "coverage": {
+          "apple_income_q": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Net income",
+                    "tuple": [
+                      19,
+                      20,
+                      0,
+                      1,
+                      1014,
+                      1024
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 14,736",
+                    "tuple": [
+                      19,
+                      20,
+                      1,
+                      2,
+                      1025,
+                      1033
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_income_y": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Net income",
+                    "tuple": [
+                      19,
+                      20,
+                      0,
+                      1,
+                      1014,
+                      1024
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 93,736",
+                    "tuple": [
+                      19,
+                      20,
+                      3,
+                      4,
+                      1043,
+                      1051
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_units": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "complete": true,
+                "unit_source_spans": [
+                  {
+                    "start_offset": 73,
+                    "end_offset": 168
+                  }
+                ]
+              },
+              {
+                "source_id": 2,
+                "complete": false,
+                "unit_source_spans": []
+              }
+            ]
+          }
+        },
+        "context_audit": [
+          {
+            "source_id": 1,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 107,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 1
+          },
+          {
+            "source_id": 2,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:parent:7",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 51,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 0
+          }
+        ],
+        "packing_seconds": 0.007964416989125311,
+        "requested_points_covered": 3,
+        "requested_points_total": 3
+      }
+    },
+    {
+      "identity": "apple-income-planned",
+      "question": "In \"apple-fy24.pdf\", what was net income for the three and twelve months ended September 28, 2024? Include units.",
+      "requested_facts": [
+        "apple_income_q",
+        "apple_income_y",
+        "apple_units"
+      ],
+      "selected_rank_order": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:6",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3"
+      ],
+      "before": {
+        "tokens": 2712,
+        "packed_ids": [
+          "1459e2b88b634fc2bbfd307abe5ec136:child:2"
+        ],
+        "coverage": {
+          "apple_income_q": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Net income",
+                    "tuple": [
+                      19,
+                      20,
+                      0,
+                      1,
+                      1014,
+                      1024
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 14,736",
+                    "tuple": [
+                      19,
+                      20,
+                      1,
+                      2,
+                      1025,
+                      1033
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_income_y": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Net income",
+                    "tuple": [
+                      19,
+                      20,
+                      0,
+                      1,
+                      1014,
+                      1024
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 93,736",
+                    "tuple": [
+                      19,
+                      20,
+                      3,
+                      4,
+                      1043,
+                      1051
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_units": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "complete": true,
+                "unit_source_spans": [
+                  {
+                    "start_offset": 73,
+                    "end_offset": 168
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "context_audit": [
+          {
+            "source_id": 1,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 107,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 1
+          }
+        ],
+        "packing_seconds": 0.008445249986834824,
+        "requested_points_covered": 3,
+        "requested_points_total": 3
+      },
+      "after": {
+        "tokens": 3643,
+        "packed_ids": [
+          "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+          "1459e2b88b634fc2bbfd307abe5ec136:parent:7"
+        ],
+        "coverage": {
+          "apple_income_q": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Net income",
+                    "tuple": [
+                      19,
+                      20,
+                      0,
+                      1,
+                      1014,
+                      1024
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 14,736",
+                    "tuple": [
+                      19,
+                      20,
+                      1,
+                      2,
+                      1025,
+                      1033
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_income_y": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Net income",
+                    "tuple": [
+                      19,
+                      20,
+                      0,
+                      1,
+                      1014,
+                      1024
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 93,736",
+                    "tuple": [
+                      19,
+                      20,
+                      3,
+                      4,
+                      1043,
+                      1051
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_units": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "complete": true,
+                "unit_source_spans": [
+                  {
+                    "start_offset": 73,
+                    "end_offset": 168
+                  }
+                ]
+              },
+              {
+                "source_id": 2,
+                "complete": false,
+                "unit_source_spans": []
+              }
+            ]
+          }
+        },
+        "context_audit": [
+          {
+            "source_id": 1,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 107,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 1
+          },
+          {
+            "source_id": 2,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:parent:7",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 51,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 0
+          }
+        ],
+        "packing_seconds": 0.007697999943047762,
+        "requested_points_covered": 3,
+        "requested_points_total": 3
+      }
+    },
+    {
+      "identity": "apparent-conflict-single",
+      "question": "In \"apple-fy24.pdf\", are the 2024 total net sales figures 94,930 and 391,035 contradictory? Explain their respective reporting periods.",
+      "requested_facts": [
+        "apple_sales_q",
+        "apple_sales_y"
+      ],
+      "selected_rank_order": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:6",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13"
+      ],
+      "before": {
+        "tokens": 3884,
+        "packed_ids": [
+          "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+          "1459e2b88b634fc2bbfd307abe5ec136:parent:7"
+        ],
+        "coverage": {
+          "apple_sales_q": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales (1)",
+                    "tuple": [
+                      5,
+                      6,
+                      0,
+                      1,
+                      380,
+                      399
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "94,930",
+                    "tuple": [
+                      5,
+                      6,
+                      1,
+                      2,
+                      400,
+                      406
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": false
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      32,
+                      33,
+                      0,
+                      1,
+                      1539,
+                      1554
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 94,930",
+                    "tuple": [
+                      32,
+                      33,
+                      1,
+                      2,
+                      1555,
+                      1563
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      39,
+                      40,
+                      0,
+                      1,
+                      1821,
+                      1836
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 94,930",
+                    "tuple": [
+                      39,
+                      40,
+                      1,
+                      2,
+                      1837,
+                      1845
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_sales_y": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales (1)",
+                    "tuple": [
+                      5,
+                      6,
+                      0,
+                      1,
+                      380,
+                      399
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "391,035",
+                    "tuple": [
+                      5,
+                      6,
+                      3,
+                      4,
+                      414,
+                      421
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": false
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      32,
+                      33,
+                      0,
+                      1,
+                      1539,
+                      1554
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 391,035",
+                    "tuple": [
+                      32,
+                      33,
+                      3,
+                      4,
+                      1573,
+                      1582
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      39,
+                      40,
+                      0,
+                      1,
+                      1821,
+                      1836
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 391,035",
+                    "tuple": [
+                      39,
+                      40,
+                      3,
+                      4,
+                      1855,
+                      1864
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_units": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "complete": true,
+                "unit_source_spans": [
+                  {
+                    "start_offset": 73,
+                    "end_offset": 168
+                  }
+                ]
+              },
+              {
+                "source_id": 2,
+                "complete": false,
+                "unit_source_spans": []
+              }
+            ]
+          }
+        },
+        "context_audit": [
+          {
+            "source_id": 1,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 67,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 7
+          },
+          {
+            "source_id": 2,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:parent:7",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 51,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 0
+          }
+        ],
+        "packing_seconds": 0.0071509170811623335,
+        "requested_points_covered": 2,
+        "requested_points_total": 2
+      },
+      "after": {
+        "tokens": 3188,
+        "packed_ids": [
+          "1459e2b88b634fc2bbfd307abe5ec136:parent:1"
+        ],
+        "coverage": {
+          "apple_sales_q": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales (1)",
+                    "tuple": [
+                      5,
+                      6,
+                      0,
+                      1,
+                      380,
+                      399
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "94,930",
+                    "tuple": [
+                      5,
+                      6,
+                      1,
+                      2,
+                      400,
+                      406
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      32,
+                      33,
+                      0,
+                      1,
+                      1539,
+                      1554
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 94,930",
+                    "tuple": [
+                      32,
+                      33,
+                      1,
+                      2,
+                      1555,
+                      1563
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      39,
+                      40,
+                      0,
+                      1,
+                      1821,
+                      1836
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 94,930",
+                    "tuple": [
+                      39,
+                      40,
+                      1,
+                      2,
+                      1837,
+                      1845
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_sales_y": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales (1)",
+                    "tuple": [
+                      5,
+                      6,
+                      0,
+                      1,
+                      380,
+                      399
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "391,035",
+                    "tuple": [
+                      5,
+                      6,
+                      3,
+                      4,
+                      414,
+                      421
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      32,
+                      33,
+                      0,
+                      1,
+                      1539,
+                      1554
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 391,035",
+                    "tuple": [
+                      32,
+                      33,
+                      3,
+                      4,
+                      1573,
+                      1582
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      39,
+                      40,
+                      0,
+                      1,
+                      1821,
+                      1836
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 391,035",
+                    "tuple": [
+                      39,
+                      40,
+                      3,
+                      4,
+                      1855,
+                      1864
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_units": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "complete": true,
+                "unit_source_spans": [
+                  {
+                    "start_offset": 12,
+                    "end_offset": 1874
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "context_audit": [
+          {
+            "source_id": 1,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:parent:1",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 168,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 0
+          }
+        ],
+        "packing_seconds": 0.007495291996747255,
+        "requested_points_covered": 2,
+        "requested_points_total": 2
+      }
+    },
+    {
+      "identity": "apparent-conflict-planned",
+      "question": "In \"apple-fy24.pdf\", are the 2024 total net sales figures 94,930 and 391,035 contradictory? Explain their respective reporting periods.",
+      "requested_facts": [
+        "apple_sales_q",
+        "apple_sales_y"
+      ],
+      "selected_rank_order": [
+        "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:2",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:9",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:13",
+        "1459e2b88b634fc2bbfd307abe5ec136:child:11"
+      ],
+      "before": {
+        "tokens": 4019,
+        "packed_ids": [
+          "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+          "1459e2b88b634fc2bbfd307abe5ec136:parent:7",
+          "1459e2b88b634fc2bbfd307abe5ec136:parent:6"
+        ],
+        "coverage": {
+          "apple_sales_q": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales (1)",
+                    "tuple": [
+                      5,
+                      6,
+                      0,
+                      1,
+                      380,
+                      399
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "94,930",
+                    "tuple": [
+                      5,
+                      6,
+                      1,
+                      2,
+                      400,
+                      406
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": false
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      32,
+                      33,
+                      0,
+                      1,
+                      1539,
+                      1554
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 94,930",
+                    "tuple": [
+                      32,
+                      33,
+                      1,
+                      2,
+                      1555,
+                      1563
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      39,
+                      40,
+                      0,
+                      1,
+                      1821,
+                      1836
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 94,930",
+                    "tuple": [
+                      39,
+                      40,
+                      1,
+                      2,
+                      1837,
+                      1845
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_sales_y": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales (1)",
+                    "tuple": [
+                      5,
+                      6,
+                      0,
+                      1,
+                      380,
+                      399
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "391,035",
+                    "tuple": [
+                      5,
+                      6,
+                      3,
+                      4,
+                      414,
+                      421
+                    ],
+                    "metadata_present": false,
+                    "exact_text_supplied": false,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": false
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      32,
+                      33,
+                      0,
+                      1,
+                      1539,
+                      1554
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 391,035",
+                    "tuple": [
+                      32,
+                      33,
+                      3,
+                      4,
+                      1573,
+                      1582
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      39,
+                      40,
+                      0,
+                      1,
+                      1821,
+                      1836
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 391,035",
+                    "tuple": [
+                      39,
+                      40,
+                      3,
+                      4,
+                      1855,
+                      1864
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_units": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "complete": true,
+                "unit_source_spans": [
+                  {
+                    "start_offset": 73,
+                    "end_offset": 168
+                  }
+                ]
+              },
+              {
+                "source_id": 2,
+                "complete": false,
+                "unit_source_spans": []
+              },
+              {
+                "source_id": 3,
+                "complete": false,
+                "unit_source_spans": []
+              }
+            ]
+          }
+        },
+        "context_audit": [
+          {
+            "source_id": 1,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:child:3",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 67,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 7
+          },
+          {
+            "source_id": 2,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:parent:7",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 51,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 0
+          },
+          {
+            "source_id": 3,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:parent:6",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 0,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 0
+          }
+        ],
+        "packing_seconds": 0.006203667027875781,
+        "requested_points_covered": 2,
+        "requested_points_total": 2
+      },
+      "after": {
+        "tokens": 3323,
+        "packed_ids": [
+          "1459e2b88b634fc2bbfd307abe5ec136:parent:1",
+          "1459e2b88b634fc2bbfd307abe5ec136:parent:6"
+        ],
+        "coverage": {
+          "apple_sales_q": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales (1)",
+                    "tuple": [
+                      5,
+                      6,
+                      0,
+                      1,
+                      380,
+                      399
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "94,930",
+                    "tuple": [
+                      5,
+                      6,
+                      1,
+                      2,
+                      400,
+                      406
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      32,
+                      33,
+                      0,
+                      1,
+                      1539,
+                      1554
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 94,930",
+                    "tuple": [
+                      32,
+                      33,
+                      1,
+                      2,
+                      1555,
+                      1563
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      39,
+                      40,
+                      0,
+                      1,
+                      1821,
+                      1836
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 94,930",
+                    "tuple": [
+                      39,
+                      40,
+                      1,
+                      2,
+                      1837,
+                      1845
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Three Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      1,
+                      3,
+                      170,
+                      188
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      1,
+                      2,
+                      209,
+                      227
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_sales_y": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales (1)",
+                    "tuple": [
+                      5,
+                      6,
+                      0,
+                      1,
+                      380,
+                      399
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "391,035",
+                    "tuple": [
+                      5,
+                      6,
+                      3,
+                      4,
+                      414,
+                      421
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      32,
+                      33,
+                      0,
+                      1,
+                      1539,
+                      1554
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 391,035",
+                    "tuple": [
+                      32,
+                      33,
+                      3,
+                      4,
+                      1573,
+                      1582
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              },
+              {
+                "source_id": 1,
+                "cells": [
+                  {
+                    "text": "Total net sales",
+                    "tuple": [
+                      39,
+                      40,
+                      0,
+                      1,
+                      1821,
+                      1836
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "$ 391,035",
+                    "tuple": [
+                      39,
+                      40,
+                      3,
+                      4,
+                      1855,
+                      1864
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "Twelve Months Ended",
+                    "tuple": [
+                      0,
+                      1,
+                      3,
+                      5,
+                      189,
+                      208
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  },
+                  {
+                    "text": "September 28, 2024",
+                    "tuple": [
+                      1,
+                      2,
+                      3,
+                      4,
+                      247,
+                      265
+                    ],
+                    "metadata_present": true,
+                    "exact_text_supplied": true,
+                    "page_indices": [
+                      0
+                    ]
+                  }
+                ],
+                "complete": true
+              }
+            ]
+          },
+          "apple_units": {
+            "complete": true,
+            "source_checks": [
+              {
+                "source_id": 1,
+                "complete": true,
+                "unit_source_spans": [
+                  {
+                    "start_offset": 12,
+                    "end_offset": 1874
+                  }
+                ]
+              },
+              {
+                "source_id": 2,
+                "complete": false,
+                "unit_source_spans": []
+              }
+            ]
+          }
+        },
+        "context_audit": [
+          {
+            "source_id": 1,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:parent:1",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 168,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 0
+          },
+          {
+            "source_id": 2,
+            "chunk_id": "1459e2b88b634fc2bbfd307abe5ec136:parent:6",
+            "body_exact": true,
+            "physical_pages_exact": true,
+            "canonical_offsets_exact": true,
+            "table_metadata_json_round_trip": true,
+            "all_supplement_text_and_offsets_exact": true,
+            "cell_tuple_count": 0,
+            "blank_cell_tuple_count": 0,
+            "supplement_count": 0
+          }
+        ],
+        "packing_seconds": 0.006585250026546419,
+        "requested_points_covered": 2,
+        "requested_points_total": 2
+      }
+    }
+  ],
+  "aggregate": {
+    "before": {
+      "covered": 16,
+      "total": 16
+    },
+    "after": {
+      "covered": 16,
+      "total": 16
+    }
+  },
+  "metric_inventory": {
+    "Recall@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Financial control exercises only local serialization and packing of six fixed historical selections; no provider or new retrieval, model answer, ingestion or load test.",
+      "artifact": "comparison.json"
+    },
+    "Precision@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Financial control exercises only local serialization and packing of six fixed historical selections; no provider or new retrieval, model answer, ingestion or load test.",
+      "artifact": "comparison.json"
+    },
+    "Hit Rate@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Financial control exercises only local serialization and packing of six fixed historical selections; no provider or new retrieval, model answer, ingestion or load test.",
+      "artifact": "comparison.json"
+    },
+    "MRR": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Financial control exercises only local serialization and packing of six fixed historical selections; no provider or new retrieval, model answer, ingestion or load test.",
+      "artifact": "comparison.json"
+    },
+    "NDCG@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Financial control exercises only local serialization and packing of six fixed historical selections; no provider or new retrieval, model answer, ingestion or load test.",
+      "artifact": "comparison.json"
+    },
+    "Final evidence coverage": {
+      "status": "measured",
+      "value": {
+        "before": {
+          "covered": 16,
+          "total": 16
+        },
+        "after": {
+          "covered": 16,
+          "total": 16
+        }
+      },
+      "unit": "covered requested fact instances / total",
+      "sample_count": 6,
+      "population": "Six financial case/mode pairs; 16 requested facts, plus an explicit unit-preservation check on all six",
+      "method": "Require exact target and row-label tuples, period-parent/date-leaf headers at the matching column, unchanged canonical slices and physical page one, with full units and exceptions. Audit serialized JSON and all source bodies/supplements.",
+      "aggregation": "micro fact coverage",
+      "artifact": "comparison.json"
+    },
+    "Answer correctness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Financial control exercises only local serialization and packing of six fixed historical selections; no provider or new retrieval, model answer, ingestion or load test.",
+      "artifact": "comparison.json"
+    },
+    "Faithfulness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Financial control exercises only local serialization and packing of six fixed historical selections; no provider or new retrieval, model answer, ingestion or load test.",
+      "artifact": "comparison.json"
+    },
+    "Answer completeness": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Financial control exercises only local serialization and packing of six fixed historical selections; no provider or new retrieval, model answer, ingestion or load test.",
+      "artifact": "comparison.json"
+    },
+    "Answer relevance": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Financial control exercises only local serialization and packing of six fixed historical selections; no provider or new retrieval, model answer, ingestion or load test.",
+      "artifact": "comparison.json"
+    },
+    "Citation support": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Financial control exercises only local serialization and packing of six fixed historical selections; no provider or new retrieval, model answer, ingestion or load test.",
+      "artifact": "comparison.json"
+    },
+    "Citation coverage": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Financial control exercises only local serialization and packing of six fixed historical selections; no provider or new retrieval, model answer, ingestion or load test.",
+      "artifact": "comparison.json"
+    },
+    "Abstention": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Financial control exercises only local serialization and packing of six fixed historical selections; no provider or new retrieval, model answer, ingestion or load test.",
+      "artifact": "comparison.json"
+    },
+    "First-answer-delta latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Financial control exercises only local serialization and packing of six fixed historical selections; no provider or new retrieval, model answer, ingestion or load test.",
+      "artifact": "comparison.json"
+    },
+    "Complete-response latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Financial control exercises only local serialization and packing of six fixed historical selections; no provider or new retrieval, model answer, ingestion or load test.",
+      "artifact": "comparison.json"
+    },
+    "Stage latency": {
+      "status": "measured",
+      "value": {
+        "before": {
+          "n": 6,
+          "mean": 0.007994257165895155,
+          "p50": 0.008409687492530793,
+          "p95": 0.008911229437217116,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        },
+        "after": {
+          "n": 6,
+          "mean": 0.007538826670497656,
+          "p50": 0.007702666975092143,
+          "p95": 0.00791897950693965,
+          "unit": "seconds",
+          "percentile_method": "linear interpolation"
+        }
+      },
+      "unit": "seconds",
+      "sample_count": 12,
+      "population": "Six local pack_evidence calls per phase",
+      "method": "perf_counter around packing only; tokenizer preloaded; no model loading, queues, retrieval, network or generation. Single-pass diagnostics do not establish production latency.",
+      "aggregation": "mean and interpolated p50/p95",
+      "artifact": "comparison.json"
+    },
+    "Token usage and cost": {
+      "status": "measured",
+      "value": {
+        "context_tokens": {
+          "apple-sales-single": {
+            "before": 2712,
+            "after": 3188
+          },
+          "apple-sales-planned": {
+            "before": 2712,
+            "after": 3643
+          },
+          "apple-income-single": {
+            "before": 2712,
+            "after": 3643
+          },
+          "apple-income-planned": {
+            "before": 2712,
+            "after": 3643
+          },
+          "apparent-conflict-single": {
+            "before": 3884,
+            "after": 3188
+          },
+          "apparent-conflict-planned": {
+            "before": 4019,
+            "after": 3323
+          }
+        },
+        "provider_usage": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "No provider invoked"
+        },
+        "provider_cost": {
+          "status": "not_applicable",
+          "value": null,
+          "reason": "No provider invoked"
+        }
+      },
+      "unit": "local cl100k_base tokens",
+      "sample_count": 12,
+      "population": "Six source contexts per phase",
+      "method": "Actual numbered serialized source text; no provider billing inferred",
+      "aggregation": "none",
+      "artifact": "comparison.json"
+    },
+    "Reliability": {
+      "status": "measured",
+      "value": {
+        "local_case_checks_passed": 12,
+        "local_case_check_failures": 0,
+        "provider_attempts": 0
+      },
+      "unit": "counts",
+      "sample_count": 12,
+      "population": "Six before and six after local fixture checks",
+      "method": "All requested values/periods and explicit units preserved; this is not HTTP success or model-answer reliability",
+      "aggregation": "none",
+      "artifact": "comparison.json"
+    },
+    "Concurrency and throughput": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Financial control exercises only local serialization and packing of six fixed historical selections; no provider or new retrieval, model answer, ingestion or load test.",
+      "artifact": "comparison.json"
+    },
+    "Ingestion and index": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "population": "offline context/scope replay",
+      "method": "not exercised",
+      "aggregation": "none",
+      "reason": "Financial control exercises only local serialization and packing of six fixed historical selections; no provider or new retrieval, model answer, ingestion or load test.",
+      "artifact": "comparison.json"
+    }
+  },
+  "limitations": "Known-child and larger-parent identities may differ when more context fits. Test semantic source coverage and provenance, not exact old child identity. No newly generated financial answer or citation behavior is evaluated."
+}

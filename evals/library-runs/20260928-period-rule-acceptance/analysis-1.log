@@ -1,0 +1,72 @@
+{
+  "acceptance": "failed",
+  "classification_pass_count": 3,
+  "case_gate_pass_count": 3,
+  "models": [
+    "gpt-4.1-2025-04-14"
+  ],
+  "comparisons": [
+    {
+      "case_id": "original-rule",
+      "before_gate": true,
+      "after_gate": true,
+      "before_points": 4,
+      "after_points": 4,
+      "observation": "Four correct facts and the actual user rule remain unchanged."
+    },
+    {
+      "case_id": "paraphrased-rule",
+      "before_gate": true,
+      "after_gate": true,
+      "before_points": 4,
+      "after_points": 4,
+      "observation": "Four correct facts and the actual paraphrased rule remain unchanged."
+    },
+    {
+      "case_id": "factual-condition",
+      "before_gate": false,
+      "after_gate": true,
+      "before_points": 3,
+      "after_points": 3,
+      "observation": "Invented rule removed; the same three factual dimensions and correct missing-explanation answer remain."
+    },
+    {
+      "case_id": "missing-year",
+      "before_gate": false,
+      "after_gate": false,
+      "before_points": 0,
+      "after_points": 2,
+      "observation": "Both requested 2016 values now missing and withheld, replacing two false 2016 counts. New R3 duplicates an evidence-availability check from the answer rule; inaccurate ungrouped modifier on Pre-Pawn remains from baseline."
+    }
+  ]
+}
+{
+  "usage": {
+    "input_tokens": 39280,
+    "output_tokens": 2397,
+    "total_tokens": 41677
+  },
+  "timings": {
+    "n": 4,
+    "mean": 9.845506969024427,
+    "p50": 10.083125042030588,
+    "p95": 11.519177056383342,
+    "percentile_method": "linear interpolation",
+    "values": [
+      7.638877541990951,
+      8.9741711250972,
+      11.192078958963975,
+      11.576900250045583
+    ]
+  },
+  "points": {
+    "score": 13,
+    "denominator": 13,
+    "fraction": 1.0
+  },
+  "faithfulness": {
+    "supported": 12,
+    "denominator": 12,
+    "fraction": 1.0
+  }
+}

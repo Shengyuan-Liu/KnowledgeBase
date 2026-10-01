@@ -1,6 +1,8 @@
 """Convert document text and queries into OpenAI embedding vectors."""
 
 from openai import OpenAI
+from collections.abc import Callable
+from copy import copy
 
 from knowledgebase.config import DEFAULT_EMBEDDING_MODEL
 
@@ -13,15 +15,26 @@ class EmbeddingClient:
     ) -> None:
         self._client = client
         self._model = model
+        self._remaining: Callable[[], float] | None = None
+
+    def bounded(self, remaining: Callable[[], float]):
+        bounded = copy(self)
+        bounded._remaining = remaining
+        return bounded
 
     def embed_documents(self, texts: list[str]) -> list[list[float]]:
         """Embed one batch and extract vectors in the provider's response order.
 
         Text is sent unchanged. SDK errors propagate to the caller.
         """
-        response = self._client.embeddings.create(
+        client = self._client
+        if self._remaining is not None:
+            client = client.with_options(timeout=self._remaining(), max_retries=0)
+        response = client.embeddings.create(
             model=self._model, input=texts, encoding_format="float"
         )
+        if self._remaining is not None:
+            self._remaining()
         return [item.embedding for item in response.data]
 
     def embed_query(self, text: str) -> list[float]:

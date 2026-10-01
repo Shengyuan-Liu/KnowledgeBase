@@ -14,7 +14,9 @@ curl -N http://127.0.0.1:8000/api/chat/stream \
 
 The body requires a nonblank `question` and `request_id`. Include a saved
 `conversation_id` to continue a conversation, or omit it to start a new one.
-Clients should generate a new request ID for each submission. Request IDs correlate
+Optional `retrieval_mode` selects `single` or `planned`; omission uses the server
+default. See [automatic planning](planned-retrieval.md) for request limits and
+recorded traces. Clients should generate a new request ID for each submission. Request IDs correlate
 events; they are not persisted and do not provide retry deduplication.
 
 ## Events
@@ -26,14 +28,17 @@ followed by a blank line. Every data object contains the submitted `request_id`.
 | Event | Other data fields | Meaning |
 | --- | --- | --- |
 | `start` | `conversation_id` | Accepted; ID is null for a new conversation |
-| `sources` | `sources` | Ordered excerpts supplied to generation, with source IDs, file/chunk IDs, names, text, and cosine distances |
+| `progress` | `stage`, `message` | Planned requests only: planning or retrieving; no provisional citations |
+| `sources` | `sources`, optional `retrieval` | Ordered excerpts supplied to generation, with source IDs, file/chunk IDs, names, text, and cosine distances |
 | `answer_delta` | `delta` | Append this text exactly; multiple events may arrive |
 | `debug` | `retrieval_question`, `distance_metric`, `elapsed_seconds` | Resolved query and time through generation/citation checking, excluding persistence |
 | `complete` | All fields of `ConversationAnswer` | Final answer, sources, citation check, original/resolved question, and persisted conversation/message IDs |
 | `error` | `message` | Processing failed after streaming began; no completion event follows |
 
 Successful order is `start`, `sources`, text deltas, `debug`, then `complete`.
-Failures during processing send `error` and end the stream. For example:
+Planned requests insert progress events before final sources and include the
+planning record in `sources.retrieval`. [Dependent searches](dependent-retrieval.md)
+report each round before publishing that single final source list. Failures during processing send `error` and end the stream. For example:
 
 ```text
 event: answer_delta
@@ -59,7 +64,7 @@ exchange. Previously completed messages remain unchanged.
 Blank/missing inputs return HTTP `422`, and an unknown conversation returns HTTP
 `404`, before SSE starts. Setup failures return HTTP `500`. Failures after headers
 have been sent remain HTTP `200` and use an SSE `error` with the public message
-`Answer processing failed.`; internal provider or database errors are not included.
+`Answer processing failed.` (or a public timeout message for planned requests); internal provider or database errors are not included.
 
 Disconnects during answer generation cancel the async provider stream and close
 its HTTP connection. Synchronous resolution/retrieval run in worker threads; an
@@ -118,3 +123,8 @@ SSE includes this field in `complete`. Source snapshots and diagnostics persist
 in the same exchange transaction and survive source deletion. Older snapshots
 have `retrieval: null`. See [parent-child retrieval](parent-child-retrieval.md)
 for the full contract and evidence budget behavior.
+
+Stage 4 planned requests also emit `progress` with `stage="assessing"` and
+`message="Checking evidence…"` after each packed round. Only final sources are
+published; completed version 3 planning records preserve the
+[evidence assessment](evidence-sufficiency.md) and supplementary-query trace.

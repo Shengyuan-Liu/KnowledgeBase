@@ -1,0 +1,42 @@
+..F............................................................          [100%]
+=================================== FAILURES ===================================
+____________________ test_source_bound_supplement_fills_gap ____________________
+
+assessed_api = (<starlette.testclient.TestClient object at 0x1193c0cd0>, AppResources(sessions=sessionmaker(class_='Session', bind=En... [], ['8625271089f74ea69acc00f700a83f1b', 'cf85ea9359974f2aa8b54d232850bcec', '123a3af7f0dc49f8907a0cb5bd9b03b4'], ...)
+
+    def test_source_bound_supplement_fills_gap(assessed_api):
+        client, resources, _, choices, _, _, assessments = assessed_api
+        one_point(choices)
+        def assess(payload):
+            excerpt = payload["evidence_catalog"][0]
+            if len(payload["executed_queries"]) == 1:
+                return missing(payload, [{"requirement_ids": ["location"], "query_template": "Who employs {target}?",
+                    "target": "Mira Cole", "references": [{"evidence_id": excerpt["evidence_id"], "quote": DOCUMENTS[0][1]}]}])
+            staff = next(e for e in payload["evidence_catalog"] if e["file_name"] == "staff.txt")
+            if len(payload["executed_queries"]) == 2:
+                return missing(payload, [{"requirement_ids": ["location"], "query_template": "Where is {target} located?",
+                    "target": "Birch Institute", "references": [{"evidence_id": staff["evidence_id"], "quote": DOCUMENTS[1][1]}]}])
+            place = next(e for e in payload["evidence_catalog"] if e["file_name"] == "place.txt")
+            return {"requirements": [{"requirement_id": "location", "status": "supported", "gap": "",
+                "references": [{"evidence_id": place["evidence_id"], "quote": DOCUMENTS[2][1]}]}], "queries": []}
+        choices["assessment"] = assess
+        answer = ask(client).json()
+        planning = answer["retrieval"]["planning"]
+        assert planning["hops"]["stop_reason"] == "requirements_supported"
+        assert len(assessments) == 3 and resources.embeddings.embed_query.call_count == 3
+>       assert [s["file_name"] for s in answer["sources"]] == ["award.txt", "staff.txt", "place.txt"]
+E       AssertionError: assert ['place.txt',..., 'staff.txt'] == ['award.txt',..., 'place.txt']
+E         
+E         At index 0 diff: 'place.txt' != 'award.txt'
+E         Use -v to get more diff
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:109: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_sufficiency.py::test_source_bound_supplement_fills_gap - As...
+1 failed, 62 passed, 1 warning in 4.28s

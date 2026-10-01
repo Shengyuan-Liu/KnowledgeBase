@@ -1,0 +1,98 @@
+..F..FF......................                                            [100%]
+=================================== FAILURES ===================================
+_ test_financial_passages_select_values_headers_units_and_original_page[single-apparent-conflict] _
+
+frozen_pdf_evidence = ([{'case_id': 'paper-facts', 'arm': 'single', 'question': 'In "doclaynet.pdf", how many manually annotated pages and l... such as Author and A\uffffliation, as seen\n\nPhase 1: Data selection and preparation. Our inclusion cri-\n\n9', ...})
+case_id = 'apparent-conflict', arm = 'single'
+
+    @pytest.mark.parametrize("case_id", ["apple-sales", "apple-income", "apparent-conflict"])
+    @pytest.mark.parametrize("arm", ["single", "planned"])
+    def test_financial_passages_select_values_headers_units_and_original_page(frozen_pdf_evidence, case_id, arm):
+        rows, documents = frozen_pdf_evidence
+        row = next(r for r in rows if (r["case_id"], r["arm"]) == (case_id, arm))
+        result = SimpleNamespace(evidence=RetrievedEvidence.model_validate(row["result"]))
+        catalog = assessment_excerpts(result)
+        amounts = ("14,736", "93,736") if case_id == "apple-income" else ("94,930", "391,035")
+        markers = [amounts, ("Three Months Ended", "Twelve Months Ended"),
+                   ("September 28, 2024",), ("In millions",)]
+        selected = [next(e for e in catalog if all(word in e["text"] for word in words)) for words in markers]
+        decision = SufficiencyAssessment.model_validate({"requirements": [{
+            "requirement_id": "financial", "status": "supported", "gap": "",
+            "references": [{"evidence_id": e["evidence_id"]} for e in selected],
+        }], "queries": []})
+        requirements, _ = validate_assessment(decision,
+            [AnswerRequirement(requirement_id="financial", description=row["question"])], catalog)
+        references = requirements[0]["references"]
+        assert len({r["evidence_id"] for r in references}) == 4
+        for reference, passage in zip(references, selected):
+            assert reference["quote"] == passage["text"]
+            assert reference["quote"] == documents[reference["file_id"]][reference["start_offset"]:reference["end_offset"]]
+>           assert reference["page_indices"] == [0]
+E           assert [3] == [0]
+E             
+E             At index 0 diff: 3 != 0
+E             Use -v to get more diff
+
+tests/test_pdf_assessment.py:49: AssertionError
+_ test_financial_passages_select_values_headers_units_and_original_page[planned-apparent-conflict] _
+
+frozen_pdf_evidence = ([{'case_id': 'paper-facts', 'arm': 'single', 'question': 'In "doclaynet.pdf", how many manually annotated pages and l... such as Author and A\uffffliation, as seen\n\nPhase 1: Data selection and preparation. Our inclusion cri-\n\n9', ...})
+case_id = 'apparent-conflict', arm = 'planned'
+
+    @pytest.mark.parametrize("case_id", ["apple-sales", "apple-income", "apparent-conflict"])
+    @pytest.mark.parametrize("arm", ["single", "planned"])
+    def test_financial_passages_select_values_headers_units_and_original_page(frozen_pdf_evidence, case_id, arm):
+        rows, documents = frozen_pdf_evidence
+        row = next(r for r in rows if (r["case_id"], r["arm"]) == (case_id, arm))
+        result = SimpleNamespace(evidence=RetrievedEvidence.model_validate(row["result"]))
+        catalog = assessment_excerpts(result)
+        amounts = ("14,736", "93,736") if case_id == "apple-income" else ("94,930", "391,035")
+        markers = [amounts, ("Three Months Ended", "Twelve Months Ended"),
+                   ("September 28, 2024",), ("In millions",)]
+        selected = [next(e for e in catalog if all(word in e["text"] for word in words)) for words in markers]
+        decision = SufficiencyAssessment.model_validate({"requirements": [{
+            "requirement_id": "financial", "status": "supported", "gap": "",
+            "references": [{"evidence_id": e["evidence_id"]} for e in selected],
+        }], "queries": []})
+        requirements, _ = validate_assessment(decision,
+            [AnswerRequirement(requirement_id="financial", description=row["question"])], catalog)
+        references = requirements[0]["references"]
+        assert len({r["evidence_id"] for r in references}) == 4
+        for reference, passage in zip(references, selected):
+            assert reference["quote"] == passage["text"]
+            assert reference["quote"] == documents[reference["file_id"]][reference["start_offset"]:reference["end_offset"]]
+>           assert reference["page_indices"] == [0]
+E           assert [3] == [0]
+E             
+E             At index 0 diff: 3 != 0
+E             Use -v to get more diff
+
+tests/test_pdf_assessment.py:49: AssertionError
+___ test_all_frozen_pdf_contexts_keep_metadata_and_only_select_supplied_text ___
+
+frozen_pdf_evidence = ([{'case_id': 'paper-facts', 'arm': 'single', 'question': 'In "doclaynet.pdf", how many manually annotated pages and l... such as Author and A\uffffliation, as seen\n\nPhase 1: Data selection and preparation. Our inclusion cri-\n\n9', ...})
+
+    def test_all_frozen_pdf_contexts_keep_metadata_and_only_select_supplied_text(frozen_pdf_evidence):
+        rows, documents = frozen_pdf_evidence
+        for row in rows:
+            result = SimpleNamespace(evidence=RetrievedEvidence.model_validate(row["result"]))
+            catalog = assessment_excerpts(result)
+            annotated = assessment_context(result, catalog)
+>           assert re.sub(r"(?m)^\[p\d+\] ", "", annotated) == row["context"] == build_context(result.evidence.chunks)
+E           assert '[1]\nSource ...are retained.' == '[1]\nSource ...are retained.'
+E             
+E             Skipping 59 identical leading characters in diff, use -v to show
+E             - g_path": ["ABSTRACT"], "document_labels": ["doclaynet"]}
+E             ?           ----------
+E             + g_path": [], "document_labels": ["doclaynet"]}
+E               Excerpt:
+E               ABSTRACT...
+E             
+E             ...Full output truncated (101 lines hidden), use '-vv' to show
+
+tests/test_pdf_assessment.py:60: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_pdf_assessment.py::test_financial_passages_select_values_headers_units_and_original_page[single-apparent-conflict]
+FAILED tests/test_pdf_assessment.py::test_financial_passages_select_values_headers_units_and_original_page[planned-apparent-conflict]
+FAILED tests/test_pdf_assessment.py::test_all_frozen_pdf_contexts_keep_metadata_and_only_select_supplied_text
+3 failed, 26 passed in 0.38s

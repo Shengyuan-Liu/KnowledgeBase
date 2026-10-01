@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from knowledgebase.schemas import (
     ChatAnswer, ChildChunk, Chunk, ConversationDetail, ConversationInfo, ConversationMessage,
     DocumentSource, FileInfo, HistoricalSource, MessageInfo, ParentChildChunks, ParentChunk,
-    SourceBlock, StructuredChunk,
+    SourceBlock, StructuredChunk, PdfWarning,
 )
 from knowledgebase.storage.models import (
     AnswerSnapshotRecord,
@@ -19,6 +19,7 @@ from knowledgebase.storage.models import (
     DocumentSourceRecord,
     DocumentIndexRecord,
     FileRecord,
+    PdfSourceRecord,
     MessageRecord,
     ParentChunkRecord,
     RetrievalSnapshotRecord,
@@ -48,10 +49,14 @@ def get_files(session: Session) -> list[FileInfo]:
     statement = select(FileRecord).order_by(
         FileRecord.created_at.desc(), FileRecord.file_id.asc()
     )
-    return [
-        FileInfo.model_validate(record, from_attributes=True)
-        for record in session.scalars(statement)
-    ]
+    metadata = {row.file_id: row for row in session.execute(select(
+        PdfSourceRecord.file_id, PdfSourceRecord.page_count, PdfSourceRecord.warnings,
+    ))}
+    return [FileInfo.model_validate(record, from_attributes=True).model_copy(update={
+        "page_count": metadata[record.file_id].page_count,
+        "extraction_warnings": [PdfWarning.model_validate(w) for w in metadata[record.file_id].warnings],
+    }) if record.file_id in metadata else FileInfo.model_validate(record, from_attributes=True)
+            for record in session.scalars(statement)]
 
 
 def get_file(session: Session, file_id: str) -> FileInfo | None:
@@ -59,13 +64,21 @@ def get_file(session: Session, file_id: str) -> FileInfo | None:
     record = session.get(FileRecord, file_id)
     if record is None:
         return None
-    return FileInfo.model_validate(record, from_attributes=True)
+    info = FileInfo.model_validate(record, from_attributes=True)
+    pdf = session.get(PdfSourceRecord, file_id)
+    if pdf is not None:
+        info.page_count = pdf.page_count
+        info.extraction_warnings = [PdfWarning.model_validate(w) for w in pdf.warnings]
+    return info
 
 
 def get_source_texts(session: Session, file_ids: list[str]) -> dict[str, str]:
     """Load canonical text for identity resolution without deserializing blocks."""
-    return dict(session.execute(select(DocumentSourceRecord.file_id, DocumentSourceRecord.text)
+    texts = dict(session.execute(select(DocumentSourceRecord.file_id, DocumentSourceRecord.text)
                                 .where(DocumentSourceRecord.file_id.in_(file_ids))).all())
+    texts.update(session.execute(select(PdfSourceRecord.file_id, PdfSourceRecord.extraction["text"].as_string())
+                                 .where(PdfSourceRecord.file_id.in_(file_ids))).all())
+    return texts
 
 
 def save_document_source(
@@ -94,7 +107,13 @@ def get_document_source(session: Session, file_id: str) -> DocumentSource | None
     """Return a source snapshot, or None for missing files and MVP-only records."""
     record = session.get(DocumentSourceRecord, file_id)
     if record is None:
-        return None
+        pdf = session.get(PdfSourceRecord, file_id)
+        if pdf is None:
+            return None
+        extraction = get_pdf_extraction(session, file_id)
+        return DocumentSource(file_id=file_id, source_format="pdf", text=extraction.text,
+                              source_hash=extraction.source_hash, blocks=extraction.source_blocks(),
+                              indexing=deepcopy(pdf.indexing))
     source = DocumentSource.model_validate(record, from_attributes=True)
     indexing = session.get(DocumentIndexRecord, file_id)
     source.indexing = deepcopy(indexing.details) if indexing is not None else None
@@ -376,3 +395,24 @@ def get_conversation_detail(session: Session, conversation_id: str) -> Conversat
             )
         messages.append(message)
     return ConversationDetail(**conversation.model_dump(), messages=messages)
+
+
+def get_pdf_extraction(session: Session, file_id: str):
+    from knowledgebase.rag.pdf_models import PdfExtraction
+
+    record = session.get(PdfSourceRecord, file_id)
+    return PdfExtraction.model_validate(record.extraction) if record is not None else None
+
+
+def save_pdf_source(session: Session, file_id: str, extraction, indexing: dict) -> None:
+    session.add(PdfSourceRecord(
+        file_id=file_id, revision_id=extraction.revision_id, source_hash=extraction.source_hash,
+        page_count=extraction.page_count, warnings=[w.model_dump(mode="json") for w in extraction.warnings],
+        extraction=extraction.model_dump(mode="json"), indexing=indexing,
+    ))
+    session.flush()
+
+
+def delete_pdf_source(session: Session, file_id: str) -> None:
+    session.execute(delete(PdfSourceRecord).where(PdfSourceRecord.file_id == file_id))
+    session.flush()

@@ -1,0 +1,26 @@
+......F...........                                                       [100%]
+=================================== FAILURES ===================================
+_________________ test_cross_query_rrf_and_repeated_text_votes _________________
+
+    def test_cross_query_rrf_and_repeated_text_votes():
+>       runs = [fake_run("first", ["a1", "b1"]), fake_run("second", ["b1", "a1"])]
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_planned_retrieval.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+text = 'first', identities = ['a1', 'b1']
+
+    def fake_run(text, identities):
+>       hits = [RetrievedChunk(chunk=Chunk(chunk_id=identity, file_id=identity[0], text=identity,
+                                          start_offset=0, end_offset=len(identity)),
+                               file_name=identity[0], distance=None) for identity in identities]
+E       pydantic_core._pydantic_core.ValidationError: 1 validation error for Chunk
+E       index
+E         Field required [type=missing, input_value={'chunk_id': 'a1', 'file_...et': 0, 'end_offset': 2}, input_type=dict]
+E           For further information visit https://errors.pydantic.dev/2.13/v/missing
+
+tests/test_planned_retrieval.py:109: ValidationError
+=========================== short test summary info ============================
+FAILED tests/test_planned_retrieval.py::test_cross_query_rrf_and_repeated_text_votes
+1 failed, 17 passed in 0.65s

@@ -1,0 +1,1788 @@
+{
+  "reviewer": "Codex model reviewer; deterministic whitespace-normalized comparison against independent original-page transcription.",
+  "gold_artifact": "../gold.json",
+  "gold_sha256": "e5e8b6f5a7d4b483e7f14e01fc1a2739b23414045a162612f3f140521a39c34b",
+  "candidate_artifact": "extended-1/extended-text-rows.json",
+  "candidate_sha256": "befaf782d0297014afb1366c91c7ec115b8cd81de63fc1ebbb098f11306d6a73",
+  "scope": "Three development rows from the previously observed failure, not held-out accuracy or all-row quality.",
+  "method": "Derive leaf header row from all occupied physical columns and parent spans by containing each leaf cell center. Compare exact full header paths and row-labeled cells. Preserve blanks as explicit cell geometry. Full-width title/date are table context, not parent labels for every field.",
+  "leaf_header_row": 5,
+  "derived_header_paths": [
+    [
+      "State / Territory"
+    ],
+    [
+      "Permit"
+    ],
+    [
+      "Handgun"
+    ],
+    [
+      "Long Gun"
+    ],
+    [
+      "*Other"
+    ],
+    [
+      "**Multiple"
+    ],
+    [
+      "Admin"
+    ],
+    [
+      "Pre-Pawn",
+      "Handgun"
+    ],
+    [
+      "Pre-Pawn",
+      "Long Gun"
+    ],
+    [
+      "Pre-Pawn",
+      "*Other"
+    ],
+    [
+      "Redemption",
+      "Handgun"
+    ],
+    [
+      "Redemption",
+      "Long Gun"
+    ],
+    [
+      "Redemption",
+      "*Other"
+    ],
+    [
+      "Returned/Disposition",
+      "Handgun"
+    ],
+    [
+      "Returned/Disposition",
+      "Long Gun"
+    ],
+    [
+      "Returned/Disposition",
+      "*Other"
+    ],
+    [
+      "Rentals",
+      "Handgun"
+    ],
+    [
+      "Rentals",
+      "Long Gun"
+    ],
+    [
+      "Private Sale",
+      "Handgun"
+    ],
+    [
+      "Private Sale",
+      "Long Gun"
+    ],
+    [
+      "Private Sale",
+      "*Other"
+    ],
+    [
+      "Return to Seller - Private Sale",
+      "Handgun"
+    ],
+    [
+      "Return to Seller - Private Sale",
+      "Long Gun"
+    ],
+    [
+      "Return to Seller - Private Sale",
+      "*Other"
+    ],
+    [
+      "Totals"
+    ]
+  ],
+  "derived_merged_groups": [
+    {
+      "label": "Pre-Pawn",
+      "column_start": 7,
+      "column_end": 10,
+      "bbox": [
+        292.45,
+        63.98479999999995,
+        406.2375,
+        70.84279999999995
+      ],
+      "source_row": 4
+    },
+    {
+      "label": "Redemption",
+      "column_start": 10,
+      "column_end": 13,
+      "bbox": [
+        406.2375,
+        63.98479999999995,
+        520.0400000000001,
+        70.84279999999995
+      ],
+      "source_row": 4
+    },
+    {
+      "label": "Returned/Disposition",
+      "column_start": 13,
+      "column_end": 16,
+      "bbox": [
+        520.0400000000001,
+        63.98479999999995,
+        633.82,
+        70.84279999999995
+      ],
+      "source_row": 4
+    },
+    {
+      "label": "Rentals",
+      "column_start": 16,
+      "column_end": 18,
+      "bbox": [
+        633.82,
+        63.98479999999995,
+        709.6880000000001,
+        70.84279999999995
+      ],
+      "source_row": 4
+    },
+    {
+      "label": "Private Sale",
+      "column_start": 18,
+      "column_end": 21,
+      "bbox": [
+        709.6880000000001,
+        63.98479999999995,
+        823.45,
+        70.84279999999995
+      ],
+      "source_row": 4
+    },
+    {
+      "label": "Return to Seller - Private Sale",
+      "column_start": 21,
+      "column_end": 24,
+      "bbox": [
+        823.45,
+        63.98479999999995,
+        937.2583333333333,
+        70.84279999999995
+      ],
+      "source_row": 4
+    }
+  ],
+  "observed_columns": 25,
+  "expected_columns": 25,
+  "comparison": {
+    "baseline": {
+      "artifact": "../../../library-runs/20260927-v2-pdf-live/index-snapshot.json",
+      "rows": 1,
+      "columns": 1,
+      "label": "Collapsed original table has no row/column hierarchy matching these annotations; numeric presence alone is not cell association.",
+      "associated_nonblank_numeric_matches": 0,
+      "associated_explicit_blank_matches": 0,
+      "associated_row_labels": 0,
+      "complete_header_paths": 0,
+      "merged_groups": 0,
+      "joint_exact_rows": 0
+    },
+    "candidate": {
+      "associated_nonblank_numeric_matches": 66,
+      "nonblank_numeric_denominator": 66,
+      "associated_explicit_blank_matches": 6,
+      "blank_denominator": 6,
+      "associated_row_labels": 3,
+      "row_label_denominator": 3,
+      "complete_header_paths": 25,
+      "header_path_denominator": 25,
+      "merged_groups": 6,
+      "merged_group_denominator": 6,
+      "joint_exact_rows": 3,
+      "joint_row_denominator": 3
+    }
+  },
+  "rows": [
+    {
+      "row": "Alabama",
+      "candidate_row": 6,
+      "unique_row_label": true,
+      "cells": [
+        {
+          "column": 0,
+          "header_path": [
+            "State / Territory"
+          ],
+          "expected": "Alabama",
+          "observed": "Alabama",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            33.12,
+            79.67096000000004,
+            111.46133333333334,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 1,
+          "header_path": [
+            "Permit"
+          ],
+          "expected": "18,870",
+          "observed": "18,870",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            111.46133333333334,
+            79.67096000000004,
+            145.8136842105263,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 2,
+          "header_path": [
+            "Handgun"
+          ],
+          "expected": "23,022",
+          "observed": "23,022",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            145.8136842105263,
+            79.67096000000004,
+            180.13368421052633,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 3,
+          "header_path": [
+            "Long Gun"
+          ],
+          "expected": "22,650",
+          "observed": "22,650",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            180.13368421052633,
+            79.67096000000004,
+            211.1236842105263,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 4,
+          "header_path": [
+            "*Other"
+          ],
+          "expected": "859",
+          "observed": "859",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            211.1236842105263,
+            79.67096000000004,
+            235.36368421052632,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 5,
+          "header_path": [
+            "**Multiple"
+          ],
+          "expected": "1,178",
+          "observed": "1,178",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            235.36368421052632,
+            79.67096000000004,
+            265.12368421052633,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 6,
+          "header_path": [
+            "Admin"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            265.12368421052633,
+            79.67096000000004,
+            292.45,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 7,
+          "header_path": [
+            "Pre-Pawn",
+            "Handgun"
+          ],
+          "expected": "14",
+          "observed": "14",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            292.45,
+            79.67096000000004,
+            330.42368421052635,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 8,
+          "header_path": [
+            "Pre-Pawn",
+            "Long Gun"
+          ],
+          "expected": "15",
+          "observed": "15",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            330.42368421052635,
+            79.67096000000004,
+            368.34368421052636,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 9,
+          "header_path": [
+            "Pre-Pawn",
+            "*Other"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            368.34368421052636,
+            79.67096000000004,
+            406.2375,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 10,
+          "header_path": [
+            "Redemption",
+            "Handgun"
+          ],
+          "expected": "2,179",
+          "observed": "2,179",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            406.2375,
+            79.67096000000004,
+            444.21368421052637,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 11,
+          "header_path": [
+            "Redemption",
+            "Long Gun"
+          ],
+          "expected": "2,307",
+          "observed": "2,307",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            444.21368421052637,
+            79.67096000000004,
+            482.1536842105263,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 12,
+          "header_path": [
+            "Redemption",
+            "*Other"
+          ],
+          "expected": "11",
+          "observed": "11",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            482.1536842105263,
+            79.67096000000004,
+            520.0400000000001,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 13,
+          "header_path": [
+            "Returned/Disposition",
+            "Handgun"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            520.0400000000001,
+            79.67096000000004,
+            557.9936842105262,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 14,
+          "header_path": [
+            "Returned/Disposition",
+            "Long Gun"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            557.9936842105262,
+            79.67096000000004,
+            595.9336842105264,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 15,
+          "header_path": [
+            "Returned/Disposition",
+            "*Other"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            595.9336842105264,
+            79.67096000000004,
+            633.82,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 16,
+          "header_path": [
+            "Rentals",
+            "Handgun"
+          ],
+          "expected": null,
+          "observed": "",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            633.82,
+            79.67096000000004,
+            671.7736842105263,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 17,
+          "header_path": [
+            "Rentals",
+            "Long Gun"
+          ],
+          "expected": null,
+          "observed": "",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            671.7736842105263,
+            79.67096000000004,
+            709.6880000000001,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 18,
+          "header_path": [
+            "Private Sale",
+            "Handgun"
+          ],
+          "expected": "13",
+          "observed": "13",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            709.6880000000001,
+            79.67096000000004,
+            747.6436842105263,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 19,
+          "header_path": [
+            "Private Sale",
+            "Long Gun"
+          ],
+          "expected": "14",
+          "observed": "14",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            747.6436842105263,
+            79.67096000000004,
+            785.5836842105264,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 20,
+          "header_path": [
+            "Private Sale",
+            "*Other"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            785.5836842105264,
+            79.67096000000004,
+            823.45,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 21,
+          "header_path": [
+            "Return to Seller - Private Sale",
+            "Handgun"
+          ],
+          "expected": "3",
+          "observed": "3",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            823.45,
+            79.67096000000004,
+            861.4236842105263,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 22,
+          "header_path": [
+            "Return to Seller - Private Sale",
+            "Long Gun"
+          ],
+          "expected": "2",
+          "observed": "2",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            861.4236842105263,
+            79.67096000000004,
+            899.3736842105262,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 23,
+          "header_path": [
+            "Return to Seller - Private Sale",
+            "*Other"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            899.3736842105262,
+            79.67096000000004,
+            937.2583333333333,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 24,
+          "header_path": [
+            "Totals"
+          ],
+          "expected": "71,137",
+          "observed": "71,137",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            937.2583333333333,
+            79.67096000000004,
+            975.2656,
+            86.92112000000003
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        }
+      ],
+      "joint_exact_success": true
+    },
+    {
+      "row": "Alaska",
+      "candidate_row": 7,
+      "unique_row_label": true,
+      "cells": [
+        {
+          "column": 0,
+          "header_path": [
+            "State / Territory"
+          ],
+          "expected": "Alaska",
+          "observed": "Alaska",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            33.12,
+            86.92112000000003,
+            111.46133333333334,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 1,
+          "header_path": [
+            "Permit"
+          ],
+          "expected": "209",
+          "observed": "209",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            111.46133333333334,
+            86.92112000000003,
+            145.8136842105263,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 2,
+          "header_path": [
+            "Handgun"
+          ],
+          "expected": "3,062",
+          "observed": "3,062",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            145.8136842105263,
+            86.92112000000003,
+            180.13368421052633,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 3,
+          "header_path": [
+            "Long Gun"
+          ],
+          "expected": "3,209",
+          "observed": "3,209",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            180.13368421052633,
+            86.92112000000003,
+            211.1236842105263,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 4,
+          "header_path": [
+            "*Other"
+          ],
+          "expected": "191",
+          "observed": "191",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            211.1236842105263,
+            86.92112000000003,
+            235.36368421052632,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 5,
+          "header_path": [
+            "**Multiple"
+          ],
+          "expected": "184",
+          "observed": "184",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            235.36368421052632,
+            86.92112000000003,
+            265.12368421052633,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 6,
+          "header_path": [
+            "Admin"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            265.12368421052633,
+            86.92112000000003,
+            292.45,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 7,
+          "header_path": [
+            "Pre-Pawn",
+            "Handgun"
+          ],
+          "expected": "9",
+          "observed": "9",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            292.45,
+            86.92112000000003,
+            330.42368421052635,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 8,
+          "header_path": [
+            "Pre-Pawn",
+            "Long Gun"
+          ],
+          "expected": "3",
+          "observed": "3",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            330.42368421052635,
+            86.92112000000003,
+            368.34368421052636,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 9,
+          "header_path": [
+            "Pre-Pawn",
+            "*Other"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            368.34368421052636,
+            86.92112000000003,
+            406.2375,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 10,
+          "header_path": [
+            "Redemption",
+            "Handgun"
+          ],
+          "expected": "100",
+          "observed": "100",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            406.2375,
+            86.92112000000003,
+            444.21368421052637,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 11,
+          "header_path": [
+            "Redemption",
+            "Long Gun"
+          ],
+          "expected": "100",
+          "observed": "100",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            444.21368421052637,
+            86.92112000000003,
+            482.1536842105263,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 12,
+          "header_path": [
+            "Redemption",
+            "*Other"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            482.1536842105263,
+            86.92112000000003,
+            520.0400000000001,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 13,
+          "header_path": [
+            "Returned/Disposition",
+            "Handgun"
+          ],
+          "expected": "18",
+          "observed": "18",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            520.0400000000001,
+            86.92112000000003,
+            557.9936842105262,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 14,
+          "header_path": [
+            "Returned/Disposition",
+            "Long Gun"
+          ],
+          "expected": "9",
+          "observed": "9",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            557.9936842105262,
+            86.92112000000003,
+            595.9336842105264,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 15,
+          "header_path": [
+            "Returned/Disposition",
+            "*Other"
+          ],
+          "expected": "1",
+          "observed": "1",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            595.9336842105264,
+            86.92112000000003,
+            633.82,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 16,
+          "header_path": [
+            "Rentals",
+            "Handgun"
+          ],
+          "expected": null,
+          "observed": "",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            633.82,
+            86.92112000000003,
+            671.7736842105263,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 17,
+          "header_path": [
+            "Rentals",
+            "Long Gun"
+          ],
+          "expected": null,
+          "observed": "",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            671.7736842105263,
+            86.92112000000003,
+            709.6880000000001,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 18,
+          "header_path": [
+            "Private Sale",
+            "Handgun"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            709.6880000000001,
+            86.92112000000003,
+            747.6436842105263,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 19,
+          "header_path": [
+            "Private Sale",
+            "Long Gun"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            747.6436842105263,
+            86.92112000000003,
+            785.5836842105264,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 20,
+          "header_path": [
+            "Private Sale",
+            "*Other"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            785.5836842105264,
+            86.92112000000003,
+            823.45,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 21,
+          "header_path": [
+            "Return to Seller - Private Sale",
+            "Handgun"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            823.45,
+            86.92112000000003,
+            861.4236842105263,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 22,
+          "header_path": [
+            "Return to Seller - Private Sale",
+            "Long Gun"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            861.4236842105263,
+            86.92112000000003,
+            899.3736842105262,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 23,
+          "header_path": [
+            "Return to Seller - Private Sale",
+            "*Other"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            899.3736842105262,
+            86.92112000000003,
+            937.2583333333333,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 24,
+          "header_path": [
+            "Totals"
+          ],
+          "expected": "7,095",
+          "observed": "7,095",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            937.2583333333333,
+            86.92112000000003,
+            975.2656,
+            94.12112000000002
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        }
+      ],
+      "joint_exact_success": true
+    },
+    {
+      "row": "Arizona",
+      "candidate_row": 8,
+      "unique_row_label": true,
+      "cells": [
+        {
+          "column": 0,
+          "header_path": [
+            "State / Territory"
+          ],
+          "expected": "Arizona",
+          "observed": "Arizona",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            33.12,
+            94.12112000000002,
+            111.46133333333334,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 1,
+          "header_path": [
+            "Permit"
+          ],
+          "expected": "2,303",
+          "observed": "2,303",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            111.46133333333334,
+            94.12112000000002,
+            145.8136842105263,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 2,
+          "header_path": [
+            "Handgun"
+          ],
+          "expected": "12,382",
+          "observed": "12,382",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            145.8136842105263,
+            94.12112000000002,
+            180.13368421052633,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 3,
+          "header_path": [
+            "Long Gun"
+          ],
+          "expected": "9,041",
+          "observed": "9,041",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            180.13368421052633,
+            94.12112000000002,
+            211.1236842105263,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 4,
+          "header_path": [
+            "*Other"
+          ],
+          "expected": "707",
+          "observed": "707",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            211.1236842105263,
+            94.12112000000002,
+            235.36368421052632,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 5,
+          "header_path": [
+            "**Multiple"
+          ],
+          "expected": "618",
+          "observed": "618",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            235.36368421052632,
+            94.12112000000002,
+            265.12368421052633,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 6,
+          "header_path": [
+            "Admin"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            265.12368421052633,
+            94.12112000000002,
+            292.45,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 7,
+          "header_path": [
+            "Pre-Pawn",
+            "Handgun"
+          ],
+          "expected": "5",
+          "observed": "5",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            292.45,
+            94.12112000000002,
+            330.42368421052635,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 8,
+          "header_path": [
+            "Pre-Pawn",
+            "Long Gun"
+          ],
+          "expected": "3",
+          "observed": "3",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            330.42368421052635,
+            94.12112000000002,
+            368.34368421052636,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 9,
+          "header_path": [
+            "Pre-Pawn",
+            "*Other"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            368.34368421052636,
+            94.12112000000002,
+            406.2375,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 10,
+          "header_path": [
+            "Redemption",
+            "Handgun"
+          ],
+          "expected": "1,273",
+          "observed": "1,273",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            406.2375,
+            94.12112000000002,
+            444.21368421052637,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 11,
+          "header_path": [
+            "Redemption",
+            "Long Gun"
+          ],
+          "expected": "648",
+          "observed": "648",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            444.21368421052637,
+            94.12112000000002,
+            482.1536842105263,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 12,
+          "header_path": [
+            "Redemption",
+            "*Other"
+          ],
+          "expected": "4",
+          "observed": "4",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            482.1536842105263,
+            94.12112000000002,
+            520.0400000000001,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 13,
+          "header_path": [
+            "Returned/Disposition",
+            "Handgun"
+          ],
+          "expected": "76",
+          "observed": "76",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            520.0400000000001,
+            94.12112000000002,
+            557.9936842105262,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 14,
+          "header_path": [
+            "Returned/Disposition",
+            "Long Gun"
+          ],
+          "expected": "8",
+          "observed": "8",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            557.9936842105262,
+            94.12112000000002,
+            595.9336842105264,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 15,
+          "header_path": [
+            "Returned/Disposition",
+            "*Other"
+          ],
+          "expected": "1",
+          "observed": "1",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            595.9336842105264,
+            94.12112000000002,
+            633.82,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 16,
+          "header_path": [
+            "Rentals",
+            "Handgun"
+          ],
+          "expected": null,
+          "observed": "",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            633.82,
+            94.12112000000002,
+            671.7736842105263,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 17,
+          "header_path": [
+            "Rentals",
+            "Long Gun"
+          ],
+          "expected": null,
+          "observed": "",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            671.7736842105263,
+            94.12112000000002,
+            709.6880000000001,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 18,
+          "header_path": [
+            "Private Sale",
+            "Handgun"
+          ],
+          "expected": "9",
+          "observed": "9",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            709.6880000000001,
+            94.12112000000002,
+            747.6436842105263,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 19,
+          "header_path": [
+            "Private Sale",
+            "Long Gun"
+          ],
+          "expected": "6",
+          "observed": "6",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            747.6436842105263,
+            94.12112000000002,
+            785.5836842105264,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 20,
+          "header_path": [
+            "Private Sale",
+            "*Other"
+          ],
+          "expected": "1",
+          "observed": "1",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            785.5836842105264,
+            94.12112000000002,
+            823.45,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 21,
+          "header_path": [
+            "Return to Seller - Private Sale",
+            "Handgun"
+          ],
+          "expected": "1",
+          "observed": "1",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            823.45,
+            94.12112000000002,
+            861.4236842105263,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 22,
+          "header_path": [
+            "Return to Seller - Private Sale",
+            "Long Gun"
+          ],
+          "expected": "1",
+          "observed": "1",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            861.4236842105263,
+            94.12112000000002,
+            899.3736842105262,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 23,
+          "header_path": [
+            "Return to Seller - Private Sale",
+            "*Other"
+          ],
+          "expected": "0",
+          "observed": "0",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            899.3736842105262,
+            94.12112000000002,
+            937.2583333333333,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        },
+        {
+          "column": 24,
+          "header_path": [
+            "Totals"
+          ],
+          "expected": "27,087",
+          "observed": "27,087",
+          "text_match": true,
+          "header_match": true,
+          "explicit_cell_present": true,
+          "bbox": [
+            937.2583333333333,
+            94.12112000000002,
+            975.2656,
+            101.32111999999998
+          ],
+          "page_index": 0,
+          "source_sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407"
+        }
+      ],
+      "joint_exact_success": true
+    }
+  ],
+  "document_controls": [
+    {
+      "id": "background-title",
+      "observed_in_native_page_text": true,
+      "expected_phrases": [
+        "NICS Firearm Background Checks"
+      ],
+      "scope": "Native source-text control, not production adapter or RAG output."
+    },
+    {
+      "id": "background-date",
+      "observed_in_native_page_text": true,
+      "expected_phrases": [
+        "November - 2015"
+      ],
+      "scope": "Native source-text control, not production adapter or RAG output."
+    },
+    {
+      "id": "checks_not_sales",
+      "observed_in_native_page_text": true,
+      "expected_phrases": [
+        "number of firearm background checks initiated through the NICS",
+        "do not represent the number of firearms sold",
+        "a one-to-one correlation cannot be made between a firearm background check and a firearm sale"
+      ],
+      "scope": "Native source-text control, not production adapter or RAG output."
+    }
+  ],
+  "latency": {
+    "table_extraction_variants": {
+      "sample_count": 8,
+      "mean_seconds": 0.07321606775803957,
+      "p50_seconds": 0.07139212498441339,
+      "p95_seconds": 0.1371690875268541,
+      "percentile_method": "linear interpolation at (n-1)*p",
+      "observations_seconds": [
+        0.14526362507604063,
+        0.05020854203030467,
+        0.07232091599144042,
+        0.0033648330718278885,
+        0.07046333397738636,
+        0.0013224170543253422,
+        0.1206484999274835,
+        0.12213637493550777
+      ]
+    },
+    "native_page_parse": {
+      "sample_count": 6,
+      "mean_seconds": 0.1573965831582124,
+      "p50_seconds": 0.13206202042056248,
+      "p95_seconds": 0.35763684374978766,
+      "percentile_method": "linear interpolation at (n-1)*p",
+      "observations_seconds": [
+        0.1103784159058705,
+        0.15374562493525445,
+        0.0447721250820905,
+        0.41731325001455843,
+        0.03956245805602521,
+        0.17860762495547533
+      ]
+    },
+    "device": "Apple Silicon CPU; no model loading, queue waiting or network calls; OS cache uncontrolled; sequential invocation.",
+    "warning": "Exploratory variants and control pages are heterogeneous, so the aggregate is diagnostic rather than a before/after production latency comparison."
+  },
+  "reliability": {
+    "variants": 8,
+    "successes": 8,
+    "errors": 0,
+    "timeouts": 0,
+    "retries": 0
+  },
+  "limits": [
+    "Recovery candidate does not yet create canonical PdfExtraction offsets, table metadata, chunks, vectors or answer citations.",
+    "Native glyph-derived text can differ from visual punctuation outside annotated rows, including California thousands separators; no unannotated-row accuracy claim.",
+    "Default lines/text also finds spurious Apple and doclaynet tables. Restricting recovery to collapsed existing Docling tables avoids those controls in the frozen corpus; this is not a universal eligibility guarantee.",
+    "Current candidate is 62 rows including title/date and blank geometry rows. Integration should preserve title/date as context and not relabel them as every column's parent.",
+    "No provider or LLM calls. No end-to-end retrieval, generation, ingestion, storage, update/delete, load or live citation quality measured."
+  ]
+}

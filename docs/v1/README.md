@@ -62,5 +62,6 @@ PDF/OCR, agents, multi-user accounts and hosted deployment are outside v1.
 Markdown ingestion merged at `282158a`; parent-child and hybrid retrieval at
 `cd10620`; remaining accepted v1 work at `483a156`. The user also explicitly
 authorized merging closeout documentation and final UI evidence (`360a982` and
-`55837b0`) on 2026-09-26. Continue subsequent v1 work on `v1`, following
+`55837b0`) on 2026-09-26. Development has moved to `v2`; the retired `v1` branch
+had no commits outside `main`. Keep `main` and the active version branch, following
 [AGENTS.md](../../AGENTS.md); each future merge needs separate user authorization.

@@ -1,0 +1,516 @@
+{
+  "schema_version": 1,
+  "frozen_at": "2026-09-27T19:52:01.661857+00:00",
+  "frozen_before_acceptance_experiment": true,
+  "code_version_at_annotation": "9dcb7c50a02066bdb482a8c00f42c35f1c8e8865",
+  "reviewer": "Codex assistant /root/citation_design_review, manual visual review of the existing original-page rendering; not a human reviewer",
+  "method": "Read the original rendered page and transcribe its complete two-level header paths and first three state rows. Existing parser results were not used to choose values or header associations. No parser/model calls were executed for this annotation. Stored page dimensions were read only as provenance metadata.",
+  "population": "Three named development rows on one page, selected around a previously observed failure. These are not held-out cases or exhaustive labels for the table.",
+  "source": {
+    "file": "background-checks.pdf",
+    "artifact": "../../materials/pdf-v2/background-checks.pdf",
+    "source_url": "https://raw.githubusercontent.com/jsvine/pdfplumber/stable/examples/pdfs/background-checks.pdf",
+    "sha256": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407",
+    "physical_page": 1,
+    "page_index": 0,
+    "page_width_points": 1008,
+    "page_height_points": 612,
+    "printed_footer": "Page 1 of 205",
+    "printed_footer_note": "The frozen PDF fixture itself has one physical page; the printed count is not its physical page count.",
+    "original_page_artifact": "../../library-runs/20260927-v2-pdf-live/source-review/background-checks-1.png",
+    "original_page_sha256": "c69a6b2c8f2fb6481505834bc369fa57a2b0bef301f6327cf4e27e7800b2dcf1",
+    "original_page_image_pixels": [
+      1600,
+      972
+    ],
+    "manifest_artifact": "../../materials/pdf-v2/manifest.json"
+  },
+  "coordinate_system": "Approximate normalized [x0,y0,x1,y1] fractions of original page width/height, top-left origin. Boxes were estimated visually for localization, not measured as exact cell boundaries and not suitable for an IoU accuracy claim.",
+  "table": {
+    "physical_page": 1,
+    "page_index": 0,
+    "bbox": [
+      0.033,
+      0.1,
+      0.968,
+      0.789
+    ],
+    "header_bbox": [
+      0.033,
+      0.1,
+      0.968,
+      0.13
+    ],
+    "column_count": 25,
+    "header_paths": [
+      [
+        "State / Territory"
+      ],
+      [
+        "Permit"
+      ],
+      [
+        "Handgun"
+      ],
+      [
+        "Long Gun"
+      ],
+      [
+        "*Other"
+      ],
+      [
+        "**Multiple"
+      ],
+      [
+        "Admin"
+      ],
+      [
+        "Pre-Pawn",
+        "Handgun"
+      ],
+      [
+        "Pre-Pawn",
+        "Long Gun"
+      ],
+      [
+        "Pre-Pawn",
+        "*Other"
+      ],
+      [
+        "Redemption",
+        "Handgun"
+      ],
+      [
+        "Redemption",
+        "Long Gun"
+      ],
+      [
+        "Redemption",
+        "*Other"
+      ],
+      [
+        "Returned/Disposition",
+        "Handgun"
+      ],
+      [
+        "Returned/Disposition",
+        "Long Gun"
+      ],
+      [
+        "Returned/Disposition",
+        "*Other"
+      ],
+      [
+        "Rentals",
+        "Handgun"
+      ],
+      [
+        "Rentals",
+        "Long Gun"
+      ],
+      [
+        "Private Sale",
+        "Handgun"
+      ],
+      [
+        "Private Sale",
+        "Long Gun"
+      ],
+      [
+        "Private Sale",
+        "*Other"
+      ],
+      [
+        "Return to Seller - Private Sale",
+        "Handgun"
+      ],
+      [
+        "Return to Seller - Private Sale",
+        "Long Gun"
+      ],
+      [
+        "Return to Seller - Private Sale",
+        "*Other"
+      ],
+      [
+        "Totals"
+      ]
+    ],
+    "merged_header_groups": [
+      {
+        "label": "Pre-Pawn",
+        "column_start": 7,
+        "column_end": 10
+      },
+      {
+        "label": "Redemption",
+        "column_start": 10,
+        "column_end": 13
+      },
+      {
+        "label": "Returned/Disposition",
+        "column_start": 13,
+        "column_end": 16
+      },
+      {
+        "label": "Rentals",
+        "column_start": 16,
+        "column_end": 18
+      },
+      {
+        "label": "Private Sale",
+        "column_start": 18,
+        "column_end": 21
+      },
+      {
+        "label": "Return to Seller - Private Sale",
+        "column_start": 21,
+        "column_end": 24
+      }
+    ],
+    "column_index_convention": "Zero-based, end-exclusive. Row values align one-to-one with header_paths, including the State / Territory label at index 0.",
+    "ungrouped_header_note": "The colored Permit-through-Admin columns have no printed parent label; do not invent Base as source text. State / Territory and Totals are single header paths.",
+    "blank_convention": "JSON null denotes a visibly empty data cell. Literal zero is the string 0. The two Rentals cells are empty in each annotated state row; footer zeros must not be copied into them.",
+    "rows": [
+      {
+        "label": "Alabama",
+        "bbox": [
+          0.033,
+          0.13,
+          0.968,
+          0.141
+        ],
+        "values": [
+          "Alabama",
+          "18,870",
+          "23,022",
+          "22,650",
+          "859",
+          "1,178",
+          "0",
+          "14",
+          "15",
+          "0",
+          "2,179",
+          "2,307",
+          "11",
+          "0",
+          "0",
+          "0",
+          null,
+          null,
+          "13",
+          "14",
+          "0",
+          "3",
+          "2",
+          "0",
+          "71,137"
+        ]
+      },
+      {
+        "label": "Alaska",
+        "bbox": [
+          0.033,
+          0.141,
+          0.968,
+          0.153
+        ],
+        "values": [
+          "Alaska",
+          "209",
+          "3,062",
+          "3,209",
+          "191",
+          "184",
+          "0",
+          "9",
+          "3",
+          "0",
+          "100",
+          "100",
+          "0",
+          "18",
+          "9",
+          "1",
+          null,
+          null,
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "7,095"
+        ]
+      },
+      {
+        "label": "Arizona",
+        "bbox": [
+          0.033,
+          0.153,
+          0.968,
+          0.165
+        ],
+        "values": [
+          "Arizona",
+          "2,303",
+          "12,382",
+          "9,041",
+          "707",
+          "618",
+          "0",
+          "5",
+          "3",
+          "0",
+          "1,273",
+          "648",
+          "4",
+          "76",
+          "8",
+          "1",
+          null,
+          null,
+          "9",
+          "6",
+          "1",
+          "1",
+          "1",
+          "0",
+          "27,087"
+        ]
+      }
+    ],
+    "annotation_inventory": {
+      "rows": 3,
+      "column_paths": 25,
+      "row_label_cells": 3,
+      "nonblank_numeric_cells": 66,
+      "blank_cells": 6,
+      "all_annotated_cells": 75
+    }
+  },
+  "original_question": {
+    "artifact": "../../library-runs/20260927-v2-pdf-live/frozen-cases.json",
+    "case": {
+      "id": "dense-table",
+      "category": "dense_table_limit",
+      "question": "In \"background-checks.pdf\", report Alabama's Permit, Handgun, Long Gun and Totals values for November 2015. Do these statistics represent firearms sold?",
+      "files": [
+        "background-checks.pdf"
+      ],
+      "expected_fact_ids": [
+        "alabama_permit",
+        "alabama_handgun",
+        "alabama_longgun",
+        "alabama_total",
+        "checks_not_sales"
+      ],
+      "expected_missing": [],
+      "followup_of": null,
+      "answerable": true
+    },
+    "table_fact_ids": [
+      "alabama_permit",
+      "alabama_handgun",
+      "alabama_longgun",
+      "alabama_total"
+    ],
+    "table_facts": [
+      {
+        "file": "background-checks.pdf",
+        "physical_pages": [
+          1
+        ],
+        "expected": "Alabama, November 2015: Permit is 18,870.",
+        "anchors": [
+          "Alabama",
+          "18,870"
+        ],
+        "fact_id": "alabama_permit",
+        "row_label": "Alabama",
+        "header_path": [
+          "Permit"
+        ],
+        "exact_value": "18,870"
+      },
+      {
+        "file": "background-checks.pdf",
+        "physical_pages": [
+          1
+        ],
+        "expected": "Alabama, November 2015: Handgun is 23,022.",
+        "anchors": [
+          "Alabama",
+          "23,022"
+        ],
+        "fact_id": "alabama_handgun",
+        "row_label": "Alabama",
+        "header_path": [
+          "Handgun"
+        ],
+        "exact_value": "23,022"
+      },
+      {
+        "file": "background-checks.pdf",
+        "physical_pages": [
+          1
+        ],
+        "expected": "Alabama, November 2015: Long Gun is 22,650.",
+        "anchors": [
+          "Alabama",
+          "22,650"
+        ],
+        "fact_id": "alabama_longgun",
+        "row_label": "Alabama",
+        "header_path": [
+          "Long Gun"
+        ],
+        "exact_value": "22,650"
+      },
+      {
+        "file": "background-checks.pdf",
+        "physical_pages": [
+          1
+        ],
+        "expected": "Alabama, November 2015: Totals is 71,137.",
+        "anchors": [
+          "Alabama",
+          "71,137"
+        ],
+        "fact_id": "alabama_total",
+        "row_label": "Alabama",
+        "header_path": [
+          "Totals"
+        ],
+        "exact_value": "71,137"
+      }
+    ],
+    "additional_requested_control": "checks_not_sales",
+    "note": "The original question also asks whether these statistics are firearms sold. Preserve that fifth semantic point separately from the four table lookups; do not silently shorten the question."
+  },
+  "document_controls": [
+    {
+      "id": "background-title",
+      "physical_page": 1,
+      "bbox": [
+        0.39,
+        0.04,
+        0.67,
+        0.068
+      ],
+      "expected_text": "NICS Firearm Background Checks"
+    },
+    {
+      "id": "background-date",
+      "physical_page": 1,
+      "bbox": [
+        0.45,
+        0.069,
+        0.6,
+        0.099
+      ],
+      "expected_text": "November - 2015",
+      "expected_month": "November",
+      "expected_year": "2015"
+    },
+    {
+      "id": "checks_not_sales",
+      "physical_page": 1,
+      "bbox": [
+        0.11,
+        0.874,
+        0.94,
+        0.909
+      ],
+      "expected": "The statistics count firearm background checks initiated through NICS, not the number of firearms sold; there is no one-to-one correlation between a check and a sale.",
+      "required_phrases": [
+        "number of firearm background checks initiated through the NICS",
+        "do not represent the number of firearms sold",
+        "a one-to-one correlation cannot be made between a firearm background check and a firearm sale"
+      ],
+      "text_matching_note": "Match these substantive phrases after whitespace normalization; no punctuation at the omitted phrase boundaries is implied.",
+      "existing_annotation_artifact": "../../materials/pdf-v2/annotations.json",
+      "existing_check_id": "report-note"
+    }
+  ],
+  "existing_report_annotation": {
+    "artifact": "../../materials/pdf-v2/annotations.json",
+    "check_ids": [
+      "report-table",
+      "report-note"
+    ]
+  },
+  "other_corpus_controls": [
+    {
+      "file": "doclaynet.pdf",
+      "source_sha256": "5dfbd8c115a15fd3396b68409124cfee29fc8efac7b5c846634ff924e635e0dc",
+      "annotation_artifact": "../../materials/pdf-v2/annotations.json",
+      "check_ids": [
+        "paper-order",
+        "paper-fact",
+        "paper-caption"
+      ],
+      "expected_physical_pages": [
+        1,
+        2
+      ],
+      "scope": "Existing two-column reading-order, abstract fact and caption checkpoints; no visual figure understanding."
+    },
+    {
+      "file": "ml-lecture.pdf",
+      "source_sha256": "eefe52854eed1e2a0be969daed838d33e1751107a2f60ace2d1b6b8189424216",
+      "annotation_artifact": "../../materials/pdf-v2/annotations.json",
+      "check_ids": [
+        "lecture-text",
+        "lecture-image"
+      ],
+      "expected_physical_pages": [
+        2,
+        3
+      ],
+      "scope": "Existing native-text logistics and image omission checkpoints; no OCR of the embedded screenshot."
+    },
+    {
+      "file": "docling-report.pdf",
+      "source_sha256": "82dd470712ce8389f19f20eb9330475e2166a281f8c7990a9f1d0763d73b4d22",
+      "annotation_artifact": "../../materials/pdf-v2/annotations.json",
+      "check_ids": [
+        "technical-table",
+        "cross-page"
+      ],
+      "expected_physical_pages": [
+        4,
+        5
+      ],
+      "scope": "Existing merged benchmark headers, stated values and cross-page prose checkpoints; preserve qualifiers rather than comparing number presence alone."
+    },
+    {
+      "file": "apple-fy24.pdf",
+      "source_sha256": "af9646018330484238d357f1168ae74194fd768f4ea9921e4b2828c88309320c",
+      "annotation_artifact": "../../library-runs/20260927-v2-pdf-live/frozen-cases.json",
+      "fact_ids": [
+        "apple_sales_q",
+        "apple_sales_y",
+        "apple_units",
+        "apple_income_q",
+        "apple_income_y"
+      ],
+      "expected_physical_pages": [
+        1
+      ],
+      "original_page_artifact": "../../library-runs/20260927-v2-pdf-live/source-review/apple-fy24-1.png",
+      "review_artifact": "../../library-runs/20260927-financial-citation-acceptance/assessment-reference-review.json",
+      "scope": "Existing amount, period/date header and units associations. This control does not grant explicit fiscal-Q4/year labels absent from a cited table."
+    }
+  ],
+  "rubric": {
+    "cell_text": "Trim outer whitespace and collapse internal whitespace runs to one ASCII space. Otherwise retain digits, thousands separators, signs, asterisks, punctuation and case. A value appearing elsewhere on the page is not a correct cell.",
+    "row_association": "Each expected cell must belong to its annotated State / Territory row and its exact normalized header path. Moving an Alabama value to another row, or matching a coincidental value in another column, fails association even if the string is present.",
+    "header_hierarchy": "Normalize whitespace in each path component separately and compare the complete ordered path. Preserve merged parent spans and child distinctions. The ungrouped Handgun column differs from Pre-Pawn > Handgun and every other repeated Handgun header.",
+    "blank_preservation": "An explicit blank cell may be represented as null or empty/whitespace-only cell text while retaining its row and column position. Missing columns, zero, a shifted neighboring value, or a footer aggregate do not count as a preserved blank.",
+    "page_mapping": "Every annotated row, associated header and document control must map to source physical page 1 (page_index 0), with source identity and a valid local source span. Use the approximate boxes for manual localization only; do not report exact coordinate overlap or PDF-byte offsets.",
+    "aggregation": "Report separately the 66 nonblank numeric matches, 6 explicit blanks, 3 row labels, 25 complete header paths, 6 merged parent groups, 4 original Alabama table facts, and document controls. Also report joint exact row success for each of the three rows. Do not hide association errors inside token-presence scores.",
+    "scope_limit": "No score or correctness claim is authorized for unannotated state rows, the footer totals, any unannotated corpus page, or held-out tables. Reusing development checkpoints cannot establish general parser accuracy."
+  }
+}

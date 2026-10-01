@@ -113,8 +113,9 @@ must not be renamed held-out validation. The stream finalizer warning also remai
 unresolved despite no observed failed request in its recorded occurrence.
 
 PDF/OCR, remote ingestion, agents, multi-user accounts, hosted deployment and load
-capacity are outside this v1 scope. Future changes remain on `v1`, with separate
-user approval for each merge.
+capacity are outside this v1 scope. Development has moved to `v2`; `v1` is retired
+because its commits are preserved in `main`. Future work uses the active version
+branch, with separate user approval for each merge.
 
 ## Delivery history
 

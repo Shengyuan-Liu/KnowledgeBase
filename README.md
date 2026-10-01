@@ -1,7 +1,24 @@
 # KnowledgeBase
 
-A TXT and Markdown knowledge base with structural chunking, hybrid retrieval,
+A TXT, Markdown and PDF knowledge base with structural chunking, hybrid retrieval,
 and source-grounded answers.
+
+The [v2 release summary](docs/v2/release-summary.md) records the completed functional
+closeout, usage, verification and known limits. The user accepted this scoped
+release and authorized its merge into `main` on 2026-10-01. Development remains
+on `v2`; later changes require separate merge authorization.
+
+The v2 [PDF integration](docs/pdf-integration.md) supports upload, local extraction,
+page citations and original-page viewing, with recorded parser fidelity limits.
+Follow its one-time model setup before uploading PDFs.
+The v2 [automatic planner](docs/planned-retrieval.md) is available in chat through
+**Plan complex questions**. It searches up to six queries, including
+[evidence-dependent follow-ups](docs/dependent-retrieval.md) across at most three
+rounds, and now [checks evidence sufficiency](docs/evidence-sufficiency.md) before
+using the remaining budget for missing points. Plans, support assessments and
+source quotes are saved with the answer. The assessor selects numbered source
+passages; the application retains their exact text, offsets and PDF pages.
+The default remains a single search.
 
 The [v1 release summary](docs/v1/release-summary.md) records the delivered version,
 accepted defaults, experiments, verification and known limits. The implementation
@@ -44,7 +61,7 @@ DATA_DIR=data/v1 make app
 ```
 
 Open <http://127.0.0.1:8000>. This builds the React interface and serves it together
-with the API from one local process. Upload a UTF-8 TXT or Markdown file, wait for Ready, ask a
+with the API from one local process. Upload a UTF-8 TXT/Markdown file or a digital PDF, wait for Ready, ask a
 question, and click its source citation to inspect the original text. Follow-up
 questions share the current conversation; refresh restores completed messages.
 Uploads and questions use real model APIs and incur provider charges.
@@ -66,7 +83,8 @@ against the same data. See the [frontend guide](docs/frontend.md) for details.
 
 Run from the repository root with `OPENAI_API_KEY` in `.env`.
 
-Index one or more UTF-8 TXT or Markdown files, then enter the question loop:
+Index one or more TXT/Markdown files or digital PDFs, then enter the question loop
+(PDFs require the [local model setup](docs/pdf-integration.md)):
 
 ```bash
 uv run python main.py --data-dir data/v1 notes.txt handbook.md
@@ -145,7 +163,7 @@ DATA_DIR=data/v1 make api
 ```
 
 Open [interactive API documentation](http://127.0.0.1:8000/docs) after startup.
-Upload, list, and delete TXT/Markdown files through `/api/files`. Upload waits for indexing
+Upload, list, and delete TXT/Markdown/PDF files through `/api/files`. Upload waits for indexing
 and returns `201` when ready. API and CLI share `DATA_DIR` from `.env` (default `data/v1`),
 unless explicitly overridden as above.
 See the [file API guide](docs/file-api.md) for requests and error codes.
@@ -179,6 +197,22 @@ evidence regression alongside the prerequisite improvement. The subsequent
 [packing comparison](evals/library-runs/20260924T004817Z-child-first/README.md)
 keeps admitted parents and uses remaining space for whole selected children; it
 also records first-delta and full-completion latency over real HTTP streams.
+The later [v2 financial packing repair](evals/check-runs/20260927-pdf-evidence-packing/README.md)
+tries child fallback before lower-ranked parents and retains adjacent PDF table
+context. Its frozen-candidate comparison measures evidence coverage offline,
+without new answer generation or paid provider calls.
+The [assessor passage repair](evals/check-runs/20260927-assessment-passages/README.md)
+replaces free-form quote copying with source passage selection, with frozen offline
+contract checks and unchanged answer evidence. The subsequent
+[financial live replay](evals/library-runs/20260927-financial-acceptance/README.md)
+completes six targeted requests with correct requested facts, while retaining one
+planned-answer inline-citation gap. This does not establish overall v2 acceptance.
+The [offline citation/context follow-up](evals/check-runs/20260927-citation-context/README.md)
+adds current source-number hints and a per-item citation example, and preserves
+related table headers separately from model-selected passages. Live citation
+compliance was then checked in a [six-request citation replay](evals/library-runs/20260927-financial-citation-acceptance/README.md):
+all scoped gates pass under the unchanged review rules, including their documented
+allowance for fiscal-period inference. This remains a small development sample.
 The [multi-source generation comparison](evals/library-runs/20260924T012523Z-source-attribution-v2/README.md)
 records the revised comparison prompt, improved CPT fact coverage, remaining
 source-label errors, longer generation time, and unavailable claim-level scores.

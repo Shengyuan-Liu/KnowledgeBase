@@ -1,0 +1,24 @@
+{
+  "description": "Synthetic frozen retrieval fixture. Plans and vectors are hand-authored controls, not model outputs. Every document has one canonical span/child; binary relevance labels are complete for this corpus.",
+  "corpus": [
+    {"id": "a", "name": "aster.txt", "text": "Aster trains with labeled examples.", "vector": [1, 0, 0]},
+    {"id": "b", "name": "birch.txt", "text": "Birch accuracy was eighty percent.", "vector": [0, 1, 0]},
+    {"id": "c", "name": "cedar.txt", "text": "Cedar stores model checkpoints every hour.", "vector": [0.97, 0, 0.24]},
+    {"id": "d", "name": "dahlia.txt", "text": "Dahlia rotates log files daily.", "vector": [0, 0.97, 0.24]}
+  ],
+  "query_vectors": {
+    "What method does Aster use?": [1, 0, 0],
+    "What method does Aster use and what accuracy does Birch report?": [1, 0, 0],
+    "Aster method labeled examples": [1, 0, 0],
+    "Birch accuracy percent": [0, 1, 0]
+  },
+  "cases": [
+    {"id": "direct", "question": "What method does Aster use?", "gold": ["a"], "budget": 4096, "queries": null},
+    {"id": "independent", "question": "What method does Aster use and what accuracy does Birch report?", "gold": ["a", "b"], "budget": 4096,
+      "queries": [{"query_id": "method", "text": "Aster method labeled examples", "requirement_ids": ["method"]}, {"query_id": "result", "text": "Birch accuracy percent", "requirement_ids": ["result"]}]},
+    {"id": "duplicate", "question": "What method does Aster use?", "gold": ["a"], "budget": 4096,
+      "queries": [{"query_id": "one", "text": "What method does Aster use?", "requirement_ids": ["method"]}, {"query_id": "two", "text": "What method does Aster use?", "requirement_ids": ["method"]}]},
+    {"id": "budget_exhausted", "question": "What method does Aster use and what accuracy does Birch report?", "gold": ["a", "b"], "budget": 1,
+      "queries": [{"query_id": "method", "text": "Aster method labeled examples", "requirement_ids": ["method"]}, {"query_id": "result", "text": "Birch accuracy percent", "requirement_ids": ["result"]}]}
+  ]
+}

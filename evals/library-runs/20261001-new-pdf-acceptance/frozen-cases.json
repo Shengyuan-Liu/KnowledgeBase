@@ -1,0 +1,283 @@
+{
+  "cases": [
+    {
+      "id": "rag-document-granularity",
+      "question": "How do RAG-Sequence and RAG-Token differ in whether they can change the retrieved document while generating an answer?",
+      "files": [
+        "rag-paper.pdf"
+      ],
+      "expected_fact_ids": [
+        "rag_sequence",
+        "rag_token"
+      ],
+      "answerability": "full",
+      "gap_ids": []
+    },
+    {
+      "id": "retriever-training-hop",
+      "question": "Which retriever supplies the pretrained bi-encoder used to initialize RAG, and what combination of negative passages does that retriever's best model use during training? Cite the initialization relationship and the training details from the supplied papers.",
+      "files": [
+        "rag-paper.pdf",
+        "dpr-paper.pdf"
+      ],
+      "expected_fact_ids": [
+        "retriever_bridge",
+        "negative_gold",
+        "negative_bm25"
+      ],
+      "answerability": "full",
+      "gap_ids": []
+    },
+    {
+      "id": "retriever-training-restricted",
+      "question": "Which retriever supplies the pretrained bi-encoder used to initialize RAG, and what combination of negative passages does that retriever's best model use during training? Cite the initialization relationship and the training details from the supplied papers.",
+      "files": [
+        "rag-paper.pdf"
+      ],
+      "expected_fact_ids": [
+        "retriever_bridge"
+      ],
+      "answerability": "partial",
+      "gap_ids": [
+        "negative_gold",
+        "negative_bm25"
+      ]
+    },
+    {
+      "id": "lecture-overfitting",
+      "question": "How does the decision-tree lecture define overfitting, and what effect can it have on test-set performance?",
+      "files": [
+        "decision-trees.pdf"
+      ],
+      "expected_fact_ids": [
+        "overfitting_definition",
+        "overfitting_effect"
+      ],
+      "answerability": "full",
+      "gap_ids": []
+    },
+    {
+      "id": "income-period-basis",
+      "question": "What were NVIDIA's GAAP and non-GAAP operating income for Q4 FY25 and for the full fiscal year 2025? Give all four amounts, label each accounting basis and period, and state the units.",
+      "files": [
+        "nvidia-fy25.pdf"
+      ],
+      "expected_fact_ids": [
+        "quarter_gaap",
+        "quarter_nongaap",
+        "annual_gaap",
+        "annual_nongaap",
+        "income_units"
+      ],
+      "answerability": "full",
+      "gap_ids": []
+    },
+    {
+      "id": "forecast-is-not-actual",
+      "question": "What actual revenue did NVIDIA report for the first quarter of fiscal 2026? Answer only from the selected report.",
+      "files": [
+        "nvidia-fy25.pdf"
+      ],
+      "expected_fact_ids": [],
+      "answerability": "none",
+      "gap_ids": [
+        "actual_q1_fy26_revenue"
+      ]
+    }
+  ],
+  "facts": {
+    "rag_sequence": {
+      "file": "rag-paper.pdf",
+      "physical_pages": [
+        3
+      ],
+      "anchors": [
+        "The RAG-Sequence model uses the same retrieved document to generate the complete sequence."
+      ],
+      "expected": "RAG-Sequence uses the same retrieved document for the complete output sequence."
+    },
+    "rag_token": {
+      "file": "rag-paper.pdf",
+      "physical_pages": [
+        3
+      ],
+      "anchors": [
+        "In the RAG-Token model we can draw a different latent document for each target token"
+      ],
+      "expected": "RAG-Token can use a different retrieved document for each target token."
+    },
+    "retriever_bridge": {
+      "file": "rag-paper.pdf",
+      "physical_pages": [
+        3
+      ],
+      "anchors": [
+        "a pre-trained bi-encoder from DPR to initialize our retriever and to build the document index."
+      ],
+      "expected": "A pretrained bi-encoder from DPR initializes the RAG retriever."
+    },
+    "negative_gold": {
+      "file": "dpr-paper.pdf",
+      "physical_pages": [
+        3
+      ],
+      "anchors": [
+        "Our best model uses gold passages from the same mini-batch and one BM25 negative passage."
+      ],
+      "expected": "The best DPR model uses gold (positive) passages from the same mini-batch as negatives."
+    },
+    "negative_bm25": {
+      "file": "dpr-paper.pdf",
+      "physical_pages": [
+        3
+      ],
+      "anchors": [
+        "Our best model uses gold passages from the same mini-batch and one BM25 negative passage."
+      ],
+      "expected": "The best DPR model also uses one BM25 negative passage."
+    },
+    "overfitting_definition": {
+      "file": "decision-trees.pdf",
+      "physical_pages": [
+        35
+      ],
+      "anchors": [
+        "algorithm fits noise (i.e. pays attention to parts of the data that are irrelevant)"
+      ],
+      "expected": "Overfitting means fitting noise or attending to irrelevant parts of the data."
+    },
+    "overfitting_effect": {
+      "file": "decision-trees.pdf",
+      "physical_pages": [
+        35
+      ],
+      "anchors": [
+        "then it may perform less well on test set data."
+      ],
+      "expected": "An overfitting algorithm may perform less well on test-set data."
+    },
+    "quarter_gaap": {
+      "file": "nvidia-fy25.pdf",
+      "physical_pages": [
+        1
+      ],
+      "anchors": [
+        "$24,034"
+      ],
+      "expected": "Q4 FY25 GAAP operating income is USD 24,034 million."
+    },
+    "quarter_nongaap": {
+      "file": "nvidia-fy25.pdf",
+      "physical_pages": [
+        1
+      ],
+      "anchors": [
+        "$25,516"
+      ],
+      "expected": "Q4 FY25 Non-GAAP operating income is USD 25,516 million."
+    },
+    "annual_gaap": {
+      "file": "nvidia-fy25.pdf",
+      "physical_pages": [
+        2
+      ],
+      "anchors": [
+        "$81,453"
+      ],
+      "expected": "FY25 GAAP operating income is USD 81,453 million."
+    },
+    "annual_nongaap": {
+      "file": "nvidia-fy25.pdf",
+      "physical_pages": [
+        2
+      ],
+      "anchors": [
+        "$86,789"
+      ],
+      "expected": "FY25 Non-GAAP operating income is USD 86,789 million."
+    },
+    "income_units": {
+      "file": "nvidia-fy25.pdf",
+      "physical_pages": [
+        1
+      ],
+      "anchors": [
+        "($ in millions, except earnings per share)"
+      ],
+      "expected": "All four operating-income amounts are expressed in millions of dollars."
+    }
+  },
+  "corpus": [
+    {
+      "file": "rag-paper.pdf",
+      "category": "paper",
+      "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+      "source_url": "https://papers.nips.cc/paper/2020/file/6b493230205f780e1bc26945df7481e5-Paper.pdf",
+      "landing_url": "https://papers.nips.cc/paper_files/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html",
+      "sha256": "720f67eb41aa49995d5fcf3d24ac7efe431fbe08ce109b14b5a9fa4d4ebe2f8b",
+      "bytes": 946122,
+      "physical_pages": 16,
+      "rights": "Original authors/publisher retain rights; public conference paper retained as a local evaluation fixture.",
+      "acquisition": {
+        "attempt": "acquisition-1.json",
+        "outcome": "Downloaded before later report HTTP 403.",
+        "exact_response_headers": "unavailable: first script stopped before writing its metadata list",
+        "file_mtime_utc": "2026-10-01T14:56:09.467382+00:00"
+      }
+    },
+    {
+      "file": "dpr-paper.pdf",
+      "category": "paper",
+      "title": "Dense Passage Retrieval for Open-Domain Question Answering",
+      "source_url": "https://aclanthology.org/2020.emnlp-main.550.pdf",
+      "landing_url": "https://aclanthology.org/2020.emnlp-main.550/",
+      "sha256": "2abfc7991519be2b8ce30215905516fdb593218b7bf59e50ece0d8a088a7c4d5",
+      "bytes": 403775,
+      "physical_pages": 13,
+      "rights": "Copyright 2020 Association for Computational Linguistics; original notice retained.",
+      "acquisition": {
+        "attempt": "acquisition-1.json",
+        "outcome": "Downloaded before later report HTTP 403.",
+        "exact_response_headers": "unavailable: first script stopped before writing its metadata list",
+        "file_mtime_utc": "2026-10-01T14:56:09.703453+00:00"
+      }
+    },
+    {
+      "file": "decision-trees.pdf",
+      "category": "lecture",
+      "title": "Decision Trees - Andrew W. Moore",
+      "source_url": "https://www.cs.cmu.edu/afs/cs/Web/People/awm/tutorials/dtree18.pdf",
+      "landing_url": "https://www.cs.cmu.edu/afs/cs/Web/People/awm/tutorials/dtree.html",
+      "sha256": "6e867284dd975b8c365a1ced8e419648264a0623fbaca1564ce3443f59e982b8",
+      "bytes": 269414,
+      "physical_pages": 51,
+      "rights": "Copyright Andrew W. Moore; original educational-use notice and source attribution retained. No relicensing is claimed.",
+      "acquisition": {
+        "attempt": "acquisition-1.json",
+        "outcome": "Downloaded before later report HTTP 403.",
+        "exact_response_headers": "unavailable: first script stopped before writing its metadata list",
+        "file_mtime_utc": "2026-10-01T14:56:10.301839+00:00"
+      }
+    },
+    {
+      "file": "nvidia-fy25.pdf",
+      "category": "company_report",
+      "title": "NVIDIA Announces Financial Results for Fourth Quarter and Fiscal 2025",
+      "source_url": "https://nvidianews.nvidia.com/_gallery/download_pdf/67bf85d73d633281c6875f57/",
+      "landing_url": "https://investor.nvidia.com/news/press-release-details/2025/NVIDIA-Announces-Financial-Results-for-Fourth-Quarter-and-Fiscal-2025/default.aspx",
+      "sha256": "1c716d4fb428ad371801ecc2f71f4ec0d71d87e77649852d6d1449b37b0c8c9e",
+      "bytes": 84498,
+      "physical_pages": 10,
+      "rights": "Copyright 2025 NVIDIA Corporation. All rights reserved; public investor document retained as a local evaluation fixture.",
+      "acquisition": {
+        "file": "nvidia-fy25.pdf",
+        "requested_url": "https://nvidianews.nvidia.com/_gallery/download_pdf/67bf85d73d633281c6875f57/",
+        "final_url": "https://nvidianews.nvidia.com/_gallery/download_pdf/67bf85d73d633281c6875f57/",
+        "status": 200,
+        "content_type": "application/pdf; charset=utf-8",
+        "retrieved_at": "2026-10-01T14:57:13.381497+00:00"
+      }
+    }
+  ],
+  "purpose": "Analysis only; run.py reads request-only sealed questions instead."
+}

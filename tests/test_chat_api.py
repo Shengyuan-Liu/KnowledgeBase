@@ -45,7 +45,7 @@ def test_upload_question_followup_and_persisted_exchange(api):
     assert first["question"] == first["retrieval_question"] == question
     assert first["answer"] == "The library closes at 5 PM. [1]"
     assert first["sources"] == [{
-        "document_labels": [],
+        "document_labels": [], "pdf": None,
         "source_id": 1, "file_id": file_id, "file_name": "hours.txt",
         "chunk_id": f"{file_id}:parent:0", "text": "The library closes at 5 PM.",
         "fusion": {"chunk_id": f"{file_id}:child:0", "rrf_score": pytest.approx(2 / 61),

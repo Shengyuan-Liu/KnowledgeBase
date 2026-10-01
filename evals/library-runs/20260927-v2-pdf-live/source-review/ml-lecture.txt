@@ -1,0 +1,1423 @@
+Advanced Introduction to
+   Machine Learning
+       10715, Fall 2014
+
+
+
+       Introduction &
+      Linear Classifiers
+
+
+         Eric Xing and Barnabas Poczos
+              Lecture 1, September 8, 2014
+
+
+                         Reading:
+                © Eric Xing @ CMU, 2014      1
+Intro to Adv. ML 10-715
+   Class webpage:
+        http://www.cs.cmu.edu/~epxing/Class/10715/
+
+
+
+
+                                         © Eric Xing @ CMU, 2014   2
+Logistics
+    Text book
+        No required book
+        Reading assignments on class homepage
+        Optional: David Mackay, Information Theory, Inference, and Learning Algorithms
+
+    Mailing Lists:
+        To contact the instructors: 10715-instructors@cs.cmu.edu
+        Class announcements list: 10715-announce@cs.cmu.edu.
+
+    TA:
+        Kirthevasan Kandasamy, GHC 8015
+        Veeranjaneyulu Sadhanala, GHC 8005
+
+    Guest Lecturers
+        Yaoliang Yu
+        Andrew Wilson
+
+    Class Assistant:
+        Mallory Deptola, GHC 8001, x8-5527
+                                         © Eric Xing @ CMU, 2014                          3
+Logistics
+    4 homework assignments: 40% of grade
+        Theory exercises
+        Implementation exercises
+
+    Final project: 40% of grade
+        Applying machine learning to your research area
+            NLP, IR,, vision, robotics, computational biology …
+        Outcomes that offer real utility and value
+            Search all the wine bottle labels,
+            An iPhone app for landmark recognition
+        Theoretical and/or algorithmic work
+            a more efficient approximate inference algorithm
+            a new sampling scheme for a non-trivial model …
+        3-member team to be formed in the first two weeks, proposal, mid-way report, poster &
+         demo, final report.
+
+    One midterm exams: 20% of grade
+        Theory exercises and/or analysis. Dates already set (no “ticket already booked”, “I am in a
+         conference”, etc. excuse …)
+
+    Policies …
+                                                  © Eric Xing @ CMU, 2014                              4
+What is Learning
+Learning is about seeking a predictive and/or executable understanding of
+natural/artificial subjects, phenomena, or activities from …
+
+
+                            Apoptosis + Medicine
+
+               Grammatical rules
+               Manufacturing procedures
+                                                          Inference:
+               Natural laws
+                                                          what does this mean?
+               …
+                                                          Any similar article?
+                                                          …
+
+
+
+
+                                © Eric Xing @ CMU, 2014                          5
+Machine Learning
+
+
+
+
+              © Eric Xing @ CMU, 2014   6
+What is Machine Learning?
+Machine Learning seeks to develop theories and computer systems for
+
+     representing;
+     classifying, clustering and recognizing;
+     reasoning under uncertainty;
+     predicting;
+     and reacting to
+     …
+  complex, real world data, based on the system's own experience with data,
+  and (hopefully) under a unified model or mathematical framework, that
+
+         can be formally characterized and analyzed
+         can take into account human prior knowledge
+         can generalize and adapt across data and domains
+         can operate automatically and autonomously
+         and can be interpreted and perceived by human.
+
+                                 © Eric Xing @ CMU, 2014                      7
+Why machine learning?
+
+
+        13 million Wikipedia pages
+
+
+        500 million users
+
+
+        3.6 billion photos
+
+
+        24 hours videos uploaded per minute
+
+                   © Eric Xing @ CMU, 2014    8
+Machine Learning is Prevalent
+
+
+
+                                 Information retrieval
+
+
+    Speech recognition                                                Computer vision
+
+
+
+
+                                                        Games
+
+
+
+
+                                                                             Robotic control
+
+   Pedigree
+
+                         Evolution
+                              © Eric Xing @ CMU, 2014      Planning                      9
+Natural language processing and
+speech recognition
+   Now most pocket Speech Recognizers or Translators are running
+    on some sort of learning device --- the more you play/use them, the
+    smarter they become!
+
+
+
+
+                              © Eric Xing @ CMU, 2014                 10
+Object Recognition
+   Behind a security camera,
+    most likely there is a computer
+    that is learning and/or
+    checking!
+
+
+
+
+                               © Eric Xing @ CMU, 2014   11
+Robotic Control
+   The best helicopter pilot is now a computer!
+       it runs a program that learns how to fly and make acrobatic maneuvers by itself!
+       no taped instructions, joysticks, or things like …
+
+
+
+
+                                                                            A. Ng 2005
+                                       © Eric Xing @ CMU, 2014                             12
+Text Mining
+                                                  We want:
+
+   Reading, digesting, and
+    categorizing a vast text
+    database is too much for
+    human!
+
+
+
+
+                               © Eric Xing @ CMU, 2014        13
+ g        g g g        ggg g ggg     g g     g     gg g g g                           g g       g gg g g   gg   g          gg   g      gg    g
+cacatcgctgcgtttcggcagctaattgccttttagaaattattttcccatttcgagaaactcgtgtgggatgccggatgcggctttcaatcacttctggcccgggatcggattgggtcacattgtctgcgggctctattgtctcgatccgc
+ggcgcagttcgcgtgcttagcggtcagaaaggcagagattcggttcggattgatgcgctggcagcagggcacaaagatctaatgactggcaaatcgctacaaataaattaaagtccggcggctaattaatgagcggactgaagccactttgg
+attaaccaaaaaacagcagataaacaaaaacggcaaagaaaattgccacagagttgtcacgctttgttgcacaaacatttgtgcagaaaagtgaaaagcttttagccattattaagtttttcctcagctcgctggcagcacttgcgaatgta
+ctgatgttcctcataaatgaaaattaatgtttgctctacgctccaccgaactcgcttgtttgggggattggctggctaatcgcggctagatcccaggcggtataaccttttcgcttcatcagttgtgaaaccagatggctggtgttttggca
+cagcggactcccctcgaacgctctcgaaatcaagtggctttccagccggcccgctgggccgctcgcccactggaccggtattcccaggccaggccacactgtaccgcaccgcataatcctcgccagactcggcgctgataaggcccaatgtc
+actccgcaggcgtctatttatgccaaggaccgttcttcttcagctttcggctcgagtatttgttgtgccatgttggttacgatgccaatcgcggtacagttatgcaaatgagcagcgaataccgctcactgacaatgaacggcgtcttgtca
+tattcatgctgacattcatattcattcctttggttttttgtcttcgacggactgaaaagtgcggagagaaacccaaaaacagaagcgcgcaaagcgccgttaatatgcgaactcagcgaactcattgaagttatcacaacaccatatccata
+
+
+     Bioinformatics
+catatccatatcaatatcaatatcgctattattaacgatcatgctctgctgatcaagtattcagcgctgcgctagattcgacagattgaatcgagctcaatagactcaacagactccactcgacagatgcgcaatgccaaggacaattgccg
+tggagtaaacgaggcgtatgcgcaacctgcacctggcggacgcggcgtatgcgcaatgtgcaattcgcttaccttctcgttgcgggtcaggaactcccagatgggaatggccgatgacgagctgatctgaatgtggaaggcgcccagcaggc
+aagattactttcgccgcagtcgtcatggtgtcgttgctgcttttatgttgcgtactccgcactacacggagagttcaggggattcgtgctccgtgatctgtgatccgtgttccgtgggtcaattgcacggttcggttgtgtaaccttcgtgt
+tctttttttttagggcccaataaaagcgcttttgtggcggcttgatagattatcacttggtttcggtggctagccaagtggctttcttctgtccgacgcacttaattgaattaaccaaacaacgagcgtggccaattcgtattatcgctgtt
+tacgtgtgtctcagcttgaaacgcaaaagcttgtttcacacatcggtttctcggcaagatgggggagtcagtcggtctagggagaggggcgcccaccagtcgatcacgaaaacggcgaattccaagcgaaacggaaacggagcgagcactat
+agtactatgtcgaacaaccgatcgcggcgatgtcagtgagtcgtcttcggacagcgctggcgctccacacgtatttaagctctgagatcggctttgggagagcgcagagagcgccatcgcacggcagagcgaaagcggcagtgagcgaaagc
+gagcggcagcgggtgggggatcgggagccccccgaaaaaaacagaggcgcacgtcgatgccatcggggaattggaacctcaatgtgtgggaatgtttaaatattctgtgttaggtagtgtagtttcatagactatagattctcatacagatt
+gagtccttcgagccgattatacacgacagcaaaatatttcagtcgcgcttgggcaaaaggcttaagcacgactcccagtccccccttacatttgtcttcctaagcccctggagccactatcaaacttgttctacgcttgcactgaaaataga
+accaaagtaaacaatcaaaaagaccaaaaacaataacaaccagcaccgagtcgaacatcagtgaggcattgcaaaaatttcaaagtcaagtttgcgtcgtcatcgcgtctgagtccgatcaagccgggcttgtaattgaagttgttgatgag
+ttactggattgtggcgaattctggtcagcatacttaacagcagcccgctaattaagcaaaataaacatatcaaattccagaatgcgacggcgccatcatcctgtttgggaattcaattcgcgggcagatcgtttaattcaattaaaaggtag
+aaaagggagcagaagaatgcgatcgctggaatttcctaacatcacggaccccataaatttgataagcccgagctcgctgcgttgagtcagccaccccacatccccaaatccccgccaaaagaagacagctgggttgttgactcgccagattg
+attgcagtggagtggacctggtcaaagaagcaccgttaatgtgctgattccattcgattccatccgggaatgcgataaagaaaggctctgatccaagcaactgcaatccggatttcgattttctctttccatttggttttgtatttacgtac
+aagcattctaatgaagacttggagaagacttacgttatattcagaccatcgtgcgatagaggatgagtcatttccatatggccgaaatttattatgtttactatcgtttttagaggtgttttttggacttaccaaaagaggcatttgttttc
+ttcaactgaaaagatatttaaattttttcttggaccattttcaaggttccggatatatttgaaacacactagctagcagtgttggtaagttacatgtatttctataatgtcatattcctttgtccgtattcaaatcgaatactccacatctc
+ttgtacttgaggaattggcgatcgtagcgatttcccccgccgtaaagttcctgatcctcgttgtttttgtacatcataaagtccggattctgctcgtcgccgaagatgggaacgaagctgccaaagctgagagtctgcttgaggtgctggtc
+gtcccagctggataaccttgctgtacagatcggcatctgcctggagggcacgatcgaaatccttccagtggacgaacttcacctgctcgctgggaatagcgttgttgtcaagcagctcaaggagcgtattcgagttgacgggctgcaccacg
+ctgctccttcgctggggattcccctgcgggtaagcgccgcttgcttggactcgtttccaaatcccatagccacgccagcagaggagtaacagagctcwhereisthegenetgattaaaaatatcctttaagaaagcccatgggtataactt
+actgcgtcctatgcgaggaatggtctttaggttctttatggcaaagttctcgcctcgcttgcccagccgcggtacgttcttggtgatctttaggaagaatcctggactactgtcgtctgcctggcttatggccacaagacccaccaagagcg
+aggactgttatgattctcatgctgatgcgactgaagcttcacctgactcctgctccacaattggtggcctttatatagcgagatccacccgcatcttgcgtggaatagaaatgcgggtgactccaggaattagcattatcgatcggaaagtg
+ataaaactgaactaacctgacctaaatgcctggccataattaagtgcatacatacacattacattacttacatttgtataagaactaaattttatagtacataccacttgcgtatgtaaatgcttgtcttttctcttatatacgttttataa
+cccagcatattttacgtaaaaacaaaacggtaatgcgaacataacttatttattggggcccggaccgcaaaccggccaaacgcgtttgcacccataaaaacataagggcaacaaaaaaattgttaagctgttgtttatttttgcaatcgaaa
+cgctcaaatagctgcgatcactcgggagcagggtaaagtcgcctcgaaacaggaagctgaagcatcttctataaatacactcaaagcgatcattccgaggcgagtctggttagaaatttacatggactgcaaaaaggtatagccccacaaac
+cacatcgctgcgtttcggcagctaattgccttttagaaattattttcccatttcgagaaactcgtgtgggatgccggatgcggctttcaatcacttctggcccgggatcggattgggtcacattgtctgcgggctctattgtctcgatccgc
+ggcgcagttcgcgtgcttagcggtcagaaaggcagagattcggttcggattgatgcgctggcagcagggcacaaagatctaatgactggcaaatcgctacaaataaattaaagtccggcggctaattaatgagcggactgaagccactttgg
+attaaccaaaaaacagcagataaacaaaaacggcaaagaaaattgccacagagttgtcacgctttgttgcacaaacatttgtgcagaaaagtgaaaagcttttagccattattaagtttttcctcagctcgctggcagcacttgcgaatgta
+ctgatgttcctcataaatgaaaattaatgtttgctctacgctccaccgaactcgcttgtttgggggattggctggctaatcgcggctagatcccaggcggtataaccttttcgcttcatcagttgtgaaaccagatggctggtgttttggca
+cagcggactcccctcgaacgctctcgaaatcaagtggctttccagccggcccgctgggccgctcgcccactggaccggtattcccaggccaggccacactgtaccgcaccgcataatcctcgccagactcggcgctgataaggcccaatgtc
+actccgcaggcgtctatttatgccaaggaccgttcttcttcagctttcggctcgagtatttgttgtgccatgttggttacgatgccaatcgcggtacagttatgcaaatgagcagcgaataccgctcactgacaatgaacggcgtcttgtca
+tattcatgctgacattcatattcattcctttggttttttgtcttcgacggactgaaaagtgcggagagaaacccaaaaacagaagcgcgcaaagcgccgttaatatgcgaactcagcgaactcattgaagttatcacaacaccatatccata
+catatccatatcaatatcaatatcgctattattaacgatcatgctctgctgatcaagtattcagcgctgcgctagattcgacagattgaatcgagctcaatagactcaacagactccactcgacagatgcgcaatgccaaggacaattgccg
+tggagtaaacgaggcgtatgcgcaacctgcacctggcggacgcggcgtatgcgcaatgtgcaattcgcttaccttctcgttgcgggtcaggaactcccagatgggaatggccgatgacgagctgatctgaatgtggaaggcgcccagcaggc
+aagattactttcgccgcagtcgtcatggtgtcgttgctgcttttatgttgcgtactccgcactacacggagagttcaggggattcgtgctccgtgatctgtgatccgtgttccgtgggtcaattgcacggttcggttgtgtaaccttcgtgt
+
+
+                                                                              Where is the gene?
+tctttttttttagggcccaataaaagcgcttttgtggcggcttgatagattatcacttggtttcggtggctagccaagtggctttcttctgtccgacgcacttaattgaattaaccaaacaacgagcgtggccaattcgtattatcgctgtt
+tacgtgtgtctcagcttgaaacgcaaaagcttgtttcacacatcggtttctcggcaagatgggggagtcagtcggtctagggagaggggcgcccaccagtcgatcacgaaaacggcgaattccaagcgaaacggaaacggagcgagcactat
+agtactatgtcgaacaaccgatcgcggcgatgtcagtgagtcgtcttcggacagcgctggcgctccacacgtatttaagctctgagatcggctttgggagagcgcagagagcgccatcgcacggcagagcgaaagcggcagtgagcgaaagc
+gagcggcagcgggtgggggatcgggagccccccgaaaaaaacagaggcgcacgtcgatgccatcggggaattggaacctcaatgtgtgggaatgtttaaatattctgtgttaggtagtgtagtttcatagactatagattctcatacagatt
+gagtccttcgagccgattatacacgacagcaaaatatttcagtcgcgcttgggcaaaaggcttaagcacgactcccagtccccccttacatttgtcttcctaagcccctggagccactatcaaacttgttctacgcttgcactgaaaataga
+accaaagtaaacaatcaaaaagaccaaaaacaataacaaccagcaccgagtcgaacatcagtgaggcattgcaaaaatttcaaagtcaagtttgcgtcgtcatcgcgtctgagtccgatcaagccgggcttgtaattgaagttgttgatgag
+ttactggattgtggcgaattctggtcagcatacttaacagcagcccgctaattaagcaaaataaacatatcaaattccagaatgcgacggcgccatcatcctgtttgggaattcaattcgcgggcagatcgtttaattcaattaaaaggtag
+aaaagggagcagaagaatgcgatcgctggaatttcctaacatcacggaccccataaatttgataagcccgagctcgctgcgttgagtcagccaccccacatccccaaatccccgccaaaagaagacagctgggttgttgactcgccagattg
+attgcagtggagtggacctggtcaaagaagcaccgttaatgtgctgattccattcgattccatccgggaatgcgataaagaaaggctctgatccaagcaactgcaatccggatttcgattttctctttccatttggttttgtatttacgtac
+aagcattctaatgaagacttggagaagacttacgttatattcagaccatcgtgcgatagaggatgagtcatttccatatggccgaaatttattatgtttactatcgtttttagaggtgttttttggacttaccaaaagaggcatttgttttc
+ttcaactgaaaagatatttaaattttttcttggaccattttcaaggttccggatatatttgaaacacactagctagcagtgttggtaagttacatgtatttctataatgtcatattcctttgtccgtattcaaatcgaatactccacatctc
+ttgtacttgaggaattggcgatcgtagcgatttcccccgccgtaaagttcctgatcctcgttgtttttgtacatcataaagtccggattctgctcgtcgccgaagatgggaacgaagctgccaaagctgagagtctgcttgaggtgctggtc
+gtcccagctggataaccttgctgtacagatcggcatctgcctggagggcacgatcgaaatccttccagtggacgaacttcacctgctcgctgggaatagcgttgttgtcaagcagctcaaggagcgtattcgagttgacgggctgcaccacg
+ctgctccttcgctggggattcccctgcgggtaagcgccgcttgcttggactcgtttccaaatcccatagccacgccagcagaggagtaacagagctctgaaaacagttcatggtttaaaaatatcctttaagaaagcccatgggtataactt
+actgcgtcctatgcgaggaatggtctttaggttctttatggcaaagttctcgcctcgcttgcccagccgcggtacgttcttggtgatctttaggaagaatcctggactactgtcgtctgcctggcttatggccacaagacccaccaagagcg
+aggactgttatgattctcatgctgatgcgactgaagcttcacctgactcctgctccacaattggtggcctttatatagcgagatccacccgcatcttgcgtggaatagaaatgcgggtgactccaggaattagcattatcgatcggaaagtg
+                                                                 © Eric Xing @ CMU, 2014                                                    14
+ataaaactgaactaacctgacctaaatgcctggccataattaagtgcatacatacacattacattacttacatttgtataagaactaaattttatagtacataccacttgcgtatgtaaatgcttgtcttttctcttatatacgttttataa
+Growth of Machine Learning
+   Machine learning already the preferred approach to
+       Speech recognition, Natural language processing
+       Computer vision
+       Medical outcomes analysis
+       Robot control                             ML apps.
+
+       …
+                                                        All software
+                                                        apps.
+   This ML niche is growing (why?)
+
+
+
+
+                              © Eric Xing @ CMU, 2014                  15
+Growth of Machine Learning
+   Machine learning already the preferred approach to
+       Speech recognition, Natural language processing
+       Computer vision
+       Medical outcomes analysis
+       Robot control                             ML apps.
+
+       …
+                                                        All software
+                                                        apps.
+   This ML niche is growing
+       Improved machine learning algorithms
+       Increased data capture, networking
+       Software too complex to write by hand
+       New sensors / IO devices
+       Demand for self-customization to user, environment
+                              © Eric Xing @ CMU, 2014                  16
+Paradigms of Machine Learning
+   Supervised Learning
+     Given D  Xi , Yi  , learn f() : Yi  f Xi  , s.t. D
+                                                                new
+                                                                     X j   Yj 
+
+   Unsupervised Learning
+     Given D  Xi  , learn f() : Yi  f X i  , s.t. D new  X j   Yj 
+
+   Semi-supervised Learning
+
+   Reinforcement Learning
+     Given D  env, actions, rewards, simulator/trace/real game
+
+                policy : e , r  a
+        learn                           , s.t.    env, new real game  a1 , a2 , a3 
+                utility : a , e  r
+   Active Learning
+       Given D ~ G () , learn D new ~ G' () and f()           , s.t.                          
+                                                                           D all  G' (), policy, Yj
+
+                                        © Eric Xing @ CMU, 2014                                         17
+Machine Learning - Theory
+For the learned F(; )
+                                                          PAC Learning Theory
+                                                     (supervised concept learning)
+   Consistency (value, pattern, …)
+   Bias versus variance                       # examples (m)
+   Sample complexity
+                                                                    representational
+   Learning rate                                                    complexity (H)
+   Convergence                               error rate ()
+   Error bound                                                   failure probability ()
+   Confidence
+   Stability
+   …
+
+
+                           © Eric Xing @ CMU, 2014                                   18
+Elements of Machine Learning
+   Here are some important elements to consider before you start:
+       Task:
+           Embedding? Classification? Clustering? Topic extraction? …
+       Data and other info:
+           Input and output (e.g., continuous, binary, counts, …)
+           Supervised or unsupervised, of a blend of everything?
+           Prior knowledge? Bias?
+       Models and paradigms:
+           BN? MRF? Regression? SVM?
+           Bayesian/Frequents ? Parametric/Nonparametric?
+       Objective/Loss function:
+           MLE? MCLE? Max margin?
+           Log loss, hinge loss, square loss? …
+       Tractability and exactness trade off:
+           Exact inference? MCMC? Variational? Gradient? Greedy search?
+           Online? Batch? Distributed?
+       Evaluation:
+           Visualization? Human interpretability? Perperlexity? Predictive accuracy?
+
+   It is better to consider one element at a time!
+                                          © Eric Xing @ CMU, 2014                       19
+Classification
+    Representing data:
+
+
+
+
+    Hypothesis (classifier)
+
+
+
+
+                               © Eric Xing @ CMU, 2014   20
+Decision-making as dividing a
+high-dimensional space
+    Classification-specific Dist.: P(X|Y)
+
+                      p ( X | Y  1)
+                                 
+                       p1 ( X ; 1 , 1 )
+
+
+
+
+                                p ( X | Y  2)
+                                           
+                                 p2 ( X ;  2 ,  2 )
+
+
+
+
+    Class prior (i.e., "weight"): P(Y)
+
+
+                                     © Eric Xing @ CMU, 2014   21
+The Bayes Rule
+   What we have just did leads to the following general
+    expression:
+
+                 P ( X | Y ) p (Y )
+    P (Y | X ) 
+                      P( X )
+
+
+    This is Bayes Rule
+
+
+
+
+                                  © Eric Xing @ CMU, 2014   22
+The Bayes Decision Rule for
+Minimum Error
+    The a posteriori probability of a sample
+                        p ( X | Y  i ) P (Y  i )     i pi ( X | Y  i )
+     P (Y  i | X )                                                          qi ( X )
+                                 p( X )               i  i pi ( X | Y  i )
+    Bayes Test:
+
+
+
+    Likelihood Ratio:
+
+     ( X ) 
+
+    Discriminant function:
+     h( X ) 
+
+                                               © Eric Xing @ CMU, 2014                     23
+Example of Decision Rules
+   When each class is a normal …
+
+
+
+
+   We can write the decision boundary analytically in some
+    cases … homework!!
+                           © Eric Xing @ CMU, 2014            24
+Bayes Error
+   We must calculate the probability of error
+       the probability that a sample is assigned to the wrong class
+
+   Given a datum X, what is the risk?
+
+
+
+   The Bayes error (the expected risk):
+
+
+
+
+                                      © Eric Xing @ CMU, 2014          25
+More on Bayes Error
+   Bayes error is the lower bound of probability of classification error
+
+
+
+
+   Bayes classifier is the theoretically best classifier that minimize
+    probability of classification error
+   Computing Bayes error is in general a very complex problem. Why?
+       Density estimation:
+
+
+       Integrating density function:
+
+
+
+                                        © Eric Xing @ CMU, 2014             26
+Learning Classifier
+    The decision rule:
+
+
+
+
+    Learning strategies
+
+        Generative Learning
+
+        Discriminative Learning
+
+
+        Instance-based Learning (Store all past experience in memory)
+            A special case of nonparametric classifier
+
+
+
+
+                                           © Eric Xing @ CMU, 2014       27
+Supervised Learning
+
+
+
+
+   K-Nearest-Neighbor Classifier:
+    where the h(X) is represented by all the data, and by an algorithm
+
+
+
+
+                                     © Eric Xing @ CMU, 2014             28
+Learning Bayes Classifier
+    Training data (discrete case):
+
+
+
+
+    Learning = estimating P(X|Y), and P(Y)
+
+
+    Classification = using Bayes rule to calculate P(Y | Xnew)
+
+
+                              © Eric Xing @ CMU, 2014             29
+Parameter learning from iid data:
+The Maximum Likelihood Est.
+     Goal: estimate distribution parameters  from a dataset of N
+      independent, identically distributed (iid), fully observed,
+      training cases
+                                  D = {x1, . . . , xN}
+
+     Maximum likelihood estimation (MLE)
+     1.   One of the most common estimators
+     2.   With iid and full-observability assumption, write L() as the likelihood of the data:
+
+                              L ( )  P ( x1, x2 ,  , x N ; )
+                                      P ( x; ) P ( x2 ;  ),  , P ( x N ; )
+                                       n 1 P ( xn ;  )
+                                            N
+
+
+
+     3.   pick the setting of parameters most likely to have generated the data we saw:
+                               *  arg max L ( )  arg max log L ( )
+                                            
+                                         © Eric Xing @ CMU, 2014
+                                                                     
+How hard is it to learn the optimal
+classifier?
+    How do we represent these? How many parameters?
+        Prior, P(Y):
+            Suppose Y is composed of k classes
+
+
+
+
+        Likelihood, P(X|Y):
+            Suppose X is composed of n binary features
+
+
+
+
+    Complex model ! High variance with limited data!!!
+Conditional Independence
+   X is conditionally independent of Y given Z, if the probability
+    distribution governing X is independent of the value of Y, given
+    the value of Z
+
+
+
+    Which we often write
+
+
+   e.g.,
+
+
+
+   Equivalent to:
+
+                            © Eric Xing @ CMU, 2014               32
+The Naïve Bayes assumption
+   Naïve Bayes assumption:
+       Features are conditionally independent given class:
+
+
+
+
+       More generally:
+
+
+
+
+                                                                         Y
+   How many parameters now?
+       Suppose X is composed of m binary features
+                                                               X1   X2       X3   X4
+
+
+                                     © Eric Xing @ CMU, 2014                      33
+The Naïve Bayes Classifier
+    Given:
+        Prior P(Y)
+        m conditionally independent features X given the class Y
+        For each Xn, we have likelihood P(Xn|Y)
+
+
+    Decision rule:
+
+
+
+
+    If assumption holds, NB is optimal classifier!
+
+
+                                      © Eric Xing @ CMU, 2014       34
+Gaussian Discriminative Analysis
+   learning f: X  Y, where
+       X is a vector of real-valued features, Xn= < Xn1,…Xnm >
+       Y is an indicator vector
+                                                                                                            Yn
+   What does that imply about the form of P(Y|X)?
+       The joint probability of a datum and its label is:
+                                                                                                            Xn
+               p ( x n , y nk  1 |  ,  )  p ( y nk  1)  p ( x n | y nk  1,  ,  )
+
+                         k
+                                    1
+                               ( 2  )1/ 2
+                                            exp - 1
+                                                  2
+                                                   ( x n -
+                                                             T 1
+                                                             k )  ( x n -
+                                                                            
+                                                                             k)       
+       Given a datum xn, we predict its label using the conditional probability of the label
+        given the datum:
+
+                                        k
+                                             ( 2 
+                                                   1
+                                                    ) 1/ 2
+                                                            exp -1
+                                                                  2 ( x n -
+                                                                             T 1
+                                                                             k )      ( x n -
+                                                                                                
+                                                                                                 k)
+        p ( y nk  1 | x n ,  ,  ) 
+                                           
+                                                     1
+                                       k ' k ' (2  )1/ 2  exp  - 1
+                                                                    2( x n - 
+                                                                                T 1
+                                                                                 k )     ( x n -
+                                                                                                  
+                                                                                                   k') 
+                                                 © Eric Xing @ CMU, 2014                                         35
+The A Gaussian Discriminative
+Naïve Bayes Classifier
+   When X is multivariate-Gaussian vector:                                                                        Yn
+       The joint probability of a datum and it label is:
+                                                                                                                 Xn
+              p ( x n , y nk  1 |  ,  )  p ( y nk  1)  p ( x n | y nk  1,  ,  )
+
+                           k
+                                      1
+                                 ( 2  )1/ 2
+                                              exp - 
+                                                    1
+                                                    2 ( x n -
+                                                               T 1
+                                                               k )  ( x n -
+                                                                              
+                                                                               k)      
+
+       The naïve Bayes simplification
+                                                                                                                   Yn
+         p ( x n , y nk  1 |  ,  )  p ( y nk  1)   p ( xnj | y nk  1,  kj ,  kj )
+                                                          j
+                                                                                                     Xn,1   Xn,2    …        Xn,m
+                                                      1          
+                                                                  1 xn -  k 
+                                                                        j   j
+                                                                               
+                                                                                 2
+
+                                        k                 exp - 2         
+                                                     2  k         k  
+                                                           j               j
+                                               j
+
+
+                                                                                m
+       More generally:             p ( x n , y n |  ,  )  p ( y n |  )   p ( xnj | y n , )
+                                                                                j 1
+
+            Where p(. | .) is an arbitrary conditional (discrete or continuous) 1-D density
+
+                                                     © Eric Xing @ CMU, 2014                                            36
+The predictive distribution
+     Understanding the predictive distribution
+                                                           
+                                     p ( y k
+                                                 1, x   |  , ,  )     k N ( xn , |  k ,  k )
+     p ( y nk  1 | xn ,  , ,  )        n          n
+                                                                                                                                                                                                    *
+                                              p ( xn |  ,  )           k '  k ' N ( xn , |  k ' ,  k ' )
+     Under naïve Bayes assumption:
+                                                                           1  x j   j 2                   
+                                                         k exp   j            n     k
+                                                                                                log  k  C  
+                                                                                                          j
+                                                                                      k 
+                                                                                         j
+                                                                                                                
+                                                                             
+                                                                            2
+                                                                                                               
+                       p ( y n  1 | xn ,  , ,  ) 
+                             k
+                                                                                                                          **
+                                                                             1 xj  j        2
+                                                                                                                      
+                                                        k '  k ' exp   j  2  n  j k '   log  kj'  C 
+                                                                                       k'                        
+     For two class (i.e., K=2), and when the two classes haves the same
+      variance, ** turns out to be a logistic function
+          p ( y n1  1 | xn )                                    1
+                                                                        1
+                                                                                                           
+                                                                                                                 
+                                                                                                                                                              1
+                                                                        ( x nj -  2j ) 2  log  j  C  
+
+                                                                                                                                                                                                        
+                                              2 exp  
+                                                                 j  2 2                                 
+                                                                  j                                    
+                                        1                                                                           1  exp   j xnj 12 ( 1j -  2j )  12 ([ 1j ]2 - [  2j ]2 )  log (11 1 )
+               1
+                                                                  1                                     
+                                              1 exp            
+                                                                 j  2 2
+                                                                          ( x n - 1 )  log  j  C  
+                                                                               j      j  2
+                                                                                                                                            j                   j
+
+
+      
+                                                                  j                                    
+
+
+          1  e  xn
+                   T
+
+
+                                                                                     © Eric Xing @ CMU, 2014                                                                                                   37
+The decision boundary
+    The predictive distribution
+                                                          1                       1
+                  p ( y n1  1 | xn )                                   
+                                                   M                       1  e  xn
+                                                                                      T
+
+
+                                          1  exp    j xnj   0 
+                                                   j 1             
+
+    The Bayes decision rule:
+                                                  1                     
+                                                                        
+                   p ( y n1  1 | xn )
+                                        ln  1  e                       Tx
+                                                     T x n
+                ln
+                   p ( y n  1 | xn )
+                         2                                    e n 
+                                                                 T            n
+                                                                     x
+
+                                                                        
+                                                             1  e  xn 
+                                                                       T
+                                            
+
+    For multiple class (i.e., K>2), * correspond to a softmax function
+
+                                                        kT x n
+                                                   e
+                  p ( y nk  1 | xn ) 
+                                                e
+                                                           Tj x n
+
+                                                   j
+                                               © Eric Xing @ CMU, 2014                     38
+Summary:
+The Naïve Bayes Algorithm
+   Train Naïve Bayes (examples)
+       for each* value yk
+       estimate
+       for each* value xij of each attribute Xi
+       estimate
+
+
+   Classify (Xnew)
+
+
+
+
+                                    © Eric Xing @ CMU, 2014   39
+Generative vs. Discriminative
+Classifiers
+    Goal: Wish to learn f: X  Y, e.g., P(Y|X)
+
+
+    Generative classifiers (e.g., Naïve Bayes):                           Yi
+        Assume some functional form for P(X|Y), P(Y)
+         This is a ‘generative’ model of the data!                         Xi
+        Estimate parameters of P(X|Y), P(Y) directly from training data
+        Use Bayes rule to calculate P(Y|X= x)
+
+
+
+    Discriminative classifiers:
+                                                                           Yi
+        Directly assume some functional form for P(Y|X)
+         This is a ‘discriminative’ model of the data!                     Xi
+        Estimate parameters of P(Y|X) directly from training data
+
+
+
+                                       © Eric Xing @ CMU, 2014                  40
+Recall the NB predictive distribution
+     Understanding the predictive distribution
+                                                           
+                                     p ( y k
+                                                 1, x   |  , ,  )     k N ( xn , |  k ,  k )
+     p ( y nk  1 | xn ,  , ,  )        n          n
+                                                                                                                                                                                                  *
+                                              p ( xn |  ,  )           k '  k ' N ( xn , |  k ' ,  k ' )
+     Under naïve Bayes assumption:
+                                                                         1  x j   j 2                   
+                                                       k exp   j            n     k
+                                                                                              log  k  C  
+                                                                                                        j
+                                                                                    k 
+                                                                                       j
+                                                                                                              
+                                                                           
+                                                                          2
+                                                                                                             
+                     p ( y n  1 | xn ,  , ,  ) 
+                           k
+                                                                                                                        **
+                                                                           1 xj  j        2
+                                                                                                                    
+                                                      k '  k ' exp   j  2  n  j k '   log  kj'  C 
+                                                                                     k'                        
+     For two class (i.e., K=2), and when the two classes haves the same
+      variance, ** turns out to be a logistic function
+          p ( y n1  1 | xn )                                  1
+                                                                      1
+                                                                                                         
+                                                                                                               
+                                                                                                                                                            1
+                                                                      ( x nj -  2j ) 2  log  j  C  
+
+                                                                                                                                                                                                      
+                                            2 exp  
+                                                               j  2 2                                 
+                                                                j                                    
+                                      1                                                                           1  exp   j xnj 12 ( 1j -  2j )  12 ([ 1j ]2 - [  2j ]2 )  log (11 1 )
+               1
+                                                                1                                     
+                                            1 exp            
+                                                               j  2 2
+                                                                        ( x n - 1 )  log  j  C  
+                                                                             j      j  2
+                                                                                                                                          j                   j
+
+
+      
+                                                                j                                    
+
+
+          1e    T x n
+
+                                                                                   © Eric Xing @ CMU, 2014                                                                                                   41
+The logistic function
+
+
+
+
+                © Eric Xing @ CMU, 2014   42
+Logistic regression (sigmoid
+classifier)
+    The condition distribution: a Bernoulli
+                     p ( y | x )   ( x ) y (1   ( x ))1 y
+       where  is a logistic function
+
+                                   1
+                    ( x)            T x
+                                               p( y  1 | x)
+                              1 e
+
+
+    In this case, learning p(y|x) amounts to learning ...?
+
+
+    What is the difference to NB?
+
+
+
+                                        © Eric Xing @ CMU, 2014   43
+Training Logistic Regression:
+MCLE
+    Estimate parameters =<0, 1, ... m> to maximize the
+     conditional likelihood of training data
+
+
+    Training data
+
+
+    Data likelihood =
+
+
+    Data conditional likelihood =
+
+
+
+
+                              © Eric Xing @ CMU, 2014         44
+Expressing Conditional Log
+Likelihood
+
+
+
+   Recall the logistic function:
+
+
+    and conditional likelihood:
+
+
+
+
+                              © Eric Xing @ CMU, 2014   45
+Maximizing Conditional Log
+Likelihood
+   The objective:
+
+
+
+
+   Good news: l() is concave function of 
+
+
+   Bad news: no closed-form solution to maximize l()
+
+
+
+                            © Eric Xing @ CMU, 2014      46
+Gradient Ascent
+
+
+
+   Property of sigmoid function:
+
+
+
+   The gradient:
+
+
+
+
+    The gradient ascent algorithm iterate until change < ε
+         For all i,
+    repeat
+                               © Eric Xing @ CMU, 2014       47
+Overfitting …
+How about MAP?
+   It is very common to use regularized maximum likelihood.
+
+
+   One common approach is to define priors on 
+       – Normal distribution, zero mean, identity covariance
+       Helps avoid very large weights and overfitting
+
+
+
+
+       MAP estimate
+       More next lecture …
+The Newton’s method
+   Finding a zero of a function
+
+
+
+
+                             © Eric Xing @ CMU, 2014   50
+The Newton’s method (con’d)
+   To maximize the conditional likelihood l():
+
+
+
+
+    since l is convex, we need to find  where l’()=0 !
+
+
+   So we can perform the following iteration:
+
+
+
+
+                             © Eric Xing @ CMU, 2014         51
+The Newton-Raphson method
+   In LR the  is vector-valued, thus we need the following
+    generalization:
+
+
+
+
+    is the gradient operator over the function
+
+
+
+   H is known as the Hessian of the function
+
+
+
+
+                             © Eric Xing @ CMU, 2014           52
+The Newton-Raphson method
+   In LR the  is vector-valued, thus we need the following
+    generalization:
+
+
+
+    is the gradient operator over the function
+
+
+
+   H is known as the Hessian of the function
+
+
+
+
+   This is also known as Iterative reweighed least squares
+    (IRLS)                   © Eric Xing @ CMU, 2014           53
+Iterative reweighed least squares
+(IRLS)
+    Recall in the least square est. in linear regression, we have:
+
+
+
+     which can also derived from Newton-Raphson
+
+
+    Now for logistic regression:
+
+
+
+
+                              © Eric Xing @ CMU, 2014                 54
+IRLS
+   Recall in the least square est. in linear regression, we have:
+
+
+
+    which can also derived from Newton-Raphson
+
+
+   Now for logistic regression:
+
+
+
+
+                             © Eric Xing @ CMU, 2014
+Convergence curves
+
+
+
+
+       alt.atheism             rec.autos               comp.windows.x
+            vs.                   vs.                         vs.
+      comp.graphics        rec.sport.baseball           rec.motorcycles
+
+
+Legend: - X-axis: Iteration #; Y-axis: error
+        - In each figure, red for IRLS and blue for gradient descent
+                             © Eric Xing @ CMU, 2014                  56
+Logistic regression: practical
+issues
+    NR (IRLS) takes O(N+d3) per iteration, where N = number of
+     training cases and d = dimension of input x, but converge in
+     fewer iterations
+
+    Quasi-Newton methods, that approximate the Hessian, work
+     faster.
+
+    Conjugate gradient takes O(Nd) per iteration, and usually
+     works best in practice.
+
+    Stochastic gradient descent can also be used if N is large c.f.
+     perceptron rule:
+
+
+                              © Eric Xing @ CMU, 2014               57
+Case Study: Text classification
+    Classify e-mails
+        Y = {Spam,NotSpam}
+
+    Classify news articles
+        Y = {what is the topic of the article?}
+
+    Classify webpages
+        Y = {Student, professor, project, …}
+
+
+    What about the features X?
+        The text!
+
+
+
+
+                                         © Eric Xing @ CMU, 2014   58
+Features X are entire document – Xi
+for ith word in article
+
+                                            aardvark 0
+                                            about     2
+                                            all       2
+                                            Africa    1
+                                            apple     0
+                                            anxious   0
+                                            ...
+                                            gas       1
+                                            ...
+                                            oil       1
+                                            …
+                                            Zaire     0
+
+
+                  © Eric Xing @ CMU, 2014                 59
+Bag of words model
+   Typical additional assumption – Position in document
+    doesn’t matter: P(Xi=xi|Y=y) = P(Xk=xi|Y=y)
+        “Bag of words” model – order of words on the page ignored
+        Sounds really silly, but often works very well!
+
+
+
+                                              or
+
+
+        When the lecture is over, remember to wake up the
+          person sitting next to you in the lecture room.
+
+
+
+                                    © Eric Xing @ CMU, 2014          60
+Bag of words model
+   Typical additional assumption – Position in document
+    doesn’t matter: P(Xi=xi|Y=y) = P(Xk=xi|Y=y)
+       “Bag of words” model – order of words on the page ignored
+       Sounds really silly, but often works very well!
+
+
+
+                                             or
+
+
+    in is lecture lecture next over person remember room
+            sitting the the the to to up wake when you
+
+
+
+                                   © Eric Xing @ CMU, 2014          61
+NB with Bag of Words for text
+classification
+    Learning phase:
+        Prior P(Y)
+            Count how many documents you have from each topic (+ prior)
+        P(Xi|Y)
+            For each topic, count how many times you saw word in documents of this
+             topic (+ prior)
+
+    Test phase:
+        For each document xnew
+            Use naïve Bayes decision rule
+
+
+
+
+                                      © Eric Xing @ CMU, 2014                         62
+Back to our 20 NG Case study
+   Dataset
+       20 News Groups (20 classes)
+       61,118 words, 18,774 documents
+
+
+   Experiment:
+       Solve only a two-class subset: 1 vs 2.
+       1768 instances, 61188 features.
+       Use dimensionality reduction on the data (SVD).
+       Use 90% as training set, 10% as test set.
+       Test prediction error used as accuracy measure.
+
+
+
+
+                                     © Eric Xing @ CMU, 2014   63
+Results: Binary Classes
+                                       rec.autos
+                                          vs.
+            alt.atheism            rec.sport.baseball
+Accuracy         vs.
+           comp.graphics
+
+
+
+
+                           comp.windows.x
+                                  vs.
+                            rec.motorcycles
+
+
+
+
+                                                        Training Ratio
+                            © Eric Xing @ CMU, 2014               64
+Results: Multiple Classes
+
+Accuracy
+                                5-out-of-20 classes
+
+
+
+
+                                               All 20 classes
+
+
+
+            10-out-of-20 classes
+                                                                Training Ratio
+
+                     © Eric Xing @ CMU, 2014                             65
+NB vs. LR
+   Versus training size
+
+
+
+                                                     • 30 features.
+                                                     • A fixed test set
+                                                     • Training set varied
+                                                       from 10% to 100%
+                                                       of the training set
+
+
+
+
+                           © Eric Xing @ CMU, 2014                      66
+NB vs. LR
+   Versus model size
+
+                                                  • Number of
+                                                    dimensions of the
+                                                    data varied from 5
+                                                    to 50 in steps of 5
+
+                                                  • The features were
+                                                    chosen in
+                                                    decreasing order
+                                                    of their singular
+                                                    values
+
+                                                  • 90% versus 10%
+                                                    split on training
+                                                    and test
+
+
+
+                        © Eric Xing @ CMU, 2014                         67
+Summary:
+Generative vs. Discriminative Classifiers
+
+    Goal: Wish to learn f: X  Y, e.g., P(Y|X)
+
+
+    Generative classifiers (e.g., Naïve Bayes):                           Yi
+        Assume some functional form for P(X|Y), P(Y)
+         This is a ‘generative’ model of the data!                         Xi
+        Estimate parameters of P(X|Y), P(Y) directly from training data
+        Use Bayes rule to calculate P(Y|X= x)
+
+
+
+    Discriminative classifiers:
+                                                                           Yi
+        Directly assume some functional form for P(Y|X)
+         This is a ‘discriminative’ model of the data!                     Xi
+        Estimate parameters of P(Y|X) directly from training data
+
+
+
+                                       © Eric Xing @ CMU, 2014                  68
+Naïve Bayes vs Logistic
+Regression
+    Consider Y boolean, X continuous, X=<X1 ... Xm>
+    Number of parameters to estimate:
+                                                  1                                             
+                                    k exp   j           ( x          ) 2
+                                                                                  log        C 
+                                                                                                  
+                                                  2 2         j     k, j             k, j
+                                                                                                  
+     NB:         p ( y | x) 
+                                                 1
+                                                        k , j
+
+                                                                                             
+                                                                                                         **
+                                 k ' k '   j  2 2 j k ', j
+                                        exp               ( x   ) 2
+                                                                          log  k ', j  C 
+                                                                                            
+                                                    k ', j                                
+
+     LR:                                  1
+                  ( x) 
+                                  1e        T x
+
+
+
+
+    Estimation method:
+        NB parameter estimates are uncoupled
+        LR parameter estimates are coupled
+
+
+                                                       © Eric Xing @ CMU, 2014                                69
+Naïve Bayes vs Logistic
+Regression
+    Asymptotic comparison (# training examples  infinity)
+
+
+    when model assumptions correct
+        NB, LR produce identical classifiers
+
+
+
+    when model assumptions incorrect
+        LR is less biased – does not assume conditional independence
+        therefore expected to outperform NB
+
+
+
+
+                                       © Eric Xing @ CMU, 2014          70
+Naïve Bayes vs Logistic
+Regression
+    Non-asymptotic analysis (see [Ng & Jordan, 2002] )
+
+
+    convergence rate of parameter estimates – how many training
+     examples needed to assure good estimates?
+
+
+     NB order log m (where m = # of attributes in X)
+     LR order m
+
+
+    NB converges more quickly to its (perhaps less helpful)
+     asymptotic estimates
+
+
+
+                             © Eric Xing @ CMU, 2014           71
+Rate of convergence: logistic
+regression
+    Let hDis,m be logistic regression trained on n examples in m
+     dimensions. Then with high probability:
+
+
+
+
+    Implication: if we want
+     for some small constant 0, it suffices to pick order m
+     examples
+
+          Convergences to its asymptotic classifier, in order m examples
+
+        result follows from Vapnik’s structural risk bound, plus fact that the "VC
+         Dimension" of an m-dimensional linear separators is m
+
+                                       © Eric Xing @ CMU, 2014                        72
+Rate of convergence: naïve
+Bayes parameters
+     Let any 1, >0, and any n 0 be fixed.
+      Assume that for some fixed  > 0,
+      we have that
+
+
+     Let
+
+
+     Then with probability at least 1-, after n examples:
+
+     1.   For discrete input,                                for all i and b
+
+
+
+     2.   For continuous inputs,                             for all i and b
+
+
+                                   © Eric Xing @ CMU, 2014                     73
+Some experiments from UCI data
+sets
+
+
+
+
+              © Eric Xing @ CMU, 2014   74
+Take home message
+   Naïve Bayes classifier
+       What’s the assumption
+       Why we use it
+       How do we learn it
+
+   Logistic regression
+       Functional form follows from Naïve Bayes assumptions
+       For Gaussian Naïve Bayes assuming variance
+       For discrete-valued Naïve Bayes too
+       But training procedure picks parameters without the conditional independence
+        assumption
+
+   Gradient ascent/descent
+       – General approach when closed-form solutions unavailable
+
+   Generative vs. Discriminative classifiers
+       – Bias vs. variance tradeoff
+
+                                       © Eric Xing @ CMU, 2014                         75
+

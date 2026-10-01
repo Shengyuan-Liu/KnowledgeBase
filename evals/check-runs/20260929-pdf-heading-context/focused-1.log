@@ -1,0 +1,76 @@
+.....F...                                                                [100%]
+=================================== FAILURES ===================================
+_ test_lecture_title_hit_supplies_both_count_bullets_with_original_page_citation _
+
+sessions = sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-234/test_lecture_title_hit_supplie0/knowledgebase.db), autoflush=True, expire_on_commit=True)
+documents = {'apple-fy24.pdf': {'file': {'file_id': '95c640f35923472f9fe6db7992ec2b8a', 'file_name': 'apple-fy24.pdf', 'status': '...also provides a Dockerfile to demonstrate how to install and run it inside a container.', 'index': 5, ...}, ...]}, ...}
+
+    def test_lecture_title_hit_supplies_both_count_bullets_with_original_page_citation(sessions, documents):
+        document = documents['ml-lecture.pdf']
+        extraction, original = records(document)
+        merged = join_heading_parents(extraction, original)
+        child = next(c for c in merged.children if c.text == TITLE)
+        original_child = next(c for c in original.children if c.chunk_id == child.chunk_id)
+        assert next(p for p in original.parents if p.parent_id == original_child.parent_id).text == TITLE
+        with sessions.begin() as session:
+            create_file(session, child.file_id, 'ml-lecture.pdf')
+            save_pdf_source(session, child.file_id, extraction, {})
+            save_parent_child_chunks(session, merged)
+        with sessions() as session:
+>           result = pack_retrieval_candidates([RetrievedChunk(chunk=child, file_name='ml-lecture.pdf',
+                distance=0, parent_id=child.parent_id, matched_child_ids=[child.chunk_id])], session,
+                RetrievalDiagnostics(max_tokens=4096, tokenizer='cl100k_base'))
+
+tests/test_pdf_heading_context.py:78: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+knowledgebase/rag/retrieval.py:255: in pack_retrieval_candidates
+    return pack_evidence(child_hits, list(regions.values()), diagnostics)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+selected = [RetrievedChunk(pdf=PdfEvidence(revision_id='24c54850e737852d0c1cf0ff4ad50b20e2ddbfa9a6f7ae0b94b5bb5a3cd2f006', source...ent_id='e38c730b3b714c5a8913e530695fd03b:parent:72', matched_child_ids=['e38c730b3b714c5a8913e530695fd03b:child:384'])]
+expanded = [RetrievedChunk(pdf=PdfEvidence(revision_id='24c54850e737852d0c1cf0ff4ad50b20e2ddbfa9a6f7ae0b94b5bb5a3cd2f006', source...ent_id='e38c730b3b714c5a8913e530695fd03b:parent:72', matched_child_ids=['e38c730b3b714c5a8913e530695fd03b:child:384'])]
+diagnostics = RetrievalDiagnostics(planning=None, document_scope=None, scope_seconds=None, retrieval_seconds=None, embedding_seconds...ing_seconds=None, context_format='source-metadata-pdf-v4', evidence_tokens=0, max_tokens=4096, tokenizer='cl100k_base')
+
+    def pack_evidence(
+        selected: list[RetrievedChunk], expanded: list[RetrievedChunk], diagnostics: RetrievalDiagnostics,
+    ) -> RetrievedEvidence:
+        """Try each parent and its child fallback before lower-ranked evidence.
+    
+        Expanded regions are deduplicated and follow their best selected child's rank.
+        PDF table parents wait until selected children are packed: upgrading to a
+        larger table must not evict retained hits. Other parents keep their immediate
+        expansion preference. Every trial counts the actual numbered context. Parent
+        and child text never coexist for the same parent; parent_first is unchanged.
+        """
+        started = perf_counter()
+        diagnostics.context_format = (PDF_CONTEXT_FORMAT if any(c.pdf for c in selected) else
+                                      LABELED_CONTEXT_FORMAT if any(c.document_labels for c in selected) else CONTEXT_FORMAT)
+        encoding = tiktoken.get_encoding(diagnostics.tokenizer)
+        trial_tokens: dict[str, int] = {}
+    
+        def tokens(regions):
+            return len(encoding.encode_ordinary(build_context(regions)))
+    
+        def omitted(region):
+            return ExcludedEvidence(
+                chunk_id=region.chunk.chunk_id, file_id=region.chunk.file_id,
+                token_count=len(encoding.encode_ordinary(region.chunk.text)),
+                trial_context_tokens=trial_tokens[region.chunk.chunk_id],
+            )
+    
+        packed: list[RetrievedChunk] = []
+    
+        def fits(region, regions):
+            trial = tokens(regions)
+            trial_tokens[region.chunk.chunk_id] = trial
+            return trial <= diagnostics.max_tokens
+    
+>       parent_first = diagnostics.options.packing_strategy == "parent_first"
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'packing_strategy'
+
+knowledgebase/rag/packing.py:45: AttributeError
+=========================== short test summary info ============================
+FAILED tests/test_pdf_heading_context.py::test_lecture_title_hit_supplies_both_count_bullets_with_original_page_citation
+1 failed, 8 passed in 0.40s

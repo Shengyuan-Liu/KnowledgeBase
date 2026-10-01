@@ -1,0 +1,375 @@
+{
+  "method": "Offline replay of pdf_evidence/build_context/document_references/resolve_document_scope on frozen accepted-input artifacts; original production functions unchanged; no provider, parser, index, server, or proposed-fix execution.",
+  "reviewer": "Codex assistant /root/citation_design_review; not a human reviewer",
+  "commit": "8d3403e8c16142be863f0a2e779bd9cb78d14be2",
+  "tokenizer": "cl100k_base",
+  "budget": 4096,
+  "source_hash": "4f0ae6e017b0e97de211da8fd97316e55bd927af5740d6ce95e1b7b1539f9407",
+  "revision_id": "46dbe5cdd1e28646096d857f09cc4684ad4ba246a7d3a336d2e26ececd33dc6f",
+  "source_artifact_hashes": {
+    "index-snapshot.json": "b036383594c5c2ac9f87c9cf5c9493e906c49d95c052babdd757d7876dd0b318",
+    "frozen-cases.json": "d6fc286067ca2b94dc2e1726a9e37fa267b3b23fdbea4bb918603b9a55040428",
+    "server-observations.jsonl": "950c4782af6fd861858ade838e1727fde244375313bf5edbaeaf1517163e05e0"
+  },
+  "production_hashes_before": {
+    "knowledgebase/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "knowledgebase/api/__init__.py": "7dc7eab42c3d7348a4ec1da96d6de0f739044ae91333929c50098367afbd56b7",
+    "knowledgebase/api/app.py": "811449a1ce3a2e763552bebc4956175819dcd20c7ee0ebaeb2d6513c566bb203",
+    "knowledgebase/api/chat.py": "d91225ae162df105ee5623498d552f3ded1e14723c88949ee7dc730e044c9f6d",
+    "knowledgebase/api/conversations.py": "81fafa9a30c5a87caaef103c9f61fd23fdf2a92d68851292e5629a4cc2965b17",
+    "knowledgebase/api/dependencies.py": "1d88a309368fc6470522f67f7f995218580749d4fa42f3aafda54e9fc7eb511b",
+    "knowledgebase/api/files.py": "5465d4315696d3c5f76eeb9de044f909cdd31b097b360db2ef5ebdbeba83c4b7",
+    "knowledgebase/api/streaming.py": "f2cc5359c037d7480d890ad249dcb844c5f8e4fbdb187cae50fac378ea6058e6",
+    "knowledgebase/cli.py": "c128dfcba934027e037386ab465fffba1cca9ebfc35921b334f90bdc4ad34647",
+    "knowledgebase/config.py": "d72e4ddb36026b2d14c77ac4995a515c26f5e05daa98834c2075dbdf4ab2801b",
+    "knowledgebase/providers/__init__.py": "b251cd6fde07ea42f25226c76644d8921aed56fd12e0c5d6dbdf3dd972768f05",
+    "knowledgebase/providers/embeddings.py": "984e70c418bacb9d48cc196f9b62174da881ca88cad7451d5132f7cd92368500",
+    "knowledgebase/providers/limits.py": "f099bafc1e2ded9c00264deea928094b97550a23a6959e290caffeb6bb290c2c",
+    "knowledgebase/providers/llm.py": "9902645e3287372ce3111ca053d50b4763c7ad0b5617d5e2d27f0a88d1dda2bc",
+    "knowledgebase/providers/planner.py": "286e8ff3f423c22e0093abd509dac3dc86ec0cccbe70dd95697056c50874fdd1",
+    "knowledgebase/providers/reranker.py": "8813067e8ad2c3b85a88698ed170fd69c6bbbd14e544618e55de1b04801a204c",
+    "knowledgebase/rag/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "knowledgebase/rag/bm25.py": "d13c8a8fe6a97a08f5ce0b2617b32c86c074354ed17a154dd812b47710c27873",
+    "knowledgebase/rag/chunking.py": "57c0303642c75905ad6165cb607d1b123103744e976bcb580e185930fe4af174",
+    "knowledgebase/rag/citations.py": "5497481dae8b562f4ee03b1b56abd1734bd531ea5cf6dea0b7ad68854148b460",
+    "knowledgebase/rag/context.py": "29be8b4158532b1c2d5add360ee1949124e6b87c39010a5e9225b8a4ddb42d9c",
+    "knowledgebase/rag/dependencies.py": "a0386b75fd174b0fe31076d07664d3adf2c5f6616593ca0c72732ba6ad7d2dc8",
+    "knowledgebase/rag/fusion.py": "780c6b459ac05a19ea218eae95a3c54d1598134806f5f8b447becd07b62ee3be",
+    "knowledgebase/rag/generation.py": "d469096cc7a85a35ad0f9db24012d22757abc08924976f508b665429c5f67b35",
+    "knowledgebase/rag/packing.py": "c675da1c618828806535aa7bf8e9a9b45cdb19f314d18b8bba2958bf3508cc46",
+    "knowledgebase/rag/parsing.py": "62a65cb8eb41edc95437e568ea07bc74a6150374a0659a3d531ba0bf3aff3316",
+    "knowledgebase/rag/pdf.py": "a326db16fa437f5ae08fcc1cd1845e36c8d49a91f55836d9d16a61be849817ef",
+    "knowledgebase/rag/pdf_evidence.py": "79fd7179acc840e85503a06b8cd9f378d6b66a9bffdd8776fe71aee4461c9a5d",
+    "knowledgebase/rag/pdf_models.py": "dbd56a235e44edbba0e81f9e7550d431363e72bc1b9a509878df1605e76ee5fd",
+    "knowledgebase/rag/pdf_tables.py": "023747eb59e336ef88add5064d58a5f8d4de9a2d90c54fccbb3c8fa4b4107886",
+    "knowledgebase/rag/planned_retrieval.py": "e4c30bbbeaacffcbd90d2e6caba76aef9e1f1348201e5aac05ff70ba4d74c533",
+    "knowledgebase/rag/planning.py": "6250611b4cbdcbf75d900ce2cce254315477f8770211d4c471e725bf315c9298",
+    "knowledgebase/rag/query.py": "618c52590c0a23a1f732986d76600132ec45cf9ddf77fa68abdd0a3cd510d7d9",
+    "knowledgebase/rag/reranking.py": "53c940d7cc09c51d21c75b3bc12045d7c383c2a1f5496094f99a063142b82121",
+    "knowledgebase/rag/retrieval.py": "0febb13cf8b92f05b83903a174c383c973b1ade9b78c7e6c1e27c948f01a5d89",
+    "knowledgebase/rag/scope.py": "330ba327a2b87aca6cd4fb258167a1d0ff899383bdcbaae524fde9ed039fa631",
+    "knowledgebase/rag/semantic_chunking.py": "e512cd9034d27db0864cad899127c82ca99281dc0261c313ade7825f404597bb",
+    "knowledgebase/rag/sufficiency.py": "8abbb334819efbed1e23e360697ca1cc62fc6e91bbb518a0d24b65c2a2acfcd7",
+    "knowledgebase/schemas.py": "0e0956010c8d1eb5742b3978180abfd134873ab0d6b272ba52dac5eb7dfc6a50",
+    "knowledgebase/services/__init__.py": "5651ac6f97850be849d3f9998be3a81ea8795655374d865328ab078b7b66e6dd",
+    "knowledgebase/services/chat.py": "9652b740e8f24d8e4483104c9a306fc3ad839367b4dfea8a91c668e02a7b815a",
+    "knowledgebase/services/files.py": "633afb32521d61ad8dde0776337e2164e65846c9bab6cb8466b961d746856d6a",
+    "knowledgebase/services/hops.py": "d370baf0908c3818b3fb4bec56f53e4216c6ed053d4a5e021ad3153743fcadd3",
+    "knowledgebase/services/pdf.py": "ea6520fa5e605c487a32d361fdcc5485ba2b4677dc894e38f9d1a809e70b449b",
+    "knowledgebase/services/planning.py": "6c62d860b6280e34fe97050f3cf5e065a65bbdcd969602250849fee775e44226",
+    "knowledgebase/storage/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "knowledgebase/storage/database.py": "4a694c675130a2a81ebf8d4ad4432d90b26bc7a460e41a63dc68b3fcec05989f",
+    "knowledgebase/storage/models.py": "cd8d9b058fd7aed13c9c0f251c9a04aaa474fe6c552037e37f6478450eadc049",
+    "knowledgebase/storage/operations.py": "048677b226479d6ca2573c6012311ae5c84fab4501fc87cf1a7c3b9cf09fd882",
+    "knowledgebase/storage/pdf_assets.py": "56c55e107d02d4ed2752b2e1b7e3456e8210797b8a515284c32aebd0b0b0135e",
+    "knowledgebase/storage/runtime.py": "2aaa366750c622365358a170462b09014d4a0d88bdf69f4fde30b3584ef79929",
+    "knowledgebase/storage/vectordb.py": "97f04f87c255f321a73c92b97a46803e7aa3daadf3fc62d4e1f80f5eab32bf61"
+  },
+  "production_hashes_after": {
+    "knowledgebase/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "knowledgebase/api/__init__.py": "7dc7eab42c3d7348a4ec1da96d6de0f739044ae91333929c50098367afbd56b7",
+    "knowledgebase/api/app.py": "811449a1ce3a2e763552bebc4956175819dcd20c7ee0ebaeb2d6513c566bb203",
+    "knowledgebase/api/chat.py": "d91225ae162df105ee5623498d552f3ded1e14723c88949ee7dc730e044c9f6d",
+    "knowledgebase/api/conversations.py": "81fafa9a30c5a87caaef103c9f61fd23fdf2a92d68851292e5629a4cc2965b17",
+    "knowledgebase/api/dependencies.py": "1d88a309368fc6470522f67f7f995218580749d4fa42f3aafda54e9fc7eb511b",
+    "knowledgebase/api/files.py": "5465d4315696d3c5f76eeb9de044f909cdd31b097b360db2ef5ebdbeba83c4b7",
+    "knowledgebase/api/streaming.py": "f2cc5359c037d7480d890ad249dcb844c5f8e4fbdb187cae50fac378ea6058e6",
+    "knowledgebase/cli.py": "c128dfcba934027e037386ab465fffba1cca9ebfc35921b334f90bdc4ad34647",
+    "knowledgebase/config.py": "d72e4ddb36026b2d14c77ac4995a515c26f5e05daa98834c2075dbdf4ab2801b",
+    "knowledgebase/providers/__init__.py": "b251cd6fde07ea42f25226c76644d8921aed56fd12e0c5d6dbdf3dd972768f05",
+    "knowledgebase/providers/embeddings.py": "984e70c418bacb9d48cc196f9b62174da881ca88cad7451d5132f7cd92368500",
+    "knowledgebase/providers/limits.py": "f099bafc1e2ded9c00264deea928094b97550a23a6959e290caffeb6bb290c2c",
+    "knowledgebase/providers/llm.py": "9902645e3287372ce3111ca053d50b4763c7ad0b5617d5e2d27f0a88d1dda2bc",
+    "knowledgebase/providers/planner.py": "286e8ff3f423c22e0093abd509dac3dc86ec0cccbe70dd95697056c50874fdd1",
+    "knowledgebase/providers/reranker.py": "8813067e8ad2c3b85a88698ed170fd69c6bbbd14e544618e55de1b04801a204c",
+    "knowledgebase/rag/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "knowledgebase/rag/bm25.py": "d13c8a8fe6a97a08f5ce0b2617b32c86c074354ed17a154dd812b47710c27873",
+    "knowledgebase/rag/chunking.py": "57c0303642c75905ad6165cb607d1b123103744e976bcb580e185930fe4af174",
+    "knowledgebase/rag/citations.py": "5497481dae8b562f4ee03b1b56abd1734bd531ea5cf6dea0b7ad68854148b460",
+    "knowledgebase/rag/context.py": "29be8b4158532b1c2d5add360ee1949124e6b87c39010a5e9225b8a4ddb42d9c",
+    "knowledgebase/rag/dependencies.py": "a0386b75fd174b0fe31076d07664d3adf2c5f6616593ca0c72732ba6ad7d2dc8",
+    "knowledgebase/rag/fusion.py": "780c6b459ac05a19ea218eae95a3c54d1598134806f5f8b447becd07b62ee3be",
+    "knowledgebase/rag/generation.py": "d469096cc7a85a35ad0f9db24012d22757abc08924976f508b665429c5f67b35",
+    "knowledgebase/rag/packing.py": "c675da1c618828806535aa7bf8e9a9b45cdb19f314d18b8bba2958bf3508cc46",
+    "knowledgebase/rag/parsing.py": "62a65cb8eb41edc95437e568ea07bc74a6150374a0659a3d531ba0bf3aff3316",
+    "knowledgebase/rag/pdf.py": "a326db16fa437f5ae08fcc1cd1845e36c8d49a91f55836d9d16a61be849817ef",
+    "knowledgebase/rag/pdf_evidence.py": "79fd7179acc840e85503a06b8cd9f378d6b66a9bffdd8776fe71aee4461c9a5d",
+    "knowledgebase/rag/pdf_models.py": "dbd56a235e44edbba0e81f9e7550d431363e72bc1b9a509878df1605e76ee5fd",
+    "knowledgebase/rag/pdf_tables.py": "023747eb59e336ef88add5064d58a5f8d4de9a2d90c54fccbb3c8fa4b4107886",
+    "knowledgebase/rag/planned_retrieval.py": "e4c30bbbeaacffcbd90d2e6caba76aef9e1f1348201e5aac05ff70ba4d74c533",
+    "knowledgebase/rag/planning.py": "6250611b4cbdcbf75d900ce2cce254315477f8770211d4c471e725bf315c9298",
+    "knowledgebase/rag/query.py": "618c52590c0a23a1f732986d76600132ec45cf9ddf77fa68abdd0a3cd510d7d9",
+    "knowledgebase/rag/reranking.py": "53c940d7cc09c51d21c75b3bc12045d7c383c2a1f5496094f99a063142b82121",
+    "knowledgebase/rag/retrieval.py": "0febb13cf8b92f05b83903a174c383c973b1ade9b78c7e6c1e27c948f01a5d89",
+    "knowledgebase/rag/scope.py": "330ba327a2b87aca6cd4fb258167a1d0ff899383bdcbaae524fde9ed039fa631",
+    "knowledgebase/rag/semantic_chunking.py": "e512cd9034d27db0864cad899127c82ca99281dc0261c313ade7825f404597bb",
+    "knowledgebase/rag/sufficiency.py": "8abbb334819efbed1e23e360697ca1cc62fc6e91bbb518a0d24b65c2a2acfcd7",
+    "knowledgebase/schemas.py": "0e0956010c8d1eb5742b3978180abfd134873ab0d6b272ba52dac5eb7dfc6a50",
+    "knowledgebase/services/__init__.py": "5651ac6f97850be849d3f9998be3a81ea8795655374d865328ab078b7b66e6dd",
+    "knowledgebase/services/chat.py": "9652b740e8f24d8e4483104c9a306fc3ad839367b4dfea8a91c668e02a7b815a",
+    "knowledgebase/services/files.py": "633afb32521d61ad8dde0776337e2164e65846c9bab6cb8466b961d746856d6a",
+    "knowledgebase/services/hops.py": "d370baf0908c3818b3fb4bec56f53e4216c6ed053d4a5e021ad3153743fcadd3",
+    "knowledgebase/services/pdf.py": "ea6520fa5e605c487a32d361fdcc5485ba2b4677dc894e38f9d1a809e70b449b",
+    "knowledgebase/services/planning.py": "6c62d860b6280e34fe97050f3cf5e065a65bbdcd969602250849fee775e44226",
+    "knowledgebase/storage/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "knowledgebase/storage/database.py": "4a694c675130a2a81ebf8d4ad4432d90b26bc7a460e41a63dc68b3fcec05989f",
+    "knowledgebase/storage/models.py": "cd8d9b058fd7aed13c9c0f251c9a04aaa474fe6c552037e37f6478450eadc049",
+    "knowledgebase/storage/operations.py": "048677b226479d6ca2573c6012311ae5c84fab4501fc87cf1a7c3b9cf09fd882",
+    "knowledgebase/storage/pdf_assets.py": "56c55e107d02d4ed2752b2e1b7e3456e8210797b8a515284c32aebd0b0b0135e",
+    "knowledgebase/storage/runtime.py": "2aaa366750c622365358a170462b09014d4a0d88bdf69f4fde30b3584ef79929",
+    "knowledgebase/storage/vectordb.py": "97f04f87c255f321a73c92b97a46803e7aa3daadf3fc62d4e1f80f5eab32bf61"
+  },
+  "production_unchanged": true,
+  "child_zero": {
+    "chunk_id": "6f664d31bed547c5a7920256fd940a6a:child:0",
+    "parent_id": "6f664d31bed547c5a7920256fd940a6a:parent:0",
+    "start_offset": 0,
+    "end_offset": 942,
+    "stored_body_tokens": 501,
+    "measured_body_tokens": 501,
+    "full_serialized_context_tokens": 4673,
+    "fits_empty_4096_budget": false,
+    "cell_tuple_count": 221,
+    "declared_column_header_span_count": 46,
+    "included_header_tuple_count": 46,
+    "supplement_counts": {},
+    "sections": [
+      {
+        "section": "source_identity_and_body",
+        "characters": 1073,
+        "independent_tokens": 534,
+        "cumulative_tokens": 534,
+        "incremental_tokens": 534
+      },
+      {
+        "section": "pdf_page_and_offset_metadata",
+        "characters": 55,
+        "independent_tokens": 17,
+        "cumulative_tokens": 551,
+        "incremental_tokens": 17
+      },
+      {
+        "section": "table_cell_coordinates",
+        "characters": 5914,
+        "independent_tokens": 4024,
+        "cumulative_tokens": 4575,
+        "incremental_tokens": 4024
+      },
+      {
+        "section": "extraction_warnings",
+        "characters": 555,
+        "independent_tokens": 99,
+        "cumulative_tokens": 4673,
+        "incremental_tokens": 98
+      }
+    ]
+  },
+  "original_annotated_states_fully_in_child_zero": {
+    "Alabama": true,
+    "Alaska": true,
+    "Arizona": true
+  },
+  "scope_replay_matches": [
+    true,
+    false
+  ],
+  "scope_requests_sdk_start_counts": [
+    0,
+    0
+  ],
+  "generation_inputs": [
+    {
+      "request": "dense-table-single",
+      "answer": "- The statistics in \"background-checks.pdf\" represent the number of firearm background checks initiated through the NICS; they do not represent the number of firearms sold. It is explicitly stated that a one-to-one correlation cannot be made between a firearm background check and a firearm sale [1].\n\n- The provided source does not contain Alabama's Permit, Handgun, Long Gun, and Totals values for November 2015. That information is missing from the supplied excerpt [1].",
+      "generation_stream_count": 1,
+      "call_id": "3cf2236e3370468da7448f6d00c0ff77",
+      "sdk_observation_line": 7,
+      "source_context_tokens": 305,
+      "source_context_sha256": "c5f3a1a742437577714c39cc38a4b8e248dce24b88ae396bf61e9b5a8a1a3402",
+      "source_count": 1,
+      "supplied_table_span_count": 0,
+      "source_state_names_present": {
+        "Alabama": false,
+        "Alaska": false,
+        "Arizona": false
+      },
+      "correct_total_occurrences": {
+        "Alabama": {
+          "value": "71,137",
+          "in_source_context": false,
+          "in_all_messages": false
+        },
+        "Alaska": {
+          "value": "7,095",
+          "in_source_context": false,
+          "in_all_messages": false
+        },
+        "Arizona": {
+          "value": "27,087",
+          "in_source_context": false,
+          "in_all_messages": false
+        }
+      },
+      "wrong_total_occurrences": {
+        "Alabama": {
+          "value": "29,801",
+          "in_source_context": false,
+          "in_all_messages": false,
+          "in_answer": false
+        },
+        "Alaska": {
+          "value": "5,733",
+          "in_source_context": false,
+          "in_all_messages": false,
+          "in_answer": false
+        },
+        "Arizona": {
+          "value": "32,667",
+          "in_source_context": false,
+          "in_all_messages": false,
+          "in_answer": false
+        }
+      },
+      "source_body_offsets": [
+        [
+          4907,
+          5738
+        ]
+      ]
+    },
+    {
+      "request": "dense-table-planned",
+      "answer": "- Alabama's Permit value for November 2015 is not provided in the supplied excerpts from \"background-checks.pdf\".\n- Alabama's Handgun value for November 2015 is not provided in the supplied excerpts from \"background-checks.pdf\".\n- Alabama's Long Gun value for November 2015 is not provided in the supplied excerpts from \"background-checks.pdf\".\n- Alabama's Totals value for November 2015 is not provided in the supplied excerpts from \"background-checks.pdf\".\n- The statistics referred to in the document represent the number of firearm background checks initiated through the NICS; they do not represent the number of firearms sold, and a one-to-one correlation cannot be made between a background check and a firearm sale [1].",
+      "generation_stream_count": 1,
+      "call_id": "47f8fedafa544ae1916bb59ff7247620",
+      "sdk_observation_line": 32,
+      "source_context_tokens": 305,
+      "source_context_sha256": "c5f3a1a742437577714c39cc38a4b8e248dce24b88ae396bf61e9b5a8a1a3402",
+      "source_count": 1,
+      "supplied_table_span_count": 0,
+      "source_state_names_present": {
+        "Alabama": false,
+        "Alaska": false,
+        "Arizona": false
+      },
+      "correct_total_occurrences": {
+        "Alabama": {
+          "value": "71,137",
+          "in_source_context": false,
+          "in_all_messages": false
+        },
+        "Alaska": {
+          "value": "7,095",
+          "in_source_context": false,
+          "in_all_messages": false
+        },
+        "Arizona": {
+          "value": "27,087",
+          "in_source_context": false,
+          "in_all_messages": false
+        }
+      },
+      "wrong_total_occurrences": {
+        "Alabama": {
+          "value": "29,801",
+          "in_source_context": false,
+          "in_all_messages": false,
+          "in_answer": false
+        },
+        "Alaska": {
+          "value": "5,733",
+          "in_source_context": false,
+          "in_all_messages": false,
+          "in_answer": false
+        },
+        "Arizona": {
+          "value": "32,667",
+          "in_source_context": false,
+          "in_all_messages": false,
+          "in_answer": false
+        }
+      },
+      "source_body_offsets": [
+        [
+          4907,
+          5738
+        ]
+      ]
+    },
+    {
+      "request": "state-totals-single",
+      "answer": "The Totals values for November 2015 in \"background-checks.pdf\" are as follows:\n- Alabama: 29,801 [1].\n- Alaska: 5,733 [1].\n- Arizona: 32,667 [1].",
+      "generation_stream_count": 1,
+      "call_id": "9da1a9e4929a4724a5c794d442eb5c69",
+      "sdk_observation_line": 48,
+      "source_context_tokens": 305,
+      "source_context_sha256": "c5f3a1a742437577714c39cc38a4b8e248dce24b88ae396bf61e9b5a8a1a3402",
+      "source_count": 1,
+      "supplied_table_span_count": 0,
+      "source_state_names_present": {
+        "Alabama": false,
+        "Alaska": false,
+        "Arizona": false
+      },
+      "correct_total_occurrences": {
+        "Alabama": {
+          "value": "71,137",
+          "in_source_context": false,
+          "in_all_messages": false
+        },
+        "Alaska": {
+          "value": "7,095",
+          "in_source_context": false,
+          "in_all_messages": false
+        },
+        "Arizona": {
+          "value": "27,087",
+          "in_source_context": false,
+          "in_all_messages": false
+        }
+      },
+      "wrong_total_occurrences": {
+        "Alabama": {
+          "value": "29,801",
+          "in_source_context": false,
+          "in_all_messages": false,
+          "in_answer": true
+        },
+        "Alaska": {
+          "value": "5,733",
+          "in_source_context": false,
+          "in_all_messages": false,
+          "in_answer": true
+        },
+        "Arizona": {
+          "value": "32,667",
+          "in_source_context": false,
+          "in_all_messages": false,
+          "in_answer": true
+        }
+      },
+      "source_body_offsets": [
+        [
+          4907,
+          5738
+        ]
+      ]
+    },
+    {
+      "request": "state-totals-planned",
+      "answer": "There is not enough information in the provided sources to answer this question.",
+      "generation_stream_count": 0
+    },
+    {
+      "request": "grouped-and-blank-cells-single",
+      "answer": "I could not find a ready document matching \"background-checks.pdf\" for November 2015\". Please specify its exact filename or upload it.",
+      "generation_stream_count": 0
+    },
+    {
+      "request": "grouped-and-blank-cells-planned",
+      "answer": "The selected document is missing or not ready. Please choose a ready document.",
+      "generation_stream_count": 0
+    }
+  ],
+  "limits": "Local tokenizer counts are serialized source-context diagnostics, not provider billing. No fix efficacy, live rerun, model determinism, or unannotated-row accuracy is established."
+}

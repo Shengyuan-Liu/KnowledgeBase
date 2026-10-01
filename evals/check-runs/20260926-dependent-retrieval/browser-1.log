@@ -1,0 +1,94 @@
+
+> knowledgebase-frontend@0.1.0 test:e2e
+> playwright test hops.spec.ts
+
+
+Running 3 tests using 1 worker
+
+  ✘  1 e2e/hops.spec.ts:15:3 › dependent searches show target evidence and survive reload at 1440px (5.4s)
+  ✘  2 e2e/hops.spec.ts:15:3 › dependent searches show target evidence and survive reload at 390px (5.3s)
+  ✓  3 e2e/hops.spec.ts:38:1 › stop during target binding does not save an unfinished answer (1.2s)
+
+
+  1) e2e/hops.spec.ts:15:3 › dependent searches show target evidence and survive reload at 1440px ──
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Searching round 2…', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('Searching round 2…', { exact: true }) with timeout 5000ms
+      - waiting for getByText('Searching round 2…', { exact: true })
+
+
+      20 |     await composer.fill("Where does the Aster Prize winner work?");
+      21 |     await composer.press("Enter");
+    > 22 |     await expect(page.getByText("Searching round 2…", { exact: true })).toBeVisible();
+         |                                                                         ^
+      23 |     await expect(page.getByText("Completed", { exact: true })).toBeVisible();
+      24 |     const evidence = width < 1200 ? page.getByRole("dialog", { name: "Evidence" }) : page.getByRole("complementary", { name: "Evidence" });
+      25 |     for (const reload of [false, true]) {
+        at /Users/lucas/Documents/Projects/KnowledgeBase/frontend/e2e/hops.spec.ts:22:73
+
+    Error Context: test-results/hops-dependent-searches-sh-e9075-nd-survive-reload-at-1440px/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/hops-dependent-searches-sh-e9075-nd-survive-reload-at-1440px/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/hops-dependent-searches-sh-e9075-nd-survive-reload-at-1440px/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) e2e/hops.spec.ts:15:3 › dependent searches show target evidence and survive reload at 390px ───
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Searching round 2…', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('Searching round 2…', { exact: true }) with timeout 5000ms
+      - waiting for getByText('Searching round 2…', { exact: true })
+
+
+      20 |     await composer.fill("Where does the Aster Prize winner work?");
+      21 |     await composer.press("Enter");
+    > 22 |     await expect(page.getByText("Searching round 2…", { exact: true })).toBeVisible();
+         |                                                                         ^
+      23 |     await expect(page.getByText("Completed", { exact: true })).toBeVisible();
+      24 |     const evidence = width < 1200 ? page.getByRole("dialog", { name: "Evidence" }) : page.getByRole("complementary", { name: "Evidence" });
+      25 |     for (const reload of [false, true]) {
+        at /Users/lucas/Documents/Projects/KnowledgeBase/frontend/e2e/hops.spec.ts:22:73
+
+    Error Context: test-results/hops-dependent-searches-sh-c6584-and-survive-reload-at-390px/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/hops-dependent-searches-sh-c6584-and-survive-reload-at-390px/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/hops-dependent-searches-sh-c6584-and-survive-reload-at-390px/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    e2e/hops.spec.ts:15:3 › dependent searches show target evidence and survive reload at 1440px ───
+    e2e/hops.spec.ts:15:3 › dependent searches show target evidence and survive reload at 390px ────
+  1 passed (15.1s)
+[WebServer] INFO:     Started server process [75279]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8001 (Press CTRL+C to quit)
+[WebServer] (node:75325) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+(node:75326) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:75342) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:75349) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

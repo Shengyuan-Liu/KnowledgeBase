@@ -2,6 +2,7 @@
 
 import json
 import sys
+from pathlib import Path
 from unittest.mock import MagicMock, Mock
 
 from fastapi.testclient import TestClient
@@ -143,7 +144,9 @@ def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkey
     assert llm_factory.call_args_list[0].kwargs["reasoning_effort"] == "low"
     assert "reasoning_effort" not in llm_factory.call_args_list[1].kwargs
     cli.EmbeddingClient.assert_called_once_with(sdk, model="file-embedding")
-    assert ingest.call_args.kwargs == {
+    assert ingest.call_args.kwargs["assets"].directory == (tmp_path / "data" / "v1" / "originals").resolve()
+    assert ingest.call_args.kwargs["pdf_parser"].model_dir == Path("data/pdf-models")
+    assert {key: value for key, value in ingest.call_args.kwargs.items() if key not in ("assets", "pdf_parser")} == {
         "chunk_size": 12, "overlap": 3, "chunking_strategy": "structural",
         "chunk_max_tokens": 17, "chunk_tokenizer": "o200k_base", "parent_max_tokens": 33,
         "semantic_similarity_threshold": 0.5, "semantic_batch_size": 32, "embedding_model": "file-embedding",

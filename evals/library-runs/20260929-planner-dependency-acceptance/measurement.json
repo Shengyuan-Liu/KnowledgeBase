@@ -1,0 +1,1925 @@
+{
+  "code_commit": "bb4bc94e4e951d1ca71912a211eb40117de4656d",
+  "protocol": "protocol.md",
+  "classification_pass_count": 3,
+  "case_gate_pass_count": 3,
+  "case_count": 4,
+  "acceptance": "failed",
+  "models": [
+    "gpt-4.1-2025-04-14"
+  ],
+  "context_sha256": "8e74d2fcb4c4026d8a1c07dc097d546dd4681e248b441de306cc746cc975d5e5",
+  "evidence_audits": [
+    {
+      "case_id": "original-rule",
+      "identical_assessment_context": true,
+      "exact_reference_count": 20,
+      "generation_context_verified": true,
+      "generation_skipped": false,
+      "note": "Exact offsets do not prove semantic support."
+    },
+    {
+      "case_id": "paraphrased-rule",
+      "identical_assessment_context": true,
+      "exact_reference_count": 20,
+      "generation_context_verified": true,
+      "generation_skipped": false,
+      "note": "Exact offsets do not prove semantic support."
+    },
+    {
+      "case_id": "factual-condition",
+      "identical_assessment_context": true,
+      "exact_reference_count": 10,
+      "generation_context_verified": true,
+      "generation_skipped": false,
+      "note": "Exact offsets do not prove semantic support."
+    },
+    {
+      "case_id": "missing-year",
+      "identical_assessment_context": true,
+      "exact_reference_count": 0,
+      "generation_context_verified": false,
+      "generation_skipped": true,
+      "note": "Exact offsets do not prove semantic support."
+    }
+  ],
+  "metric_inventory": {
+    "Recall@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "reason": "Fixed-context component run; no new retrieval, streaming HTTP, ingestion or load test.",
+      "population": "four component cases",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "protocol.md"
+    },
+    "Precision@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "reason": "Fixed-context component run; no new retrieval, streaming HTTP, ingestion or load test.",
+      "population": "four component cases",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "protocol.md"
+    },
+    "Hit Rate@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "reason": "Fixed-context component run; no new retrieval, streaming HTTP, ingestion or load test.",
+      "population": "four component cases",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "protocol.md"
+    },
+    "MRR": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "reason": "Fixed-context component run; no new retrieval, streaming HTTP, ingestion or load test.",
+      "population": "four component cases",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "protocol.md"
+    },
+    "NDCG@K": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "reason": "Fixed-context component run; no new retrieval, streaming HTTP, ingestion or load test.",
+      "population": "four component cases",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "protocol.md"
+    },
+    "Final evidence coverage": {
+      "status": "measured",
+      "value": {
+        "covered": 10,
+        "expected": 10,
+        "fraction": 1.0,
+        "per_case": [
+          {
+            "case_id": "original-rule",
+            "result": {
+              "value": 1.0,
+              "facts": [
+                {
+                  "fact_id": "alabama_handgun",
+                  "fully_covered": true,
+                  "source_checks": [
+                    {
+                      "source_id": 1,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            2,
+                            3,
+                            379,
+                            385
+                          ],
+                          "text": "23,022",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            2,
+                            3,
+                            179,
+                            186
+                          ],
+                          "text": "Handgun",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        }
+                      ],
+                      "full_original_row_supplied": true,
+                      "complete": true
+                    },
+                    {
+                      "source_id": 2,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            2,
+                            3,
+                            379,
+                            385
+                          ],
+                          "text": "23,022",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            2,
+                            3,
+                            179,
+                            186
+                          ],
+                          "text": "Handgun",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        }
+                      ],
+                      "full_original_row_supplied": false,
+                      "complete": false
+                    }
+                  ]
+                },
+                {
+                  "fact_id": "alabama_prepawn_handgun",
+                  "fully_covered": true,
+                  "source_checks": [
+                    {
+                      "source_id": 1,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            7,
+                            8,
+                            405,
+                            407
+                          ],
+                          "text": "14",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            4,
+                            5,
+                            7,
+                            10,
+                            59,
+                            67
+                          ],
+                          "text": "Pre-Pawn",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            7,
+                            8,
+                            220,
+                            227
+                          ],
+                          "text": "Handgun",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        }
+                      ],
+                      "full_original_row_supplied": true,
+                      "complete": true
+                    },
+                    {
+                      "source_id": 2,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            7,
+                            8,
+                            405,
+                            407
+                          ],
+                          "text": "14",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            4,
+                            5,
+                            7,
+                            10,
+                            59,
+                            67
+                          ],
+                          "text": "Pre-Pawn",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            7,
+                            8,
+                            220,
+                            227
+                          ],
+                          "text": "Handgun",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        }
+                      ],
+                      "full_original_row_supplied": false,
+                      "complete": false
+                    }
+                  ]
+                },
+                {
+                  "fact_id": "alabama_rentals_handgun_blank",
+                  "fully_covered": true,
+                  "source_checks": [
+                    {
+                      "source_id": 1,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            16,
+                            17,
+                            434,
+                            434
+                          ],
+                          "text": "",
+                          "metadata_present": true,
+                          "text_supplied": null
+                        },
+                        {
+                          "cell": [
+                            4,
+                            5,
+                            16,
+                            18,
+                            100,
+                            107
+                          ],
+                          "text": "Rentals",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            16,
+                            17,
+                            292,
+                            299
+                          ],
+                          "text": "Handgun",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        }
+                      ],
+                      "full_original_row_supplied": true,
+                      "complete": true
+                    },
+                    {
+                      "source_id": 2,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            16,
+                            17,
+                            434,
+                            434
+                          ],
+                          "text": "",
+                          "metadata_present": false,
+                          "text_supplied": null
+                        },
+                        {
+                          "cell": [
+                            4,
+                            5,
+                            16,
+                            18,
+                            100,
+                            107
+                          ],
+                          "text": "Rentals",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            16,
+                            17,
+                            292,
+                            299
+                          ],
+                          "text": "Handgun",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        }
+                      ],
+                      "full_original_row_supplied": false,
+                      "complete": false
+                    }
+                  ]
+                },
+                {
+                  "fact_id": "alabama_rentals_longgun_blank",
+                  "fully_covered": true,
+                  "source_checks": [
+                    {
+                      "source_id": 1,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            17,
+                            18,
+                            435,
+                            435
+                          ],
+                          "text": "",
+                          "metadata_present": true,
+                          "text_supplied": null
+                        },
+                        {
+                          "cell": [
+                            4,
+                            5,
+                            16,
+                            18,
+                            100,
+                            107
+                          ],
+                          "text": "Rentals",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            17,
+                            18,
+                            300,
+                            308
+                          ],
+                          "text": "Long Gun",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        }
+                      ],
+                      "full_original_row_supplied": true,
+                      "complete": true
+                    },
+                    {
+                      "source_id": 2,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            17,
+                            18,
+                            435,
+                            435
+                          ],
+                          "text": "",
+                          "metadata_present": false,
+                          "text_supplied": null
+                        },
+                        {
+                          "cell": [
+                            4,
+                            5,
+                            16,
+                            18,
+                            100,
+                            107
+                          ],
+                          "text": "Rentals",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            17,
+                            18,
+                            300,
+                            308
+                          ],
+                          "text": "Long Gun",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        }
+                      ],
+                      "full_original_row_supplied": false,
+                      "complete": false
+                    }
+                  ]
+                }
+              ],
+              "source_count": 2
+            }
+          },
+          {
+            "case_id": "paraphrased-rule",
+            "result": {
+              "value": 1.0,
+              "facts": [
+                {
+                  "fact_id": "alabama_handgun",
+                  "fully_covered": true,
+                  "source_checks": [
+                    {
+                      "source_id": 1,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            2,
+                            3,
+                            379,
+                            385
+                          ],
+                          "text": "23,022",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            2,
+                            3,
+                            179,
+                            186
+                          ],
+                          "text": "Handgun",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        }
+                      ],
+                      "full_original_row_supplied": true,
+                      "complete": true
+                    },
+                    {
+                      "source_id": 2,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            2,
+                            3,
+                            379,
+                            385
+                          ],
+                          "text": "23,022",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            2,
+                            3,
+                            179,
+                            186
+                          ],
+                          "text": "Handgun",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        }
+                      ],
+                      "full_original_row_supplied": false,
+                      "complete": false
+                    }
+                  ]
+                },
+                {
+                  "fact_id": "alabama_prepawn_handgun",
+                  "fully_covered": true,
+                  "source_checks": [
+                    {
+                      "source_id": 1,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            7,
+                            8,
+                            405,
+                            407
+                          ],
+                          "text": "14",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            4,
+                            5,
+                            7,
+                            10,
+                            59,
+                            67
+                          ],
+                          "text": "Pre-Pawn",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            7,
+                            8,
+                            220,
+                            227
+                          ],
+                          "text": "Handgun",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        }
+                      ],
+                      "full_original_row_supplied": true,
+                      "complete": true
+                    },
+                    {
+                      "source_id": 2,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            7,
+                            8,
+                            405,
+                            407
+                          ],
+                          "text": "14",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            4,
+                            5,
+                            7,
+                            10,
+                            59,
+                            67
+                          ],
+                          "text": "Pre-Pawn",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            7,
+                            8,
+                            220,
+                            227
+                          ],
+                          "text": "Handgun",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        }
+                      ],
+                      "full_original_row_supplied": false,
+                      "complete": false
+                    }
+                  ]
+                },
+                {
+                  "fact_id": "alabama_rentals_handgun_blank",
+                  "fully_covered": true,
+                  "source_checks": [
+                    {
+                      "source_id": 1,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            16,
+                            17,
+                            434,
+                            434
+                          ],
+                          "text": "",
+                          "metadata_present": true,
+                          "text_supplied": null
+                        },
+                        {
+                          "cell": [
+                            4,
+                            5,
+                            16,
+                            18,
+                            100,
+                            107
+                          ],
+                          "text": "Rentals",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            16,
+                            17,
+                            292,
+                            299
+                          ],
+                          "text": "Handgun",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        }
+                      ],
+                      "full_original_row_supplied": true,
+                      "complete": true
+                    },
+                    {
+                      "source_id": 2,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            16,
+                            17,
+                            434,
+                            434
+                          ],
+                          "text": "",
+                          "metadata_present": false,
+                          "text_supplied": null
+                        },
+                        {
+                          "cell": [
+                            4,
+                            5,
+                            16,
+                            18,
+                            100,
+                            107
+                          ],
+                          "text": "Rentals",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            16,
+                            17,
+                            292,
+                            299
+                          ],
+                          "text": "Handgun",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        }
+                      ],
+                      "full_original_row_supplied": false,
+                      "complete": false
+                    }
+                  ]
+                },
+                {
+                  "fact_id": "alabama_rentals_longgun_blank",
+                  "fully_covered": true,
+                  "source_checks": [
+                    {
+                      "source_id": 1,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            17,
+                            18,
+                            435,
+                            435
+                          ],
+                          "text": "",
+                          "metadata_present": true,
+                          "text_supplied": null
+                        },
+                        {
+                          "cell": [
+                            4,
+                            5,
+                            16,
+                            18,
+                            100,
+                            107
+                          ],
+                          "text": "Rentals",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            17,
+                            18,
+                            300,
+                            308
+                          ],
+                          "text": "Long Gun",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        }
+                      ],
+                      "full_original_row_supplied": true,
+                      "complete": true
+                    },
+                    {
+                      "source_id": 2,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            17,
+                            18,
+                            435,
+                            435
+                          ],
+                          "text": "",
+                          "metadata_present": false,
+                          "text_supplied": null
+                        },
+                        {
+                          "cell": [
+                            4,
+                            5,
+                            16,
+                            18,
+                            100,
+                            107
+                          ],
+                          "text": "Rentals",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            17,
+                            18,
+                            300,
+                            308
+                          ],
+                          "text": "Long Gun",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        }
+                      ],
+                      "full_original_row_supplied": false,
+                      "complete": false
+                    }
+                  ]
+                }
+              ],
+              "source_count": 2
+            }
+          },
+          {
+            "case_id": "factual-condition",
+            "result": {
+              "value": 1.0,
+              "facts": [
+                {
+                  "fact_id": "alabama_handgun",
+                  "fully_covered": true,
+                  "source_checks": [
+                    {
+                      "source_id": 1,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            2,
+                            3,
+                            379,
+                            385
+                          ],
+                          "text": "23,022",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            2,
+                            3,
+                            179,
+                            186
+                          ],
+                          "text": "Handgun",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        }
+                      ],
+                      "full_original_row_supplied": true,
+                      "complete": true
+                    },
+                    {
+                      "source_id": 2,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            2,
+                            3,
+                            379,
+                            385
+                          ],
+                          "text": "23,022",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            2,
+                            3,
+                            179,
+                            186
+                          ],
+                          "text": "Handgun",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        }
+                      ],
+                      "full_original_row_supplied": false,
+                      "complete": false
+                    }
+                  ]
+                },
+                {
+                  "fact_id": "alabama_rentals_handgun_blank",
+                  "fully_covered": true,
+                  "source_checks": [
+                    {
+                      "source_id": 1,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            16,
+                            17,
+                            434,
+                            434
+                          ],
+                          "text": "",
+                          "metadata_present": true,
+                          "text_supplied": null
+                        },
+                        {
+                          "cell": [
+                            4,
+                            5,
+                            16,
+                            18,
+                            100,
+                            107
+                          ],
+                          "text": "Rentals",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            16,
+                            17,
+                            292,
+                            299
+                          ],
+                          "text": "Handgun",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": true,
+                          "text_supplied": true
+                        }
+                      ],
+                      "full_original_row_supplied": true,
+                      "complete": true
+                    },
+                    {
+                      "source_id": 2,
+                      "table_id": "#/tables/0",
+                      "cells": [
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            0,
+                            1,
+                            364,
+                            371
+                          ],
+                          "text": "Alabama",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            6,
+                            7,
+                            16,
+                            17,
+                            434,
+                            434
+                          ],
+                          "text": "",
+                          "metadata_present": false,
+                          "text_supplied": null
+                        },
+                        {
+                          "cell": [
+                            4,
+                            5,
+                            16,
+                            18,
+                            100,
+                            107
+                          ],
+                          "text": "Rentals",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            5,
+                            6,
+                            16,
+                            17,
+                            292,
+                            299
+                          ],
+                          "text": "Handgun",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        },
+                        {
+                          "cell": [
+                            2,
+                            3,
+                            0,
+                            25,
+                            32,
+                            47
+                          ],
+                          "text": "November - 2015",
+                          "metadata_present": false,
+                          "text_supplied": false
+                        }
+                      ],
+                      "full_original_row_supplied": false,
+                      "complete": false
+                    }
+                  ]
+                }
+              ],
+              "source_count": 2
+            }
+          }
+        ]
+      },
+      "unit": "available source-fact occurrences",
+      "sample_count": 10,
+      "reason": null,
+      "population": "four frozen development cases",
+      "method": "Exact row/header/cell bindings. Three absent facts have no gold evidence; missing-year is not a zero-recall case.",
+      "aggregation": "pooled observations",
+      "artifact": "frozen-evidence.json"
+    },
+    "Answer correctness": {
+      "status": "measured",
+      "value": {
+        "score": 13,
+        "denominator": 13,
+        "fraction": 1.0,
+        "unavailable_points": 0,
+        "all_intended_delivery": {
+          "score": 13,
+          "denominator": 13
+        }
+      },
+      "unit": "expected answer points",
+      "sample_count": 13,
+      "reason": null,
+      "population": "four frozen development cases",
+      "method": "Frozen 0/0.5/1 rubric; completed-answer semantic scores only. Failed-case quality is unavailable, while its undelivered points remain in the all-intended denominator.",
+      "aggregation": "pooled observations",
+      "artifact": "review.json"
+    },
+    "Faithfulness": {
+      "status": "measured",
+      "value": {
+        "supported": 10,
+        "denominator": 10,
+        "fraction": 1.0
+      },
+      "unit": "factual claim groups",
+      "sample_count": 10,
+      "reason": null,
+      "population": "four frozen development cases",
+      "method": "Factual sentence/list-item support including period; absence statements separately reviewed. A claim-free refusal contributes no factual-claim denominator.",
+      "aggregation": "pooled observations",
+      "artifact": "review.json"
+    },
+    "Answer completeness": {
+      "status": "measured",
+      "value": {
+        "score": 13,
+        "denominator": 13,
+        "fraction": 1.0,
+        "unavailable_points": 0,
+        "all_intended_delivery": {
+          "score": 13,
+          "denominator": 13
+        }
+      },
+      "unit": "expected answer points",
+      "sample_count": 13,
+      "reason": null,
+      "population": "four frozen development cases",
+      "method": "Frozen 0/0.5/1 rubric; completed-answer semantic scores only. Failed-case quality is unavailable, while its undelivered points remain in the all-intended denominator.",
+      "aggregation": "pooled observations",
+      "artifact": "review.json"
+    },
+    "Answer relevance": {
+      "status": "measured",
+      "value": {
+        "score": 4,
+        "denominator": 4,
+        "unavailable_cases": 0
+      },
+      "unit": "completed cases",
+      "sample_count": 4,
+      "reason": null,
+      "population": "four frozen development cases",
+      "method": "Addresses requested dimensions without unrelated material; failed-case relevance is unavailable.",
+      "aggregation": "pooled observations",
+      "artifact": "review.json"
+    },
+    "Citation support": {
+      "status": "measured",
+      "value": {
+        "supported": 10,
+        "denominator": 10,
+        "fraction": 1.0
+      },
+      "unit": "factual claim groups",
+      "sample_count": 10,
+      "reason": null,
+      "population": "four frozen development cases",
+      "method": "Factual sentence/list-item support including period; absence statements separately reviewed. A claim-free refusal contributes no factual-claim denominator.",
+      "aggregation": "pooled observations",
+      "artifact": "review.json"
+    },
+    "Citation coverage": {
+      "status": "measured",
+      "value": {
+        "supported": 10,
+        "denominator": 10,
+        "fraction": 1.0
+      },
+      "unit": "factual claim groups",
+      "sample_count": 10,
+      "reason": null,
+      "population": "four frozen development cases",
+      "method": "Factual sentence/list-item support including period; absence statements separately reviewed. A claim-free refusal contributes no factual-claim denominator.",
+      "aggregation": "pooled observations",
+      "artifact": "review.json"
+    },
+    "Abstention": {
+      "status": "measured",
+      "value": {
+        "appropriate_full_abstention": {
+          "numerator": 1,
+          "denominator": 1
+        },
+        "incorrect_full_abstention_on_fully_answerable": {
+          "numerator": 0,
+          "denominator": 2
+        },
+        "correct_partial_limitation": {
+          "status": "measured",
+          "numerator": 1,
+          "denominator": 1,
+          "reason": null
+        },
+        "intended_partial_cases": 1,
+        "delivered_partial_limitations": 1
+      },
+      "unit": "case counts",
+      "sample_count": 4,
+      "reason": null,
+      "population": "four frozen development cases",
+      "method": "Missing-year wholly unanswerable; original/paraphrase fully answerable; factual-condition partially answerable. Failed requests are not counted as abstentions.",
+      "aggregation": "pooled observations",
+      "artifact": "review.json"
+    },
+    "First-answer-delta latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "reason": "Fixed-context component run; no new retrieval, streaming HTTP, ingestion or load test.",
+      "population": "four component cases",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "protocol.md"
+    },
+    "Complete-response latency": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "reason": "Fixed-context component run; no new retrieval, streaming HTTP, ingestion or load test.",
+      "population": "four component cases",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "protocol.md"
+    },
+    "Stage latency": {
+      "status": "measured",
+      "value": {
+        "component_total": {
+          "n": 4,
+          "mean": 6.445054927258752,
+          "p50": 5.957881500013173,
+          "p95": 9.463577829377027,
+          "percentile_method": "linear interpolation",
+          "values": [
+            3.852431167033501,
+            5.560055542038754,
+            6.355707457987592,
+            10.012025541975163
+          ]
+        },
+        "stages": {
+          "assessment": {
+            "n": 4,
+            "mean": 2.0636360835342202,
+            "p50": 1.9250636250362732,
+            "p95": 2.6339440213865597,
+            "percentile_method": "linear interpolation",
+            "values": [
+              1.6834346250398085,
+              1.7094010419677943,
+              2.140726208104752,
+              2.720982459024526
+            ]
+          },
+          "generation_or_abstention": {
+            "n": 4,
+            "mean": 1.2041259687393904,
+            "p50": 1.3643434169935063,
+            "p95": 2.0036266160721423,
+            "percentile_method": "linear interpolation",
+            "values": [
+              5.037500523030758e-05,
+              1.2018538339762017,
+              1.5268330000108108,
+              2.0877666659653187
+            ]
+          },
+          "planning": {
+            "n": 4,
+            "mean": 3.172148333018413,
+            "p50": 2.6750827495125122,
+            "p95": 4.891553549875971,
+            "percentile_method": "linear interpolation",
+            "values": [
+              2.137688458082266,
+              2.210664957994595,
+              3.1395005410304293,
+              5.200739374966361
+            ]
+          }
+        },
+        "sdk_calls": {
+          "n": 11,
+          "mean": 2.333549144095741,
+          "p50": 2.133821833995171,
+          "p95": 4.1443850210052915,
+          "percentile_method": "linear interpolation",
+          "values": [
+            1.1977856670273468,
+            1.5222742079058662,
+            1.6782827080460265,
+            1.7042192500084639,
+            2.0836272090673447,
+            2.133821833995171,
+            2.135697999969125,
+            2.206852750037797,
+            2.71770891698543,
+            3.1348500000312924,
+            5.1539200419792905
+          ]
+        }
+      },
+      "unit": "seconds",
+      "sample_count": 4,
+      "reason": null,
+      "population": "four frozen development cases",
+      "method": "Sequential wall time; provider queue included, not isolated; no local model loading. Component total is not HTTP latency. Generation-or-abstention includes any local bypass.",
+      "aggregation": "pooled observations",
+      "artifact": "provider-events.jsonl"
+    },
+    "Token usage and cost": {
+      "status": "measured",
+      "value": {
+        "provider_usage": {
+          "input_tokens": 37117,
+          "output_tokens": 2232,
+          "total_tokens": 39349
+        },
+        "evidence_tokens": 2604,
+        "billed_cost": {
+          "status": "unavailable",
+          "value": null,
+          "reason": "No billing statement or authoritative charge returned."
+        }
+      },
+      "unit": "provider and local evidence tokens",
+      "sample_count": 11,
+      "reason": null,
+      "population": "four frozen development cases",
+      "method": "Actual SDK usage; skipped generation has no provider call; local token count is not billing.",
+      "aggregation": "pooled observations",
+      "artifact": "provider-events.jsonl"
+    },
+    "Reliability": {
+      "status": "measured",
+      "value": {
+        "cases": 4,
+        "completed": 4,
+        "case_errors": 0,
+        "provider_calls": 11,
+        "provider_completions": 11,
+        "provider_errors": 0,
+        "timeouts": 0,
+        "retries": 0
+      },
+      "unit": "counts",
+      "sample_count": 4,
+      "reason": null,
+      "population": "four frozen development cases",
+      "method": "All cases and provider attempts; validation errors remain request failures.",
+      "aggregation": "pooled observations",
+      "artifact": "provider-events.jsonl"
+    },
+    "Concurrency and throughput": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "reason": "Concurrency one; a short sequential component sample does not establish serving throughput.",
+      "population": "four component cases",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "protocol.md"
+    },
+    "Ingestion and index": {
+      "status": "not_applicable",
+      "value": null,
+      "unit": null,
+      "sample_count": null,
+      "reason": "Fixed-context component run; no new retrieval, streaming HTTP, ingestion or load test.",
+      "population": "four component cases",
+      "method": "not exercised",
+      "aggregation": "none",
+      "artifact": "protocol.md"
+    }
+  },
+  "comparisons": [
+    {
+      "case_id": "original-rule",
+      "before_gate": true,
+      "after_gate": true,
+      "before_points": 4,
+      "after_points": 4,
+      "observation": "Four correct cells and their inline citations remain; actual answer rule is separate and no duplicate evidence requirement appears."
+    },
+    {
+      "case_id": "paraphrased-rule",
+      "before_gate": true,
+      "after_gate": true,
+      "before_points": 4,
+      "after_points": 4,
+      "observation": "Four correct cells and their inline citations remain under the paraphrased answering instruction."
+    },
+    {
+      "case_id": "factual-condition",
+      "before_gate": false,
+      "after_gate": false,
+      "before_points": 0,
+      "after_points": 3,
+      "observation": "Recovers from a planner validation failure to three independent known-input queries and a complete three-point answer. However, the planner now copies the factual conditional question into answer_rules; text provenance passes but semantic classification regresses."
+    },
+    {
+      "case_id": "missing-year",
+      "before_gate": false,
+      "after_gate": true,
+      "before_points": 2,
+      "after_points": 2,
+      "observation": "The transferred ungrouped qualifier disappears from Pre-Pawn Handgun in both requirement and query. Exactly two missing facts remain, with the unchanged user rule and local full-question refusal; this gate now passes."
+    }
+  ],
+  "limits": "One attempt per question; single Codex review; frozen evidence and final-round boundary, no full API/multi-round acceptance."
+}

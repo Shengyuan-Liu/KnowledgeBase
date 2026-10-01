@@ -27,6 +27,11 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `RERANK_MAX_PAIR_TOKENS` | `1024` | Per-pair limit using the model tokenizer; oversize fails without truncation |
 | `RERANK_CANDIDATE_LIMIT` | `20` | Maximum leading RRF candidates scored before top-k selection |
 | `RERANK_MAX_INPUT_TOKENS` | `16384` | Aggregate rerank pair-text budget; oversize fails without truncation |
+| `RETRIEVAL_MODE` | `single` | `single` or `planned` for API requests without an explicit mode and CLI; browser checkbox selects its own mode |
+| `PLANNER_MODEL` | Blank: use `ANSWER_MODEL` | Strict JSON-schema planner for planned requests |
+| `PLANNING__SUFFICIENCY_ENABLED` | `true` | Assess final packed evidence after each planned round; `false` retains the stage 3 controller |
+| `PLANNING__MAX_ROUNDS` | `3` | Planned retrieval/assessment round cap; 1–3, with six executed logical queries total |
+| `PLANNING__*` | See linked limits | Nested [planning budgets and deadlines](planned-retrieval.md#request-bounds); do not affect single mode |
 | `RESOLVER_MODEL` | Blank: use `ANSWER_MODEL` | Follow-up question rewriting in API and CLI |
 | `CHUNKING_STRATEGY` | `parent_child` | `structural`, `parent_child`, experimental `semantic`, or the MVP `character` baseline, for new uploads |
 | `SEMANTIC_SIMILARITY_THRESHOLD` | `0.5` | Split paragraph sentences below this cosine similarity; range [-1, 1] |
@@ -34,7 +39,7 @@ Configuration is not reloaded in the middle of a conversation or an upload.
 | `CHUNK_MAX_TOKENS` | `512` | Structural chunk or child token limit; experimental starting value |
 | `CHUNK_TOKENIZER` | `cl100k_base` | tiktoken encoding for splitting and evidence packing |
 | `PARENT_MAX_TOKENS` | `1536` | Parent token limit in `parent_child` and `semantic` modes |
-| `EVIDENCE_PACKING_STRATEGY` | `parent_then_child` | Keep admitted parents, then fit whole children of omitted parents; `parent_first` is the control |
+| `EVIDENCE_PACKING_STRATEGY` | `parent_then_child` | Try non-table parents then whole child fallbacks; defer PDF table parent expansion until selected children are packed, preserving other retained hits. `parent_first` packs only parent/flat regions |
 | `EVIDENCE_MAX_TOKENS` | `4096` | Exact evidence budget, including source file/heading metadata, labels and separators, for all strategies |
 | `CHUNK_SIZE` | `2048` | Maximum characters per chunk in `character` mode only |
 | `CHUNK_OVERLAP` | `256` | Character overlap in `character` mode only |

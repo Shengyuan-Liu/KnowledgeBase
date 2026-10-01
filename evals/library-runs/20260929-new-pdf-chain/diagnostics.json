@@ -1,0 +1,3514 @@
+{
+  "summary": {
+    "K": 5,
+    "label_scope": "Frozen full-anchor binary child relevance, incomplete for equivalent/supporting passages; no-gold case excluded.",
+    "final_selected_macro": {
+      "Recall@K": 0.65,
+      "Precision@K": 0.2,
+      "Hit Rate@K": 1,
+      "MRR": 1.0,
+      "NDCG@K": 0.7233348871046037,
+      "fact_anchor_recall": 0.76
+    },
+    "final_selected_case_count": 5,
+    "final_evidence_coverage": {
+      "covered": 14,
+      "expected": 16
+    },
+    "first_answer_delta": {
+      "n": 6,
+      "mean": 12.868469722161535,
+      "p50": 13.503320124989841,
+      "p95": 17.23255088526639,
+      "unit": "seconds",
+      "percentile_method": "linear interpolation"
+    },
+    "complete_response": {
+      "n": 6,
+      "mean": 13.618381993010795,
+      "p50": 14.431362145987805,
+      "p95": 18.212652239279123,
+      "unit": "seconds",
+      "percentile_method": "linear interpolation"
+    },
+    "stages": {
+      "provider_ingestion_embedding": {
+        "n": 1,
+        "mean": 2.348774041980505,
+        "p50": 2.348774041980505,
+        "p95": 2.348774041980505,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "provider_retrieval_plan": {
+        "n": 6,
+        "mean": 3.196363298494058,
+        "p50": 3.087502916518133,
+        "p95": 4.342666312470101,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "provider_query_embedding": {
+        "n": 22,
+        "mean": 0.329615055011924,
+        "p50": 0.22727862553438172,
+        "p95": 0.5324942461855244,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "provider_evidence_assessment": {
+        "n": 10,
+        "mean": 1.9655849667266012,
+        "p50": 1.642567458038684,
+        "p95": 3.062441048445179,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "provider_generation": {
+        "n": 5,
+        "mean": 1.7013459500158206,
+        "p50": 1.8670484169851989,
+        "p95": 2.164447049982846,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "retrieval_per_query": {
+        "n": 22,
+        "mean": 1.5264720379385504,
+        "p50": 1.4017538959742524,
+        "p95": 2.8583773909776937,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "query_scope_seconds": {
+        "n": 22,
+        "mean": 0.0016848238989372146,
+        "p50": 0.0012982914922758937,
+        "p95": 0.003335430612787604,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "query_embedding_seconds": {
+        "n": 22,
+        "mean": 0.33021987140157516,
+        "p50": 0.22788606252288446,
+        "p95": 0.5330611146520823,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "query_rerank_seconds": {
+        "n": 22,
+        "mean": 1.180023496277334,
+        "p50": 1.1852250415249728,
+        "p95": 2.2263095252448695,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "retrieval_round": {
+        "n": 14,
+        "mean": 2.422473211506648,
+        "p50": 0.6799452085397206,
+        "p95": 8.648452149995135,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "cross_query_merge": {
+        "n": 14,
+        "mean": 0.0003079345832312746,
+        "p50": 0.00023914605844765902,
+        "p95": 0.0006910455063916741,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      },
+      "packing_round": {
+        "n": 14,
+        "mean": 0.0020532976403566344,
+        "p50": 0.0008131040376611054,
+        "p95": 0.007254879106767476,
+        "unit": "seconds",
+        "percentile_method": "linear interpolation"
+      }
+    },
+    "stage_limit": "Search/BM25/fusion sub-timers and provider queue time are unavailable. Query retrieval includes embedding/search/reranking; stage timers overlap and are not additive.",
+    "token_usage_by_role": {
+      "ingestion_embedding": {
+        "input_tokens": 2545,
+        "output_tokens": 0,
+        "total_tokens": 2545,
+        "cached_input_tokens": 0,
+        "calls": 1
+      },
+      "retrieval_plan": {
+        "input_tokens": 10618,
+        "output_tokens": 1785,
+        "total_tokens": 12403,
+        "cached_input_tokens": 0,
+        "calls": 6
+      },
+      "query_embedding": {
+        "input_tokens": 491,
+        "output_tokens": 0,
+        "total_tokens": 491,
+        "cached_input_tokens": 0,
+        "calls": 22
+      },
+      "evidence_assessment": {
+        "input_tokens": 33929,
+        "output_tokens": 1381,
+        "total_tokens": 35310,
+        "cached_input_tokens": 2304,
+        "calls": 10
+      },
+      "generation": {
+        "input_tokens": 23944,
+        "output_tokens": 399,
+        "total_tokens": 24343,
+        "cached_input_tokens": 0,
+        "calls": 5
+      }
+    },
+    "resolved_models": [
+      "gpt-4.1-2025-04-14",
+      "text-embedding-3-small"
+    ],
+    "sdk_starts": 44,
+    "sdk_terminals": 44,
+    "sdk_errors": 0,
+    "sdk_timeouts": 0,
+    "provider_retries": 0,
+    "requests": {
+      "completed": 6
+    },
+    "history_matches": 6,
+    "concurrency": 1,
+    "request_wall_interval_seconds": 81.86082124710083,
+    "completed_requests_per_second": 0.07329513567777082,
+    "billing": {
+      "status": "unavailable",
+      "value": null,
+      "reason": "SDK reports tokens, not billed currency; no billing API used."
+    }
+  },
+  "cases": [
+    {
+      "case_id": "paper-split",
+      "artifact": "paper-split-planned.json",
+      "status": "completed",
+      "first_delta": 12.095840458059683,
+      "completion": 13.401165417046286,
+      "at": "2026-09-29T20:09:43.000036+00:00",
+      "selected_scores": {
+        "Recall@K": 1.0,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0,
+        "relevant_child_count": 1,
+        "top_ids": [
+          "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+          "70e2b07fea7043d1a9d76a3dc4034ebd:child:44",
+          "70e2b07fea7043d1a9d76a3dc4034ebd:child:23",
+          "70e2b07fea7043d1a9d76a3dc4034ebd:child:14",
+          "70e2b07fea7043d1a9d76a3dc4034ebd:child:4"
+        ],
+        "binary_relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "fact_anchor_recall": 1.0
+      },
+      "query_scores": [
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q1"
+          ],
+          "text": "In \"doclaynet.pdf\", at what boundary are the train, test, and validation subsets split?",
+          "seconds": 2.8631595409242436,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 0.3333333333333333,
+              "NDCG@K": 0.5,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:44",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:14",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:23",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:7"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                1,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "bm25_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:44",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:14",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:15",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:4"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "fused_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 0.5,
+              "NDCG@K": 0.6309297535714575,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:44",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:14",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:23",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:47"
+              ],
+              "binary_relevance": [
+                0,
+                1,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "reranked": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:44",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:23",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:14",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:4"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q2"
+          ],
+          "text": "In \"doclaynet.pdf\", why did the authors choose that boundary for splitting the train, test, and validation subsets?",
+          "seconds": 2.7675165419932455,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 0.3333333333333333,
+              "NDCG@K": 0.5,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:44",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:14",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:24",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:45"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                1,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "bm25_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:44",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:14",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:32",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:15"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "fused_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 0.5,
+              "NDCG@K": 0.6309297535714575,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:44",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:14",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:23",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:45"
+              ],
+              "binary_relevance": [
+                0,
+                1,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "reranked": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:44",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:23",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:14",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:19"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            }
+          }
+        }
+      ],
+      "final_evidence_coverage": [
+        {
+          "fact_id": "split_boundary",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "only split on full-document boundaries",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        },
+        {
+          "fact_id": "split_reason",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "pages of the same document are spread over train, test and validation set",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            },
+            {
+              "anchor": "overestimation of their prediction accuracy",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        }
+      ],
+      "assessment_round": 1,
+      "evidence_tokens": 3616,
+      "excluded": [],
+      "unexpanded_parents": [
+        {
+          "chunk_id": "70e2b07fea7043d1a9d76a3dc4034ebd:parent:9",
+          "file_id": "70e2b07fea7043d1a9d76a3dc4034ebd",
+          "token_count": 1417,
+          "trial_context_tokens": 7400,
+          "reason": "context_budget"
+        }
+      ],
+      "history_match": true
+    },
+    {
+      "case_id": "paper-delivery",
+      "artifact": "paper-delivery-planned.json",
+      "status": "completed",
+      "first_delta": 17.90555058303289,
+      "completion": 18.871095916023478,
+      "at": "2026-09-29T20:09:56.427440+00:00",
+      "selected_scores": {
+        "Recall@K": 1.0,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 1.0,
+        "relevant_child_count": 1,
+        "top_ids": [
+          "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+          "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+          "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+          "70e2b07fea7043d1a9d76a3dc4034ebd:child:23",
+          "70e2b07fea7043d1a9d76a3dc4034ebd:child:6"
+        ],
+        "binary_relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "fact_anchor_recall": 1.0
+      },
+      "query_scores": [
+        {
+          "round_index": 1,
+          "query_ids": [
+            "Q1"
+          ],
+          "text": "In \"doclaynet.pdf\", what format is used for the page images?",
+          "seconds": 2.3954199579311535,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 0.5,
+              "NDCG@K": 0.6309297535714575,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:7",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:23",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:1"
+              ],
+              "binary_relevance": [
+                0,
+                1,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "bm25_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:16",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:37",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:19"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "fused_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:7",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:23",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:4"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "reranked": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:16",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:6"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "Q2"
+          ],
+          "text": "In \"doclaynet.pdf\", what are the pixel dimensions of the page images?",
+          "seconds": 3.7383473749505356,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:7",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:23",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:1"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "bm25_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:37",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:33",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:17"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "fused_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:37",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:23"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "reranked": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:37",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:6",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:23"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "Q3"
+          ],
+          "text": "In \"doclaynet.pdf\", what original-page files are provided alongside the page images?",
+          "seconds": 2.672940209042281,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:7",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:23",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:1"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "bm25_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:36",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:6"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "fused_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:23",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:24"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "reranked": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:23",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:6"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "Q4"
+          ],
+          "text": "In \"doclaynet.pdf\", what text-coordinate files are provided alongside the page images?",
+          "seconds": 2.665406082989648,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:7",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:23",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:24"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "bm25_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:33",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:24"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "fused_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:24",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:23",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:4"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "reranked": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 1.0,
+              "relevant_child_count": 1,
+              "top_ids": [
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:18",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:17",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:23",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:4",
+                "70e2b07fea7043d1a9d76a3dc4034ebd:child:6"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            }
+          }
+        }
+      ],
+      "final_evidence_coverage": [
+        {
+          "fact_id": "page_images",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "PNG",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            },
+            {
+              "anchor": "1025\u00d71025 pixels",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        },
+        {
+          "fact_id": "original_pages",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "provide the original PDF pages",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        },
+        {
+          "fact_id": "sidecars",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "sidecar files containing parsed PDF text and text-cell coordinates (in JSON)",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        }
+      ],
+      "assessment_round": 1,
+      "evidence_tokens": 3281,
+      "excluded": [],
+      "unexpanded_parents": [
+        {
+          "chunk_id": "70e2b07fea7043d1a9d76a3dc4034ebd:parent:9",
+          "file_id": "70e2b07fea7043d1a9d76a3dc4034ebd",
+          "token_count": 1417,
+          "trial_context_tokens": 7065,
+          "reason": "context_budget"
+        }
+      ],
+      "history_match": true
+    },
+    {
+      "case_id": "lecture-bag-words",
+      "artifact": "lecture-bag-words-planned.json",
+      "status": "completed",
+      "first_delta": 14.910799791919999,
+      "completion": 15.461558874929324,
+      "at": "2026-09-29T20:10:15.328941+00:00",
+      "selected_scores": {
+        "Recall@K": 0.25,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.3903800499921017,
+        "relevant_child_count": 4,
+        "top_ids": [
+          "e38c730b3b714c5a8913e530695fd03b:child:376",
+          "e38c730b3b714c5a8913e530695fd03b:child:458",
+          "e38c730b3b714c5a8913e530695fd03b:child:384",
+          "e38c730b3b714c5a8913e530695fd03b:child:363",
+          "e38c730b3b714c5a8913e530695fd03b:child:226"
+        ],
+        "binary_relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "fact_anchor_recall": 0.3333333333333333
+      },
+      "query_scores": [
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q1"
+          ],
+          "text": "In \"ml-lecture.pdf\", what does the bag-of-words model ignore about a document?",
+          "seconds": 0.8252754169516265,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6366824387328317,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:376",
+                "e38c730b3b714c5a8913e530695fd03b:child:381",
+                "e38c730b3b714c5a8913e530695fd03b:child:374",
+                "e38c730b3b714c5a8913e530695fd03b:child:379",
+                "e38c730b3b714c5a8913e530695fd03b:child:384"
+              ],
+              "binary_relevance": [
+                1,
+                1,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.3333333333333333
+            },
+            "bm25_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 0.3333333333333333,
+              "NDCG@K": 0.36331756126716835,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:374",
+                "e38c730b3b714c5a8913e530695fd03b:child:379",
+                "e38c730b3b714c5a8913e530695fd03b:child:376",
+                "e38c730b3b714c5a8913e530695fd03b:child:381",
+                "e38c730b3b714c5a8913e530695fd03b:child:238"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                1,
+                1,
+                0
+              ],
+              "fact_anchor_recall": 0.3333333333333333
+            },
+            "fused_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 0.5,
+              "NDCG@K": 0.4144299250118475,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:374",
+                "e38c730b3b714c5a8913e530695fd03b:child:376",
+                "e38c730b3b714c5a8913e530695fd03b:child:379",
+                "e38c730b3b714c5a8913e530695fd03b:child:381",
+                "e38c730b3b714c5a8913e530695fd03b:child:384"
+              ],
+              "binary_relevance": [
+                0,
+                1,
+                0,
+                1,
+                0
+              ],
+              "fact_anchor_recall": 0.3333333333333333
+            },
+            "reranked": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6366824387328317,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:376",
+                "e38c730b3b714c5a8913e530695fd03b:child:381",
+                "e38c730b3b714c5a8913e530695fd03b:child:375",
+                "e38c730b3b714c5a8913e530695fd03b:child:380",
+                "e38c730b3b714c5a8913e530695fd03b:child:374"
+              ],
+              "binary_relevance": [
+                1,
+                1,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.3333333333333333
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q2"
+          ],
+          "text": "In \"ml-lecture.pdf\", what is the first kind of count collected during the learning phase of Naive Bayes text classification?",
+          "seconds": 0.6041144169867039,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:458",
+                "e38c730b3b714c5a8913e530695fd03b:child:226",
+                "e38c730b3b714c5a8913e530695fd03b:child:266",
+                "e38c730b3b714c5a8913e530695fd03b:child:384",
+                "e38c730b3b714c5a8913e530695fd03b:child:363"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "bm25_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:182",
+                "e38c730b3b714c5a8913e530695fd03b:child:385",
+                "e38c730b3b714c5a8913e530695fd03b:child:367",
+                "e38c730b3b714c5a8913e530695fd03b:child:363",
+                "e38c730b3b714c5a8913e530695fd03b:child:384"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "fused_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:363",
+                "e38c730b3b714c5a8913e530695fd03b:child:384",
+                "e38c730b3b714c5a8913e530695fd03b:child:182",
+                "e38c730b3b714c5a8913e530695fd03b:child:458",
+                "e38c730b3b714c5a8913e530695fd03b:child:226"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "reranked": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:458",
+                "e38c730b3b714c5a8913e530695fd03b:child:226",
+                "e38c730b3b714c5a8913e530695fd03b:child:254",
+                "e38c730b3b714c5a8913e530695fd03b:child:465",
+                "e38c730b3b714c5a8913e530695fd03b:child:266"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q3"
+          ],
+          "text": "In \"ml-lecture.pdf\", what is the second kind of count collected during the learning phase of Naive Bayes text classification?",
+          "seconds": 0.6677097500069067,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:458",
+                "e38c730b3b714c5a8913e530695fd03b:child:226",
+                "e38c730b3b714c5a8913e530695fd03b:child:266",
+                "e38c730b3b714c5a8913e530695fd03b:child:465",
+                "e38c730b3b714c5a8913e530695fd03b:child:384"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "bm25_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:182",
+                "e38c730b3b714c5a8913e530695fd03b:child:385",
+                "e38c730b3b714c5a8913e530695fd03b:child:367",
+                "e38c730b3b714c5a8913e530695fd03b:child:363",
+                "e38c730b3b714c5a8913e530695fd03b:child:384"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "fused_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:384",
+                "e38c730b3b714c5a8913e530695fd03b:child:363",
+                "e38c730b3b714c5a8913e530695fd03b:child:182",
+                "e38c730b3b714c5a8913e530695fd03b:child:458",
+                "e38c730b3b714c5a8913e530695fd03b:child:226"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "reranked": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:465",
+                "e38c730b3b714c5a8913e530695fd03b:child:458",
+                "e38c730b3b714c5a8913e530695fd03b:child:226",
+                "e38c730b3b714c5a8913e530695fd03b:child:275",
+                "e38c730b3b714c5a8913e530695fd03b:child:417"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            }
+          }
+        },
+        {
+          "round_index": 2,
+          "query_ids": [
+            "supplement-54f6c5cc0bd34bf7a6b2b15fdd1a0192"
+          ],
+          "text": "In ml-lecture.pdf, list the two kinds of counts collected during the learning phase of Naive Bayes text classification.",
+          "seconds": 0.6647907920414582,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:458",
+                "e38c730b3b714c5a8913e530695fd03b:child:266",
+                "e38c730b3b714c5a8913e530695fd03b:child:465",
+                "e38c730b3b714c5a8913e530695fd03b:child:226",
+                "e38c730b3b714c5a8913e530695fd03b:child:384"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "bm25_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:385",
+                "e38c730b3b714c5a8913e530695fd03b:child:363",
+                "e38c730b3b714c5a8913e530695fd03b:child:384",
+                "e38c730b3b714c5a8913e530695fd03b:child:182",
+                "e38c730b3b714c5a8913e530695fd03b:child:371"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "fused_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:384",
+                "e38c730b3b714c5a8913e530695fd03b:child:363",
+                "e38c730b3b714c5a8913e530695fd03b:child:385",
+                "e38c730b3b714c5a8913e530695fd03b:child:458",
+                "e38c730b3b714c5a8913e530695fd03b:child:266"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "reranked": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:458",
+                "e38c730b3b714c5a8913e530695fd03b:child:226",
+                "e38c730b3b714c5a8913e530695fd03b:child:385",
+                "e38c730b3b714c5a8913e530695fd03b:child:363",
+                "e38c730b3b714c5a8913e530695fd03b:child:465"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            }
+          }
+        },
+        {
+          "round_index": 3,
+          "query_ids": [
+            "supplement-54bfda244ebe40caa6b717cac0fa6682"
+          ],
+          "text": "In ml-lecture.pdf, under Naive Bayes text classification, what kinds of counts are collected during the learning phase?",
+          "seconds": 0.6568415419897065,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:458",
+                "e38c730b3b714c5a8913e530695fd03b:child:266",
+                "e38c730b3b714c5a8913e530695fd03b:child:226",
+                "e38c730b3b714c5a8913e530695fd03b:child:465",
+                "e38c730b3b714c5a8913e530695fd03b:child:265"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "bm25_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:385",
+                "e38c730b3b714c5a8913e530695fd03b:child:363",
+                "e38c730b3b714c5a8913e530695fd03b:child:384",
+                "e38c730b3b714c5a8913e530695fd03b:child:182",
+                "e38c730b3b714c5a8913e530695fd03b:child:254"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "fused_matches": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:254",
+                "e38c730b3b714c5a8913e530695fd03b:child:287",
+                "e38c730b3b714c5a8913e530695fd03b:child:384",
+                "e38c730b3b714c5a8913e530695fd03b:child:385",
+                "e38c730b3b714c5a8913e530695fd03b:child:458"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            },
+            "reranked": {
+              "Recall@K": 0.0,
+              "Precision@K": 0.0,
+              "Hit Rate@K": 0,
+              "MRR": 0,
+              "NDCG@K": 0.0,
+              "relevant_child_count": 4,
+              "top_ids": [
+                "e38c730b3b714c5a8913e530695fd03b:child:254",
+                "e38c730b3b714c5a8913e530695fd03b:child:287",
+                "e38c730b3b714c5a8913e530695fd03b:child:465",
+                "e38c730b3b714c5a8913e530695fd03b:child:458",
+                "e38c730b3b714c5a8913e530695fd03b:child:275"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.0
+            }
+          }
+        }
+      ],
+      "final_evidence_coverage": [
+        {
+          "fact_id": "word_order",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "order of words on the page ignored",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        },
+        {
+          "fact_id": "topic_documents",
+          "covered": false,
+          "anchors": [
+            {
+              "anchor": "Count how many documents you have from each topic (+ prior)",
+              "source_ids": [],
+              "covered": false
+            }
+          ]
+        },
+        {
+          "fact_id": "topic_words",
+          "covered": false,
+          "anchors": [
+            {
+              "anchor": "For each topic, count how many times you saw word in documents of this topic (+ prior)",
+              "source_ids": [],
+              "covered": false
+            }
+          ]
+        }
+      ],
+      "assessment_round": 3,
+      "evidence_tokens": 950,
+      "excluded": [],
+      "unexpanded_parents": [],
+      "history_match": true
+    },
+    {
+      "case_id": "lecture-midterm-date",
+      "artifact": "lecture-midterm-date-planned.json",
+      "status": "completed",
+      "first_delta": 8.322948499931954,
+      "completion": 8.33617012493778,
+      "at": "2026-09-29T20:10:30.839992+00:00",
+      "selected_scores": null,
+      "query_scores": [
+        {
+          "round_index": 1,
+          "query_ids": [
+            "direct"
+          ],
+          "text": "Using only \"ml-lecture.pdf\", what is the exact calendar date of the midterm exam?",
+          "seconds": 0.6119425839278847,
+          "stage_scores": {
+            "vector_matches": null,
+            "bm25_matches": null,
+            "fused_matches": null,
+            "reranked": null
+          }
+        },
+        {
+          "round_index": 2,
+          "query_ids": [
+            "supplement-54deac985a7349d0985ab4be150c39cc"
+          ],
+          "text": "Find the section in ml-lecture.pdf that lists the exact date of the midterm exam.",
+          "seconds": 0.5938468750100583,
+          "stage_scores": {
+            "vector_matches": null,
+            "bm25_matches": null,
+            "fused_matches": null,
+            "reranked": null
+          }
+        },
+        {
+          "round_index": 3,
+          "query_ids": [
+            "supplement-e087bdcb5c1242d59c5038413c21b7f3"
+          ],
+          "text": "Find any table, list, or announcement in ml-lecture.pdf containing the date of the midterm exam.",
+          "seconds": 0.6825500830309466,
+          "stage_scores": {
+            "vector_matches": null,
+            "bm25_matches": null,
+            "fused_matches": null,
+            "reranked": null
+          }
+        }
+      ],
+      "final_evidence_coverage": [],
+      "assessment_round": 3,
+      "evidence_tokens": 602,
+      "excluded": [],
+      "unexpanded_parents": [],
+      "history_match": true
+    },
+    {
+      "case_id": "apple-securities",
+      "artifact": "apple-securities-planned.json",
+      "status": "completed",
+      "first_delta": 8.762127208057791,
+      "completion": 9.402980416081846,
+      "at": "2026-09-29T20:10:39.195959+00:00",
+      "selected_scores": {
+        "Recall@K": 0.5,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.6131471927654584,
+        "relevant_child_count": 2,
+        "top_ids": [
+          "95c640f35923472f9fe6db7992ec2b8a:child:6",
+          "95c640f35923472f9fe6db7992ec2b8a:child:9",
+          "95c640f35923472f9fe6db7992ec2b8a:child:2",
+          "95c640f35923472f9fe6db7992ec2b8a:child:13",
+          "95c640f35923472f9fe6db7992ec2b8a:child:3"
+        ],
+        "binary_relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "fact_anchor_recall": 0.6666666666666666
+      },
+      "query_scores": [
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q1"
+          ],
+          "text": "In \"apple-fy24.pdf\", what is the current marketable securities balance at September 28, 2024?",
+          "seconds": 1.4280061670579016,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.8503449055347546,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:6",
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13",
+                "95c640f35923472f9fe6db7992ec2b8a:child:5"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "bm25_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:6",
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:15",
+                "95c640f35923472f9fe6db7992ec2b8a:child:14",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.6666666666666666
+            },
+            "fused_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:6",
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13",
+                "95c640f35923472f9fe6db7992ec2b8a:child:15",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.6666666666666666
+            },
+            "reranked": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:6",
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13",
+                "95c640f35923472f9fe6db7992ec2b8a:child:3"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.6666666666666666
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q2"
+          ],
+          "text": "In \"apple-fy24.pdf\", what is the non-current marketable securities balance at September 28, 2024?",
+          "seconds": 1.3933964590542018,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.8503449055347546,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:6",
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:5"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "bm25_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:6",
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:15",
+                "95c640f35923472f9fe6db7992ec2b8a:child:14",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.6666666666666666
+            },
+            "fused_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.8503449055347546,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:6",
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13",
+                "95c640f35923472f9fe6db7992ec2b8a:child:15",
+                "95c640f35923472f9fe6db7992ec2b8a:child:5"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "reranked": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:6",
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13",
+                "95c640f35923472f9fe6db7992ec2b8a:child:3"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.6666666666666666
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q3"
+          ],
+          "text": "In \"apple-fy24.pdf\", what are the units for the marketable securities balances as of September 28, 2024?",
+          "seconds": 1.248873500037007,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.9197207891481876,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:6",
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:5",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                1,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "bm25_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 0.2,
+              "NDCG@K": 0.23719771276929622,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:15",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13",
+                "95c640f35923472f9fe6db7992ec2b8a:child:14",
+                "95c640f35923472f9fe6db7992ec2b8a:child:6"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "fact_anchor_recall": 0.6666666666666666
+            },
+            "fused_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 0.5,
+              "NDCG@K": 0.6240505200038379,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:6",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:5"
+              ],
+              "binary_relevance": [
+                0,
+                1,
+                0,
+                0,
+                1
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "reranked": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:6",
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13",
+                "95c640f35923472f9fe6db7992ec2b8a:child:3"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.6666666666666666
+            }
+          }
+        }
+      ],
+      "final_evidence_coverage": [
+        {
+          "fact_id": "current_securities",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "35,228",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        },
+        {
+          "fact_id": "noncurrent_securities",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "91,479",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        },
+        {
+          "fact_id": "balance_units",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "In millions",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        }
+      ],
+      "assessment_round": 1,
+      "evidence_tokens": 4062,
+      "excluded": [
+        {
+          "chunk_id": "95c640f35923472f9fe6db7992ec2b8a:child:9",
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "token_count": 503,
+          "trial_context_tokens": 5012,
+          "reason": "context_budget"
+        },
+        {
+          "chunk_id": "95c640f35923472f9fe6db7992ec2b8a:child:2",
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "token_count": 496,
+          "trial_context_tokens": 4844,
+          "reason": "context_budget"
+        },
+        {
+          "chunk_id": "95c640f35923472f9fe6db7992ec2b8a:child:3",
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "token_count": 270,
+          "trial_context_tokens": 5535,
+          "reason": "context_budget"
+        }
+      ],
+      "unexpanded_parents": [],
+      "history_match": true
+    },
+    {
+      "case_id": "apple-cash-condition",
+      "artifact": "apple-cash-condition-planned.json",
+      "status": "completed",
+      "first_delta": 15.213551791966893,
+      "completion": 16.23732120904606,
+      "at": "2026-09-29T20:10:48.623536+00:00",
+      "selected_scores": {
+        "Recall@K": 0.5,
+        "Precision@K": 0.2,
+        "Hit Rate@K": 1,
+        "MRR": 1.0,
+        "NDCG@K": 0.6131471927654584,
+        "relevant_child_count": 2,
+        "top_ids": [
+          "95c640f35923472f9fe6db7992ec2b8a:child:9",
+          "95c640f35923472f9fe6db7992ec2b8a:child:3",
+          "95c640f35923472f9fe6db7992ec2b8a:child:6",
+          "95c640f35923472f9fe6db7992ec2b8a:child:2",
+          "95c640f35923472f9fe6db7992ec2b8a:child:15"
+        ],
+        "binary_relevance": [
+          1,
+          0,
+          0,
+          0,
+          0
+        ],
+        "fact_anchor_recall": 0.8
+      },
+      "query_scores": [
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q1"
+          ],
+          "text": "In \"apple-fy24.pdf\", what is the cash generated by operating activities in fiscal 2024?",
+          "seconds": 1.539597374969162,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:3",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:10",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.8
+            },
+            "bm25_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.8503449055347546,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:15",
+                "95c640f35923472f9fe6db7992ec2b8a:child:14",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:8"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "fused_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.8503449055347546,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:15",
+                "95c640f35923472f9fe6db7992ec2b8a:child:10",
+                "95c640f35923472f9fe6db7992ec2b8a:child:8"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "reranked": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:3",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:6",
+                "95c640f35923472f9fe6db7992ec2b8a:child:15"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.8
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q2"
+          ],
+          "text": "In \"apple-fy24.pdf\", what is the cash generated by operating activities in fiscal 2023?",
+          "seconds": 1.4540474159875885,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:3",
+                "95c640f35923472f9fe6db7992ec2b8a:child:10",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.8
+            },
+            "bm25_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.8503449055347546,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:14",
+                "95c640f35923472f9fe6db7992ec2b8a:child:15",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:8"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "fused_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.8503449055347546,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:15",
+                "95c640f35923472f9fe6db7992ec2b8a:child:10",
+                "95c640f35923472f9fe6db7992ec2b8a:child:8"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "reranked": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:6",
+                "95c640f35923472f9fe6db7992ec2b8a:child:3",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.8
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q3"
+          ],
+          "text": "In \"apple-fy24.pdf\", what is the cash used in financing activities in fiscal 2024?",
+          "seconds": 1.2858304579276592,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:10",
+                "95c640f35923472f9fe6db7992ec2b8a:child:6",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13",
+                "95c640f35923472f9fe6db7992ec2b8a:child:3"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.8
+            },
+            "bm25_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.8503449055347546,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:15",
+                "95c640f35923472f9fe6db7992ec2b8a:child:14",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13",
+                "95c640f35923472f9fe6db7992ec2b8a:child:8"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "fused_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.8503449055347546,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13",
+                "95c640f35923472f9fe6db7992ec2b8a:child:10",
+                "95c640f35923472f9fe6db7992ec2b8a:child:15",
+                "95c640f35923472f9fe6db7992ec2b8a:child:8"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "reranked": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:6",
+                "95c640f35923472f9fe6db7992ec2b8a:child:15",
+                "95c640f35923472f9fe6db7992ec2b8a:child:3",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.8
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q4"
+          ],
+          "text": "In \"apple-fy24.pdf\", what are the units reported for the cash flow statement values?",
+          "seconds": 1.410111332894303,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.9197207891481876,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:8",
+                "95c640f35923472f9fe6db7992ec2b8a:child:10",
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:3",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                1,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "bm25_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 0.2,
+              "NDCG@K": 0.23719771276929622,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:10",
+                "95c640f35923472f9fe6db7992ec2b8a:child:15",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13",
+                "95c640f35923472f9fe6db7992ec2b8a:child:14",
+                "95c640f35923472f9fe6db7992ec2b8a:child:9"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                0,
+                0,
+                1
+              ],
+              "fact_anchor_recall": 0.8
+            },
+            "fused_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 0.3333333333333333,
+              "NDCG@K": 0.5706417189553201,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:10",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13",
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:8",
+                "95c640f35923472f9fe6db7992ec2b8a:child:5"
+              ],
+              "binary_relevance": [
+                0,
+                0,
+                1,
+                1,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "reranked": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.8772153153380493,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:3",
+                "95c640f35923472f9fe6db7992ec2b8a:child:10",
+                "95c640f35923472f9fe6db7992ec2b8a:child:8",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                1,
+                0
+              ],
+              "fact_anchor_recall": 1.0
+            }
+          }
+        },
+        {
+          "round_index": 1,
+          "query_ids": [
+            "q5"
+          ],
+          "text": "In \"apple-fy24.pdf\", does the cash generated by operating activities in fiscal 2024 exceed the amount in fiscal 2023?",
+          "seconds": 1.4126609589438885,
+          "stage_scores": {
+            "vector_matches": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:10",
+                "95c640f35923472f9fe6db7992ec2b8a:child:13",
+                "95c640f35923472f9fe6db7992ec2b8a:child:3"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.8
+            },
+            "bm25_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.8503449055347546,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:15",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:14",
+                "95c640f35923472f9fe6db7992ec2b8a:child:8"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "fused_matches": {
+              "Recall@K": 1.0,
+              "Precision@K": 0.4,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.8503449055347546,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:15",
+                "95c640f35923472f9fe6db7992ec2b8a:child:10",
+                "95c640f35923472f9fe6db7992ec2b8a:child:8"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                1
+              ],
+              "fact_anchor_recall": 1.0
+            },
+            "reranked": {
+              "Recall@K": 0.5,
+              "Precision@K": 0.2,
+              "Hit Rate@K": 1,
+              "MRR": 1.0,
+              "NDCG@K": 0.6131471927654584,
+              "relevant_child_count": 2,
+              "top_ids": [
+                "95c640f35923472f9fe6db7992ec2b8a:child:9",
+                "95c640f35923472f9fe6db7992ec2b8a:child:6",
+                "95c640f35923472f9fe6db7992ec2b8a:child:2",
+                "95c640f35923472f9fe6db7992ec2b8a:child:3",
+                "95c640f35923472f9fe6db7992ec2b8a:child:15"
+              ],
+              "binary_relevance": [
+                1,
+                0,
+                0,
+                0,
+                0
+              ],
+              "fact_anchor_recall": 0.8
+            }
+          }
+        }
+      ],
+      "final_evidence_coverage": [
+        {
+          "fact_id": "cash_2024",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "118,254",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        },
+        {
+          "fact_id": "cash_2023",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "110,543",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        },
+        {
+          "fact_id": "cash_condition",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "118,254",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            },
+            {
+              "anchor": "110,543",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        },
+        {
+          "fact_id": "financing_2024",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "(121,983)",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        },
+        {
+          "fact_id": "cash_units",
+          "covered": true,
+          "anchors": [
+            {
+              "anchor": "In millions",
+              "source_ids": [
+                1
+              ],
+              "covered": true
+            }
+          ]
+        }
+      ],
+      "assessment_round": 1,
+      "evidence_tokens": 3359,
+      "excluded": [
+        {
+          "chunk_id": "95c640f35923472f9fe6db7992ec2b8a:child:3",
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "token_count": 270,
+          "trial_context_tokens": 4573,
+          "reason": "context_budget"
+        },
+        {
+          "chunk_id": "95c640f35923472f9fe6db7992ec2b8a:child:6",
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "token_count": 456,
+          "trial_context_tokens": 5012,
+          "reason": "context_budget"
+        },
+        {
+          "chunk_id": "95c640f35923472f9fe6db7992ec2b8a:child:2",
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "token_count": 496,
+          "trial_context_tokens": 5364,
+          "reason": "context_budget"
+        }
+      ],
+      "unexpanded_parents": [
+        {
+          "chunk_id": "95c640f35923472f9fe6db7992ec2b8a:parent:7",
+          "file_id": "95c640f35923472f9fe6db7992ec2b8a",
+          "token_count": 666,
+          "trial_context_tokens": 4824,
+          "reason": "context_budget"
+        }
+      ],
+      "history_match": true
+    }
+  ],
+  "provider_calls": [
+    {
+      "call_id": "c92c4f8f79094955a58d202145bd24ce",
+      "request": "ingest-apple",
+      "role": "ingestion_embedding",
+      "api": "embeddings",
+      "seconds": 2.348774041980505,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 2545,
+        "total_tokens": 2545
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "2c25c4d286214cf481388d31afb430a0",
+      "request": "paper-split-planned",
+      "role": "retrieval_plan",
+      "api": "responses",
+      "seconds": 2.982115541002713,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 1762,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 225,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1987
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "b1648a7c233b4b6e86abfdd4ade90ec9",
+      "request": "paper-split-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.22144858411047608,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 21,
+        "total_tokens": 21
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "a38bf241a15d40a2b830030bd9f90107",
+      "request": "paper-split-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.5267696250230074,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 25,
+        "total_tokens": 25
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "06cd0a9f652d4d11814b5828f7a5effb",
+      "request": "paper-split-planned",
+      "role": "evidence_assessment",
+      "api": "responses",
+      "seconds": 2.6254123330581933,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 5030,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 137,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5167
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "7d397a7569f645e7a0463ad128ae32fa",
+      "request": "paper-split-planned",
+      "role": "generation",
+      "api": "responses",
+      "seconds": 2.079149750061333,
+      "kind": "sdk_stream_terminal",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 5212,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 113,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5325
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "f661b38c05b94f9986df5b147eab4e02",
+      "request": "paper-delivery-planned",
+      "role": "retrieval_plan",
+      "api": "responses",
+      "seconds": 3.192890292033553,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 1768,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 359,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2127
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "1fa6b084b60d4a5ca4d29de6b804d8e6",
+      "request": "paper-delivery-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.18211599998176098,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 16,
+        "total_tokens": 16
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "4f9ebd64c8df44d08cfa09dc3c4a39ae",
+      "request": "paper-delivery-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 1.611649208003655,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 17,
+        "total_tokens": 17
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "e07a575cfd6847cfa26db70627e1f9c3",
+      "request": "paper-delivery-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.5327955420361832,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 18,
+        "total_tokens": 18
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "cff5fbd1e08f46b482fab2262b65ef0b",
+      "request": "paper-delivery-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.5198914170032367,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 18,
+        "total_tokens": 18
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "463aa156655c44b8b0a4c082906a03db",
+      "request": "paper-delivery-planned",
+      "role": "evidence_assessment",
+      "api": "responses",
+      "seconds": 1.9348207920556888,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 4758,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 203,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 4961
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "ade4af9b5caa4223af490735a07758a9",
+      "request": "paper-delivery-planned",
+      "role": "generation",
+      "api": "responses",
+      "seconds": 2.185771374963224,
+      "kind": "sdk_stream_terminal",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 4937,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 86,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5023
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "bf5e17132e2847e5befa35dd80cc10e6",
+      "request": "lecture-bag-words-planned",
+      "role": "retrieval_plan",
+      "api": "responses",
+      "seconds": 3.9883848750032485,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 1784,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 321,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2105
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "e8cf8553c4724973b65daa94d8c845e6",
+      "request": "lecture-bag-words-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.4092087079770863,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 20,
+        "total_tokens": 20
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "9253c00a150f449a9a0d12f47c768490",
+      "request": "lecture-bag-words-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.21609324996825308,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 27,
+        "total_tokens": 27
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "f3ff42aadf3546ad899111241988a59b",
+      "request": "lecture-bag-words-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.28475949994754046,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 27,
+        "total_tokens": 27
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "f1cb01a1f9804642be263a845fe13480",
+      "request": "lecture-bag-words-planned",
+      "role": "evidence_assessment",
+      "api": "responses",
+      "seconds": 3.3470096670789644,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 2362,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 232,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2594
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "1c1d513447c842829d96c2352bd78599",
+      "request": "lecture-bag-words-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.2393637920031324,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 25,
+        "total_tokens": 25
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "ab18f74762d4495a8b8e97db589c71fc",
+      "request": "lecture-bag-words-planned",
+      "role": "evidence_assessment",
+      "api": "responses",
+      "seconds": 1.5383307919837534,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 2470,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 160,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2630
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "9ce9a8fbba874ee7b5bf2bb17f9a0093",
+      "request": "lecture-bag-words-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.23310866695828736,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 25,
+        "total_tokens": 25
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "7c514d9f7cd746e4a569eb4f17651d1f",
+      "request": "lecture-bag-words-planned",
+      "role": "evidence_assessment",
+      "api": "responses",
+      "seconds": 1.7146080830134451,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 2496,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 2304
+        },
+        "output_tokens": 120,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2616
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "a945c78d50234dd78140b2ccf122552e",
+      "request": "lecture-bag-words-planned",
+      "role": "generation",
+      "api": "responses",
+      "seconds": 1.1336184160318226,
+      "kind": "sdk_stream_terminal",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 2652,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 47,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2699
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "ca644292160544e5aec9f0d82452e3fc",
+      "request": "lecture-midterm-date-planned",
+      "role": "retrieval_plan",
+      "api": "responses",
+      "seconds": 1.9994094159919769,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 1744,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 19,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1763
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "2040520977764491ad29686f28e18a24",
+      "request": "lecture-midterm-date-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.18070791603531688,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 19,
+        "total_tokens": 19
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "914d05d83e13443b9bc52b47fc0bedb5",
+      "request": "lecture-midterm-date-planned",
+      "role": "evidence_assessment",
+      "api": "responses",
+      "seconds": 1.4742839579703286,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 1933,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 93,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2026
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "6649c449b3bf4129a0d6cf1e892ef53e",
+      "request": "lecture-midterm-date-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.17285137507133186,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 18,
+        "total_tokens": 18
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "a204bfe3987647ec99f940105e3d1042",
+      "request": "lecture-midterm-date-planned",
+      "role": "evidence_assessment",
+      "api": "responses",
+      "seconds": 1.2753645420307294,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 1858,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 134,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1992
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "2ec7a58296694522b0f6a4228a966e82",
+      "request": "lecture-midterm-date-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.24360945797525346,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 21,
+        "total_tokens": 21
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "8909357e1df54ec1beac75d1cdd15756",
+      "request": "lecture-midterm-date-planned",
+      "role": "evidence_assessment",
+      "api": "responses",
+      "seconds": 1.5705268330639228,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 1882,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 73,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 1955
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "0d90bf680b214d84bdf4d698298cf95f",
+      "request": "apple-securities-planned",
+      "role": "retrieval_plan",
+      "api": "responses",
+      "seconds": 2.554619541973807,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 1768,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 330,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2098
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "a4c2ead31e5d4ef7a05a6fe67eb7a1dd",
+      "request": "apple-securities-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.19942887499928474,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 25,
+        "total_tokens": 25
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "a62c35b497c941c0b01c21c94d379705",
+      "request": "apple-securities-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.21236262505408376,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 26,
+        "total_tokens": 26
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "d62e079ef80f47558179975cb1b70f19",
+      "request": "apple-securities-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.20984954200685024,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 28,
+        "total_tokens": 28
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "cf365bbe3b454a42adbf9bcfd94c3f1e",
+      "request": "apple-securities-planned",
+      "role": "evidence_assessment",
+      "api": "responses",
+      "seconds": 1.4608577080070972,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 5939,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 83,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 6022
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "9f07922591224d50b0d0e0c285c65503",
+      "request": "apple-securities-planned",
+      "role": "generation",
+      "api": "responses",
+      "seconds": 1.2411417920375243,
+      "kind": "sdk_stream_terminal",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 5909,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 61,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5970
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "b34c750ced9c46c2ad29d37761d7d0c9",
+      "request": "apple-cash-condition-planned",
+      "role": "retrieval_plan",
+      "api": "responses",
+      "seconds": 4.460760124959052,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 1792,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 531,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 2323
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "395ab881b42c44d3a938c38348eef419",
+      "request": "apple-cash-condition-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.2390699590323493,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 22,
+        "total_tokens": 22
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "4535283372b541b5916a2e69b8834df9",
+      "request": "apple-cash-condition-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.23405937501229346,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 22,
+        "total_tokens": 22
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "8ae9109cc25e439985394b53281ca8b5",
+      "request": "apple-cash-condition-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.20197366701904684,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 22,
+        "total_tokens": 22
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "499db8fb738c44fb9cc2c85daa128e4d",
+      "request": "apple-cash-condition-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.20552874996792525,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 20,
+        "total_tokens": 20
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "652a5370159f4740972aebcf6b4ab550",
+      "request": "apple-cash-condition-planned",
+      "role": "query_embedding",
+      "api": "embeddings",
+      "seconds": 0.17488537507597357,
+      "kind": "sdk_complete",
+      "model": "text-embedding-3-small",
+      "usage": {
+        "prompt_tokens": 29,
+        "total_tokens": 29
+      },
+      "response_status": null,
+      "error_type": null
+    },
+    {
+      "call_id": "d971ce0e40f4498590e015150568fea5",
+      "request": "apple-cash-condition-planned",
+      "role": "evidence_assessment",
+      "api": "responses",
+      "seconds": 2.714634959003888,
+      "kind": "sdk_complete",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 5201,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 146,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5347
+      },
+      "response_status": "completed",
+      "error_type": null
+    },
+    {
+      "call_id": "5c54eb40e78d4f049a3281c03f4c6412",
+      "request": "apple-cash-condition-planned",
+      "role": "generation",
+      "api": "responses",
+      "seconds": 1.8670484169851989,
+      "kind": "sdk_stream_terminal",
+      "model": "gpt-4.1-2025-04-14",
+      "usage": {
+        "input_tokens": 5234,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 0
+        },
+        "output_tokens": 92,
+        "output_tokens_details": {
+          "reasoning_tokens": 0
+        },
+        "total_tokens": 5326
+      },
+      "response_status": "completed",
+      "error_type": null
+    }
+  ]
+}

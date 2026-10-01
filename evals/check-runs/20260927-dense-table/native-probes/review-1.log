@@ -1,0 +1,65 @@
+{
+  "comparison": {
+    "baseline": {
+      "artifact": "../../../library-runs/20260927-v2-pdf-live/index-snapshot.json",
+      "rows": 1,
+      "columns": 1,
+      "label": "Collapsed original table has no row/column hierarchy matching these annotations; numeric presence alone is not cell association.",
+      "associated_nonblank_numeric_matches": 0,
+      "associated_explicit_blank_matches": 0,
+      "associated_row_labels": 0,
+      "complete_header_paths": 0,
+      "merged_groups": 0,
+      "joint_exact_rows": 0
+    },
+    "candidate": {
+      "associated_nonblank_numeric_matches": 66,
+      "nonblank_numeric_denominator": 66,
+      "associated_explicit_blank_matches": 6,
+      "blank_denominator": 6,
+      "associated_row_labels": 3,
+      "row_label_denominator": 3,
+      "complete_header_paths": 25,
+      "header_path_denominator": 25,
+      "merged_groups": 6,
+      "merged_group_denominator": 6,
+      "joint_exact_rows": 3,
+      "joint_row_denominator": 3
+    }
+  },
+  "document_controls": [
+    {
+      "id": "background-title",
+      "observed_in_native_page_text": true,
+      "expected_phrases": [
+        "NICS Firearm Background Checks"
+      ],
+      "scope": "Native source-text control, not production adapter or RAG output."
+    },
+    {
+      "id": "background-date",
+      "observed_in_native_page_text": true,
+      "expected_phrases": [
+        "November - 2015"
+      ],
+      "scope": "Native source-text control, not production adapter or RAG output."
+    },
+    {
+      "id": "checks_not_sales",
+      "observed_in_native_page_text": true,
+      "expected_phrases": [
+        "number of firearm background checks initiated through the NICS",
+        "do not represent the number of firearms sold",
+        "a one-to-one correlation cannot be made between a firearm background check and a firearm sale"
+      ],
+      "scope": "Native source-text control, not production adapter or RAG output."
+    }
+  ],
+  "reliability": {
+    "variants": 8,
+    "successes": 8,
+    "errors": 0,
+    "timeouts": 0,
+    "retries": 0
+  }
+}

@@ -52,7 +52,7 @@ def test_upload_list_retrieve_delete_preserves_other_file(api):
 
 
 @pytest.mark.parametrize("name, content, message", [
-    ("notes.pdf", b"Text.", "Only .txt and .md files are supported."),
+    ("notes.docx", b"Text.", "Only .txt, .md and .pdf files are supported."),
     ("notes.txt", b"\xff", "The file must be UTF-8 encoded."),
     ("notes.txt", b"", "The file must contain nonempty text."),
     ("notes.txt", b" \n\t", "The file must contain nonempty text."),

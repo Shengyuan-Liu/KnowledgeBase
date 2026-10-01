@@ -1,0 +1,77 @@
+{
+  "case_id": "factual-condition",
+  "provider_status": "completed",
+  "provider_response_id": "resp_0a982e18ff34ae7c006abac98e52ac87d29cfc21e3d74dd749",
+  "original_output": "{\n  \"route\": \"dependent\",\n  \"requirements\": [\n    {\n      \"requirement_id\": \"R1\",\n      \"description\": \"Whether Alabama's Rentals Handgun cell is blank in \\\"background-checks.pdf\\\" for November 2015.\"\n    },\n    {\n      \"requirement_id\": \"R2\",\n      \"description\": \"Alabama's ungrouped Handgun value in \\\"background-checks.pdf\\\" for November 2015.\"\n    },\n    {\n      \"requirement_id\": \"R3\",\n      \"description\": \"Whether \\\"background-checks.pdf\\\" for November 2015 explains why Alabama's Rentals Handgun cell is blank.\"\n    }\n  ],\n  \"queries\": [\n    {\n      \"query_id\": \"Q1\",\n      \"text\": \"In \\\"background-checks.pdf\\\" for November 2015, is Alabama's Rentals Handgun cell blank?\",\n      \"requirement_ids\": [\"R1\"]\n    }\n  ],\n  \"dependencies\": [\n    {\n      \"query_id\": \"Q2\",\n      \"query_template\": \"In \\\"background-checks.pdf\\\" for November 2015, what is Alabama's ungrouped Handgun value?\",\n      \"requirement_ids\": [\"R2\"],\n      \"depends_on\": [\"Q1\"]\n    },\n    {\n      \"query_id\": \"Q3\",\n      \"query_template\": \"In \\\"background-checks.pdf\\\" for November 2015, does the document explain why Alabama's Rentals Handgun cell is blank?\",\n      \"requirement_ids\": [\"R3\"],\n      \"depends_on\": [\"Q1\"]\n    }\n  ],\n  \"answer_rules\": []\n}",
+  "original_decision": {
+    "route": "dependent",
+    "requirements": [
+      {
+        "requirement_id": "R1",
+        "description": "Whether Alabama's Rentals Handgun cell is blank in \"background-checks.pdf\" for November 2015."
+      },
+      {
+        "requirement_id": "R2",
+        "description": "Alabama's ungrouped Handgun value in \"background-checks.pdf\" for November 2015."
+      },
+      {
+        "requirement_id": "R3",
+        "description": "Whether \"background-checks.pdf\" for November 2015 explains why Alabama's Rentals Handgun cell is blank."
+      }
+    ],
+    "queries": [
+      {
+        "query_id": "Q1",
+        "text": "In \"background-checks.pdf\" for November 2015, is Alabama's Rentals Handgun cell blank?",
+        "requirement_ids": [
+          "R1"
+        ]
+      }
+    ],
+    "dependencies": [
+      {
+        "query_id": "Q2",
+        "query_template": "In \"background-checks.pdf\" for November 2015, what is Alabama's ungrouped Handgun value?",
+        "requirement_ids": [
+          "R2"
+        ],
+        "depends_on": [
+          "Q1"
+        ]
+      },
+      {
+        "query_id": "Q3",
+        "query_template": "In \"background-checks.pdf\" for November 2015, does the document explain why Alabama's Rentals Handgun cell is blank?",
+        "requirement_ids": [
+          "R3"
+        ],
+        "depends_on": [
+          "Q1"
+        ]
+      }
+    ],
+    "answer_rules": []
+  },
+  "validation_errors": [
+    {
+      "type": "value_error",
+      "loc": [
+        "dependencies",
+        0
+      ],
+      "msg": "Value error, A dependent query needs exactly one {target} placeholder."
+    },
+    {
+      "type": "value_error",
+      "loc": [
+        "dependencies",
+        1
+      ],
+      "msg": "Value error, A dependent query needs exactly one {target} placeholder."
+    }
+  ],
+  "diagnosis": "The model chose dependent for a logical condition whose entity, document and requested values were already known. Q2/Q3 have no {target}; the existing dependency contract requires exactly one source-derived target placeholder.",
+  "other_observation": "The generated file references contain literal backslash-quote characters in the decoded strings; execution stopped before scope handling, so no downstream filename result was measured.",
+  "no_repair_or_rerun": true,
+  "paid_calls": 0
+}

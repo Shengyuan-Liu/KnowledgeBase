@@ -1,0 +1,45 @@
+........................................................................ [ 11%]
+....F................................................................... [ 22%]
+........................................................................ [ 33%]
+........................................................................ [ 45%]
+.......................................................................s [ 56%]
+........................................................................ [ 67%]
+........................................................................ [ 79%]
+........................................................................ [ 90%]
+.............................................................            [100%]
+=================================== FAILURES ===================================
+_______ test_empty_knowledge_base_returns_no_sources_without_model_calls _______
+
+storage = (sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-...pire_on_commit=True), <knowledgebase.storage.vectordb.ChromaStore object at 0x15fc16ea0>, Collection(name=test-chunks))
+
+    def test_empty_knowledge_base_returns_no_sources_without_model_calls(storage):
+        sessions, store, _ = storage
+        embeddings = Mock(spec=EmbeddingClient)
+        llm = Mock(spec=LLMClient)
+    
+        result = answer_question("When does the café close?", sessions, embeddings, store, llm)
+    
+>       assert result == ChatAnswer(
+            answer=INSUFFICIENT_EVIDENCE, sources=[],
+            retrieval=RetrievalDiagnostics(max_tokens=4096, tokenizer="cl100k_base", options=RetrievalOptions(packing_strategy="parent_then_child"), top_k=5,
+                                           retrieval_seconds=result.retrieval.retrieval_seconds),
+            citation_check=CitationCheck(valid_source_ids=[], invalid_source_ids=[], no_citations=True),
+        )
+E       AssertionError: assert ChatAnswer(an...cl100k_base')) == ChatAnswer(an...cl100k_base'))
+E         
+E         Use -v to get more diff
+
+tests/test_chat.py:97: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+tests/test_pdf.py::test_parser_disables_deferred_features_and_rejects_partial_conversion
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/pydantic/main.py:475: DeprecationWarning: `force_full_page_ocr` is deprecated; set `mode=OcrMode.FULL_PAGE` instead.
+    return self.__pydantic_serializer__.to_python(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_chat.py::test_empty_knowledge_base_returns_no_sources_without_model_calls
+1 failed, 635 passed, 1 skipped, 2 warnings in 21.71s
