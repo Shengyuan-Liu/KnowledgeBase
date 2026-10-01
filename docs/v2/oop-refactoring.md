@@ -206,8 +206,10 @@ Record documentation-only reviews in the commit message or a check record.
 
 ## Progress
 
-- Plan: recorded; implementation pending.
-- Baseline and frozen comparison: pending.
+- Plan: committed as `d5a1cde`.
+- Baseline: 854 passed, 1 opt-in live test skipped. Frozen HTTP, prompt,
+  schema and persisted-history observations are retained in
+  [the check directory](../../evals/check-runs/20261001-oop-refactoring/README.md).
 - Document processing: pending.
 - Reranking and retrieval: pending.
 - RAG and conversations: pending.
