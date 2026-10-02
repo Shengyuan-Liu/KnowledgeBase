@@ -87,7 +87,7 @@ def test_chunks_round_trip_with_source_offsets(session):
     chunks = split_text(text, "file-1", chunk_size=8, overlap=2)
     session.add(FileRecord(file_id="file-1", file_name="notes.txt"))
     session.commit()
-    session.add_all(ChunkRecord(**chunk.model_dump()) for chunk in chunks)
+    session.add_all(ChunkRecord(**chunk.model_dump(include=set(ChunkRecord.__table__.columns.keys()))) for chunk in chunks)
     session.commit()
     session.expunge_all()
 
@@ -99,7 +99,7 @@ def test_chunks_round_trip_with_source_offsets(session):
 
     assert len(records) == len(chunks)
     for record, chunk in zip(records, chunks):
-        assert {field: getattr(record, field) for field in chunk.model_dump()} == chunk.model_dump()
+        assert {field: getattr(record, field) for field in chunk.model_dump(include=set(ChunkRecord.__table__.columns.keys()))} == chunk.model_dump(include=set(ChunkRecord.__table__.columns.keys()))
         assert record.text == text[record.start_offset:record.end_offset]
 
 
@@ -108,9 +108,9 @@ def stored_chunk(session):
     session.add(FileRecord(file_id="file-1", file_name="notes.txt"))
     session.commit()
     chunk = split_text("abc", "file-1")[0]
-    session.add(ChunkRecord(**chunk.model_dump()))
+    session.add(ChunkRecord(**chunk.model_dump(include=set(ChunkRecord.__table__.columns.keys()))))
     session.commit()
-    return chunk.model_dump()
+    return chunk.model_dump(include=set(ChunkRecord.__table__.columns.keys()))
 
 
 @pytest.mark.parametrize(

@@ -8,50 +8,93 @@ import tiktoken
 from fastapi.testclient import TestClient
 from sqlalchemy import func, select
 
+from knowledgebase import bootstrap
 from knowledgebase.api import app as api_module
-from knowledgebase.config import RetrievalOptions
+from knowledgebase.schemas.options import RetrievalOptions
+from knowledgebase.rag.document_chunker import DocumentChunker
 from knowledgebase.rag.context import build_context
-from knowledgebase.rag.retrieval import retrieve_evidence
+from knowledgebase.rag.reranking import Reranker
+from knowledgebase.rag.retrieval import Retriever
 from knowledgebase.schemas import RelevanceScore
-from knowledgebase.services.files import ingest_file
+from knowledgebase.services.files import FileService
 from knowledgebase.storage.models import MessageRecord
 from knowledgebase.storage.operations import get_chunks, get_parents, update_file_status
 
 
 def score_facts(question, candidates):
-    return [RelevanceScore(chunk_id=c.chunk_id, score=3.75 if "3.0" in c.text or "66%" in c.text else -2.5)
-            for c in candidates]
+    return [
+        RelevanceScore(
+            chunk_id=c.chunk_id, score=3.75 if "3.0" in c.text or "66%" in c.text else -2.5
+        )
+        for c in candidates
+    ]
 
 
 def reranker():
-    return Mock(model="offline-reranker", model_revision="test-revision", device="cpu", max_pair_tokens=1024, batch_size=4, score=Mock(side_effect=score_facts))
+    return Mock(
+        model="offline-reranker",
+        model_revision="test-revision",
+        device="cpu",
+        max_pair_tokens=1024,
+        batch_size=4,
+        score=Mock(side_effect=score_facts),
+    )
 
 
 def test_rerank_precedes_top_k_parent_deduplication_and_budget(storage, embeddings):
     sessions, store, _ = storage
     pointer = "# Requirements\n\n" + "See the requirements page for more details. " * 8
     facts = "# Progress\n\nMaintain GPA 3.0 each semester.\n\nComplete 66% of attempted credits.\n"
-    first = ingest_file("pointer.md", pointer.encode(), sessions, embeddings, store,
-                        chunk_max_tokens=12, parent_max_tokens=128)
-    second = ingest_file("facts.md", facts.encode(), sessions, embeddings, store,
-                         chunk_max_tokens=12, parent_max_tokens=128)
+    first = FileService(
+        sessions,
+        store,
+        embeddings=embeddings,
+        chunker=DocumentChunker(chunk_max_tokens=12, parent_max_tokens=128),
+    ).ingest("pointer.md", pointer.encode())
+    second = FileService(
+        sessions,
+        store,
+        embeddings=embeddings,
+        chunker=DocumentChunker(chunk_max_tokens=12, parent_max_tokens=128),
+    ).ingest("facts.md", facts.encode())
     scorer = reranker()
     options = RetrievalOptions(rerank_enabled=True)
     with sessions() as session:
         children = get_chunks(session, second)
         parent = get_parents(session, second)[0]
         store.upsert_chunks(children, [[0, 1] for _ in children])
-        baseline = retrieve_evidence("requirements", session, embeddings, store, top_k=1)
+        baseline = Retriever(embeddings, store, top_k=1).retrieve("requirements", session)
         assert baseline.chunks[0].chunk.file_id == first
-        one = retrieve_evidence("requirements", session, embeddings, store, top_k=1,
-                                retrieval_options=options, reranker_client=scorer)
+        one = Retriever(
+            embeddings,
+            store,
+            top_k=1,
+            options=options,
+            reranker=Reranker(
+                scorer,
+                candidate_limit=(options).rerank_candidate_limit,
+                max_input_tokens=(options).rerank_max_input_tokens,
+            ),
+        ).retrieve("requirements", session)
         assert one.chunks[0].chunk.file_id == second
         assert one.chunks[0].fusion.rank > 1
         assert one.chunks[0].rerank.rerank_rank == 1
         assert one.chunks[0].chunk.text == parent.text
-        budget = len(tiktoken.get_encoding("cl100k_base").encode_ordinary(build_context(one.chunks)))
-        packed = retrieve_evidence("requirements", session, embeddings, store, top_k=10,
-                                   evidence_max_tokens=budget, retrieval_options=options, reranker_client=scorer)
+        budget = len(
+            tiktoken.get_encoding("cl100k_base").encode_ordinary(build_context(one.chunks))
+        )
+        packed = Retriever(
+            embeddings,
+            store,
+            top_k=10,
+            evidence_max_tokens=budget,
+            options=options,
+            reranker=Reranker(
+                scorer,
+                candidate_limit=(options).rerank_candidate_limit,
+                max_input_tokens=(options).rerank_max_input_tokens,
+            ),
+        ).retrieve("requirements", session)
         assert [s.chunk.file_id for s in packed.chunks] == [second]
         assert packed.chunks[0].chunk.text == facts
         assert len(packed.chunks[0].matched_child_ids) >= 2
@@ -66,8 +109,16 @@ def test_rerank_precedes_top_k_parent_deduplication_and_budget(storage, embeddin
     with sessions.begin() as session:
         update_file_status(session, second, "failed")
     with sessions() as session:
-        ready = retrieve_evidence("requirements", session, embeddings, store,
-                                  retrieval_options=options, reranker_client=scorer)
+        ready = Retriever(
+            embeddings,
+            store,
+            options=options,
+            reranker=Reranker(
+                scorer,
+                candidate_limit=(options).rerank_candidate_limit,
+                max_input_tokens=(options).rerank_max_input_tokens,
+            ),
+        ).retrieve("requirements", session)
         assert all(not c.chunk_id.startswith(second) for c in ready.diagnostics.rerank.candidates)
 
 
@@ -75,12 +126,20 @@ def test_disabled_and_empty_library_do_not_call_reranker(storage, embeddings):
     sessions, store, _ = storage
     client = reranker()
     with sessions() as session:
-        empty = retrieve_evidence("Question", session, embeddings, store,
-                                  retrieval_options=RetrievalOptions(rerank_enabled=True), reranker_client=client)
+        empty = Retriever(
+            embeddings,
+            store,
+            options=RetrievalOptions(rerank_enabled=True),
+            reranker=Reranker(
+                client,
+                candidate_limit=(RetrievalOptions(rerank_enabled=True)).rerank_candidate_limit,
+                max_input_tokens=(RetrievalOptions(rerank_enabled=True)).rerank_max_input_tokens,
+            ),
+        ).retrieve("Question", session)
         assert empty.chunks == []
-    ingest_file("facts.txt", b"Maintain GPA 3.0.", sessions, embeddings, store)
+    FileService(sessions, store, embeddings=embeddings).ingest("facts.txt", b"Maintain GPA 3.0.")
     with sessions() as session:
-        disabled = retrieve_evidence("GPA", session, embeddings, store, reranker_client=client)
+        disabled = Retriever(embeddings, store, reranker=Reranker(client)).retrieve("GPA", session)
     assert disabled.diagnostics.rerank is None
     assert disabled.chunks[0].rerank is None
     client.score.assert_not_called()
@@ -89,8 +148,9 @@ def test_disabled_and_empty_library_do_not_call_reranker(storage, embeddings):
 def test_enabled_reranking_requires_a_client(storage, embeddings):
     sessions, store, _ = storage
     with sessions() as session, pytest.raises(ValueError, match="requires a reranker client"):
-        retrieve_evidence("Question", session, embeddings, store,
-                          retrieval_options=RetrievalOptions(rerank_enabled=True))
+        Retriever(embeddings, store, options=RetrievalOptions(rerank_enabled=True)).retrieve(
+            "Question", session
+        )
 
 
 @pytest.fixture(params=["child", "parent"])
@@ -105,59 +165,82 @@ def rerank_app(configured_app, tmp_path, monkeypatch, request):
 
     sdk.reranker = reranker()
     sdk.reranker.model = "custom-reranker"
-    monkeypatch.setattr(api_module, "RerankerClient", Mock(return_value=sdk.reranker))
-    sdk.responses.create.side_effect = lambda **kwargs: Mock(output_text=(
-        "Resolved GPA question" if kwargs["input"][0]["content"].startswith("Rewrite") else "GPA 3.0 and 66%. [1]"
-    ))
+    monkeypatch.setattr(bootstrap, "RerankerClient", Mock(return_value=sdk.reranker))
+    sdk.responses.create.side_effect = lambda **kwargs: Mock(
+        output_text=(
+            "Resolved GPA question"
+            if kwargs["input"][0]["content"].startswith("Rewrite")
+            else "GPA 3.0 and 66%. [1]"
+        )
+    )
     stream_calls = []
 
     async def stream(messages):
         stream_calls.append(messages)
         yield "GPA 3.0 and 66%. [1]"
 
-    monkeypatch.setattr(api_module, "StreamingLLMClient", Mock(return_value=Mock(stream=stream)))
+    monkeypatch.setattr(bootstrap, "StreamingLLMClient", Mock(return_value=Mock(stream=stream)))
     return app, embeddings, sdk, stream_calls
 
 
 def ask(client, streaming, conversation_id=None):
-    response = client.post("/api/chat/stream" if streaming else "/api/chat", json={
-        "question": "And the other requirement?" if conversation_id else "GPA requirements",
-        "request_id": "rerank-test", "conversation_id": conversation_id,
-    })
+    response = client.post(
+        "/api/chat/stream" if streaming else "/api/chat",
+        json={
+            "question": "And the other requirement?" if conversation_id else "GPA requirements",
+            "request_id": "rerank-test",
+            "conversation_id": conversation_id,
+        },
+    )
     if not streaming:
         return response, []
-    events = [{"event": frame.split("\n")[0].removeprefix("event: "),
-               **json.loads(frame.split("\ndata: ")[1])}
-              for frame in response.text.strip().split("\n\n")]
+    events = [
+        {
+            "event": frame.split("\n")[0].removeprefix("event: "),
+            **json.loads(frame.split("\ndata: ")[1]),
+        }
+        for frame in response.text.strip().split("\n\n")
+    ]
     return response, events
 
 
 @pytest.mark.parametrize("streaming", [False, True])
-def test_json_and_sse_persist_exact_reranked_evidence_and_restore_after_restart_and_delete(rerank_app, streaming):
+def test_json_and_sse_persist_exact_reranked_evidence_and_restore_after_restart_and_delete(
+    rerank_app, streaming
+):
     app, embeddings, sdk, stream_calls = rerank_app
     text = "# Guide\n\nSee the requirements page.\n\n# Progress\n\nMaintain GPA 3.0 each semester.\n\nComplete 66% of attempted credits.\n"
     with TestClient(app) as client:
-        file_id = client.post("/api/files", files={"file": ("guide.md", text.encode())}).json()["file_id"]
+        file_id = client.post("/api/files", files={"file": ("guide.md", text.encode())}).json()[
+            "file_id"
+        ]
         response, events = ask(client, streaming)
         assert response.status_code == 200
         result = events[-1] if streaming else response.json()
         if streaming:
             assert result["event"] == "complete"
-            assert next(e["sources"] for e in events if e["event"] == "sources") == result["sources"]
+            assert (
+                next(e["sources"] for e in events if e["event"] == "sources") == result["sources"]
+            )
         trace = result["retrieval"]["rerank"]
         if result["retrieval"]["options"]["rerank_unit"] == "parent":
             assert all(c["scoring_parent_id"] for c in trace["candidates"])
-            assert result["sources"][0]["rerank"]["scoring_parent_id"] == result["sources"][0]["parent_id"]
+            assert (
+                result["sources"][0]["rerank"]["scoring_parent_id"]
+                == result["sources"][0]["parent_id"]
+            )
         assert trace["model"] == "custom-reranker"
         assert trace["candidate_limit"] == 7 and trace["max_input_tokens"] == 1000
         assert trace["top_k"] == 2
-        api_module.RerankerClient.assert_called_with("custom-reranker", device="auto", batch_size=4, max_pair_tokens=1024)
+        bootstrap.RerankerClient.assert_called_with(
+            "custom-reranker", device="auto", batch_size=4, max_pair_tokens=1024
+        )
         assert trace["score_kind"] == "logit"
         assert result["sources"][0]["rerank"]["rerank_score"] == 3.75
         source = result["sources"][0]
         assert source["rerank"]["rerank_rank"] == 1
         assert source["fusion"]["rank"] == source["rerank"]["rank"]
-        assert source["text"] == text[source["start_offset"]:source["end_offset"]]
+        assert source["text"] == text[source["start_offset"] : source["end_offset"]]
         assert "3.0" in source["text"] and "66%" in source["text"]
         prompt = stream_calls[-1] if streaming else sdk.responses.create.call_args.kwargs["input"]
         assert source["text"] in prompt[0]["content"]
@@ -185,7 +268,7 @@ def test_rerank_failure_does_not_generate_or_save_an_exchange(rerank_app, stream
         if failure == "provider":
             sdk.reranker.score.side_effect = RuntimeError("Scoring failed")
         else:
-            app.state.resources.settings.rerank_max_input_tokens = 1
+            app.state.resources.retriever.reranker.max_input_tokens = 1
         response, events = ask(client, streaming)
         if streaming:
             assert [e["event"] for e in events] == ["start", "error"]
@@ -201,21 +284,59 @@ def test_rerank_failure_does_not_generate_or_save_an_exchange(rerank_app, stream
 
 def test_parent_scoring_keeps_other_region_when_siblings_dominate_child_top_k(storage, embeddings):
     sessions, store, _ = storage
-    work = '# Work\n\n' + '\n\n'.join(f'Working students have workload requirement {i}.' for i in range(5))
-    summer = '# Enrollment\n\nContinuous enrollment excludes summer.'
-    ids = [ingest_file(name, text.encode(), sessions, embeddings, store,
-                      chunk_max_tokens=12, parent_max_tokens=128)
-           for name, text in [('work.md', work), ('summer.md', summer)]]
+    work = "# Work\n\n" + "\n\n".join(
+        f"Working students have workload requirement {i}." for i in range(5)
+    )
+    summer = "# Enrollment\n\nContinuous enrollment excludes summer."
+    ids = [
+        FileService(
+            sessions,
+            store,
+            embeddings=embeddings,
+            chunker=DocumentChunker(chunk_max_tokens=12, parent_max_tokens=128),
+        ).ingest(name, text.encode())
+        for name, text in [("work.md", work), ("summer.md", summer)]
+    ]
     scorer = reranker()
     scorer.score.side_effect = lambda question, candidates: [
-        RelevanceScore(chunk_id=c.chunk_id, score=10 if 'Working' in c.text else 5 if 'summer' in c.text else 0)
-        for c in candidates]
+        RelevanceScore(
+            chunk_id=c.chunk_id, score=10 if "Working" in c.text else 5 if "summer" in c.text else 0
+        )
+        for c in candidates
+    ]
     with sessions() as session:
-        control = retrieve_evidence('working enrollment', session, embeddings, store, top_k=2,
-                                    retrieval_options=RetrievalOptions(rerank_enabled=True), reranker_client=scorer)
-        result = retrieve_evidence('working enrollment', session, embeddings, store, top_k=2,
-            retrieval_options=RetrievalOptions(rerank_enabled=True, rerank_unit='parent', rerank_candidate_limit=2),
-            reranker_client=scorer)
+        control = Retriever(
+            embeddings,
+            store,
+            top_k=2,
+            options=RetrievalOptions(rerank_enabled=True),
+            reranker=Reranker(
+                scorer,
+                candidate_limit=(RetrievalOptions(rerank_enabled=True)).rerank_candidate_limit,
+                max_input_tokens=(RetrievalOptions(rerank_enabled=True)).rerank_max_input_tokens,
+            ),
+        ).retrieve("working enrollment", session)
+        result = Retriever(
+            embeddings,
+            store,
+            top_k=2,
+            options=RetrievalOptions(
+                rerank_enabled=True, rerank_unit="parent", rerank_candidate_limit=2
+            ),
+            reranker=Reranker(
+                scorer,
+                candidate_limit=(
+                    RetrievalOptions(
+                        rerank_enabled=True, rerank_unit="parent", rerank_candidate_limit=2
+                    )
+                ).rerank_candidate_limit,
+                max_input_tokens=(
+                    RetrievalOptions(
+                        rerank_enabled=True, rerank_unit="parent", rerank_candidate_limit=2
+                    )
+                ).rerank_max_input_tokens,
+            ),
+        ).retrieve("working enrollment", session)
         canonical = {c.chunk_id: c for file_id in ids for c in get_chunks(session, file_id)}
     assert {c.file_id for c in control.diagnostics.candidates} == {ids[0]}
     assert [s.chunk.text for s in result.chunks] == [work, summer]
@@ -231,16 +352,31 @@ def test_parent_scoring_keeps_other_region_when_siblings_dominate_child_top_k(st
 def test_parent_mode_preserves_flat_chunks_without_fabricating_a_parent(storage, embeddings):
     from knowledgebase.schemas import Chunk
     from knowledgebase.storage.operations import create_file, save_chunks
+
     sessions, store, _ = storage
-    flat = Chunk(chunk_id='flat', file_id='flat', index=0, text='GPA 3.0', start_offset=0, end_offset=7)
+    flat = Chunk(
+        chunk_id="flat", file_id="flat", index=0, text="GPA 3.0", start_offset=0, end_offset=7
+    )
     with sessions.begin() as session:
-        create_file(session, 'flat', 'flat.txt')
+        create_file(session, "flat", "flat.txt")
         save_chunks(session, [flat])
-        update_file_status(session, 'flat', 'ready')
+        update_file_status(session, "flat", "ready")
     store.upsert_chunks([flat], [[1, 0]])
     with sessions() as session:
-        result = retrieve_evidence('GPA', session, embeddings, store,
-            retrieval_options=RetrievalOptions(rerank_enabled=True, rerank_unit='parent'), reranker_client=reranker())
+        result = Retriever(
+            embeddings,
+            store,
+            options=RetrievalOptions(rerank_enabled=True, rerank_unit="parent"),
+            reranker=Reranker(
+                reranker(),
+                candidate_limit=(
+                    RetrievalOptions(rerank_enabled=True, rerank_unit="parent")
+                ).rerank_candidate_limit,
+                max_input_tokens=(
+                    RetrievalOptions(rerank_enabled=True, rerank_unit="parent")
+                ).rerank_max_input_tokens,
+            ),
+        ).retrieve("GPA", session)
     assert result.chunks[0].chunk == flat
     assert result.chunks[0].rerank.scoring_parent_id is None
     assert result.diagnostics.rerank.candidates[0].text == flat.text

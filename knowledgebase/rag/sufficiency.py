@@ -1,34 +1,8 @@
 """Assess packed evidence and validate source-bound supplementary queries."""
-import re
-from typing import Literal
 
-from pydantic import Field
+import re
 
 from knowledgebase.rag.context import build_context
-from knowledgebase.rag.planning import PlanRecord
-
-
-class PassageReference(PlanRecord):
-    evidence_id: str
-
-
-class RequirementAssessment(PlanRecord):
-    requirement_id: str
-    status: Literal["supported", "partial", "missing", "conflicting"]
-    gap: str = Field(max_length=320)
-    references: list[PassageReference]
-
-
-class GapQuery(PlanRecord):
-    requirement_ids: list[str] = Field(min_length=1, max_length=6)
-    query_template: str = Field(min_length=1)
-    target: str
-    references: list[PassageReference]
-
-
-class SufficiencyAssessment(PlanRecord):
-    requirements: list[RequirementAssessment] = Field(min_length=1, max_length=6)
-    queries: list[GapQuery] = Field(max_length=6)
 
 
 ASSESSMENT_INSTRUCTIONS = """Assess whether the supplied Sources support each requested answer point.

@@ -28,8 +28,8 @@ example or code snippet is still recognized.
 
 ## Integration and boundaries
 
-After generation, `answer_question` attaches the result as the required
-`ChatAnswer.citation_check` field. `answer_in_conversation` carries the same result
+After generation, `RagClient.answer()` attaches the result as the required
+`ChatAnswer.citation_check` field. `ChatService.answer()` carries the same result
 into `ConversationAnswer`. The CLI displays the valid/invalid IDs, or states that
 no numbered citations were found.
 

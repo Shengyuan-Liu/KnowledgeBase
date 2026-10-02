@@ -40,7 +40,7 @@ def assert_chunk_contract(text, blocks, chunks, budget, encoding):
             if block.start_offset < chunk.end_offset and block.end_offset > chunk.start_offset
         ]
         assert all(
-            blocks[i].heading_path == chunk.heading_path for i in chunk.source_block_indices
+            list(blocks[i].heading_path) == chunk.heading_path for i in chunk.source_block_indices
         )
         previous_end = chunk.end_offset
     assert not text[previous_end:].strip()

@@ -1,18 +1,19 @@
 """Replay observed rule invention and period failures without live model calls."""
+
 import json
 from pathlib import Path
 from unittest.mock import Mock
 
 import pytest
+from test_automatic_planning import response
 
-from knowledgebase.config import PlanningOptions
+from knowledgebase.schemas.options import PlanningOptions
 from knowledgebase.providers.llm import LLMClient
 from knowledgebase.providers.planner import PlannerClient
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE, generate_answer
-from knowledgebase.rag.planned_retrieval import PlannedEvidence
-from knowledgebase.services.hops import HopController
-from knowledgebase.services.planning import PreparedPlanning, RequestControl
-from test_automatic_planning import response
+from knowledgebase.schemas import PlannedEvidence
+from knowledgebase.rag.hops import HopController
+from knowledgebase.rag.planning import PreparedPlanning, RequestControl
 
 ROOT = Path(__file__).resolve().parents[1]
 FROZEN = ROOT / "evals/library-runs/20260928-answer-rules-acceptance"
@@ -70,11 +71,17 @@ def replay_period(*, annotated):
     decision = json.loads(row["assessment"]["record"]["output_text"])
     if annotated:
         for point in decision["requirements"]:
-            point.update(status="missing", gap="The supplied values are for November 2015; the requested November 2016 values are not supplied.", references=[])
+            point.update(
+                status="missing",
+                gap="The supplied values are for November 2015; the requested November 2016 values are not supplied.",
+                references=[],
+            )
     sdk.responses.create.return_value = response(json.dumps(decision))
     evidence = PlannedEvidence.model_validate_json((FROZEN / "frozen-evidence.json").read_text())
     prepared = PreparedPlanning(generated.plan, evidence.trace.allowed_file_ids, generated.record)
-    controller = HopController(prepared, None, None, None, planner, RequestControl(PlanningOptions(), "cl100k_base"))
+    controller = HopController(
+        prepared, None, None, planner, RequestControl(PlanningOptions(), "cl100k_base")
+    )
     controller.result = evidence
     controller.result.trace.plan = generated.plan
     controller.result.trace.runs = []
@@ -84,8 +91,12 @@ def replay_period(*, annotated):
     # Capture the production assessment request before the optional generation call.
     assessment_request = sdk.responses.create.call_args.kwargs
     sdk.responses.create.return_value = response(row["answer"])
-    answer = generate_answer(row["case"]["question"], evidence.evidence.chunks,
-        LLMClient(sdk, "offline"), assessment=controller.assessment)
+    answer = generate_answer(
+        row["case"]["question"],
+        evidence.evidence.chunks,
+        LLMClient(sdk, "offline"),
+        assessment=controller.assessment,
+    )
     return controller, sdk, assessment_request, answer
 
 
@@ -108,5 +119,8 @@ def test_period_mismatch_annotation_abstains_while_raw_bad_semantics_are_not_sil
     assert "requested-period value is missing" in payload["input"][0]["content"]
     assert after.assessment["record"]["prompt_version"] == "evidence-sufficiency-v6"
     generation = before_sdk.responses.create.call_args.kwargs["input"]
-    assert "November 2016" in generation[0]["content"] and "November - 2015" in generation[0]["content"]
+    assert (
+        "November 2016" in generation[0]["content"]
+        and "November - 2015" in generation[0]["content"]
+    )
     assert "even if an assessment calls" in generation[1]["content"]

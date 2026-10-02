@@ -3,11 +3,12 @@
 import json
 import re
 
-from knowledgebase.rag.pdf_models import PdfBlock, PdfExtraction, PdfTable
-from knowledgebase.schemas import PdfEvidence, PdfSupplement, PdfTableSpan
+from knowledgebase.schemas import (
+    SourceBlock, File, PdfTable, PdfEvidence, PdfSupplement, PdfTableSpan,
+)
 
 
-def table_rows(extraction: PdfExtraction) -> dict[int, list[tuple[int, int]]]:
+def table_rows(extraction: File) -> dict[int, list[tuple[int, int]]]:
     result = {}
     for index, block in enumerate(extraction.blocks):
         if block.table is None:
@@ -20,7 +21,7 @@ def table_rows(extraction: PdfExtraction) -> dict[int, list[tuple[int, int]]]:
     return result
 
 
-def _preceding_table_text(extraction: PdfExtraction, index: int) -> PdfBlock | None:
+def _preceding_table_text(extraction: File, index: int) -> SourceBlock | None:
     """Keep an adjacent paragraph as context without inferring what it means."""
     if index == 0:
         return None
@@ -33,7 +34,7 @@ def _preceding_table_text(extraction: PdfExtraction, index: int) -> PdfBlock | N
     return None
 
 
-def _continuation_origin(extraction: PdfExtraction, index: int) -> int:
+def _continuation_origin(extraction: File, index: int) -> int:
     """Locate the header before an adjacent currency-row table continuation."""
     if index == 0:
         return index
@@ -79,7 +80,7 @@ def _table_reading(table: PdfTable, start: int, end: int, header_cells=None) -> 
     return "\n".join(lines)
 
 
-def pdf_evidence(extraction: PdfExtraction, start: int, end: int) -> PdfEvidence:
+def pdf_evidence(extraction: File, start: int, end: int) -> PdfEvidence:
     supplements = []
     tables = []
     by_ref = {b.source_ref: b for b in extraction.blocks}

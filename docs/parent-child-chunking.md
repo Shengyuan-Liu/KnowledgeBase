@@ -9,13 +9,13 @@ indexing, and parent expansion through the default `parent_child` strategy.
 
 `split_parent_child()` in `knowledgebase/rag/chunking.py` takes the complete decoded
 source, its ordered `SourceBlock` list, a file ID, and explicit parent/child token
-limits plus a tokenizer name. It returns `ParentChildChunks`:
+limits plus a tokenizer name. It returns `ChunkBatch`:
 
-| Model in `knowledgebase/schemas.py` | Role |
+| Model in `knowledgebase/schemas/` | Role |
 | --- | --- |
-| `ParentChunk` | Bounded section context, identified by `parent_id` |
-| `ChildChunk` | Extends `StructuredChunk` with the ID of its one enclosing parent |
-| `ParentChildChunks` | Contains ordered `parents` and `children` lists |
+| `Chunk(type="parent")` | Bounded section context, identified by `chunk_id` |
+| `Chunk(type="child")` | Indexed span whose `parent_id` identifies its enclosing parent |
+| `ChunkBatch` | Plain dataclass containing ordered `parents` and `children` lists |
 
 Parents and children both retain file ID, exact text, document-global index,
 half-open source offsets, heading path, source block indices, measured token count,

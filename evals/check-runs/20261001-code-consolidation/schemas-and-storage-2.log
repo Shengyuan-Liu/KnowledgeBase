@@ -1,0 +1,414 @@
+........................................................................ [  8%]
+........................................................................ [ 16%]
+........................................................................ [ 25%]
+........................................................................ [ 33%]
+........................................................................ [ 42%]
+........................................................................ [ 50%]
+.........................s.............................................. [ 59%]
+........................................................................ [ 67%]
+........................................................................ [ 75%]
+........................................................................ [ 84%]
+........................................................................ [ 92%]
+....................EEEEEEEEEEEEEEEEEEEEEEE..EEEE...EE.......            [100%]
+==================================== ERRORS ====================================
+_ ERROR at setup of test_assess_each_hop_then_generate_from_same_final_context _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 82
+  def test_assess_each_hop_then_generate_from_same_final_context(assessed_api):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+__ ERROR at setup of test_single_supported_pass_skips_remaining_dependencies ___
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 99
+  def test_single_supported_pass_skips_remaining_dependencies(assessed_api):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+___________ ERROR at setup of test_source_bound_supplement_fills_gap ___________
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 107
+  def test_source_bound_supplement_fills_gap(assessed_api):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_partial_or_conflicting_guidance_reaches_answer[partial] _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 131
+  @pytest.mark.parametrize("status", ["partial", "conflicting"])
+  def test_partial_or_conflicting_guidance_reaches_answer(assessed_api, status):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_partial_or_conflicting_guidance_reaches_answer[conflicting] _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 131
+  @pytest.mark.parametrize("status", ["partial", "conflicting"])
+  def test_partial_or_conflicting_guidance_reaches_answer(assessed_api, status):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+___ ERROR at setup of test_all_missing_abstains_despite_irrelevant_retrieval ___
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 148
+  def test_all_missing_abstains_despite_irrelevant_retrieval(assessed_api):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_invalid_assessment_fails_without_repair_or_history[<lambda>0] _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 157
+  @pytest.mark.parametrize("corrupt", [
+      lambda a: a["requirements"][0].update(requirement_id="unknown"),
+      lambda a: a["requirements"].append(a["requirements"][0]),
+      lambda a: a["requirements"][0]["references"][0].update(evidence_id="excluded-source"),
+      lambda a: a["requirements"][0]["references"][0].update(quote="A fact never supplied."),
+  ])
+  def test_invalid_assessment_fails_without_repair_or_history(assessed_api, corrupt):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_invalid_assessment_fails_without_repair_or_history[<lambda>1] _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 157
+  @pytest.mark.parametrize("corrupt", [
+      lambda a: a["requirements"][0].update(requirement_id="unknown"),
+      lambda a: a["requirements"].append(a["requirements"][0]),
+      lambda a: a["requirements"][0]["references"][0].update(evidence_id="excluded-source"),
+      lambda a: a["requirements"][0]["references"][0].update(quote="A fact never supplied."),
+  ])
+  def test_invalid_assessment_fails_without_repair_or_history(assessed_api, corrupt):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_invalid_assessment_fails_without_repair_or_history[<lambda>2] _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 157
+  @pytest.mark.parametrize("corrupt", [
+      lambda a: a["requirements"][0].update(requirement_id="unknown"),
+      lambda a: a["requirements"].append(a["requirements"][0]),
+      lambda a: a["requirements"][0]["references"][0].update(evidence_id="excluded-source"),
+      lambda a: a["requirements"][0]["references"][0].update(quote="A fact never supplied."),
+  ])
+  def test_invalid_assessment_fails_without_repair_or_history(assessed_api, corrupt):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_invalid_assessment_fails_without_repair_or_history[<lambda>3] _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 157
+  @pytest.mark.parametrize("corrupt", [
+      lambda a: a["requirements"][0].update(requirement_id="unknown"),
+      lambda a: a["requirements"].append(a["requirements"][0]),
+      lambda a: a["requirements"][0]["references"][0].update(evidence_id="excluded-source"),
+      lambda a: a["requirements"][0]["references"][0].update(quote="A fact never supplied."),
+  ])
+  def test_invalid_assessment_fails_without_repair_or_history(assessed_api, corrupt):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_rejected_supplement_preserves_partial_answer_and_history[/api/chat] _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 177
+  @pytest.mark.parametrize("endpoint", ["/api/chat", "/api/chat/stream"])
+  def test_rejected_supplement_preserves_partial_answer_and_history(assessed_api, endpoint):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_rejected_supplement_preserves_partial_answer_and_history[/api/chat/stream] _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 177
+  @pytest.mark.parametrize("endpoint", ["/api/chat", "/api/chat/stream"])
+  def test_rejected_supplement_preserves_partial_answer_and_history(assessed_api, endpoint):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_limits_stop_further_queries_and_assess_final_context[duplicate] _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 218
+  @pytest.mark.parametrize("mode", ["duplicate", "no_progress", "query_limit", "round_limit"])
+  def test_limits_stop_further_queries_and_assess_final_context(assessed_api, mode):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_limits_stop_further_queries_and_assess_final_context[no_progress] _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 218
+  @pytest.mark.parametrize("mode", ["duplicate", "no_progress", "query_limit", "round_limit"])
+  def test_limits_stop_further_queries_and_assess_final_context(assessed_api, mode):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_limits_stop_further_queries_and_assess_final_context[query_limit] _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 218
+  @pytest.mark.parametrize("mode", ["duplicate", "no_progress", "query_limit", "round_limit"])
+  def test_limits_stop_further_queries_and_assess_final_context(assessed_api, mode):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_limits_stop_further_queries_and_assess_final_context[round_limit] _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 218
+  @pytest.mark.parametrize("mode", ["duplicate", "no_progress", "query_limit", "round_limit"])
+  def test_limits_stop_further_queries_and_assess_final_context(assessed_api, mode):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_________ ERROR at setup of test_supplements_keep_explicit_file_scope __________
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 234
+  def test_supplements_keep_explicit_file_scope(assessed_api):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_________ ERROR at setup of test_budget_excluded_text_is_not_assessed __________
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 243
+  def test_budget_excluded_text_is_not_assessed(assessed_api):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_deletion_between_assessment_and_search_removes_target _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 251
+  def test_deletion_between_assessment_and_search_removes_target(assessed_api):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_stream_assessment_progress_final_sources_and_history __
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 268
+  def test_stream_assessment_progress_final_sources_and_history(assessed_api):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_cancel_during_assessment_does_not_continue_or_save[cancel] _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 280
+  @pytest.mark.anyio
+  @pytest.mark.parametrize("stop", ["cancel", "timeout"])
+  async def test_cancel_during_assessment_does_not_continue_or_save(assessed_api, stop):
+      _, resources, _, choices, _, _, _ = assessed_api
+      started, release, returned = Event(), Event(), Event()
+      def hook():
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_cancel_during_assessment_does_not_continue_or_save[timeout] _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 280
+  @pytest.mark.anyio
+  @pytest.mark.parametrize("stop", ["cancel", "timeout"])
+  async def test_cancel_during_assessment_does_not_continue_or_save(assessed_api, stop):
+      _, resources, _, choices, _, _, _ = assessed_api
+      started, release, returned = Event(), Event(), Event()
+      def hook():
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+______ ERROR at setup of test_direct_plan_merges_supplementary_candidates ______
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 314
+  def test_direct_plan_merges_supplementary_candidates(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:314
+____ ERROR at setup of test_missing_stream_abstains_without_answer_provider ____
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 378
+  def test_missing_stream_abstains_without_answer_provider(assessed_api):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+___ ERROR at setup of test_dependency_and_gap_queries_share_six_query_limit ____
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 390
+  def test_dependency_and_gap_queries_share_six_query_limit(assessed_api):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_final_assessment_revokes_support_after_source_removed _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 401
+  def test_final_assessment_revokes_support_after_source_removed(assessed_api):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_initial_context_can_satisfy_a_whole_dependency_chain __
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 415
+  def test_initial_context_can_satisfy_a_whole_dependency_chain(assessed_api):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_answer_rule_survives_history_without_masking_real_missing_evidence[True] _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 495
+  @pytest.mark.parametrize("available", [True, False])
+  def test_answer_rule_survives_history_without_masking_real_missing_evidence(assessed_api, available):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+_ ERROR at setup of test_answer_rule_survives_history_without_masking_real_missing_evidence[False] _
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 495
+  @pytest.mark.parametrize("available", [True, False])
+  def test_answer_rule_survives_history_without_masking_real_missing_evidence(assessed_api, available):
+file /Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py, line 39
+  @pytest.fixture
+  def assessed_api(hop_api):
+E       fixture 'hop_api' not found
+>       available fixtures: _session_faker, anyio_backend, anyio_backend_name, anyio_backend_options, assessed_api, cache, capfd, capfdbinary, caplog, capsys, capsysbinary, capteesys, collection, configured_app, doctest_namespace, embeddings, engine, faker, free_tcp_port, free_tcp_port_factory, free_udp_port, free_udp_port_factory, monkeypatch, pytestconfig, record_property, record_testsuite_property, record_xml_attribute, recwarn, sessions, storage, subtests, tmp_path, tmp_path_factory, tmpdir, tmpdir_factory
+>       use 'pytest --fixtures [testpath]' for help on them.
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_sufficiency.py:39
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+tests/test_pdf.py::test_parser_disables_deferred_features_and_rejects_partial_conversion
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/pydantic/main.py:475: DeprecationWarning: `force_full_page_ocr` is deprecated; set `mode=OcrMode.FULL_PAGE` instead.
+    return self.__pydantic_serializer__.to_python(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+ERROR tests/test_sufficiency.py::test_assess_each_hop_then_generate_from_same_final_context
+ERROR tests/test_sufficiency.py::test_single_supported_pass_skips_remaining_dependencies
+ERROR tests/test_sufficiency.py::test_source_bound_supplement_fills_gap
+ERROR tests/test_sufficiency.py::test_partial_or_conflicting_guidance_reaches_answer[partial]
+ERROR tests/test_sufficiency.py::test_partial_or_conflicting_guidance_reaches_answer[conflicting]
+ERROR tests/test_sufficiency.py::test_all_missing_abstains_despite_irrelevant_retrieval
+ERROR tests/test_sufficiency.py::test_invalid_assessment_fails_without_repair_or_history[<lambda>0]
+ERROR tests/test_sufficiency.py::test_invalid_assessment_fails_without_repair_or_history[<lambda>1]
+ERROR tests/test_sufficiency.py::test_invalid_assessment_fails_without_repair_or_history[<lambda>2]
+ERROR tests/test_sufficiency.py::test_invalid_assessment_fails_without_repair_or_history[<lambda>3]
+ERROR tests/test_sufficiency.py::test_rejected_supplement_preserves_partial_answer_and_history[/api/chat]
+ERROR tests/test_sufficiency.py::test_rejected_supplement_preserves_partial_answer_and_history[/api/chat/stream]
+ERROR tests/test_sufficiency.py::test_limits_stop_further_queries_and_assess_final_context[duplicate]
+ERROR tests/test_sufficiency.py::test_limits_stop_further_queries_and_assess_final_context[no_progress]
+ERROR tests/test_sufficiency.py::test_limits_stop_further_queries_and_assess_final_context[query_limit]
+ERROR tests/test_sufficiency.py::test_limits_stop_further_queries_and_assess_final_context[round_limit]
+ERROR tests/test_sufficiency.py::test_supplements_keep_explicit_file_scope
+ERROR tests/test_sufficiency.py::test_budget_excluded_text_is_not_assessed
+ERROR tests/test_sufficiency.py::test_deletion_between_assessment_and_search_removes_target
+ERROR tests/test_sufficiency.py::test_stream_assessment_progress_final_sources_and_history
+ERROR tests/test_sufficiency.py::test_cancel_during_assessment_does_not_continue_or_save[cancel]
+ERROR tests/test_sufficiency.py::test_cancel_during_assessment_does_not_continue_or_save[timeout]
+ERROR tests/test_sufficiency.py::test_direct_plan_merges_supplementary_candidates
+ERROR tests/test_sufficiency.py::test_missing_stream_abstains_without_answer_provider
+ERROR tests/test_sufficiency.py::test_dependency_and_gap_queries_share_six_query_limit
+ERROR tests/test_sufficiency.py::test_final_assessment_revokes_support_after_source_removed
+ERROR tests/test_sufficiency.py::test_initial_context_can_satisfy_a_whole_dependency_chain
+ERROR tests/test_sufficiency.py::test_answer_rule_survives_history_without_masking_real_missing_evidence[True]
+ERROR tests/test_sufficiency.py::test_answer_rule_survives_history_without_masking_real_missing_evidence[False]
+823 passed, 1 skipped, 2 warnings, 29 errors in 25.86s

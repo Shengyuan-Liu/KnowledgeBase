@@ -5,9 +5,9 @@ from sqlalchemy.exc import IntegrityError
 from knowledgebase.rag.chunking import split_parent_child, split_structured, split_text
 from knowledgebase.rag.parsing import parse_markdown, parse_txt
 from knowledgebase.schemas import (
-    AnswerSource, ChatAnswer, ChildChunk, Chunk, CitationCheck, ParentChildChunks, StructuredChunk,
+    AnswerSource, ChatAnswer, Chunk, CitationCheck, ChunkBatch,
 )
-from knowledgebase.services.files import delete_file, recover_interrupted_files
+from knowledgebase.services.files import FileService
 from knowledgebase.storage.database import build_engine, build_session_factory, init_db
 from knowledgebase.storage.models import (
     Base, ChildParentRecord, ChunkRecord, ChunkStructureRecord, ParentChunkRecord,
@@ -50,7 +50,7 @@ def test_parents_children_and_global_metadata_survive_fresh_engine(engine, sessi
     with sessions.begin() as session:
         create_file(session, "file-1", f"notes.{source_format}")
         save_document_source(session, "file-1", source_format, SOURCE, blocks)
-        save_parent_child_chunks(session, ParentChildChunks(
+        save_parent_child_chunks(session, ChunkBatch(
             parents=list(reversed(expected.parents)), children=list(reversed(expected.children)),
         ))
     engine.dispose()
@@ -61,10 +61,10 @@ def test_parents_children_and_global_metadata_survive_fresh_engine(engine, sessi
             children = get_chunks(reader, "file-1")
             assert parents == expected.parents
             assert children == expected.children
-            assert all(type(child) is ChildChunk for child in children)
-            assert get_document_source(reader, "file-1").blocks == blocks
+            assert all(type(child) is Chunk for child in children)
+            assert list(get_document_source(reader, "file-1").blocks) == blocks
             assert get_file(reader, "file-1").status == "processing"
-        by_id = {parent.parent_id: parent for parent in parents}
+        by_id = {parent.chunk_id: parent for parent in parents}
         for child in children:
             parent = by_id[child.parent_id]
             assert parent.start_offset <= child.start_offset < child.end_offset <= parent.end_offset
@@ -89,10 +89,11 @@ def test_read_by_ids_handles_duplicates_missing_and_mixed_chunk_types(sessions):
         requested = [hierarchy.children[-1], legacy[0], flat[0]]
         loaded = get_chunks_by_ids(reader, [c.chunk_id for c in requested] + ["missing", legacy[0].chunk_id])
         assert {c.chunk_id: c for c in loaded} == {c.chunk_id: c for c in requested}
-        assert {type(c) for c in loaded} == {Chunk, StructuredChunk, ChildChunk}
+        assert {c.type for c in loaded} == {"flat", "child"}
+        assert {c.token_count is None for c in loaded} == {True, False}
         selected = [hierarchy.parents[-1], hierarchy.parents[0]]
-        loaded_parents = get_parents_by_ids(reader, [p.parent_id for p in selected] + ["missing", selected[0].parent_id])
-        assert {p.parent_id: p for p in loaded_parents} == {p.parent_id: p for p in selected}
+        loaded_parents = get_parents_by_ids(reader, [p.chunk_id for p in selected] + ["missing", selected[0].chunk_id])
+        assert {p.chunk_id: p for p in loaded_parents} == {p.chunk_id: p for p in selected}
         assert get_parents(reader, "legacy") == get_parents(reader, "flat") == get_parents(reader, "missing") == []
         assert get_parents_by_ids(reader, []) == get_parents_by_ids(reader, ["missing"]) == []
 
@@ -158,7 +159,7 @@ def test_parent_identity_collisions_do_not_overwrite_existing_data(sessions, col
         duplicate.parent_id = "new-id-same-index"
     with pytest.raises(IntegrityError):
         with sessions.begin() as session:
-            save_parent_child_chunks(session, ParentChildChunks(parents=[duplicate], children=[]))
+            save_parent_child_chunks(session, ChunkBatch(parents=[duplicate], children=[]))
     with sessions() as reader:
         assert get_parents(reader, "file-1") == expected.parents
         assert get_chunks(reader, "file-1") == expected.children
@@ -168,13 +169,13 @@ def test_parent_requires_file_and_child_link_requires_structural_child(sessions)
     _, chunks = prepare()
     with pytest.raises(IntegrityError):
         with sessions.begin() as session:
-            save_parent_child_chunks(session, ParentChildChunks(parents=chunks.parents, children=[]))
+            save_parent_child_chunks(session, ChunkBatch(parents=chunks.parents, children=[]))
     with sessions.begin() as session:
         create_file(session, "file-1", "notes.md")
-        save_parent_child_chunks(session, ParentChildChunks(parents=chunks.parents, children=[]))
+        save_parent_child_chunks(session, ChunkBatch(parents=chunks.parents, children=[]))
     with pytest.raises(IntegrityError):
         with sessions.begin() as session:
-            session.add(ChildParentRecord(chunk_id="missing", parent_id=chunks.parents[0].parent_id))
+            session.add(ChildParentRecord(chunk_id="missing", parent_id=chunks.parents[0].chunk_id))
             session.flush()
 
 
@@ -184,12 +185,12 @@ def test_child_has_one_parent_and_referenced_parent_cannot_be_removed_alone(sess
     with pytest.raises(IntegrityError):
         with sessions.begin() as session:
             session.add(ChildParentRecord(
-                chunk_id=expected.children[0].chunk_id, parent_id=expected.parents[-1].parent_id,
+                chunk_id=expected.children[0].chunk_id, parent_id=expected.parents[-1].chunk_id,
             ))
             session.flush()
     with pytest.raises(IntegrityError):
         with sessions.begin() as session:
-            session.execute(delete(ParentChunkRecord).where(ParentChunkRecord.parent_id == expected.parents[0].parent_id))
+            session.execute(delete(ParentChunkRecord).where(ParentChunkRecord.parent_id == expected.parents[0].chunk_id))
     with sessions() as reader:
         assert get_chunks(reader, "file-1") == expected.children
 
@@ -222,7 +223,7 @@ def test_childless_parents_cascade_with_file_deletion(sessions):
     _, chunks = prepare()
     with sessions.begin() as session:
         create_file(session, "file-1", "notes.md")
-        save_parent_child_chunks(session, ParentChildChunks(parents=chunks.parents, children=[]))
+        save_parent_child_chunks(session, ChunkBatch(parents=chunks.parents, children=[]))
     with sessions.begin() as session:
         delete_file_record(session, "file-1")
     with sessions() as reader:
@@ -266,7 +267,7 @@ def test_delete_service_removes_hierarchy_vectors_and_keeps_historical_evidence(
         )
         message = save_message(session, "conversation", "assistant", answer.answer)
         save_answer_snapshot(session, message.message_id, "What does the guide say?", answer)
-    delete_file("file-1", sessions, store)
+    FileService(sessions, store).delete("file-1")
     assert collection.count() == 0
     with sessions() as reader:
         assert get_parents(reader, "file-1") == get_chunks(reader, "file-1") == []
@@ -286,7 +287,7 @@ def test_restart_cleanup_removes_abandoned_hierarchy_but_keeps_ready_data(storag
         update_file_status(session, "keep", "ready")
         for chunks in (abandoned, kept):
             store.upsert_chunks(chunks.children, [[1.0, 0.0] for _ in chunks.children])
-    recover_interrupted_files(sessions, store)
+    FileService(sessions, store).recover()
     with sessions() as reader:
         assert get_file(reader, "file-1").status == "failed"
         assert get_parents(reader, "file-1") == get_chunks(reader, "file-1") == []

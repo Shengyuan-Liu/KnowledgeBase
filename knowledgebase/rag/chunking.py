@@ -5,10 +5,13 @@ import pysbd
 import tiktoken
 from markdown_it import MarkdownIt
 
-from knowledgebase.config import DEFAULT_CHUNK_SIZE, DEFAULT_OVERLAP
-from knowledgebase.schemas import (
-    ChildChunk, Chunk, ParentChildChunks, ParentChunk, SourceBlock, StructuredChunk,
+from knowledgebase.defaults import (
+    DEFAULT_CHUNK_MAX_TOKENS,
+    DEFAULT_CHUNK_SIZE,
+    DEFAULT_CHUNK_TOKENIZER,
+    DEFAULT_OVERLAP,
 )
+from knowledgebase.schemas import Chunk, ChunkBatch, SourceBlock
 
 
 def split_text(
@@ -165,7 +168,7 @@ def split_structured(
     text: str, blocks: list[SourceBlock], file_id: str, *,
     max_tokens: int, encoding_name: str,
     table_row_spans: dict[int, list[tuple[int, int]]] | None = None,
-) -> list[StructuredChunk]:
+) -> list[Chunk]:
     """Build nonoverlapping chunks from this source's ordered parser output.
 
     Adjacent paragraphs can share a chunk with their section heading. Each new
@@ -193,7 +196,7 @@ def split_structured(
         else:
             groups.append([index])
 
-    chunks: list[StructuredChunk] = []
+    chunks: list[Chunk] = []
     for group in groups:
         units: list[tuple[int, int]] = []
         for block_index in group:
@@ -202,7 +205,7 @@ def split_structured(
         for start, end in _pack_units(text, units, max_tokens, encoding):
             excerpt = text[start:end]
             index = len(chunks)
-            chunks.append(StructuredChunk(
+            chunks.append(Chunk(
                 chunk_id=f"{file_id}:structural:{index}", file_id=file_id,
                 text=excerpt, index=index, start_offset=start, end_offset=end,
                 heading_path=blocks[group[0]].heading_path,
@@ -220,7 +223,7 @@ def split_parent_child(
     text: str, blocks: list[SourceBlock], file_id: str, *,
     parent_max_tokens: int, child_max_tokens: int, encoding_name: str,
     table_row_spans: dict[int, list[tuple[int, int]]] | None = None,
-) -> ParentChildChunks:
+) -> ChunkBatch:
     """Build bounded section parents, then structural children within each parent.
 
     Every heading starts a section, including repeated labels and nested headings.
@@ -243,8 +246,8 @@ def split_parent_child(
             sections.append([])
         sections[-1].append(index)
 
-    parents: list[ParentChunk] = []
-    children: list[ChildChunk] = []
+    parents: list[Chunk] = []
+    children: list[Chunk] = []
     for section in sections:
         units = (
             span for i in section
@@ -252,8 +255,8 @@ def split_parent_child(
                                      (table_row_spans or {}).get(i))
         )
         for start, end in _pack_units(text, units, parent_max_tokens, encoding):
-            parent = ParentChunk(
-                parent_id=f"{file_id}:parent:{len(parents)}", file_id=file_id,
+            parent = Chunk(type="parent",
+                chunk_id=f"{file_id}:parent:{len(parents)}", file_id=file_id,
                 text=text[start:end], index=len(parents), start_offset=start, end_offset=end,
                 heading_path=blocks[section[0]].heading_path,
                 source_block_indices=[
@@ -279,10 +282,11 @@ def split_parent_child(
                                  for local, original in enumerate(parent.source_block_indices)
                                  if table_row_spans and original in table_row_spans},
             ):
-                children.append(ChildChunk(**{
+                children.append(Chunk(**{
                     **chunk.model_dump(),
+                    "type": "child",
                     "chunk_id": f"{file_id}:child:{len(children)}", "index": len(children),
-                    "parent_id": parent.parent_id,
+                    "parent_id": parent.chunk_id,
                     "source_block_indices": [parent.source_block_indices[i] for i in chunk.source_block_indices],
                 }))
-    return ParentChildChunks(parents=parents, children=children)
+    return ChunkBatch(parents=parents, children=children)

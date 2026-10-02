@@ -1,0 +1,299 @@
+{
+  "rows": [
+    {
+      "id": "generic-source-answerable",
+      "question": "Using only my uploaded documents, when does Cedar Library close on weekdays?",
+      "expected": "5 PM with a supported citation",
+      "gold": [
+        {
+          "file": "cedar-hours.txt",
+          "quote": "Cedar Library closes at 5 PM Monday through Friday."
+        }
+      ],
+      "answer": {
+        "message_id": 14,
+        "conversation_id": "306e41f7636f48f68afedeffe20f1c10",
+        "role": "assistant",
+        "content": "I could not find a ready document matching \"my uploaded documents\". Please specify its exact filename or upload it.",
+        "created_at": "2026-10-01T19:46:52.975424",
+        "retrieval_question": "Using only my uploaded documents, when does Cedar Library close on weekdays?",
+        "sources": [],
+        "citation_check": {
+          "valid_source_ids": [],
+          "invalid_source_ids": [],
+          "no_citations": true
+        },
+        "retrieval": {
+          "planning": null,
+          "document_scope": {
+            "status": "not_found",
+            "references": [
+              "my uploaded documents"
+            ],
+            "file_ids": [],
+            "matches": [],
+            "message": "I could not find a ready document matching \"my uploaded documents\". Please specify its exact filename or upload it."
+          },
+          "scope_seconds": 0.0035145420115441084,
+          "retrieval_seconds": 0.005192709038965404,
+          "embedding_seconds": null,
+          "rerank": null,
+          "rerank_seconds": null,
+          "options": {
+            "strategy": "hybrid",
+            "packing_strategy": "parent_then_child",
+            "candidate_limit": 20,
+            "bm25_k1": 1.2,
+            "bm25_b": 0.75,
+            "rrf_k": 60,
+            "rerank_enabled": true,
+            "rerank_unit": "child",
+            "rerank_candidate_limit": 20,
+            "rerank_max_input_tokens": 16384
+          },
+          "top_k": 5,
+          "vector_matches": [],
+          "bm25_matches": [],
+          "fused_matches": [],
+          "candidates": [],
+          "excluded": [],
+          "unexpanded_parents": [],
+          "packing_seconds": null,
+          "context_format": null,
+          "evidence_tokens": 0,
+          "max_tokens": 4096,
+          "tokenizer": "cl100k_base"
+        }
+      },
+      "elapsed_ms": 81,
+      "passed": false
+    },
+    {
+      "id": "explicit-source-unanswerable",
+      "question": "According to cedar-hours.txt, what is the exact secret PIN of my personal Cedar Library account?",
+      "expected": "Explain that the document does not provide the PIN; do not invent one.",
+      "gold": [],
+      "answer": {
+        "message_id": 16,
+        "conversation_id": "2588bd990227477da7b02de219554ca4",
+        "role": "assistant",
+        "content": "The exact secret PIN of your personal Cedar Library account is not specified in the provided excerpts from cedar-hours.txt [1].",
+        "created_at": "2026-10-01T19:46:54.662524",
+        "retrieval_question": "According to cedar-hours.txt, what is the exact secret PIN of my personal Cedar Library account?",
+        "sources": [
+          {
+            "distance": 0.4749457836151123,
+            "fusion": {
+              "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+              "rrf_score": 0.03278688524590164,
+              "rank": 1,
+              "bm25_score": 0.9389184122876804,
+              "bm25_rank": 1,
+              "vector_distance": 0.4749457836151123,
+              "vector_rank": 1
+            },
+            "rerank": {
+              "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+              "rrf_score": 0.03278688524590164,
+              "rank": 1,
+              "bm25_score": 0.9389184122876804,
+              "bm25_rank": 1,
+              "vector_distance": 0.4749457836151123,
+              "vector_rank": 1,
+              "rerank_score": -4.816290855407715,
+              "rerank_rank": 1,
+              "score_kind": "logit",
+              "scoring_parent_id": null
+            },
+            "parent_id": "2dd0a98baa6749fda8b28cb201386fc4:parent:0",
+            "pdf": null,
+            "document_labels": [
+              "cedar-hours"
+            ],
+            "file_name": "cedar-hours.txt",
+            "matched_child_ids": [
+              "2dd0a98baa6749fda8b28cb201386fc4:child:0"
+            ],
+            "source_id": 1,
+            "file_id": "2dd0a98baa6749fda8b28cb201386fc4",
+            "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:parent:0",
+            "text": "Cedar Library visitor guide.\nCedar Library closes at 5 PM Monday through Friday.\nCedar Library closes at 7 PM on Saturday and Sunday.\nVisitors must bring their library card.\n",
+            "start_offset": 0,
+            "end_offset": 174,
+            "start_line": 1,
+            "end_line": 4,
+            "heading_path": [],
+            "source_block_indices": [
+              0
+            ],
+            "token_count": 39,
+            "tokenizer": "cl100k_base",
+            "max_tokens": 1536,
+            "file_deleted": false
+          }
+        ],
+        "citation_check": {
+          "valid_source_ids": [
+            1
+          ],
+          "invalid_source_ids": [],
+          "no_citations": false
+        },
+        "retrieval": {
+          "planning": null,
+          "document_scope": {
+            "status": "resolved",
+            "references": [
+              "cedar-hours.txt"
+            ],
+            "file_ids": [
+              "2dd0a98baa6749fda8b28cb201386fc4"
+            ],
+            "matches": [
+              {
+                "file_id": "2dd0a98baa6749fda8b28cb201386fc4",
+                "file_name": "cedar-hours.txt",
+                "labels": [
+                  "cedar-hours"
+                ]
+              }
+            ],
+            "message": null
+          },
+          "scope_seconds": 0.001403458067215979,
+          "retrieval_seconds": 0.6293181250803173,
+          "embedding_seconds": 0.523407708038576,
+          "rerank": {
+            "question": "According to cedar-hours.txt, what is the exact secret PIN of my personal Cedar Library account?",
+            "model": "BAAI/bge-reranker-v2-m3",
+            "prompt_version": "cross-encoder-pairs-v1",
+            "score_kind": "logit",
+            "model_revision": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+            "device": "mps",
+            "max_pair_tokens": 1024,
+            "batch_size": 4,
+            "tokenizer": "cl100k_base",
+            "input_tokens": 58,
+            "candidate_limit": 20,
+            "max_input_tokens": 16384,
+            "top_k": 5,
+            "candidates": [
+              {
+                "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+                "rrf_score": 0.03278688524590164,
+                "rank": 1,
+                "bm25_score": 0.9389184122876804,
+                "bm25_rank": 1,
+                "vector_distance": 0.4749457836151123,
+                "vector_rank": 1,
+                "text": "Cedar Library visitor guide.\nCedar Library closes at 5 PM Monday through Friday.\nCedar Library closes at 7 PM on Saturday and Sunday.\nVisitors must bring their library card.\n",
+                "heading_path": [],
+                "scoring_parent_id": null
+              }
+            ],
+            "matches": [
+              {
+                "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+                "rrf_score": 0.03278688524590164,
+                "rank": 1,
+                "bm25_score": 0.9389184122876804,
+                "bm25_rank": 1,
+                "vector_distance": 0.4749457836151123,
+                "vector_rank": 1,
+                "rerank_score": -4.816290855407715,
+                "rerank_rank": 1,
+                "score_kind": "logit",
+                "scoring_parent_id": null
+              }
+            ]
+          },
+          "rerank_seconds": 0.10135274997446686,
+          "options": {
+            "strategy": "hybrid",
+            "packing_strategy": "parent_then_child",
+            "candidate_limit": 20,
+            "bm25_k1": 1.2,
+            "bm25_b": 0.75,
+            "rrf_k": 60,
+            "rerank_enabled": true,
+            "rerank_unit": "child",
+            "rerank_candidate_limit": 20,
+            "rerank_max_input_tokens": 16384
+          },
+          "top_k": 5,
+          "vector_matches": [
+            {
+              "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+              "distance": 0.4749457836151123
+            }
+          ],
+          "bm25_matches": [
+            {
+              "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+              "score": 0.9389184122876804,
+              "rank": 1
+            }
+          ],
+          "fused_matches": [
+            {
+              "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+              "rrf_score": 0.03278688524590164,
+              "rank": 1,
+              "bm25_score": 0.9389184122876804,
+              "bm25_rank": 1,
+              "vector_distance": 0.4749457836151123,
+              "vector_rank": 1
+            }
+          ],
+          "candidates": [
+            {
+              "distance": 0.4749457836151123,
+              "fusion": {
+                "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+                "rrf_score": 0.03278688524590164,
+                "rank": 1,
+                "bm25_score": 0.9389184122876804,
+                "bm25_rank": 1,
+                "vector_distance": 0.4749457836151123,
+                "vector_rank": 1
+              },
+              "rerank": {
+                "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+                "rrf_score": 0.03278688524590164,
+                "rank": 1,
+                "bm25_score": 0.9389184122876804,
+                "bm25_rank": 1,
+                "vector_distance": 0.4749457836151123,
+                "vector_rank": 1,
+                "rerank_score": -4.816290855407715,
+                "rerank_rank": 1,
+                "score_kind": "logit",
+                "scoring_parent_id": null
+              },
+              "parent_id": "2dd0a98baa6749fda8b28cb201386fc4:parent:0",
+              "chunk_id": "2dd0a98baa6749fda8b28cb201386fc4:child:0",
+              "file_id": "2dd0a98baa6749fda8b28cb201386fc4",
+              "text": "Cedar Library visitor guide.\nCedar Library closes at 5 PM Monday through Friday.\nCedar Library closes at 7 PM on Saturday and Sunday.\nVisitors must bring their library card.\n",
+              "start_offset": 0,
+              "end_offset": 174
+            }
+          ],
+          "excluded": [],
+          "unexpanded_parents": [],
+          "packing_seconds": 0.00007595797069370747,
+          "context_format": "source-metadata-v2",
+          "evidence_tokens": 72,
+          "max_tokens": 4096,
+          "tokenizer": "cl100k_base"
+        }
+      },
+      "elapsed_ms": 1795,
+      "passed": true
+    }
+  ],
+  "completed_streams": 0,
+  "first_answer_delta_latency": {
+    "status": "unavailable",
+    "reason": "Supplemental probe retained the complete SSE body but did not instrument per-event arrival times."
+  }
+}

@@ -8,12 +8,10 @@ import pytest
 
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.pdf_evidence import pdf_evidence
-from knowledgebase.rag.pdf_models import PdfExtraction
-from knowledgebase.rag.planning import AnswerRequirement
-from knowledgebase.rag.sufficiency import (
-    SufficiencyAssessment, assessment_context, assessment_excerpts, validate_assessment,
+from knowledgebase.schemas import (
+    File, AnswerRequirement, SufficiencyAssessment, RetrievedEvidence, Chunk,
 )
-from knowledgebase.schemas import RetrievedEvidence, StructuredChunk
+from knowledgebase.rag.sufficiency import assessment_context, assessment_excerpts, validate_assessment
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -23,13 +21,13 @@ def frozen_pdf_evidence():
     packed = json.loads((ROOT / "evals/check-runs/20260927-pdf-evidence-packing/after-2.json").read_text())
     index = json.loads((ROOT / "evals/library-runs/20260927-v2-pdf-live/index-snapshot.json").read_text())
     documents = {d["file"]["file_id"]: d["extraction"]["text"] for d in index["files"]}
-    extractions = {d["file"]["file_id"]: PdfExtraction.model_validate(d["extraction"]) for d in index["files"]}
+    extractions = {d["file"]["file_id"]: File.model_validate({"type": "pdf", **d["extraction"]}) for d in index["files"]}
     chunks = {c["chunk_id"]: c for d in index["files"] for c in d["chunks"]}
     chunks.update({p["parent_id"]: {**p, "chunk_id": p["parent_id"]} for d in index["files"] for p in d["parents"]})
     for row in packed["rows"]:
         evidence = RetrievedEvidence.model_validate(row["result"])
         for hit in evidence.chunks:
-            hit.chunk = StructuredChunk.model_validate(chunks[hit.chunk.chunk_id])
+            hit.chunk = Chunk.model_validate(chunks[hit.chunk.chunk_id])
             hit.pdf = pdf_evidence(extractions[hit.chunk.file_id], hit.chunk.start_offset, hit.chunk.end_offset)
         row["evidence"] = evidence
     return packed["rows"], documents

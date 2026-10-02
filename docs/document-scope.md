@@ -71,7 +71,7 @@ should resend `file_ids` for each constrained turn.
 ## Implementation and records
 
 `rag/scope.py` is a pure identity helper, not a new agent or database table.
-`retrieve_evidence` resolves the scope using ready-file metadata, then supplies
+`Retriever.retrieve` resolves the scope using ready-file metadata, then supplies
 the restricted IDs to both search paths. Canonical title text is read in one batch
 only for named requests; no index rebuild or schema migration is needed.
 

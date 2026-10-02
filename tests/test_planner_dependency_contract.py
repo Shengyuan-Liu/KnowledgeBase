@@ -6,7 +6,7 @@ import re
 from pydantic import ValidationError
 import pytest
 
-from knowledgebase.rag.planning import DependentQuery
+from knowledgebase.schemas import DependentQuery
 from test_period_rule_constraints import planner_with
 
 FIXTURE = Path(__file__).resolve().parents[1] / "evals/check-runs/20260928-planner-dependency-contract/frozen-cases.json"

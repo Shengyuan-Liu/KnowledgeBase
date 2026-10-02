@@ -1,0 +1,92 @@
+{
+  "frozen_at": "2026-10-01T19:43:58.875Z",
+  "questions": [
+    {
+      "id": "weekday",
+      "question": "According to cedar-hours.txt, when does Cedar Library close on weekdays? Answer briefly with a citation.",
+      "gold": [
+        {
+          "file": "cedar-hours.txt",
+          "quote": "Cedar Library closes at 5 PM Monday through Friday.",
+          "expected": "5 PM"
+        }
+      ]
+    },
+    {
+      "id": "followup",
+      "question": "What about on Saturday?",
+      "gold": [
+        {
+          "file": "cedar-hours.txt",
+          "quote": "Cedar Library closes at 7 PM on Saturday and Sunday.",
+          "expected": "7 PM"
+        }
+      ]
+    },
+    {
+      "id": "markdown",
+      "question": "According to cedar-access.md, how far in advance must I reserve the quiet room, and where is it?",
+      "gold": [
+        {
+          "file": "cedar-access.md",
+          "quote": "Reserve the quiet room at least 24 hours in advance.",
+          "expected": "24 hours"
+        },
+        {
+          "file": "cedar-access.md",
+          "quote": "The quiet room is on the second floor.",
+          "expected": "second floor"
+        }
+      ]
+    },
+    {
+      "id": "pdf-planned",
+      "question": "Which laboratory was assigned to Project Juniper in \"assignment.pdf\", and what calibration interval does \"laboratory-register.pdf\" specify for that laboratory?",
+      "planned": true,
+      "gold": [
+        {
+          "file": "assignment.pdf",
+          "quote": "Project Juniper was assigned to Quenwick Laboratory.",
+          "expected": "Quenwick Laboratory"
+        },
+        {
+          "file": "laboratory-register.pdf",
+          "quote": "Quenwick Laboratory: calibration interval is 17 days.",
+          "expected": "17 calendar days"
+        }
+      ]
+    },
+    {
+      "id": "unanswerable",
+      "question": "Using only my uploaded documents, what is the exact secret PIN of my personal Cedar Library account?",
+      "gold": [],
+      "expected_abstention": true
+    }
+  ],
+  "fixtures": [
+    {
+      "name": "cedar-hours.txt",
+      "text": "Cedar Library visitor guide.\nCedar Library closes at 5 PM Monday through Friday.\nCedar Library closes at 7 PM on Saturday and Sunday.\nVisitors must bring their library card.\n",
+      "sha256": "c9833c84286b66503a65c6cbc843632ebd23913a12e09e7de1a25bfa43d2b397"
+    },
+    {
+      "name": "cedar-access.md",
+      "text": "# Cedar Library Access\n\n## Quiet room reservations\n\nReserve the quiet room at least 24 hours in advance.\nThe quiet room is on the second floor.\n",
+      "sha256": "59bd266368261872cfe79e41892aff8ffa77c81764f71207d47032849d0d5275"
+    },
+    {
+      "name": "assignment.pdf",
+      "path": "/Users/lucas/Documents/Projects/KnowledgeBase/evals/materials/pdf-v2-closeout-dependency/assignment.pdf",
+      "sha256": "5a909d9aaee2701793485eac172d424abc6c75929498156140c48b67a232c62b"
+    },
+    {
+      "name": "laboratory-register.pdf",
+      "path": "/Users/lucas/Documents/Projects/KnowledgeBase/evals/materials/pdf-v2-closeout-dependency/laboratory-register.pdf",
+      "sha256": "2085f03f10e66e4b5530bb58f5367abcd1bb627fff904fc16a8e3fba061a200c"
+    }
+  ],
+  "reviewer": "Codex, automated fixture checks plus answer/evidence and visual inspection; not independent human review",
+  "quality_protocol": "Assess each stated expected fact against exact supplied excerpts. Record unsupported or missing claims. Unanswerable PIN must abstain. Citation membership alone is insufficient.",
+  "retrieval_protocol": "Document-level relevance at K=5 for the four answerable questions; one relevant label per unique gold filename. Candidate, reranking and supplied-evidence stages are separate. Fact coverage uses the exact gold quotes, normalizing whitespace only.",
+  "timing_protocol": "Browser fetch invocation to first nonempty answer delta and complete SSE event; clone-stream observer, sequential requests, no test reruns. UI readiness measured separately. Includes provider queue/network; startup/model load and ingestion are separate."
+}

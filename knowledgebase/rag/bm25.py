@@ -1,11 +1,11 @@
 """Stateless lexical ranking over supplied canonical child or legacy flat chunks."""
 
-from collections import Counter
 from collections.abc import Sequence
-from math import log1p
 import re
 
-from knowledgebase.config import DEFAULT_BM25_B, DEFAULT_BM25_K1, DEFAULT_TOP_K
+from bm25s import BM25
+
+from knowledgebase.defaults import DEFAULT_BM25_B, DEFAULT_BM25_K1, DEFAULT_TOP_K
 from knowledgebase.schemas import BM25Match, Chunk
 
 
@@ -47,29 +47,15 @@ def search_bm25(
     terms = sorted(set(tokenize(question)))
     if not terms:
         return []
-    documents = []
-    for chunk in chunks:
-        counts = Counter(tokenize(chunk.text))
-        if counts:
-            documents.append((chunk.chunk_id, counts, counts.total()))
+    documents = [(chunk.chunk_id, tokens) for chunk in chunks if (tokens := tokenize(chunk.text))]
     if not documents:
         return []
 
-    average_length = sum(length for _, _, length in documents) / len(documents)
-    frequencies = Counter(term for _, counts, _ in documents for term in counts)
-    idf = {
-        term: log1p((len(documents) - frequencies[term] + 0.5) / (frequencies[term] + 0.5))
-        for term in terms
-    }
-    scores = []
-    for chunk_id, counts, length in documents:
-        normalization = k1 * (1 - b + b * length / average_length)
-        score = sum(
-            idf[term] * counts[term] * (k1 + 1) / (counts[term] + normalization)
-            for term in terms if counts[term]
-        )
-        if score > 0:
-            scores.append((chunk_id, score))
+    # Match the existing positive IDF and (k1 + 1) term-frequency convention.
+    index = BM25(k1=k1, b=b, method="atire", idf_method="lucene", dtype="float64")
+    index.index([tokens for _, tokens in documents], show_progress=False)
+    scores = [(chunk_id, float(score))
+              for (chunk_id, _), score in zip(documents, index.get_scores(terms)) if score > 0]
     scores.sort(key=lambda item: (-item[1], item[0]))
     return [
         BM25Match(chunk_id=chunk_id, score=score, rank=rank)

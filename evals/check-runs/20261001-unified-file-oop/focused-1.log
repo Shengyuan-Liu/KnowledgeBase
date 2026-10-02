@@ -1,0 +1,154 @@
+....................................................FF......F........... [ 53%]
+.............................................F.................          [100%]
+=================================== FAILURES ===================================
+______________ test_source_and_chunk_reads_are_detached_snapshots ______________
+
+sessions = sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-249/test_source_and_chunk_reads_ar0/knowledgebase.db), autoflush=True, expire_on_commit=True)
+
+    def test_source_and_chunk_reads_are_detached_snapshots(sessions):
+        with sessions.begin() as session:
+            blocks, chunks = store_document(session)
+        with sessions.begin() as session:
+            source = get_document_source(session, "file-1")
+            stored_chunks = get_chunks(session, "file-1")
+>           source.text = "Local mutation."
+            ^^^^^^^^^^^
+
+tests/test_document_storage.py:122: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.13/site-packages/pydantic/main.py:1048: in __setattr__
+    elif (setattr_handler := self._setattr_handler(name, value)) is not None:
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/pydantic/main.py:1084: in _setattr_handler
+    _check_frozen(cls, name, value)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+model_cls = <class 'knowledgebase.schemas.documents.File'>, name = 'text'
+value = 'Local mutation.'
+
+    def _check_frozen(model_cls: type[BaseModel], name: str, value: Any) -> None:
+        if model_cls.model_config.get('frozen'):
+            error_type = 'frozen_instance'
+        elif getattr(model_cls.__pydantic_fields__.get(name), 'frozen', False):
+            error_type = 'frozen_field'
+        else:
+            return
+    
+>       raise ValidationError.from_exception_data(
+            model_cls.__name__, [{'type': error_type, 'loc': (name,), 'input': value}]
+        )
+E       pydantic_core._pydantic_core.ValidationError: 1 validation error for File
+E       text
+E         Instance is frozen [type=frozen_instance, input_value='Local mutation.', input_type=str]
+E           For further information visit https://errors.pydantic.dev/2.13/v/frozen_instance
+
+.venv/lib/python3.13/site-packages/pydantic/main.py:90: ValidationError
+____ test_source_chunk_metadata_and_ready_status_share_callers_transaction _____
+
+sessions = sessionmaker(class_='Session', bind=Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-249/test_source_chunk_metadata_and0/knowledgebase.db), autoflush=True, expire_on_commit=True)
+
+    def test_source_chunk_metadata_and_ready_status_share_callers_transaction(sessions):
+        with sessions.begin() as session:
+            create_file(session, "file-1", "notes.md")
+        blocks, chunks = prepare()
+        with sessions() as session:
+            save_document_source(session, "file-1", "md", SOURCE, blocks)
+            save_chunks(session, chunks)
+            update_file_status(session, "file-1", "ready")
+>           assert get_document_source(session, "file-1").blocks == blocks
+E           assert (SourceBlock(..., table=None)) == [SourceBlock(..., table=None)]
+E             
+E             Use -v to get more diff
+
+tests/test_document_storage.py:141: AssertionError
+__________ test_init_db_adds_v1_tables_without_rewriting_mvp_records ___________
+
+engine = Engine(sqlite:////private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-249/test_init_db_adds_v1_tables_wi0/knowledgebase.db)
+
+    def test_init_db_adds_v1_tables_without_rewriting_mvp_records(engine):
+        v1_names = {"document_sources", "chunk_structures", "parent_chunks", "child_parents"}
+        Base.metadata.create_all(engine, tables=[
+            table for table in Base.metadata.sorted_tables if table.name not in v1_names
+        ])
+        sessions = build_session_factory(engine)
+        legacy_chunks = split_text("Original MVP text.", "legacy")
+        with sessions.begin() as session:
+            create_file(session, "legacy", "legacy.txt")
+>           session.add_all(ChunkRecord(**chunk.model_dump()) for chunk in legacy_chunks)
+
+tests/test_document_storage.py:233: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.13/site-packages/sqlalchemy/orm/session.py:3508: in add_all
+    for instance in instances:
+                    ^^^^^^^^^
+tests/test_document_storage.py:233: in <genexpr>
+    session.add_all(ChunkRecord(**chunk.model_dump()) for chunk in legacy_chunks)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<string>:4: in __init__
+    ???
+.venv/lib/python3.13/site-packages/sqlalchemy/orm/state.py:596: in _initialize_instance
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py:122: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv/lib/python3.13/site-packages/sqlalchemy/orm/state.py:594: in _initialize_instance
+    manager.original_init(*mixed[1:], **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <knowledgebase.storage.models.ChunkRecord object at 0x161a47b50>
+kwargs = {'chunk_id': 'legacy:0', 'file_id': 'legacy', 'text': 'Original MVP text.', 'index': 0, ...}
+
+    def _declarative_constructor(self: Any, **kwargs: Any) -> None:
+        """A simple constructor that allows initialization from kwargs.
+    
+        Sets attributes on the constructed instance using the names and
+        values in ``kwargs``.
+    
+        Only keys that are present as
+        attributes of the instance's class are allowed. These could be,
+        for example, any mapped columns or relationships.
+        """
+        cls_ = type(self)
+        for k in kwargs:
+            if not hasattr(cls_, k):
+>               raise TypeError(
+                    "%r is an invalid keyword argument for %s" % (k, cls_.__name__)
+                )
+E               TypeError: 'type' is an invalid keyword argument for ChunkRecord
+
+.venv/lib/python3.13/site-packages/sqlalchemy/orm/decl_base.py:2193: TypeError
+___________ test_upload_query_original_range_and_historical_evidence ___________
+
+pdf_api = (<starlette.testclient.TestClient object at 0x168b21090>, AppResources(sessions=sessionmaker(class_='Session', bind=En...=<knowledgebase.providers.planner.PlannerClient object at 0x168b23250>), <Mock spec='EmbeddingClient' id='5994419536'>)
+extraction = File(type='pdf', file_id='', file_name='', status='processing', error_message=None, created_at=None, text="Apple Inc.\...b3ad54453f9756f', serialization='Block separator: two newlines; table cells: tabs/newlines; separators are synthetic.')
+
+    def test_upload_query_original_range_and_historical_evidence(pdf_api, extraction):
+        client, resources, _ = pdf_api
+        file = upload_pdf(client)
+        assert file["page_count"] == 4 and file["extraction_warnings"]
+        file_id = file["file_id"]
+        with resources.sessions() as session:
+            source = get_document_source(session, file_id)
+            assert source.type == "pdf"
+>           assert get_pdf_extraction(session, file_id) == extraction
+E           AssertionError: assert File(type='pd...e synthetic.') == File(type='pd...e synthetic.')
+E             
+E             Use -v to get more diff
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_pdf_integration.py:60: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+tests/test_pdf.py::test_parser_disables_deferred_features_and_rejects_partial_conversion
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/pydantic/main.py:475: DeprecationWarning: `force_full_page_ocr` is deprecated; set `mode=OcrMode.FULL_PAGE` instead.
+    return self.__pydantic_serializer__.to_python(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_document_storage.py::test_source_and_chunk_reads_are_detached_snapshots
+FAILED tests/test_document_storage.py::test_source_chunk_metadata_and_ready_status_share_callers_transaction
+FAILED tests/test_document_storage.py::test_init_db_adds_v1_tables_without_rewriting_mvp_records
+FAILED tests/test_pdf_integration.py::test_upload_query_original_range_and_historical_evidence
+4 failed, 131 passed, 2 warnings in 9.10s

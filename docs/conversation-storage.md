@@ -20,7 +20,7 @@ even when timestamps tie. Timestamps use naive UTC, consistent with file records
 Message content is preserved unchanged. The foreign key requires an existing
 conversation, and a database check restricts roles to `user` and `assistant`.
 
-`ConversationInfo` and `MessageInfo` in `knowledgebase/schemas.py` are Pydantic
+`ConversationInfo` and `MessageInfo` in `knowledgebase/schemas/` are Pydantic
 snapshots: they remain usable after a session closes, and changing a snapshot does
 not update a database record. Stored messages are conversation context, not factual
 evidence for new answers.

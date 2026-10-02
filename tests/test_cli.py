@@ -5,7 +5,7 @@ from unittest.mock import Mock
 import pytest
 from fastapi.testclient import TestClient
 
-from knowledgebase import cli
+from knowledgebase import bootstrap, cli
 from knowledgebase.schemas import AnswerSource, ChatAnswer, CitationCheck
 
 
@@ -14,7 +14,7 @@ def test_cli_and_api_share_storage_configuration(configured_app, tmp_path, monke
     path = tmp_path / "notes.txt"
     path.write_text("The library closes at 5 PM.")
     monkeypatch.setattr(cli, "OpenAI", Mock(return_value=sdk))
-    monkeypatch.setattr(cli, "EmbeddingClient", Mock(return_value=embeddings))
+    monkeypatch.setattr(bootstrap, "EmbeddingClient", Mock(return_value=embeddings))
     monkeypatch.setattr(sys, "argv", ["main.py", str(path)])
     monkeypatch.setattr("builtins.input", Mock(return_value="exit"))
     cli.cli()
@@ -38,25 +38,35 @@ def test_loop_prints_answers_and_chunks_for_multiple_questions(monkeypatch, caps
         side_effect=[
             ChatAnswer(
                 answer="At 5 PM. [1]",
-                citation_check=CitationCheck(valid_source_ids=[1], invalid_source_ids=[], no_citations=False),
-                sources=[AnswerSource(
-                    source_id=1,
-                    file_id="file-1",
-                    file_name="hours.txt",
-                    chunk_id="file-1:0",
-                    text="The café closes at 5 PM.\nOpen on weekdays.",
-                    distance=0.1,
-                )],
+                citation_check=CitationCheck(
+                    valid_source_ids=[1], invalid_source_ids=[], no_citations=False
+                ),
+                sources=[
+                    AnswerSource(
+                        source_id=1,
+                        file_id="file-1",
+                        file_name="hours.txt",
+                        chunk_id="file-1:0",
+                        text="The café closes at 5 PM.\nOpen on weekdays.",
+                        distance=0.1,
+                    )
+                ],
             ),
-            ChatAnswer(answer="Opening hours are not provided.", sources=[],
-                       citation_check=CitationCheck(valid_source_ids=[], invalid_source_ids=[], no_citations=True)),
+            ChatAnswer(
+                answer="Opening hours are not provided.",
+                sources=[],
+                citation_check=CitationCheck(
+                    valid_source_ids=[], invalid_source_ids=[], no_citations=True
+                ),
+            ),
         ]
     )
 
     cli.run_chat_loop(ask)
 
     assert [call.args[0] for call in ask.call_args_list] == [
-        "When does the café close?", "When does it open?"
+        "When does the café close?",
+        "When does it open?",
     ]
     output = capsys.readouterr().out
     assert "Answer:\nAt 5 PM. [1]" in output
@@ -86,7 +96,10 @@ def test_loop_exits_without_asking_model(monkeypatch, capsys, stop):
 def test_cli_indexes_and_reuses_local_data(tmp_path, monkeypatch, capsys, suffix, strategy):
     monkeypatch.chdir(tmp_path)
     monkeypatch.delenv("OPENAI_API_KEY", raising=False)
-    (tmp_path / ".env").write_text(f"OPENAI_API_KEY=test-only-key\nANSWER_MODEL=test-configured-model\nCHUNKING_STRATEGY={strategy}\n", encoding="utf-8")
+    (tmp_path / ".env").write_text(
+        f"OPENAI_API_KEY=test-only-key\nANSWER_MODEL=test-configured-model\nCHUNKING_STRATEGY={strategy}\n",
+        encoding="utf-8",
+    )
     path = tmp_path / f"hours.{suffix}"
     text = ("# Hours\n\n" if suffix == "md" else "") + "The café closes at 5 PM."
     path.write_text(text, encoding="utf-8")
@@ -102,15 +115,17 @@ def test_cli_indexes_and_reuses_local_data(tmp_path, monkeypatch, capsys, suffix
     sdk.__exit__ = Mock(return_value=False)
     sdk_class = Mock(return_value=sdk)
     monkeypatch.setattr(cli, "OpenAI", sdk_class)
-    monkeypatch.setattr(cli, "EmbeddingClient", embedding_class)
-    monkeypatch.setattr(cli, "LLMClient", llm_class)
+    monkeypatch.setattr(bootstrap, "EmbeddingClient", embedding_class)
+    monkeypatch.setattr(bootstrap, "LLMClient", llm_class)
 
     monkeypatch.setattr(sys, "argv", ["main.py", str(path), "--top-k", "1"])
     monkeypatch.setattr("builtins.input", Mock(side_effect=["When does the café close?", "exit"]))
     cli.cli()
 
     embeddings.embed_documents.assert_called_once_with([text])
-    sdk_class.assert_called_once_with(api_key="test-only-key", base_url=None, timeout=600, max_retries=2)
+    sdk_class.assert_called_once_with(
+        api_key="test-only-key", base_url=None, timeout=600, max_retries=2
+    )
     llm_class.assert_called_once_with(sdk, model="test-configured-model", reasoning_effort=None)
     output = capsys.readouterr().out
     assert f"Indexed {path.name}" in output
@@ -136,7 +151,10 @@ def test_cli_indexes_and_reuses_local_data(tmp_path, monkeypatch, capsys, suffix
     # Resume persisted history, then keep the same conversation within the loop.
     llm.generate.side_effect = ["When does the café close?", "At 5 PM. [1]"] * 2
     monkeypatch.setattr(sys, "argv", ["main.py", "--conversation-id", first_conversation_id])
-    monkeypatch.setattr("builtins.input", Mock(side_effect=["When does it close again?", "And its closing time?", "exit"]))
+    monkeypatch.setattr(
+        "builtins.input",
+        Mock(side_effect=["When does it close again?", "And its closing time?", "exit"]),
+    )
     cli.cli()
     output = capsys.readouterr().out
     assert output.count(f"Conversation: {first_conversation_id}") == 2

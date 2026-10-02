@@ -1,0 +1,3809 @@
+{
+  "arm": "after",
+  "commit": "fada1d748f2aac593b4a59653d9fd523be07da60",
+  "implementation_sha256": "f517101fba1568e9d0fab62d3b36899aa3d1c86fe3eb10d5efb943a7656f210b",
+  "workload_sha256": "2c5450594b1e193af4c855341d595a90e9e3ba312ba2067db4262db7e3ef0ba1",
+  "device": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.9",
+  "numpy": "2.5.3",
+  "bm25s": "0.3.11",
+  "quality": {
+    "5": {
+      "recall_at_k": 0.875,
+      "precision_at_k": 0.2,
+      "hit_rate_at_k": 0.9,
+      "mrr_at_k": 0.8291666666666667,
+      "ndcg_at_k": 0.8307232734897085,
+      "n": 20
+    },
+    "20": {
+      "recall_at_k": 1.0,
+      "precision_at_k": 0.060000000000000005,
+      "hit_rate_at_k": 1,
+      "mrr_at_k": 0.837107843137255,
+      "ndcg_at_k": 0.8693563001996819,
+      "n": 20
+    }
+  },
+  "stage_seconds": {
+    "status": "measured",
+    "value": {
+      "mean": 0.005150036849081516,
+      "p50": 0.004916250007227063,
+      "p95": 0.005258584045805037
+    },
+    "unit": "seconds",
+    "n": 25,
+    "method": "Successful observations; median P50, nearest-rank P95.",
+    "artifact": "bm25-after.json#/cases"
+  },
+  "concurrency": 1,
+  "successes": 25,
+  "errors": 0,
+  "retries": 0,
+  "cases": [
+    {
+      "case_id": "policy-scope",
+      "question": "Which NYU student levels and organizations are covered by the conduct policy, and which schools and locations does it cover?",
+      "seconds": 0.010208874940872192,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:0",
+          "score": 21.822877590474576,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:6",
+          "score": 19.75294269311454,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 11.969160647279425,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:8",
+          "score": 11.574490384532123,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:1",
+          "score": 10.54658212239667,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:5",
+          "score": 10.310665558097087,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/student-resources-overview.txt:child:0",
+          "score": 10.02819260437939,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:2",
+          "score": 9.369310943411538,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 9.338016316055775,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:3",
+          "score": 8.517705781488889,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-overview.txt:child:0",
+          "score": 8.274745416626086,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 8.245110561118292,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/student-career-development-professional-development-overview.txt:child:0",
+          "score": 8.123446576728432,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:10",
+          "score": 7.833719338974653,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:4",
+          "score": 7.8319351343273444,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 7.511250361171079,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 7.155440245962845,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:5",
+          "score": 5.7064079571111135,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:0",
+          "score": 5.691263870570149,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:9",
+          "score": 5.189109085340858,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/policies/university-student-conduct-policy.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.05,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/policies/university-student-conduct-policy.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "policy-fire",
+      "question": "What should a student do when a fire alarm sounds?",
+      "seconds": 0.0051600419683381915,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:4",
+          "score": 11.862579626182594,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:3",
+          "score": 8.028060723965563,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 7.812708358111746,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 7.719157012712262,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 7.587064348872314,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 7.574940668599774,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:5",
+          "score": 6.895945772044779,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 6.2701438572306865,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:3",
+          "score": 5.784717253191011,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:6",
+          "score": 5.6615245714031595,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:1",
+          "score": 5.107888838953091,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:0",
+          "score": 4.9225868893155535,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:2",
+          "score": 4.873139581434836,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:4",
+          "score": 4.434598621323825,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 4.373784566607482,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:0",
+          "score": 3.54183245875382,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:2",
+          "score": 3.531076382319259,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 2.9363555829178782,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:3",
+          "score": 2.894440602730533,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:2",
+          "score": 2.6186368967148552,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/policies/university-student-conduct-policy.txt:child:4"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.05,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/policies/university-student-conduct-policy.txt:child:4"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "policy-ai-impersonation",
+      "question": "Does the conduct policy prohibit using generative AI to impersonate another NYU community member without consent?",
+      "seconds": 0.0049802090507000685,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:4",
+          "score": 30.83862269638711,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:1",
+          "score": 15.73943513699591,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:5",
+          "score": 13.857215866179768,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:2",
+          "score": 11.638166514065748,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:1",
+          "score": 10.71543705089142,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:0",
+          "score": 10.222836846826581,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:6",
+          "score": 8.93711172651688,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:10",
+          "score": 8.860131607689208,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:2",
+          "score": 8.832452612726822,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:3",
+          "score": 6.525211349440478,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:7",
+          "score": 6.339809758022859,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:0",
+          "score": 6.225420853792369,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:3",
+          "score": 5.798304647774336,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:4",
+          "score": 5.661276219290854,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 5.583123578322773,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:0",
+          "score": 5.422252058653514,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt:child:1",
+          "score": 4.9830364383221575,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 4.831539701753798,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:3",
+          "score": 4.825653061208239,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-tracks.txt:child:0",
+          "score": 4.737548610552977,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/policies/university-student-conduct-policy.txt:child:4"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.05,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/policies/university-student-conduct-policy.txt:child:4"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "policy-off-campus",
+      "question": "Can NYU take disciplinary action for conduct outside the University context, and under what conditions?",
+      "seconds": 0.004925540997646749,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:6",
+          "score": 24.24636748220111,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:5",
+          "score": 19.34329089666287,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 10.067093862174161,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:1",
+          "score": 9.798865403551817,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:4",
+          "score": 9.592308101471477,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 7.778700056209718,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:2",
+          "score": 7.524143279236203,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:0",
+          "score": 7.348795612664144,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 7.076818160452726,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:0",
+          "score": 6.859009913357468,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 6.592248508350501,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:0",
+          "score": 6.4716411223828505,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:3",
+          "score": 6.144245845370364,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:8",
+          "score": 6.040796731949791,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:10",
+          "score": 5.867150642861353,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 5.8459273625915325,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 5.75158232564688,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:1",
+          "score": 5.653465282036711,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:1",
+          "score": 5.24620990731632,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-summer-research-initiative.txt:child:0",
+          "score": 4.986298553578687,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/policies/university-student-conduct-policy.txt:child:6"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.05,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/policies/university-student-conduct-policy.txt:child:6"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "msds-credits",
+      "question": "How many credits does the MSDS require, how are they distributed across the sample plan semesters, and can the actual plan vary with course availability?",
+      "seconds": 0.005160750006325543,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:2",
+          "score": 19.26565850396285,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 18.201793326970503,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 15.887228440861682,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:3",
+          "score": 15.062119791371419,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 14.11280571489366,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:1",
+          "score": 13.492072990207587,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 13.447060083691236,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 13.18995030790645,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 13.000457057158465,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 12.55248352991023,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:0",
+          "score": 11.612367274529484,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 11.105502547165274,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:0",
+          "score": 8.664872155636733,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-overview.txt:child:0",
+          "score": 8.178238081195882,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/student-career-development-professional-development-overview.txt:child:0",
+          "score": 7.096421197402407,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:2",
+          "score": 6.8641165165495215,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-summer-research-initiative.txt:child:0",
+          "score": 6.820107928998983,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:5",
+          "score": 6.777622587404723,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:0",
+          "score": 6.634315779503301,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:1",
+          "score": 5.7751838652786995,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 0.5,
+          "precision_at_k": 0.2,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 0.6131471927654584,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/curriculum.txt:child:0",
+            "materials/nyu/msds/curriculum.txt:child:2"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.1,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 0.7977228895450266,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/curriculum.txt:child:0",
+            "materials/nyu/msds/curriculum.txt:child:2"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "msds-gpa",
+      "question": "What academic progress requirements does the general FAQ specify?",
+      "seconds": 0.005132292048074305,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 11.702242742978513,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 10.763094346749929,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:6",
+          "score": 10.307847284906808,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 7.145722208713001,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:3",
+          "score": 6.814849022506728,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:3",
+          "score": 6.517182783845971,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:0",
+          "score": 6.281213955464688,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 6.233067552469429,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 6.061888187729106,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:8",
+          "score": 5.918892227679498,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:2",
+          "score": 5.389378826104352,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:7",
+          "score": 5.166552244579624,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 5.1460658535088495,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:3",
+          "score": 4.520824881454716,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:0",
+          "score": 4.417317475270696,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:4",
+          "score": 4.216069360484111,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 3.9426167337453153,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-tracks.txt:child:0",
+          "score": 3.823099724198157,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 3.7467943300312196,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:4",
+          "score": 3.611096756138906,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 0.0,
+          "precision_at_k": 0.0,
+          "hit_rate_at_k": 0,
+          "mrr_at_k": 0,
+          "ndcg_at_k": 0.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1"
+          ],
+          "relevance": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.05,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 0.058823529411764705,
+          "ndcg_at_k": 0.23981246656813146,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1"
+          ],
+          "relevance": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "msds-independent-study",
+      "question": "How many independent study credits may count toward the MSDS?",
+      "seconds": 0.004916250007227063,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 14.86955395343013,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 13.234773525667928,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:1",
+          "score": 9.39685773683099,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 7.80219421516548,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:0",
+          "score": 7.4335119957625935,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 7.277535115947035,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:2",
+          "score": 6.769093757774295,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:3",
+          "score": 6.646989287442784,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt:child:0",
+          "score": 5.672378049777359,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 5.05766656413392,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-tracks.txt:child:0",
+          "score": 5.050082310794088,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 4.650861650446035,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-overview.txt:child:0",
+          "score": 4.510496335118113,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 4.467283854493728,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:1",
+          "score": 4.403021313745509,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:8",
+          "score": 4.272670772748643,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:4",
+          "score": 4.083888263932259,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:0",
+          "score": 3.730947982271813,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:1",
+          "score": 3.261769825612257,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:3",
+          "score": 3.0028793396046147,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.05,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "msds-waiver",
+      "question": "Which required Data Science course may be waived, and what materials must be submitted for review according to the general FAQ?",
+      "seconds": 0.004916250007227063,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 21.484019454768436,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 18.232716392286694,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 17.020481813662812,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 15.710927072081214,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 14.701258490665342,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:2",
+          "score": 13.704495994175351,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:2",
+          "score": 13.20458142482632,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 12.298278294465092,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:5",
+          "score": 10.976208064605695,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 10.853625296044601,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:0",
+          "score": 10.783386596839664,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:6",
+          "score": 9.910681177113176,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:1",
+          "score": 9.835707969568965,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:3",
+          "score": 9.593554258530268,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:3",
+          "score": 8.80428825875033,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:4",
+          "score": 8.119895708813667,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 7.670850848483836,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:6",
+          "score": 7.602294152832848,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:0",
+          "score": 7.473475918095881,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:3",
+          "score": 7.440683947056176,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.05,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "msds-industry",
+      "question": "What additional coursework and practical experience does the Industry Concentration require?",
+      "seconds": 0.005084291915409267,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt:child:0",
+          "score": 14.9101907200873,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:1",
+          "score": 14.043488667854374,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 10.758197242867888,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-overview.txt:child:0",
+          "score": 10.486016593703956,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 9.560155501738269,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 8.403694434436282,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:3",
+          "score": 7.516469563785505,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:0",
+          "score": 6.588308613733135,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-overview.txt:child:1",
+          "score": 6.323247323033301,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 6.158959358015502,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:0",
+          "score": 5.873160463829777,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:3",
+          "score": 5.589232262252798,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 5.3170673889955555,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 5.023479572662655,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:0",
+          "score": 4.724425973920515,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 4.368932576027372,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:2",
+          "score": 3.5014783541359145,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:0",
+          "score": 3.4632136150400896,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-summer-research-initiative.txt:child:0",
+          "score": 3.447173635547538,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:8",
+          "score": 3.2330284352214456,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-industry-concentration.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.05,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-industry-concentration.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "msds-research",
+      "question": "Can a student outside CDS MSDS participate in the Summer Research Initiative?",
+      "seconds": 0.00501883402466774,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-summer-research-initiative.txt:child:0",
+          "score": 20.016593466268375,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:6",
+          "score": 10.659510320510723,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 9.646743528404317,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 7.9742183635022235,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:1",
+          "score": 7.353520880064928,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 7.34473258148985,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:5",
+          "score": 6.746337664097766,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:0",
+          "score": 6.710907421491335,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-tracks.txt:child:0",
+          "score": 6.655269741243492,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 6.408277689860603,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 6.006716637505177,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:0",
+          "score": 5.935152811649875,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 5.616179388139595,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/student-career-development-professional-development-overview.txt:child:0",
+          "score": 5.057239823921898,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/student-resources-overview.txt:child:0",
+          "score": 5.048558046346112,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:0",
+          "score": 4.9764385171630865,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:1",
+          "score": 4.8663268981658785,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt:child:0",
+          "score": 4.789574392242405,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:2",
+          "score": 4.75111030511355,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt:child:1",
+          "score": 4.448008155695437,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-summer-research-initiative.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.05,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-summer-research-initiative.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "msds-online",
+      "question": "Is the MSDS offered online?",
+      "seconds": 0.00493070890661329,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:0",
+          "score": 6.796806859870406,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:2",
+          "score": 5.191712359615802,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 4.20810677481809,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:1",
+          "score": 4.097263263262373,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 4.000190859975734,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 3.9733529225413537,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 3.6400619548241457,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 3.562297558978644,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:0",
+          "score": 3.0616998570644496,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:2",
+          "score": 3.009152613488239,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:6",
+          "score": 2.8860058222775793,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 2.7856593293571685,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:0",
+          "score": 2.654193569587554,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 2.4441058505521696,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:1",
+          "score": 2.4317005904251014,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-tracks.txt:child:0",
+          "score": 2.077683397577133,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:3",
+          "score": 2.047719607963758,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-summer-research-initiative.txt:child:0",
+          "score": 1.006998852331668,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:0",
+          "score": 0.9852624828909611,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:1",
+          "score": 0.959869073524083,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-faq.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.05,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-faq.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "missing-personal-schedule",
+      "question": "What room and exact start time is my first MSDS class next Monday?",
+      "seconds": 0.004945624968968332,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 8.84003227687233,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:1",
+          "score": 7.9851019724577315,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 7.902760138920065,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:2",
+          "score": 7.771580714311219,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 7.530686603393495,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 7.18421005023521,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:5",
+          "score": 7.078902691568594,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 5.700464813169871,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 5.639389396583297,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-overview.txt:child:0",
+          "score": 5.481004087463074,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 5.458098890040761,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-summer-research-initiative.txt:child:0",
+          "score": 5.275088798574977,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:4",
+          "score": 4.809277215481894,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:2",
+          "score": 4.7353027535152385,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:8",
+          "score": 4.686587426033011,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt:child:0",
+          "score": 4.235661822170935,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:1",
+          "score": 4.015061845867393,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-tracks.txt:child:1",
+          "score": 3.845632373235677,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:0",
+          "score": 3.473422795852259,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:1",
+          "score": 3.2453107328971527,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": null,
+        "20": null
+      }
+    },
+    {
+      "case_id": "msds-admissions-prerequisites",
+      "question": "What prerequisite subjects are required for MSDS admission, and what programming background is generally expected?",
+      "seconds": 0.004886333015747368,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 14.639557961256232,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 11.490871656005854,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 11.073489448945404,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:2",
+          "score": 10.805852826397436,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 10.449934639147441,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 9.641221250011817,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:0",
+          "score": 9.555904077283008,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:5",
+          "score": 8.740661390793734,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:1",
+          "score": 8.64270990865056,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 8.639439579961214,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:0",
+          "score": 8.636140596963685,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 8.472626829224943,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:6",
+          "score": 7.393308060780314,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 6.702347524974883,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:1",
+          "score": 5.390131808018724,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:2",
+          "score": 5.276762139375908,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:2",
+          "score": 4.750655975578611,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:0",
+          "score": 4.335124951244254,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:0",
+          "score": 4.3299118081589185,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-tracks.txt:child:0",
+          "score": 4.1904797307866755,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 0.0,
+          "precision_at_k": 0.0,
+          "hit_rate_at_k": 0,
+          "mrr_at_k": 0,
+          "ndcg_at_k": 0.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/admissions-requirements.txt:child:0",
+            "materials/nyu/msds/admissions-requirements.txt:child:1"
+          ],
+          "relevance": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.1,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 0.1,
+          "ndcg_at_k": 0.3482723708517659,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/admissions-requirements.txt:child:0",
+            "materials/nyu/msds/admissions-requirements.txt:child:1"
+          ],
+          "relevance": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "msds-gre-submission",
+      "question": "Is the GRE required for MSDS admission, and what does the admissions requirements page say to do if I submit GRE scores?",
+      "seconds": 0.004894667072221637,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 28.38876234284865,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 21.57611875795238,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 21.207325383369867,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 18.714149257865248,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:2",
+          "score": 17.693596233419232,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:0",
+          "score": 17.54431512910679,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 17.338261422000805,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 17.035638222443335,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 15.566460033227797,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:5",
+          "score": 15.483960065669102,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:0",
+          "score": 13.975065920337522,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:0",
+          "score": 13.148402265297657,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 11.11307422012998,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:6",
+          "score": 9.728254690818257,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:3",
+          "score": 9.242683557873937,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:3",
+          "score": 9.017399294192,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:4",
+          "score": 8.982637392750584,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:1",
+          "score": 8.820579346099853,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt:child:0",
+          "score": 7.851009900338318,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:3",
+          "score": 7.513848889995976,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 0.25,
+          "ndcg_at_k": 0.43067655807339306,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/admissions-requirements.txt:child:1"
+          ],
+          "relevance": [
+            0,
+            0,
+            0,
+            1,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.05,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 0.25,
+          "ndcg_at_k": 0.43067655807339306,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/admissions-requirements.txt:child:1"
+          ],
+          "relevance": [
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "msds-tracks-change",
+      "question": "What are the two primary MSDS tracks, and until when can students change tracks?",
+      "seconds": 0.004823041032068431,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-tracks.txt:child:0",
+          "score": 21.873163144791814,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 11.02402132859058,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 9.23146624412835,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 8.549599446402924,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:0",
+          "score": 7.341246144000901,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 7.056630910148458,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:6",
+          "score": 6.92833522832712,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:2",
+          "score": 6.6423257012779455,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 6.298784674272362,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 5.766264377710609,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 5.642173855324285,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:0",
+          "score": 5.586736461240121,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt:child:0",
+          "score": 5.501747269777316,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:5",
+          "score": 5.4431948215766806,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:2",
+          "score": 5.177493373959058,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:1",
+          "score": 5.156667343119035,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 5.090262871878013,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/student-resources-overview.txt:child:0",
+          "score": 5.068356256071705,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-overview.txt:child:0",
+          "score": 4.975913478499435,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:1",
+          "score": 4.719231800502304,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-tracks.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.05,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-tracks.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "msds-working-enrollment",
+      "question": "I work full-time. What semester workload does the admissions FAQ suggest, are evening classes guaranteed, and does continuous enrollment also apply in summer?",
+      "seconds": 0.004844959010370076,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:0",
+          "score": 35.195323655680525,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 25.610315404934557,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 22.299928449920554,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 19.979972775274497,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 19.554499359009082,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 16.33624973432637,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:5",
+          "score": 13.249073196965332,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:2",
+          "score": 11.22223628782256,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:8",
+          "score": 11.019542742068657,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 9.644742170066177,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-summer-research-initiative.txt:child:0",
+          "score": 9.520062622439829,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:0",
+          "score": 9.02956453816637,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 8.571726533471303,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 8.398417128019016,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:1",
+          "score": 7.965968814364066,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:6",
+          "score": 7.868524948524991,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt:child:0",
+          "score": 7.1327020291068495,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-overview.txt:child:0",
+          "score": 6.91825398335498,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:6",
+          "score": 6.815637489148674,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:3",
+          "score": 6.640663490059358,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.4,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+            "materials/nyu/msds/masters-in-data-science-faq.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            1,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.1,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+            "materials/nyu/msds/masters-in-data-science-faq.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "msds-pathbreaker-fall2027",
+      "question": "For Fall 2027, how many Pathbreaker scholarships are described, what do they cover, and is a separate application required?",
+      "seconds": 0.004797667032107711,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt:child:0",
+          "score": 24.527088543922254,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:5",
+          "score": 18.943993833535412,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 16.386423748059116,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 15.630187377124738,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 14.915246533682936,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 13.375584081922824,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt:child:1",
+          "score": 13.220333090992701,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 12.708503156020415,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:0",
+          "score": 12.534739075739653,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 12.327163911563296,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:0",
+          "score": 12.116561229033357,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 10.718114632238533,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:2",
+          "score": 9.173951229560084,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:0",
+          "score": 8.98117187166776,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-overview.txt:child:0",
+          "score": 8.594240182441464,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:0",
+          "score": 8.117921450768916,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/student-resources-overview.txt:child:0",
+          "score": 8.064556742932126,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:3",
+          "score": 7.769269040367355,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:1",
+          "score": 7.151521947848176,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt:child:0",
+          "score": 7.151144652939492,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.05,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "msds-capstone-fall2026-deadline",
+      "question": "According to the saved capstone page, when were Fall 2026 project proposals due, and were submissions still open in the snapshot?",
+      "seconds": 0.004861666006036103,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:0",
+          "score": 23.794404985541604,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-summer-research-initiative.txt:child:0",
+          "score": 10.185089384136184,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:4",
+          "score": 9.803785620886275,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:2",
+          "score": 8.848812496193169,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 8.084947040551405,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:0",
+          "score": 6.902796000088795,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:3",
+          "score": 6.846727104412639,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:2",
+          "score": 6.767369607765355,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/student-resources-overview.txt:child:0",
+          "score": 6.60407480941516,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 6.52776024970463,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-tracks.txt:child:1",
+          "score": 6.440683490002339,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:6",
+          "score": 6.055265635144098,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:3",
+          "score": 5.766286909556337,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-overview.txt:child:0",
+          "score": 5.738815271666951,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:0",
+          "score": 5.67023077980478,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:0",
+          "score": 5.501275650642185,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:2",
+          "score": 5.403607009299794,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt:child:0",
+          "score": 5.343070207325333,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 5.241716543386592,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt:child:0",
+          "score": 5.114094089431189,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-capstone.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.05,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-capstone.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "policy-effective-date",
+      "question": "What is the effective date of the saved Student Conduct Policy, and which earlier policy does it supersede?",
+      "seconds": 0.004807792021892965,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:0",
+          "score": 20.732882818295856,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:6",
+          "score": 11.467486094223105,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 9.99901784202112,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 8.892644072956722,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 8.577176659163289,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 8.158539827679817,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:5",
+          "score": 8.00064071566226,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:10",
+          "score": 7.594051943231767,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:1",
+          "score": 7.471448260434725,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:7",
+          "score": 7.424601901107476,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:3",
+          "score": 6.7081225785275675,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:4",
+          "score": 6.687018524801585,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 6.301673344615842,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 6.090215332212306,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:9",
+          "score": 5.902548765064516,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:2",
+          "score": 5.487501706474013,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-tracks.txt:child:1",
+          "score": 5.280775776488532,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/student-resources-overview.txt:child:0",
+          "score": 5.260064522035722,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:5",
+          "score": 5.228702131862104,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:0",
+          "score": 5.0740001634814185,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/policies/university-student-conduct-policy.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.05,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/policies/university-student-conduct-policy.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "msds-cpt-source-context",
+      "question": "How do the admissions FAQ and Industry Concentration page describe internship timing, and what advice does the concentration page give international students?",
+      "seconds": 0.004858167027123272,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 15.8006056588207,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 15.663507403343768,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt:child:0",
+          "score": 14.832189798996783,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 13.488436660946183,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:3",
+          "score": 13.07200141129504,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 11.642617003392527,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 10.814777105986044,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:3",
+          "score": 10.716092776960995,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:6",
+          "score": 10.189990721710958,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:0",
+          "score": 10.094844248036337,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:2",
+          "score": 10.017539385885716,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:0",
+          "score": 9.56552495764533,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 8.89467149347903,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/student-career-development-professional-career-information.txt:child:0",
+          "score": 8.198916281652725,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 8.064459510856638,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:5",
+          "score": 7.858472480987821,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-overview.txt:child:0",
+          "score": 7.7220024480200395,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-overview.txt:child:1",
+          "score": 7.27309909014711,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 7.235871099813,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:1",
+          "score": 7.217785005544123,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.4,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 0.3333333333333333,
+          "ndcg_at_k": 0.5706417189553201,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+            "materials/nyu/msds/masters-in-data-science-industry-concentration.txt:child:0"
+          ],
+          "relevance": [
+            0,
+            0,
+            1,
+            1,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.1,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 0.3333333333333333,
+          "ndcg_at_k": 0.5706417189553201,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+            "materials/nyu/msds/masters-in-data-science-industry-concentration.txt:child:0"
+          ],
+          "relevance": [
+            0,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "msds-career-advising",
+      "question": "What can I discuss in an individual CDS career advising appointment, and which NYU center collaborates with CDS on career resources?",
+      "seconds": 0.004878084058873355,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/student-career-development-professional-development-overview.txt:child:0",
+          "score": 21.881970416063766,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/student-resources-overview.txt:child:0",
+          "score": 18.082195931857637,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 15.679138957176711,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:5",
+          "score": 13.96066327983424,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 13.243550090034258,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:0",
+          "score": 12.906321206117848,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 11.150731064528532,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 11.12250553039902,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 10.576177062042957,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-overview.txt:child:0",
+          "score": 9.921612464632812,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 9.864737602351509,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:8",
+          "score": 9.702706213583337,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:2",
+          "score": 9.571820408985378,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 9.28101176499315,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:5",
+          "score": 9.140298723224987,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 8.757857633191948,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:7",
+          "score": 8.73102076176979,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:2",
+          "score": 8.725551817911873,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/student-career-development-professional-career-information.txt:child:0",
+          "score": 8.080142910184177,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/student-career-development-professional-development-overview.txt:child:1",
+          "score": 7.987498963815932,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.2,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/student-career-development-professional-development-overview.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 5
+        },
+        "20": {
+          "recall_at_k": 1.0,
+          "precision_at_k": 0.05,
+          "hit_rate_at_k": 1,
+          "mrr_at_k": 1.0,
+          "ndcg_at_k": 1.0,
+          "gold_overlap_ids": [
+            "materials/nyu/msds/student-career-development-professional-development-overview.txt:child:0"
+          ],
+          "relevance": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "k": 20
+        }
+      }
+    },
+    {
+      "case_id": "missing-fall2027-application-deadline",
+      "question": "What is the exact MSDS Fall 2027 application deadline, including the time and time zone?",
+      "seconds": 0.004822249989956617,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:0",
+          "score": 11.379516687536203,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 10.096507136179007,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 9.130343889663276,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 7.934401952821347,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 7.928755639610859,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 7.764160147336643,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt:child:0",
+          "score": 7.708166506792351,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 7.2907764761629075,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 5.993308386010538,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:5",
+          "score": 5.8800706427687235,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:0",
+          "score": 5.634789028999977,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:2",
+          "score": 5.350522624314435,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-tracks.txt:child:0",
+          "score": 4.875891635342399,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:0",
+          "score": 4.839930555375589,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:0",
+          "score": 4.825494619851679,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt:child:1",
+          "score": 4.8129763106492724,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:2",
+          "score": 4.59774280143114,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt:child:0",
+          "score": 4.388213868395053,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:8",
+          "score": 4.311132510075842,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:3",
+          "score": 4.163808337933249,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": null,
+        "20": null
+      }
+    },
+    {
+      "case_id": "missing-personal-scholarship-award",
+      "question": "I submitted an MSDS application for Fall 2027. What exact dollar amount of scholarship funding has NYU awarded me?",
+      "seconds": 0.004916959092952311,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 13.184354645730139,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt:child:0",
+          "score": 12.991857707433784,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 12.10804049503718,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 12.076820835843089,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:5",
+          "score": 11.304354916968034,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt:child:1",
+          "score": 10.805404031979272,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:0",
+          "score": 10.464588455931976,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 9.49593535691429,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 9.493532134343294,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:0",
+          "score": 8.376808058783872,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 7.870173107533535,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:0",
+          "score": 7.537233330457782,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:4",
+          "score": 6.578564029411121,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:1",
+          "score": 6.165306398703538,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:0",
+          "score": 5.925876913114232,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:2",
+          "score": 5.904338975986626,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-tracks.txt:child:0",
+          "score": 5.882350917818936,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 5.873104929087743,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 5.687556613515704,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:2",
+          "score": 5.493974713948439,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": null,
+        "20": null
+      }
+    },
+    {
+      "case_id": "missing-personal-capstone-team",
+      "question": "Which Fall 2026 capstone project have I been assigned to, and who are my teammates?",
+      "seconds": 0.004721082979813218,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:2",
+          "score": 12.808044679512923,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:0",
+          "score": 11.741799571386561,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-overview.txt:child:0",
+          "score": 11.050049576641506,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 10.804814111356269,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 9.184020236968998,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 8.684269274350246,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt:child:0",
+          "score": 8.295110726409488,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:0",
+          "score": 7.825033323543787,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:4",
+          "score": 7.615051236697118,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:5",
+          "score": 7.4700454101418625,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 7.452329798028616,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 7.3531729867075,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/student-resources-overview.txt:child:0",
+          "score": 7.191104233776812,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:2",
+          "score": 7.126299090479284,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:0",
+          "score": 6.884204559066236,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-tracks.txt:child:1",
+          "score": 6.806284028999338,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 6.714642165969979,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/policies/university-student-conduct-policy.txt:child:0",
+          "score": 6.621113588552648,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:0",
+          "score": 6.525516525940024,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-capstone.txt:child:3",
+          "score": 6.19426686961072,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": null,
+        "20": null
+      }
+    },
+    {
+      "case_id": "missing-exact-tuition-bill",
+      "question": "What is the exact total tuition and mandatory fees in US dollars for all 36 MSDS credits for a Fall 2027 entrant?",
+      "seconds": 0.005258584045805037,
+      "candidates": [
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-financial-aid-fellowships.txt:child:0",
+          "score": 21.41576533120233,
+          "rank": 1
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:2",
+          "score": 15.247114273215477,
+          "rank": 2
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:2",
+          "score": 14.046049810267714,
+          "rank": 3
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:4",
+          "score": 13.736529907054035,
+          "rank": 4
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-overview.txt:child:0",
+          "score": 12.50955597027792,
+          "rank": 5
+        },
+        {
+          "chunk_id": "materials/nyu/msds/curriculum.txt:child:0",
+          "score": 11.121259016760181,
+          "rank": 6
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:4",
+          "score": 11.106350032660252,
+          "rank": 7
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:1",
+          "score": 11.071055858073851,
+          "rank": 8
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:0",
+          "score": 11.015973678714914,
+          "rank": 9
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-industry-concentration.txt:child:0",
+          "score": 10.80367899420376,
+          "rank": 10
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:3",
+          "score": 10.759598883939859,
+          "rank": 11
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:1",
+          "score": 9.991751805674774,
+          "rank": 12
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq-general.txt:child:0",
+          "score": 9.552823657259296,
+          "rank": 13
+        },
+        {
+          "chunk_id": "materials/nyu/msds/data-science-ms-bulletin.txt:child:0",
+          "score": 9.21788180867984,
+          "rank": 14
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:5",
+          "score": 8.820355320125604,
+          "rank": 15
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:7",
+          "score": 7.815692740852033,
+          "rank": 16
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-admissions-ambassadors.txt:child:1",
+          "score": 7.503576322286354,
+          "rank": 17
+        },
+        {
+          "chunk_id": "materials/nyu/msds/student-resources-overview.txt:child:0",
+          "score": 7.2949827327584735,
+          "rank": 18
+        },
+        {
+          "chunk_id": "materials/nyu/msds/admissions-requirements.txt:child:1",
+          "score": 7.168259606241921,
+          "rank": 19
+        },
+        {
+          "chunk_id": "materials/nyu/msds/masters-in-data-science-faq.txt:child:1",
+          "score": 7.136288821850405,
+          "rank": 20
+        }
+      ],
+      "ranking": {
+        "5": null,
+        "20": null
+      }
+    }
+  ]
+}

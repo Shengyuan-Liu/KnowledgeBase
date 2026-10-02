@@ -4,7 +4,7 @@ from openai import OpenAI
 from collections.abc import Callable
 from copy import copy
 
-from knowledgebase.config import DEFAULT_EMBEDDING_MODEL
+from knowledgebase.defaults import DEFAULT_EMBEDDING_MODEL
 
 
 class EmbeddingClient:

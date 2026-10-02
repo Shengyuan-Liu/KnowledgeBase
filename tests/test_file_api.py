@@ -2,11 +2,11 @@
 
 from unittest.mock import Mock
 
-from fastapi.testclient import TestClient
 import pytest
+from fastapi.testclient import TestClient
 
 from knowledgebase.api import app as api_module
-from knowledgebase.rag.retrieval import retrieve
+from knowledgebase.rag.retrieval import Retriever
 from knowledgebase.storage.operations import get_chunks, get_document_source, get_file
 
 
@@ -35,10 +35,17 @@ def test_upload_list_retrieve_delete_preserves_other_file(api):
     assert first["created_at"]
     second = upload(client, b"Keep this file.", "Notes.TXT").json()
     assert second["file_id"] != first["file_id"]
-    assert {f["file_id"] for f in client.get("/api/files").json()} == {first["file_id"], second["file_id"]}
+    assert {f["file_id"] for f in client.get("/api/files").json()} == {
+        first["file_id"],
+        second["file_id"],
+    }
     with resources.sessions() as session:
         assert get_chunks(session, first["file_id"])[0].text == text
-        hits = retrieve("When does the library close?", session, embeddings, resources.store)
+        hits = (
+            Retriever(embeddings, resources.store)
+            .retrieve("When does the library close?", session)
+            .chunks
+        )
         assert {h.chunk.file_id for h in hits} == {first["file_id"], second["file_id"]}
 
     deleted = client.delete(f"/api/files/{first['file_id']}")
@@ -48,15 +55,23 @@ def test_upload_list_retrieve_delete_preserves_other_file(api):
     with resources.sessions() as session:
         assert get_file(session, first["file_id"]) is None
         assert get_chunks(session, first["file_id"]) == []
-        assert [h.chunk.file_id for h in retrieve("What remains?", session, embeddings, resources.store)] == [second["file_id"]]
+        assert [
+            h.chunk.file_id
+            for h in Retriever(embeddings, resources.store)
+            .retrieve("What remains?", session)
+            .chunks
+        ] == [second["file_id"]]
 
 
-@pytest.mark.parametrize("name, content, message", [
-    ("notes.docx", b"Text.", "Only .txt, .md and .pdf files are supported."),
-    ("notes.txt", b"\xff", "The file must be UTF-8 encoded."),
-    ("notes.txt", b"", "The file must contain nonempty text."),
-    ("notes.txt", b" \n\t", "The file must contain nonempty text."),
-])
+@pytest.mark.parametrize(
+    "name, content, message",
+    [
+        ("notes.docx", b"Text.", "Only .txt, .md and .pdf files are supported."),
+        ("notes.txt", b"\xff", "The file must be UTF-8 encoded."),
+        ("notes.txt", b"", "The file must contain nonempty text."),
+        ("notes.txt", b" \n\t", "The file must contain nonempty text."),
+    ],
+)
 def test_invalid_upload_is_400_without_records_or_model_calls(api, name, content, message):
     client, resources, embeddings = api
     response = upload(client, content, name)
@@ -79,7 +94,9 @@ def test_provider_failure_is_500_and_failed_record_can_be_deleted(api, error_typ
     embeddings.embed_documents.side_effect = error_type("Embedding request failed.")
     response = upload(client)
     assert response.status_code == 500
-    assert response.json()["detail"] == "File processing failed. Check the file list for its status."
+    assert (
+        response.json()["detail"] == "File processing failed. Check the file list for its status."
+    )
     file = client.get("/api/files").json()[0]
     assert file["status"] == "failed"
     assert file["error_message"] == "Embedding request failed."
@@ -110,14 +127,14 @@ def test_delete_failure_is_500_and_retry_cleans_the_file(api, error_type):
     store = resources.store
     failing_store = Mock(wraps=store)
     failing_store.delete_by_file_id.side_effect = error_type("Deletion failed.")
-    resources.store = failing_store
+    resources.files.store = failing_store
     response = client.delete(f"/api/files/{file_id}")
     assert response.status_code == 500
     assert "Retry deletion" in response.json()["detail"]
     assert client.get("/api/files").json()[0]["status"] == "failed"
     with resources.sessions() as session:
-        assert retrieve("What is in the file?", session, embeddings, store) == []
-    resources.store = store
+        assert Retriever(embeddings, store).retrieve("What is in the file?", session).chunks == []
+    resources.files.store = store
     assert client.delete(f"/api/files/{file_id}").status_code == 204
     assert client.get("/api/files").json() == []
     assert client.delete(f"/api/files/{file_id}").status_code == 404
@@ -129,7 +146,9 @@ def test_restart_reuses_data_and_openapi_describes_file_contract(configured_app)
         file = upload(client).json()
         schema = client.get("/openapi.json").json()
         assert schema["paths"]["/api/files"]["post"]["responses"]["201"]
-        assert "multipart/form-data" in schema["paths"]["/api/files"]["post"]["requestBody"]["content"]
+        assert (
+            "multipart/form-data" in schema["paths"]["/api/files"]["post"]["requestBody"]["content"]
+        )
         assert schema["paths"]["/api/files/{file_id}"]["delete"]["responses"]["204"]
     sdk.__exit__.assert_called_once()
     with TestClient(api_module.create_app()) as client:

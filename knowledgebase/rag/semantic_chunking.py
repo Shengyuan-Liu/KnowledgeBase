@@ -6,12 +6,15 @@ from time import perf_counter
 
 import tiktoken
 
-from knowledgebase.config import DEFAULT_SEMANTIC_BATCH_SIZE, DEFAULT_SEMANTIC_SIMILARITY_THRESHOLD
+from knowledgebase.defaults import (
+    DEFAULT_SEMANTIC_BATCH_SIZE,
+    DEFAULT_SEMANTIC_SIMILARITY_THRESHOLD,
+)
 from knowledgebase.rag.chunking import (
     _bounded_units, _pack_units, _sentence_boundaries, _spans_between,
     split_parent_child, split_structured,
 )
-from knowledgebase.schemas import ChildChunk, ParentChildChunks, SourceBlock
+from knowledgebase.schemas import Chunk, ChunkBatch, SourceBlock
 
 
 def split_semantic(
@@ -20,7 +23,7 @@ def split_semantic(
     parent_max_tokens: int, child_max_tokens: int, encoding_name: str,
     similarity_threshold: float = DEFAULT_SEMANTIC_SIMILARITY_THRESHOLD,
     batch_size: int = DEFAULT_SEMANTIC_BATCH_SIZE,
-) -> tuple[ParentChildChunks, dict]:
+) -> tuple[ChunkBatch, dict]:
     """Split prose when adjacent sentence cosine similarity is below the threshold.
 
     Parents are byte-for-byte identical to the structural parent-child control.
@@ -76,7 +79,7 @@ def split_semantic(
                         sqrt(sum(a * a for a in left)) * sqrt(sum(b * b for b in right))
                     )
                     split = similarity < similarity_threshold
-                    boundaries.append({"parent_id": parent.parent_id, "block_index": block_index,
+                    boundaries.append({"parent_id": parent.chunk_id, "block_index": block_index,
                         "left_span": list(units[index - 1]), "right_span": list(unit),
                         "cosine_similarity": similarity, "semantic_split": split})
                     if split:
@@ -86,10 +89,10 @@ def split_semantic(
             sections.append(section)
             spans = [span for section in sections for span in _pack_units(text, section, child_max_tokens, encoding)]
         for start, end in spans:
-            children.append(ChildChunk(
+            children.append(Chunk(type="child",
                 chunk_id=f"{file_id}:child:{len(children)}", file_id=file_id,
                 text=text[start:end], index=len(children), start_offset=start, end_offset=end,
-                parent_id=parent.parent_id, heading_path=block.heading_path,
+                parent_id=parent.chunk_id, heading_path=block.heading_path,
                 source_block_indices=[block_index], token_count=len(encoding.encode_ordinary(text[start:end])),
                 tokenizer=encoding_name, max_tokens=child_max_tokens,
             ))
@@ -103,4 +106,4 @@ def split_semantic(
                   "reason": "The embedding adapter returns vectors only; evaluation call records retain provider usage."},
         "cost": {"status": "unavailable", "value": None, "reason": "Provider billed cost is not exposed."},
     }
-    return ParentChildChunks(parents=hierarchy.parents, children=children), diagnostics
+    return ChunkBatch(parents=hierarchy.parents, children=children), diagnostics

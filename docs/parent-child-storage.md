@@ -31,21 +31,25 @@ layer does not recompute token counts, reparse Markdown, or validate those
 cross-record source semantics. Database constraints enforce identities and
 references. Low-level SQL writes are not a source-validation interface.
 
+Parent records retain their existing SQL `parent_id` primary key. The storage
+boundary maps it to `Chunk.chunk_id`; only children populate `Chunk.parent_id`.
+No column migration or reindex is required.
+
 ## Operations
 
 All operations live in `knowledgebase/storage/operations.py`:
 
-- `save_parent_child_chunks(session, chunks)`: accept a `ParentChildChunks`
+- `save_parent_child_chunks(session, chunks)`: accept a `ChunkBatch`
   snapshot, insert and flush parents, then save children, metadata, and links.
 - `save_chunks(session, chunks)`: continue accepting ordinary and flat structural
-  chunks; additionally save `ChildChunk.parent_id` against an already stored parent.
-- `get_parents(session, file_id)`: return `ParentChunk` snapshots ordered by the
+  chunks; additionally save `Chunk.parent_id` against an already stored parent.
+- `get_parents(session, file_id)`: return `Chunk(type="parent")` snapshots ordered by the
   document-global parent index; missing or flat-only files return an empty list.
 - `get_parents_by_ids(session, parent_ids)`: load existing parents once per ID;
   ignore missing IDs and do not promise requested order. Children that share a
   parent can supply duplicate IDs without returning duplicate parents.
-- `get_chunks()` and `get_chunks_by_ids()`: restore `ChildChunk` when a link
-  exists, `StructuredChunk` for flat structural records, and `Chunk` for MVP rows.
+- `get_chunks()` and `get_chunks_by_ids()`: return `Chunk(type="child")` when a
+  link exists, and `Chunk(type="flat")` otherwise. Token fields are optional.
   Both preserve their previous ordering contracts.
 
 These helpers flush without committing or changing file status. The caller owns

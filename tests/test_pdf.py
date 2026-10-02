@@ -16,7 +16,7 @@ from docling_core.types.doc import (
 )
 
 from knowledgebase.rag.pdf import PdfParser, adapt_pdf_document
-from knowledgebase.rag.pdf_models import PdfExtraction, PdfParserIdentity
+from knowledgebase.schemas import File, PdfParserIdentity
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -44,7 +44,7 @@ def test_frozen_documents_preserve_exact_slices_and_regions(name):
     result = adapt_pdf_document(doc, source, IDENTITY)
     assert result.source_hash == sha256(source).hexdigest()
     assert result.extraction_hash == sha256(result.text.encode()).hexdigest()
-    assert PdfExtraction.model_validate_json(result.model_dump_json()) == result
+    assert File.model_validate({"type": "pdf", **json.loads(result.model_dump_json())}) == result
     assert result == adapt_pdf_document(doc, source, IDENTITY)
     previous_end = 0
     pages = {p.page_index: p for p in result.pages}
@@ -146,7 +146,7 @@ def test_omissions_blank_pages_and_formula_limitations_are_explicit():
     assert result.pages[0].printed_label is None
 
 
-def test_revisions_and_nested_records_are_immutable_and_chunker_copies_are_independent():
+def test_revisions_and_source_blocks_are_immutable():
     doc = document()
     doc.add_text(label=DocItemLabel.TEXT, text="Text", prov=provenance(1, 0, 4))
     result = adapt_pdf_document(doc, b"pdf", IDENTITY)
@@ -154,9 +154,7 @@ def test_revisions_and_nested_records_are_immutable_and_chunker_copies_are_indep
                               (result.pages[0], "width", 99)]:
         with pytest.raises(ValidationError):
             setattr(obj, field, value)
-    copies = result.source_blocks()
-    copies[0].text = "Changed"
-    assert result.text == "Text"
+    assert result.blocks[0].text == result.text == "Text"
     changed = adapt_pdf_document(doc, b"different original", IDENTITY)
     assert changed.extraction_hash == result.extraction_hash
     assert changed.revision_id != result.revision_id

@@ -2,7 +2,7 @@
 
 from collections.abc import Sequence
 
-from knowledgebase.config import DEFAULT_RRF_K, DEFAULT_RRF_LIMIT
+from knowledgebase.defaults import DEFAULT_RRF_K, DEFAULT_RRF_LIMIT
 from knowledgebase.schemas import BM25Match, FusedMatch, VectorMatch
 
 

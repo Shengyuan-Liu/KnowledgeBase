@@ -1,3 +1,4 @@
+from pydantic import TypeAdapter
 from pathlib import Path
 
 import pytest
@@ -5,7 +6,7 @@ import tiktoken
 
 from knowledgebase.rag.chunking import split_parent_child
 from knowledgebase.rag.parsing import parse_markdown, parse_txt
-from knowledgebase.schemas import ParentChildChunks
+from knowledgebase.schemas import ChunkBatch
 
 
 def split(text, parent_budget=64, child_budget=16, *, markdown=True, tokenizer="cl100k_base"):
@@ -34,11 +35,11 @@ def assert_contract(text, blocks, result, parent_budget, child_budget, tokenizer
                 i for i, block in enumerate(blocks)
                 if block.start_offset < region.end_offset and block.end_offset > region.start_offset
             ]
-            assert all(blocks[i].heading_path == region.heading_path for i in region.source_block_indices)
+            assert all(list(blocks[i].heading_path) == region.heading_path for i in region.source_block_indices)
             previous_end = region.end_offset
         assert not text[previous_end:].strip()
 
-    parents = {parent.parent_id: parent for parent in result.parents}
+    parents = {parent.chunk_id: parent for parent in result.parents}
     assert len(parents) == len(result.parents)
     assert len({child.chunk_id for child in result.children}) == len(result.children)
     assert set(parents).isdisjoint(child.chunk_id for child in result.children)
@@ -56,7 +57,7 @@ def assert_contract(text, blocks, result, parent_budget, child_budget, tokenizer
 @pytest.mark.parametrize("text", ["", " \r\n\t"])
 def test_empty_input_has_no_parents_or_children(text):
     _, result = split(text)
-    assert result == ParentChildChunks(parents=[], children=[])
+    assert result == ChunkBatch(parents=[], children=[])
 
 
 @pytest.mark.parametrize("parent_budget,child_budget", [(0, 8), (32, 0), (-1, 8), (32, -1)])
@@ -175,10 +176,10 @@ def test_ids_are_repeatable_file_specific_and_survive_serialization_without_muta
     kwargs = dict(parent_max_tokens=24, child_max_tokens=8, encoding_name="cl100k_base")
     first = split_parent_child(text, blocks, "file-1", **kwargs)
     assert first == split_parent_child(text, blocks, "file-1", **kwargs)
-    assert first == ParentChildChunks.model_validate_json(first.model_dump_json())
+    assert first == TypeAdapter(ChunkBatch).validate_json(TypeAdapter(ChunkBatch).dump_json(first))
     assert [block.model_dump() for block in blocks] == before
     other = split_parent_child(text, blocks, "file-2", **kwargs)
-    assert {p.parent_id for p in first.parents}.isdisjoint(p.parent_id for p in other.parents)
+    assert {p.chunk_id for p in first.parents}.isdisjoint(p.chunk_id for p in other.parents)
     assert {c.chunk_id for c in first.children}.isdisjoint(c.chunk_id for c in other.children)
     assert_contract(text, blocks, first, 24, 8)
 

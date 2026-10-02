@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Users/lucas/Documents/Projects/KnowledgeBase/evals/check-runs/20261001-unified-file-oop/replay.py", line 82, in <module>
+    result = pack_retrieval_candidates(hits, session, schemas.RetrievalDiagnostics(
+        max_tokens=4096, tokenizer='cl100k_base'))
+  File "/private/tmp/kb-unified-file-baseline-dea314a/knowledgebase/rag/retrieval.py", line 232, in pack_retrieval_candidates
+    return pack_evidence(child_hits, list(regions.values()), diagnostics)
+  File "/private/tmp/kb-unified-file-baseline-dea314a/knowledgebase/rag/packing.py", line 45, in pack_evidence
+    parent_first = diagnostics.options.packing_strategy == "parent_first"
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'packing_strategy'

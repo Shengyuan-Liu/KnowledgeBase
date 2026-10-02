@@ -30,10 +30,10 @@ def test_context_preserves_retrieval_order_and_source_text():
 
 
 def test_nested_heading_identity_is_separate_from_exact_unicode_excerpt():
-    from knowledgebase.schemas import StructuredChunk
+    from knowledgebase.schemas import Chunk
 
     text = '```python\r\nprint("café")\r\n```\r\n'
-    chunk = StructuredChunk(chunk_id='child', file_id='guide', text=text, index=0,
+    chunk = Chunk(chunk_id='child', file_id='guide', text=text, index=0,
                             start_offset=15, end_offset=15 + len(text),
                             heading_path=['API', 'Examples > Python'], source_block_indices=[2],
                             token_count=12, tokenizer='cl100k_base', max_tokens=512)

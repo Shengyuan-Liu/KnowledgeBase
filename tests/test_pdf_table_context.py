@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from knowledgebase.rag.pdf_evidence import pdf_evidence
-from knowledgebase.rag.pdf_models import PdfExtraction
+from knowledgebase.schemas import File
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -16,10 +16,10 @@ ROOT = Path(__file__).resolve().parents[1]
 def extraction(request):
     if request.param == "parser_fixture":
         path = ROOT / "evals/check-runs/20260926-pdf-parser-selection/adapter-2/apple-fy24.json"
-        return PdfExtraction.model_validate_json(path.read_text())
+        return File.model_validate({"type": "pdf", **json.loads(path.read_text())})
     snapshot = json.loads((ROOT / "evals/library-runs/20260927-v2-pdf-live/index-snapshot.json").read_text())
     apple = next(item for item in snapshot["files"] if item["file"]["file_name"] == "apple-fy24.pdf")
-    return PdfExtraction.model_validate(apple["extraction"])
+    return File.model_validate({"type": "pdf", **apple["extraction"]})
 
 
 def sales_row(extraction):
@@ -96,7 +96,7 @@ def test_preceding_context_stays_within_its_table_section(extraction, boundary):
 def test_doclaynet_running_headers_are_not_table_context():
     snapshot = json.loads((ROOT / "evals/library-runs/20260927-v2-pdf-live/index-snapshot.json").read_text())
     paper = next(item for item in snapshot["files"] if item["file"]["file_name"] == "doclaynet.pdf")
-    extraction = PdfExtraction.model_validate(paper["extraction"])
+    extraction = File.model_validate({"type": "pdf", **paper["extraction"]})
     table_refs = {"#/tables/0", "#/tables/1", "#/tables/2", "#/tables/4"}
 
     for index, table in enumerate(extraction.blocks):
@@ -115,7 +115,7 @@ def test_doclaynet_running_headers_are_not_table_context():
 def test_continued_currency_table_retains_previous_page_periods_and_units():
     snapshot = json.loads((ROOT / "evals/library-runs/20261001-new-pdf-acceptance/index-snapshot.json").read_text())
     doc = next(item for item in snapshot["files"] if item["file"]["file_name"] == "nvidia-fy25.pdf")
-    extraction = PdfExtraction.model_validate(doc["extraction"])
+    extraction = File.model_validate({"type": "pdf", **doc["extraction"]})
     block = next(b for b in extraction.blocks if b.source_ref == "#/tables/9")
     evidence = pdf_evidence(extraction, block.start_offset, block.end_offset)
 
@@ -136,7 +136,7 @@ def test_continued_currency_table_retains_previous_page_periods_and_units():
 def test_continuation_context_does_not_cross_a_new_section():
     snapshot = json.loads((ROOT / "evals/library-runs/20261001-new-pdf-acceptance/index-snapshot.json").read_text())
     doc = next(item for item in snapshot["files"] if item["file"]["file_name"] == "nvidia-fy25.pdf")
-    extraction = PdfExtraction.model_validate(doc["extraction"])
+    extraction = File.model_validate({"type": "pdf", **doc["extraction"]})
     blocks = list(extraction.blocks)
     i = next(i for i, b in enumerate(blocks) if b.source_ref == "#/tables/9")
     blocks[i] = blocks[i].model_copy(update={"heading_path": ("Different financial statement",)})

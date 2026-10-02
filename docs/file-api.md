@@ -1,6 +1,6 @@
 # File Management API
 
-The FastAPI application exposes TXT/Markdown ingestion, listing, and deletion
+The FastAPI application exposes TXT/Markdown/PDF ingestion, listing, and deletion
 services. This is the local, single-user file API; chat and streaming use their
 own routes in the same application.
 
@@ -33,11 +33,11 @@ deployment configuration is included.
 
 | Method and path | Success | Body |
 | --- | --- | --- |
-| `POST /api/files` | `201 Created` after indexing finishes | One `FileInfo` object |
-| `GET /api/files` | `200 OK` | Array of `FileInfo`, newest first |
+| `POST /api/files` | `201 Created` after indexing finishes | One `File` object |
+| `GET /api/files` | `200 OK` | Array of `File`, newest first |
 | `DELETE /api/files/{file_id}` | `204 No Content` after cleanup | Empty |
 
-`FileInfo` contains `file_id`, `file_name`, `status`, `error_message`, and `created_at`.
+Metadata responses contain `type` (`txt`, `md`, or `pdf`), `file_id`, `file_name`, `status`, `error_message`, and `created_at`.
 The list includes processing, ready, and failed files. An empty library returns `[]`.
 Only ready files participate in retrieval. Timestamps retain the existing naive UTC
 storage convention. Names need not be unique; operations use file IDs.
@@ -50,16 +50,19 @@ Send one multipart file under the field name `file`:
 curl -F 'file=@notes.md' http://127.0.0.1:8000/api/files
 ```
 
-The route calls `ingest_file` and waits for the result. It returns a ready record
+The route calls `FileService.ingest` and waits for the result. It returns a ready record
 only after indexing completes; this initial API does not acknowledge a background
 job with `202`. Other requests can observe `processing` through the file list while
 the upload is running. Uploading the same filename again creates another file ID.
-The service checks the `.txt` or `.md` suffix (case-insensitive), UTF-8 decoding,
-and nonempty text; it does not
+The service checks the `.txt`, `.md` or `.pdf` suffix (case-insensitive), UTF-8 and
+nonempty content for text files, and the PDF signature for PDFs. It does not
 rely on the client's MIME type. The full file is read for the existing ingestion
 service, so this endpoint is intended for small local documents. Uploads use the
 shared [chunking settings](configuration.md) and retain complete source text,
-parser blocks, and chunk metadata. `FileInfo` does not expose those internal records.
+parser blocks, and chunk metadata. Metadata endpoints serialize only populated
+metadata fields, excluding source text, blocks and PDF geometry. PDF metadata adds
+`page_count` and `extraction_warnings`; the original-file endpoint still checks the
+saved extraction revision.
 
 Successful uploads make real embedding API calls. Listing and deletion do not
 call a model. Validation failures create no file records. Processing failures
@@ -103,15 +106,15 @@ the file list retains the existing service's recorded error details.
   initializes tables, opens the persistent Chroma collection, and creates the
   shared OpenAI embedding client. It closes the SDK client and disposes the SQL
   engine on shutdown. Importing the module does not initialize storage or read keys.
-- `knowledgebase/api/files.py` defines the three routes and their dependency on
-  shared `AppResources` from `api/dependencies.py`. All routes use the same
+- `knowledgebase/api/files.py` defines the file routes and their dependency on
+  shared `bootstrap.AppResources` exposed through `api/dependencies.py`. All routes use the same
   session factory, embeddings, and vector store.
   Routes use synchronous handlers for the existing blocking services; each request
   owns its read sessions, while mutation transactions remain service-owned.
 
 The [chat API](chat-api.md) shares these storage and embedding resources and adds
-an LLM client. Uploads wait for indexing, the UI is integrated, and startup recovers interrupted
-processing records. Recovery first marks them failed, then cleans partial vectors
+an LLM client. Uploads wait for indexing, the UI is integrated, and `bootstrap.build_resources()` recovers interrupted
+processing records during startup, while `open_storage()` retains the directory lock. Recovery first marks them failed, then cleans partial vectors
 and chunks. Failed cleanup remains visible and can be retried through deletion.
 A process lock allows one API or CLI owner per data directory. [Streaming chat](chat-streaming.md) is available
 through a separate endpoint. Do not delete a file currently being indexed

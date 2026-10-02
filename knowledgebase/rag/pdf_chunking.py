@@ -2,14 +2,15 @@
 
 import tiktoken
 
-from knowledgebase.rag.pdf_models import PdfExtraction
-from knowledgebase.schemas import ParentChildChunks
+from knowledgebase.schemas import (
+    File, ChunkBatch,
+)
 
 
 PDF_PARENT_CONTEXT_VERSION = "adjacent-heading-body-v1"
 
 
-def join_heading_parents(extraction: PdfExtraction, chunks: ParentChildChunks) -> ParentChildChunks:
+def join_heading_parents(extraction: File, chunks: ChunkBatch) -> ChunkBatch:
     """Join adjacent heading-only/body parents on one page when their budget fits.
 
     Docling can emit a slide title and its learning-phase heading at the same
@@ -20,7 +21,7 @@ def join_heading_parents(extraction: PdfExtraction, chunks: ParentChildChunks) -
     parents = []
     parent_ids = {}
     for parent in chunks.parents:
-        parent_ids[parent.parent_id] = parent.parent_id
+        parent_ids[parent.chunk_id] = parent.chunk_id
         if parents:
             previous = parents[-1]
             heading_only = all(extraction.blocks[i].kind == "heading" for i in previous.source_block_indices)
@@ -42,12 +43,12 @@ def join_heading_parents(extraction: PdfExtraction, chunks: ParentChildChunks) -
                             *previous.source_block_indices, *parent.source_block_indices,
                         ])),
                     })
-                    parent_ids[parent.parent_id] = previous.parent_id
+                    parent_ids[parent.chunk_id] = previous.chunk_id
                     continue
         parents.append(parent)
-    renamed = {parent.parent_id: f"{parent.file_id}:parent:{i}" for i, parent in enumerate(parents)}
-    return ParentChildChunks(
-        parents=[parent.model_copy(update={"parent_id": renamed[parent.parent_id], "index": i})
+    renamed = {parent.chunk_id: f"{parent.file_id}:parent:{i}" for i, parent in enumerate(parents)}
+    return ChunkBatch(
+        parents=[parent.model_copy(update={"chunk_id": renamed[parent.chunk_id], "index": i})
                  for i, parent in enumerate(parents)],
         children=[child.model_copy(update={"parent_id": renamed[parent_ids[child.parent_id]]})
                   for child in chunks.children],

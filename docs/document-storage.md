@@ -21,10 +21,10 @@ tables retain v1 information without requiring column migrations for MVP data:
 
 `DocumentSourceRecord` and `ChunkStructureRecord` in
 `knowledgebase/storage/models.py` define the two new database tables.
-`DocumentSource` and `StructuredChunk` in `knowledgebase/schemas.py` are independent
-in-memory snapshots returned to callers, not ORM objects or new HTTP contracts.
+`File` and `Chunk` in `knowledgebase/schemas/` are independent
+in-memory snapshots returned to callers, not ORM objects. File metadata endpoints also use `File`.
 The separate [parent-child storage guide](parent-child-storage.md) describes the
-parent and relationship tables, which are not yet used by active uploads.
+parent and relationship tables used by default uploads.
 
 The ordered `SourceBlock` list is stored as JSON, including each block's original
 text, type, offsets, heading path, and heading level. A chunk's
@@ -36,7 +36,7 @@ newline normalization: LF and CRLF sources have different hashes. Hashes identif
 the canonical text; this step does not use them to deduplicate uploads.
 
 Token configuration is stored per structural chunk, matching the existing
-`StructuredChunk` fields. Source records with no chunks have no recorded token
+optional `Chunk` fields. Source records with no chunks have no recorded token
 configuration unless parent records exist. Parent token limits are stored on their
 own records. Full ingestion-run provenance remains outside this storage step.
 
@@ -46,15 +46,15 @@ own records. Full ingestion-run provenance remains outside this storage step.
 
 - `save_document_source(session, file_id, source_format, text, blocks)`: insert
   one source for an existing file, calculate its hash, and save the ordered blocks.
-- `get_document_source(session, file_id)`: return a `DocumentSource`, or `None`
+- `get_document_source(session, file_id)`: return a `File`, or `None`
   for a missing file or an MVP file without a canonical document record.
 - `save_chunks(session, chunks)`: save the common chunk fields, followed by
-  structural metadata for any `StructuredChunk` inputs. Ordinary MVP `Chunk`
+  structural metadata when `token_count` is populated. Ordinary MVP `Chunk`
   inputs continue to work and do not acquire invented structural metadata.
-  `ChildChunk` inputs additionally store their relationship to an existing parent.
+  Chunks with `type="child"` additionally store their relationship to an existing parent.
 - `get_chunks(session, file_id)`: return ordered chunks, restoring
-  `ChildChunk` when a parent link exists, `StructuredChunk` for flat structural
-  metadata, and `Chunk` otherwise.
+  one `Chunk` model with `type="child"` when a parent link exists and `type="flat"`
+  otherwise. Missing legacy token metadata remains null.
 - `get_chunks_by_ids(session, chunk_ids)`: preserve the same data-model behavior
   for selected IDs; requested order is not guaranteed.
 
@@ -66,7 +66,8 @@ existing uniqueness constraints remain responsible for record identity.
 Callers supply blocks parsed from the same canonical text and chunks produced
 from those blocks. Storage does not reparse text or rerun tokenization. Reading
 stored chunks does not imply the file is Ready; retrieval still applies that filter.
-Mutating a returned snapshot does not modify database records.
+Chunk snapshots are detached from storage; immutable file snapshots can be
+copied with `model_copy(update=...)` without changing stored records.
 
 ## Example
 

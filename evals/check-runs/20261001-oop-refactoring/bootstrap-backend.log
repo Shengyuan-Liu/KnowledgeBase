@@ -1,0 +1,323 @@
+F....................................................................... [  8%]
+........................................................................ [ 16%]
+........................................................................ [ 25%]
+........................................................................ [ 33%]
+.................FF..................................................... [ 41%]
+...................FFFFF................................................ [ 50%]
+..........................s............................................. [ 58%]
+........................................................................ [ 67%]
+........................................................................ [ 75%]
+...................F.................................F.................. [ 83%]
+........................................................................ [ 92%]
+...................................................................      [100%]
+=================================== FAILURES ===================================
+__ test_recorded_rule_is_retained_without_a_false_missing_point_or_gap_search __
+
+    def test_recorded_rule_is_retained_without_a_false_missing_point_or_gap_search():
+>       before, old_sdk, fixture = replay_controller(separated=False)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_answer_rules.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+separated = False
+
+    def replay_controller(*, separated):
+        """Replay annotated provider outputs; this does not test model classification."""
+        fixture = json.loads(CASE.read_text())
+        raw = json.loads((ROOT / fixture['source_artifact']).read_text())
+        saved = raw['answer']['retrieval']['planning']
+        decision = fixture['expected_decision' if separated else 'original_decision']
+        assessment = fixture['expected_assessment' if separated else 'original_assessment']
+        sdk = Mock()
+        sdk.with_options.return_value = sdk
+        sdk.responses.create.side_effect = [response(json.dumps(decision)), response(json.dumps(assessment))]
+        planner = PlannerClient(sdk, 'offline', PlanningOptions(), 'cl100k_base')
+        generated = planner.plan(fixture['question'], fixture['question'], lambda: 30)
+        prepared = PreparedPlanning(generated.plan, saved['trace']['allowed_file_ids'], generated.record)
+>       controller = HopController(prepared, Mock(), Mock(), Mock(), planner,
+                                   RequestControl(PlanningOptions(), 'cl100k_base'))
+E       TypeError: HopController.__init__() takes 6 positional arguments but 7 were given
+
+tests/test_answer_rules.py:33: TypeError
+_ test_http_explicit_scope_and_missing_file_return_completed_answers[/api/chat] _
+
+configured_app = (<fastapi.applications.FastAPI object at 0x3a517cb90>, <Mock spec='EmbeddingClient' id='6103230048'>, <MagicMock id='6103235088'>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x16be2e740>
+endpoint = '/api/chat'
+
+    @pytest.mark.parametrize("endpoint", ["/api/chat", "/api/chat/stream"])
+    def test_http_explicit_scope_and_missing_file_return_completed_answers(
+        configured_app, monkeypatch, endpoint
+    ):
+        import json
+    
+        from fastapi.testclient import TestClient
+    
+        from knowledgebase.api import app as api_module
+    
+        app, _, _ = configured_app
+        llm = Mock(spec=LLMClient)
+        llm.generate.return_value = "Scoped answer. [1]"
+    
+        class Stream:
+            async def stream(self, messages):
+                yield "Scoped answer. [1]"
+    
+>       monkeypatch.setattr(api_module, "LLMClient", Mock(return_value=llm))
+E       AttributeError: <module 'knowledgebase.api.app' from '/Users/lucas/Documents/Projects/KnowledgeBase/knowledgebase/api/app.py'> has no attribute 'LLMClient'
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_document_scope_pipeline.py:192: AttributeError
+_ test_http_explicit_scope_and_missing_file_return_completed_answers[/api/chat/stream] _
+
+configured_app = (<fastapi.applications.FastAPI object at 0x3a517c7d0>, <Mock spec='EmbeddingClient' id='6103223664'>, <MagicMock id='6103235760'>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x3a4fe34d0>
+endpoint = '/api/chat/stream'
+
+    @pytest.mark.parametrize("endpoint", ["/api/chat", "/api/chat/stream"])
+    def test_http_explicit_scope_and_missing_file_return_completed_answers(
+        configured_app, monkeypatch, endpoint
+    ):
+        import json
+    
+        from fastapi.testclient import TestClient
+    
+        from knowledgebase.api import app as api_module
+    
+        app, _, _ = configured_app
+        llm = Mock(spec=LLMClient)
+        llm.generate.return_value = "Scoped answer. [1]"
+    
+        class Stream:
+            async def stream(self, messages):
+                yield "Scoped answer. [1]"
+    
+>       monkeypatch.setattr(api_module, "LLMClient", Mock(return_value=llm))
+E       AttributeError: <module 'knowledgebase.api.app' from '/Users/lucas/Documents/Projects/KnowledgeBase/knowledgebase/api/app.py'> has no attribute 'LLMClient'
+
+/Users/lucas/Documents/Projects/KnowledgeBase/tests/test_document_scope_pipeline.py:192: AttributeError
+_ test_recorded_duplicate_is_a_semantic_error_not_an_invented_quote_or_repaired_output _
+
+    def test_recorded_duplicate_is_a_semantic_error_not_an_invented_quote_or_repaired_output():
+        saved, _ = recorded("factual-condition")
+>       result, _, sdk, _ = replay_case("factual-condition", annotated=False)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_factual_condition_rules.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+identity = 'factual-condition', annotated = False
+
+    def replay_case(identity, *, annotated):
+        """Use controlled model outputs; this does not measure model compliance."""
+        saved, expected = recorded(identity)
+        output = json.dumps(expected) if annotated else saved["planner_record"]["output_text"]
+        planner, sdk = planner_with(output)
+        sdk.responses.create.side_effect = [response(output), response(saved["assessment"]["record"]["output_text"]),
+                                          response(saved["answer"])]
+        question = saved["case"]["question"]
+        generated = planner.plan(question, question, lambda: 30)
+        evidence = PlannedEvidence.model_validate_json((BASE / "frozen-evidence.json").read_text())
+        prepared = PreparedPlanning(generated.plan, evidence.trace.allowed_file_ids, generated.record)
+>       controller = HopController(prepared, None, None, None, planner, RequestControl(PlanningOptions(), "cl100k_base"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: HopController.__init__() takes 6 positional arguments but 7 were given
+
+tests/test_factual_condition_rules.py:41: TypeError
+_ test_empty_rule_annotation_preserves_factual_condition_and_downstream_requests _
+
+    def test_empty_rule_annotation_preserves_factual_condition_and_downstream_requests():
+        saved, expected = recorded("factual-condition")
+>       before, before_controller, before_sdk, before_answer = replay_case("factual-condition", annotated=False)
+                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_factual_condition_rules.py:67: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+identity = 'factual-condition', annotated = False
+
+    def replay_case(identity, *, annotated):
+        """Use controlled model outputs; this does not measure model compliance."""
+        saved, expected = recorded(identity)
+        output = json.dumps(expected) if annotated else saved["planner_record"]["output_text"]
+        planner, sdk = planner_with(output)
+        sdk.responses.create.side_effect = [response(output), response(saved["assessment"]["record"]["output_text"]),
+                                          response(saved["answer"])]
+        question = saved["case"]["question"]
+        generated = planner.plan(question, question, lambda: 30)
+        evidence = PlannedEvidence.model_validate_json((BASE / "frozen-evidence.json").read_text())
+        prepared = PreparedPlanning(generated.plan, evidence.trace.allowed_file_ids, generated.record)
+>       controller = HopController(prepared, None, None, None, planner, RequestControl(PlanningOptions(), "cl100k_base"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: HopController.__init__() takes 6 positional arguments but 7 were given
+
+tests/test_factual_condition_rules.py:41: TypeError
+_ test_observed_real_answering_rules_and_column_scopes_remain_preserved[original-rule] _
+
+identity = 'original-rule'
+
+    @pytest.mark.parametrize("identity", ["original-rule", "paraphrased-rule", "missing-year"])
+    def test_observed_real_answering_rules_and_column_scopes_remain_preserved(identity):
+        saved, expected = recorded(identity)
+>       result, _, sdk, answer = replay_case(identity, annotated=True)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_factual_condition_rules.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+identity = 'original-rule', annotated = True
+
+    def replay_case(identity, *, annotated):
+        """Use controlled model outputs; this does not measure model compliance."""
+        saved, expected = recorded(identity)
+        output = json.dumps(expected) if annotated else saved["planner_record"]["output_text"]
+        planner, sdk = planner_with(output)
+        sdk.responses.create.side_effect = [response(output), response(saved["assessment"]["record"]["output_text"]),
+                                          response(saved["answer"])]
+        question = saved["case"]["question"]
+        generated = planner.plan(question, question, lambda: 30)
+        evidence = PlannedEvidence.model_validate_json((BASE / "frozen-evidence.json").read_text())
+        prepared = PreparedPlanning(generated.plan, evidence.trace.allowed_file_ids, generated.record)
+>       controller = HopController(prepared, None, None, None, planner, RequestControl(PlanningOptions(), "cl100k_base"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: HopController.__init__() takes 6 positional arguments but 7 were given
+
+tests/test_factual_condition_rules.py:41: TypeError
+_ test_observed_real_answering_rules_and_column_scopes_remain_preserved[paraphrased-rule] _
+
+identity = 'paraphrased-rule'
+
+    @pytest.mark.parametrize("identity", ["original-rule", "paraphrased-rule", "missing-year"])
+    def test_observed_real_answering_rules_and_column_scopes_remain_preserved(identity):
+        saved, expected = recorded(identity)
+>       result, _, sdk, answer = replay_case(identity, annotated=True)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_factual_condition_rules.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+identity = 'paraphrased-rule', annotated = True
+
+    def replay_case(identity, *, annotated):
+        """Use controlled model outputs; this does not measure model compliance."""
+        saved, expected = recorded(identity)
+        output = json.dumps(expected) if annotated else saved["planner_record"]["output_text"]
+        planner, sdk = planner_with(output)
+        sdk.responses.create.side_effect = [response(output), response(saved["assessment"]["record"]["output_text"]),
+                                          response(saved["answer"])]
+        question = saved["case"]["question"]
+        generated = planner.plan(question, question, lambda: 30)
+        evidence = PlannedEvidence.model_validate_json((BASE / "frozen-evidence.json").read_text())
+        prepared = PreparedPlanning(generated.plan, evidence.trace.allowed_file_ids, generated.record)
+>       controller = HopController(prepared, None, None, None, planner, RequestControl(PlanningOptions(), "cl100k_base"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: HopController.__init__() takes 6 positional arguments but 7 were given
+
+tests/test_factual_condition_rules.py:41: TypeError
+_ test_observed_real_answering_rules_and_column_scopes_remain_preserved[missing-year] _
+
+identity = 'missing-year'
+
+    @pytest.mark.parametrize("identity", ["original-rule", "paraphrased-rule", "missing-year"])
+    def test_observed_real_answering_rules_and_column_scopes_remain_preserved(identity):
+        saved, expected = recorded(identity)
+>       result, _, sdk, answer = replay_case(identity, annotated=True)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_factual_condition_rules.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+identity = 'missing-year', annotated = True
+
+    def replay_case(identity, *, annotated):
+        """Use controlled model outputs; this does not measure model compliance."""
+        saved, expected = recorded(identity)
+        output = json.dumps(expected) if annotated else saved["planner_record"]["output_text"]
+        planner, sdk = planner_with(output)
+        sdk.responses.create.side_effect = [response(output), response(saved["assessment"]["record"]["output_text"]),
+                                          response(saved["answer"])]
+        question = saved["case"]["question"]
+        generated = planner.plan(question, question, lambda: 30)
+        evidence = PlannedEvidence.model_validate_json((BASE / "frozen-evidence.json").read_text())
+        prepared = PreparedPlanning(generated.plan, evidence.trace.allowed_file_ids, generated.record)
+>       controller = HopController(prepared, None, None, None, planner, RequestControl(PlanningOptions(), "cl100k_base"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: HopController.__init__() takes 6 positional arguments but 7 were given
+
+tests/test_factual_condition_rules.py:41: TypeError
+_ test_period_mismatch_annotation_abstains_while_raw_bad_semantics_are_not_silently_repaired _
+
+    def test_period_mismatch_annotation_abstains_while_raw_bad_semantics_are_not_silently_repaired():
+>       before, before_sdk, _, before_answer = replay_period(annotated=False)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_period_rule_constraints.py:93: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+annotated = False
+
+    def replay_period(*, annotated):
+        """Annotation supplies the desired missing decision; no model accuracy claim."""
+        row = recorded("missing-year")
+        planner, sdk = planner_with(row["planner_record"]["output_text"])
+        generated = planner.plan(row["case"]["question"], row["case"]["question"], lambda: 30)
+        decision = json.loads(row["assessment"]["record"]["output_text"])
+        if annotated:
+            for point in decision["requirements"]:
+                point.update(status="missing", gap="The supplied values are for November 2015; the requested November 2016 values are not supplied.", references=[])
+        sdk.responses.create.return_value = response(json.dumps(decision))
+        evidence = PlannedEvidence.model_validate_json((FROZEN / "frozen-evidence.json").read_text())
+        prepared = PreparedPlanning(generated.plan, evidence.trace.allowed_file_ids, generated.record)
+>       controller = HopController(prepared, None, None, None, planner, RequestControl(PlanningOptions(), "cl100k_base"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: HopController.__init__() takes 6 positional arguments but 7 were given
+
+tests/test_period_rule_constraints.py:77: TypeError
+_ test_two_missing_facts_abstain_without_the_duplicate_availability_requirement _
+
+    def test_two_missing_facts_abstain_without_the_duplicate_availability_requirement():
+>       before, before_sdk, before_answer, fixture = replay_scope(annotated=False)
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_planner_fact_scope.py:46: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+annotated = False
+
+    def replay_scope(*, annotated):
+        """Annotated provider outputs are desired decisions, not live measurements."""
+        fixture = json.loads(CASE.read_text())
+        original = json.loads((ROOT / fixture["source_artifact"]).read_text())
+        decision = fixture["expected_decision" if annotated else "original_decision"]
+        assessment = fixture["expected_assessment" if annotated else "original_assessment"]
+        planner, sdk = planner_with(json.dumps(decision))
+        generated = planner.plan(fixture["question"], fixture["question"], lambda: 30)
+        evidence = PlannedEvidence.model_validate_json((RUN / "frozen-evidence.json").read_text())
+        prepared = PreparedPlanning(generated.plan, evidence.trace.allowed_file_ids, generated.record)
+>       controller = HopController(prepared, None, None, None, planner, RequestControl(PlanningOptions(), "cl100k_base"))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: HopController.__init__() takes 6 positional arguments but 7 were given
+
+tests/test_planner_fact_scope.py:31: TypeError
+=============================== warnings summary ===============================
+.venv/lib/python3.13/site-packages/starlette/testclient.py:53
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+tests/test_pdf.py::test_parser_disables_deferred_features_and_rejects_partial_conversion
+  /Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/pydantic/main.py:475: DeprecationWarning: `force_full_page_ocr` is deprecated; set `mode=OcrMode.FULL_PAGE` instead.
+    return self.__pydantic_serializer__.to_python(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_answer_rules.py::test_recorded_rule_is_retained_without_a_false_missing_point_or_gap_search
+FAILED tests/test_document_scope_pipeline.py::test_http_explicit_scope_and_missing_file_return_completed_answers[/api/chat]
+FAILED tests/test_document_scope_pipeline.py::test_http_explicit_scope_and_missing_file_return_completed_answers[/api/chat/stream]
+FAILED tests/test_factual_condition_rules.py::test_recorded_duplicate_is_a_semantic_error_not_an_invented_quote_or_repaired_output
+FAILED tests/test_factual_condition_rules.py::test_empty_rule_annotation_preserves_factual_condition_and_downstream_requests
+FAILED tests/test_factual_condition_rules.py::test_observed_real_answering_rules_and_column_scopes_remain_preserved[original-rule]
+FAILED tests/test_factual_condition_rules.py::test_observed_real_answering_rules_and_column_scopes_remain_preserved[paraphrased-rule]
+FAILED tests/test_factual_condition_rules.py::test_observed_real_answering_rules_and_column_scopes_remain_preserved[missing-year]
+FAILED tests/test_period_rule_constraints.py::test_period_mismatch_annotation_abstains_while_raw_bad_semantics_are_not_silently_repaired
+FAILED tests/test_planner_fact_scope.py::test_two_missing_facts_abstain_without_the_duplicate_availability_requirement
+10 failed, 848 passed, 1 skipped, 2 warnings in 27.75s

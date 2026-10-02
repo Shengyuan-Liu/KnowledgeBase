@@ -96,9 +96,9 @@ fresh chunks, BM25 entries and embeddings. There is no automatic reindex endpoin
 | `adapt_pdf_document` | Convert ordered parser items into canonical text, blocks, geometry and warnings |
 | `_table` | Serialize each cell once; preserve row/column spans, header flags, caption and footnote references |
 | `knowledgebase/rag/pdf_tables.py`: `recover_collapsed_tables` | Reconstruct eligible collapsed numeric tables using native rules and text rows before canonical serialization |
-| `knowledgebase/rag/pdf_models.py` | Frozen records with tuples for nested collections and JSON round-trip support |
-| `PdfExtraction.locate` | Intersect a canonical span with all its page regions, retaining box precision |
-| `PdfExtraction.source_blocks` | Return independent copies for the structural chunker; no upload or table-aware splitting integration |
+| `knowledgebase/schemas/documents.py` | Frozen records with tuples for nested collections and JSON round-trip support |
+| `File.locate` | Intersect a canonical span with all its page regions, retaining box precision |
+| `File.blocks` | Shared immutable `SourceBlock` records used directly by the chunker, including optional PDF regions and tables |
 
 ## Source Contract
 

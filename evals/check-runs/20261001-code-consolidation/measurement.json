@@ -1,0 +1,647 @@
+{
+  "workload_sha256": "2c5450594b1e193af4c855341d595a90e9e3ba312ba2067db4262db7e3ef0ba1",
+  "cohorts": {
+    "before": {
+      "Recall@K": {
+        "status": "measured",
+        "value": {
+          "5": 0.875,
+          "20": 1.0
+        },
+        "unit": "fraction",
+        "sample_count": 20,
+        "population": "20 answerable frozen questions; 5 unanswerable excluded",
+        "method": "Candidate BM25 stage, K=5 and K=20. Binary chunk overlap with stable annotated source spans; incomplete relevance labels. Precision denominator K; no-hit MRR is zero; MRR cutoff K; binary DCG/log2 discount. Identical chunk boundaries and settings across arms.",
+        "aggregation": "macro mean across questions",
+        "artifact": "bm25-before.json#/cases"
+      },
+      "Precision@K": {
+        "status": "measured",
+        "value": {
+          "5": 0.2,
+          "20": 0.060000000000000005
+        },
+        "unit": "fraction",
+        "sample_count": 20,
+        "population": "20 answerable frozen questions; 5 unanswerable excluded",
+        "method": "Candidate BM25 stage, K=5 and K=20. Binary chunk overlap with stable annotated source spans; incomplete relevance labels. Precision denominator K; no-hit MRR is zero; MRR cutoff K; binary DCG/log2 discount. Identical chunk boundaries and settings across arms.",
+        "aggregation": "macro mean across questions",
+        "artifact": "bm25-before.json#/cases"
+      },
+      "Hit Rate@K": {
+        "status": "measured",
+        "value": {
+          "5": 0.9,
+          "20": 1
+        },
+        "unit": "fraction",
+        "sample_count": 20,
+        "population": "20 answerable frozen questions; 5 unanswerable excluded",
+        "method": "Candidate BM25 stage, K=5 and K=20. Binary chunk overlap with stable annotated source spans; incomplete relevance labels. Precision denominator K; no-hit MRR is zero; MRR cutoff K; binary DCG/log2 discount. Identical chunk boundaries and settings across arms.",
+        "aggregation": "macro mean across questions",
+        "artifact": "bm25-before.json#/cases"
+      },
+      "MRR": {
+        "status": "measured",
+        "value": {
+          "5": 0.8291666666666667,
+          "20": 0.837107843137255
+        },
+        "unit": "fraction",
+        "sample_count": 20,
+        "population": "20 answerable frozen questions; 5 unanswerable excluded",
+        "method": "Candidate BM25 stage, K=5 and K=20. Binary chunk overlap with stable annotated source spans; incomplete relevance labels. Precision denominator K; no-hit MRR is zero; MRR cutoff K; binary DCG/log2 discount. Identical chunk boundaries and settings across arms.",
+        "aggregation": "macro mean across questions",
+        "artifact": "bm25-before.json#/cases"
+      },
+      "NDCG@K": {
+        "status": "measured",
+        "value": {
+          "5": 0.8307232734897085,
+          "20": 0.8693563001996819
+        },
+        "unit": "fraction",
+        "sample_count": 20,
+        "population": "20 answerable frozen questions; 5 unanswerable excluded",
+        "method": "Candidate BM25 stage, K=5 and K=20. Binary chunk overlap with stable annotated source spans; incomplete relevance labels. Precision denominator K; no-hit MRR is zero; MRR cutoff K; binary DCG/log2 discount. Identical chunk boundaries and settings across arms.",
+        "aggregation": "macro mean across questions",
+        "artifact": "bm25-before.json#/cases"
+      },
+      "Final evidence coverage": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-before.json"
+      },
+      "Answer correctness": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-before.json"
+      },
+      "Faithfulness": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-before.json"
+      },
+      "Answer completeness": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-before.json"
+      },
+      "Answer relevance": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-before.json"
+      },
+      "Citation support": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-before.json"
+      },
+      "Citation coverage": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-before.json"
+      },
+      "Abstention": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-before.json"
+      },
+      "First-answer-delta latency": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-before.json"
+      },
+      "Complete-response latency": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-before.json"
+      },
+      "Stage latency": {
+        "status": "measured",
+        "value": {
+          "mean": 0.0029762067599222062,
+          "p50": 0.0029786250088363886,
+          "p95": 0.0031064579961821437
+        },
+        "unit": "seconds",
+        "sample_count": 25,
+        "population": "all questions including unanswerable",
+        "method": "perf_counter around search_bm25, including tokenization and temporary index construction. No query queue or model loading; imports and corpus preparation excluded. Single ordered pass, warm process, no warmup calls. Host load uncontrolled.",
+        "aggregation": "mean, median P50, nearest-rank P95",
+        "artifact": "bm25-before.json#/cases"
+      },
+      "Token usage and cost": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-before.json"
+      },
+      "Reliability": {
+        "status": "measured",
+        "value": {
+          "success": 25,
+          "error": 0,
+          "timeout": 0,
+          "retry": 0
+        },
+        "unit": "requests",
+        "sample_count": 25,
+        "population": "lexical calls, not HTTP requests",
+        "method": "Every frozen case completed; no retries or timeouts configured",
+        "aggregation": "counts",
+        "artifact": "bm25-before.json#/cases"
+      },
+      "Concurrency and throughput": {
+        "status": "measured",
+        "value": {
+          "concurrency": 1,
+          "stage_queries_per_second": 335.99816164188087
+        },
+        "unit": "workers and queries/second",
+        "sample_count": 25,
+        "population": "sequential lexical calls",
+        "method": "Count divided by sum of timed scoring intervals; excludes setup and reporting. Not a service-load or capacity measurement.",
+        "aggregation": "whole cohort",
+        "artifact": "bm25-before.json#/cases"
+      },
+      "Ingestion and index": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-before.json"
+      }
+    },
+    "after": {
+      "Recall@K": {
+        "status": "measured",
+        "value": {
+          "5": 0.875,
+          "20": 1.0
+        },
+        "unit": "fraction",
+        "sample_count": 20,
+        "population": "20 answerable frozen questions; 5 unanswerable excluded",
+        "method": "Candidate BM25 stage, K=5 and K=20. Binary chunk overlap with stable annotated source spans; incomplete relevance labels. Precision denominator K; no-hit MRR is zero; MRR cutoff K; binary DCG/log2 discount. Identical chunk boundaries and settings across arms.",
+        "aggregation": "macro mean across questions",
+        "artifact": "bm25-after.json#/cases"
+      },
+      "Precision@K": {
+        "status": "measured",
+        "value": {
+          "5": 0.2,
+          "20": 0.060000000000000005
+        },
+        "unit": "fraction",
+        "sample_count": 20,
+        "population": "20 answerable frozen questions; 5 unanswerable excluded",
+        "method": "Candidate BM25 stage, K=5 and K=20. Binary chunk overlap with stable annotated source spans; incomplete relevance labels. Precision denominator K; no-hit MRR is zero; MRR cutoff K; binary DCG/log2 discount. Identical chunk boundaries and settings across arms.",
+        "aggregation": "macro mean across questions",
+        "artifact": "bm25-after.json#/cases"
+      },
+      "Hit Rate@K": {
+        "status": "measured",
+        "value": {
+          "5": 0.9,
+          "20": 1
+        },
+        "unit": "fraction",
+        "sample_count": 20,
+        "population": "20 answerable frozen questions; 5 unanswerable excluded",
+        "method": "Candidate BM25 stage, K=5 and K=20. Binary chunk overlap with stable annotated source spans; incomplete relevance labels. Precision denominator K; no-hit MRR is zero; MRR cutoff K; binary DCG/log2 discount. Identical chunk boundaries and settings across arms.",
+        "aggregation": "macro mean across questions",
+        "artifact": "bm25-after.json#/cases"
+      },
+      "MRR": {
+        "status": "measured",
+        "value": {
+          "5": 0.8291666666666667,
+          "20": 0.837107843137255
+        },
+        "unit": "fraction",
+        "sample_count": 20,
+        "population": "20 answerable frozen questions; 5 unanswerable excluded",
+        "method": "Candidate BM25 stage, K=5 and K=20. Binary chunk overlap with stable annotated source spans; incomplete relevance labels. Precision denominator K; no-hit MRR is zero; MRR cutoff K; binary DCG/log2 discount. Identical chunk boundaries and settings across arms.",
+        "aggregation": "macro mean across questions",
+        "artifact": "bm25-after.json#/cases"
+      },
+      "NDCG@K": {
+        "status": "measured",
+        "value": {
+          "5": 0.8307232734897085,
+          "20": 0.8693563001996819
+        },
+        "unit": "fraction",
+        "sample_count": 20,
+        "population": "20 answerable frozen questions; 5 unanswerable excluded",
+        "method": "Candidate BM25 stage, K=5 and K=20. Binary chunk overlap with stable annotated source spans; incomplete relevance labels. Precision denominator K; no-hit MRR is zero; MRR cutoff K; binary DCG/log2 discount. Identical chunk boundaries and settings across arms.",
+        "aggregation": "macro mean across questions",
+        "artifact": "bm25-after.json#/cases"
+      },
+      "Final evidence coverage": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-after.json"
+      },
+      "Answer correctness": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-after.json"
+      },
+      "Faithfulness": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-after.json"
+      },
+      "Answer completeness": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-after.json"
+      },
+      "Answer relevance": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-after.json"
+      },
+      "Citation support": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-after.json"
+      },
+      "Citation coverage": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-after.json"
+      },
+      "Abstention": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-after.json"
+      },
+      "First-answer-delta latency": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-after.json"
+      },
+      "Complete-response latency": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-after.json"
+      },
+      "Stage latency": {
+        "status": "measured",
+        "value": {
+          "mean": 0.005150036849081516,
+          "p50": 0.004916250007227063,
+          "p95": 0.005258584045805037
+        },
+        "unit": "seconds",
+        "sample_count": 25,
+        "population": "all questions including unanswerable",
+        "method": "perf_counter around search_bm25, including tokenization and temporary index construction. No query queue or model loading; imports and corpus preparation excluded. Single ordered pass, warm process, no warmup calls. Host load uncontrolled.",
+        "aggregation": "mean, median P50, nearest-rank P95",
+        "artifact": "bm25-after.json#/cases"
+      },
+      "Token usage and cost": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-after.json"
+      },
+      "Reliability": {
+        "status": "measured",
+        "value": {
+          "success": 25,
+          "error": 0,
+          "timeout": 0,
+          "retry": 0
+        },
+        "unit": "requests",
+        "sample_count": 25,
+        "population": "lexical calls, not HTTP requests",
+        "method": "Every frozen case completed; no retries or timeouts configured",
+        "aggregation": "counts",
+        "artifact": "bm25-after.json#/cases"
+      },
+      "Concurrency and throughput": {
+        "status": "measured",
+        "value": {
+          "concurrency": 1,
+          "stage_queries_per_second": 194.17336793975466
+        },
+        "unit": "workers and queries/second",
+        "sample_count": 25,
+        "population": "sequential lexical calls",
+        "method": "Count divided by sum of timed scoring intervals; excludes setup and reporting. Not a service-load or capacity measurement.",
+        "aggregation": "whole cohort",
+        "artifact": "bm25-after.json#/cases"
+      },
+      "Ingestion and index": {
+        "status": "not_applicable",
+        "value": null,
+        "unit": null,
+        "reason": "Local lexical scorer replay only; no embeddings, reranking, final evidence packing, answer generation, provider calls, persistent ingestion or service load.",
+        "sample_count": 0,
+        "population": "not exercised",
+        "method": "not exercised",
+        "aggregation": "none",
+        "artifact": "bm25-after.json"
+      }
+    }
+  },
+  "paired_cases": [
+    {
+      "case_id": "policy-scope",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 3.552713678800501e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "policy-fire",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 1.7763568394002505e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "policy-ai-impersonation",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 3.552713678800501e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "policy-off-campus",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 2.6645352591003757e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "msds-credits",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 3.552713678800501e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "msds-gpa",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 1.7763568394002505e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "msds-independent-study",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 1.7763568394002505e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "msds-waiver",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 1.7763568394002505e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "msds-industry",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 1.7763568394002505e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "msds-research",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 1.7763568394002505e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "msds-online",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 8.881784197001252e-16,
+      "quality_equal": true
+    },
+    {
+      "case_id": "missing-personal-schedule",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 8.881784197001252e-16,
+      "quality_equal": true
+    },
+    {
+      "case_id": "msds-admissions-prerequisites",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 1.7763568394002505e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "msds-gre-submission",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 3.552713678800501e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "msds-tracks-change",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 3.552713678800501e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "msds-working-enrollment",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 7.105427357601002e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "msds-pathbreaker-fall2027",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 3.552713678800501e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "msds-capstone-fall2026-deadline",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 3.552713678800501e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "policy-effective-date",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 1.7763568394002505e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "msds-cpt-source-context",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 3.552713678800501e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "msds-career-advising",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 3.552713678800501e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "missing-fall2027-application-deadline",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 1.7763568394002505e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "missing-personal-scholarship-award",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 1.7763568394002505e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "missing-personal-capstone-team",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 1.7763568394002505e-15,
+      "quality_equal": true
+    },
+    {
+      "case_id": "missing-exact-tuition-bill",
+      "ranks_equal": true,
+      "max_absolute_score_difference": 1.7763568394002505e-15,
+      "quality_equal": true
+    }
+  ],
+  "unchanged_rankings": 25,
+  "max_absolute_score_difference": 7.105427357601002e-15,
+  "reviewer": "Codex; deterministic rank/score comparison and review of per-question metrics, no new answer judgments",
+  "limits": [
+    "Incomplete relevance labels; this does not measure RAG answer quality.",
+    "Before-arm timing helper inherited an answers.jsonl artifact label; authoritative observations are bm25-before.json#/cases, referenced correctly here. Raw record retained.",
+    "No production throughput, provider cost, final supplied-evidence or supplementary-search improvement claim."
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "reviewer": "Codex model, not human",
+  "method": "Read every unique answer and its exact supplied excerpts; compare frozen expected points and cited source IDs, then inspect screenshots.",
+  "reviews": [
+    {
+      "id": "weekday",
+      "answerable": true,
+      "result": "passed",
+      "reason": "Expected facts are correct, relevant and supported by the cited excerpts.",
+      "answer": "Cedar Library closes at 5 PM on weekdays (Monday through Friday) [1]."
+    },
+    {
+      "id": "followup",
+      "answerable": true,
+      "result": "passed",
+      "reason": "Expected facts are correct, relevant and supported by the cited excerpts.",
+      "answer": "Cedar Library closes at 7 PM on Saturday [1]."
+    },
+    {
+      "id": "markdown",
+      "answerable": true,
+      "result": "passed",
+      "reason": "Expected facts are correct, relevant and supported by the cited excerpts.",
+      "answer": "- You must reserve the quiet room at least 24 hours in advance [1].\n- The quiet room is on the second floor [1]."
+    },
+    {
+      "id": "pdf-planned",
+      "answerable": true,
+      "result": "passed",
+      "reason": "Expected facts are correct, relevant and supported by the cited excerpts.",
+      "answer": "- Project Juniper was assigned to Quenwick Laboratory [1].\n- The calibration interval specified for Quenwick Laboratory is 17 days [2]."
+    },
+    {
+      "id": "unanswerable",
+      "answerable": false,
+      "result": "failed",
+      "reason": "PIN was not invented, but the response gives an erroneous missing-document explanation and never tests evidence sufficiency.",
+      "answer": "I could not find a ready document matching \"my uploaded documents\". Please specify its exact filename or upload it."
+    },
+    {
+      "id": "generic-source-answerable",
+      "answerable": true,
+      "result": "failed",
+      "reason": "Incorrect abstention: relevant document is ready and contains the answer; a generic source phrase is treated as a filename.",
+      "answer": "I could not find a ready document matching \"my uploaded documents\". Please specify its exact filename or upload it."
+    },
+    {
+      "id": "explicit-source-unanswerable",
+      "answerable": false,
+      "result": "passed",
+      "reason": "Appropriate abstention after retrieving the named source; no PIN is present.",
+      "answer": "The exact secret PIN of your personal Cedar Library account is not specified in the provided excerpts from cedar-hours.txt [1]."
+    }
+  ],
+  "reviewed_claims": [
+    {
+      "id": "weekday",
+      "claim": "The library closes at 5 PM on weekdays.",
+      "source_id": 1,
+      "file": "cedar-hours.txt",
+      "support": "Cedar Library closes at 5 PM Monday through Friday."
+    },
+    {
+      "id": "followup",
+      "claim": "The library closes at 7 PM on Saturday.",
+      "source_id": 1,
+      "file": "cedar-hours.txt",
+      "support": "Cedar Library closes at 7 PM on Saturday and Sunday."
+    },
+    {
+      "id": "markdown",
+      "claim": "Reserve at least 24 hours in advance.",
+      "source_id": 1,
+      "file": "cedar-access.md",
+      "support": "Reserve the quiet room at least 24 hours in advance."
+    },
+    {
+      "id": "markdown",
+      "claim": "The quiet room is on the second floor.",
+      "source_id": 1,
+      "file": "cedar-access.md",
+      "support": "The quiet room is on the second floor."
+    },
+    {
+      "id": "pdf-planned",
+      "claim": "Project Juniper was assigned to Quenwick Laboratory.",
+      "source_id": 1,
+      "file": "assignment.pdf",
+      "support": "Project Juniper was assigned to Quenwick Laboratory."
+    },
+    {
+      "id": "pdf-planned",
+      "claim": "The calibration interval is 17 days.",
+      "source_id": 2,
+      "file": "laboratory-register.pdf",
+      "support": "Quenwick Laboratory: calibration interval is 17 days."
+    },
+    {
+      "id": "explicit-source-unanswerable",
+      "claim": "The supplied cedar-hours excerpt does not specify the PIN.",
+      "source_id": 1,
+      "file": "cedar-hours.txt",
+      "support": "Absence claim checked against the complete supplied excerpt and frozen source; it only covers hours and the library-card rule."
+    }
+  ],
+  "visual_review": [
+    "text-chat.png",
+    "pdf-viewer.png",
+    "mobile-evidence.png",
+    "planned-evidence.png",
+    "generic-source-answerable-2.png",
+    "explicit-source-unanswerable-2.png"
+  ],
+  "visual_result": "Readable desktop and mobile evidence, original PDF rendered correctly; generic-source refusal visibly reproduced.",
+  "unresolved_issues": [
+    {
+      "severity": "functional",
+      "file": "knowledgebase/rag/scope.py",
+      "issue": "Generic source phrase \"my uploaded documents\" resolves as a missing filename. Reproduced with an answerable question.",
+      "status": "not fixed; this request is browser verification",
+      "provenance": "scope-provenance.json"
+    },
+    {
+      "severity": "cosmetic",
+      "issue": "GET /favicon.ico returns 404.",
+      "status": "not fixed; no observed workflow impact"
+    }
+  ],
+  "harness_failure": "First supplemental attempt failed while reading the already-consumed SSE response via Playwright. It is retained unchanged. The second attempt records unavailable response bodies and continues; it still reports the product failure."
+}

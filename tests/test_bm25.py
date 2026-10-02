@@ -1,5 +1,7 @@
 """Lexical scoring, corpus-specific tokenization, and standalone child identity."""
 
+from dataclasses import asdict
+
 from pathlib import Path
 
 import pytest
@@ -64,6 +66,13 @@ def test_common_terms_and_one_document_still_produce_positive_hits():
     assert result[0].rank == 1
 
 
+def test_zero_k1_ignores_frequency_and_length_but_preserves_positive_matches():
+    documents = [chunk("a", "apple " * 20), chunk("z", "apple"), chunk("other", "pear")]
+    result = search_bm25("apple unknown", documents, top_k=10, k1=0, b=1)
+    assert [hit.chunk_id for hit in result] == ["a", "z"]
+    assert [hit.score for hit in result] == pytest.approx([0.4700036292] * 2)
+
+
 @pytest.mark.parametrize(("question", "documents"), [
     ("GPA", []), ("GPA", [chunk("punctuation", "---")]),
     ("", [chunk("a", "GPA")]), ("?!", [chunk("a", "GPA")]),
@@ -87,13 +96,13 @@ def test_invalid_search_parameters(settings):
 def test_search_returns_child_identity_without_expanding_or_modifying_sources():
     text = "# API\n\nSet ANTHROPIC_API_KEY.\n\n```python\nclient.messages.create()\n```\n"
     hierarchy = split_parent_child(text, parse_markdown(text), "api", parent_max_tokens=128, child_max_tokens=32, encoding_name="cl100k_base")
-    original = hierarchy.model_dump()
+    original = asdict(hierarchy)
     result = search_bm25("anthropic api key", hierarchy.children)
     assert result
     ids = {child.chunk_id for child in hierarchy.children}
     assert all(hit.chunk_id in ids for hit in result)
-    assert not {hit.chunk_id for hit in result}.intersection(p.parent_id for p in hierarchy.parents)
-    assert hierarchy.model_dump() == original
+    assert not {hit.chunk_id for hit in result}.intersection(p.chunk_id for p in hierarchy.parents)
+    assert asdict(hierarchy) == original
 
 
 def test_rebuilding_from_changed_input_does_not_retain_removed_chunks():

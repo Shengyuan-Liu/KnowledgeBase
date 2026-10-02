@@ -87,9 +87,9 @@ history remains intact.
 ## Structure and boundaries
 
 `api/chat.py` validates the HTTP contract and delegates to
-`services/chat.answer_in_conversation`. Its synchronous handler accommodates the
-existing blocking service. `api/app.py` constructs the LLM client at startup using
-the same SDK client as embeddings, and closes that client on shutdown.
+`services.chat.ChatService.answer()`. Its synchronous handler accommodates the
+existing blocking service. `bootstrap.build_resources()` constructs shared components
+inside the storage and SDK lifetimes owned by `api/app.py`.
 
 This endpoint waits for a complete answer and returns JSON. The separate
 [streaming endpoint](chat-streaming.md), `POST /api/chat/stream`, returns SSE.

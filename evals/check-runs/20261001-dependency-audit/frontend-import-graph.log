@@ -1,0 +1,11 @@
+file:///Users/lucas/Documents/Projects/KnowledgeBase/evals/check-runs/20261001-dependency-audit/audit_frontend.mjs:17
+  const file = ts.createSourceFile(path, git('show', `${revision}:${path}`), ts.ScriptTarget.Latest, true);
+                                                                                             ^
+
+TypeError: Cannot read properties of undefined (reading 'Latest')
+    at file:///Users/lucas/Documents/Projects/KnowledgeBase/evals/check-runs/20261001-dependency-audit/audit_frontend.mjs:17:94
+    at ModuleJob.run (node:internal/modules/esm/module_job:413:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:654:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v25.2.1

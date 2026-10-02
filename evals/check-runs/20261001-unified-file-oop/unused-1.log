@@ -1,0 +1,127 @@
+F401 [*] `knowledgebase.schemas.Chunk` imported but unused
+ --> knowledgebase/rag/context.py:6:51
+  |
+4 | from collections.abc import Callable
+5 |
+6 | from knowledgebase.schemas import RetrievedChunk, Chunk
+  |                                                   ^^^^^
+help: Remove unused import: `knowledgebase.schemas.Chunk`
+  |
+5 |
+  - from knowledgebase.schemas import RetrievedChunk, Chunk
+6 + from knowledgebase.schemas import RetrievedChunk
+7 |
+  |
+
+F401 [*] `knowledgebase.schemas.Chunk` imported but unused
+  --> knowledgebase/rag/retrieval.py:20:5
+   |
+18 | from knowledgebase.rag.scope import document_references, identity_labels, resolve_document_scope, prioritize_documents
+19 | from knowledgebase.schemas import (
+20 |     Chunk, RetrievedChunk, RetrievedEvidence, DocumentScope, File, RetrievalCandidate, RetrievalDiagnostics, RerankCandidate, ScopeFil…
+   |     ^^^^^
+21 | )
+22 | from knowledgebase.storage.vectordb import ChromaStore
+   |
+help: Remove unused import: `knowledgebase.schemas.Chunk`
+   |
+19 | from knowledgebase.schemas import (
+   -     Chunk, RetrievedChunk, RetrievedEvidence, DocumentScope, File, RetrievalCandidate, RetrievalDiagnostics, RerankCandidate, ScopeFile,
+20 +     RetrievedChunk, RetrievedEvidence, DocumentScope, File, RetrievalCandidate, RetrievalDiagnostics, RerankCandidate, ScopeFile,
+21 | )
+   |
+
+F401 [*] `knowledgebase.schemas.Chunk` imported but unused
+  --> knowledgebase/services/chat.py:32:62
+   |
+30 | from knowledgebase.schemas import (
+31 |     AnswerSource, ChatAnswer, ChatStreamEvent, ConversationAnswer, MessageInfo,
+32 |     RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, Chunk,
+   |                                                              ^^^^^
+33 | )
+34 | from knowledgebase.storage.operations import (
+   |
+help: Remove unused import: `knowledgebase.schemas.Chunk`
+   |
+31 |     AnswerSource, ChatAnswer, ChatStreamEvent, ConversationAnswer, MessageInfo,
+   -     RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, Chunk,
+32 +     RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics,
+33 | )
+   |
+
+F401 [*] `knowledgebase.storage.operations.save_chunks` imported but unused
+  --> knowledgebase/services/files.py:20:5
+   |
+18 | from knowledgebase.storage.operations import (
+19 |     create_file, delete_chunks, delete_file_record, delete_pdf_source, get_files,
+20 |     save_chunks, save_document_source, save_parent_child_chunks, save_pdf_source,
+   |     ^^^^^^^^^^^
+21 |     update_file_status,
+22 | )
+   |
+help: Remove unused import: `knowledgebase.storage.operations.save_chunks`
+   |
+19 |     create_file, delete_chunks, delete_file_record, delete_pdf_source, get_files,
+   -     save_chunks, save_document_source, save_parent_child_chunks, save_pdf_source,
+20 +     save_document_source, save_parent_child_chunks, save_pdf_source,
+21 |     update_file_status,
+   |
+
+F401 [*] `knowledgebase.schemas.PdfWarning` imported but unused
+  --> knowledgebase/storage/operations.py:9:175
+   |
+ 7 | …
+ 8 | …
+ 9 | …ile, HistoricalSource, MessageInfo, ChunkBatch, SourceBlock, PdfWarning
+   |                                                               ^^^^^^^^^^
+10 | …
+11 | …
+   |
+help: Remove unused import: `knowledgebase.schemas.PdfWarning`
+   |
+8  |
+   - from knowledgebase.schemas import ChatAnswer, Chunk, ConversationDetail, ConversationInfo, ConversationMessage, File, HistoricalSource, MessageInfo, ChunkBatch, SourceBlock, PdfWarning
+9  + from knowledgebase.schemas import ChatAnswer, Chunk, ConversationDetail, ConversationInfo, ConversationMessage, File, HistoricalSource, MessageInfo, ChunkBatch, SourceBlock
+10 | from knowledgebase.storage.models import (
+   |
+
+F401 [*] `knowledgebase.schemas.Chunk` imported but unused
+  --> tests/test_file_ingestion.py:8:35
+   |
+ 6 | from knowledgebase.rag.chunking import split_text
+ 7 | from knowledgebase.rag.retrieval import retrieve_evidence
+ 8 | from knowledgebase.schemas import Chunk
+   |                                   ^^^^^
+ 9 | from knowledgebase.storage.models import ChunkStructureRecord, DocumentSourceRecord
+10 | from knowledgebase.services.files import DocumentChunker, InvalidUploadError, FileService
+   |
+help: Remove unused import: `knowledgebase.schemas.Chunk`
+  |
+7 | from knowledgebase.rag.retrieval import retrieve_evidence
+  - from knowledgebase.schemas import Chunk
+8 | from knowledgebase.storage.models import ChunkStructureRecord, DocumentSourceRecord
+  |
+
+F401 [*] `knowledgebase.schemas.Chunk` imported but unused
+  --> tests/test_parent_child_pipeline.py:16:35
+   |
+14 | from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
+15 | from knowledgebase.rag.retrieval import retrieve_evidence
+16 | from knowledgebase.schemas import Chunk, VectorMatch
+   |                                   ^^^^^
+17 | from knowledgebase.services.chat import answer_in_conversation
+18 | from knowledgebase.services.files import DocumentChunker, FileService
+   |
+help: Remove unused import: `knowledgebase.schemas.Chunk`
+   |
+15 | from knowledgebase.rag.retrieval import retrieve_evidence
+   - from knowledgebase.schemas import Chunk, VectorMatch
+16 + from knowledgebase.schemas import VectorMatch
+17 | from knowledgebase.services.chat import answer_in_conversation
+   |
+
+Found 7 errors.
+[*] 7 fixable with the `--fix` option.
+Downloading ruff (9.3MiB)
+ Downloaded ruff
+Installed 1 package in 4ms

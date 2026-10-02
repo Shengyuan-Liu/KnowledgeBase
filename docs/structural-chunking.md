@@ -8,7 +8,7 @@ the ingestion service. Existing data is not reindexed automatically.
 
 ```text
 Original text -> parse_txt / parse_markdown -> SourceBlock list
-Original text + SourceBlock list -> split_structured -> StructuredChunk list
+Original text + SourceBlock list -> split_structured -> Chunk list
 ```
 
 `split_structured()` in `knowledgebase/rag/chunking.py` receives the original text,
@@ -76,7 +76,8 @@ remain outside chunk boundaries; all nonblank source content is retained.
 
 ## Output and Responsibilities
 
-`StructuredChunk` extends the existing in-memory `Chunk` model. It adds:
+`Chunk(type="flat")` carries optional structural metadata alongside the common
+span fields:
 
 - `heading_path`: the section associated with the original blocks.
 - `source_block_indices`: zero-based positions in the supplied block list. These

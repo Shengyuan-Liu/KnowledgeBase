@@ -1,0 +1,433 @@
+F401 [*] `knowledgebase.services.files.FileService` imported but unused
+   --> evals/automatic.py:169:46
+    |
+167 | async def collect(settings, directory, metadata, cases, documents, sdk, async_sdk, calls):
+168 |     from knowledgebase.providers.reranker import RerankerClient
+169 |     from knowledgebase.services.files import FileService
+    |                                              ^^^^^^^^^^^
+170 |     from knowledgebase.storage.runtime import open_storage
+171 |     from knowledgebase.storage.operations import get_document_source
+    |
+help: Remove unused import: `knowledgebase.services.files.FileService`
+    |
+168 |     from knowledgebase.providers.reranker import RerankerClient
+    -     from knowledgebase.services.files import FileService
+169 |     from knowledgebase.storage.runtime import open_storage
+    |
+
+F401 [*] `knowledgebase.services.files.FileService` imported but unused
+   --> evals/evaluate.py:295:50
+    |
+293 |         from knowledgebase.providers.reranker import RerankerClient
+294 |         
+295 |         from knowledgebase.services.files import FileService
+    |                                                  ^^^^^^^^^^^
+296 |         from knowledgebase.storage.database import build_engine, build_session_factory, init_db
+297 |         from knowledgebase.storage.vectordb import ChromaStore
+    |
+help: Remove unused import: `knowledgebase.services.files.FileService`
+    |
+294 |         
+    -         from knowledgebase.services.files import FileService
+295 |         from knowledgebase.storage.database import build_engine, build_session_factory, init_db
+    |
+
+F401 [*] `time.perf_counter` imported but unused
+ --> knowledgebase/rag/planned_retrieval.py:3:18
+  |
+1 | """Execute independent queries, merge child ranks, then pack one evidence set."""
+2 |
+3 | from time import perf_counter
+  |                  ^^^^^^^^^^^^
+4 | from collections.abc import Callable
+5 | from sqlalchemy.orm import Session
+  |
+help: Remove unused import: `time.perf_counter`
+  |
+2 |
+  - from time import perf_counter
+3 | from collections.abc import Callable
+  |
+
+F401 [*] `collections.abc.Callable` imported but unused
+ --> knowledgebase/rag/planned_retrieval.py:4:29
+  |
+3 | from time import perf_counter
+4 | from collections.abc import Callable
+  |                             ^^^^^^^^
+5 | from sqlalchemy.orm import Session
+  |
+help: Remove unused import: `collections.abc.Callable`
+  |
+3 | from time import perf_counter
+  - from collections.abc import Callable
+4 | from sqlalchemy.orm import Session
+  |
+
+F401 [*] `sqlalchemy.orm.Session` imported but unused
+ --> knowledgebase/rag/planned_retrieval.py:5:28
+  |
+3 | from time import perf_counter
+4 | from collections.abc import Callable
+5 | from sqlalchemy.orm import Session
+  |                            ^^^^^^^
+6 |
+7 | from knowledgebase.config import (
+  |
+help: Remove unused import: `sqlalchemy.orm.Session`
+  |
+4 | from collections.abc import Callable
+  - from sqlalchemy.orm import Session
+5 |
+  |
+
+F401 [*] `knowledgebase.config.DEFAULT_TOP_K` imported but unused
+  --> knowledgebase/rag/planned_retrieval.py:8:5
+   |
+ 7 | from knowledgebase.config import (
+ 8 |     DEFAULT_TOP_K, DEFAULT_EVIDENCE_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER,
+   |     ^^^^^^^^^^^^^
+ 9 |     DEFAULT_EVIDENCE_PACKING_STRATEGY, RetrievalOptions,
+10 | )
+   |
+help: Remove unused import
+  |
+6 |
+  - from knowledgebase.config import (
+  -     DEFAULT_TOP_K, DEFAULT_EVIDENCE_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER,
+  -     DEFAULT_EVIDENCE_PACKING_STRATEGY, RetrievalOptions,
+  - )
+7 | from knowledgebase.providers.embeddings import EmbeddingClient
+  |
+
+F401 [*] `knowledgebase.config.DEFAULT_EVIDENCE_MAX_TOKENS` imported but unused
+  --> knowledgebase/rag/planned_retrieval.py:8:20
+   |
+ 7 | from knowledgebase.config import (
+ 8 |     DEFAULT_TOP_K, DEFAULT_EVIDENCE_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER,
+   |                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 |     DEFAULT_EVIDENCE_PACKING_STRATEGY, RetrievalOptions,
+10 | )
+   |
+help: Remove unused import
+  |
+6 |
+  - from knowledgebase.config import (
+  -     DEFAULT_TOP_K, DEFAULT_EVIDENCE_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER,
+  -     DEFAULT_EVIDENCE_PACKING_STRATEGY, RetrievalOptions,
+  - )
+7 | from knowledgebase.providers.embeddings import EmbeddingClient
+  |
+
+F401 [*] `knowledgebase.config.DEFAULT_CHUNK_TOKENIZER` imported but unused
+  --> knowledgebase/rag/planned_retrieval.py:8:49
+   |
+ 7 | from knowledgebase.config import (
+ 8 |     DEFAULT_TOP_K, DEFAULT_EVIDENCE_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER,
+   |                                                 ^^^^^^^^^^^^^^^^^^^^^^^
+ 9 |     DEFAULT_EVIDENCE_PACKING_STRATEGY, RetrievalOptions,
+10 | )
+   |
+help: Remove unused import
+  |
+6 |
+  - from knowledgebase.config import (
+  -     DEFAULT_TOP_K, DEFAULT_EVIDENCE_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER,
+  -     DEFAULT_EVIDENCE_PACKING_STRATEGY, RetrievalOptions,
+  - )
+7 | from knowledgebase.providers.embeddings import EmbeddingClient
+  |
+
+F401 [*] `knowledgebase.config.DEFAULT_EVIDENCE_PACKING_STRATEGY` imported but unused
+  --> knowledgebase/rag/planned_retrieval.py:9:5
+   |
+ 7 | from knowledgebase.config import (
+ 8 |     DEFAULT_TOP_K, DEFAULT_EVIDENCE_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER,
+ 9 |     DEFAULT_EVIDENCE_PACKING_STRATEGY, RetrievalOptions,
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+10 | )
+11 | from knowledgebase.providers.embeddings import EmbeddingClient
+   |
+help: Remove unused import
+  |
+6 |
+  - from knowledgebase.config import (
+  -     DEFAULT_TOP_K, DEFAULT_EVIDENCE_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER,
+  -     DEFAULT_EVIDENCE_PACKING_STRATEGY, RetrievalOptions,
+  - )
+7 | from knowledgebase.providers.embeddings import EmbeddingClient
+  |
+
+F401 [*] `knowledgebase.config.RetrievalOptions` imported but unused
+  --> knowledgebase/rag/planned_retrieval.py:9:40
+   |
+ 7 | from knowledgebase.config import (
+ 8 |     DEFAULT_TOP_K, DEFAULT_EVIDENCE_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER,
+ 9 |     DEFAULT_EVIDENCE_PACKING_STRATEGY, RetrievalOptions,
+   |                                        ^^^^^^^^^^^^^^^^
+10 | )
+11 | from knowledgebase.providers.embeddings import EmbeddingClient
+   |
+help: Remove unused import
+  |
+6 |
+  - from knowledgebase.config import (
+  -     DEFAULT_TOP_K, DEFAULT_EVIDENCE_MAX_TOKENS, DEFAULT_CHUNK_TOKENIZER,
+  -     DEFAULT_EVIDENCE_PACKING_STRATEGY, RetrievalOptions,
+  - )
+7 | from knowledgebase.providers.embeddings import EmbeddingClient
+  |
+
+F401 [*] `knowledgebase.providers.embeddings.EmbeddingClient` imported but unused
+  --> knowledgebase/rag/planned_retrieval.py:11:48
+   |
+ 9 |     DEFAULT_EVIDENCE_PACKING_STRATEGY, RetrievalOptions,
+10 | )
+11 | from knowledgebase.providers.embeddings import EmbeddingClient
+   |                                                ^^^^^^^^^^^^^^^
+12 | from knowledgebase.providers.reranker import RerankerClient
+13 | from knowledgebase.schemas import (
+   |
+help: Remove unused import: `knowledgebase.providers.embeddings.EmbeddingClient`
+   |
+10 | )
+   - from knowledgebase.providers.embeddings import EmbeddingClient
+11 | from knowledgebase.providers.reranker import RerankerClient
+   |
+
+F401 [*] `knowledgebase.providers.reranker.RerankerClient` imported but unused
+  --> knowledgebase/rag/planned_retrieval.py:12:46
+   |
+10 | )
+11 | from knowledgebase.providers.embeddings import EmbeddingClient
+12 | from knowledgebase.providers.reranker import RerankerClient
+   |                                              ^^^^^^^^^^^^^^
+13 | from knowledgebase.schemas import (
+14 |     PlannedQuery, RetrievalPlan, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, QueryRun,
+   |
+help: Remove unused import: `knowledgebase.providers.reranker.RerankerClient`
+   |
+11 | from knowledgebase.providers.embeddings import EmbeddingClient
+   - from knowledgebase.providers.reranker import RerankerClient
+12 | from knowledgebase.schemas import (
+   |
+
+F401 [*] `knowledgebase.schemas.PlannedQuery` imported but unused
+  --> knowledgebase/rag/planned_retrieval.py:14:5
+   |
+12 | from knowledgebase.providers.reranker import RerankerClient
+13 | from knowledgebase.schemas import (
+14 |     PlannedQuery, RetrievalPlan, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, QueryRun,
+   |     ^^^^^^^^^^^^
+15 |     QueryVote, MergedCandidate, PlanTrace, PlannedEvidence, RequirementEvidence,
+16 | )
+   |
+help: Remove unused import
+   |
+13 | from knowledgebase.schemas import (
+   -     PlannedQuery, RetrievalPlan, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, QueryRun,
+   -     QueryVote, MergedCandidate, PlanTrace, PlannedEvidence, RequirementEvidence,
+14 +     RetrievalPlan, QueryRun,
+15 +     QueryVote, MergedCandidate,
+16 | )
+   |
+
+F401 [*] `knowledgebase.schemas.RetrievedChunk` imported but unused
+  --> knowledgebase/rag/planned_retrieval.py:14:34
+   |
+12 | from knowledgebase.providers.reranker import RerankerClient
+13 | from knowledgebase.schemas import (
+14 |     PlannedQuery, RetrievalPlan, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, QueryRun,
+   |                                  ^^^^^^^^^^^^^^
+15 |     QueryVote, MergedCandidate, PlanTrace, PlannedEvidence, RequirementEvidence,
+16 | )
+   |
+help: Remove unused import
+   |
+13 | from knowledgebase.schemas import (
+   -     PlannedQuery, RetrievalPlan, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, QueryRun,
+   -     QueryVote, MergedCandidate, PlanTrace, PlannedEvidence, RequirementEvidence,
+14 +     RetrievalPlan, QueryRun,
+15 +     QueryVote, MergedCandidate,
+16 | )
+   |
+
+F401 [*] `knowledgebase.schemas.RetrievedEvidence` imported but unused
+  --> knowledgebase/rag/planned_retrieval.py:14:50
+   |
+12 | from knowledgebase.providers.reranker import RerankerClient
+13 | from knowledgebase.schemas import (
+14 |     PlannedQuery, RetrievalPlan, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, QueryRun,
+   |                                                  ^^^^^^^^^^^^^^^^^
+15 |     QueryVote, MergedCandidate, PlanTrace, PlannedEvidence, RequirementEvidence,
+16 | )
+   |
+help: Remove unused import
+   |
+13 | from knowledgebase.schemas import (
+   -     PlannedQuery, RetrievalPlan, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, QueryRun,
+   -     QueryVote, MergedCandidate, PlanTrace, PlannedEvidence, RequirementEvidence,
+14 +     RetrievalPlan, QueryRun,
+15 +     QueryVote, MergedCandidate,
+16 | )
+   |
+
+F401 [*] `knowledgebase.schemas.RetrievalDiagnostics` imported but unused
+  --> knowledgebase/rag/planned_retrieval.py:14:69
+   |
+12 | from knowledgebase.providers.reranker import RerankerClient
+13 | from knowledgebase.schemas import (
+14 |     PlannedQuery, RetrievalPlan, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, QueryRun,
+   |                                                                     ^^^^^^^^^^^^^^^^^^^^
+15 |     QueryVote, MergedCandidate, PlanTrace, PlannedEvidence, RequirementEvidence,
+16 | )
+   |
+help: Remove unused import
+   |
+13 | from knowledgebase.schemas import (
+   -     PlannedQuery, RetrievalPlan, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, QueryRun,
+   -     QueryVote, MergedCandidate, PlanTrace, PlannedEvidence, RequirementEvidence,
+14 +     RetrievalPlan, QueryRun,
+15 +     QueryVote, MergedCandidate,
+16 | )
+   |
+
+F401 [*] `knowledgebase.schemas.PlanTrace` imported but unused
+  --> knowledgebase/rag/planned_retrieval.py:15:33
+   |
+13 | from knowledgebase.schemas import (
+14 |     PlannedQuery, RetrievalPlan, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, QueryRun,
+15 |     QueryVote, MergedCandidate, PlanTrace, PlannedEvidence, RequirementEvidence,
+   |                                 ^^^^^^^^^
+16 | )
+17 | from knowledgebase.storage.vectordb import ChromaStore
+   |
+help: Remove unused import
+   |
+13 | from knowledgebase.schemas import (
+   -     PlannedQuery, RetrievalPlan, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, QueryRun,
+   -     QueryVote, MergedCandidate, PlanTrace, PlannedEvidence, RequirementEvidence,
+14 +     RetrievalPlan, QueryRun,
+15 +     QueryVote, MergedCandidate,
+16 | )
+   |
+
+F401 [*] `knowledgebase.schemas.PlannedEvidence` imported but unused
+  --> knowledgebase/rag/planned_retrieval.py:15:44
+   |
+13 | from knowledgebase.schemas import (
+14 |     PlannedQuery, RetrievalPlan, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, QueryRun,
+15 |     QueryVote, MergedCandidate, PlanTrace, PlannedEvidence, RequirementEvidence,
+   |                                            ^^^^^^^^^^^^^^^
+16 | )
+17 | from knowledgebase.storage.vectordb import ChromaStore
+   |
+help: Remove unused import
+   |
+13 | from knowledgebase.schemas import (
+   -     PlannedQuery, RetrievalPlan, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, QueryRun,
+   -     QueryVote, MergedCandidate, PlanTrace, PlannedEvidence, RequirementEvidence,
+14 +     RetrievalPlan, QueryRun,
+15 +     QueryVote, MergedCandidate,
+16 | )
+   |
+
+F401 [*] `knowledgebase.schemas.RequirementEvidence` imported but unused
+  --> knowledgebase/rag/planned_retrieval.py:15:61
+   |
+13 | from knowledgebase.schemas import (
+14 |     PlannedQuery, RetrievalPlan, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, QueryRun,
+15 |     QueryVote, MergedCandidate, PlanTrace, PlannedEvidence, RequirementEvidence,
+   |                                                             ^^^^^^^^^^^^^^^^^^^
+16 | )
+17 | from knowledgebase.storage.vectordb import ChromaStore
+   |
+help: Remove unused import
+   |
+13 | from knowledgebase.schemas import (
+   -     PlannedQuery, RetrievalPlan, RetrievedChunk, RetrievedEvidence, RetrievalDiagnostics, QueryRun,
+   -     QueryVote, MergedCandidate, PlanTrace, PlannedEvidence, RequirementEvidence,
+14 +     RetrievalPlan, QueryRun,
+15 +     QueryVote, MergedCandidate,
+16 | )
+   |
+
+F401 [*] `knowledgebase.storage.vectordb.ChromaStore` imported but unused
+  --> knowledgebase/rag/planned_retrieval.py:17:44
+   |
+15 |     QueryVote, MergedCandidate, PlanTrace, PlannedEvidence, RequirementEvidence,
+16 | )
+17 | from knowledgebase.storage.vectordb import ChromaStore
+   |                                            ^^^^^^^^^^^
+help: Remove unused import: `knowledgebase.storage.vectordb.ChromaStore`
+   |
+16 | )
+   - from knowledgebase.storage.vectordb import ChromaStore
+17 |
+   |
+
+F841 Local variable `embedding_client` is assigned to but never used
+   --> knowledgebase/rag/retrieval.py:225:9
+    |
+223 |         Provider/schema errors propagate; no partial result is presented as success.
+224 |         """
+225 |         embedding_client, vector_store = self.embeddings, self.store
+    |         ^^^^^^^^^^^^^^^^
+226 |         top_k, evidence_max_tokens = self.top_k, self.evidence_max_tokens
+227 |         encoding_name, retrieval_options = self.encoding_name, self.options
+    |
+help: Remove assignment to unused variable `embedding_client`
+
+F841 Local variable `vector_store` is assigned to but never used
+   --> knowledgebase/rag/retrieval.py:225:27
+    |
+223 |         Provider/schema errors propagate; no partial result is presented as success.
+224 |         """
+225 |         embedding_client, vector_store = self.embeddings, self.store
+    |                           ^^^^^^^^^^^^
+226 |         top_k, evidence_max_tokens = self.top_k, self.evidence_max_tokens
+227 |         encoding_name, retrieval_options = self.encoding_name, self.options
+    |
+help: Remove assignment to unused variable `vector_store`
+
+F821 Undefined name `bootstrap`
+   --> tests/test_automatic_planning.py:266:27
+    |
+264 |     sdk.__exit__ = Mock(return_value=False)
+265 |     monkeypatch.setattr(cli, "OpenAI", Mock(return_value=sdk))
+266 |     ask = create_autospec(bootstrap.ChatService.answer, return_value=SimpleNamespace(conversation_id="saved"))
+    |                           ^^^^^^^^^
+267 |     monkeypatch.setattr(bootstrap.ChatService, "answer", ask)
+268 |     monkeypatch.setattr(cli, "run_chat_loop", lambda callback: callback("Question"))
+    |
+
+F821 Undefined name `bootstrap`
+   --> tests/test_automatic_planning.py:267:25
+    |
+265 |     monkeypatch.setattr(cli, "OpenAI", Mock(return_value=sdk))
+266 |     ask = create_autospec(bootstrap.ChatService.answer, return_value=SimpleNamespace(conversation_id="saved"))
+267 |     monkeypatch.setattr(bootstrap.ChatService, "answer", ask)
+    |                         ^^^^^^^^^
+268 |     monkeypatch.setattr(cli, "run_chat_loop", lambda callback: callback("Question"))
+269 |     monkeypatch.setattr(sys, "argv", ["main.py", "--retrieval-mode", "planned"])
+    |
+
+F401 [*] `knowledgebase.api.app` imported but unused
+  --> tests/test_chat_streaming.py:13:38
+   |
+11 | from sqlalchemy import func, select
+12 |
+13 | from knowledgebase.api import app as api_module
+   |                                      ^^^^^^^^^^
+14 | from knowledgebase.providers.llm import LLMClient
+15 | from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
+   |
+help: Remove unused import: `knowledgebase.api.app`
+   |
+12 |
+   - from knowledgebase.api import app as api_module
+13 | from knowledgebase.providers.llm import LLMClient
+   |
+
+Found 25 errors.
+[*] 21 fixable with the `--fix` option (2 hidden fixes can be enabled with the `--unsafe-fixes` option).
