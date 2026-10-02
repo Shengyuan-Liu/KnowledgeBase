@@ -7,11 +7,11 @@
 
 # Branch and Merge Workflow
 
-- Keep `main` and the currently active version branch locally and on GitHub. The active development branch is `v2`; perform all current development and documentation work there.
+- Keep `main` locally and on GitHub. On 2026-10-01 the user authorized merging the remaining `v2` work and deleting `v2` locally and remotely. Keep the checkout on `main` after retirement; no next development version has been selected. Do not recreate `v2` or invent a new version branch.
 - Retire an inactive version branch only after verifying that its commits are preserved in `main` and no ongoing work or worktree depends on it. Keep release history in Git and the version documentation; do not retain an empty version branch solely as an archive.
 - The user decides when each feature is complete. Passing tests or finishing implementation does not authorize a merge.
 - Merge each feature into `main` only after the user explicitly authorizes that feature's merge. Approval for one feature does not authorize later merges.
-- After an authorized feature merge, continue work on the active version branch until the user moves development to the next version.
+- While a version branch is active, continue work there after an authorized feature merge unless the user explicitly retires it or selects the next version.
 
 # v2 Scope
 

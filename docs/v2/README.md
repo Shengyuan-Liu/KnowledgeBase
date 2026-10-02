@@ -45,5 +45,10 @@ unproven supplementary-search quality benefit remain in the report.
 - [Dependent retrieval](../dependent-retrieval.md)
 - [Evidence sufficiency](../evidence-sufficiency.md)
 
-Scope is frozen for this closeout. Further improvements and newly reported issues
-are subsequent work on `v2` and require separate user authorization before merging.
+Scope is frozen for this closeout. On 2026-10-01 the user also authorized merging
+the subsequent OOP and layering work and retiring `v2` locally and remotely.
+Its history remains in `main` and this documentation. The checkout remains on
+`main`; no next development version has been selected. The
+[retirement record](../../evals/check-runs/20261001-v2-retirement/README.md) records
+the authorization and documentation review. Earlier reports retain the branch
+and approval status that applied when they were written.

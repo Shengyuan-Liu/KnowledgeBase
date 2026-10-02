@@ -5,8 +5,12 @@ and source-grounded answers.
 
 The [v2 release summary](docs/v2/release-summary.md) records the completed functional
 closeout, usage, verification and known limits. The user accepted this scoped
-release and authorized its merge into `main` on 2026-10-01. Development remains
-on `v2`; later changes require separate merge authorization.
+release and authorized its merge into `main` on 2026-10-01. The subsequent OOP and
+[layering refactor](docs/v2/layered-architecture.md) is included in a second
+user-authorized merge on the same date. The user requested retirement of the
+local and remote `v2` branches; the checkout remains on `main`, and no next
+development version has been selected. Release history remains in Git and
+`docs/v2/`. Later branch merges require separate authorization.
 
 The v2 [PDF integration](docs/pdf-integration.md) supports upload, local extraction,
 page citations and original-page viewing, with recorded parser fidelity limits.
