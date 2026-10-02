@@ -6,7 +6,7 @@ from time import monotonic
 
 import anyio
 
-from knowledgebase.config import PlanningOptions
+from knowledgebase.schemas.options import PlanningOptions
 from knowledgebase.providers.limits import GenerationLimits
 from knowledgebase.schemas import (
     DocumentScope,

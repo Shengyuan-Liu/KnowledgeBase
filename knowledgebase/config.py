@@ -1,75 +1,35 @@
-"""Central defaults and runtime configuration for the API, CLI, and evaluations."""
+"""Environment configuration loaded explicitly by application entry points."""
 
 from pathlib import Path
 from typing import Literal, Self
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-
-# Pure functions use these defaults without reading .env or requiring credentials.
-# Entry points load Settings once and explicitly pass the resolved values onward.
-DEFAULT_ANSWER_MODEL = "gpt-4.1"
-DEFAULT_EMBEDDING_MODEL = "text-embedding-3-small"
-DEFAULT_CHUNK_SIZE = 2048
-DEFAULT_OVERLAP = 256
-DEFAULT_CHUNKING_STRATEGY = "parent_child"
-DEFAULT_CHUNK_MAX_TOKENS = 512
-DEFAULT_CHUNK_TOKENIZER = "cl100k_base"
-DEFAULT_PARENT_MAX_TOKENS = 1536
-DEFAULT_SEMANTIC_SIMILARITY_THRESHOLD = 0.5
-DEFAULT_SEMANTIC_BATCH_SIZE = 32
-DEFAULT_EVIDENCE_MAX_TOKENS = 4096
-DEFAULT_EVIDENCE_PACKING_STRATEGY = "parent_then_child"
-DEFAULT_BM25_K1 = 1.2
-DEFAULT_BM25_B = 0.75
-DEFAULT_RRF_K = 60
-DEFAULT_RRF_LIMIT = 20
-DEFAULT_RERANK_MODEL = "BAAI/bge-reranker-v2-m3"
-DEFAULT_RERANK_CANDIDATE_LIMIT = 20
-DEFAULT_RERANK_MAX_INPUT_TOKENS = 16384
-DEFAULT_TOP_K = 5
-DEFAULT_HISTORY_LIMIT = 10
-
-
-class RetrievalOptions(BaseModel):
-    """Query-time retrieval controls, independent of credentials and .env."""
-
-    strategy: Literal["vector", "hybrid"] = "hybrid"
-    # Null in historical snapshots means that no packing strategy was recorded.
-    packing_strategy: Literal["parent_then_child", "parent_first"] | None = None
-    candidate_limit: int = Field(default=DEFAULT_RRF_LIMIT, gt=0)
-    bm25_k1: float = Field(default=DEFAULT_BM25_K1, ge=0, allow_inf_nan=False)
-    bm25_b: float = Field(default=DEFAULT_BM25_B, ge=0, le=1, allow_inf_nan=False)
-    rrf_k: float = Field(default=DEFAULT_RRF_K, ge=0, allow_inf_nan=False)
-    rerank_enabled: bool = False
-    rerank_unit: Literal["child", "parent"] = "child"
-    rerank_candidate_limit: int = Field(default=DEFAULT_RERANK_CANDIDATE_LIMIT, gt=0)
-    rerank_max_input_tokens: int = Field(default=DEFAULT_RERANK_MAX_INPUT_TOKENS, gt=0)
-
-    @model_validator(mode="after")
-    def valid_rerank_strategy(self) -> Self:
-        if self.rerank_enabled and self.strategy != "hybrid":
-            raise ValueError("Reranking requires hybrid retrieval.")
-        return self
-
-
-class PlanningOptions(BaseModel):
-    sufficiency_enabled: bool = True
-    max_rounds: int = Field(default=3, ge=1, le=3)
-    request_timeout_seconds: float = Field(default=180, gt=0)
-    answer_reserve_seconds: float = Field(default=60, gt=0)
-    planner_timeout_seconds: float = Field(default=30, gt=0)
-    max_input_tokens: int = Field(default=8192, gt=0)
-    max_output_tokens: int = Field(default=2048, gt=0)
-    answer_max_input_tokens: int = Field(default=16384, gt=0)
-    answer_max_output_tokens: int = Field(default=4096, gt=0)
-
-    @model_validator(mode="after")
-    def reserve_fits(self) -> Self:
-        if self.answer_reserve_seconds >= self.request_timeout_seconds:
-            raise ValueError("The final-answer reserve must be smaller than the request deadline.")
-        return self
+from knowledgebase.defaults import (
+    DEFAULT_ANSWER_MODEL,
+    DEFAULT_BM25_B,
+    DEFAULT_BM25_K1,
+    DEFAULT_CHUNKING_STRATEGY,
+    DEFAULT_CHUNK_MAX_TOKENS,
+    DEFAULT_CHUNK_SIZE,
+    DEFAULT_CHUNK_TOKENIZER,
+    DEFAULT_EMBEDDING_MODEL,
+    DEFAULT_EVIDENCE_MAX_TOKENS,
+    DEFAULT_EVIDENCE_PACKING_STRATEGY,
+    DEFAULT_HISTORY_LIMIT,
+    DEFAULT_OVERLAP,
+    DEFAULT_PARENT_MAX_TOKENS,
+    DEFAULT_RERANK_CANDIDATE_LIMIT,
+    DEFAULT_RERANK_MAX_INPUT_TOKENS,
+    DEFAULT_RERANK_MODEL,
+    DEFAULT_RRF_K,
+    DEFAULT_RRF_LIMIT,
+    DEFAULT_SEMANTIC_BATCH_SIZE,
+    DEFAULT_SEMANTIC_SIMILARITY_THRESHOLD,
+    DEFAULT_TOP_K,
+)
+from knowledgebase.schemas.options import PlanningOptions, RetrievalOptions
 
 
 class Settings(BaseSettings):

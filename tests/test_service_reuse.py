@@ -10,7 +10,7 @@ from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.retrieval import Retriever
 from knowledgebase.services.chat import ChatService
 from knowledgebase.services.files import FileService
-from knowledgebase.services.rag import RagClient
+from knowledgebase.rag.client import RagClient
 
 
 @pytest.mark.anyio

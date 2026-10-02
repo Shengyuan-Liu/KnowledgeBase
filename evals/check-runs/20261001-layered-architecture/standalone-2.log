@@ -1,0 +1,33 @@
+....F.                                                                   [100%]
+=================================== FAILURES ===================================
+_____________ test_component_runs_without_upper_layers[rag_engine] _____________
+
+case = 'rag_engine'
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-272/test_component_runs_without_up4')
+
+    @pytest.mark.parametrize("case", CASES)
+    def test_component_runs_without_upper_layers(case, tmp_path):
+        extra_blocked, program = CASES[case]
+        blocked = ["knowledgebase.api", "knowledgebase.cli", "knowledgebase.bootstrap", "knowledgebase.config", *extra_blocked]
+        code = f"BLOCKED = {blocked!r}\n" + dedent(PRELUDE) + dedent(program)
+        code += "\nassert not any(name == p or name.startswith(p + '.') for p in BLOCKED for name in sys.modules)\n"
+        # A fresh process avoids imports cached by pytest/conftest and has no local .env.
+        env = {key: value for key, value in os.environ.items() if not key.startswith('OPENAI_')}
+        env['PYTHONPATH'] = str(ROOT)
+        result = subprocess.run([sys.executable, '-c', code], cwd=tmp_path, env=env, text=True, capture_output=True, timeout=45)
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 47, in <module>
+E             assert evidence.chunks and evidence.chunks[0].file_id == 'f'
+E                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/pydantic/main.py", line 1042, in __getattr__
+E             raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+E         AttributeError: 'RetrievedChunk' object has no attribute 'file_id'
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/Users/lucas/Documents/Projects/KnowledgeBase/.venv/bin/python', '-c', "BLOCKED = ['knowledgeb...me__!r} object has no attribute {item!r}\')\nAttributeError: \'RetrievedChunk\' object has no attribute \'file_id\'\n').returncode
+
+tests/test_standalone_layers.py:175: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_standalone_layers.py::test_component_runs_without_upper_layers[rag_engine]
+1 failed, 5 passed in 5.43s

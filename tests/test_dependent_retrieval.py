@@ -12,7 +12,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy import func, select
 from test_automatic_planning import events_from, response
 
-from knowledgebase.config import PlanningOptions
+from knowledgebase.schemas.options import PlanningOptions
 from knowledgebase.rag.dependencies import adds_source_text, validate_binding
 from knowledgebase.rag.retrieval import Retriever
 from knowledgebase.schemas import (
@@ -20,7 +20,7 @@ from knowledgebase.schemas import (
     TargetDecision,
 )
 from knowledgebase.services.chat import ChatService
-from knowledgebase.services.rag import RagClient
+from knowledgebase.rag.client import RagClient
 from knowledgebase.storage.models import MessageRecord
 from knowledgebase.storage.operations import update_file_status
 

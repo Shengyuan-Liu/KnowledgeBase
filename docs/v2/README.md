@@ -31,6 +31,7 @@ unproven supplementary-search quality benefit remain in the report.
 ## Documentation
 
 - [Object oriented refactoring plan](oop-refactoring.md)
+- [Layered architecture and independent components](layered-architecture.md)
 - [Release summary and known limits](release-summary.md)
 - [Product design](v2-product-design.md)
 - [Technical plan](v2-technical-plan.md)

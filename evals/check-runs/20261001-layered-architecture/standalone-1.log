@@ -1,0 +1,133 @@
+F.FFF.                                                                   [100%]
+=================================== FAILURES ===================================
+_____________ test_component_runs_without_upper_layers[contracts] ______________
+
+case = 'contracts'
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-271/test_component_runs_without_up0')
+
+    @pytest.mark.parametrize("case", CASES)
+    def test_component_runs_without_upper_layers(case, tmp_path):
+        extra_blocked, program = CASES[case]
+        blocked = ["knowledgebase.api", "knowledgebase.cli", "knowledgebase.bootstrap", "knowledgebase.config", *extra_blocked]
+        code = f"BLOCKED = {blocked!r}\n" + dedent(PRELUDE) + dedent(program)
+        code += "\nassert not any(name == p or name.startswith(p + '.') for p in BLOCKED for name in sys.modules)\n"
+        # A fresh process avoids imports cached by pytest/conftest and has no local .env.
+        env = {key: value for key, value in os.environ.items() if not key.startswith('OPENAI_')}
+        env['PYTHONPATH'] = str(ROOT)
+        result = subprocess.run([sys.executable, '-c', code], cwd=tmp_path, env=env, text=True, capture_output=True, timeout=45)
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 22, in <module>
+E             assert Chunk(chunk_id='a', file_id='f', text='Alpha', index=0).text == 'Alpha'
+E                    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "/Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/pydantic/main.py", line 263, in __init__
+E             validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+E         pydantic_core._pydantic_core.ValidationError: 2 validation errors for Chunk
+E         start_offset
+E           Field required [type=missing, input_value={'chunk_id': 'a', 'file_i...t': 'Alpha', 'index': 0}, input_type=dict]
+E             For further information visit https://errors.pydantic.dev/2.13/v/missing
+E         end_offset
+E           Field required [type=missing, input_value={'chunk_id': 'a', 'file_i...t': 'Alpha', 'index': 0}, input_type=dict]
+E             For further information visit https://errors.pydantic.dev/2.13/v/missing
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/Users/lucas/Documents/Projects/KnowledgeBase/.venv/bin/python', '-c', "BLOCKED = ['knowledgeb...ha\', \'index\': 0}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\n').returncode
+
+tests/test_standalone_layers.py:173: AssertionError
+_____ test_component_runs_without_upper_layers[parsing_chunking_reranking] _____
+
+case = 'parsing_chunking_reranking'
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-271/test_component_runs_without_up2')
+
+    @pytest.mark.parametrize("case", CASES)
+    def test_component_runs_without_upper_layers(case, tmp_path):
+        extra_blocked, program = CASES[case]
+        blocked = ["knowledgebase.api", "knowledgebase.cli", "knowledgebase.bootstrap", "knowledgebase.config", *extra_blocked]
+        code = f"BLOCKED = {blocked!r}\n" + dedent(PRELUDE) + dedent(program)
+        code += "\nassert not any(name == p or name.startswith(p + '.') for p in BLOCKED for name in sys.modules)\n"
+        # A fresh process avoids imports cached by pytest/conftest and has no local .env.
+        env = {key: value for key, value in os.environ.items() if not key.startswith('OPENAI_')}
+        env['PYTHONPATH'] = str(ROOT)
+        result = subprocess.run([sys.executable, '-c', code], cwd=tmp_path, env=env, text=True, capture_output=True, timeout=45)
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError:   File "<string>", line 32
+E             content = b'# Hours
+E                       ^
+E         SyntaxError: unterminated string literal (detected at line 32)
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/Users/lucas/Documents/Projects/KnowledgeBase/.venv/bin/python', '-c', "BLOCKED = ['knowledgeb... line 32\n    content = b\'# Hours\n              ^\nSyntaxError: unterminated string literal (detected at line 32)\n').returncode
+
+tests/test_standalone_layers.py:173: AssertionError
+______________ test_component_runs_without_upper_layers[storage] _______________
+
+case = 'storage'
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-271/test_component_runs_without_up3')
+
+    @pytest.mark.parametrize("case", CASES)
+    def test_component_runs_without_upper_layers(case, tmp_path):
+        extra_blocked, program = CASES[case]
+        blocked = ["knowledgebase.api", "knowledgebase.cli", "knowledgebase.bootstrap", "knowledgebase.config", *extra_blocked]
+        code = f"BLOCKED = {blocked!r}\n" + dedent(PRELUDE) + dedent(program)
+        code += "\nassert not any(name == p or name.startswith(p + '.') for p in BLOCKED for name in sys.modules)\n"
+        # A fresh process avoids imports cached by pytest/conftest and has no local .env.
+        env = {key: value for key, value in os.environ.items() if not key.startswith('OPENAI_')}
+        env['PYTHONPATH'] = str(ROOT)
+        result = subprocess.run([sys.executable, '-c', code], cwd=tmp_path, env=env, text=True, capture_output=True, timeout=45)
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 22, in <module>
+E             chunk = Chunk(chunk_id='f:0', file_id='f', text='Alpha closes at five.', index=0)
+E           File "/Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/pydantic/main.py", line 263, in __init__
+E             validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+E         pydantic_core._pydantic_core.ValidationError: 2 validation errors for Chunk
+E         start_offset
+E           Field required [type=missing, input_value={'chunk_id': 'f:0', 'file...s at five.', 'index': 0}, input_type=dict]
+E             For further information visit https://errors.pydantic.dev/2.13/v/missing
+E         end_offset
+E           Field required [type=missing, input_value={'chunk_id': 'f:0', 'file...s at five.', 'index': 0}, input_type=dict]
+E             For further information visit https://errors.pydantic.dev/2.13/v/missing
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/Users/lucas/Documents/Projects/KnowledgeBase/.venv/bin/python', '-c', "BLOCKED = ['knowledgeb...e.\', \'index\': 0}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\n').returncode
+
+tests/test_standalone_layers.py:173: AssertionError
+_____________ test_component_runs_without_upper_layers[rag_engine] _____________
+
+case = 'rag_engine'
+tmp_path = PosixPath('/private/var/folders/z5/1bfpc6td6kqgfdwlvw7ffc7w0000gn/T/pytest-of-lucas/pytest-271/test_component_runs_without_up4')
+
+    @pytest.mark.parametrize("case", CASES)
+    def test_component_runs_without_upper_layers(case, tmp_path):
+        extra_blocked, program = CASES[case]
+        blocked = ["knowledgebase.api", "knowledgebase.cli", "knowledgebase.bootstrap", "knowledgebase.config", *extra_blocked]
+        code = f"BLOCKED = {blocked!r}\n" + dedent(PRELUDE) + dedent(program)
+        code += "\nassert not any(name == p or name.startswith(p + '.') for p in BLOCKED for name in sys.modules)\n"
+        # A fresh process avoids imports cached by pytest/conftest and has no local .env.
+        env = {key: value for key, value in os.environ.items() if not key.startswith('OPENAI_')}
+        env['PYTHONPATH'] = str(ROOT)
+        result = subprocess.run([sys.executable, '-c', code], cwd=tmp_path, env=env, text=True, capture_output=True, timeout=45)
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "<string>", line 37, in <module>
+E             chunk = Chunk(chunk_id='f:0', file_id='f', text='Alpha closes at five.', index=0)
+E           File "/Users/lucas/Documents/Projects/KnowledgeBase/.venv/lib/python3.13/site-packages/pydantic/main.py", line 263, in __init__
+E             validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+E         pydantic_core._pydantic_core.ValidationError: 2 validation errors for Chunk
+E         start_offset
+E           Field required [type=missing, input_value={'chunk_id': 'f:0', 'file...s at five.', 'index': 0}, input_type=dict]
+E             For further information visit https://errors.pydantic.dev/2.13/v/missing
+E         end_offset
+E           Field required [type=missing, input_value={'chunk_id': 'f:0', 'file...s at five.', 'index': 0}, input_type=dict]
+E             For further information visit https://errors.pydantic.dev/2.13/v/missing
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/Users/lucas/Documents/Projects/KnowledgeBase/.venv/bin/python', '-c', "BLOCKED = ['knowledgeb...e.\', \'index\': 0}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.13/v/missing\n').returncode
+
+tests/test_standalone_layers.py:173: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_standalone_layers.py::test_component_runs_without_upper_layers[contracts]
+FAILED tests/test_standalone_layers.py::test_component_runs_without_upper_layers[parsing_chunking_reranking]
+FAILED tests/test_standalone_layers.py::test_component_runs_without_upper_layers[storage]
+FAILED tests/test_standalone_layers.py::test_component_runs_without_upper_layers[rag_engine]
+4 failed, 2 passed in 5.51s

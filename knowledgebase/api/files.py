@@ -5,12 +5,12 @@ from fastapi.responses import FileResponse
 
 from knowledgebase.api.dependencies import Resources
 from knowledgebase.schemas import File
+from knowledgebase.schemas.errors import FileRecordNotFoundError
 from knowledgebase.services.files import (
     InvalidUploadError,
     OriginalRevisionError,
     OriginalUnavailableError,
 )
-from knowledgebase.storage.operations import FileRecordNotFoundError
 
 router = APIRouter(prefix="/api/files", tags=["files"])
 

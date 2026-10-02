@@ -6,13 +6,13 @@ from time import perf_counter
 
 from sqlalchemy.orm import Session
 
-from knowledgebase.config import (
+from knowledgebase.defaults import (
     DEFAULT_CHUNK_TOKENIZER,
     DEFAULT_EVIDENCE_MAX_TOKENS,
     DEFAULT_EVIDENCE_PACKING_STRATEGY,
     DEFAULT_TOP_K,
-    RetrievalOptions,
 )
+from knowledgebase.schemas.options import RetrievalOptions
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.rag.bm25 import search_bm25
 from knowledgebase.rag.fusion import fuse_rrf

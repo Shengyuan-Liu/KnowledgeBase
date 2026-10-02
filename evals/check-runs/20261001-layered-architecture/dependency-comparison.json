@@ -1,0 +1,735 @@
+{
+  "before_revision": "3d7d7dd",
+  "rules": {
+    "knowledgebase": [],
+    "defaults": [],
+    "schemas": [
+      "defaults"
+    ],
+    "providers": [
+      "defaults",
+      "schemas"
+    ],
+    "storage": [
+      "defaults",
+      "schemas"
+    ],
+    "rag": [
+      "defaults",
+      "providers",
+      "schemas",
+      "storage"
+    ],
+    "services": [
+      "defaults",
+      "providers",
+      "rag",
+      "schemas",
+      "storage"
+    ],
+    "config": [
+      "defaults",
+      "schemas"
+    ],
+    "bootstrap": [
+      "config",
+      "defaults",
+      "providers",
+      "rag",
+      "schemas",
+      "services",
+      "storage"
+    ],
+    "api": [
+      "bootstrap",
+      "config",
+      "defaults",
+      "providers",
+      "rag",
+      "schemas",
+      "services",
+      "storage"
+    ],
+    "cli": [
+      "bootstrap",
+      "config",
+      "defaults",
+      "providers",
+      "rag",
+      "schemas",
+      "services",
+      "storage"
+    ],
+    "main": [
+      "cli"
+    ],
+    "evals": [
+      "api",
+      "bootstrap",
+      "cli",
+      "config",
+      "defaults",
+      "providers",
+      "rag",
+      "schemas",
+      "services",
+      "storage"
+    ]
+  },
+  "before": {
+    "modules": 64,
+    "first_party_edges": 168,
+    "cycle_witness": [
+      "knowledgebase.rag.chunking",
+      "knowledgebase.rag.semantic_chunking",
+      "knowledgebase.rag.chunking"
+    ],
+    "layer_violations": [
+      [
+        "knowledgebase.providers.embeddings",
+        "knowledgebase.config"
+      ],
+      [
+        "knowledgebase.providers.planner",
+        "knowledgebase.config"
+      ],
+      [
+        "knowledgebase.rag.bm25",
+        "knowledgebase.config"
+      ],
+      [
+        "knowledgebase.rag.chunking",
+        "knowledgebase.config"
+      ],
+      [
+        "knowledgebase.rag.fusion",
+        "knowledgebase.config"
+      ],
+      [
+        "knowledgebase.rag.reranking",
+        "knowledgebase.config"
+      ],
+      [
+        "knowledgebase.rag.retrieval",
+        "knowledgebase.config"
+      ],
+      [
+        "knowledgebase.rag.semantic_chunking",
+        "knowledgebase.config"
+      ],
+      [
+        "knowledgebase.schemas.retrieval",
+        "knowledgebase.config"
+      ],
+      [
+        "knowledgebase.services.chat",
+        "knowledgebase.config"
+      ],
+      [
+        "knowledgebase.services.files",
+        "knowledgebase.config"
+      ],
+      [
+        "knowledgebase.services.planning",
+        "knowledgebase.config"
+      ],
+      [
+        "knowledgebase.services.rag",
+        "knowledgebase.config"
+      ],
+      [
+        "knowledgebase.storage.vectordb",
+        "knowledgebase.config"
+      ]
+    ],
+    "graph": {
+      "evals": [],
+      "evals.automatic": [
+        "evals",
+        "evals.evaluate",
+        "evals.judge",
+        "evals.metrics",
+        "knowledgebase.bootstrap",
+        "knowledgebase.config",
+        "knowledgebase.providers.embeddings",
+        "knowledgebase.providers.llm",
+        "knowledgebase.providers.reranker",
+        "knowledgebase.storage.operations",
+        "knowledgebase.storage.runtime"
+      ],
+      "evals.calibrate": [
+        "evals",
+        "evals.evaluate",
+        "evals.judge",
+        "evals.metrics",
+        "knowledgebase.config"
+      ],
+      "evals.evaluate": [
+        "knowledgebase.bootstrap",
+        "knowledgebase.config",
+        "knowledgebase.providers.embeddings",
+        "knowledgebase.providers.llm",
+        "knowledgebase.providers.reranker",
+        "knowledgebase.storage.database",
+        "knowledgebase.storage.vectordb"
+      ],
+      "evals.judge": [
+        "evals.evaluate"
+      ],
+      "evals.metrics": [
+        "evals.evaluate"
+      ],
+      "knowledgebase": [],
+      "knowledgebase.api": [],
+      "knowledgebase.api.app": [
+        "knowledgebase.api.chat",
+        "knowledgebase.api.conversations",
+        "knowledgebase.api.files",
+        "knowledgebase.bootstrap",
+        "knowledgebase.config",
+        "knowledgebase.storage.runtime"
+      ],
+      "knowledgebase.api.chat": [
+        "knowledgebase.api.dependencies",
+        "knowledgebase.api.streaming",
+        "knowledgebase.schemas",
+        "knowledgebase.services.chat"
+      ],
+      "knowledgebase.api.conversations": [
+        "knowledgebase.api.dependencies",
+        "knowledgebase.schemas",
+        "knowledgebase.services.chat"
+      ],
+      "knowledgebase.api.dependencies": [
+        "knowledgebase.bootstrap"
+      ],
+      "knowledgebase.api.files": [
+        "knowledgebase.api.dependencies",
+        "knowledgebase.schemas",
+        "knowledgebase.services.files",
+        "knowledgebase.storage.operations"
+      ],
+      "knowledgebase.api.streaming": [
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.bootstrap": [
+        "knowledgebase.config",
+        "knowledgebase.providers.embeddings",
+        "knowledgebase.providers.llm",
+        "knowledgebase.providers.planner",
+        "knowledgebase.providers.reranker",
+        "knowledgebase.rag.pdf_runtime",
+        "knowledgebase.rag.reranking",
+        "knowledgebase.rag.retrieval",
+        "knowledgebase.services.chat",
+        "knowledgebase.services.files",
+        "knowledgebase.services.rag",
+        "knowledgebase.storage.pdf_assets",
+        "knowledgebase.storage.vectordb"
+      ],
+      "knowledgebase.cli": [
+        "knowledgebase.bootstrap",
+        "knowledgebase.config",
+        "knowledgebase.schemas",
+        "knowledgebase.storage.runtime"
+      ],
+      "knowledgebase.config": [],
+      "knowledgebase.providers": [],
+      "knowledgebase.providers.embeddings": [
+        "knowledgebase.config"
+      ],
+      "knowledgebase.providers.limits": [],
+      "knowledgebase.providers.llm": [
+        "knowledgebase.providers.limits"
+      ],
+      "knowledgebase.providers.planner": [
+        "knowledgebase.config",
+        "knowledgebase.providers.limits",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.providers.reranker": [
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag": [],
+      "knowledgebase.rag.bm25": [
+        "knowledgebase.config",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.chunking": [
+        "knowledgebase.config",
+        "knowledgebase.providers.embeddings",
+        "knowledgebase.rag.pdf_chunking",
+        "knowledgebase.rag.pdf_evidence",
+        "knowledgebase.rag.semantic_chunking",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.citations": [
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.context": [
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.dependencies": [
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.fusion": [
+        "knowledgebase.config",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.generation": [
+        "knowledgebase.providers.llm",
+        "knowledgebase.rag.context",
+        "knowledgebase.rag.sufficiency",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.packing": [
+        "knowledgebase.rag.context",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.parsing": [
+        "knowledgebase.rag.pdf_runtime",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.pdf": [
+        "knowledgebase.rag.pdf_tables",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.pdf_chunking": [
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.pdf_evidence": [
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.pdf_runtime": [
+        "knowledgebase.rag.pdf",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.pdf_tables": [],
+      "knowledgebase.rag.planned_retrieval": [
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.query": [
+        "knowledgebase.providers.llm",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.reranking": [
+        "knowledgebase.config",
+        "knowledgebase.providers.reranker",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.retrieval": [
+        "knowledgebase.config",
+        "knowledgebase.providers.embeddings",
+        "knowledgebase.rag.bm25",
+        "knowledgebase.rag.fusion",
+        "knowledgebase.rag.packing",
+        "knowledgebase.rag.pdf_evidence",
+        "knowledgebase.rag.planned_retrieval",
+        "knowledgebase.rag.reranking",
+        "knowledgebase.rag.scope",
+        "knowledgebase.schemas",
+        "knowledgebase.storage.operations",
+        "knowledgebase.storage.vectordb"
+      ],
+      "knowledgebase.rag.scope": [
+        "knowledgebase.rag.bm25",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.semantic_chunking": [
+        "knowledgebase.config",
+        "knowledgebase.rag.chunking",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.sufficiency": [
+        "knowledgebase.rag.context"
+      ],
+      "knowledgebase.schemas": [
+        "knowledgebase.schemas.chat",
+        "knowledgebase.schemas.documents",
+        "knowledgebase.schemas.planning",
+        "knowledgebase.schemas.retrieval"
+      ],
+      "knowledgebase.schemas.chat": [
+        "knowledgebase.schemas.retrieval"
+      ],
+      "knowledgebase.schemas.documents": [],
+      "knowledgebase.schemas.planning": [],
+      "knowledgebase.schemas.retrieval": [
+        "knowledgebase.config",
+        "knowledgebase.schemas.documents",
+        "knowledgebase.schemas.planning"
+      ],
+      "knowledgebase.services": [],
+      "knowledgebase.services.chat": [
+        "knowledgebase.config",
+        "knowledgebase.providers.llm",
+        "knowledgebase.rag.query",
+        "knowledgebase.schemas",
+        "knowledgebase.services.rag",
+        "knowledgebase.storage.operations"
+      ],
+      "knowledgebase.services.files": [
+        "knowledgebase.config",
+        "knowledgebase.providers.embeddings",
+        "knowledgebase.rag.chunking",
+        "knowledgebase.rag.parsing",
+        "knowledgebase.rag.pdf_runtime",
+        "knowledgebase.schemas",
+        "knowledgebase.storage.operations",
+        "knowledgebase.storage.pdf_assets",
+        "knowledgebase.storage.vectordb"
+      ],
+      "knowledgebase.services.hops": [
+        "knowledgebase.rag.context",
+        "knowledgebase.rag.dependencies",
+        "knowledgebase.rag.retrieval",
+        "knowledgebase.rag.sufficiency",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.services.planning": [
+        "knowledgebase.config",
+        "knowledgebase.providers.limits",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.services.rag": [
+        "knowledgebase.config",
+        "knowledgebase.providers.llm",
+        "knowledgebase.providers.planner",
+        "knowledgebase.rag.citations",
+        "knowledgebase.rag.context",
+        "knowledgebase.rag.generation",
+        "knowledgebase.rag.retrieval",
+        "knowledgebase.schemas",
+        "knowledgebase.services.hops",
+        "knowledgebase.services.planning",
+        "knowledgebase.storage.operations"
+      ],
+      "knowledgebase.storage": [],
+      "knowledgebase.storage.database": [
+        "knowledgebase.storage.models"
+      ],
+      "knowledgebase.storage.models": [],
+      "knowledgebase.storage.operations": [
+        "knowledgebase.schemas",
+        "knowledgebase.storage.models"
+      ],
+      "knowledgebase.storage.pdf_assets": [],
+      "knowledgebase.storage.runtime": [
+        "knowledgebase.storage.database",
+        "knowledgebase.storage.vectordb"
+      ],
+      "knowledgebase.storage.vectordb": [
+        "knowledgebase.config",
+        "knowledgebase.schemas"
+      ],
+      "main": [
+        "knowledgebase.cli"
+      ]
+    }
+  },
+  "after": {
+    "modules": 68,
+    "first_party_edges": 176,
+    "cycle_witness": [],
+    "layer_violations": [],
+    "graph": {
+      "evals": [],
+      "evals.automatic": [
+        "evals",
+        "evals.evaluate",
+        "evals.judge",
+        "evals.metrics",
+        "knowledgebase.bootstrap",
+        "knowledgebase.config",
+        "knowledgebase.providers.embeddings",
+        "knowledgebase.providers.llm",
+        "knowledgebase.providers.reranker",
+        "knowledgebase.storage.operations",
+        "knowledgebase.storage.runtime"
+      ],
+      "evals.calibrate": [
+        "evals",
+        "evals.evaluate",
+        "evals.judge",
+        "evals.metrics",
+        "knowledgebase.config"
+      ],
+      "evals.evaluate": [
+        "knowledgebase.bootstrap",
+        "knowledgebase.config",
+        "knowledgebase.providers.embeddings",
+        "knowledgebase.providers.llm",
+        "knowledgebase.providers.reranker",
+        "knowledgebase.storage.database",
+        "knowledgebase.storage.vectordb"
+      ],
+      "evals.judge": [
+        "evals.evaluate"
+      ],
+      "evals.metrics": [
+        "evals.evaluate"
+      ],
+      "knowledgebase": [],
+      "knowledgebase.api": [],
+      "knowledgebase.api.app": [
+        "knowledgebase.api.chat",
+        "knowledgebase.api.conversations",
+        "knowledgebase.api.files",
+        "knowledgebase.bootstrap",
+        "knowledgebase.config",
+        "knowledgebase.storage.runtime"
+      ],
+      "knowledgebase.api.chat": [
+        "knowledgebase.api.dependencies",
+        "knowledgebase.api.streaming",
+        "knowledgebase.schemas",
+        "knowledgebase.services.chat"
+      ],
+      "knowledgebase.api.conversations": [
+        "knowledgebase.api.dependencies",
+        "knowledgebase.schemas",
+        "knowledgebase.services.chat"
+      ],
+      "knowledgebase.api.dependencies": [
+        "knowledgebase.bootstrap"
+      ],
+      "knowledgebase.api.files": [
+        "knowledgebase.api.dependencies",
+        "knowledgebase.schemas",
+        "knowledgebase.schemas.errors",
+        "knowledgebase.services.files"
+      ],
+      "knowledgebase.api.streaming": [
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.bootstrap": [
+        "knowledgebase.config",
+        "knowledgebase.providers.embeddings",
+        "knowledgebase.providers.llm",
+        "knowledgebase.providers.planner",
+        "knowledgebase.providers.reranker",
+        "knowledgebase.rag.client",
+        "knowledgebase.rag.document_chunker",
+        "knowledgebase.rag.parsing",
+        "knowledgebase.rag.pdf_runtime",
+        "knowledgebase.rag.reranking",
+        "knowledgebase.rag.retrieval",
+        "knowledgebase.services.chat",
+        "knowledgebase.services.files",
+        "knowledgebase.storage.pdf_assets",
+        "knowledgebase.storage.vectordb"
+      ],
+      "knowledgebase.cli": [
+        "knowledgebase.bootstrap",
+        "knowledgebase.config",
+        "knowledgebase.schemas",
+        "knowledgebase.storage.runtime"
+      ],
+      "knowledgebase.config": [
+        "knowledgebase.defaults",
+        "knowledgebase.schemas.options"
+      ],
+      "knowledgebase.defaults": [],
+      "knowledgebase.providers": [],
+      "knowledgebase.providers.embeddings": [
+        "knowledgebase.defaults"
+      ],
+      "knowledgebase.providers.limits": [],
+      "knowledgebase.providers.llm": [
+        "knowledgebase.providers.limits"
+      ],
+      "knowledgebase.providers.planner": [
+        "knowledgebase.providers.limits",
+        "knowledgebase.schemas",
+        "knowledgebase.schemas.options"
+      ],
+      "knowledgebase.providers.reranker": [
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag": [],
+      "knowledgebase.rag.bm25": [
+        "knowledgebase.defaults",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.chunking": [
+        "knowledgebase.defaults",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.citations": [
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.client": [
+        "knowledgebase.providers.llm",
+        "knowledgebase.providers.planner",
+        "knowledgebase.rag.citations",
+        "knowledgebase.rag.context",
+        "knowledgebase.rag.generation",
+        "knowledgebase.rag.hops",
+        "knowledgebase.rag.planning",
+        "knowledgebase.rag.retrieval",
+        "knowledgebase.schemas",
+        "knowledgebase.schemas.options",
+        "knowledgebase.storage.operations"
+      ],
+      "knowledgebase.rag.context": [
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.dependencies": [
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.document_chunker": [
+        "knowledgebase.defaults",
+        "knowledgebase.providers.embeddings",
+        "knowledgebase.rag.chunking",
+        "knowledgebase.rag.pdf_chunking",
+        "knowledgebase.rag.pdf_evidence",
+        "knowledgebase.rag.semantic_chunking",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.fusion": [
+        "knowledgebase.defaults",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.generation": [
+        "knowledgebase.providers.llm",
+        "knowledgebase.rag.context",
+        "knowledgebase.rag.sufficiency",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.hops": [
+        "knowledgebase.rag.context",
+        "knowledgebase.rag.dependencies",
+        "knowledgebase.rag.retrieval",
+        "knowledgebase.rag.sufficiency",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.packing": [
+        "knowledgebase.rag.context",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.parsing": [
+        "knowledgebase.rag.pdf_runtime",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.pdf": [
+        "knowledgebase.rag.pdf_tables",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.pdf_chunking": [
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.pdf_evidence": [
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.pdf_runtime": [
+        "knowledgebase.rag.pdf",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.pdf_tables": [],
+      "knowledgebase.rag.planned_retrieval": [
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.planning": [
+        "knowledgebase.providers.limits",
+        "knowledgebase.schemas",
+        "knowledgebase.schemas.options"
+      ],
+      "knowledgebase.rag.query": [
+        "knowledgebase.providers.llm",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.reranking": [
+        "knowledgebase.defaults",
+        "knowledgebase.providers.reranker",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.retrieval": [
+        "knowledgebase.defaults",
+        "knowledgebase.providers.embeddings",
+        "knowledgebase.rag.bm25",
+        "knowledgebase.rag.fusion",
+        "knowledgebase.rag.packing",
+        "knowledgebase.rag.pdf_evidence",
+        "knowledgebase.rag.planned_retrieval",
+        "knowledgebase.rag.reranking",
+        "knowledgebase.rag.scope",
+        "knowledgebase.schemas",
+        "knowledgebase.schemas.options",
+        "knowledgebase.storage.operations",
+        "knowledgebase.storage.vectordb"
+      ],
+      "knowledgebase.rag.scope": [
+        "knowledgebase.rag.bm25",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.semantic_chunking": [
+        "knowledgebase.defaults",
+        "knowledgebase.rag.chunking",
+        "knowledgebase.schemas"
+      ],
+      "knowledgebase.rag.sufficiency": [
+        "knowledgebase.rag.context"
+      ],
+      "knowledgebase.schemas": [
+        "knowledgebase.schemas.chat",
+        "knowledgebase.schemas.documents",
+        "knowledgebase.schemas.planning",
+        "knowledgebase.schemas.retrieval"
+      ],
+      "knowledgebase.schemas.chat": [
+        "knowledgebase.schemas.retrieval"
+      ],
+      "knowledgebase.schemas.documents": [],
+      "knowledgebase.schemas.errors": [],
+      "knowledgebase.schemas.options": [
+        "knowledgebase.defaults"
+      ],
+      "knowledgebase.schemas.planning": [],
+      "knowledgebase.schemas.retrieval": [
+        "knowledgebase.schemas.documents",
+        "knowledgebase.schemas.options",
+        "knowledgebase.schemas.planning"
+      ],
+      "knowledgebase.services": [],
+      "knowledgebase.services.chat": [
+        "knowledgebase.defaults",
+        "knowledgebase.providers.llm",
+        "knowledgebase.rag.client",
+        "knowledgebase.rag.query",
+        "knowledgebase.schemas",
+        "knowledgebase.storage.operations"
+      ],
+      "knowledgebase.services.files": [
+        "knowledgebase.providers.embeddings",
+        "knowledgebase.rag.document_chunker",
+        "knowledgebase.rag.parsing",
+        "knowledgebase.schemas",
+        "knowledgebase.storage.operations",
+        "knowledgebase.storage.pdf_assets",
+        "knowledgebase.storage.vectordb"
+      ],
+      "knowledgebase.storage": [],
+      "knowledgebase.storage.database": [
+        "knowledgebase.storage.models"
+      ],
+      "knowledgebase.storage.models": [],
+      "knowledgebase.storage.operations": [
+        "knowledgebase.schemas",
+        "knowledgebase.schemas.errors",
+        "knowledgebase.storage.models"
+      ],
+      "knowledgebase.storage.pdf_assets": [],
+      "knowledgebase.storage.runtime": [
+        "knowledgebase.storage.database",
+        "knowledgebase.storage.vectordb"
+      ],
+      "knowledgebase.storage.vectordb": [
+        "knowledgebase.defaults",
+        "knowledgebase.schemas"
+      ],
+      "main": [
+        "knowledgebase.cli"
+      ]
+    }
+  }
+}

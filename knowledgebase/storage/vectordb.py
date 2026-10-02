@@ -2,7 +2,7 @@
 
 from chromadb.api.models.Collection import Collection
 
-from knowledgebase.config import DEFAULT_TOP_K
+from knowledgebase.defaults import DEFAULT_TOP_K
 from knowledgebase.schemas import Chunk, VectorMatch
 
 

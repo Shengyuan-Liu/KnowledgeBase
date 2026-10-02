@@ -3,7 +3,8 @@ from unittest.mock import Mock
 import pytest
 from sqlalchemy import select
 
-from knowledgebase.rag.chunking import DocumentChunker, split_text
+from knowledgebase.rag.document_chunker import DocumentChunker
+from knowledgebase.rag.chunking import split_text
 from knowledgebase.rag.retrieval import Retriever
 from knowledgebase.services.files import FileService, InvalidUploadError
 from knowledgebase.storage.models import ChunkStructureRecord, DocumentSourceRecord

@@ -6,7 +6,7 @@ from unittest.mock import Mock
 
 from test_automatic_planning import DIRECT, response
 
-from knowledgebase.config import PlanningOptions
+from knowledgebase.schemas.options import PlanningOptions
 from knowledgebase.providers.planner import PlannerClient
 from knowledgebase.rag.generation import _answer_messages
 from knowledgebase.schemas import (
@@ -14,8 +14,8 @@ from knowledgebase.schemas import (
     PlannedEvidence,
     RetrievalPlan,
 )
-from knowledgebase.services.hops import HopController
-from knowledgebase.services.planning import PreparedPlanning, RequestControl
+from knowledgebase.rag.hops import HopController
+from knowledgebase.rag.planning import PreparedPlanning, RequestControl
 
 ROOT = Path(__file__).resolve().parents[1]
 CASE = ROOT / "evals/check-runs/20260927-answer-rules/frozen-case.json"

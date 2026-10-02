@@ -8,15 +8,15 @@ import pytest
 from test_automatic_planning import response
 from test_period_rule_constraints import planner_with
 
-from knowledgebase.config import PlanningOptions
+from knowledgebase.schemas.options import PlanningOptions
 from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.generation import _answer_messages, generate_answer
 from knowledgebase.schemas import (
     PlannedEvidence,
     RetrievalPlan,
 )
-from knowledgebase.services.hops import HopController
-from knowledgebase.services.planning import PreparedPlanning, RequestControl
+from knowledgebase.rag.hops import HopController
+from knowledgebase.rag.planning import PreparedPlanning, RequestControl
 
 PROJECT = Path(__file__).resolve().parents[1]
 FIXTURE = PROJECT / "evals/check-runs/20260929-factual-condition-rules/frozen-cases.json"

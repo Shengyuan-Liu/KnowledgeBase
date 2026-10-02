@@ -7,12 +7,12 @@ import pytest
 from test_automatic_planning import response
 from test_period_rule_constraints import planner_with
 
-from knowledgebase.config import PlanningOptions
+from knowledgebase.schemas.options import PlanningOptions
 from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE, generate_answer
 from knowledgebase.schemas import PlannedEvidence
-from knowledgebase.services.hops import HopController
-from knowledgebase.services.planning import PreparedPlanning, RequestControl
+from knowledgebase.rag.hops import HopController
+from knowledgebase.rag.planning import PreparedPlanning, RequestControl
 
 ROOT = Path(__file__).resolve().parents[1]
 RUN = ROOT / "evals/library-runs/20260928-period-rule-acceptance"

@@ -9,8 +9,8 @@ from fastapi.testclient import TestClient
 
 from knowledgebase import bootstrap
 from knowledgebase.api import app as api_module
-from knowledgebase.config import RetrievalOptions
-from knowledgebase.rag.chunking import DocumentChunker
+from knowledgebase.schemas.options import RetrievalOptions
+from knowledgebase.rag.document_chunker import DocumentChunker
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.retrieval import Retriever
 from knowledgebase.schemas import Chunk

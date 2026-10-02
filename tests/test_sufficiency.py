@@ -13,13 +13,13 @@ from test_automatic_planning import DIRECT, events_from, response
 from test_dependent_retrieval import DOCUMENTS, PLAN, QUESTION, ask
 from test_dependent_retrieval import hop_api as hop_api
 
-from knowledgebase.config import PlanningOptions
+from knowledgebase.schemas.options import PlanningOptions
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
 from knowledgebase.rag.retrieval import Retriever
 from knowledgebase.rag.sufficiency import assessment_excerpts, validate_assessment
 from knowledgebase.schemas import SufficiencyAssessment
 from knowledgebase.services.chat import ChatService
-from knowledgebase.services.rag import RagClient
+from knowledgebase.rag.client import RagClient
 from knowledgebase.storage.models import MessageRecord
 from knowledgebase.storage.operations import update_file_status
 

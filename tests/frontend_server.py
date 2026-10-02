@@ -13,7 +13,8 @@ import anyio
 
 from knowledgebase.api.app import create_app
 from knowledgebase.bootstrap import AppResources
-from knowledgebase.config import PlanningOptions, Settings
+from knowledgebase.schemas.options import PlanningOptions
+from knowledgebase.config import Settings
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.providers.planner import PlannerClient

@@ -8,7 +8,7 @@ import pytest
 import tiktoken
 from pydantic import ValidationError
 
-from knowledgebase.config import RetrievalOptions
+from knowledgebase.schemas.options import RetrievalOptions
 from knowledgebase.rag.chunking import split_parent_child
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.parsing import DocumentParser, parse_markdown
@@ -401,7 +401,7 @@ def test_query_candidate_ranks_remain_fusion_ranks_in_multiple_file_scope(librar
 def test_pdf_supplements_remain_inside_final_shared_budget(storage, embeddings):
     from tempfile import TemporaryDirectory
 
-    from knowledgebase.rag.chunking import DocumentChunker
+    from knowledgebase.rag.document_chunker import DocumentChunker
     from knowledgebase.schemas import File
     from knowledgebase.services.files import FileService
     from knowledgebase.storage.pdf_assets import PdfAssets

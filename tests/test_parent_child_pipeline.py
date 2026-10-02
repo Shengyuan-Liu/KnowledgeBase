@@ -10,15 +10,15 @@ from sqlalchemy import select
 
 from knowledgebase import bootstrap
 from knowledgebase.api import app as api_module
-from knowledgebase.config import RetrievalOptions
-from knowledgebase.rag.chunking import DocumentChunker
+from knowledgebase.schemas.options import RetrievalOptions
+from knowledgebase.rag.document_chunker import DocumentChunker
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
 from knowledgebase.rag.retrieval import Retriever
 from knowledgebase.schemas import VectorMatch
 from knowledgebase.services.chat import ChatService
 from knowledgebase.services.files import FileService
-from knowledgebase.services.rag import RagClient
+from knowledgebase.rag.client import RagClient
 from knowledgebase.storage.models import ChildParentRecord, RetrievalSnapshotRecord
 from knowledgebase.storage.operations import (
     get_chunks,

@@ -6,7 +6,10 @@ from time import perf_counter
 
 import tiktoken
 
-from knowledgebase.config import DEFAULT_SEMANTIC_BATCH_SIZE, DEFAULT_SEMANTIC_SIMILARITY_THRESHOLD
+from knowledgebase.defaults import (
+    DEFAULT_SEMANTIC_BATCH_SIZE,
+    DEFAULT_SEMANTIC_SIMILARITY_THRESHOLD,
+)
 from knowledgebase.rag.chunking import (
     _bounded_units, _pack_units, _sentence_boundaries, _spans_between,
     split_parent_child, split_structured,

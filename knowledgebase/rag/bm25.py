@@ -5,7 +5,7 @@ import re
 
 from bm25s import BM25
 
-from knowledgebase.config import DEFAULT_BM25_B, DEFAULT_BM25_K1, DEFAULT_TOP_K
+from knowledgebase.defaults import DEFAULT_BM25_B, DEFAULT_BM25_K1, DEFAULT_TOP_K
 from knowledgebase.schemas import BM25Match, Chunk
 
 

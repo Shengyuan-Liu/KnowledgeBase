@@ -4,16 +4,16 @@ from unittest.mock import Mock
 import pytest
 from sqlalchemy import event
 
-from knowledgebase.config import RetrievalOptions
+from knowledgebase.schemas.options import RetrievalOptions
 from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient
-from knowledgebase.rag.chunking import DocumentChunker
+from knowledgebase.rag.document_chunker import DocumentChunker
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
 from knowledgebase.rag.retrieval import Retriever
 from knowledgebase.schemas import ChatAnswer, CitationCheck, RetrievalDiagnostics
 from knowledgebase.services.chat import ChatService
 from knowledgebase.services.files import FileService
-from knowledgebase.services.rag import RagClient
+from knowledgebase.rag.client import RagClient
 from knowledgebase.storage.operations import (
     create_conversation,
     get_conversation,

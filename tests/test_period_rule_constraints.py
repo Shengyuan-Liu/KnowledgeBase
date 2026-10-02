@@ -7,13 +7,13 @@ from unittest.mock import Mock
 import pytest
 from test_automatic_planning import response
 
-from knowledgebase.config import PlanningOptions
+from knowledgebase.schemas.options import PlanningOptions
 from knowledgebase.providers.llm import LLMClient
 from knowledgebase.providers.planner import PlannerClient
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE, generate_answer
 from knowledgebase.schemas import PlannedEvidence
-from knowledgebase.services.hops import HopController
-from knowledgebase.services.planning import PreparedPlanning, RequestControl
+from knowledgebase.rag.hops import HopController
+from knowledgebase.rag.planning import PreparedPlanning, RequestControl
 
 ROOT = Path(__file__).resolve().parents[1]
 FROZEN = ROOT / "evals/library-runs/20260928-answer-rules-acceptance"

@@ -10,7 +10,7 @@ from fastapi.testclient import TestClient
 
 from knowledgebase import bootstrap, cli
 from knowledgebase.api import app as api_module
-from knowledgebase.config import RetrievalOptions
+from knowledgebase.schemas.options import RetrievalOptions
 from knowledgebase.schemas import CitationCheck, ConversationAnswer
 from knowledgebase.storage.operations import get_chunks, get_document_source
 
@@ -164,14 +164,14 @@ def test_cli_uses_settings_and_explicit_arguments_override_them(tmp_path, monkey
     ingest = Mock(return_value="file")
     monkeypatch.setattr(bootstrap.FileService, "ingest", ingest)
     created_services = []
-    factory = bootstrap.FileService.from_settings
+    factory = bootstrap.FileService
 
     def create_service(*args, **kwargs):
         service = factory(*args, **kwargs)
         created_services.append(service)
         return service
 
-    monkeypatch.setattr(bootstrap.FileService, "from_settings", create_service)
+    monkeypatch.setattr(bootstrap, "FileService", create_service)
     answer = create_autospec(
         bootstrap.ChatService.answer,
         return_value=ConversationAnswer(

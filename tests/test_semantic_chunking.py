@@ -6,7 +6,8 @@ import pytest
 import tiktoken
 from sqlalchemy import select
 
-from knowledgebase.rag.chunking import DocumentChunker, split_parent_child
+from knowledgebase.rag.document_chunker import DocumentChunker
+from knowledgebase.rag.chunking import split_parent_child
 from knowledgebase.rag.parsing import parse_markdown, parse_txt
 from knowledgebase.rag.semantic_chunking import split_semantic
 from knowledgebase.services.files import FileService

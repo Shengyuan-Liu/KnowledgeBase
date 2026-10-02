@@ -11,12 +11,14 @@ from knowledgebase.providers.embeddings import EmbeddingClient
 from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.providers.planner import PlannerClient
 from knowledgebase.providers.reranker import RerankerClient
+from knowledgebase.rag.client import RagClient
+from knowledgebase.rag.document_chunker import DocumentChunker
+from knowledgebase.rag.parsing import DocumentParser
 from knowledgebase.rag.pdf_runtime import LocalPdfParser
 from knowledgebase.rag.reranking import Reranker
 from knowledgebase.rag.retrieval import Retriever
 from knowledgebase.services.chat import ChatService
 from knowledgebase.services.files import FileService
-from knowledgebase.services.rag import RagClient
 from knowledgebase.storage.pdf_assets import PdfAssets
 from knowledgebase.storage.vectordb import ChromaStore
 
@@ -43,13 +45,24 @@ class AppResources:
 
     def __post_init__(self):
         settings = self.settings
-        self.files = FileService.from_settings(
-            settings,
+        self.files = FileService(
             self.sessions,
-            self.embeddings,
             self.store,
+            embeddings=self.embeddings,
             assets=self.assets,
-            pdf_parser=self.pdf_parser,
+            parser=DocumentParser(self.pdf_parser),
+            chunker=DocumentChunker(
+                chunk_size=settings.chunk_size,
+                overlap=settings.chunk_overlap,
+                chunking_strategy=settings.chunking_strategy,
+                chunk_max_tokens=settings.chunk_max_tokens,
+                chunk_tokenizer=settings.chunk_tokenizer,
+                parent_max_tokens=settings.parent_max_tokens,
+                semantic_similarity_threshold=settings.semantic_similarity_threshold,
+                semantic_batch_size=settings.semantic_batch_size,
+                embedding_model=settings.embedding_model,
+                embeddings=self.embeddings,
+            ),
         )
         self.retriever = Retriever(
             self.embeddings,

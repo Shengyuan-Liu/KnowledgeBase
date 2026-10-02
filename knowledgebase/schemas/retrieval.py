@@ -4,7 +4,7 @@ from typing import Any, Literal
 
 from pydantic import AliasChoices, BaseModel, Field
 
-from knowledgebase.config import RetrievalOptions
+from knowledgebase.schemas.options import RetrievalOptions
 from .documents import Chunk, PdfEvidence
 from .planning import RetrievalPlan
 

@@ -123,7 +123,7 @@ def test_invalid_tuning_values_fail_before_startup_without_exposing_key(tmp_path
 
 
 def test_hybrid_is_default_and_vector_is_an_explicit_control(tmp_path, monkeypatch):
-    from knowledgebase.config import RetrievalOptions
+    from knowledgebase.schemas.options import RetrievalOptions
 
     monkeypatch.chdir(tmp_path)
     settings = Settings(openai_api_key="offline-test")

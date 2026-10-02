@@ -4,14 +4,14 @@ from unittest.mock import Mock
 
 import pytest
 
-from knowledgebase.config import RetrievalOptions
+from knowledgebase.schemas.options import RetrievalOptions
 from knowledgebase.providers.llm import LLMClient
-from knowledgebase.rag.chunking import DocumentChunker
+from knowledgebase.rag.document_chunker import DocumentChunker
 from knowledgebase.rag.reranking import Reranker
 from knowledgebase.rag.retrieval import Retriever
 from knowledgebase.services.chat import ChatService
 from knowledgebase.services.files import FileService
-from knowledgebase.services.rag import RagClient
+from knowledgebase.rag.client import RagClient
 from knowledgebase.storage.operations import get_conversation_detail
 
 

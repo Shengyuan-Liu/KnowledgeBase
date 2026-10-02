@@ -4,7 +4,7 @@ from collections.abc import Sequence
 
 import tiktoken
 
-from knowledgebase.config import (
+from knowledgebase.defaults import (
     DEFAULT_CHUNK_TOKENIZER,
     DEFAULT_RERANK_CANDIDATE_LIMIT,
     DEFAULT_RERANK_MAX_INPUT_TOKENS,

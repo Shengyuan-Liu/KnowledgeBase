@@ -5,11 +5,11 @@ from unittest.mock import Mock
 import pytest
 
 from knowledgebase.providers.llm import LLMClient
-from knowledgebase.rag.chunking import DocumentChunker
+from knowledgebase.rag.document_chunker import DocumentChunker
 from knowledgebase.rag.generation import INSUFFICIENT_EVIDENCE
 from knowledgebase.rag.retrieval import Retriever
 from knowledgebase.services.files import FileService
-from knowledgebase.services.rag import RagClient
+from knowledgebase.rag.client import RagClient
 from knowledgebase.storage.operations import (
     create_file,
     get_chunks,

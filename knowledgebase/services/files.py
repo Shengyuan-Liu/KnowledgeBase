@@ -1,15 +1,12 @@
 """File parsing, indexing and lifecycle management."""
 
 from pathlib import Path
-from typing import Self
 
 from sqlalchemy.orm import Session, sessionmaker
 
-from knowledgebase.config import Settings
 from knowledgebase.providers.embeddings import EmbeddingClient
-from knowledgebase.rag.chunking import DocumentChunker
+from knowledgebase.rag.document_chunker import DocumentChunker
 from knowledgebase.rag.parsing import DocumentParser, InvalidUploadError
-from knowledgebase.rag.pdf_runtime import LocalPdfParser
 from knowledgebase.schemas import File
 from knowledgebase.storage.operations import (
     create_file,
@@ -55,37 +52,6 @@ class FileService:
         self.assets = assets
         self.parser = parser or DocumentParser()
         self.chunker = chunker or DocumentChunker(embeddings=embeddings)
-
-    @classmethod
-    def from_settings(
-        cls,
-        settings: Settings,
-        sessions: sessionmaker[Session],
-        embeddings: EmbeddingClient,
-        store: ChromaStore,
-        *,
-        assets: PdfAssets | None = None,
-        pdf_parser: LocalPdfParser | None = None,
-    ) -> Self:
-        return cls(
-            sessions,
-            store,
-            embeddings=embeddings,
-            assets=assets,
-            parser=DocumentParser(pdf_parser),
-            chunker=DocumentChunker(
-                chunk_size=settings.chunk_size,
-                overlap=settings.chunk_overlap,
-                chunking_strategy=settings.chunking_strategy,
-                chunk_max_tokens=settings.chunk_max_tokens,
-                chunk_tokenizer=settings.chunk_tokenizer,
-                parent_max_tokens=settings.parent_max_tokens,
-                semantic_similarity_threshold=settings.semantic_similarity_threshold,
-                semantic_batch_size=settings.semantic_batch_size,
-                embedding_model=settings.embedding_model,
-                embeddings=embeddings,
-            ),
-        )
 
     def _cleanup(self, file_id: str) -> None:
         self.store.delete_by_file_id(file_id)

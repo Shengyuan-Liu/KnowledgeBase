@@ -6,6 +6,7 @@ from typing import Literal
 from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 
+from knowledgebase.schemas.errors import FileRecordNotFoundError
 from knowledgebase.schemas import (
     ChatAnswer, Chunk, ChunkBatch, File, SourceBlock, ConversationDetail,
     ConversationInfo, ConversationMessage, HistoricalSource, MessageInfo,
@@ -25,10 +26,6 @@ from knowledgebase.storage.models import (
     ParentChunkRecord,
     RetrievalSnapshotRecord,
 )
-
-
-class FileRecordNotFoundError(LookupError):
-    """A requested file record does not exist in business storage."""
 
 
 def create_file(session: Session, file_id: str, file_name: str) -> None:

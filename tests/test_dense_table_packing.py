@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 import tiktoken
 
-from knowledgebase.config import RetrievalOptions
+from knowledgebase.schemas.options import RetrievalOptions
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.pdf_evidence import pdf_evidence
 from knowledgebase.rag.retrieval import Retriever

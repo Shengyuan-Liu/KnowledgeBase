@@ -10,6 +10,9 @@ keep each request's mutable state separate, and make API, CLI and evaluation
 callers use the same components. Retrieval quality, algorithms, prompts, storage
 formats, defaults and public HTTP contracts are not intentionally changed.
 
+The subsequent [layered architecture contract](layered-architecture.md) records
+the current module paths, independent-use examples and enforced dependency rules.
+
 ## Architecture
 
 ```text
@@ -54,7 +57,7 @@ planned-retrieval candidate budgets without mutating shared configuration.
 | Class | Destination and changes |
 | --- | --- |
 | `DocumentParser` | Move from `services/files.py` to `rag/parsing.py`; keep `prepare` and `parse` with existing validation and source identity behavior |
-| `DocumentChunker` | Move from `services/files.py` to `rag/chunking.py`; own splitting configuration and optional semantic embedding dependency; retain `split` |
+| `DocumentChunker` | Move from `services/files.py` to `rag/document_chunker.py`; own splitting configuration and optional semantic embedding dependency; retain `split` |
 | `FileService` | Keep ingestion/deletion/recovery transactions; inject parser and chunker; add file list/detail/original-source reads currently embedded in routes |
 | `LocalPdfParser` | Move the lazy runtime wrapper to `rag/pdf_runtime.py`; preserve optional dependency loading and sequential conversion |
 | `PdfParser` | Keep concrete extraction, model identity and page/table mapping in `rag/pdf.py` |
@@ -135,12 +138,12 @@ rewrite prompts, expand validation or add fallback/repair paths during migration
 
 The package remains `knowledgebase/`; keep the current `schemas`, `providers`,
 `storage`, `rag`, `services` and `api` boundaries. New modules are
-`knowledgebase/bootstrap.py`, `knowledgebase/services/rag.py` and
+`knowledgebase/bootstrap.py`, `knowledgebase/rag/client.py` and
 `knowledgebase/rag/pdf_runtime.py`.
 
 | Current implementation | Target |
 | --- | --- |
-| `services.chat.answer_question` | `services.rag.RagClient.answer` |
+| `services.chat.answer_question` | `rag.client.RagClient.answer` |
 | `services.chat.answer_in_conversation` | `services.chat.ChatService.answer` |
 | `services.chat.stream_answer_in_conversation` | ChatService.stream for history/persistence plus RagClient.stream for RAG events |
 | `services.chat._retrieve_evidence` | Retriever retrieval plus RagClient source/diagnostic assembly |
@@ -241,9 +244,13 @@ the report retains this failure, timing observations and measurement limitations
 The subsequent [dependency audit](../../evals/check-runs/20261001-dependency-audit/README.md)
 found an architecture gap: moving DocumentChunker into `rag/chunking.py` introduced
 a deferred import cycle with `rag/semantic_chunking.py`. The functionality checks
-above did not prove strict acyclicity. This cycle and the proposed configuration,
-service-assembly and route-error boundary improvements remain open. The user's
-single-direction dependency requirement is not yet satisfied.
+above did not prove strict acyclicity. The subsequent
+[layering implementation](layered-architecture.md) separates the dispatcher,
+moves the answer/planning engine below application services, separates pure
+options/defaults from Settings, moves configured assembly into bootstrap, and
+shares the file-not-found error through schemas. Its
+[verification report](../../evals/check-runs/20261001-layered-architecture/README.md)
+records acyclicity checks and standalone component execution.
 
 | Stage | Implementation commit |
 | --- | --- |

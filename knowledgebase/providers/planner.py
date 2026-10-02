@@ -7,7 +7,7 @@ from time import perf_counter
 
 from openai import OpenAI
 
-from knowledgebase.config import PlanningOptions
+from knowledgebase.schemas.options import PlanningOptions
 from knowledgebase.providers.limits import input_tokens
 from knowledgebase.schemas import DraftQuery, PlanDecision, RetrievalPlan
 

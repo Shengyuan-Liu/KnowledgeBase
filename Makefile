@@ -1,4 +1,4 @@
-.PHONY: app eval eval-calibrate test test-live api frontend test-frontend test-browser test-browser-live stop test-stop
+.PHONY: app eval eval-calibrate test test-architecture test-live api frontend test-frontend test-browser test-browser-live stop test-stop
 
 EVAL_ARGS ?=
 
@@ -19,6 +19,9 @@ eval-calibrate:
 
 test:
 	uv run --locked --extra pdf python -m pytest tests/
+
+test-architecture:
+	uv run --locked python -m pytest tests/test_architecture.py tests/test_standalone_layers.py
 
 test-live:
 	RUN_LIVE_API_TESTS=1 uv run --locked python -m pytest tests/test_llm_live.py -s

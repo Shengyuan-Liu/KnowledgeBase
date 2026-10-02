@@ -8,7 +8,7 @@ from uuid import uuid4
 import anyio
 from sqlalchemy.orm import Session, sessionmaker
 
-from knowledgebase.config import DEFAULT_HISTORY_LIMIT
+from knowledgebase.defaults import DEFAULT_HISTORY_LIMIT
 from knowledgebase.providers.llm import LLMClient
 from knowledgebase.rag.query import resolve_question
 from knowledgebase.schemas import (
@@ -18,7 +18,7 @@ from knowledgebase.schemas import (
     ConversationDetail,
     MessageInfo,
 )
-from knowledgebase.services.rag import RagClient
+from knowledgebase.rag.client import RagClient
 from knowledgebase.storage.operations import (
     create_conversation,
     get_conversation,

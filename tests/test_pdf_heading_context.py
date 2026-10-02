@@ -8,8 +8,9 @@ from unittest.mock import Mock
 import pytest
 import tiktoken
 
-from knowledgebase.config import RetrievalOptions
-from knowledgebase.rag.chunking import DocumentChunker, split_parent_child
+from knowledgebase.schemas.options import RetrievalOptions
+from knowledgebase.rag.document_chunker import DocumentChunker
+from knowledgebase.rag.chunking import split_parent_child
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.parsing import DocumentParser
 from knowledgebase.rag.pdf_chunking import (

@@ -9,7 +9,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy import inspect
 
 from knowledgebase.api import app as api_module
-from knowledgebase.config import RetrievalOptions
+from knowledgebase.schemas.options import RetrievalOptions
 from knowledgebase.rag.chunking import split_parent_child
 from knowledgebase.rag.context import build_context
 from knowledgebase.rag.packing import pack_evidence

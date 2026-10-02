@@ -10,7 +10,7 @@ from time import perf_counter
 import anyio
 from sqlalchemy.orm import Session, sessionmaker
 
-from knowledgebase.config import PlanningOptions
+from knowledgebase.schemas.options import PlanningOptions
 from knowledgebase.providers.llm import LLMClient, StreamingLLMClient
 from knowledgebase.providers.planner import PlannerClient
 from knowledgebase.rag.citations import validate_citations
@@ -26,8 +26,8 @@ from knowledgebase.schemas import (
     RetrievedEvidence,
     direct_plan,
 )
-from knowledgebase.services.hops import HopController
-from knowledgebase.services.planning import (
+from knowledgebase.rag.hops import HopController
+from knowledgebase.rag.planning import (
     NARROWING_MESSAGE,
     PreparedPlanning,
     RequestControl,

@@ -15,13 +15,14 @@ from openai import OpenAI
 from sqlalchemy import func, select
 
 from knowledgebase import bootstrap
-from knowledgebase.config import PlanningOptions, Settings
+from knowledgebase.schemas.options import PlanningOptions
+from knowledgebase.config import Settings
 from knowledgebase.providers.planner import PlannerClient
 from knowledgebase.rag.retrieval import Retriever
 from knowledgebase.schemas import PlanDecision
 from knowledgebase.services.chat import ChatService
-from knowledgebase.services.planning import NARROWING_MESSAGE
-from knowledgebase.services.rag import RagClient
+from knowledgebase.rag.planning import NARROWING_MESSAGE
+from knowledgebase.rag.client import RagClient
 from knowledgebase.storage.models import MessageRecord
 
 DIRECT = {
@@ -654,7 +655,7 @@ async def test_final_generation_deadline_closes_stalled_stream():
     from test_llm_streaming import EventBody, client
 
     from knowledgebase.providers.llm import StreamingLLMClient
-    from knowledgebase.services.planning import RequestControl
+    from knowledgebase.rag.planning import RequestControl
 
     body, requests = EventBody("response.completed"), []
     body.wait = anyio.Event()
