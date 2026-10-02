@@ -1,0 +1,7 @@
+before 62 modules; full cycles: []
+before eager cycles: [] package violations: 1
+after 64 modules; full cycles: [['knowledgebase.rag.chunking', 'knowledgebase.rag.semantic_chunking']]
+after eager cycles: [] package violations: 0
+Cycle imports: [{'source': 'knowledgebase.rag.chunking', 'target': 'knowledgebase.rag.semantic_chunking', 'file': 'knowledgebase/rag/chunking.py', 'line': 331, 'deferred': True, 'type_only': False, 'imported': ['split_semantic']}, {'source': 'knowledgebase.rag.semantic_chunking', 'target': 'knowledgebase.rag.chunking', 'file': 'knowledgebase/rag/semantic_chunking.py', 'line': 10, 'deferred': False, 'type_only': False, 'imported': ['_bounded_units', '_pack_units', '_sentence_boundaries', '_spans_between', 'split_parent_child', 'split_structured']}]
+Package graph: [('api', 'bootstrap'), ('api', 'config'), ('api', 'schemas'), ('api', 'services'), ('api', 'storage'), ('bootstrap', 'config'), ('bootstrap', 'providers'), ('bootstrap', 'rag'), ('bootstrap', 'services'), ('bootstrap', 'storage'), ('entry', 'bootstrap'), ('entry', 'config'), ('entry', 'evals'), ('entry', 'providers'), ('entry', 'schemas'), ('entry', 'storage'), ('providers', 'config'), ('providers', 'schemas'), ('rag', 'config'), ('rag', 'providers'), ('rag', 'schemas'), ('rag', 'storage'), ('schemas', 'config'), ('services', 'config'), ('services', 'providers'), ('services', 'rag'), ('services', 'schemas'), ('services', 'storage'), ('storage', 'config'), ('storage', 'schemas')]
+1 failed: strict acyclic architecture check.

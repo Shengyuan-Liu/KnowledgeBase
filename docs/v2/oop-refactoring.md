@@ -238,6 +238,13 @@ retrieval, history, cancellation and deletion worked. A generic source phrase,
 answerable question. The unchanged source-scope parser remains a known defect;
 the report retains this failure, timing observations and measurement limitations.
 
+The subsequent [dependency audit](../../evals/check-runs/20261001-dependency-audit/README.md)
+found an architecture gap: moving DocumentChunker into `rag/chunking.py` introduced
+a deferred import cycle with `rag/semantic_chunking.py`. The functionality checks
+above did not prove strict acyclicity. This cycle and the proposed configuration,
+service-assembly and route-error boundary improvements remain open. The user's
+single-direction dependency requirement is not yet satisfied.
+
 | Stage | Implementation commit |
 | --- | --- |
 | Plan | `d5a1cde` |

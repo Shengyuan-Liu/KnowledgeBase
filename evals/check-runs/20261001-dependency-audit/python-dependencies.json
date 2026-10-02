@@ -1,0 +1,4698 @@
+{
+  "scope": "All knowledgebase Python modules, root main.py and active top-level evals Python modules; archived runs, tests, dependencies and runtime data excluded.",
+  "method": "Python AST, absolute/relative and literal dynamic imports, deferred and type-only imports retained, Tarjan SCC. No application module is executed.",
+  "limits": "Static imports only; computed/reflection imports are reported but cannot be resolved. Third-party package internals and implicit package-initialization edges are not treated as source dependencies. Package order allows config as a shared foundation; its mixed Settings/options role is reviewed separately.",
+  "before": {
+    "revision": "bbd0a8d049553746d73d1e577b5318117ff7d0d8",
+    "module_count": 62,
+    "application_module_count": 55,
+    "modules": {
+      "evals": "evals/__init__.py",
+      "evals.automatic": "evals/automatic.py",
+      "evals.calibrate": "evals/calibrate.py",
+      "evals.evaluate": "evals/evaluate.py",
+      "evals.judge": "evals/judge.py",
+      "evals.metrics": "evals/metrics.py",
+      "knowledgebase": "knowledgebase/__init__.py",
+      "knowledgebase.api": "knowledgebase/api/__init__.py",
+      "knowledgebase.api.app": "knowledgebase/api/app.py",
+      "knowledgebase.api.chat": "knowledgebase/api/chat.py",
+      "knowledgebase.api.conversations": "knowledgebase/api/conversations.py",
+      "knowledgebase.api.dependencies": "knowledgebase/api/dependencies.py",
+      "knowledgebase.api.files": "knowledgebase/api/files.py",
+      "knowledgebase.api.streaming": "knowledgebase/api/streaming.py",
+      "knowledgebase.cli": "knowledgebase/cli.py",
+      "knowledgebase.config": "knowledgebase/config.py",
+      "knowledgebase.providers": "knowledgebase/providers/__init__.py",
+      "knowledgebase.providers.embeddings": "knowledgebase/providers/embeddings.py",
+      "knowledgebase.providers.limits": "knowledgebase/providers/limits.py",
+      "knowledgebase.providers.llm": "knowledgebase/providers/llm.py",
+      "knowledgebase.providers.planner": "knowledgebase/providers/planner.py",
+      "knowledgebase.providers.reranker": "knowledgebase/providers/reranker.py",
+      "knowledgebase.rag": "knowledgebase/rag/__init__.py",
+      "knowledgebase.rag.bm25": "knowledgebase/rag/bm25.py",
+      "knowledgebase.rag.chunking": "knowledgebase/rag/chunking.py",
+      "knowledgebase.rag.citations": "knowledgebase/rag/citations.py",
+      "knowledgebase.rag.context": "knowledgebase/rag/context.py",
+      "knowledgebase.rag.dependencies": "knowledgebase/rag/dependencies.py",
+      "knowledgebase.rag.fusion": "knowledgebase/rag/fusion.py",
+      "knowledgebase.rag.generation": "knowledgebase/rag/generation.py",
+      "knowledgebase.rag.packing": "knowledgebase/rag/packing.py",
+      "knowledgebase.rag.parsing": "knowledgebase/rag/parsing.py",
+      "knowledgebase.rag.pdf": "knowledgebase/rag/pdf.py",
+      "knowledgebase.rag.pdf_chunking": "knowledgebase/rag/pdf_chunking.py",
+      "knowledgebase.rag.pdf_evidence": "knowledgebase/rag/pdf_evidence.py",
+      "knowledgebase.rag.pdf_tables": "knowledgebase/rag/pdf_tables.py",
+      "knowledgebase.rag.planned_retrieval": "knowledgebase/rag/planned_retrieval.py",
+      "knowledgebase.rag.query": "knowledgebase/rag/query.py",
+      "knowledgebase.rag.reranking": "knowledgebase/rag/reranking.py",
+      "knowledgebase.rag.retrieval": "knowledgebase/rag/retrieval.py",
+      "knowledgebase.rag.scope": "knowledgebase/rag/scope.py",
+      "knowledgebase.rag.semantic_chunking": "knowledgebase/rag/semantic_chunking.py",
+      "knowledgebase.rag.sufficiency": "knowledgebase/rag/sufficiency.py",
+      "knowledgebase.schemas": "knowledgebase/schemas/__init__.py",
+      "knowledgebase.schemas.chat": "knowledgebase/schemas/chat.py",
+      "knowledgebase.schemas.documents": "knowledgebase/schemas/documents.py",
+      "knowledgebase.schemas.planning": "knowledgebase/schemas/planning.py",
+      "knowledgebase.schemas.retrieval": "knowledgebase/schemas/retrieval.py",
+      "knowledgebase.services": "knowledgebase/services/__init__.py",
+      "knowledgebase.services.chat": "knowledgebase/services/chat.py",
+      "knowledgebase.services.files": "knowledgebase/services/files.py",
+      "knowledgebase.services.hops": "knowledgebase/services/hops.py",
+      "knowledgebase.services.pdf": "knowledgebase/services/pdf.py",
+      "knowledgebase.services.planning": "knowledgebase/services/planning.py",
+      "knowledgebase.storage": "knowledgebase/storage/__init__.py",
+      "knowledgebase.storage.database": "knowledgebase/storage/database.py",
+      "knowledgebase.storage.models": "knowledgebase/storage/models.py",
+      "knowledgebase.storage.operations": "knowledgebase/storage/operations.py",
+      "knowledgebase.storage.pdf_assets": "knowledgebase/storage/pdf_assets.py",
+      "knowledgebase.storage.runtime": "knowledgebase/storage/runtime.py",
+      "knowledgebase.storage.vectordb": "knowledgebase/storage/vectordb.py",
+      "main": "main.py"
+    },
+    "source_hashes": {
+      "evals/__init__.py": "19f4827ad5cf13373087b01b81f0759fe69da33490b9a49be26ee2159823b889",
+      "evals/automatic.py": "0b252edb7267173d4e853c90c98e3643c8393f61b5e5fe2dc82cb281ff885ae6",
+      "evals/calibrate.py": "141942725caf2eb32b30a7c1283e968a983ad689edff8f201b2c39a475cf8299",
+      "evals/evaluate.py": "3ac5b66211ec35aef5d59975e38a11c1b51c29dc4026eb53be7ada61d51e67f1",
+      "evals/judge.py": "1209496df166c6366be76725b6233c0b97e392937d39d7a4e860cf17c84b2620",
+      "evals/metrics.py": "eddcfaa8debae400f6aab671c40d54129e1214637288686356332677198fd968",
+      "knowledgebase/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "knowledgebase/api/__init__.py": "7dc7eab42c3d7348a4ec1da96d6de0f739044ae91333929c50098367afbd56b7",
+      "knowledgebase/api/app.py": "811449a1ce3a2e763552bebc4956175819dcd20c7ee0ebaeb2d6513c566bb203",
+      "knowledgebase/api/chat.py": "d91225ae162df105ee5623498d552f3ded1e14723c88949ee7dc730e044c9f6d",
+      "knowledgebase/api/conversations.py": "81fafa9a30c5a87caaef103c9f61fd23fdf2a92d68851292e5629a4cc2965b17",
+      "knowledgebase/api/dependencies.py": "bd1d6e6bc78e218d6498b8a50d562cfdc8ee2b44634190e788b059e67f3f874b",
+      "knowledgebase/api/files.py": "3d7fd31d2b764d5089815969383bb54ae59cafef6ce11291beb29641522a2099",
+      "knowledgebase/api/streaming.py": "f2cc5359c037d7480d890ad249dcb844c5f8e4fbdb187cae50fac378ea6058e6",
+      "knowledgebase/cli.py": "1a47c80d6b8db19624740d81bd6a6f7fedd80ce5157f8bb1499a79aa22d90dde",
+      "knowledgebase/config.py": "d72e4ddb36026b2d14c77ac4995a515c26f5e05daa98834c2075dbdf4ab2801b",
+      "knowledgebase/providers/__init__.py": "b251cd6fde07ea42f25226c76644d8921aed56fd12e0c5d6dbdf3dd972768f05",
+      "knowledgebase/providers/embeddings.py": "984e70c418bacb9d48cc196f9b62174da881ca88cad7451d5132f7cd92368500",
+      "knowledgebase/providers/limits.py": "f099bafc1e2ded9c00264deea928094b97550a23a6959e290caffeb6bb290c2c",
+      "knowledgebase/providers/llm.py": "9902645e3287372ce3111ca053d50b4763c7ad0b5617d5e2d27f0a88d1dda2bc",
+      "knowledgebase/providers/planner.py": "39d087b2f462654aa055f818592ccfedfcb1bfabfb3a3c00aa28bf5db720c7c0",
+      "knowledgebase/providers/reranker.py": "8813067e8ad2c3b85a88698ed170fd69c6bbbd14e544618e55de1b04801a204c",
+      "knowledgebase/rag/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "knowledgebase/rag/bm25.py": "f517101fba1568e9d0fab62d3b36899aa3d1c86fe3eb10d5efb943a7656f210b",
+      "knowledgebase/rag/chunking.py": "1fd49b28aa177d34414437e8888883f442fab36b160b2237586c15107474053f",
+      "knowledgebase/rag/citations.py": "5497481dae8b562f4ee03b1b56abd1734bd531ea5cf6dea0b7ad68854148b460",
+      "knowledgebase/rag/context.py": "f79f5878b82df3273755c075dfa80c0feba391e4c32763180e84a3b70e31a6db",
+      "knowledgebase/rag/dependencies.py": "ff1269443841aec9ace202a8fdaed3f7f9986e31115ecc0d2eee34da22bb01e4",
+      "knowledgebase/rag/fusion.py": "780c6b459ac05a19ea218eae95a3c54d1598134806f5f8b447becd07b62ee3be",
+      "knowledgebase/rag/generation.py": "59ac51fa1212ab81223afd36bbafe1e200147c277f1826e5af1d54ba6ececde7",
+      "knowledgebase/rag/packing.py": "3e7630e5211cc0b1ebe86ffaf4eff85ce4557808dac7f93f069ac71e4388f758",
+      "knowledgebase/rag/parsing.py": "62a65cb8eb41edc95437e568ea07bc74a6150374a0659a3d531ba0bf3aff3316",
+      "knowledgebase/rag/pdf.py": "0e3aacbce9ce089bc53d1cf3ae9cce10dad2cb5946c2b49db31879842e6460ec",
+      "knowledgebase/rag/pdf_chunking.py": "720f7f636d30000000c6ac8a477bb9d2a66eea9174c740a124710b44939bd354",
+      "knowledgebase/rag/pdf_evidence.py": "0fda2f785d80845b1363a61028275644c3d50fad6a7d1ab89caf92183a9d985e",
+      "knowledgebase/rag/pdf_tables.py": "023747eb59e336ef88add5064d58a5f8d4de9a2d90c54fccbb3c8fa4b4107886",
+      "knowledgebase/rag/planned_retrieval.py": "e0475f09f58d0dcc29d6b0a80c0d608a5ea660d3e022f27271c3f09b1bc8b6ec",
+      "knowledgebase/rag/query.py": "618c52590c0a23a1f732986d76600132ec45cf9ddf77fa68abdd0a3cd510d7d9",
+      "knowledgebase/rag/reranking.py": "53c940d7cc09c51d21c75b3bc12045d7c383c2a1f5496094f99a063142b82121",
+      "knowledgebase/rag/retrieval.py": "c023fb7a1128b411790964d5fd4766d5d3e5cc0a956475ed571b0a3db509a9c0",
+      "knowledgebase/rag/scope.py": "320e715b7f61aeb78729e2c68d4f3b4d6b2300d8c4d8d6b8459b09396a3bc20a",
+      "knowledgebase/rag/semantic_chunking.py": "b7b77d701213815689c2cf3c699f99b08fe7e6c5dea1249a75774fe87684ec56",
+      "knowledgebase/rag/sufficiency.py": "19ee4575981d93ef88730f77451cd6130dc55a28dc241e99a57e99bd802c9ec9",
+      "knowledgebase/schemas/__init__.py": "fd3760ba3e2ee430fda5b229877fd2280f613d8bc76011cfbb16022e4ff297e2",
+      "knowledgebase/schemas/chat.py": "8fa8e04be0c2fc556eb7f5ca78363ca8b9f3718abf379fd91c57557632a58074",
+      "knowledgebase/schemas/documents.py": "bca62a8cfa6ed9c43e0fc72e436eff527f88d5d6c75d532e37d7ea02ee03a3e3",
+      "knowledgebase/schemas/planning.py": "3ca184826872cfac4fb82827ecc658473ba70259e8888aeb267ef0173b080b47",
+      "knowledgebase/schemas/retrieval.py": "a036e6c86532e4006bbb3dbd1731ec0ecc1fbf4848e343c363cb7a68ed4115af",
+      "knowledgebase/services/__init__.py": "5651ac6f97850be849d3f9998be3a81ea8795655374d865328ab078b7b66e6dd",
+      "knowledgebase/services/chat.py": "c45d924e9b9fda9c46747720640c9b462b2e60f73efebcdf39a8f9be7f819bbc",
+      "knowledgebase/services/files.py": "4c1c2976243247ea71c0fbd08091d0a8a14989a28be1798e01d548871ff94067",
+      "knowledgebase/services/hops.py": "6600cae160e1ca960cad0c0c1b44e1e59b6fdf37922d539e38cda633c0f64535",
+      "knowledgebase/services/pdf.py": "4ebca8019362d19e293d6e51426157c9c1222aae953b779ed260bd10c803f1f8",
+      "knowledgebase/services/planning.py": "6b1c34d178180b2152b77ec028340456f86795bcb4fcbd7b08b4ca368c1207bb",
+      "knowledgebase/storage/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "knowledgebase/storage/database.py": "4a694c675130a2a81ebf8d4ad4432d90b26bc7a460e41a63dc68b3fcec05989f",
+      "knowledgebase/storage/models.py": "cd8d9b058fd7aed13c9c0f251c9a04aaa474fe6c552037e37f6478450eadc049",
+      "knowledgebase/storage/operations.py": "4b2f71cb0b672f9c13820249f612981622a7a843a0e2adf1b18179519658a839",
+      "knowledgebase/storage/pdf_assets.py": "56c55e107d02d4ed2752b2e1b7e3456e8210797b8a515284c32aebd0b0b0135e",
+      "knowledgebase/storage/runtime.py": "c35f586595f6801e4269394df8105280b1800007349b1b0e969d13a2e82ee7fb",
+      "knowledgebase/storage/vectordb.py": "97f04f87c255f321a73c92b97a46803e7aa3daadf3fc62d4e1f80f5eab32bf61",
+      "main.py": "d4a04f9ba613ebd79dc1f238148a53d37f6997b25e105a9f0721ea39ad6d568f"
+    },
+    "edges": [
+      {
+        "source": "evals.automatic",
+        "target": "evals",
+        "file": "evals/automatic.py",
+        "line": 14,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "judge",
+          "metrics"
+        ]
+      },
+      {
+        "source": "evals.automatic",
+        "target": "evals.judge",
+        "file": "evals/automatic.py",
+        "line": 14,
+        "deferred": false,
+        "type_only": false,
+        "imported": "judge"
+      },
+      {
+        "source": "evals.automatic",
+        "target": "evals.metrics",
+        "file": "evals/automatic.py",
+        "line": 14,
+        "deferred": false,
+        "type_only": false,
+        "imported": "metrics"
+      },
+      {
+        "source": "evals.automatic",
+        "target": "evals.evaluate",
+        "file": "evals/automatic.py",
+        "line": 15,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "EVALS",
+          "ROOT",
+          "append_jsonl",
+          "digest",
+          "git_state",
+          "identifier",
+          "read_jsonl",
+          "retrieval_metrics",
+          "timestamp",
+          "write_json"
+        ]
+      },
+      {
+        "source": "evals.automatic",
+        "target": "knowledgebase.config",
+        "file": "evals/automatic.py",
+        "line": 16,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Settings"
+        ]
+      },
+      {
+        "source": "evals.automatic",
+        "target": "knowledgebase.providers.embeddings",
+        "file": "evals/automatic.py",
+        "line": 17,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "EmbeddingClient"
+        ]
+      },
+      {
+        "source": "evals.automatic",
+        "target": "knowledgebase.providers.llm",
+        "file": "evals/automatic.py",
+        "line": 18,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "LLMClient",
+          "StreamingLLMClient"
+        ]
+      },
+      {
+        "source": "evals.automatic",
+        "target": "knowledgebase.services.chat",
+        "file": "evals/automatic.py",
+        "line": 19,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "stream_answer_in_conversation"
+        ]
+      },
+      {
+        "source": "evals.automatic",
+        "target": "knowledgebase.storage.operations",
+        "file": "evals/automatic.py",
+        "line": 159,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "get_files",
+          "get_chunks"
+        ]
+      },
+      {
+        "source": "evals.automatic",
+        "target": "knowledgebase.providers.reranker",
+        "file": "evals/automatic.py",
+        "line": 165,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "RerankerClient"
+        ]
+      },
+      {
+        "source": "evals.automatic",
+        "target": "knowledgebase.services.files",
+        "file": "evals/automatic.py",
+        "line": 166,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "FileService"
+        ]
+      },
+      {
+        "source": "evals.automatic",
+        "target": "knowledgebase.storage.runtime",
+        "file": "evals/automatic.py",
+        "line": 167,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "open_storage"
+        ]
+      },
+      {
+        "source": "evals.automatic",
+        "target": "knowledgebase.storage.operations",
+        "file": "evals/automatic.py",
+        "line": 168,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "get_document_source"
+        ]
+      },
+      {
+        "source": "evals.calibrate",
+        "target": "evals",
+        "file": "evals/calibrate.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "judge",
+          "metrics"
+        ]
+      },
+      {
+        "source": "evals.calibrate",
+        "target": "evals.judge",
+        "file": "evals/calibrate.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": "judge"
+      },
+      {
+        "source": "evals.calibrate",
+        "target": "evals.metrics",
+        "file": "evals/calibrate.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": "metrics"
+      },
+      {
+        "source": "evals.calibrate",
+        "target": "evals.evaluate",
+        "file": "evals/calibrate.py",
+        "line": 12,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "EVALS",
+          "append_jsonl",
+          "digest",
+          "git_state",
+          "identifier",
+          "timestamp",
+          "write_json"
+        ]
+      },
+      {
+        "source": "evals.calibrate",
+        "target": "knowledgebase.config",
+        "file": "evals/calibrate.py",
+        "line": 13,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Settings"
+        ]
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "knowledgebase.config",
+        "file": "evals/evaluate.py",
+        "line": 238,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "Settings"
+        ]
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "knowledgebase.providers.embeddings",
+        "file": "evals/evaluate.py",
+        "line": 288,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "EmbeddingClient"
+        ]
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "knowledgebase.providers.llm",
+        "file": "evals/evaluate.py",
+        "line": 289,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "LLMClient"
+        ]
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "knowledgebase.providers.reranker",
+        "file": "evals/evaluate.py",
+        "line": 290,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "RerankerClient"
+        ]
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "knowledgebase.services.chat",
+        "file": "evals/evaluate.py",
+        "line": 291,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "answer_question"
+        ]
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "knowledgebase.services.files",
+        "file": "evals/evaluate.py",
+        "line": 292,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "FileService"
+        ]
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "knowledgebase.storage.database",
+        "file": "evals/evaluate.py",
+        "line": 293,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "build_engine",
+          "build_session_factory",
+          "init_db"
+        ]
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "knowledgebase.storage.vectordb",
+        "file": "evals/evaluate.py",
+        "line": 294,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "ChromaStore"
+        ]
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "knowledgebase.config",
+        "file": "evals/evaluate.py",
+        "line": 679,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "Settings"
+        ]
+      },
+      {
+        "source": "evals.judge",
+        "target": "evals.evaluate",
+        "file": "evals/judge.py",
+        "line": 12,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Score",
+          "digest"
+        ]
+      },
+      {
+        "source": "evals.metrics",
+        "target": "evals.evaluate",
+        "file": "evals/metrics.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "retrieval_metrics"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.app",
+        "target": "knowledgebase.api.chat",
+        "file": "knowledgebase/api/app.py",
+        "line": 10,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "router"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.app",
+        "target": "knowledgebase.api.dependencies",
+        "file": "knowledgebase/api/app.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "AppResources"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.app",
+        "target": "knowledgebase.api.conversations",
+        "file": "knowledgebase/api/app.py",
+        "line": 12,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "router"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.app",
+        "target": "knowledgebase.api.files",
+        "file": "knowledgebase/api/app.py",
+        "line": 13,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "router"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.app",
+        "target": "knowledgebase.config",
+        "file": "knowledgebase/api/app.py",
+        "line": 14,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Settings"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.app",
+        "target": "knowledgebase.providers.embeddings",
+        "file": "knowledgebase/api/app.py",
+        "line": 15,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "EmbeddingClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.app",
+        "target": "knowledgebase.providers.llm",
+        "file": "knowledgebase/api/app.py",
+        "line": 16,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "LLMClient",
+          "StreamingLLMClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.app",
+        "target": "knowledgebase.providers.reranker",
+        "file": "knowledgebase/api/app.py",
+        "line": 17,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "RerankerClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.app",
+        "target": "knowledgebase.storage.runtime",
+        "file": "knowledgebase/api/app.py",
+        "line": 18,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "open_storage"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.app",
+        "target": "knowledgebase.storage.pdf_assets",
+        "file": "knowledgebase/api/app.py",
+        "line": 19,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "PdfAssets"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.app",
+        "target": "knowledgebase.services.pdf",
+        "file": "knowledgebase/api/app.py",
+        "line": 20,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "LocalPdfParser"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.app",
+        "target": "knowledgebase.providers.planner",
+        "file": "knowledgebase/api/app.py",
+        "line": 21,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "PlannerClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.chat",
+        "target": "knowledgebase.api.dependencies",
+        "file": "knowledgebase/api/chat.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Resources"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.chat",
+        "target": "knowledgebase.api.streaming",
+        "file": "knowledgebase/api/chat.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ChatStreamingResponse"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.chat",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/api/chat.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ChatRequest",
+          "ConversationAnswer",
+          "StreamChatRequest"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.chat",
+        "target": "knowledgebase.services.chat",
+        "file": "knowledgebase/api/chat.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ConversationNotFoundError",
+          "answer_in_conversation",
+          "stream_answer_in_conversation"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.conversations",
+        "target": "knowledgebase.api.dependencies",
+        "file": "knowledgebase/api/conversations.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Resources"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.conversations",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/api/conversations.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ConversationDetail"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.conversations",
+        "target": "knowledgebase.storage.operations",
+        "file": "knowledgebase/api/conversations.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "get_conversation_detail"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.dependencies",
+        "target": "knowledgebase.config",
+        "file": "knowledgebase/api/dependencies.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Settings"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.dependencies",
+        "target": "knowledgebase.services.files",
+        "file": "knowledgebase/api/dependencies.py",
+        "line": 10,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "FileService"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.dependencies",
+        "target": "knowledgebase.providers.embeddings",
+        "file": "knowledgebase/api/dependencies.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "EmbeddingClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.dependencies",
+        "target": "knowledgebase.providers.llm",
+        "file": "knowledgebase/api/dependencies.py",
+        "line": 12,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "LLMClient",
+          "StreamingLLMClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.dependencies",
+        "target": "knowledgebase.providers.reranker",
+        "file": "knowledgebase/api/dependencies.py",
+        "line": 13,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "RerankerClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.dependencies",
+        "target": "knowledgebase.storage.vectordb",
+        "file": "knowledgebase/api/dependencies.py",
+        "line": 14,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ChromaStore"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.dependencies",
+        "target": "knowledgebase.storage.pdf_assets",
+        "file": "knowledgebase/api/dependencies.py",
+        "line": 15,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "PdfAssets"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.dependencies",
+        "target": "knowledgebase.services.pdf",
+        "file": "knowledgebase/api/dependencies.py",
+        "line": 16,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "LocalPdfParser"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.dependencies",
+        "target": "knowledgebase.providers.planner",
+        "file": "knowledgebase/api/dependencies.py",
+        "line": 17,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "PlannerClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.files",
+        "target": "knowledgebase.storage.models",
+        "file": "knowledgebase/api/files.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "PdfSourceRecord"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.files",
+        "target": "knowledgebase.api.dependencies",
+        "file": "knowledgebase/api/files.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Resources"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.files",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/api/files.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "File"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.files",
+        "target": "knowledgebase.services.files",
+        "file": "knowledgebase/api/files.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "InvalidUploadError"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.files",
+        "target": "knowledgebase.storage.operations",
+        "file": "knowledgebase/api/files.py",
+        "line": 10,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "FileRecordNotFoundError",
+          "get_file",
+          "get_files"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.streaming",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/api/streaming.py",
+        "line": 10,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ChatStreamEvent"
+        ]
+      },
+      {
+        "source": "knowledgebase.cli",
+        "target": "knowledgebase.config",
+        "file": "knowledgebase/cli.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Settings"
+        ]
+      },
+      {
+        "source": "knowledgebase.cli",
+        "target": "knowledgebase.providers.embeddings",
+        "file": "knowledgebase/cli.py",
+        "line": 10,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "EmbeddingClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.cli",
+        "target": "knowledgebase.providers.llm",
+        "file": "knowledgebase/cli.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "LLMClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.cli",
+        "target": "knowledgebase.providers.planner",
+        "file": "knowledgebase/cli.py",
+        "line": 12,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "PlannerClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.cli",
+        "target": "knowledgebase.providers.reranker",
+        "file": "knowledgebase/cli.py",
+        "line": 13,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "RerankerClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.cli",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/cli.py",
+        "line": 14,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ChatAnswer",
+          "ConversationAnswer"
+        ]
+      },
+      {
+        "source": "knowledgebase.cli",
+        "target": "knowledgebase.services.chat",
+        "file": "knowledgebase/cli.py",
+        "line": 15,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "answer_in_conversation"
+        ]
+      },
+      {
+        "source": "knowledgebase.cli",
+        "target": "knowledgebase.services.files",
+        "file": "knowledgebase/cli.py",
+        "line": 16,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "FileService"
+        ]
+      },
+      {
+        "source": "knowledgebase.cli",
+        "target": "knowledgebase.storage.runtime",
+        "file": "knowledgebase/cli.py",
+        "line": 17,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "open_storage"
+        ]
+      },
+      {
+        "source": "knowledgebase.cli",
+        "target": "knowledgebase.storage.pdf_assets",
+        "file": "knowledgebase/cli.py",
+        "line": 18,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "PdfAssets"
+        ]
+      },
+      {
+        "source": "knowledgebase.cli",
+        "target": "knowledgebase.services.pdf",
+        "file": "knowledgebase/cli.py",
+        "line": 19,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "LocalPdfParser"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.embeddings",
+        "target": "knowledgebase.config",
+        "file": "knowledgebase/providers/embeddings.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "DEFAULT_EMBEDDING_MODEL"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.llm",
+        "target": "knowledgebase.providers.limits",
+        "file": "knowledgebase/providers/llm.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "GenerationLimits"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.planner",
+        "target": "knowledgebase.config",
+        "file": "knowledgebase/providers/planner.py",
+        "line": 10,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "PlanningOptions"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.planner",
+        "target": "knowledgebase.providers.limits",
+        "file": "knowledgebase/providers/planner.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "input_tokens"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.planner",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/providers/planner.py",
+        "line": 12,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "DraftQuery",
+          "PlanDecision",
+          "RetrievalPlan"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.reranker",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/providers/reranker.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "RelevanceScore",
+          "RerankCandidate"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.bm25",
+        "target": "knowledgebase.config",
+        "file": "knowledgebase/rag/bm25.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "DEFAULT_BM25_B",
+          "DEFAULT_BM25_K1",
+          "DEFAULT_TOP_K"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.bm25",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/bm25.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "BM25Match",
+          "Chunk"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.chunking",
+        "target": "knowledgebase.config",
+        "file": "knowledgebase/rag/chunking.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "DEFAULT_CHUNK_SIZE",
+          "DEFAULT_OVERLAP"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.chunking",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/chunking.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Chunk",
+          "ChunkBatch",
+          "SourceBlock"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.citations",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/citations.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "AnswerSource",
+          "CitationCheck"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.context",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/context.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "RetrievedChunk"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.dependencies",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/dependencies.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "PlannedEvidence",
+          "TargetDecision"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.fusion",
+        "target": "knowledgebase.config",
+        "file": "knowledgebase/rag/fusion.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "DEFAULT_RRF_K",
+          "DEFAULT_RRF_LIMIT"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.fusion",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/fusion.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "BM25Match",
+          "FusedMatch",
+          "VectorMatch"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.generation",
+        "target": "knowledgebase.providers.llm",
+        "file": "knowledgebase/rag/generation.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "LLMClient",
+          "StreamingLLMClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.generation",
+        "target": "knowledgebase.rag.context",
+        "file": "knowledgebase/rag/generation.py",
+        "line": 10,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "build_context"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.generation",
+        "target": "knowledgebase.rag.sufficiency",
+        "file": "knowledgebase/rag/generation.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "all_missing"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.generation",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/generation.py",
+        "line": 12,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "RetrievedChunk"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.packing",
+        "target": "knowledgebase.rag.context",
+        "file": "knowledgebase/rag/packing.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "CONTEXT_FORMAT",
+          "LABELED_CONTEXT_FORMAT",
+          "PDF_CONTEXT_FORMAT",
+          "build_context"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.packing",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/packing.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ExcludedEvidence",
+          "RetrievedChunk",
+          "RetrievedEvidence",
+          "RetrievalDiagnostics"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.parsing",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/parsing.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "BlockType",
+          "SourceBlock"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.pdf",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/pdf.py",
+        "line": 19,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "SourceBlock",
+          "PdfCell",
+          "File",
+          "PdfPage",
+          "PdfParserIdentity",
+          "PdfRegion",
+          "PdfTable",
+          "PdfWarning"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.pdf",
+        "target": "knowledgebase.rag.pdf_tables",
+        "file": "knowledgebase/rag/pdf.py",
+        "line": 20,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "RECOVERY_SETTINGS",
+          "recover_collapsed_tables"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.pdf_chunking",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/pdf_chunking.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "File",
+          "ChunkBatch"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.pdf_evidence",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/pdf_evidence.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "SourceBlock",
+          "File",
+          "PdfTable",
+          "PdfEvidence",
+          "PdfSupplement",
+          "PdfTableSpan"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.planned_retrieval",
+        "target": "knowledgebase.config",
+        "file": "knowledgebase/rag/planned_retrieval.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "DEFAULT_TOP_K",
+          "DEFAULT_EVIDENCE_MAX_TOKENS",
+          "DEFAULT_CHUNK_TOKENIZER",
+          "DEFAULT_EVIDENCE_PACKING_STRATEGY",
+          "RetrievalOptions"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.planned_retrieval",
+        "target": "knowledgebase.providers.embeddings",
+        "file": "knowledgebase/rag/planned_retrieval.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "EmbeddingClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.planned_retrieval",
+        "target": "knowledgebase.providers.reranker",
+        "file": "knowledgebase/rag/planned_retrieval.py",
+        "line": 12,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "RerankerClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.planned_retrieval",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/planned_retrieval.py",
+        "line": 13,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "PlannedQuery",
+          "RetrievalPlan",
+          "RetrievedChunk",
+          "RetrievedEvidence",
+          "RetrievalDiagnostics",
+          "QueryRun",
+          "QueryVote",
+          "MergedCandidate",
+          "PlanTrace",
+          "PlannedEvidence",
+          "RequirementEvidence"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.planned_retrieval",
+        "target": "knowledgebase.rag.retrieval",
+        "file": "knowledgebase/rag/planned_retrieval.py",
+        "line": 17,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "retrieve_candidates",
+          "resolve_ready_scope",
+          "pack_retrieval_candidates"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.planned_retrieval",
+        "target": "knowledgebase.storage.vectordb",
+        "file": "knowledgebase/rag/planned_retrieval.py",
+        "line": 18,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ChromaStore"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.query",
+        "target": "knowledgebase.providers.llm",
+        "file": "knowledgebase/rag/query.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "LLMClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.query",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/query.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "MessageInfo"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.reranking",
+        "target": "knowledgebase.config",
+        "file": "knowledgebase/rag/reranking.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "DEFAULT_CHUNK_TOKENIZER",
+          "DEFAULT_RERANK_CANDIDATE_LIMIT",
+          "DEFAULT_RERANK_MAX_INPUT_TOKENS",
+          "DEFAULT_TOP_K"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.reranking",
+        "target": "knowledgebase.providers.reranker",
+        "file": "knowledgebase/rag/reranking.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "RerankerClient",
+          "build_rerank_pairs"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.reranking",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/reranking.py",
+        "line": 12,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "FusedMatch",
+          "RerankCandidate",
+          "RerankedMatch",
+          "RerankResult"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.retrieval",
+        "target": "knowledgebase.config",
+        "file": "knowledgebase/rag/retrieval.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "DEFAULT_TOP_K",
+          "DEFAULT_EVIDENCE_MAX_TOKENS",
+          "DEFAULT_CHUNK_TOKENIZER",
+          "RetrievalOptions",
+          "DEFAULT_EVIDENCE_PACKING_STRATEGY"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.retrieval",
+        "target": "knowledgebase.providers.embeddings",
+        "file": "knowledgebase/rag/retrieval.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "EmbeddingClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.retrieval",
+        "target": "knowledgebase.providers.reranker",
+        "file": "knowledgebase/rag/retrieval.py",
+        "line": 12,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "RerankerClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.retrieval",
+        "target": "knowledgebase.rag.packing",
+        "file": "knowledgebase/rag/retrieval.py",
+        "line": 13,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "pack_evidence"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.retrieval",
+        "target": "knowledgebase.rag.pdf_evidence",
+        "file": "knowledgebase/rag/retrieval.py",
+        "line": 14,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "pdf_evidence"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.retrieval",
+        "target": "knowledgebase.rag.bm25",
+        "file": "knowledgebase/rag/retrieval.py",
+        "line": 15,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "search_bm25"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.retrieval",
+        "target": "knowledgebase.rag.fusion",
+        "file": "knowledgebase/rag/retrieval.py",
+        "line": 16,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "fuse_rrf"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.retrieval",
+        "target": "knowledgebase.rag.reranking",
+        "file": "knowledgebase/rag/retrieval.py",
+        "line": 17,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "rerank"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.retrieval",
+        "target": "knowledgebase.rag.scope",
+        "file": "knowledgebase/rag/retrieval.py",
+        "line": 18,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "document_references",
+          "identity_labels",
+          "resolve_document_scope",
+          "prioritize_documents"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.retrieval",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/retrieval.py",
+        "line": 19,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "RetrievedChunk",
+          "RetrievedEvidence",
+          "DocumentScope",
+          "File",
+          "RetrievalCandidate",
+          "RetrievalDiagnostics",
+          "RerankCandidate",
+          "ScopeFile"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.retrieval",
+        "target": "knowledgebase.storage.vectordb",
+        "file": "knowledgebase/rag/retrieval.py",
+        "line": 22,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ChromaStore"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.retrieval",
+        "target": "knowledgebase.storage.operations",
+        "file": "knowledgebase/rag/retrieval.py",
+        "line": 23,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "get_chunks_by_ids",
+          "get_chunks_for_files",
+          "get_files",
+          "get_parents_by_ids",
+          "get_source_texts",
+          "get_pdf_extraction"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.scope",
+        "target": "knowledgebase.rag.bm25",
+        "file": "knowledgebase/rag/scope.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "tokenize"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.scope",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/scope.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "DocumentScope",
+          "ScopeFile"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.semantic_chunking",
+        "target": "knowledgebase.config",
+        "file": "knowledgebase/rag/semantic_chunking.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "DEFAULT_SEMANTIC_BATCH_SIZE",
+          "DEFAULT_SEMANTIC_SIMILARITY_THRESHOLD"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.semantic_chunking",
+        "target": "knowledgebase.rag.chunking",
+        "file": "knowledgebase/rag/semantic_chunking.py",
+        "line": 10,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "_bounded_units",
+          "_pack_units",
+          "_sentence_boundaries",
+          "_spans_between",
+          "split_parent_child",
+          "split_structured"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.semantic_chunking",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/rag/semantic_chunking.py",
+        "line": 14,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Chunk",
+          "ChunkBatch",
+          "SourceBlock"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.sufficiency",
+        "target": "knowledgebase.rag.context",
+        "file": "knowledgebase/rag/sufficiency.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "build_context"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas",
+        "target": "knowledgebase.schemas.documents",
+        "file": "knowledgebase/schemas/__init__.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "BlockType",
+          "Chunk",
+          "ChunkBatch",
+          "File",
+          "SourceBlock",
+          "FrozenRecord",
+          "PdfRegion",
+          "PdfWarning",
+          "PdfSupplement",
+          "PdfTableSpan",
+          "PdfEvidence",
+          "PdfPage",
+          "PdfCell",
+          "PdfTable",
+          "PdfParserIdentity"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas",
+        "target": "knowledgebase.schemas.planning",
+        "file": "knowledgebase/schemas/__init__.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "PlanRecord",
+          "AnswerRequirement",
+          "DraftQuery",
+          "PlannedQuery",
+          "DependentQuery",
+          "RetrievalPlan",
+          "direct_plan",
+          "PlanDecision",
+          "EvidenceReference",
+          "TargetDecision",
+          "TargetDecisions",
+          "PassageReference",
+          "RequirementAssessment",
+          "GapQuery",
+          "SufficiencyAssessment"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas",
+        "target": "knowledgebase.schemas.retrieval",
+        "file": "knowledgebase/schemas/__init__.py",
+        "line": 15,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "VectorMatch",
+          "BM25Match",
+          "FusedMatch",
+          "RerankCandidate",
+          "RelevanceScore",
+          "RerankedMatch",
+          "RerankResult",
+          "RetrievedChunk",
+          "RetrievalCandidate",
+          "ExcludedEvidence",
+          "ScopeFile",
+          "DocumentScope",
+          "RetrievalDiagnostics",
+          "RetrievedEvidence",
+          "QueryRun",
+          "QueryVote",
+          "MergedCandidate",
+          "RequirementEvidence",
+          "PlanTrace",
+          "PlannedEvidence"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas",
+        "target": "knowledgebase.schemas.chat",
+        "file": "knowledgebase/schemas/__init__.py",
+        "line": 22,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "AnswerSource",
+          "CitationCheck",
+          "ChatAnswer",
+          "ChatRequest",
+          "StreamChatRequest",
+          "ChatStreamEvent",
+          "ConversationAnswer",
+          "ConversationInfo",
+          "MessageInfo",
+          "HistoricalSource",
+          "ConversationMessage",
+          "ConversationDetail"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas.chat",
+        "target": "knowledgebase.schemas.retrieval",
+        "file": "knowledgebase/schemas/chat.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "EvidenceMetadata",
+          "RetrievalDiagnostics"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas.retrieval",
+        "target": "knowledgebase.config",
+        "file": "knowledgebase/schemas/retrieval.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "RetrievalOptions"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas.retrieval",
+        "target": "knowledgebase.schemas.documents",
+        "file": "knowledgebase/schemas/retrieval.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Chunk",
+          "PdfEvidence"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas.retrieval",
+        "target": "knowledgebase.schemas.planning",
+        "file": "knowledgebase/schemas/retrieval.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "RetrievalPlan"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "knowledgebase.config",
+        "file": "knowledgebase/services/chat.py",
+        "line": 14,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "DEFAULT_TOP_K",
+          "DEFAULT_HISTORY_LIMIT",
+          "DEFAULT_EVIDENCE_MAX_TOKENS",
+          "DEFAULT_CHUNK_TOKENIZER",
+          "RetrievalOptions",
+          "PlanningOptions"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "knowledgebase.providers.embeddings",
+        "file": "knowledgebase/services/chat.py",
+        "line": 18,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "EmbeddingClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "knowledgebase.providers.llm",
+        "file": "knowledgebase/services/chat.py",
+        "line": 19,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "LLMClient",
+          "StreamingLLMClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "knowledgebase.providers.reranker",
+        "file": "knowledgebase/services/chat.py",
+        "line": 20,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "RerankerClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "knowledgebase.providers.planner",
+        "file": "knowledgebase/services/chat.py",
+        "line": 21,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "PlannerClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "knowledgebase.services.planning",
+        "file": "knowledgebase/services/chat.py",
+        "line": 22,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "RequestControl",
+          "PreparedPlanning",
+          "prepare_planning",
+          "NARROWING_MESSAGE"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "knowledgebase.services.hops",
+        "file": "knowledgebase/services/chat.py",
+        "line": 23,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "HopController"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "knowledgebase.rag.planned_retrieval",
+        "file": "knowledgebase/services/chat.py",
+        "line": 24,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "retrieve_plan"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "knowledgebase.rag.context",
+        "file": "knowledgebase/services/chat.py",
+        "line": 25,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "build_context"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "knowledgebase.rag.citations",
+        "file": "knowledgebase/services/chat.py",
+        "line": 26,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "validate_citations"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "knowledgebase.rag.generation",
+        "file": "knowledgebase/services/chat.py",
+        "line": 27,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "generate_answer",
+          "stream_answer"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "knowledgebase.rag.query",
+        "file": "knowledgebase/services/chat.py",
+        "line": 28,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "resolve_question"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "knowledgebase.rag.retrieval",
+        "file": "knowledgebase/services/chat.py",
+        "line": 29,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "retrieve_evidence"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/services/chat.py",
+        "line": 30,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "AnswerSource",
+          "ChatAnswer",
+          "ChatStreamEvent",
+          "ConversationAnswer",
+          "MessageInfo",
+          "RetrievedChunk",
+          "RetrievedEvidence",
+          "RetrievalDiagnostics"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "knowledgebase.storage.operations",
+        "file": "knowledgebase/services/chat.py",
+        "line": 34,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "create_conversation",
+          "get_conversation",
+          "get_source_texts",
+          "get_messages",
+          "save_answer_snapshot",
+          "save_message"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "knowledgebase.storage.vectordb",
+        "file": "knowledgebase/services/chat.py",
+        "line": 42,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ChromaStore"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "knowledgebase.providers.embeddings",
+        "file": "knowledgebase/services/files.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "EmbeddingClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "knowledgebase.services.pdf",
+        "file": "knowledgebase/services/files.py",
+        "line": 12,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "LocalPdfParser"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "knowledgebase.storage.pdf_assets",
+        "file": "knowledgebase/services/files.py",
+        "line": 13,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "PdfAssets"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "knowledgebase.storage.vectordb",
+        "file": "knowledgebase/services/files.py",
+        "line": 14,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ChromaStore"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "knowledgebase.config",
+        "file": "knowledgebase/services/files.py",
+        "line": 16,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Settings",
+          "DEFAULT_CHUNK_SIZE",
+          "DEFAULT_OVERLAP",
+          "DEFAULT_CHUNKING_STRATEGY",
+          "DEFAULT_CHUNK_MAX_TOKENS",
+          "DEFAULT_CHUNK_TOKENIZER",
+          "DEFAULT_PARENT_MAX_TOKENS",
+          "DEFAULT_SEMANTIC_SIMILARITY_THRESHOLD",
+          "DEFAULT_SEMANTIC_BATCH_SIZE"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "knowledgebase.rag.chunking",
+        "file": "knowledgebase/services/files.py",
+        "line": 21,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "split_parent_child",
+          "split_structured",
+          "split_text"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "knowledgebase.rag.parsing",
+        "file": "knowledgebase/services/files.py",
+        "line": 22,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "parse_markdown",
+          "parse_txt"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "knowledgebase.rag.pdf_evidence",
+        "file": "knowledgebase/services/files.py",
+        "line": 23,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "table_rows"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "knowledgebase.rag.pdf_chunking",
+        "file": "knowledgebase/services/files.py",
+        "line": 24,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "PDF_PARENT_CONTEXT_VERSION",
+          "join_heading_parents"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/services/files.py",
+        "line": 25,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ChunkBatch",
+          "File"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "knowledgebase.storage.operations",
+        "file": "knowledgebase/services/files.py",
+        "line": 26,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "create_file",
+          "delete_chunks",
+          "delete_file_record",
+          "delete_pdf_source",
+          "get_files",
+          "save_document_source",
+          "save_parent_child_chunks",
+          "save_pdf_source",
+          "update_file_status"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "knowledgebase.rag.semantic_chunking",
+        "file": "knowledgebase/services/files.py",
+        "line": 90,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "split_semantic"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.hops",
+        "target": "knowledgebase.rag.context",
+        "file": "knowledgebase/services/hops.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "build_context"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.hops",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/services/hops.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "TargetDecisions",
+          "PlannedQuery",
+          "SufficiencyAssessment"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.hops",
+        "target": "knowledgebase.rag.dependencies",
+        "file": "knowledgebase/services/hops.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "BINDING_INSTRUCTIONS",
+          "adds_source_text",
+          "context_spans",
+          "dependency_evidence",
+          "validate_binding"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.hops",
+        "target": "knowledgebase.rag.sufficiency",
+        "file": "knowledgebase/services/hops.py",
+        "line": 10,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ASSESSMENT_INSTRUCTIONS",
+          "assessment_excerpts",
+          "assessment_context",
+          "validate_assessment"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.hops",
+        "target": "knowledgebase.rag.planned_retrieval",
+        "file": "knowledgebase/services/hops.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "retrieve_plan"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.hops",
+        "target": "knowledgebase.rag.retrieval",
+        "file": "knowledgebase/services/hops.py",
+        "line": 12,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "resolve_ready_scope"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.pdf",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/services/pdf.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "File"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.pdf",
+        "target": "knowledgebase.rag.pdf",
+        "file": "knowledgebase/services/pdf.py",
+        "line": 20,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "PdfParser"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.planning",
+        "target": "knowledgebase.config",
+        "file": "knowledgebase/services/planning.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "PlanningOptions"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.planning",
+        "target": "knowledgebase.providers.limits",
+        "file": "knowledgebase/services/planning.py",
+        "line": 10,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "GenerationLimits"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.planning",
+        "target": "knowledgebase.providers.planner",
+        "file": "knowledgebase/services/planning.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "PlannerClient"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.planning",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/services/planning.py",
+        "line": 12,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "RetrievalPlan",
+          "direct_plan",
+          "DocumentScope"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.planning",
+        "target": "knowledgebase.rag.retrieval",
+        "file": "knowledgebase/services/planning.py",
+        "line": 15,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "resolve_ready_scope"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.database",
+        "target": "knowledgebase.storage.models",
+        "file": "knowledgebase/storage/database.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Base"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.operations",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/storage/operations.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ChatAnswer",
+          "Chunk",
+          "ChunkBatch",
+          "File",
+          "SourceBlock",
+          "ConversationDetail",
+          "ConversationInfo",
+          "ConversationMessage",
+          "HistoricalSource",
+          "MessageInfo"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.operations",
+        "target": "knowledgebase.storage.models",
+        "file": "knowledgebase/storage/operations.py",
+        "line": 14,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "AnswerSnapshotRecord",
+          "ChildParentRecord",
+          "ChunkRecord",
+          "ChunkStructureRecord",
+          "ConversationRecord",
+          "DocumentSourceRecord",
+          "DocumentIndexRecord",
+          "FileRecord",
+          "PdfSourceRecord",
+          "MessageRecord",
+          "ParentChunkRecord",
+          "RetrievalSnapshotRecord"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.runtime",
+        "target": "knowledgebase.services.files",
+        "file": "knowledgebase/storage/runtime.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "FileService"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.runtime",
+        "target": "knowledgebase.storage.database",
+        "file": "knowledgebase/storage/runtime.py",
+        "line": 12,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "build_engine",
+          "build_session_factory",
+          "init_db"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.runtime",
+        "target": "knowledgebase.storage.vectordb",
+        "file": "knowledgebase/storage/runtime.py",
+        "line": 13,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ChromaStore"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.runtime",
+        "target": "knowledgebase.storage.pdf_assets",
+        "file": "knowledgebase/storage/runtime.py",
+        "line": 14,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "PdfAssets"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.vectordb",
+        "target": "knowledgebase.config",
+        "file": "knowledgebase/storage/vectordb.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "DEFAULT_TOP_K"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.vectordb",
+        "target": "knowledgebase.schemas",
+        "file": "knowledgebase/storage/vectordb.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Chunk",
+          "VectorMatch"
+        ]
+      },
+      {
+        "source": "main",
+        "target": "knowledgebase.cli",
+        "file": "main.py",
+        "line": 1,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "cli"
+        ]
+      }
+    ],
+    "external_imports": [
+      {
+        "source": "evals.automatic",
+        "target": "argparse",
+        "file": "evals/automatic.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": "argparse"
+      },
+      {
+        "source": "evals.automatic",
+        "target": "asyncio",
+        "file": "evals/automatic.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": "asyncio"
+      },
+      {
+        "source": "evals.automatic",
+        "target": "json",
+        "file": "evals/automatic.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": "json"
+      },
+      {
+        "source": "evals.automatic",
+        "target": "pathlib",
+        "file": "evals/automatic.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Path"
+        ]
+      },
+      {
+        "source": "evals.automatic",
+        "target": "platform",
+        "file": "evals/automatic.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": "platform"
+      },
+      {
+        "source": "evals.automatic",
+        "target": "concurrent.futures",
+        "file": "evals/automatic.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ThreadPoolExecutor",
+          "as_completed"
+        ]
+      },
+      {
+        "source": "evals.automatic",
+        "target": "time",
+        "file": "evals/automatic.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "perf_counter",
+          "time"
+        ]
+      },
+      {
+        "source": "evals.automatic",
+        "target": "types",
+        "file": "evals/automatic.py",
+        "line": 10,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "SimpleNamespace"
+        ]
+      },
+      {
+        "source": "evals.automatic",
+        "target": "openai",
+        "file": "evals/automatic.py",
+        "line": 12,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "AsyncOpenAI",
+          "OpenAI"
+        ]
+      },
+      {
+        "source": "evals.calibrate",
+        "target": "argparse",
+        "file": "evals/calibrate.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": "argparse"
+      },
+      {
+        "source": "evals.calibrate",
+        "target": "concurrent.futures",
+        "file": "evals/calibrate.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ThreadPoolExecutor",
+          "as_completed"
+        ]
+      },
+      {
+        "source": "evals.calibrate",
+        "target": "json",
+        "file": "evals/calibrate.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": "json"
+      },
+      {
+        "source": "evals.calibrate",
+        "target": "pathlib",
+        "file": "evals/calibrate.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Path"
+        ]
+      },
+      {
+        "source": "evals.calibrate",
+        "target": "time",
+        "file": "evals/calibrate.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "perf_counter"
+        ]
+      },
+      {
+        "source": "evals.calibrate",
+        "target": "openai",
+        "file": "evals/calibrate.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "OpenAI"
+        ]
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "argparse",
+        "file": "evals/evaluate.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": "argparse"
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "datetime",
+        "file": "evals/evaluate.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "datetime",
+          "timezone"
+        ]
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "hashlib",
+        "file": "evals/evaluate.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": "hashlib"
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "json",
+        "file": "evals/evaluate.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": "json"
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "math",
+        "file": "evals/evaluate.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": "math"
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "pathlib",
+        "file": "evals/evaluate.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Path"
+        ]
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "statistics",
+        "file": "evals/evaluate.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": "statistics"
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "subprocess",
+        "file": "evals/evaluate.py",
+        "line": 10,
+        "deferred": false,
+        "type_only": false,
+        "imported": "subprocess"
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "time",
+        "file": "evals/evaluate.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": "time"
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "uuid",
+        "file": "evals/evaluate.py",
+        "line": 12,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "uuid4"
+        ]
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "pydantic",
+        "file": "evals/evaluate.py",
+        "line": 14,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "BaseModel",
+          "ConfigDict",
+          "Field",
+          "StrictInt"
+        ]
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "typing",
+        "file": "evals/evaluate.py",
+        "line": 15,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Annotated",
+          "Literal"
+        ]
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "chromadb",
+        "file": "evals/evaluate.py",
+        "line": 286,
+        "deferred": true,
+        "type_only": false,
+        "imported": "chromadb"
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "openai",
+        "file": "evals/evaluate.py",
+        "line": 287,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "OpenAI"
+        ]
+      },
+      {
+        "source": "evals.evaluate",
+        "target": "openai",
+        "file": "evals/evaluate.py",
+        "line": 678,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "OpenAI"
+        ]
+      },
+      {
+        "source": "evals.judge",
+        "target": "json",
+        "file": "evals/judge.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": "json"
+      },
+      {
+        "source": "evals.judge",
+        "target": "inspect",
+        "file": "evals/judge.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": "inspect"
+      },
+      {
+        "source": "evals.judge",
+        "target": "copy",
+        "file": "evals/judge.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "deepcopy"
+        ]
+      },
+      {
+        "source": "evals.judge",
+        "target": "re",
+        "file": "evals/judge.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": "re"
+      },
+      {
+        "source": "evals.judge",
+        "target": "time",
+        "file": "evals/judge.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "perf_counter"
+        ]
+      },
+      {
+        "source": "evals.judge",
+        "target": "typing",
+        "file": "evals/judge.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Literal"
+        ]
+      },
+      {
+        "source": "evals.judge",
+        "target": "pydantic",
+        "file": "evals/judge.py",
+        "line": 10,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "BaseModel",
+          "ConfigDict",
+          "Field"
+        ]
+      },
+      {
+        "source": "evals.metrics",
+        "target": "math",
+        "file": "evals/metrics.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": "math"
+      },
+      {
+        "source": "evals.metrics",
+        "target": "statistics",
+        "file": "evals/metrics.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": "statistics"
+      },
+      {
+        "source": "evals.metrics",
+        "target": "json",
+        "file": "evals/metrics.py",
+        "line": 212,
+        "deferred": true,
+        "type_only": false,
+        "imported": "json"
+      },
+      {
+        "source": "knowledgebase.api.app",
+        "target": "contextlib",
+        "file": "knowledgebase/api/app.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "asynccontextmanager"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.app",
+        "target": "pathlib",
+        "file": "knowledgebase/api/app.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Path"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.app",
+        "target": "fastapi",
+        "file": "knowledgebase/api/app.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "FastAPI"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.app",
+        "target": "fastapi.staticfiles",
+        "file": "knowledgebase/api/app.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "StaticFiles"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.app",
+        "target": "openai",
+        "file": "knowledgebase/api/app.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "AsyncOpenAI",
+          "OpenAI"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.chat",
+        "target": "fastapi",
+        "file": "knowledgebase/api/chat.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "APIRouter",
+          "HTTPException"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.conversations",
+        "target": "fastapi",
+        "file": "knowledgebase/api/conversations.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "APIRouter",
+          "HTTPException"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.dependencies",
+        "target": "dataclasses",
+        "file": "knowledgebase/api/dependencies.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "dataclass"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.dependencies",
+        "target": "typing",
+        "file": "knowledgebase/api/dependencies.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Annotated"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.dependencies",
+        "target": "fastapi",
+        "file": "knowledgebase/api/dependencies.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Depends",
+          "Request"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.dependencies",
+        "target": "sqlalchemy.orm",
+        "file": "knowledgebase/api/dependencies.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Session",
+          "sessionmaker"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.files",
+        "target": "fastapi",
+        "file": "knowledgebase/api/files.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "APIRouter",
+          "HTTPException",
+          "Response",
+          "UploadFile"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.files",
+        "target": "fastapi.responses",
+        "file": "knowledgebase/api/files.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "FileResponse"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.streaming",
+        "target": "collections.abc",
+        "file": "knowledgebase/api/streaming.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "AsyncGenerator"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.streaming",
+        "target": "contextlib",
+        "file": "knowledgebase/api/streaming.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "aclosing"
+        ]
+      },
+      {
+        "source": "knowledgebase.api.streaming",
+        "target": "json",
+        "file": "knowledgebase/api/streaming.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": "json"
+      },
+      {
+        "source": "knowledgebase.api.streaming",
+        "target": "anyio",
+        "file": "knowledgebase/api/streaming.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": "anyio"
+      },
+      {
+        "source": "knowledgebase.api.streaming",
+        "target": "fastapi.responses",
+        "file": "knowledgebase/api/streaming.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "StreamingResponse"
+        ]
+      },
+      {
+        "source": "knowledgebase.cli",
+        "target": "argparse",
+        "file": "knowledgebase/cli.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": "argparse"
+      },
+      {
+        "source": "knowledgebase.cli",
+        "target": "collections.abc",
+        "file": "knowledgebase/cli.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Callable"
+        ]
+      },
+      {
+        "source": "knowledgebase.cli",
+        "target": "pathlib",
+        "file": "knowledgebase/cli.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Path"
+        ]
+      },
+      {
+        "source": "knowledgebase.cli",
+        "target": "openai",
+        "file": "knowledgebase/cli.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "OpenAI"
+        ]
+      },
+      {
+        "source": "knowledgebase.config",
+        "target": "pathlib",
+        "file": "knowledgebase/config.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Path"
+        ]
+      },
+      {
+        "source": "knowledgebase.config",
+        "target": "typing",
+        "file": "knowledgebase/config.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Literal",
+          "Self"
+        ]
+      },
+      {
+        "source": "knowledgebase.config",
+        "target": "pydantic",
+        "file": "knowledgebase/config.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "BaseModel",
+          "Field",
+          "model_validator"
+        ]
+      },
+      {
+        "source": "knowledgebase.config",
+        "target": "pydantic_settings",
+        "file": "knowledgebase/config.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "BaseSettings",
+          "SettingsConfigDict"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.embeddings",
+        "target": "openai",
+        "file": "knowledgebase/providers/embeddings.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "OpenAI"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.embeddings",
+        "target": "collections.abc",
+        "file": "knowledgebase/providers/embeddings.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Callable"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.embeddings",
+        "target": "copy",
+        "file": "knowledgebase/providers/embeddings.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "copy"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.limits",
+        "target": "collections.abc",
+        "file": "knowledgebase/providers/limits.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Callable"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.limits",
+        "target": "dataclasses",
+        "file": "knowledgebase/providers/limits.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "dataclass"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.limits",
+        "target": "json",
+        "file": "knowledgebase/providers/limits.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": "json"
+      },
+      {
+        "source": "knowledgebase.providers.limits",
+        "target": "tiktoken",
+        "file": "knowledgebase/providers/limits.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": "tiktoken"
+      },
+      {
+        "source": "knowledgebase.providers.llm",
+        "target": "collections.abc",
+        "file": "knowledgebase/providers/llm.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "AsyncGenerator"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.llm",
+        "target": "copy",
+        "file": "knowledgebase/providers/llm.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "copy"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.llm",
+        "target": "anyio",
+        "file": "knowledgebase/providers/llm.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": "anyio"
+      },
+      {
+        "source": "knowledgebase.providers.llm",
+        "target": "openai",
+        "file": "knowledgebase/providers/llm.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "AsyncOpenAI",
+          "OpenAI"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.llm",
+        "target": "openai.types.responses",
+        "file": "knowledgebase/providers/llm.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "EasyInputMessageParam"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.planner",
+        "target": "collections.abc",
+        "file": "knowledgebase/providers/planner.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Callable"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.planner",
+        "target": "dataclasses",
+        "file": "knowledgebase/providers/planner.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "dataclass"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.planner",
+        "target": "json",
+        "file": "knowledgebase/providers/planner.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": "json"
+      },
+      {
+        "source": "knowledgebase.providers.planner",
+        "target": "time",
+        "file": "knowledgebase/providers/planner.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "perf_counter"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.planner",
+        "target": "openai",
+        "file": "knowledgebase/providers/planner.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "OpenAI"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.reranker",
+        "target": "collections.abc",
+        "file": "knowledgebase/providers/reranker.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Sequence"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.reranker",
+        "target": "threading",
+        "file": "knowledgebase/providers/reranker.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Lock"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.reranker",
+        "target": "torch",
+        "file": "knowledgebase/providers/reranker.py",
+        "line": 22,
+        "deferred": true,
+        "type_only": false,
+        "imported": "torch"
+      },
+      {
+        "source": "knowledgebase.providers.reranker",
+        "target": "transformers",
+        "file": "knowledgebase/providers/reranker.py",
+        "line": 23,
+        "deferred": true,
+        "type_only": false,
+        "imported": [
+          "AutoModelForSequenceClassification",
+          "AutoTokenizer"
+        ]
+      },
+      {
+        "source": "knowledgebase.providers.reranker",
+        "target": "torch",
+        "file": "knowledgebase/providers/reranker.py",
+        "line": 37,
+        "deferred": true,
+        "type_only": false,
+        "imported": "torch"
+      },
+      {
+        "source": "knowledgebase.rag.bm25",
+        "target": "collections.abc",
+        "file": "knowledgebase/rag/bm25.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Sequence"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.bm25",
+        "target": "re",
+        "file": "knowledgebase/rag/bm25.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": "re"
+      },
+      {
+        "source": "knowledgebase.rag.bm25",
+        "target": "bm25s",
+        "file": "knowledgebase/rag/bm25.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "BM25"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.chunking",
+        "target": "re",
+        "file": "knowledgebase/rag/chunking.py",
+        "line": 1,
+        "deferred": false,
+        "type_only": false,
+        "imported": "re"
+      },
+      {
+        "source": "knowledgebase.rag.chunking",
+        "target": "collections.abc",
+        "file": "knowledgebase/rag/chunking.py",
+        "line": 2,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Iterable",
+          "Iterator"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.chunking",
+        "target": "pysbd",
+        "file": "knowledgebase/rag/chunking.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": "pysbd"
+      },
+      {
+        "source": "knowledgebase.rag.chunking",
+        "target": "tiktoken",
+        "file": "knowledgebase/rag/chunking.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": "tiktoken"
+      },
+      {
+        "source": "knowledgebase.rag.chunking",
+        "target": "markdown_it",
+        "file": "knowledgebase/rag/chunking.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "MarkdownIt"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.citations",
+        "target": "re",
+        "file": "knowledgebase/rag/citations.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": "re"
+      },
+      {
+        "source": "knowledgebase.rag.context",
+        "target": "json",
+        "file": "knowledgebase/rag/context.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": "json"
+      },
+      {
+        "source": "knowledgebase.rag.context",
+        "target": "collections.abc",
+        "file": "knowledgebase/rag/context.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Callable"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.fusion",
+        "target": "collections.abc",
+        "file": "knowledgebase/rag/fusion.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Sequence"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.generation",
+        "target": "collections.abc",
+        "file": "knowledgebase/rag/generation.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "AsyncGenerator"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.generation",
+        "target": "contextlib",
+        "file": "knowledgebase/rag/generation.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "aclosing"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.generation",
+        "target": "json",
+        "file": "knowledgebase/rag/generation.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": "json"
+      },
+      {
+        "source": "knowledgebase.rag.generation",
+        "target": "openai.types.responses",
+        "file": "knowledgebase/rag/generation.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "EasyInputMessageParam"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.packing",
+        "target": "time",
+        "file": "knowledgebase/rag/packing.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "perf_counter"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.packing",
+        "target": "tiktoken",
+        "file": "knowledgebase/rag/packing.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": "tiktoken"
+      },
+      {
+        "source": "knowledgebase.rag.parsing",
+        "target": "re",
+        "file": "knowledgebase/rag/parsing.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": "re"
+      },
+      {
+        "source": "knowledgebase.rag.parsing",
+        "target": "markdown_it",
+        "file": "knowledgebase/rag/parsing.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "MarkdownIt"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.pdf",
+        "target": "hashlib",
+        "file": "knowledgebase/rag/pdf.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "file_digest",
+          "sha256"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.pdf",
+        "target": "importlib.metadata",
+        "file": "knowledgebase/rag/pdf.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "version"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.pdf",
+        "target": "io",
+        "file": "knowledgebase/rag/pdf.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "BytesIO"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.pdf",
+        "target": "json",
+        "file": "knowledgebase/rag/pdf.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": "json"
+      },
+      {
+        "source": "knowledgebase.rag.pdf",
+        "target": "pathlib",
+        "file": "knowledgebase/rag/pdf.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Path"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.pdf",
+        "target": "docling.datamodel.accelerator_options",
+        "file": "knowledgebase/rag/pdf.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "AcceleratorOptions"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.pdf",
+        "target": "docling.datamodel.base_models",
+        "file": "knowledgebase/rag/pdf.py",
+        "line": 10,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "ConversionStatus",
+          "DocumentStream",
+          "InputFormat"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.pdf",
+        "target": "docling.datamodel.pipeline_options",
+        "file": "knowledgebase/rag/pdf.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "LayoutObjectDetectionOptions",
+          "PdfPipelineOptions",
+          "TableStructureOptions"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.pdf",
+        "target": "docling.document_converter",
+        "file": "knowledgebase/rag/pdf.py",
+        "line": 14,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "DocumentConverter",
+          "PdfFormatOption"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.pdf",
+        "target": "docling_core.types.doc",
+        "file": "knowledgebase/rag/pdf.py",
+        "line": 15,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "BoundingBox",
+          "ContentLayer",
+          "DocItemLabel",
+          "DoclingDocument",
+          "PictureItem",
+          "TableItem",
+          "TextItem"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.pdf_chunking",
+        "target": "tiktoken",
+        "file": "knowledgebase/rag/pdf_chunking.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": "tiktoken"
+      },
+      {
+        "source": "knowledgebase.rag.pdf_evidence",
+        "target": "json",
+        "file": "knowledgebase/rag/pdf_evidence.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": "json"
+      },
+      {
+        "source": "knowledgebase.rag.pdf_evidence",
+        "target": "re",
+        "file": "knowledgebase/rag/pdf_evidence.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": "re"
+      },
+      {
+        "source": "knowledgebase.rag.pdf_tables",
+        "target": "dataclasses",
+        "file": "knowledgebase/rag/pdf_tables.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "asdict"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.pdf_tables",
+        "target": "io",
+        "file": "knowledgebase/rag/pdf_tables.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "BytesIO"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.pdf_tables",
+        "target": "docling_core.types.doc",
+        "file": "knowledgebase/rag/pdf_tables.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "BoundingBox",
+          "DoclingDocument",
+          "TableCell",
+          "TableData"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.pdf_tables",
+        "target": "pdfplumber",
+        "file": "knowledgebase/rag/pdf_tables.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": "pdfplumber"
+      },
+      {
+        "source": "knowledgebase.rag.pdf_tables",
+        "target": "pdfplumber.table",
+        "file": "knowledgebase/rag/pdf_tables.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Table",
+          "TableSettings"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.planned_retrieval",
+        "target": "time",
+        "file": "knowledgebase/rag/planned_retrieval.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "perf_counter"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.planned_retrieval",
+        "target": "collections.abc",
+        "file": "knowledgebase/rag/planned_retrieval.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Callable"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.planned_retrieval",
+        "target": "sqlalchemy.orm",
+        "file": "knowledgebase/rag/planned_retrieval.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Session"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.query",
+        "target": "json",
+        "file": "knowledgebase/rag/query.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": "json"
+      },
+      {
+        "source": "knowledgebase.rag.reranking",
+        "target": "collections.abc",
+        "file": "knowledgebase/rag/reranking.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Sequence"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.reranking",
+        "target": "tiktoken",
+        "file": "knowledgebase/rag/reranking.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": "tiktoken"
+      },
+      {
+        "source": "knowledgebase.rag.retrieval",
+        "target": "time",
+        "file": "knowledgebase/rag/retrieval.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "perf_counter"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.retrieval",
+        "target": "sqlalchemy.orm",
+        "file": "knowledgebase/rag/retrieval.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Session"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.scope",
+        "target": "collections.abc",
+        "file": "knowledgebase/rag/scope.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Sequence"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.scope",
+        "target": "pathlib",
+        "file": "knowledgebase/rag/scope.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Path"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.scope",
+        "target": "re",
+        "file": "knowledgebase/rag/scope.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": "re"
+      },
+      {
+        "source": "knowledgebase.rag.scope",
+        "target": "urllib.parse",
+        "file": "knowledgebase/rag/scope.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "urlparse"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.semantic_chunking",
+        "target": "collections.abc",
+        "file": "knowledgebase/rag/semantic_chunking.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Callable"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.semantic_chunking",
+        "target": "math",
+        "file": "knowledgebase/rag/semantic_chunking.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "sqrt"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.semantic_chunking",
+        "target": "time",
+        "file": "knowledgebase/rag/semantic_chunking.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "perf_counter"
+        ]
+      },
+      {
+        "source": "knowledgebase.rag.semantic_chunking",
+        "target": "tiktoken",
+        "file": "knowledgebase/rag/semantic_chunking.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": "tiktoken"
+      },
+      {
+        "source": "knowledgebase.rag.sufficiency",
+        "target": "re",
+        "file": "knowledgebase/rag/sufficiency.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": "re"
+      },
+      {
+        "source": "knowledgebase.schemas.chat",
+        "target": "datetime",
+        "file": "knowledgebase/schemas/chat.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "datetime"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas.chat",
+        "target": "typing",
+        "file": "knowledgebase/schemas/chat.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Any",
+          "Literal"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas.chat",
+        "target": "pydantic",
+        "file": "knowledgebase/schemas/chat.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "BaseModel",
+          "Field"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas.documents",
+        "target": "dataclasses",
+        "file": "knowledgebase/schemas/documents.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "dataclass"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas.documents",
+        "target": "datetime",
+        "file": "knowledgebase/schemas/documents.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "datetime"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas.documents",
+        "target": "typing",
+        "file": "knowledgebase/schemas/documents.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Any",
+          "Literal"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas.documents",
+        "target": "pydantic",
+        "file": "knowledgebase/schemas/documents.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "BaseModel",
+          "ConfigDict",
+          "Field",
+          "model_validator"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas.planning",
+        "target": "typing",
+        "file": "knowledgebase/schemas/planning.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Literal",
+          "Self"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas.planning",
+        "target": "pydantic",
+        "file": "knowledgebase/schemas/planning.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "BaseModel",
+          "ConfigDict",
+          "Field",
+          "model_validator"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas.retrieval",
+        "target": "typing",
+        "file": "knowledgebase/schemas/retrieval.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Any",
+          "Literal"
+        ]
+      },
+      {
+        "source": "knowledgebase.schemas.retrieval",
+        "target": "pydantic",
+        "file": "knowledgebase/schemas/retrieval.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "AliasChoices",
+          "BaseModel",
+          "Field"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "bisect",
+        "file": "knowledgebase/services/chat.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "bisect_right"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "collections.abc",
+        "file": "knowledgebase/services/chat.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "AsyncGenerator"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "contextlib",
+        "file": "knowledgebase/services/chat.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "aclosing"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "re",
+        "file": "knowledgebase/services/chat.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": "re"
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "time",
+        "file": "knowledgebase/services/chat.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "perf_counter"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "uuid",
+        "file": "knowledgebase/services/chat.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "uuid4"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "anyio",
+        "file": "knowledgebase/services/chat.py",
+        "line": 10,
+        "deferred": false,
+        "type_only": false,
+        "imported": "anyio"
+      },
+      {
+        "source": "knowledgebase.services.chat",
+        "target": "sqlalchemy.orm",
+        "file": "knowledgebase/services/chat.py",
+        "line": 12,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Session",
+          "sessionmaker"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "dataclasses",
+        "file": "knowledgebase/services/files.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "dataclass"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "hashlib",
+        "file": "knowledgebase/services/files.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "sha256"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "pathlib",
+        "file": "knowledgebase/services/files.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Path"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "uuid",
+        "file": "knowledgebase/services/files.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "uuid4"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "typing",
+        "file": "knowledgebase/services/files.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Self"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.files",
+        "target": "sqlalchemy.orm",
+        "file": "knowledgebase/services/files.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Session",
+          "sessionmaker"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.hops",
+        "target": "time",
+        "file": "knowledgebase/services/hops.py",
+        "line": 2,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "perf_counter"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.hops",
+        "target": "uuid",
+        "file": "knowledgebase/services/hops.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "uuid4"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.pdf",
+        "target": "pathlib",
+        "file": "knowledgebase/services/pdf.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Path"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.pdf",
+        "target": "threading",
+        "file": "knowledgebase/services/pdf.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Lock"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.planning",
+        "target": "dataclasses",
+        "file": "knowledgebase/services/planning.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "dataclass"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.planning",
+        "target": "threading",
+        "file": "knowledgebase/services/planning.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Event"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.planning",
+        "target": "time",
+        "file": "knowledgebase/services/planning.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "monotonic"
+        ]
+      },
+      {
+        "source": "knowledgebase.services.planning",
+        "target": "anyio",
+        "file": "knowledgebase/services/planning.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": "anyio"
+      },
+      {
+        "source": "knowledgebase.storage.database",
+        "target": "sqlalchemy",
+        "file": "knowledgebase/storage/database.py",
+        "line": 1,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "create_engine",
+          "event"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.database",
+        "target": "sqlalchemy.engine",
+        "file": "knowledgebase/storage/database.py",
+        "line": 2,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Engine"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.database",
+        "target": "sqlalchemy.orm",
+        "file": "knowledgebase/storage/database.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Session",
+          "sessionmaker"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.models",
+        "target": "datetime",
+        "file": "knowledgebase/storage/models.py",
+        "line": 1,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "UTC",
+          "datetime"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.models",
+        "target": "sqlalchemy",
+        "file": "knowledgebase/storage/models.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "JSON",
+          "CheckConstraint",
+          "ForeignKey",
+          "Text",
+          "UniqueConstraint"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.models",
+        "target": "sqlalchemy.orm",
+        "file": "knowledgebase/storage/models.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "DeclarativeBase",
+          "Mapped",
+          "mapped_column"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.operations",
+        "target": "copy",
+        "file": "knowledgebase/storage/operations.py",
+        "line": 1,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "deepcopy"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.operations",
+        "target": "hashlib",
+        "file": "knowledgebase/storage/operations.py",
+        "line": 2,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "sha256"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.operations",
+        "target": "pathlib",
+        "file": "knowledgebase/storage/operations.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Path"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.operations",
+        "target": "typing",
+        "file": "knowledgebase/storage/operations.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Literal"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.operations",
+        "target": "sqlalchemy",
+        "file": "knowledgebase/storage/operations.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "delete",
+          "select"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.operations",
+        "target": "sqlalchemy.orm",
+        "file": "knowledgebase/storage/operations.py",
+        "line": 7,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Session"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.pdf_assets",
+        "target": "pathlib",
+        "file": "knowledgebase/storage/pdf_assets.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Path"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.runtime",
+        "target": "collections.abc",
+        "file": "knowledgebase/storage/runtime.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Iterator"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.runtime",
+        "target": "contextlib",
+        "file": "knowledgebase/storage/runtime.py",
+        "line": 4,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "contextmanager"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.runtime",
+        "target": "fcntl",
+        "file": "knowledgebase/storage/runtime.py",
+        "line": 5,
+        "deferred": false,
+        "type_only": false,
+        "imported": "fcntl"
+      },
+      {
+        "source": "knowledgebase.storage.runtime",
+        "target": "pathlib",
+        "file": "knowledgebase/storage/runtime.py",
+        "line": 6,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Path"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.runtime",
+        "target": "chromadb",
+        "file": "knowledgebase/storage/runtime.py",
+        "line": 8,
+        "deferred": false,
+        "type_only": false,
+        "imported": "chromadb"
+      },
+      {
+        "source": "knowledgebase.storage.runtime",
+        "target": "sqlalchemy.orm",
+        "file": "knowledgebase/storage/runtime.py",
+        "line": 9,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Session",
+          "sessionmaker"
+        ]
+      },
+      {
+        "source": "knowledgebase.storage.vectordb",
+        "target": "chromadb.api.models.Collection",
+        "file": "knowledgebase/storage/vectordb.py",
+        "line": 3,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "Collection"
+        ]
+      }
+    ],
+    "dynamic_imports": [],
+    "full_cycles": [],
+    "eager_runtime_cycles": [],
+    "cycle_edges": [],
+    "package_edges": [
+      [
+        "api",
+        "config"
+      ],
+      [
+        "api",
+        "providers"
+      ],
+      [
+        "api",
+        "schemas"
+      ],
+      [
+        "api",
+        "services"
+      ],
+      [
+        "api",
+        "storage"
+      ],
+      [
+        "entry",
+        "config"
+      ],
+      [
+        "entry",
+        "evals"
+      ],
+      [
+        "entry",
+        "providers"
+      ],
+      [
+        "entry",
+        "schemas"
+      ],
+      [
+        "entry",
+        "services"
+      ],
+      [
+        "entry",
+        "storage"
+      ],
+      [
+        "providers",
+        "config"
+      ],
+      [
+        "providers",
+        "schemas"
+      ],
+      [
+        "rag",
+        "config"
+      ],
+      [
+        "rag",
+        "providers"
+      ],
+      [
+        "rag",
+        "schemas"
+      ],
+      [
+        "rag",
+        "storage"
+      ],
+      [
+        "schemas",
+        "config"
+      ],
+      [
+        "services",
+        "config"
+      ],
+      [
+        "services",
+        "providers"
+      ],
+      [
+        "services",
+        "rag"
+      ],
+      [
+        "services",
+        "schemas"
+      ],
+      [
+        "services",
+        "storage"
+      ],
+      [
+        "storage",
+        "config"
+      ],
+      [
+        "storage",
+        "schemas"
+      ],
+      [
+        "storage",
+        "services"
+      ]
+    ],
+    "forbidden_package_edges": [
+      {
+        "source": "knowledgebase.storage.runtime",
+        "target": "knowledgebase.services.files",
+        "file": "knowledgebase/storage/runtime.py",
+        "line": 11,
+        "deferred": false,
+        "type_only": false,
+        "imported": [
+          "FileService"
+        ]
+      }
+    ],
+    "rules": {
+      "config": 
