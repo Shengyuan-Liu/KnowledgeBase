@@ -1,265 +1,58 @@
 # KnowledgeBase
 
-A TXT, Markdown and PDF knowledge base with structural chunking, hybrid retrieval,
-and source-grounded answers.
+**Chat with your documents, with sources you can inspect.**
 
-The [v2 release summary](docs/v2/release-summary.md) records the completed functional
-closeout, usage, verification and known limits. The user accepted this scoped
-release and authorized its merge into `main` on 2026-10-01. The subsequent OOP and
-[layering refactor](docs/v2/layered-architecture.md) is included in a second
-user-authorized merge on the same date. The user requested retirement of the
-local and remote `v2` branches; the checkout remains on `main`, and no next
-development version has been selected. Release history remains in Git and
-`docs/v2/`. Later branch merges require separate authorization.
+**English** | [简体中文](README.zh-CN.md)
 
-The v2 [PDF integration](docs/pdf-integration.md) supports upload, local extraction,
-page citations and original-page viewing, with recorded parser fidelity limits.
-Follow its one-time model setup before uploading PDFs.
-The v2 [automatic planner](docs/planned-retrieval.md) is available in chat through
-**Plan complex questions**. It searches up to six queries, including
-[evidence-dependent follow-ups](docs/dependent-retrieval.md) across at most three
-rounds, and now [checks evidence sufficiency](docs/evidence-sufficiency.md) before
-using the remaining budget for missing points. Plans, support assessments and
-source quotes are saved with the answer. The assessor selects numbered source
-passages; the application retains their exact text, offsets and PDF pages.
-The default remains a single search.
+A personal knowledge base for TXT, Markdown, and digital PDFs. Upload your files,
+ask questions, and follow citations back to the original text or PDF page.
+Available through a web interface, CLI, and HTTP API.
 
-The [v1 release summary](docs/v1/release-summary.md) records the delivered version,
-accepted defaults, experiments, verification and known limits. The implementation
-was merged locally at `483a156`; independent release-quality validation remains open.
-TXT/Markdown parsing, structural chunking, and source storage are connected to
-uploads. [Parent-child retrieval](docs/parent-child-retrieval.md) is the default
-strategy.
-An opt-in [semantic child-chunking experiment](docs/semantic-chunking.md) is
-available with `CHUNKING_STRATEGY=semantic`; it adds sentence embedding calls
-during ingestion and retains the same parents. The
-[first paired live comparison](evals/library-runs/20260925T002400Z-semantic-acceptance/README.md)
-found two material evidence regressions; its quality advantage is unproven.
-[Hybrid retrieval](docs/hybrid-retrieval.md) is now the default: [BM25](docs/bm25.md)
-and vector candidates are combined with [RRF](docs/rrf.md) before parent expansion.
-`RETRIEVAL_STRATEGY=vector` retains the vector-only control.
-Set `RERANK_ENABLED=true` to score a bounded fused-child window with the
-[local BGE cross-encoder](docs/reranking.md) before top-k selection and parent expansion. API,
-streaming chat, CLI, and evaluations share this path. Reranking defaults to off;
-the vector-only control requires it to remain off.
+## Features
 
-[Answer grounding](docs/answer-grounding.md) defines claim-local citations,
-source-behavior fidelity and how answers handle missing personal information.
+- **Answers with sources** — Stream responses and inspect the excerpts behind each citation.
+- **Hybrid search** — Combine keyword and vector search, with parent-child chunks that retain surrounding context and optional local reranking.
+- **Follow-up conversations** — Ask follow-up questions and restore completed conversations after a refresh.
+- **Multi-step retrieval** — Enable **Plan complex questions** to break a question into searches and retrieve additional evidence when needed.
 
-## Run the local application
+Built with **Python · FastAPI · React · TypeScript · Chroma · SQLite**.
 
-Requirements: macOS or Linux, Python 3.13+, uv, and a Node.js version supported by
-the locked frontend dependencies (Node 22.12+). Run commands from this directory.
+## Quick start
+
+Requires macOS or Linux, Python 3.13+, Node.js 22.13+, [uv](https://docs.astral.sh/uv/getting-started/installation/), and Make.
 
 ```bash
-uv sync --locked
+git clone https://github.com/Shengyuan-Liu/KnowledgeBase.git
+cd KnowledgeBase
+uv sync --locked --extra pdf
 npm --prefix frontend ci
-# Create the local configuration only if it does not already exist.
 test -f .env || cp .env.example .env
 ```
 
-Set `OPENAI_API_KEY` in `.env`, then start the complete application:
+**For PDFs**, download the parsing models once before uploading:
 
 ```bash
-DATA_DIR=data/v1 make app
+uv run --locked --extra pdf docling-tools models download layout tableformer --output-dir data/pdf-models
 ```
 
-Open <http://127.0.0.1:8000>. This builds the React interface and serves it together
-with the API from one local process. Upload a UTF-8 TXT/Markdown file or a digital PDF, wait for Ready, ask a
-question, and click its source citation to inspect the original text. Follow-up
-questions share the current conversation; refresh restores completed messages.
-Uploads and questions use real model APIs and incur provider charges.
-
-The command explicitly selects `data/v1/`, even if an existing `.env` still selects
-the MVP's `data/`. It reuses the same credentials and leaves that older library intact.
-Local data persists under the selected directory. Stop with Ctrl+C or `make stop`; neither removes
-saved data. On restart, interrupted uploads become Failed and their partial index
-is cleaned. Re-upload the original file and delete the failed record. If cleanup is
-still pending, Delete retries it. Ready files and completed conversations survive.
-Only one API or CLI process may own the same data directory; use another `DATA_DIR`
-for separate instances. The application is local and single-user, without authentication.
-
-For frontend development, use `DATA_DIR=data/v1 make api` and `make frontend` in separate terminals,
-then open <http://127.0.0.1:5173>. Do not run `make app` and `make api` concurrently
-against the same data. See the [frontend guide](docs/frontend.md) for details.
-
-## Interactive CLI
-
-Run from the repository root with `OPENAI_API_KEY` in `.env`.
-
-Index one or more TXT/Markdown files or digital PDFs, then enter the question loop
-(PDFs require the [local model setup](docs/pdf-integration.md)):
+Set `OPENAI_API_KEY` in `.env`, then start the app:
 
 ```bash
-uv run python main.py --data-dir data/v1 notes.txt handbook.md
+make app
 ```
 
-On subsequent runs, use the saved knowledge base:
+Open [http://127.0.0.1:8000](http://127.0.0.1:8000), upload a document, wait for
+**Ready**, and ask your first question. Click a citation to view its source.
 
-```bash
-uv run python main.py --data-dir data/v1
-```
+The app runs locally for a single user, without authentication. Data is saved in
+`data/v1/` by default. Embedding and answer generation use the configured OpenAI API
+and incur provider charges. PDF support covers digitally generated text and supported
+table structures; OCR, chart interpretation, and formula understanding are not included.
 
-Each question prints an answer and the retrieved chunks with source numbers,
-filenames, and chunk IDs. The list includes all excerpts supplied to the model,
-including excerpts it did not cite. Questions in one CLI invocation share a saved
-conversation. Recent history resolves follow-up references before fresh retrieval;
-old messages are not supplied as answer evidence. The CLI prints the conversation
-ID and, when it changes, the question used for retrieval. Type `exit` or `quit` to
-leave, or press Ctrl+D or Ctrl+C at the question prompt. Blank input is ignored.
+## Documentation
 
-Each answer also shows a [citation number check](docs/citations.md): valid source
-IDs, invalid IDs, or no numbered citations. This locates references; it does not
-judge whether an excerpt supports a claim, and it leaves the answer unchanged.
-
-Each invocation starts a new conversation unless you resume a printed ID from the
-same data directory:
-
-```bash
-uv run python main.py --data-dir data/v1 --conversation-id <saved-conversation-id>
-```
-
-Original questions and completed answers are saved together. See the
-[follow-up workflow](docs/conversation-chat.md) for service usage and boundaries.
-
-Local data is stored under `DATA_DIR` (default `data/v1/`), with SQLite in
-`knowledgebase.db` and Chroma in `chroma/`. The vector collection is `knowledgebase-chunks`.
-
-All backend tuning lives in `.env`, with defaults in `knowledgebase/config.py` and a
-complete template in `.env.example`. See the [configuration guide](docs/configuration.md)
-for every setting and its precedence. The API, CLI and evaluation runner use the
-same model, chunking and retrieval configuration.
-
-Defaults are `gpt-4.1` for answers and follow-up resolution,
-`text-embedding-3-small` for embeddings, children up to 512 tokens and parents up
-to 1536 tokens counted with `cl100k_base`, no overlap, and top-k 5. The token budget is an experimental
-starting point, not a measured quality improvement. Set `CHUNKING_STRATEGY=character`
-to use the MVP splitter with `CHUNK_SIZE=2048` and `CHUNK_OVERLAP=256`.
-The default `CHUNKING_STRATEGY=parent_child` indexes children and supplies deduplicated
-parents as evidence. Set `CHUNKING_STRATEGY=structural` for the flat structural control. `EVIDENCE_MAX_TOKENS=4096` limits the
-numbered evidence context for all strategies. Use a fresh `DATA_DIR` for comparisons;
-these defaults have not been established as better through quality evaluation.
-Set `RESOLVER_MODEL` to choose a separate follow-up model; blank follows
-`ANSWER_MODEL`. Restart the application after changing `.env`.
-
-Chunking changes affect new uploads only. Changing the embedding model requires
-reindexing the original files into a new `DATA_DIR`; do not reuse incompatible
-vectors. Existing files and conversation history remain in the previous directory.
-Passing a file to the CLI again indexes a new copy. To reuse existing data, omit file paths.
-
-Optional settings:
-
-```bash
-uv run python main.py --data-dir data/v1 --model gpt-4.1 --top-k 3
-```
-
-Indexing and answering with retrieved evidence make real OpenAI API calls.
-Follow-up resolution adds one model call when conversation history is nonempty.
-An empty knowledge base returns an insufficient-evidence answer with no chunks;
-history-based resolution may still run, but answer generation does not.
-
-## HTTP API
-
-With `OPENAI_API_KEY` configured in `.env`, start the local API:
-
-```bash
-DATA_DIR=data/v1 make api
-```
-
-Open [interactive API documentation](http://127.0.0.1:8000/docs) after startup.
-Upload, list, and delete TXT/Markdown/PDF files through `/api/files`. Upload waits for indexing
-and returns `201` when ready. API and CLI share `DATA_DIR` from `.env` (default `data/v1`),
-unless explicitly overridden as above.
-See the [file API guide](docs/file-api.md) for requests and error codes.
-
-Submit questions to `POST /api/chat` with a JSON `question` and an optional
-`conversation_id` to continue a saved conversation. The endpoint returns the full
-answer, retrieved sources, citation diagnostics, and saved conversation/message IDs
-as JSON after processing completes. See the [chat API guide](docs/chat-api.md) for
-examples and error codes. Restore saved messages and their original evidence with
-`GET /api/conversations/{conversation_id}`; see the
-[conversation API guide](docs/conversation-api.md). For incremental text, use
-`POST /api/chat/stream` with an additional `request_id`; see the
-[streaming guide](docs/chat-streaming.md) for events, completion, and cancellation.
-
-## Evaluation
-
-See the [MVP release evaluation](evals/analyses/2026-09-21-mvp-release.md) for
-verified functionality, real-provider results, all-case inspection and known answer
-quality limitations of that historical baseline. The v1 structural pipeline has
-offline integration coverage and a [targeted live Markdown acceptance report](evals/browser-runs/20260922T222123209Z-8d828f17/README.md).
-Seven development questions passed direct evidence review; broader accuracy and
-comparative retrieval quality were not measured in that Markdown-only check.
-The later [paired hybrid comparison](evals/library-runs/20260923T221737Z-hybrid/README.md)
-records 18 questions per mode against the active library, including both gains
-and a prerequisite-question budget regression. The subsequent
-[paired rerank comparison](evals/library-runs/20260924T000238Z-rerank/README.md)
-records the original LLM scoring pipeline. The current
-[dedicated BGE comparison](evals/library-runs/20260924T002009Z-bge-serialized/README.md)
-records the local cross-encoder, a corrected MPS concurrency failure, and a CPT
-evidence regression alongside the prerequisite improvement. The subsequent
-[packing comparison](evals/library-runs/20260924T004817Z-child-first/README.md)
-keeps admitted parents and uses remaining space for whole selected children; it
-also records first-delta and full-completion latency over real HTTP streams.
-The later [v2 financial packing repair](evals/check-runs/20260927-pdf-evidence-packing/README.md)
-tries child fallback before lower-ranked parents and retains adjacent PDF table
-context. Its frozen-candidate comparison measures evidence coverage offline,
-without new answer generation or paid provider calls.
-The [assessor passage repair](evals/check-runs/20260927-assessment-passages/README.md)
-replaces free-form quote copying with source passage selection, with frozen offline
-contract checks and unchanged answer evidence. The subsequent
-[financial live replay](evals/library-runs/20260927-financial-acceptance/README.md)
-completes six targeted requests with correct requested facts, while retaining one
-planned-answer inline-citation gap. This does not establish overall v2 acceptance.
-The [offline citation/context follow-up](evals/check-runs/20260927-citation-context/README.md)
-adds current source-number hints and a per-item citation example, and preserves
-related table headers separately from model-selected passages. Live citation
-compliance was then checked in a [six-request citation replay](evals/library-runs/20260927-financial-citation-acceptance/README.md):
-all scoped gates pass under the unchanged review rules, including their documented
-allowance for fiscal-period inference. This remains a small development sample.
-The [multi-source generation comparison](evals/library-runs/20260924T012523Z-source-attribution-v2/README.md)
-records the revised comparison prompt, improved CPT fact coverage, remaining
-source-label errors, longer generation time, and unavailable claim-level scores.
-The [source identity comparison](evals/library-runs/20260924T150609Z-source-metadata-v2/README.md)
-adds budgeted file-name and heading-path labels, with unchanged source slices and
-recorded coverage, attribution, citation-format and latency results.
-
-Run the frozen NYU question set, grade answers with human review or an LLM judge, and
-compare recorded experiments using the [evaluation guide](evals/README.md).
-Every run retains questions, answers, retrieved evidence, settings, and scoring details.
-
-## Development dependencies
-
-Notebook tools are optional. Install them with `uv sync --group notebooks` when
-needed; API, CLI, evaluation, and tests do not require Jupyter.
-
-## Tests
-
-```bash
-make test
-```
-
-To explicitly send one real generation request using the `.env` credentials and
-`ANSWER_MODEL` (with the evaluation timeout/retry settings):
-
-```bash
-make test-live
-```
-
-## Automated evaluation
-
-Run `make eval` to evaluate the production RAG pipeline and LLM judge on the frozen
-18-case benchmark, print metrics and compare a previous run. It uses `.env` and
-makes provider API calls. See [metric definitions and saved records](evals/metrics.md).
-Run `make eval-calibrate` to check the judge against
-[fixed development calibration cases](evals/calibration/README.md) without running RAG.
-
-Current v1 acceptance status: [merge readiness](docs/v1/merge-readiness.md),
-including experimental parent scoring, recorded tradeoffs and the completed
-[original Codex acceptance with one scope failure](evals/library-runs/20260925-v1-codex-acceptance/README.md),
-and [latest awake-host acceptance with 11/11 strict cases](evals/library-runs/20260926-comparison-awake/README.md).
-[Document-scoped answers](docs/document-scope.md) now restrict explicitly named
-files before ranking and preserve their identity in evidence. The attribution
-regression and comparison completeness are verified; the latest bounded run meets
-latency gates. Historical failures and a non-fatal stream-cleanup warning remain
-visible in the report. Merge requires explicit user approval.
+- [Configuration](docs/configuration.md) · [PDF setup and limitations](docs/pdf-integration.md)
+- [Architecture](docs/project-structure.md) · [Frontend development](docs/frontend.md)
+- [HTTP API](docs/chat-api.md) · [Streaming API](docs/chat-streaming.md)
+- [Evaluation](evals/README.md) · [Release notes](docs/v2/release-summary.md)
+- [All documentation](docs/README.md)
